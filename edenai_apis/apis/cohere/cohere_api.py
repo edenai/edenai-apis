@@ -39,7 +39,7 @@ from edenai_apis.utils.conversion import construct_word_list
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.llm_engine.llm_engine import LLMEngine
+from edenai_apis.llm_engine import LLMEngine
 
 
 class CohereApi(ProviderInterface, TextInterface):
@@ -163,7 +163,11 @@ List of corrected words:
         )
 
     def text__custom_classification(
-        self, texts: List[str], labels: List[str], examples: List[Tuple[str, str]]
+        self,
+        texts: List[str],
+        labels: List[str],
+        examples: List[Tuple[str, str]],
+        model: Optional[str] = None,
     ) -> ResponseType[CustomClassificationDataClass]:
         # Build the request
         url = f"{self.base_url}classify"
@@ -251,167 +255,29 @@ List of corrected words:
         )
 
     def text__custom_named_entity_recognition(
-        self, text: str, entities: List[str], examples: Optional[List[Dict]] = None
+        self,
+        text: str,
+        entities: List[str],
+        examples: Optional[List[Dict]] = None,
+        model: Optional[str] = None,
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
-        url = f"{self.base_url}chat"
-
-        # Construct the prompt
-        built_entities = ",".join(entities)
-        prompt_examples = ""
-        if examples is not None:
-            for example in examples:
-                prompt_examples = (
-                    prompt_examples + CohereApi._format_custom_ner_examples(example)
-                )
-        else:
-            prompt_examples = self._format_custom_ner_examples(
-                {
-                    "text": "Coca-Cola, or Coke, is a carbonated soft drink manufactured by the Coca-Cola Company. Originally marketed as a temperance drink and intended as a patent medicine, it was invented in the late 19th century by John Stith Pemberton in Atlanta, Georgia. Extracted these entities from the Text if they exist: drink, date",
-                    "entities": [
-                        {"entity": "Coca-Cola", "category": "drink"},
-                        {"entity": "coke", "category": "drink"},
-                        {"entity": "19th century", "category": "date"},
-                    ],
-                }
-            )
-        output_prompt_format = "[{'entity': 'one entity', 'category': 'one category'},{'entity': 'another entity', 'category': 'another category} ..]"
-        prompt = f"""You act as a named entities recognition model.
-Extract an exhaustive list of Entities from the given Text according to the specified Categories and return the list as a valid JSON.
-
-return the json as a list. The keys of each objects in the list are `entity` and `category`.
-`entity` value must be the extracted entity from the text, `category` value must be the category of the extracted entity.
-The JSON MUST be valid and conform to the given description.
-Be correct and concise. If no entities are found, return an empty list.
-
-Categories: {built_entities}
-
-Text: {text}
-
-For Example:
-{prompt_examples}
-
-the output should respect the following format letter by letter, do not add from your own : 
-{output_prompt_format}
-
-the output should never contain ```json at all.
-the output should 
-Your answer : 
-{output_prompt_format}
-"""
-
-        # Construct request
-        payload = {
-            "model": "command",
-            "message": prompt,
-            "temperature": 0,
-            "stop_sequences": ["--"],
-            "truncate": "END",
-        }
-        response = requests.post(url, json=payload, headers=self.headers)
-        if response.status_code != 200:
-            raise ProviderException(response.text, response.status_code)
-
-        original_response = response.json()
-        data = original_response.get("text")
-        try:
-            items = extract_json_text(data)
-        except json.JSONDecodeError as exc:
-            raise ProviderException("Cohere didn't return valid JSON object") from exc
-
-        standardized_response = CustomNamedEntityRecognitionDataClass(items=items)
-
-        # Calculate billed tokens
-        billed_units = original_response["meta"]["billed_units"]
-        original_response["usage"] = {
-            "total_tokens": billed_units["input_tokens"] + billed_units["output_tokens"]
-        }
-
-        return ResponseType[CustomNamedEntityRecognitionDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
+        response = self.llm_client.custom_named_entity_recognition(
+            text=text, model=model, entities=entities, examples=examples
         )
+        return response
 
     def text__spell_check(
-        self, text: str, language: str
+        self, text: str, language: str, model: Optional[str] = None
     ) -> ResponseType[SpellCheckDataClass]:
-        url = f"{self.base_url}chat"
-
-        payload = {
-            "message": CohereApi._format_spell_check_prompt(text),
-            "model": "command",
-            "temperature": 0,
-            "stop_sequences": ["--"],
-            "truncate": "END",
-        }
-
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = response.json()
-
-        if "message" in original_response:
-            raise ProviderException(
-                original_response["message"], code=response.status_code
-            )
-
-        try:
-            data = extract_json_text(original_response["text"])
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response."
-            ) from exc
-
-        corrections = construct_word_list(text, data)
-        items: List[SpellCheckItem] = []
-        for item in corrections:
-            items.append(
-                SpellCheckItem(
-                    text=item["word"],
-                    offset=item["offset"],
-                    length=item["length"],
-                    type=None,
-                    suggestions=[
-                        SuggestionItem(suggestion=item["suggestion"], score=1.0)
-                    ],
-                )
-            )
-
-        # Calculate billed tokens
-        billed_units = original_response["meta"]["billed_units"]
-        original_response["usage"] = {
-            "total_tokens": billed_units["input_tokens"] + billed_units["output_tokens"]
-        }
-        return ResponseType[SpellCheckDataClass](
-            original_response=original_response,
-            standardized_response=SpellCheckDataClass(text=text, items=items),
-        )
+        response = self.llm_client.spell_check(text=text, model=model)
+        return response
 
     def text__embeddings(
-        self, texts: List[str], model: Optional[str] = None
+        self, texts: List[str], model: str
     ) -> ResponseType[EmbeddingsDataClass]:
-        url = f"{self.base_url}embed"
-        model = model.split("__")[1]
-        payload = {"texts": texts, "model": model}
-        response = requests.post(url, json=payload, headers=self.headers)
-        if response.status_code >= 500:
-            raise ProviderException("Internal Server Error")
-
-        original_response = response.json()
-        if "message" in original_response:
-            raise ProviderException(
-                original_response["message"], code=response.status_code
-            )
-
-        items: Sequence[EmbeddingDataClass] = []
-        for prediction in original_response["embeddings"]:
-            items.append(EmbeddingDataClass(embedding=prediction))
-
-        # Calculate billed tokens
-        billed_units = original_response["meta"]["billed_units"]
-        original_response["usage"] = {"total_tokens": billed_units["input_tokens"]}
-        standardized_response = EmbeddingsDataClass(items=items)
-        return ResponseType[EmbeddingsDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+        model = model.split("__")[1] if "__" in model else model
+        response = self.llm_client.embeddings(texts=texts, model=model)
+        return response
 
     def text__search(
         self,

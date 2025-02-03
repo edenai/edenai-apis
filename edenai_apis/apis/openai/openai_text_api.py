@@ -123,69 +123,14 @@ class OpenaiTextApi(TextInterface):
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str
     ) -> ResponseType[SummarizeDataClass]:
-        url = f"{self.url}/chat/completions"
-        prompt = f"""Given the following text, please provide a concise summary in the same language:
-        text : {text}
-        sumamry : 
-        """
-        messages = [{"role": "user", "content": prompt}]
-        # Build the request
-        payload = {
-            "model": model,
-            "messages": messages,
-        }
-
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = get_openapi_response(response)
-
-        standardized_response = SummarizeDataClass(
-            result=original_response["choices"][0]["message"]["content"]
-        )
-
-        result = ResponseType[SummarizeDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
-        return result
+        response = self.llm_client.summarize(text=text, model=model)
+        return response
 
     def text__moderation(
         self, text: str, language: str
     ) -> ResponseType[ModerationDataClass]:
-        try:
-            response = requests.post(
-                f"{self.url}/moderations", headers=self.headers, json={"input": text}
-            )
-        except Exception as exc:
-            raise ProviderException(str(exc), code=500)
-        original_response = get_openapi_response(response)
-
-        classification: Sequence[TextModerationItem] = []
-        if result := original_response.get("results", None):
-            for key, value in result[0].get("category_scores", {}).items():
-                classificator = CategoryTypeModeration.choose_category_subcategory(key)
-                classification.append(
-                    TextModerationItem(
-                        label=key,
-                        category=classificator["category"],
-                        subcategory=classificator["subcategory"],
-                        likelihood_score=value,
-                        likelihood=standardized_confidence_score(value),
-                    )
-                )
-        standardized_response: ModerationDataClass = ModerationDataClass(
-            nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
-                classification
-            ),
-            items=classification,
-            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(
-                classification
-            ),
-        )
-
-        return ResponseType[ModerationDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+        response = self.llm_client.moderation(text=text)
+        return response
 
     def text__search(
         self,
@@ -295,158 +240,53 @@ class OpenaiTextApi(TextInterface):
         return result
 
     def text__anonymization(
-        self, text: str, language: str
+        self, text: str, language: str, model: Optional[str] = None
     ) -> ResponseType[AnonymizationDataClass]:
-        prompt = construct_anonymization_context(text)
-        json_output = '{{"redactedText" : "...", "entities": [{{content: entity, label: category, confidence_score: confidence score, offset: start_offset}}]}}'
-        messages = [{"role": "user", "content": prompt}]
-        messages.insert(
-            0,
-            {
-                "role": "system",
-                "content": f"""Act as a PII system that takes a text input containing personally identifiable information (PII) and generates an anonymized version of the text, 
-                you return a JSON object in this format : {json_output}""",
-            },
-        )
-        # Build the request
-        payload = {
-            "response_format": {"type": "json_object"},
-            "model": "gpt-3.5-turbo-1106",
-            "messages": messages,
-        }
-        url = f"{self.url}/chat/completions"
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = get_openapi_response(response)
-        pii_data = original_response["choices"][0]["message"]["content"]
-        try:
-            data_dict = json.loads(rf"{pii_data}")
-        except json.JSONDecodeError:
-            raise ProviderException("An error occurred while parsing the response.")
-        new_text = text
-        entities: Sequence[AnonymizationEntity] = []
-        for entity in data_dict.get("entities", []):
-            classificator = CategoryType.choose_category_subcategory(
-                entity.get("label")
-            )
-            offset = closest_above_value(
-                find_all_occurrence(text, entity.get("content", "")),
-                entity.get("offset", 0),
-            )
-            length = len(entity.get("content", ""))
-            try:
-                entities.append(
-                    AnonymizationEntity(
-                        offset=offset,
-                        length=length,
-                        content=entity.get("content"),
-                        original_label=entity.get("label"),
-                        category=classificator["category"],
-                        subcategory=classificator["subcategory"],
-                        confidence_score=entity.get("confidence_score"),
-                    )
-                )
-            except ValidationError as exc:
-                raise ProviderException(
-                    "An error occurred while parsing the response."
-                ) from exc
-            tmp_new_text = new_text[0:offset] + "*" * length
-            tmp_new_text += new_text[offset + length :]
-            new_text = tmp_new_text
-
-        standardized_response = AnonymizationDataClass(
-            result=new_text, entities=entities
-        )
-        return ResponseType[AnonymizationDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+        response = self.llm_client.pii(text=text, model=model)
+        return response
 
     def text__keyword_extraction(
-        self, language: str, text: str
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[KeywordExtractionDataClass]:
-
-        original_response, result = self.__assistant_text(
-            name="Keywoord Extraction",
-            instruction="You are an Keyword Extract model. You extract keywords from a text input.",
-            message_text=text,
-            example_file="outputs/text/keyword_extraction_output.json",
-            dataclass=KeywordExtractionDataClass,
-        )
-
-        return ResponseType[KeywordExtractionDataClass](
-            original_response=original_response,
-            standardized_response=result,
-        )
+        response = self.llm_client.keyword_extraction(text=text, model=model)
+        return response
 
     def text__sentiment_analysis(
-        self, language: str, text: str
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SentimentAnalysisDataClass]:
-
-        original_response, result = self.__assistant_text(
-            name="Sentiment Analysis",
-            instruction="You are a Text Sentiment Analysis model. You extract the sentiment of a textual input.",
-            message_text=text,
-            example_file="outputs/text/sentiment_analysis_output.json",
-            dataclass=SentimentAnalysisDataClass,
-        )
-
-        return ResponseType[SentimentAnalysisDataClass](
-            original_response=original_response, standardized_response=result
-        )
+        response = self.llm_client.sentiment_analysis(text=text, model=model)
+        return response
 
     def text__topic_extraction(
-        self, language: str, text: str
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[TopicExtractionDataClass]:
-
-        original_response, result = self.__assistant_text(
-            name="Topic Extraction",
-            instruction="You are a Text Topic Exstraction Model. You extract the main topic of a textual input.",
-            message_text=text,
-            example_file="outputs/text/topic_extraction_output.json",
-            dataclass=TopicExtractionDataClass,
-        )
-
-        return ResponseType[TopicExtractionDataClass](
-            original_response=original_response,
-            standardized_response=result,
-        )
+        response = self.llm_client.topic_extraction(text=text, model=model)
+        return response
 
     def text__code_generation(
-        self, instruction: str, temperature: float, max_tokens: int, prompt: str = ""
+        self,
+        instruction: str,
+        temperature: float,
+        max_tokens: int,
+        prompt: str = "",
+        model: Optional[str] = None,
     ) -> ResponseType[CodeGenerationDataClass]:
-        url = f"{self.url}/chat/completions"
-        model = "gpt-3.5-turbo"
-
-        messages = [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant. Be helpful for code generation",
-            },
-            {"role": "user", "content": instruction},
-        ]
-        if prompt:
-            messages.insert(1, {"role": "user", "content": prompt})
-
-        payload = {
-            "model": model,
-            "temperature": temperature,
-            "messages": messages,
-            "max_completion_tokens": max_tokens,
-        }
-
-        try:
-            response = requests.post(url, json=payload, headers=self.headers)
-        except requests.exceptions.ChunkedEncodingError:
-            raise ProviderException("Connection closed with provider", 400)
-        original_response = get_openapi_response(response)
-
-        standardized_response = CodeGenerationDataClass(
-            generated_text=original_response["choices"][0]["message"]["content"]
+        response = self.llm_client.code_generation(
+            instruction=instruction,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
         )
-        return ResponseType[CodeGenerationDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+        return response
 
     def text__generation(
         self,
@@ -455,141 +295,57 @@ class OpenaiTextApi(TextInterface):
         max_tokens: int,
         model: str,
     ) -> ResponseType[GenerationDataClass]:
-        self.check_content_moderation(text=text)
-        url = f"{self.url}/completions"
-
-        payload = {
-            "prompt": text,
-            "model": model,
-            "temperature": temperature,
-        }
-        if max_tokens != 0:
-            payload["max_tokens"] = max_tokens
-
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = get_openapi_response(response)
-
-        standardized_response = GenerationDataClass(
-            generated_text=original_response["choices"][0]["text"]
+        # self.check_content_moderation(text=text)
+        response = self.llm_client.text_generation(
+            text=text, temperature=temperature, max_tokens=max_tokens, model=model
         )
-        return ResponseType[GenerationDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+        return response
 
     def text__custom_named_entity_recognition(
-        self, text: str, entities: List[str], examples: Optional[List[Dict]] = None
+        self,
+        text: str,
+        entities: List[str],
+        examples: Optional[List[Dict]] = None,
+        model: Optional[str] = None,
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
-
-        original_response, result = self.__assistant_text(
-            name="Custom NER",
-            instruction="You are a Named Entity Extraction Model. Given a list of Entities Types and a text input, you should extract extract all entities of the given entities types.",
-            message_text="""
-                Entities to look for : 
-                {}
-
-                ======
-                text : 
-
-                {}
-                """.format(
-                entities, text
-            ),
-            example_file="outputs/text/custom_named_entity_recognition_output.json",
-            dataclass=CustomNamedEntityRecognitionDataClass,
+        response = self.llm_client.custom_named_entity_recognition(
+            text=text, entities=entities, examples=examples, model=model
         )
-
-        return ResponseType[CustomNamedEntityRecognitionDataClass](
-            original_response=original_response,
-            standardized_response=result,
-        )
+        return response
 
     def text__custom_classification(
-        self, texts: List[str], labels: List[str], examples: List[List[str]]
+        self,
+        texts: List[str],
+        labels: List[str],
+        examples: List[List[str]],
+        model: Optional[str] = None,
     ) -> ResponseType[CustomClassificationDataClass]:
-
-        original_response, result = self.__assistant_text(
-            name="Custom classification",
-            instruction="You are a Text Classification Model. Given a list of possible labels and a list of texts, you should classify each text by giving it one label.",
-            message_text="""
-                Possible Labels : 
-                {}
-
-                ======
-                List of texts : 
-
-                {}
-                """.format(
-                labels, texts
-            ),
-            example_file="outputs/text/custom_classification_output.json",
-            dataclass=CustomClassificationDataClass,
+        response = self.llm_client.custom_classification(
+            texts=texts, labels=labels, examples=examples, model=model
         )
-
-        return ResponseType[CustomClassificationDataClass](
-            original_response=original_response, standardized_response=result
-        )
+        return response
 
     def text__spell_check(
-        self, text: str, language: str
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SpellCheckDataClass]:
-
-        original_response, result = self.__assistant_text(
-            name="Spell Check",
-            instruction="You are a Spell Checking model. You analyze a text input and proficiently detect and correct any grammar, syntax, spelling or other types of errors.",
-            message_text=text,
-            example_file="outputs/text/spell_check_output.json",
-            dataclass=SpellCheckDataClass,
-        )
-
-        return ResponseType[SpellCheckDataClass](
-            original_response=original_response,
-            standardized_response=result,
-        )
+        response = self.llm_client.spell_check(text=text, model=model)
+        return response
 
     def text__named_entity_recognition(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
-
-        original_response, result = self.__assistant_text(
-            name="NER",
-            instruction="You are a Named Entity Extraction Model. Given an input text you should extract extract all entities in it.",
-            message_text=text,
-            example_file="outputs/text/named_entity_recognition_output.json",
-            dataclass=NamedEntityRecognitionDataClass,
-        )
-
-        return ResponseType[NamedEntityRecognitionDataClass](
-            original_response=original_response, standardized_response=result
-        )
+        response = self.llm_client.named_entity_recognition(text=text, model=model)
+        return response
 
     def text__embeddings(
-        self, texts: List[str], model: str
+        self, texts: List[str], model: Optional[str] = None
     ) -> ResponseType[EmbeddingsDataClass]:
-        url = "https://api.openai.com/v1/embeddings"
-        model = model.split("__")
-        if len(texts) == 1:
-            texts = texts[0]
-        payload = {
-            "input": texts,
-            "model": model[1],
-        }
-
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = get_openapi_response(response)
-
-        items: Sequence[EmbeddingsDataClass] = []
-        embeddings = original_response["data"]
-
-        for embedding in embeddings:
-            items.append(EmbeddingDataClass(embedding=embedding["embedding"]))
-
-        standardized_response = EmbeddingsDataClass(items=items)
-
-        return ResponseType[EmbeddingsDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+        model = model.split("__")[1] if "__" in model else model
+        response = self.llm_client.embeddings(texts=texts, model=model)
+        return response
 
     def text__chat(
         self,

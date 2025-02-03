@@ -262,16 +262,7 @@ class OpenaiImageApi(ImageInterface):
     def image__logo_detection(
         self, file: str, file_url: str = "", model: str = None
     ) -> ResponseType[LogoDetectionDataClass]:
-        original_response, result = self.__assistant_image(
-            name="logo detection",
-            instruction="You are a Logo Detection model. You get an image input and return logos detected inside it. If no logo is detected the items list should be empty",
-            message_text="Analys this image :",
-            example_file="outputs/image/logo_detection_output.json",
-            input_file=file,
-            dataclass=LogoDetectionDataClass,
+        response = self.llm_client.logo_detection(
+            file=file, file_url=file_url, model=model
         )
-
-        return ResponseType[LogoDetectionDataClass](
-            original_response=original_response,
-            standardized_response=result,
-        )
+        return response

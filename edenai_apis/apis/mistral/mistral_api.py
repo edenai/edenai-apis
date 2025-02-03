@@ -1,14 +1,12 @@
-import itertools
-from typing import Dict, List, Literal, Optional, Union, Generator
+from typing import Dict, List, Literal, Optional, Union
 import requests
-import json
 
 from edenai_apis.features import ProviderInterface, TextInterface
-from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
-from edenai_apis.features.text.chat.chat_dataclass import (
-    StreamChat,
-    ChatStreamResponse,
-    ToolCall,
+from edenai_apis.features.text.chat.chat_dataclass import ChatDataClass, StreamChat
+from edenai_apis.features.multimodal.chat.chat_dataclass import (
+    ChatDataClass as ChatMultimodalDataClass,
+    StreamChat as StreamChatMultimodal,
+    ChatMessageDataClass as ChatMultimodalMessageDataClass,
 )
 from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
 from edenai_apis.features.text.generation.generation_dataclass import (
@@ -103,28 +101,36 @@ class MistralApi(ProviderInterface, TextInterface):
         return response
 
     def text__embeddings(
-        self, texts: List[str], model: Optional[str] = None
+        self, texts: List[str], model: str
     ) -> ResponseType[EmbeddingsDataClass]:
-        model = model.split("__")[1]
-        payload = {"model": model, "input": texts}
-        response = requests.post(
-            url=self.url + "v1/embeddings", json=payload, headers=self.headers
+        model = model.split("__")[1] if "__" in model else model
+        response = self.llm_client.embeddings(texts=texts, model=model)
+        return response
+
+    def multimodal__chat(
+        self,
+        messages: List[ChatMultimodalMessageDataClass],
+        chatbot_global_action: Optional[str],
+        temperature: float = 0,
+        max_tokens: int = 25,
+        model: Optional[str] = None,
+        stop_sequences: Optional[List[str]] = None,
+        top_k: Optional[int] = None,
+        top_p: Optional[int] = None,
+        stream: bool = False,
+        provider_params: Optional[dict] = None,
+        response_format=None,
+    ) -> ResponseType[Union[ChatMultimodalDataClass, StreamChatMultimodal]]:
+        response = self.llm_client.multimodal_chat(
+            messages=messages,
+            chatbot_global_action=chatbot_global_action,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
+            stop_sequences=stop_sequences,
+            top_k=top_k,
+            top_p=top_p,
+            stream=stream,
+            response_format=response_format,
         )
-        try:
-            original_response = response.json()
-            if "message" in original_response or response.status_code >= 400:
-                message_error = original_response["message"]
-                raise ProviderException(message_error, code=response.status_code)
-        except Exception:
-            raise ProviderException(response.text, code=response.status_code)
-
-        items = []
-        embeddings = original_response["data"]
-
-        for embedding in embeddings:
-            items.append(EmbeddingDataClass(embedding=embedding["embedding"]))
-
-        return ResponseType[EmbeddingsDataClass](
-            original_response=original_response,
-            standardized_response=EmbeddingsDataClass(items=items),
-        )
+        return response

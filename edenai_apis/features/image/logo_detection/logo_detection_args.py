@@ -7,8 +7,6 @@ from pydub.utils import mediainfo
 from edenai_apis.utils.files import FileInfo, FileWrapper
 
 
-
-
 def logo_detection_arguments(provider_name: str) -> Dict:
     feature_path = os.path.dirname(os.path.dirname(__file__))
 
@@ -30,6 +28,6 @@ def logo_detection_arguments(provider_name: str) -> Dict:
         "settings": {
             "api4ai": "v1",
             "openai": "gpt-4o",
-            "anthropic": "claude-3-sonnet-20240229-v1:0",
+            "anthropic": "claude-3-5-sonnet-latest",
         },
     }

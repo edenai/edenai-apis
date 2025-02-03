@@ -16,6 +16,7 @@ def chat_arguments(provider_name: str):
         "max_tokens": 1024,
         "settings": {
             "meta": "llama3-1-70b-instruct-v1:0",
+            "amazon": "anthropic.claude-3-sonnet-20240229-v1:0",
             "openai": "gpt-3.5-turbo",
             "mistral": "mistral-large-latest",
             "google": "gemini-1.5-pro",

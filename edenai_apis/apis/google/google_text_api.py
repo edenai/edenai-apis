@@ -61,7 +61,7 @@ from google.protobuf.json_format import MessageToDict
 
 class GoogleTextApi(TextInterface):
     def text__named_entity_recognition(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         """
         :param language:        String that contains the language code
@@ -386,82 +386,25 @@ class GoogleTextApi(TextInterface):
     def text__embeddings(
         self, texts: List[str], model: str
     ) -> ResponseType[EmbeddingsDataClass]:
-        model = model.split("__")
-        url_subdomain = "us-central1-aiplatform"
-        location = "us-central1"
-        token = get_access_token(self.location)
-        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model[1]}:predict"
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {token}",
-        }
-        instances = []
-        for text in texts:
-            instances.append({"content": text})
-        payload = {"instances": instances}
-        response = requests.post(url=url, headers=headers, json=payload)
-        try:
-            original_response = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                "An error occurred while parsing the response."
-            ) from exc
-
-        if "error" in original_response:
-            raise ProviderException(
-                message=original_response["error"]["message"], code=response.status_code
-            )
-
-        items: Sequence[EmbeddingsDataClass] = []
-        for prediction in original_response["predictions"]:
-            embedding = prediction["embeddings"]["values"]
-            items.append(EmbeddingDataClass(embedding=embedding))
-
-        standardized_response = EmbeddingsDataClass(items=items)
-        return ResponseType[EmbeddingsDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+        model = model.split("__")[1] if "__" in model else model
+        response = self.clients["llm_client"].embeddings(texts=texts, model=model)
+        return response
 
     def text__code_generation(
-        self, instruction: str, temperature: float, max_tokens: int, prompt: str = ""
+        self,
+        instruction: str,
+        temperature: float,
+        max_tokens: int,
+        prompt: str = "",
+        model: Optional[str] = None,
     ) -> ResponseType[CodeGenerationDataClass]:
-        url_subdomain = "us-central1-aiplatform"
-        location = "us-central1"
-        token = get_access_token(self.location)
-        url = f"https://{url_subdomain}.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/code-bison:predict"
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {token}",
-        }
-        text = instruction
-        if prompt:
-            text += prompt
-        payload = {
-            "instances": [
-                {
-                    "prefix": text,
-                }
-            ],
-            "parameters": {"temperature": temperature, "maxOutputTokens": max_tokens},
-        }
-        response = requests.post(url=url, headers=headers, json=payload)
-        original_response = response.json()
-        print("THe original response is\n\n", original_response)
-        if "error" in original_response:
-            raise ProviderException(
-                message=original_response["error"]["message"], code=response.status_code
-            )
-        if not original_response.get("predictions"):
-            raise ProviderException("Provider return an empty response")
-
-        standardized_response = CodeGenerationDataClass(
-            generated_text=original_response["predictions"][0]["content"]
+        response = self.clients["llm_client"].code_generation(
+            instruction=instruction,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
         )
-        return ResponseType[CodeGenerationDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+        return response
 
     def text__entity_sentiment(self, text: str, language: str):
         client = language_v1.LanguageServiceClient()

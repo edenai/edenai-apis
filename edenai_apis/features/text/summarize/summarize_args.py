@@ -7,6 +7,6 @@ def summarize_arguments(provider_name: str):
         "settings": {
             "openai": "gpt-4",
             "nlpcloud": "finetuned-llama-2-70b",
-            "anthropic": "claude-v2",
+            "anthropic": "claude-3-5-sonnet-latest",
         },
     }

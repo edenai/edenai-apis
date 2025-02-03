@@ -65,7 +65,7 @@ class OneaiApi(
         self.header = {"api-key": self.api_key}
 
     def text__anonymization(
-        self, text: str, language: str
+        self, text: str, language: str, model: Optional[str] = None
     ) -> ResponseType[AnonymizationDataClass]:
         data = json.dumps({"input": text, "steps": [{"skill": "anonymize"}]})
 
@@ -87,7 +87,7 @@ class OneaiApi(
         )
 
     def text__keyword_extraction(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[KeywordExtractionDataClass]:
         payload = {
             "input": text,
@@ -122,34 +122,10 @@ class OneaiApi(
         )
 
     def text__named_entity_recognition(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
-        data = json.dumps({"input": text, "steps": [{"skill": "names"}]})
-
-        response = requests.post(url=self.url, headers=self.header, data=data)
-        original_response = response.json()
-
-        if response.status_code != 200:
-            raise ProviderException(
-                message=original_response["message"], code=response.status_code
-            )
-
-        items = []
-        for item in original_response["output"][0]["labels"]:
-            entity = item["value"]
-            category = item["name"]
-            if category == "GEO":
-                category = "LOCATION"
-            items.append(
-                InfosNamedEntityRecognitionDataClass(entity=entity, category=category)
-            )
-
-        standardized_response = NamedEntityRecognitionDataClass(items=items)
-
-        return ResponseType[NamedEntityRecognitionDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+        response = self.llm_client.named_entity_recognition(text=text, model=model)
+        return response
 
     def text__sentiment_analysis(
         self, language: str, text: str
@@ -196,7 +172,11 @@ class OneaiApi(
         )
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: Optional[str] = None
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SummarizeDataClass]:
         data = json.dumps({"input": text, "steps": [{"skill": "summarize"}]})
 
@@ -275,7 +255,7 @@ class OneaiApi(
                 }
             ],
             "multilingual": True,
-            **provider_params
+            **provider_params,
         }
 
         with open(file, "rb") as file_:
@@ -404,10 +384,10 @@ class OneaiApi(
                 standardized_response=standardized_response,
             )
         elif status == OneAIAsyncStatus.FAILED.value:
-            raise ProviderException(original_response, code = status_code)
+            raise ProviderException(original_response, code=status_code)
         elif status == OneAIAsyncStatus.NOT_FOUND.value:
             raise AsyncJobException(
-                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, 
-                code = status_code)
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, code=status_code
+            )
         else:
             raise ProviderException(original_response, code=status_code)

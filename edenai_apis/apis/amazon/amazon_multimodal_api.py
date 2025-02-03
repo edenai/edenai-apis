@@ -8,7 +8,7 @@ from edenai_apis.features.multimodal.chat import (
 from edenai_apis.utils.types import ResponseType
 
 
-class XAiMultimodalApi(MultimodalInterface):
+class AmazonMultimodalApi(MultimodalInterface):
 
     def multimodal__chat(
         self,
