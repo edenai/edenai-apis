@@ -1,8 +1,9 @@
+from typing import List
 import pytest
+from edenai_apis.llm_engine.types.litellm_model import LiteLLMModel
 from edenai_apis.utils.exception import ProviderException
 from llm_engine.llm_engine import LLMEngine
-from litellm import register_model
-
+from llm_engine.clients.litellm_client.litellm_client import LiteLLMCompletionClient
 class TestLLMEngine:
 
     def test_client_lookup(self):
@@ -37,15 +38,9 @@ class TestLLMClients:
             llm_engine = LLMEngine(**llm_engine_instance_w_unregestired_model)
             llm_engine.chat(**mocked_completion_parametrized)
     
-    def test_register_and_use_model(self, llm_engine_instance_w_model, mocked_completion_parametrized, unknown_models_to_litellm):
+    def test_register_and_use_model(self, llm_engine_instance_w_model, mocked_completion_parametrized, unknown_models_to_litellm: List[LiteLLMModel]):
         ## 
-        for model_name, model in unknown_models_to_litellm.items():
-            cost = {}
-            cost[model_name] = model
-            try:
-                register_model(cost)
-            except Exception as e:
-                print(f"Error registering model {model_name}: {e}")
+        LiteLLMCompletionClient.register_new_models(unknown_models_to_litellm)
         ##
         llm_engine = LLMEngine(**llm_engine_instance_w_model)
         response = llm_engine.chat(**mocked_completion_parametrized)

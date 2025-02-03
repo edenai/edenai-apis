@@ -1,5 +1,7 @@
-from typing import Any
+from typing import Any, List
 import pytest
+
+from edenai_apis.llm_engine.types.litellm_model import LiteLLMModel
 
 @pytest.fixture
 def llm_engine_instance_wo_model():
@@ -76,14 +78,15 @@ def mocked_completion_parametrized(mocked_completion_params: dict[str, Any]):
     return params
 
 @pytest.fixture
-def unknown_models_to_litellm():
-    test_model = {
-            "test-inexisting-model": {
+def unknown_models_to_litellm() -> List[LiteLLMModel]:
+    test_model = LiteLLMModel.model_validate({
+        "model_name": "test-inexisting-model",
+        "model_configuration": {
             "max_tokens": 131072, 
             "input_cost_per_token": 0.000001, 
             "output_cost_per_token": 0.000001, 
             "litellm_provider": "openai", # I thing we need to use a valid existing provider
             "mode": "completion"
         }
-    }
-    return test_model
+    })
+    return [test_model]

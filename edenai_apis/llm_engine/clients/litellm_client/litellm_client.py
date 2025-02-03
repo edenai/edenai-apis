@@ -12,12 +12,14 @@ from litellm.exceptions import (
     InternalServerError,
 )
 from litellm.utils import get_supported_openai_params
+from edenai_apis.llm_engine.types.litellm_model import LiteLLMModel
 from llm_engine.clients.completion import CompletionClient
 from llm_engine.exceptions.llm_engine_exceptions import CompletionClientError
 from edenai_apis.utils.exception import ProviderException
 from llm_engine.types.response_types import CustomStreamWrapperModel, ResponseModel
 
 from pydantic import BaseModel
+from litellm import register_model
 
 logger = logging.getLogger(__name__)
 
@@ -339,3 +341,15 @@ class LiteLLMCompletionClient(CompletionClient):
             elif len(keys) == 0:
                 input_response_format = None
         return input_response_format
+    
+    def register_new_models(models: List[LiteLLMModel] = []):
+        if models is None or len(models) == 0:
+            return
+        for model in models:
+            try:
+                cost = {}
+                cost[model.model_name] = model.model_configuration.model_dump()
+                register_model(cost)
+            except Exception as e:
+                logger.error(f"Error registering model {model.model_name}: {e}")
+
