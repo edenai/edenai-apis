@@ -31,10 +31,12 @@ class OpenaiApi(
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
+        self.api_key = self.api_settings.get("api_key")
+        self.headers = {"Authorization": f"Bearer {self.api_key}"}
         self.llm_client = LLMEngine(
             provider_name=self.provider_name,
             provider_config={
-                "api_key": self.api_settings.get("api_key"),
+                "api_key": self.api_key,
             },
         )
         self.moderation_flag = True

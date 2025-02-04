@@ -217,11 +217,26 @@ class OpenaiTextApi(TextInterface):
         max_tokens: int,
         model: str,
     ) -> ResponseType[GenerationDataClass]:
-        # self.check_content_moderation(text=text)
-        response = self.llm_client.text_generation(
-            text=text, temperature=temperature, max_tokens=max_tokens, model=model
+        url = f"{self.url}/chat/completions"
+
+        payload = {
+            "prompt": text,
+            "model": model,
+            "temperature": temperature,
+        }
+        if max_tokens != 0:
+            payload["max_tokens"] = max_tokens
+
+        response = requests.post(url, json=payload, headers=self.headers)
+        original_response = get_openapi_response(response)
+
+        standardized_response = GenerationDataClass(
+            generated_text=original_response["choices"][0]["text"]
         )
-        return response
+        return ResponseType[GenerationDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
 
     def text__custom_named_entity_recognition(
         self,
