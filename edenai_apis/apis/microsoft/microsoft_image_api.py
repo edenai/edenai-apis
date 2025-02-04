@@ -54,7 +54,7 @@ from edenai_apis.utils.types import ResponseType
 
 class MicrosoftImageApi(ImageInterface):
     def image__explicit_content(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[ExplicitContentDataClass]:
         with open(file, "rb") as file_:
             # Getting response of API

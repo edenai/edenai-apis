@@ -1,7 +1,7 @@
 import base64
 import mimetypes
 from io import BytesIO
-from typing import Sequence
+from typing import Sequence, Optional
 
 from google.protobuf.json_format import MessageToDict
 
@@ -25,7 +25,11 @@ from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
 
 class GoogleTranslationApi(TranslationInterface):
     def translation__automatic_translation(
-        self, source_language: str, target_language: str, text: str
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[AutomaticTranslationDataClass]:
         # Getting response
         client = self.clients["translate"]
@@ -54,7 +58,7 @@ class GoogleTranslationApi(TranslationInterface):
         )
 
     def translation__language_detection(
-        self, text: str
+        self, text: str, model: Optional[str] = None
     ) -> ResponseType[LanguageDetectionDataClass]:
 
         payload = {

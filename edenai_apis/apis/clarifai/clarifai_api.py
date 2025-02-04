@@ -142,7 +142,7 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
         return result
 
     def image__explicit_content(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[ExplicitContentDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)

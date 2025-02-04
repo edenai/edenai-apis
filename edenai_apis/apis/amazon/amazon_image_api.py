@@ -176,8 +176,8 @@ class AmazonImageApi(ImageInterface):
                 if emo.get("Type"):
                     if emo["Type"].lower() == "happy":  # normalise keywords
                         emo["Type"] = "happiness"
-                    emotion_output[emo["Type"].lower()] = (
-                        standardized_confidence_score(normalized_emo / 100)
+                    emotion_output[emo["Type"].lower()] = standardized_confidence_score(
+                        normalized_emo / 100
                     )
             emotions = FaceEmotions(
                 anger=emotion_output.get("angry"),
@@ -270,7 +270,7 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__explicit_content(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[ExplicitContentDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -547,7 +547,6 @@ class AmazonImageApi(ImageInterface):
         )
 
         original_response = json.loads(response.get("body").read())
-
 
         embeddings = original_response["embedding"] or []
         items: Sequence[EmbeddingDataClass] = []

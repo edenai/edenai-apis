@@ -4,7 +4,7 @@ import json
 import mimetypes
 from io import BytesIO
 from time import sleep
-from typing import Dict
+from typing import Dict, Optional
 
 import requests
 
@@ -37,7 +37,11 @@ class DeeplApi(ProviderInterface, TranslationInterface):
         }
 
     def translation__automatic_translation(
-        self, source_language: str, target_language: str, text: str
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[AutomaticTranslationDataClass]:
         url = f"{self.url}translate"
 

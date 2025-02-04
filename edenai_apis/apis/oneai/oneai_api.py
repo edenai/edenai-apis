@@ -198,7 +198,7 @@ class OneaiApi(
         )
 
     def translation__language_detection(
-        self, text: str
+        self, text: str, model: Optional[str] = None
     ) -> ResponseType[LanguageDetectionDataClass]:
         data = json.dumps(
             {

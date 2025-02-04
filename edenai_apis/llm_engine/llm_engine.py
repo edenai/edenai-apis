@@ -13,6 +13,10 @@ from edenai_apis.llm_engine.clients.completion import CompletionClient
 from edenai_apis.llm_engine.mapping import Mappings
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.features.translation import (
+    AutomaticTranslationDataClass,
+    LanguageDetectionDataClass,
+)
 from edenai_apis.features.text import (
     SummarizeDataClass,
     TopicExtractionDataClass,
@@ -33,7 +37,11 @@ from edenai_apis.features.text.moderation.category import (
     CategoryType as CategoryTypeModeration,
 )
 from edenai_apis.utils.conversion import standardized_confidence_score
-from edenai_apis.features.image import LogoDetectionDataClass
+from edenai_apis.features.image import (
+    LogoDetectionDataClass,
+    QuestionAnswerDataClass,
+    ExplicitContentDataClass,
+)
 from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
 from edenai_apis.features.text.chat.chat_dataclass import (
     StreamChat,
@@ -301,6 +309,84 @@ class LLMEngine:
             params=args, response_class=LogoDetectionDataClass
         )
 
+    def image_qa(
+        self,
+        file: str,
+        temperature: float,
+        max_tokens: int,
+        file_url: str = "",
+        model: Optional[str] = None,
+        question: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[QuestionAnswerDataClass]:
+        with open(file, "rb") as fstream:
+            file_content = fstream.read()
+            file_b64 = base64.b64encode(file_content).decode("utf-8")
+        mime_type = mimetypes.guess_type(file)[0]
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a visual question-answering assistant that analyzes images and responds to questions about them.",
+            example_file="image/question_answer/question_answer_response.json",
+            dataclass=LogoDetectionDataClass,
+        )
+        messages.append(
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": question or "Describe the following image",
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:{mime_type};base64,{file_b64}"},
+                    },
+                ],
+            }
+        )
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            temperature=temperature,
+            max_tokens=max_tokens,
+            **kwargs,
+        )
+        return self._execute_completion(
+            params=args, response_class=QuestionAnswerDataClass
+        )
+
+    def image_moderation(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ):
+        mime_type = mimetypes.guess_type(file)[0]
+        with open(file, "rb") as fstream:
+            base64_data = base64.b64encode(fstream.read()).decode("utf-8")
+        messages = BasePrompt.compose_prompt(
+            behavior="You are an Explicit Image Detection model.",
+            example_file="image/explicit_content/explicit_content_response.json",
+            dataclass=ExplicitContentDataClass,
+        )
+        messages.append(
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:{mime_type};base64,{base64_data}"},
+                    },
+                ],
+            }
+        )
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
+        return self._execute_completion(
+            params=args, response_class=ExplicitContentDataClass
+        )
+
     def sentiment_analysis(
         self, text: str, model: str, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
@@ -459,6 +545,7 @@ class LLMEngine:
         )
 
     def moderation(self, text: str, **kwargs) -> ResponseType[ModerationDataClass]:
+        # Only availaible for OpenAI
         args = {"input": text}
         args.update(self.provider_config)
         response = self.completion_client.moderation(**args, **kwargs)
@@ -554,5 +641,48 @@ class LLMEngine:
             **kwargs,
         )
         return self._execute_completion(
-            params=args, response_class=CustomClassificationDataClass
+            params=args, response_class=CustomNamedEntityRecognitionDataClass
+        )
+
+    def language_detection(
+        self, text: str, model: str, **kwargs
+    ) -> ResponseType[LanguageDetectionDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a language detection model capable of automatically identifying the language of a given text",
+            example_file="translation/language_detection/language_detection_response.json",
+            dataclass=LanguageDetectionDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
+        return self._execute_completion(
+            params=args, response_class=LanguageDetectionDataClass
+        )
+
+    def automatic_translation(
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: str,
+        **kwargs,
+    ) -> ResponseType[AutomaticTranslationDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior=f"You are a translation model capable of translating text from {source_language} to {target_language} with high accuracy and fluency.",
+            example_file="translation/automatic_translation/automatic_translation_response.json",
+            dataclass=AutomaticTranslationDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
+        return self._execute_completion(
+            params=args, response_class=AutomaticTranslationDataClass
         )
