@@ -1,7 +1,11 @@
 import os
 import logging
 from typing import List, Optional, Union
-from llm_engine.types.response_types import CustomStreamWrapperModel, EmbeddingResponseModel, ResponseModel
+from llm_engine.types.response_types import (
+    CustomStreamWrapperModel,
+    EmbeddingResponseModel,
+    ResponseModel,
+)
 from llm_engine.exceptions.llm_engine_exceptions import CompletionClientError
 
 logger = logging.getLogger(__name__)
@@ -9,22 +13,38 @@ logger = logging.getLogger(__name__)
 
 class CompletionClient:
 
-    def __init__(self, provider_name: str = None, model_name: Optional[str] = None) -> None:
+    def __init__(
+        self,
+        provider_name: str = None,
+        model_name: Optional[str] = None,
+        provider_config: dict = {},
+    ) -> None:
         if not provider_name:
             raise CompletionClientError("Provider name is required.")
         self.model_name = model_name
         self.provider_name = provider_name
+        self.provider_config = provider_config
         self.model_capabilities = []
         self.call_params = {}
 
-    def completion(self, messages: List = [], model: str = None, **kwargs) -> Union[ResponseModel, CustomStreamWrapperModel]:
-        raise CompletionClientError("Not implemented. Please implement this method in a subclass.")
+    def completion(
+        self, messages: List = [], model: str = None, **kwargs
+    ) -> Union[ResponseModel, CustomStreamWrapperModel]:
+        raise CompletionClientError(
+            "Not implemented. Please implement this method in a subclass."
+        )
 
-    def embedding(self, text: str, model: str = None, **kwargs) -> EmbeddingResponseModel:
-        raise CompletionClientError("Not implemented. Please implement this method in a subclass.")
-    
+    def embedding(
+        self, text: str, model: str = None, **kwargs
+    ) -> EmbeddingResponseModel:
+        raise CompletionClientError(
+            "Not implemented. Please implement this method in a subclass."
+        )
+
     def moderation(self, input: str, api_key: Optional[str] = None):
-        raise CompletionClientError("Not implemented. Please implement this method in a subclass.")
+        raise CompletionClientError(
+            "Not implemented. Please implement this method in a subclass."
+        )
 
     def _get_unsupported_params(self, **call_configuration) -> List[str]:
         """
@@ -48,7 +68,9 @@ class CompletionClient:
         filtered_call_configuration = {
             k: v for k, v in call_configuration.items() if k not in IGNORED_KEYS
         }
-        invalid_parameters = set(filtered_call_configuration.keys()) - set(self.model_capabilities)
+        invalid_parameters = set(filtered_call_configuration.keys()) - set(
+            self.model_capabilities
+        )
         return list(invalid_parameters)
 
     def __str__(self) -> str:

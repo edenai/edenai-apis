@@ -16,14 +16,15 @@ def chat_arguments(provider_name: str):
         "max_tokens": 1024,
         "settings": {
             "meta": "llama3-1-70b-instruct-v1:0",
+            "amazon": "anthropic.claude-3-sonnet-20240229-v1:0",
             "openai": "gpt-3.5-turbo",
-            "mistral": "large-latest",
+            "mistral": "mistral-large-latest",
             "google": "gemini-1.5-pro",
             "cohere": "command-nightly",
-            "perplexityai": "llama-3.1-sonar-large-128k-chat",
+            "perplexityai": "sonar-pro",
             "replicate": "llama-2-70b-chat",
-            "anthropic": "claude-3-sonnet-20240229-v1:0",
-            "xai": "grok-beta"
+            "anthropic": "claude-3-5-sonnet-latest",
+            "xai": "grok-2-latest",
         },
         "stream": False,
     }

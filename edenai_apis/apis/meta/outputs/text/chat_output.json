@@ -1,15 +1,35 @@
 {
   "original_response": {
-    "generation": "Barack Obama, United States, Democratic Party, Illinois",
-    "prompt_token_count": 228,
-    "generation_token_count": 12,
-    "stop_reason": "stop",
+    "id": "chatcmpl-dbb4ec18-d56c-43d4-af6c-275b90bd2753",
+    "created": 1738335789,
+    "model": "meta.llama3-1-70b-instruct-v1:0",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "\n\nBarack Obama, Democratic Party, United States, Illinois",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null
+        }
+      }
+    ],
+    "provider_time": 3479489610,
+    "edenai_time": null,
     "usage": {
-      "total_tokens": 240
-    }
+      "completion_tokens": 13,
+      "prompt_tokens": 227,
+      "total_tokens": 240,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    },
+    "cost": 0.0002376
   },
   "standardized_response": {
-    "generated_text": "Barack Obama, United States, Democratic Party, Illinois",
+    "generated_text": "\n\nBarack Obama, Democratic Party, United States, Illinois",
     "message": [
       {
         "role": "user",
@@ -19,10 +39,17 @@
       },
       {
         "role": "assistant",
-        "message": "Barack Obama, United States, Democratic Party, Illinois",
+        "message": "\n\nBarack Obama, Democratic Party, United States, Illinois",
         "tools": null,
-        "tool_calls": null
+        "tool_calls": []
       }
     ]
+  },
+  "usage": {
+    "completion_tokens": 13,
+    "prompt_tokens": 227,
+    "total_tokens": 240,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": null
   }
 }

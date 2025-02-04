@@ -1,6 +1,7 @@
-
 import requests
 import json
+from typing import Optional
+
 from edenai_apis.features import TranslationInterface
 from edenai_apis.features.translation.automatic_translation import (
     AutomaticTranslationDataClass,
@@ -19,11 +20,19 @@ from .helpers import (
 
 class XAiTranslationApi(TranslationInterface):
     def translation__language_detection(
-        self, text: str
+        self, text: str, model: Optional[str] = None
     ) -> ResponseType[LanguageDetectionDataClass]:
         url = f"{self.url}/chat/completions"
         prompt = construct_language_detection_context(text)
-        json_output = {"items" : [{"language" : "isocode", "display_name": "language display name", "confidence" : 0.8}]}
+        json_output = {
+            "items": [
+                {
+                    "language": "isocode",
+                    "display_name": "language display name",
+                    "confidence": 0.8,
+                }
+            ]
+        }
         messages = [{"role": "user", "content": prompt}]
         messages.insert(
             0,
@@ -50,11 +59,15 @@ class XAiTranslationApi(TranslationInterface):
             ) from exc
         return ResponseType[LanguageDetectionDataClass](
             original_response=original_response,
-            standardized_response=LanguageDetectionDataClass(items=data.get('items')),
+            standardized_response=LanguageDetectionDataClass(items=data.get("items")),
         )
 
     def translation__automatic_translation(
-        self, source_language: str, target_language: str, text: str
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[AutomaticTranslationDataClass]:
         url = f"{self.url}/chat/completions"
         prompt = construct_translation_context(text, source_language, target_language)
@@ -75,9 +88,7 @@ class XAiTranslationApi(TranslationInterface):
         original_response = get_openapi_response(response)
         translation = original_response["choices"][0]["message"]["content"]
 
-        standardized = AutomaticTranslationDataClass(
-            text=translation
-        )
+        standardized = AutomaticTranslationDataClass(text=translation)
 
         return ResponseType[AutomaticTranslationDataClass](
             original_response=original_response, standardized_response=standardized

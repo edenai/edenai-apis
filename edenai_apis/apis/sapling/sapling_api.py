@@ -53,7 +53,7 @@ class SaplingApi(ProviderInterface, TextInterface):
             )
 
     def text__spell_check(
-        self, text: str, language: str
+        self, text: str, language: str, model: Optional[str] = None
     ) -> ResponseType[SpellCheckDataClass]:
         session_id = str(uuid.uuid4())
         payload = {

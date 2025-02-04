@@ -1,40 +1,43 @@
 {
   "original_response": {
-    "id": "chatcmpl-AdJAXPB9SFyLEy1bUbzLo2fHTFM9T",
+    "id": "chatcmpl-AvRTZKE2WWoYXH1r5C5cffDu5GrIK",
+    "created": 1738253677,
+    "model": "gpt-3.5-turbo-0125",
+    "object": "chat.completion",
+    "system_fingerprint": null,
     "choices": [
       {
         "finish_reason": "stop",
         "index": 0,
-        "logprobs": null,
         "message": {
-          "content": "Barack Hussein Obama, American, politician, 44th president, United States, 2009, 2017, Democratic Party, African-American, U.S. senator, Illinois, 2005, 2008, state senator, 1997, 2004",
-          "refusal": null,
-          "role": "assistant"
+          "content": "barack hussein obama, american, politician, 44th president, united states, democratic party, african-american, u.s. senator, illinois, state senator",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null
         }
       }
     ],
-    "created": 1733931841,
-    "model": "gpt-3.5-turbo-0125",
-    "object": "chat.completion",
-    "system_fingerprint": null,
+    "provider_time": 1351309530,
+    "edenai_time": null,
     "usage": {
-      "completion_tokens": 56,
+      "completion_tokens": 37,
       "prompt_tokens": 222,
-      "total_tokens": 278,
+      "total_tokens": 259,
       "completion_tokens_details": {
-        "reasoning_tokens": 0,
-        "audio_tokens": 0,
         "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
         "rejected_prediction_tokens": 0
       },
       "prompt_tokens_details": {
-        "cached_tokens": 0,
-        "audio_tokens": 0
+        "audio_tokens": 0,
+        "cached_tokens": 0
       }
-    }
+    },
+    "service_tier": "default"
   },
   "standardized_response": {
-    "generated_text": "Barack Hussein Obama, American, politician, 44th president, United States, 2009, 2017, Democratic Party, African-American, U.S. senator, Illinois, 2005, 2008, state senator, 1997, 2004",
+    "generated_text": "barack hussein obama, american, politician, 44th president, united states, democratic party, african-american, u.s. senator, illinois, state senator",
     "message": [
       {
         "role": "user",
@@ -44,10 +47,25 @@
       },
       {
         "role": "assistant",
-        "message": "Barack Hussein Obama, American, politician, 44th president, United States, 2009, 2017, Democratic Party, African-American, U.S. senator, Illinois, 2005, 2008, state senator, 1997, 2004",
+        "message": "barack hussein obama, american, politician, 44th president, united states, democratic party, african-american, u.s. senator, illinois, state senator",
         "tools": null,
         "tool_calls": []
       }
     ]
+  },
+  "usage": {
+    "completion_tokens": 37,
+    "prompt_tokens": 222,
+    "total_tokens": 259,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0
+    }
   }
 }

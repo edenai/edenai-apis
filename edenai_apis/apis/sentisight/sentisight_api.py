@@ -63,7 +63,9 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
 
         with open(file, "rb") as file_:
             response = requests.post(
-                url=add_query_param_in_url(url, {"lang": get_formatted_language(language)}),
+                url=add_query_param_in_url(
+                    url, {"lang": get_formatted_language(language)}
+                ),
                 headers={
                     "accept": "*/*",
                     "X-Auth-token": self.key,
@@ -147,7 +149,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         return result
 
     def image__explicit_content(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[ExplicitContentDataClass]:
         with open(file, "rb") as file_:
             response = requests.post(
@@ -304,7 +306,11 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
 
     def image__search__launch_similarity(
-        self, project_id: str, file: Optional[str] = None,  file_url: Optional[str] = None, n: int = 10
+        self,
+        project_id: str,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        n: int = 10,
     ) -> ResponseType[SearchDataClass]:
         search_project_url = (
             "https://platform.sentisight.ai/api/similarity"

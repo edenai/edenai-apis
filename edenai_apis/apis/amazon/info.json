@@ -633,6 +633,9 @@
         "default_model": "titan-tg1-large"
       },
       "version": "v1"
+    },
+    "chat": {
+      "version": "boto3 (v1.29.6)"
     }
   },
   "translation": {
@@ -832,6 +835,11 @@
     },
     "generation_async": {
       "version": "boto3"
+    }
+  },
+  "multimodal": {
+    "chat": {
+      "version": "boto3 (v1.29.6)"
     }
   }
 }

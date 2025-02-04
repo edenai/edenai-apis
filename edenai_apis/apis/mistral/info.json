@@ -33,5 +33,10 @@
             },
             "version": "v0.0.1"
         }
+    },
+    "multimodal": {
+        "chat": {
+            "version": "v0.0.1"
+        }
     }
 }
