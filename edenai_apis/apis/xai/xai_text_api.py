@@ -41,30 +41,8 @@ class XAiTextApi(TextInterface):
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str
     ) -> ResponseType[SummarizeDataClass]:
-        url = f"{self.url}/chat/completions"
-        prompt = f"""Given the following text, please provide a concise summary in the same language:
-        text : {text}
-        sumamry : 
-        """
-        messages = [{"role": "user", "content": prompt}]
-        # Build the request
-        payload = {
-            "model": model,
-            "messages": messages,
-        }
-
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = get_openapi_response(response)
-
-        standardized_response = SummarizeDataClass(
-            result=original_response["choices"][0]["message"]["content"]
-        )
-
-        result = ResponseType[SummarizeDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
-        return result
+        response = self.llm_client.summarize(text=text, model=model)
+        return response
 
     def text__anonymization(
         self, text: str, language: str, model: Optional[str] = None

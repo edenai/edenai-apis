@@ -1,21 +1,11 @@
 import json
-from typing import Optional, List, Dict, Sequence, Tuple, Union, Literal, Generator
+from typing import Optional, List, Dict, Tuple, Union, Literal
 
 import requests
-
-from edenai_apis.apis.cohere.helpers import (
-    convert_cohere_tool_call_to_edenai_tool_call,
-    convert_tools_results_to_cohere,
-    convert_tools_to_cohere,
-    extract_json_text,
-    cohere_roles,
-)
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import ChatDataClass
 from edenai_apis.features.text.chat.chat_dataclass import (
     StreamChat,
-    ChatStreamResponse,
-    ToolCall,
 )
 from edenai_apis.features.text.custom_classification import (
     ItemCustomClassificationDataClass,
@@ -29,13 +19,10 @@ from edenai_apis.features.text.generation import GenerationDataClass
 from edenai_apis.features.text.search import SearchDataClass, InfosSearchDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
-    SpellCheckItem,
-    SuggestionItem,
 )
 from edenai_apis.features.text.summarize import SummarizeDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.conversion import construct_word_list
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
@@ -69,50 +56,6 @@ class CohereApi(ProviderInterface, TextInterface):
             return "medium"
         else:
             return "long"
-
-    @staticmethod
-    def _format_custom_ner_examples(example: Dict):
-        # Get the text
-        text = example["text"]
-
-        # Get the entities
-        entities = example["entities"]
-
-        # Create an empty list to store the extracted entities
-        extracted_entities = []
-
-        # Loop through the entities and extract the relevant information
-        for entity in entities:
-            category = entity["category"]
-            entity_name = entity["entity"]
-
-            # Append the extracted entity to the list
-            extracted_entities.append({"entity": entity_name, "category": category})
-
-        # Create the string with the extracted entities
-        return f"""
-        Categories: {', '.join(set([entity['category'] for entity in extracted_entities]))}
-
-        Text: {text}
-
-        Answer: [{', '.join([f'{{"entity":"{entity["entity"]}", "category":"{entity["category"]}"}}' for entity in extracted_entities])}]
-
-        """
-
-    @staticmethod
-    def _format_spell_check_prompt(text: str) -> str:
-        return f"""
-Given a text with spelling errors, identify the misspelled words and correct them.
-Return the results as a json list of objects, where each object contains two keys: "word" and "correction".
-The "word" key should contain the misspelled word, and the "correction" key should contain the corrected version of the word.
-Return the json response between ```json and ```.
-
-For example, if the misspelled word is 'halo', the corresponding dictionary should be: {{"word": "halo", "correction": "hello"}}.
-Text: {text}
-Examples of entry Text with misspelling: "Hallo my friend hw are you"
-Examples of response: ```json[{{"word": "Hallo", "correction": "hello"}}, {{"word": "hw", "correction": "how"}}]```
-List of corrected words:
-"""
 
     def text__generation(
         self,
