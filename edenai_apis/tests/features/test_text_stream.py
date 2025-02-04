@@ -21,6 +21,7 @@ chat_provider_models = [
     ("meta", "llama2-70b-chat-v1"),
     ("perplexityai", "pplx-70b-online"),
     ("replicate", "llama-2-70b-chat"),
+    ("deepseek", "DeepSeek-V3"),
 ]
 
 
