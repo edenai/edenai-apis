@@ -12,11 +12,11 @@ from litellm.exceptions import (
     InternalServerError,
 )
 from litellm.utils import get_supported_openai_params
-from edenai_apis.llm_engine.types.litellm_model import LiteLLMModel
-from llm_engine.clients.completion import CompletionClient
-from llm_engine.exceptions.llm_engine_exceptions import CompletionClientError
+from edenai_apis.llmengine.types.litellm_model import LiteLLMModel
+from llmengine.clients.completion import CompletionClient
+from llmengine.exceptions.llm_engine_exceptions import CompletionClientError
 from edenai_apis.utils.exception import ProviderException
-from llm_engine.types.response_types import CustomStreamWrapperModel, ResponseModel
+from llmengine.types.response_types import CustomStreamWrapperModel, ResponseModel
 
 from pydantic import BaseModel
 from litellm import register_model

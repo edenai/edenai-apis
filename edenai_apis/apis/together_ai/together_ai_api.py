@@ -1,7 +1,7 @@
 import openai
 import json
 from typing import Dict, List, Literal, Optional, Union
-from edenai_apis.llm_engine.llm_engine import LLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass

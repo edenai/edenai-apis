@@ -10,7 +10,7 @@ from edenai_apis.apis.amazon.amazon_multimodal_api import AmazonMultimodalApi
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.llm_engine import LLMEngine
+from edenai_apis.llmengine import LLMEngine
 from .config import clients, storage_clients
 
 

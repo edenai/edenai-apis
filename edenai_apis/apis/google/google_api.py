@@ -16,7 +16,7 @@ from edenai_apis.apis.google.google_multimodal_api import GoogleMultimodalApi
 from edenai_apis.features import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.llm_engine.llm_engine import LLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine
 
 
 class GoogleApi(

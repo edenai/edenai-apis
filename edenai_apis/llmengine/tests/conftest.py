@@ -1,7 +1,7 @@
 from typing import Any, List
 import pytest
 
-from edenai_apis.llm_engine.types.litellm_model import LiteLLMModel
+from edenai_apis.llmengine.types.litellm_model import LiteLLMModel
 
 @pytest.fixture
 def llm_engine_instance_wo_model():
