@@ -43,7 +43,7 @@ def _find_clients_from_files():
         if len(provider_file) > 0:
             # Get the first...
             provider_file = provider_file[0]
-            module_name = f"llm_engine.clients.{client}.{provider_file[:-3]}"
+            module_name = f"llmengine.clients.{client}.{provider_file[:-3]}"
             try:
                 for name, cls in inspect.getmembers(
                     importlib.import_module(module_name, inspect.isclass)
