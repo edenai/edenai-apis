@@ -75,7 +75,7 @@ class LLMEngine:
         self.provider_name = provider_name
         self.application_name = str(application_name)
         if client_name is None:
-            print(f"=============> complretion clients: {LLM_COMPLETION_CLIENTS}")
+            print(f"=============> completion clients: {LLM_COMPLETION_CLIENTS}")
             client_name = next(iter(LLM_COMPLETION_CLIENTS))
         # TODO change the completion client to behave in the same way
         self.provider_config = provider_config
