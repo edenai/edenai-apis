@@ -39,9 +39,6 @@ class LiteLLMCompletionClient(CompletionClient):
             provider_name=provider_name,
             provider_config=provider_config,
         )
-        # self.model_capabilities = get_supported_openai_params(
-        #     model=model_name, custom_llm_provider=provider_name
-        # )
 
     def completion(
         self,
