@@ -26,7 +26,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.llmengine import LLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine
 
 
 class CohereApi(ProviderInterface, TextInterface):
