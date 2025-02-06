@@ -1,0 +1,80 @@
+{
+  "original_response": {
+    "id": "chatcmpl-5d0621aa-54df-4c74-aab2-73721e95379e",
+    "created": 1738839749,
+    "model": "anthropic.claude-3-5-sonnet-20240620-v1:0",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "length",
+        "index": 0,
+        "message": {
+          "content": "Ahoy, matey! Shiver me timbers, what a sight for these ol' pirate eyes!\n\nYe be lookin' at a right fine stretch o' land, as green as the emerald seas! There be a wooden walkway, straight as an arrow, cuttin' through a sea o' tall grass that'd tickle yer chin if ye were standin' in it.\n\nThe sky above, she's a beauty! Blue as a sapphire with wispy white clouds stretchin' across like sails on the horizon. Ye can almost feel the warm breeze blowin' through yer whiskers.\n\nOff in the distance, ye can spy some trees standin' tall, like a crew of landlubbers waitin' to greet ye at the end of yer journey. The whole scene be as peaceful as a calm day at sea, with nary a storm cloud in sight.\n\nThis",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null
+        }
+      }
+    ],
+    "provider_time": 20644191716,
+    "edenai_time": null,
+    "usage": {
+      "completion_tokens": 200,
+      "prompt_tokens": 1590,
+      "total_tokens": 1790,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    },
+    "cost": 0.00777
+  },
+  "standardized_response": {
+    "generated_text": "Ahoy, matey! Shiver me timbers, what a sight for these ol' pirate eyes!\n\nYe be lookin' at a right fine stretch o' land, as green as the emerald seas! There be a wooden walkway, straight as an arrow, cuttin' through a sea o' tall grass that'd tickle yer chin if ye were standin' in it.\n\nThe sky above, she's a beauty! Blue as a sapphire with wispy white clouds stretchin' across like sails on the horizon. Ye can almost feel the warm breeze blowin' through yer whiskers.\n\nOff in the distance, ye can spy some trees standin' tall, like a crew of landlubbers waitin' to greet ye at the end of yer journey. The whole scene be as peaceful as a calm day at sea, with nary a storm cloud in sight.\n\nThis",
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": "Describe this image please ! ",
+              "media_type": null
+            }
+          },
+          {
+            "type": "media_url",
+            "content": {
+              "media_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+              "media_base64": null,
+              "text": null,
+              "media_type": "image/jpeg"
+            }
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": "Ahoy, matey! Shiver me timbers, what a sight for these ol' pirate eyes!\n\nYe be lookin' at a right fine stretch o' land, as green as the emerald seas! There be a wooden walkway, straight as an arrow, cuttin' through a sea o' tall grass that'd tickle yer chin if ye were standin' in it.\n\nThe sky above, she's a beauty! Blue as a sapphire with wispy white clouds stretchin' across like sails on the horizon. Ye can almost feel the warm breeze blowin' through yer whiskers.\n\nOff in the distance, ye can spy some trees standin' tall, like a crew of landlubbers waitin' to greet ye at the end of yer journey. The whole scene be as peaceful as a calm day at sea, with nary a storm cloud in sight.\n\nThis",
+              "media_type": null
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "usage": {
+    "completion_tokens": 200,
+    "prompt_tokens": 1590,
+    "total_tokens": 1790,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": null
+  }
+}
