@@ -1,28 +1,59 @@
 {
   "original_response": {
-    "id": "chatcmpl-8pzVJyrbIrM0NFl5CxECxQyHYLkyt",
+    "id": "chatcmpl-AxbJoyelxytxAoL3oN1PfBlXDXSDC",
+    "created": 1738768168,
+    "model": "gpt-4-0613",
     "object": "chat.completion",
-    "created": 1707401841,
-    "model": "gpt-3.5-turbo-1106",
+    "system_fingerprint": null,
     "choices": [
       {
+        "finish_reason": "stop",
         "index": 0,
         "message": {
+          "content": "{\"result\": \"Barack Hussein Obama, an American politician, served as the 44th president of the United States from 2009 to 2017. A Democrat, Obama was the first African-American U.S. president. He was also a U.S. senator from Illinois from 2005 to 2008, and an Illinois state senator from 1997 to 2004.\"}",
           "role": "assistant",
-          "content": "Barack Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. He was the first African-American president and had previously served as a U.S. senator and an Illinois state senator."
-        },
-        "logprobs": null,
-        "finish_reason": "stop"
+          "tool_calls": null,
+          "function_call": null,
+          "refusal": null
+        }
       }
     ],
+    "provider_time": 6399937212,
+    "edenai_time": null,
     "usage": {
-      "prompt_tokens": 113,
-      "completion_tokens": 51,
-      "total_tokens": 164
+      "completion_tokens": 82,
+      "prompt_tokens": 300,
+      "total_tokens": 382,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      }
     },
-    "system_fingerprint": "fp_04f9a1eebf"
+    "service_tier": "default",
+    "cost": 0.013920000000000002
   },
   "standardized_response": {
-    "result": "Barack Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. He was the first African-American president and had previously served as a U.S. senator and an Illinois state senator."
+    "result": "Barack Hussein Obama, an American politician, served as the 44th president of the United States from 2009 to 2017. A Democrat, Obama was the first African-American U.S. president. He was also a U.S. senator from Illinois from 2005 to 2008, and an Illinois state senator from 1997 to 2004."
+  },
+  "usage": {
+    "completion_tokens": 82,
+    "prompt_tokens": 300,
+    "total_tokens": 382,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0
+    }
   }
 }

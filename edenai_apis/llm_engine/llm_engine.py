@@ -2,8 +2,10 @@ import uuid
 import json
 import base64
 import mimetypes
+from io import BytesIO
 from typing import List, Literal, Optional, Union, Dict, Type
 
+from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3
 from edenai_apis.llm_engine.types.response_types import (
     ResponseModel,
     EmbeddingResponseModel,
@@ -41,6 +43,8 @@ from edenai_apis.features.image import (
     LogoDetectionDataClass,
     QuestionAnswerDataClass,
     ExplicitContentDataClass,
+    GeneratedImageDataClass,
+    GenerationDataClass,
 )
 from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
 from edenai_apis.features.text.chat.chat_dataclass import (
@@ -138,8 +142,8 @@ class LLMEngine:
             call_params["tool_choice"] = tool_choice
 
         response = self.completion_client.completion(**call_params, **kwargs)
-        response = ResponseModel.model_validate(response)
         if stream is False:
+            response = ResponseModel.model_validate(response)
             message = response.choices[0].message
             generated_text = message.content
             original_tool_calls = message.tool_calls or []
@@ -174,9 +178,8 @@ class LLMEngine:
         else:
             stream = (
                 ChatStreamResponse(
-                    text=chunk.to_dict()["choices"][0]["delta"].get("content", ""),
-                    blocked=not chunk.to_dict()["choices"][0].get("finish_reason")
-                    in (None, "stop"),
+                    text=chunk.choices[0].delta.content or "",
+                    blocked=False,
                     provider=self.provider_name,
                 )
                 for chunk in response
@@ -685,4 +688,36 @@ class LLMEngine:
         )
         return self._execute_completion(
             params=args, response_class=AutomaticTranslationDataClass
+        )
+
+    def image_generation(
+        self, prompt: str, model: str, resolution: str, n: int, **kwargs
+    ):
+        args = {
+            "model": model,
+            "prompt": prompt,
+            "size": resolution,
+            "n": n,
+            "response_format": "b64_json",
+        }
+        args.update(self.provider_config)
+        response = self.completion_client.image_generation(**args, **kwargs)
+        generations = []
+        for generated_image in response.data:
+            image_b64 = generated_image.b64_json
+            image_data = image_b64.encode()
+            image_content = BytesIO(base64.b64decode(image_data))
+            resource_url = upload_file_bytes_to_s3(
+                image_content, ".png", "users_process"
+            )
+            generations.append(
+                GeneratedImageDataClass(
+                    image=image_b64, image_resource_url=resource_url
+                )
+            )
+        standardized_response = GenerationDataClass(items=generations)
+        return ResponseType[GenerationDataClass](
+            original_response=response.to_dict(),
+            standardized_response=standardized_response,
+            usage=response.usage,
         )

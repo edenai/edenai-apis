@@ -209,7 +209,7 @@ class GoogleTextApi(TextInterface):
         return result
 
     def text__topic_extraction(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[TopicExtractionDataClass]:
         # Create configuration dictionnary
         document = GoogleDocument(
@@ -241,63 +241,6 @@ class GoogleTextApi(TextInterface):
         )
 
         return result
-
-    def _gemini_pro_generation(
-        self,
-        text: str,
-        temperature: float,
-        max_tokens: int,
-        location: str,
-        headers: Dict[str, str],
-        model: str,
-    ):
-        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:streamGenerateContent"
-
-        payload = {
-            "contents": {
-                "role": "USER",
-                "parts": [
-                    {
-                        "text": text,
-                    },
-                ],
-            },
-            "generationConfig": {
-                "candidateCount": 1,
-                "temperature": temperature,
-                "maxOutputTokens": max_tokens,
-            },
-        }
-
-        response = requests.post(url=url, headers=headers, json=payload)
-
-        try:
-            original_response = response.json()
-        except (json.JSONDecodeError, IndexError) as exc:
-            raise ProviderException(
-                message="Internal Server Error",
-                code=500,
-            ) from exc
-
-        generated_text = ""
-        for i in range(len(original_response)):
-            if "error" in original_response[i]:
-                raise ProviderException(
-                    message=original_response["error"]["message"],
-                    code=response.status_code,
-                )
-            parts = extract(original_response, [i, "candidates", 0, "content", "parts"])
-            if parts:
-                generated_text += extract(
-                    parts, [0, "text"], fallback="", type_validator=str
-                )
-
-        standardized_response = GenerationDataClass(generated_text=generated_text)
-
-        return ResponseType[GenerationDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
 
     def text__generation(
         self,

@@ -37,35 +37,10 @@ class OpenaiImageApi(ImageInterface):
         num_images: int = 1,
         model: Optional[str] = None,
     ) -> ResponseType[ImageGenerationDataClass]:
-        self.check_content_moderation(text=text)
-        url = f"{self.url}/images/generations"
-        payload = {
-            "prompt": text,
-            "model": model,
-            "n": num_images,
-            "size": resolution,
-            "response_format": "b64_json",
-        }
-        response = requests.post(url, json=payload, headers=self.headers)
-        original_response = get_openapi_response(response)
-
-        generations: Sequence[GeneratedImageDataClass] = []
-        for generated_image in original_response.get("data"):
-            image_b64 = generated_image.get("b64_json")
-
-            image_data = image_b64.encode()
-            image_content = BytesIO(base64.b64decode(image_data))
-            resource_url = upload_file_bytes_to_s3(image_content, ".png", USER_PROCESS)
-            generations.append(
-                GeneratedImageDataClass(
-                    image=image_b64, image_resource_url=resource_url
-                )
-            )
-
-        return ResponseType[ImageGenerationDataClass](
-            original_response=original_response,
-            standardized_response=ImageGenerationDataClass(items=generations),
+        response = self.llm_client.image_generation(
+            prompt=text, resolution=resolution, n=num_images, model=model
         )
+        return response
 
     def image__question_answer(
         self,

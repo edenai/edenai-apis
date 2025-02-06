@@ -1,26 +1,59 @@
 {
   "original_response": {
-    "id": "chatcmpl-7Qzaip4y0YQrOFlXLLPBqNzbHcKhd",
+    "id": "chatcmpl-AxrHZz2snnTQgEngSEAn2zhVuM9bH",
+    "created": 1738829533,
+    "model": "gpt-4o-2024-08-06",
     "object": "chat.completion",
-    "created": 1686667640,
-    "model": "gpt-3.5-turbo-0301",
-    "usage": {
-      "prompt_tokens": 39,
-      "completion_tokens": 175,
-      "total_tokens": 214
-    },
+    "system_fingerprint": "fp_50cad350e4",
     "choices": [
       {
-        "message": {
-          "role": "assistant",
-          "content": "Sure, here's a Python function that checks if a year is a leap year:\n\n```python\ndef is_leap_year(year):\n    \"\"\"\n    Returns True if the given year is a leap year, False otherwise.\n    \"\"\"\n    if year % 4 == 0:\n        if year % 100 == 0:\n            if year % 400 == 0:\n                return True\n            else:\n                return False\n        else:\n            return True\n    else:\n        return False\n```\n\nThis function takes a year as input and returns True if it is a leap year, and False otherwise. It uses the standard rules for determining leap years: a year is a leap year if it is divisible by 4, unless it is also divisible by 100, in which case it is only a leap year if it is also divisible by 400."
-        },
         "finish_reason": "stop",
-        "index": 0
+        "index": 0,
+        "message": {
+          "content": "{\"generated_text\": \" a leap year, it must be divisible by 4. However, if the year is divisible by 100, it is not a leap year unless it is also divisible by 400.\\n\\nHere's a Python function to check if a year is a leap year:\\n\\n```python\\ndef is_leap_year(year):\\n    if year % 4 == 0:\\n        if year % 100 == 0:\\n            if year % 400 == 0:\\n                return True\\n            else:\\n                return False\\n        else:\\n            return True\\n    else:\\n        return False\\n```\\n\\nYou can use this function by passing a year as an argument, and it will return `True` if the year is a leap year and `False` otherwise. For example:\\n\\n```python\\nprint(is_leap_year(2020))  # Output: True\\nprint(is_leap_year(1900))  # Output: False\\nprint(is_leap_year(2000))  # Output: True\\n```\"}",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null,
+          "refusal": null
+        }
       }
-    ]
+    ],
+    "provider_time": 16348166860,
+    "edenai_time": null,
+    "usage": {
+      "completion_tokens": 227,
+      "prompt_tokens": 275,
+      "total_tokens": 502,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      }
+    },
+    "service_tier": "default",
+    "cost": 0.0029575000000000005
   },
   "standardized_response": {
-    "generated_text": "Sure, here's a Python function that checks if a year is a leap year:\n\n```python\ndef is_leap_year(year):\n    \"\"\"\n    Returns True if the given year is a leap year, False otherwise.\n    \"\"\"\n    if year % 4 == 0:\n        if year % 100 == 0:\n            if year % 400 == 0:\n                return True\n            else:\n                return False\n        else:\n            return True\n    else:\n        return False\n```\n\nThis function takes a year as input and returns True if it is a leap year, and False otherwise. It uses the standard rules for determining leap years: a year is a leap year if it is divisible by 4, unless it is also divisible by 100, in which case it is only a leap year if it is also divisible by 400."
+    "generated_text": " a leap year, it must be divisible by 4. However, if the year is divisible by 100, it is not a leap year unless it is also divisible by 400.\n\nHere's a Python function to check if a year is a leap year:\n\n```python\ndef is_leap_year(year):\n    if year % 4 == 0:\n        if year % 100 == 0:\n            if year % 400 == 0:\n                return True\n            else:\n                return False\n        else:\n            return True\n    else:\n        return False\n```\n\nYou can use this function by passing a year as an argument, and it will return `True` if the year is a leap year and `False` otherwise. For example:\n\n```python\nprint(is_leap_year(2020))  # Output: True\nprint(is_leap_year(1900))  # Output: False\nprint(is_leap_year(2000))  # Output: True\n```"
+  },
+  "usage": {
+    "completion_tokens": 227,
+    "prompt_tokens": 275,
+    "total_tokens": 502,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0
+    }
   }
 }
