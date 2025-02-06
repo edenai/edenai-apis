@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Sequence, Optional
 
 from ibm_watson.natural_language_understanding_v1 import (
     Features,
@@ -26,7 +26,10 @@ from .ibm_helpers import handle_ibm_call
 
 class IbmTextApi(TextInterface):
     def text__sentiment_analysis(
-        self, language: str, text: str
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SentimentAnalysisDataClass]:
         payload = {
             "text": text,

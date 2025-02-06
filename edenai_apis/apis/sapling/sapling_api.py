@@ -103,7 +103,10 @@ class SaplingApi(ProviderInterface, TextInterface):
         )
 
     def text__sentiment_analysis(
-        self, language: str, text: str
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SentimentAnalysisDataClass]:
         headers = {"Content-Type": "application/json"}
         payload = {"key": self.api_key, "text": text}

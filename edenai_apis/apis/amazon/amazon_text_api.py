@@ -36,7 +36,10 @@ from .config import tags
 
 class AmazonTextApi(TextInterface):
     def text__sentiment_analysis(
-        self, language: str, text: str, model: Optional[str] = None
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SentimentAnalysisDataClass]:
         # Getting response
         payload = {"Text": text, "LanguageCode": language}

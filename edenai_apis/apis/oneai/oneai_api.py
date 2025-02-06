@@ -128,7 +128,10 @@ class OneaiApi(
         return response
 
     def text__sentiment_analysis(
-        self, language: str, text: str
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SentimentAnalysisDataClass]:
         data = json.dumps({"input": text, "steps": [{"skill": "sentiments"}]})
 
