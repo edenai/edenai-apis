@@ -1,7 +1,9 @@
 include edenai_apis/apis/*/outputs/*/*.json
 include edenai_apis/apis/*/info.json
 include edenai_apis/features/*/data/*
-include edenai_apis/features/**/*.json
+include edenai_apis/features/text/*/*.json
+include edenai_apis/features/image/*/*.json
+include edenai_apis/features/ocr/*/*.json
 include edenai_apis/features/ocr/identity_parser/countries.json
 include edenai_apis/llmengine/clients/llm_models/models.json
 recursive-include edenai_apis/utils *
