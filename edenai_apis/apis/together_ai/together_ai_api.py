@@ -1,20 +1,13 @@
-import openai
-import json
 from typing import Dict, List, Literal, Optional, Union
 from edenai_apis.llmengine.llm_engine import LLMEngine
-from edenai_apis.utils.exception import ProviderException
 from edenai_apis.features import ProviderInterface, TextInterface
-from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
+from edenai_apis.features.text import ChatDataClass
 from edenai_apis.features.text.chat.chat_dataclass import (
     StreamChat,
-    ChatStreamResponse,
-    ToolCall,
 )
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.loaders.data_loader import ProviderDataEnum
-from edenai_apis.features.text.chat.helpers import get_tool_call_from_history_by_id
-from edenai_apis.apis.openai.helpers import convert_tools_to_openai
 
 
 class TogetheraiApi(ProviderInterface, TextInterface):
@@ -40,7 +33,7 @@ class TogetheraiApi(ProviderInterface, TextInterface):
         temperature: float,
         max_tokens: int,
         model: str,
-        stream: bool=False,
+        stream: bool = False,
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
