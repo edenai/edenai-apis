@@ -161,17 +161,21 @@ class LiteLLMCompletionClient(CompletionClient):
             c_response = completion(**call_params, **kwargs)
             provider_end_time = time.time_ns()
             if stream:
-                chunks = []
-                for chunk in c_response:
-                    if chunk is not None:
-                        chunks.append(chunk)
-                c_response = litellm.stream_chunk_builder(chunks, messages=messages)
-            response = {
-                **c_response.model_dump(),
-                "cost": completion_cost(c_response),
-                "provider_time": provider_end_time - provider_start_time,
-            }
-            return response
+
+                def generate_chunks():
+                    for chunk in c_response:
+                        if chunk is not None:
+                            yield chunk
+
+                # c_response = litellm.stream_chunk_builder(chunks, messages=messages)
+                return generate_chunks()
+            else:
+                response = {
+                    **c_response.model_dump(),
+                    "cost": completion_cost(c_response),
+                    "provider_time": provider_end_time - provider_start_time,
+                }
+                return response
         except InternalServerError as e:
             logger.warning(f"There's an internal server error: {e}")
             raise ProviderException(
