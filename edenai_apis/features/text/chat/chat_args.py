@@ -22,7 +22,7 @@ def chat_arguments(provider_name: str):
             "google": "gemini-1.5-pro",
             "cohere": "command-nightly",
             "perplexityai": "sonar-pro",
-            "replicate": "llama-2-70b-chat",
+            "replicate": "meta/llama-2-7b-chat",
             "anthropic": "claude-3-5-sonnet-latest",
             "xai": "grok-2-latest",
             "deepseek": "DeepSeek-V3",
