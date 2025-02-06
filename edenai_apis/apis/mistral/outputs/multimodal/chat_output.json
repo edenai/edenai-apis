@@ -1,0 +1,82 @@
+{
+  "original_response": {
+    "id": "e97267dc4ffb4cb2b90b8796ea17e241",
+    "created": 1738840253,
+    "model": "mistral/pixtral-large-latest",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "Arr matey, this here image be a sight for sore eyes! It shows a wooden plank walkway, stretchin' into the horizon, invitin' us to explore what lies beyond. The path be flanked by tall, green grasses, swayin' gently in the breeze. The sky above be a clear blue, with wisps of clouds scattered about, like a hidden treasure map. In the distance, ye can see a line of trees standin' tall and proud, guardin' the secrets of the land. The sun be castin' a warm glow over the scene, makin' it feel like a true paradise. It be a perfect place to bury some treasure, savvy?",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null,
+          "refusal": null
+        }
+      }
+    ],
+    "provider_time": 7635568543,
+    "edenai_time": null,
+    "usage": {
+      "completion_tokens": 149,
+      "prompt_tokens": 2746,
+      "total_tokens": 2895,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    },
+    "service_tier": null,
+    "cost": 0.006385999999999999
+  },
+  "standardized_response": {
+    "generated_text": "Arr matey, this here image be a sight for sore eyes! It shows a wooden plank walkway, stretchin' into the horizon, invitin' us to explore what lies beyond. The path be flanked by tall, green grasses, swayin' gently in the breeze. The sky above be a clear blue, with wisps of clouds scattered about, like a hidden treasure map. In the distance, ye can see a line of trees standin' tall and proud, guardin' the secrets of the land. The sun be castin' a warm glow over the scene, makin' it feel like a true paradise. It be a perfect place to bury some treasure, savvy?",
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": "Describe this image please ! ",
+              "media_type": null
+            }
+          },
+          {
+            "type": "media_url",
+            "content": {
+              "media_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+              "media_base64": null,
+              "text": null,
+              "media_type": "image/jpeg"
+            }
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": "Arr matey, this here image be a sight for sore eyes! It shows a wooden plank walkway, stretchin' into the horizon, invitin' us to explore what lies beyond. The path be flanked by tall, green grasses, swayin' gently in the breeze. The sky above be a clear blue, with wisps of clouds scattered about, like a hidden treasure map. In the distance, ye can see a line of trees standin' tall and proud, guardin' the secrets of the land. The sun be castin' a warm glow over the scene, makin' it feel like a true paradise. It be a perfect place to bury some treasure, savvy?",
+              "media_type": null
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "usage": {
+    "completion_tokens": 149,
+    "prompt_tokens": 2746,
+    "total_tokens": 2895,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": null
+  }
+}

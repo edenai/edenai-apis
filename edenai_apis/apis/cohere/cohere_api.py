@@ -216,7 +216,7 @@ class CohereApi(ProviderInterface, TextInterface):
         return response
 
     def text__embeddings(
-        self, texts: List[str], model: str
+        self, texts: List[str], model: Optional[str] = None
     ) -> ResponseType[EmbeddingsDataClass]:
         model = model.split("__")[1] if "__" in model else model
         response = self.llm_client.embeddings(texts=texts, model=model)

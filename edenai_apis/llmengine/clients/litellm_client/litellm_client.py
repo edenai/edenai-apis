@@ -4,7 +4,13 @@ from typing import List, Literal, Optional, Type, Union
 
 import httpx
 import litellm
-from litellm import completion, completion_cost, embedding, moderation
+from litellm import (
+    completion,
+    completion_cost,
+    embedding,
+    moderation,
+    image_generation,
+)
 from litellm.exceptions import (
     APIError,
     AuthenticationError,
@@ -83,10 +89,8 @@ class LiteLLMCompletionClient(CompletionClient):
         if messages is None:
             raise CompletionClientError("In completion, the messages cannot be empty")
         call_params = {}
-        if model is not None:
-            self.model_name = f"{self.provider_name}/{model}"
-
-        call_params["model"] = self.model_name
+        model_name = f"{self.provider_name}/{model}"
+        call_params["model"] = model_name
         call_params["messages"] = messages
         if timeout is not None:
             call_params["timeout"] = timeout
@@ -288,6 +292,87 @@ class LiteLLMCompletionClient(CompletionClient):
             logging.error(f"There's an unexpected error: {e}")
             raise e
 
+    def image_generation(
+        self,
+        prompt: str,
+        n: Optional[int] = None,
+        model: Optional[str] = None,
+        quality: Optional[str] = None,
+        response_format: Optional[str] = None,
+        size: Optional[str] = None,
+        style: Optional[str] = None,
+        user: Optional[str] = None,
+        timeout=600,  # default to 10 minutes
+        api_key: Optional[str] = None,
+        api_base: Optional[str] = None,
+        api_version: Optional[str] = None,
+        custom_llm_provider=None,
+        drop_invalid_params: Optional[bool] = True,
+        **kwargs,
+    ):
+        call_params = {}
+        call_params["prompt"] = prompt
+        if n is not None:
+            call_params["n"] = n
+        if quality is not None:
+            call_params["quality"] = quality
+        if response_format is not None:
+            call_params["response_format"] = response_format
+        if size is not None:
+            call_params["size"] = size
+        if style is not None:
+            call_params["style"] = style
+        if user is not None:
+            call_params["user"] = user
+        if model is not None:
+            self.model_name = f"{self.provider_name}/{model}"
+        call_params["timeout"] = timeout
+        if api_base is not None:
+            call_params["api_base"] = api_base
+        if api_version is not None:
+            call_params["api_version"] = api_version
+        if api_key is not None:
+            call_params["api_key"] = api_key
+        try:
+            if drop_invalid_params == True:
+                litellm.drop_params = True
+            provider_start_time = time.time_ns()
+            response = image_generation(**call_params, **kwargs)
+            response.provider_name = self.provider_name
+            provider_end_time = time.time_ns()
+            response.provider_time = provider_end_time - provider_start_time
+            response.cost = None
+            return response
+        except InternalServerError as e:
+            logger.warning(f"There's an internal server error: {e}")
+            raise ProviderException(
+                message=e.message.replace("litellm.InternalServerError: ", ""),
+                code=500,
+            ) from e
+        except APIError as e:
+            logger.warning(f"There's an LiteLLM API error: {e}")
+            raise ProviderException(
+                message=e.message.replace("litellm.APIError: ", ""),
+                code=e.status_code,
+            ) from e
+        except BadRequestError as e:
+            logger.warning(
+                f"There's a Bad Request error calling the provider {self.provider_name}: {e}"
+            )
+            raise ProviderException(
+                message=e.message.replace("litellm.BadRequestError: ", ""),
+                code=e.status_code,
+            ) from e
+        except AuthenticationError as e:
+            logger.error(f"There's an authentication error: {e}")
+            raise ProviderException(
+                message=e.message.replace("litellm.AuthenticationError: ", ""),
+                code=e.status_code,
+            ) from e
+        except Exception as e:
+            logger.exception(e)
+            raise ProviderException(message=str(e))
+
     def _process_response_format(self, input_response_format: any) -> any:
         """
         This is to make sure that the response format is well formated before passing it to LiteLLM:
@@ -303,8 +388,8 @@ class LiteLLMCompletionClient(CompletionClient):
             elif len(keys) == 0:
                 input_response_format = None
         return input_response_format
-    
-    def register_new_models(models: List[LiteLLMModel] = []):
+
+    def register_new_models(self, models: List[LiteLLMModel] = []):
         if models is None or len(models) == 0:
             return
         for model in models:
@@ -314,4 +399,3 @@ class LiteLLMCompletionClient(CompletionClient):
                 register_model(cost)
             except Exception as e:
                 logger.error(f"Error registering model {model.model_name}: {e}")
-

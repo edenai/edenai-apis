@@ -25,6 +25,7 @@ def chat_arguments(provider_name: str):
             "replicate": "llama-2-70b-chat",
             "anthropic": "claude-3-5-sonnet-latest",
             "xai": "grok-2-latest",
+            "deepseek": "DeepSeek-V3",
         },
         "stream": False,
     }

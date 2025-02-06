@@ -259,7 +259,10 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__sentiment_analysis(
-        self, language: str, text: str
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SentimentAnalysisDataClass]:
         """
         :param language:    String that contains language code

@@ -1,27 +1,59 @@
 {
   "original_response": {
-    "id": "chatcmpl-8O2Cg7YCvk3hub78dnCBb6ZYhp7vT",
+    "id": "chatcmpl-Ax8JWMrTHi61yCXOEFcyzIsFGqkqg",
+    "created": 1738656674,
+    "model": "gpt-4o-2024-08-06",
     "object": "chat.completion",
-    "created": 1700739034,
-    "model": "gpt-3.5-turbo-1106",
+    "system_fingerprint": "fp_4691090a87",
     "choices": [
       {
+        "finish_reason": "stop",
         "index": 0,
         "message": {
+          "content": "{\"text\": \"Artificial intelligence, also known as intelligent machines and machine intelligence, refers to the wisdom demonstrated by machines created by humans. Typically, artificial intelligence refers to the technology that presents human intelligence through ordinary computer programs. The term also points to the study of whether and how such intelligent systems can be implemented. At the same time, through advances in medicine, neuroscience, robotics, and statistics, the common prediction is that many human occupations are gradually being replaced by them.\"}",
           "role": "assistant",
-          "content": "```Artificial intelligence, also known as machine intelligence, refers to the intelligence exhibited by machines created by humans. Usually, artificial intelligence refers to the technology that presents human intelligence through ordinary computer programs. The term also refers to the research on whether such intelligent systems can be realized and how to achieve them. At the same time, with advancements in fields such as medicine, neuroscience, robotics, and statistics, it is commonly predicted that many human professions will gradually be replaced by artificial intelligence.```"
-        },
-        "finish_reason": "stop"
+          "tool_calls": null,
+          "function_call": null,
+          "refusal": null
+        }
       }
     ],
+    "provider_time": 4088782582,
+    "edenai_time": null,
     "usage": {
-      "prompt_tokens": 270,
-      "completion_tokens": 97,
-      "total_tokens": 367
+      "completion_tokens": 96,
+      "prompt_tokens": 361,
+      "total_tokens": 457,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      }
     },
-    "system_fingerprint": "fp_eeff13170a"
+    "service_tier": "default",
+    "cost": 0.0018625000000000002
   },
   "standardized_response": {
-    "text": "```Artificial intelligence, also known as machine intelligence, refers to the intelligence exhibited by machines created by humans. Usually, artificial intelligence refers to the technology that presents human intelligence through ordinary computer programs. The term also refers to the research on whether such intelligent systems can be realized and how to achieve them. At the same time, with advancements in fields such as medicine, neuroscience, robotics, and statistics, it is commonly predicted that many human professions will gradually be replaced by artificial intelligence.```"
+    "text": "Artificial intelligence, also known as intelligent machines and machine intelligence, refers to the wisdom demonstrated by machines created by humans. Typically, artificial intelligence refers to the technology that presents human intelligence through ordinary computer programs. The term also points to the study of whether and how such intelligent systems can be implemented. At the same time, through advances in medicine, neuroscience, robotics, and statistics, the common prediction is that many human occupations are gradually being replaced by them."
+  },
+  "usage": {
+    "completion_tokens": 96,
+    "prompt_tokens": 361,
+    "total_tokens": 457,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0
+    }
   }
 }

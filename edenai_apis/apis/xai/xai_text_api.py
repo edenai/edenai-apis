@@ -57,7 +57,10 @@ class XAiTextApi(TextInterface):
         return response
 
     def text__sentiment_analysis(
-        self, language: str, text: str, model: Optional[str] = None
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SentimentAnalysisDataClass]:
         response = self.llm_client.sentiment_analysis(text=text, model=model)
         return response

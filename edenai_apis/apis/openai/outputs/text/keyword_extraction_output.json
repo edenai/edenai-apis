@@ -1,91 +1,108 @@
 {
   "original_response": {
-    "data": [
+    "id": "chatcmpl-AxrGNIb7bfxFMmiqTZtqlvTnehKjr",
+    "created": 1738829459,
+    "model": "gpt-4o-2024-08-06",
+    "object": "chat.completion",
+    "system_fingerprint": "fp_50cad350e4",
+    "choices": [
       {
-        "id": "msg_aR7GiCfFGzuMYmrbrJTlh1yC",
-        "assistant_id": "asst_OPxUqu0B84reeCwmxjzKO0SM",
-        "attachments": [],
-        "content": [
-          {
-            "text": {
-              "annotations": [],
-              "value": "{\n  \"items\": [\n    {\n      \"keyword\": \"Barack Hussein Obama\",\n      \"importance\": 0.9\n    },\n    {\n      \"keyword\": \"American politician\",\n      \"importance\": 0.8\n    },\n    {\n      \"keyword\": \"44th president\",\n      \"importance\": 0.7\n    },\n    {\n      \"keyword\": \"United States\",\n      \"importance\": 0.8\n    },\n    {\n      \"keyword\": \"Democratic Party\",\n      \"importance\": 0.6\n    },\n    {\n      \"keyword\": \"African-American president\",\n      \"importance\": 0.9\n    },\n    {\n      \"keyword\": \"U.S. senator\",\n      \"importance\": 0.7\n    },\n    {\n      \"keyword\": \"Illinois state senator\",\n      \"importance\": 0.6\n    }\n  ]\n}"
-            },
-            "type": "text"
-          }
-        ],
-        "created_at": 1721034690,
-        "metadata": {},
-        "object": "thread.message",
-        "role": "assistant",
-        "run_id": "run_oL0tf0E4YV75IJXCcDzNYv9w",
-        "thread_id": "thread_Dva9VafbTwMBZR51w2pHCOC5"
-      },
-      {
-        "id": "msg_5oznfZUOXpMI1LaaPFryOpye",
-        "assistant_id": null,
-        "attachments": [],
-        "content": [
-          {
-            "text": {
-              "annotations": [],
-              "value": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004."
-            },
-            "type": "text"
-          }
-        ],
-        "created_at": 1721034689,
-        "metadata": {},
-        "object": "thread.message",
-        "role": "user",
-        "run_id": null,
-        "thread_id": "thread_Dva9VafbTwMBZR51w2pHCOC5"
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "{\n    \"items\": [\n        {\n            \"keyword\": \"Barack Hussein Obama\",\n            \"importance\": 0.9999486207962036\n        },\n        {\n            \"keyword\": \"an American politician\",\n            \"importance\": 0.9999716281890869\n        },\n        {\n            \"keyword\": \"the 44th president\",\n            \"importance\": 0.9999203085899353\n        },\n        {\n            \"keyword\": \"the United States\",\n            \"importance\": 0.9999923706054688\n        },\n        {\n            \"keyword\": \"2009 to 2017\",\n            \"importance\": 0.9978654384613037\n        },\n        {\n            \"keyword\": \"the Democratic Party\",\n            \"importance\": 0.9998463988304138\n        },\n        {\n            \"keyword\": \"the first African-American president\",\n            \"importance\": 0.9999843239784241\n        },\n        {\n            \"keyword\": \"a U.S. senator\",\n            \"importance\": 0.999945342540741\n        },\n        {\n            \"keyword\": \"Illinois\",\n            \"importance\": 0.9998075366020203\n        },\n        {\n            \"keyword\": \"2005 to 2008\",\n            \"importance\": 0.9952043890953064\n        },\n        {\n            \"keyword\": \"an Illinois state senator\",\n            \"importance\": 0.9995349645614624\n        },\n        {\n            \"keyword\": \"1997 to 2004\",\n            \"importance\": 0.9981316924095154\n        }\n    ]\n}",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null,
+          "refusal": null
+        }
       }
     ],
-    "object": "list",
-    "first_id": "msg_aR7GiCfFGzuMYmrbrJTlh1yC",
-    "last_id": "msg_5oznfZUOXpMI1LaaPFryOpye",
-    "has_more": false,
+    "provider_time": 24622569106,
+    "edenai_time": null,
     "usage": {
-      "completion_tokens": 186,
-      "prompt_tokens": 427,
-      "total_tokens": 613
-    }
+      "completion_tokens": 348,
+      "prompt_tokens": 646,
+      "total_tokens": 994,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      }
+    },
+    "service_tier": "default",
+    "cost": 0.005095000000000001
   },
   "standardized_response": {
     "items": [
       {
         "keyword": "Barack Hussein Obama",
-        "importance": 0.9
+        "importance": 1.0
       },
       {
-        "keyword": "American politician",
-        "importance": 0.8
+        "keyword": "an American politician",
+        "importance": 1.0
       },
       {
-        "keyword": "44th president",
-        "importance": 0.7
+        "keyword": "the 44th president",
+        "importance": 1.0
       },
       {
-        "keyword": "United States",
-        "importance": 0.8
+        "keyword": "the United States",
+        "importance": 1.0
       },
       {
-        "keyword": "Democratic Party",
-        "importance": 0.6
+        "keyword": "2009 to 2017",
+        "importance": 1.0
       },
       {
-        "keyword": "African-American president",
-        "importance": 0.9
+        "keyword": "the Democratic Party",
+        "importance": 1.0
       },
       {
-        "keyword": "U.S. senator",
-        "importance": 0.7
+        "keyword": "the first African-American president",
+        "importance": 1.0
       },
       {
-        "keyword": "Illinois state senator",
-        "importance": 0.6
+        "keyword": "a U.S. senator",
+        "importance": 1.0
+      },
+      {
+        "keyword": "Illinois",
+        "importance": 1.0
+      },
+      {
+        "keyword": "2005 to 2008",
+        "importance": 1.0
+      },
+      {
+        "keyword": "an Illinois state senator",
+        "importance": 1.0
+      },
+      {
+        "keyword": "1997 to 2004",
+        "importance": 1.0
       }
     ]
+  },
+  "usage": {
+    "completion_tokens": 348,
+    "prompt_tokens": 646,
+    "total_tokens": 994,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0
+    }
   }
 }

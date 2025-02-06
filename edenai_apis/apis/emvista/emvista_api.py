@@ -191,7 +191,10 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return result
 
     def text__sentiment_analysis(
-        self, language: str, text: str
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SentimentAnalysisDataClass]:
         files, headers = self._prepare_request(language, text)
 

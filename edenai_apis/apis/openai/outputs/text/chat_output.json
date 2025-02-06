@@ -1,7 +1,7 @@
 {
   "original_response": {
-    "id": "chatcmpl-AvRTZKE2WWoYXH1r5C5cffDu5GrIK",
-    "created": 1738253677,
+    "id": "chatcmpl-AxWjrfbAaVo4lwTPDHxeDzhp7ceRq",
+    "created": 1738750563,
     "model": "gpt-3.5-turbo-0125",
     "object": "chat.completion",
     "system_fingerprint": null,
@@ -13,11 +13,12 @@
           "content": "barack hussein obama, american, politician, 44th president, united states, democratic party, african-american, u.s. senator, illinois, state senator",
           "role": "assistant",
           "tool_calls": null,
-          "function_call": null
+          "function_call": null,
+          "refusal": null
         }
       }
     ],
-    "provider_time": 1351309530,
+    "provider_time": 1548956805,
     "edenai_time": null,
     "usage": {
       "completion_tokens": 37,
@@ -34,7 +35,8 @@
         "cached_tokens": 0
       }
     },
-    "service_tier": "default"
+    "service_tier": "default",
+    "cost": 0.0001665
   },
   "standardized_response": {
     "generated_text": "barack hussein obama, american, politician, 44th president, united states, democratic party, african-american, u.s. senator, illinois, state senator",
