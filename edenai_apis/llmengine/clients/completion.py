@@ -1,12 +1,12 @@
 import os
 import logging
 from typing import List, Optional, Union
-from llm_engine.types.response_types import (
+from llmengine.types.response_types import (
     CustomStreamWrapperModel,
     EmbeddingResponseModel,
     ResponseModel,
 )
-from llm_engine.exceptions.llm_engine_exceptions import CompletionClientError
+from llmengine.exceptions.llm_engine_exceptions import CompletionClientError
 
 logger = logging.getLogger(__name__)
 

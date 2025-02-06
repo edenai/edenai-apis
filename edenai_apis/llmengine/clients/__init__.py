@@ -4,7 +4,7 @@ import os
 import logging
 from fileinput import filename
 
-logging = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 # Get the providers in the providers (this) directory
 structure = next(os.walk(os.path.dirname(__file__)))
@@ -14,6 +14,8 @@ AVOID_FILES = ["__init__.py", "__pycache__", "pyc", "json"]
 LLM_COMPLETION_CLIENTS = {}
 
 
+logger.info("Loading clients...")
+
 def _extract_client_classes(provider_classes):
     "Takes the classes in the providers and verifies that they're valid"
     for name, cls in provider_classes:
@@ -21,9 +23,9 @@ def _extract_client_classes(provider_classes):
             client_name = cls.CLIENT_NAME
             if client_name not in LLM_COMPLETION_CLIENTS:
                 LLM_COMPLETION_CLIENTS[client_name] = cls
-                logging.info(f"Client {client_name} loaded")
+                logger.info(f"Client {client_name} loaded")
         except AttributeError:
-            logging.warning(
+            logger.warning(
                 f"Client {name} does not have a client name. Are you sure is a valid client?"
             )
             continue
@@ -41,7 +43,7 @@ def _find_clients_from_files():
         if len(provider_file) > 0:
             # Get the first...
             provider_file = provider_file[0]
-            module_name = f"llm_engine.clients.{client}.{provider_file[:-3]}"
+            module_name = f"llmengine.clients.{client}.{provider_file[:-3]}"
             try:
                 for name, cls in inspect.getmembers(
                     importlib.import_module(module_name, inspect.isclass)
@@ -52,9 +54,9 @@ def _find_clients_from_files():
                     except AttributeError:
                         continue
             except NameError:
-                logging.warning(f"Module {module_name} has a problem an cannot be instantiated")
+                logger.warning(f"Module {module_name} has a problem an cannot be instantiated")
             except ModuleNotFoundError as e:
-                logging.warning(f"Module {module_name} not found: {e}")
+                logger.warning(f"Module {module_name} not found: {e}")
     return _classes
 
 

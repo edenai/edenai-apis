@@ -1,16 +1,17 @@
 from typing import List
 import pytest
-from edenai_apis.llm_engine.types.litellm_model import LiteLLMModel
+from edenai_apis.llmengine.types.litellm_model import LiteLLMModel
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from llm_engine.llm_engine import LLMEngine
-from llm_engine.clients.litellm_client.litellm_client import LiteLLMCompletionClient
 from litellm import register_model
+
+from llmengine.llm_engine import LLMEngine
+from llmengine.clients.litellm_client.litellm_client import LiteLLMCompletionClient
 
 
 class TestLiteLLMClient:
     def test_client_lookup(self):
-        from llm_engine.clients import LLM_COMPLETION_CLIENTS
+        from llmengine.clients import LLM_COMPLETION_CLIENTS
 
         assert "litellm" in LLM_COMPLETION_CLIENTS
 

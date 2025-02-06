@@ -16,7 +16,7 @@ from edenai_apis.features.multimodal.chat.chat_dataclass import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.llm_engine.llm_engine import LLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine
 
 
 class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):

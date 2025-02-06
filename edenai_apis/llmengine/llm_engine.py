@@ -4,15 +4,14 @@ import base64
 import mimetypes
 from io import BytesIO
 from typing import List, Literal, Optional, Union, Dict, Type
-
 from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3
-from edenai_apis.llm_engine.types.response_types import (
+from edenai_apis.llmengine.types.response_types import (
     ResponseModel,
     EmbeddingResponseModel,
 )
-from edenai_apis.llm_engine.clients import LLM_COMPLETION_CLIENTS
-from edenai_apis.llm_engine.clients.completion import CompletionClient
-from edenai_apis.llm_engine.mapping import Mappings
+from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS
+from edenai_apis.llmengine.clients.completion import CompletionClient
+from edenai_apis.llmengine.mapping import Mappings
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.features.translation import (
@@ -57,7 +56,7 @@ from edenai_apis.features.multimodal.chat import (
     StreamChat as StreamMultimodalChat,
     ChatStreamResponse as ChatMultimodalStreamResponse,
 )
-from edenai_apis.llm_engine.prompts import BasePrompt
+from edenai_apis.llmengine.prompts import BasePrompt
 
 
 class LLMEngine:
@@ -79,6 +78,7 @@ class LLMEngine:
         self.provider_name = provider_name
         self.application_name = str(application_name)
         if client_name is None:
+            print(f"=============> completion clients: {LLM_COMPLETION_CLIENTS}")
             client_name = next(iter(LLM_COMPLETION_CLIENTS))
         # TODO change the completion client to behave in the same way
         self.provider_config = provider_config

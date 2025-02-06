@@ -1,7 +1,7 @@
-from typing import Any, List
+from typing import List
 import pytest
 
-from edenai_apis.llm_engine.tests.fixtures.mocked_response import (
+from edenai_apis.llmengine.tests.fixtures.mocked_response import (
     mocked_chat_params,
     mocked_multimodal_chat_params,
     mocked_summarize_params,
@@ -17,7 +17,7 @@ from edenai_apis.llm_engine.tests.fixtures.mocked_response import (
     mocked_sentiment_analysis_params,
     mocked_spell_check_params,
 )
-from edenai_apis.llm_engine.types.litellm_model import LiteLLMModel
+from edenai_apis.llmengine.types.litellm_model import LiteLLMModel
 
 
 @pytest.fixture

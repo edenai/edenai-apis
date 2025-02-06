@@ -5,7 +5,7 @@ from edenai_apis.apis.xai.xai_translation_api import XAiTranslationApi
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.llm_engine import LLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine
 
 
 class XAiApi(

@@ -2,7 +2,7 @@ from typing import Dict
 import asyncio
 import aiohttp
 
-from edenai_apis.llm_engine.llm_engine import LLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.apis.openai.openai_doc_parsing_api import OpenaiDocParsingApi
 from edenai_apis.apis.openai.openai_audio_api import OpenaiAudioApi
 from edenai_apis.apis.openai.openai_image_api import OpenaiImageApi
