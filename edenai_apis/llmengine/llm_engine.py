@@ -531,6 +531,7 @@ class LLMEngine:
         args = {
             "model": model,
             "input": texts,
+            "drop_params": True,
         }
         args.update(self.provider_config)
         response = self.completion_client.embedding(**args, **kwargs)
