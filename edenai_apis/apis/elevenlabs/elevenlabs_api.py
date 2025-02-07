@@ -112,6 +112,6 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         return ResponseType[TextToSpeechDataClass](
             original_response=audio,
             standardized_response=TextToSpeechDataClass(
-                audio=audio, voice_type=1, audio_resource_url=str(flagged)
+                audio=audio, voice_type=1, audio_resource_url=resource_url
             ),
         )
