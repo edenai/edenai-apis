@@ -9,8 +9,6 @@ logger = logging.getLogger(__name__)
 
 LITELLM_MODELS_FILE = f"{Path(__file__).parent.parent.resolve()}/llm_models/models.json"
 
-print(f"{LITELLM_MODELS_FILE}")
-
 def register_litellm_models():
 
     with open(LITELLM_MODELS_FILE, "r") as f:
