@@ -104,7 +104,7 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["stream"] = stream
         if stream_options is not None:
             call_params["stream_options"] = stream_options
-        if stop is not None:
+        if stop is not None and len(stop) != 0:
             call_params["stop"] = stop
         if stop_sequences is not None:
             call_params["stop"] = stop_sequences

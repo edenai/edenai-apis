@@ -97,7 +97,6 @@ class LLMEngine:
     def _execute_completion(self, params: Dict, response_class: Type, **kwargs):
         try:
             response = self.completion_client.completion(**params, **kwargs)
-            print(f"===========> response: {response}")
             response = ResponseModel.model_validate(response)
             result = json.loads(response.choices[0].message.content)
         except json.JSONDecodeError as exc:
