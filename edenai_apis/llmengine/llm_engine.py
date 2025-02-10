@@ -227,6 +227,7 @@ class LLMEngine:
 
         args["response_format"] = response_format
         args["drop_invalid_params"] = True
+        print(f"==============> args to llmengine: {args}")
         response = self.completion_client.completion(**args, **kwargs)
         response = ResponseModel.model_validate(response)
         if stream is False:
