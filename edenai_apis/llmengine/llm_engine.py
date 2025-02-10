@@ -97,6 +97,7 @@ class LLMEngine:
     def _execute_completion(self, params: Dict, response_class: Type, **kwargs):
         try:
             response = self.completion_client.completion(**params, **kwargs)
+            print(f"===========> response: {response}")
             response = ResponseModel.model_validate(response)
             result = json.loads(response.choices[0].message.content)
         except json.JSONDecodeError as exc:
@@ -484,7 +485,7 @@ class LLMEngine:
         self, text: str, model: str, **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
         messages = BasePrompt.compose_prompt(
-            behavior="You are a PII system that takes a text input containing personally identifiable information (PII) and generates an anonymized version of the text.",
+            behavior="You are a PII system that takes a text input containing personally identifiable information (PII) and generates an anonymized version of the text. The length of each entity must be exactly equals to the number of characters of the identified entity not including punctuation marks",
             example_file="text/anonymization/anonymization_response.json",
             dataclass=AnonymizationDataClass,
         )
