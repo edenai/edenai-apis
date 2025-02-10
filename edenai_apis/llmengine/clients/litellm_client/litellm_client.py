@@ -160,6 +160,7 @@ class LiteLLMCompletionClient(CompletionClient):
             if drop_invalid_params == True:
                 litellm.drop_params = True
             provider_start_time = time.time_ns()
+            print(f"================> arguments in litellm_client: {call_params}, kwargs: {kwargs}")
             c_response = completion(**call_params, **kwargs)
             provider_end_time = time.time_ns()
             if stream:
