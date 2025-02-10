@@ -109,7 +109,7 @@ class LiteLLMCompletionClient(CompletionClient):
         if stop is not None and len(stop) != 0:
             call_params["stop"] = stop
         if stop_sequences is not None:
-            call_params["stop"] = stop_sequences
+            call_params["stop_sequences"] = stop_sequences
         if max_tokens is not None:
             call_params["max_tokens"] = max_tokens
         if presence_penalty is not None:
