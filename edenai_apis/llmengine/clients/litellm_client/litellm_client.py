@@ -108,8 +108,8 @@ class LiteLLMCompletionClient(CompletionClient):
             stop = kwargs.pop("stop", None)
         if stop is not None and len(stop) != 0:
             call_params["stop"] = stop
-        if stop_sequences is not None:
-            call_params["stop_sequences"] = stop_sequences
+        if stop_sequences is not None and len(stop_sequences) > 0:
+            call_params["stop"] = stop_sequences
         if max_tokens is not None:
             call_params["max_tokens"] = max_tokens
         if presence_penalty is not None:
@@ -160,7 +160,6 @@ class LiteLLMCompletionClient(CompletionClient):
             if drop_invalid_params == True:
                 litellm.drop_params = True
             provider_start_time = time.time_ns()
-            print(f"================> arguments in litellm_client: {call_params}, kwargs: {kwargs}")
             c_response = completion(**call_params, **kwargs)
             provider_end_time = time.time_ns()
             if stream:
