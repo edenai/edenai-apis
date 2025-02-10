@@ -57,7 +57,7 @@ class LiteLLMCompletionClient(CompletionClient):
         n: Optional[int] = None,
         stream: Optional[bool] = None,
         stream_options: Optional[dict] = None,
-        stop=None,
+        stop: Optional[str]=None,
         stop_sequences: Optional[any] = None,
         max_tokens: Optional[int] = None,
         presence_penalty: Optional[float] = None,
@@ -104,6 +104,8 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["stream"] = stream
         if stream_options is not None:
             call_params["stream_options"] = stream_options
+        if stop is None:
+            stop = kwargs.pop("stop", None)
         if stop is not None and len(stop) != 0:
             call_params["stop"] = stop
         if stop_sequences is not None:
