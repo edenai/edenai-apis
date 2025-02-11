@@ -890,9 +890,7 @@ class GoogleVideoApi(VideoInterface):
                 temperature=inputs["temperature"],
                 file_data=file_data,
             )
-            create_time = self._is_older_than_3_hours(file_data["createTime"])
-            if create_time:
-                self._delete_file(file=file_data["name"], api_key=api_key)
+            self._delete_file(file=file_data["name"], api_key=api_key)
             return AsyncResponseType[QuestionAnswerAsyncDataClass](
                 original_response=original_response,
                 standardized_response=QuestionAnswerAsyncDataClass(
