@@ -14,6 +14,8 @@ from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from asgiref.sync import async_to_sync
+import openai
+from openai import OpenAI
 
 
 class OpenaiApi(
@@ -31,8 +33,24 @@ class OpenaiApi(
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
+
         self.api_key = self.api_settings.get("api_key")
         self.headers = {"Authorization": f"Bearer {self.api_key}"}
+        self.api_key = self.api_settings["api_key"]
+        openai.api_key = self.api_key
+        self.org_key = self.api_settings["org_key"]
+        self.url = "https://api.openai.com/v1"
+        self.headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "OpenAI-Organization": self.org_key,
+            "Content-Type": "application/json",
+        }
+        self.max_tokens = 270
+
+        self.client = OpenAI(
+            api_key=self.api_key,
+        )
+
         self.llm_client = LLMEngine(
             provider_name=self.provider_name,
             provider_config={
