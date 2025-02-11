@@ -16,7 +16,12 @@ from .custom_named_entity_recognition import (
     custom_named_entity_recognition_arguments,
 )
 from .embeddings import EmbeddingsDataClass, EmbeddingDataClass, embeddings_arguments
-from .emotion_detection import EmotionDetectionDataClass, emotion_detection_arguments, EmotionItem, EmotionEnum
+from .emotion_detection import (
+    EmotionDetectionDataClass,
+    emotion_detection_arguments,
+    EmotionItem,
+    EmotionEnum,
+)
 from .generation import (
     GenerationDataClass,
     generation_arguments,
@@ -61,3 +66,4 @@ from .topic_extraction import (
     ExtractedTopic,
     topic_extraction_arguments,
 )
+from .spell_check import SpellCheckDataClass, spell_check_arguments

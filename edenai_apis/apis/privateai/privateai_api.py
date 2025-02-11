@@ -3,7 +3,7 @@ import json
 import mimetypes
 import uuid
 from io import BytesIO
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import requests
 from apis.amazon.helpers import check_webhook_result
@@ -92,7 +92,7 @@ class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
         )
 
     def text__anonymization(
-        self, text: str, language: str
+        self, text: str, language: str, model: Optional[str] = None
     ) -> ResponseType[AnonymizationDataClass]:
         payload = {
             "text": [text],

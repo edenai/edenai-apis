@@ -4,4 +4,9 @@ def code_generation_arguments(provider_name: str):
         "temperature": 0.1,
         "max_tokens": 1024,
         "prompt": "",
+        "settings": {
+            "openai": "gpt-4o",
+            "google": "gemini-1.5-pro",
+            "xai": "grok-2-latest",
+        },
     }

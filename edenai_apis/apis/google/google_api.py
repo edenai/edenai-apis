@@ -16,6 +16,7 @@ from edenai_apis.apis.google.google_multimodal_api import GoogleMultimodalApi
 from edenai_apis.features import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.llmengine.llm_engine import LLMEngine
 
 
 class GoogleApi(
@@ -48,6 +49,12 @@ class GoogleApi(
             "storage": storage.Client(),
             "video": videointelligence.VideoIntelligenceServiceClient(),
             "translate": translate.TranslationServiceClient(),
+            "llm_client": LLMEngine(
+                provider_name="gemini",
+                provider_config={
+                    "api_key": self.api_settings.get("genai_api_key"),
+                },
+            ),
         }
 
         aiplatform.init(

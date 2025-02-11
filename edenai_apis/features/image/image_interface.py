@@ -146,7 +146,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__explicit_content(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: Optional[str] = None
     ) -> ResponseType[ExplicitContentDataClass]:
         """
         Detect explicit content in an image

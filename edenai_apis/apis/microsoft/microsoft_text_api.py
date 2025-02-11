@@ -2,7 +2,7 @@ import sys
 from collections import defaultdict
 from http import HTTPStatus
 from time import sleep
-from typing import Dict, Sequence
+from typing import Dict, Sequence, Optional
 
 import requests
 
@@ -62,7 +62,7 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__named_entity_recognition(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         """
         :param language:        String that contains the language code
@@ -191,7 +191,7 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__anonymization(
-        self, text: str, language: str
+        self, text: str, language: str, model: Optional[str] = None
     ) -> ResponseType[AnonymizationDataClass]:
         try:
             response = requests.post(
@@ -259,7 +259,10 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__sentiment_analysis(
-        self, language: str, text: str
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SentimentAnalysisDataClass]:
         """
         :param language:    String that contains language code
@@ -350,7 +353,7 @@ class MicrosoftTextApi(TextInterface):
             )
 
     def text__keyword_extraction(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[KeywordExtractionDataClass]:
         """
         :param language:    String that contains language code
@@ -393,7 +396,7 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__spell_check(
-        self, text: str, language: str
+        self, text: str, language: str, model: Optional[str] = None
     ) -> ResponseType[SpellCheckDataClass]:
         if len(text) >= 130:
             raise ProviderException(

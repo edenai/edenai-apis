@@ -12,6 +12,7 @@ aiohttp==3.9.3
     # via
     #   aiohttp-retry
     #   aleph-alpha-client
+    #   litellm
 aiohttp-retry==2.8.3
     # via aleph-alpha-client
 aiosignal==1.3.1
@@ -94,6 +95,8 @@ charset-normalizer==3.3.2
     # via requests
 clarifai-grpc==9.10.7
     # via -r requirements.in
+click==8.1.8
+    # via litellm
 cloudpickle==2.2.1
     # via sagemaker
 constantly==23.10.4
@@ -238,6 +241,7 @@ httplib2==0.22.0
 httpx==0.27.0
     # via
     #   anthropic-bedrock
+    #   litellm
     #   openai
 huggingface-hub==0.22.2
     # via tokenizers
@@ -259,7 +263,9 @@ idna==3.6
 imagesize==1.4.1
     # via sphinx
 importlib-metadata==6.11.0
-    # via sagemaker
+    # via
+    #   litellm
+    #   sagemaker
 importlib-resources==6.4.0
     # via python-liquid
 incremental==24.7.2
@@ -271,7 +277,9 @@ isodate==0.6.1
 isort==5.13.2
     # via pylint
 jinja2==3.1.3
-    # via sphinx
+    # via
+    #   litellm
+    #   sphinx
 jiter==0.5.0
     # via openai
 jmespath==1.0.1
@@ -283,6 +291,7 @@ jsonlines==4.0.0
 jsonschema==4.23.0
     # via
     #   -r requirements.in
+    #   litellm
     #   sagemaker
 jsonschema-specifications==2023.12.1
     # via jsonschema
@@ -291,6 +300,8 @@ langcodes==3.3.0
 language-data==1.2.0
     # via -r requirements.in
 lettria==6.0.0
+    # via -r requirements.in
+litellm==1.59.5
     # via -r requirements.in
 marisa-trie==1.1.0
     # via language-data
@@ -328,7 +339,9 @@ numpy==1.26.4
 oauthlib==3.2.2
     # via requests-oauthlib
 openai==1.55.3
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   litellm
 packaging==24.0
     # via
     #   aleph-alpha-client
@@ -421,6 +434,7 @@ pydantic==2.7.4
     # via
     #   -r requirements.in
     #   anthropic-bedrock
+    #   litellm
     #   openai
 pydantic-core==2.18.4
     # via pydantic
@@ -471,7 +485,9 @@ python-dateutil==2.9.0.post0
     #   python-liquid
     #   watson-developer-cloud
 python-dotenv==1.0.1
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   litellm
 python-liquid==1.12.1
     # via aleph-alpha-client
 python-magic==0.4.27
@@ -487,6 +503,8 @@ referencing==0.34.0
     # via
     #   jsonschema
     #   jsonschema-specifications
+regex==2024.11.6
+    # via tiktoken
 requests==2.31.0
     # via
     #   affinda
@@ -507,6 +525,7 @@ requests==2.31.0
     #   responses
     #   sagemaker
     #   sphinx
+    #   tiktoken
     #   watson-developer-cloud
 requests-oauthlib==2.0.0
     # via msrest
@@ -567,10 +586,13 @@ sphinxcontrib-serializinghtml==1.1.10
     # via sphinx
 tblib==3.0.0
     # via sagemaker
+tiktoken==0.8.0
+    # via litellm
 tokenizers==0.15.2
     # via
     #   aleph-alpha-client
     #   anthropic-bedrock
+    #   litellm
 tomlkit==0.12.4
     # via pylint
 tqdm==4.66.2

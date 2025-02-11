@@ -1,88 +1,132 @@
 {
   "original_response": {
-    "id": "chatcmpl-7fnGT0F7PbQ8XFUvTj11UyrcN6A9d",
+    "id": "chatcmpl-AxrC4v2cUjKpdH3u3PtpesgVfPtJS",
+    "created": 1738829192,
+    "model": "gpt-4o-2024-08-06",
     "object": "chat.completion",
-    "created": 1690195177,
-    "model": "gpt-3.5-turbo-0613",
+    "system_fingerprint": "fp_4691090a87",
     "choices": [
       {
+        "finish_reason": "stop",
         "index": 0,
         "message": {
+          "content": "{\n    \"text\": \"Hollo, wrld! How r yu?\",\n    \"items\": [\n        {\n            \"text\": \"Hollo\",\n            \"type\": \"misspelled\",\n            \"offset\": 0,\n            \"length\": 5,\n            \"suggestions\": [\n                {\n                    \"suggestion\": \"Hello\",\n                    \"score\": 0.95\n                },\n                {\n                    \"suggestion\": \"Holloa\",\n                    \"score\": 0.56\n                },\n                {\n                    \"suggestion\": \"Hollow\",\n                    \"score\": 0.55\n                }\n            ]\n        },\n        {\n            \"text\": \"wrld\",\n            \"type\": \"misspelled\",\n            \"offset\": 7,\n            \"length\": 4,\n            \"suggestions\": [\n                {\n                    \"suggestion\": \"world\",\n                    \"score\": 0.97\n                },\n                {\n                    \"suggestion\": \"weld\",\n                    \"score\": 0.34\n                },\n                {\n                    \"suggestion\": \"wild\",\n                    \"score\": 0.33\n                }\n            ]\n        },\n        {\n            \"text\": \"How\",\n            \"type\": \"correct\",\n            \"offset\": 12,\n            \"length\": 3,\n            \"suggestions\": []\n        },\n        {\n            \"text\": \"r\",\n            \"type\": \"misspelled\",\n            \"offset\": 16,\n            \"length\": 1,\n            \"suggestions\": [\n                {\n                    \"suggestion\": \"are\",\n                    \"score\": 0.96\n                }\n            ]\n        },\n        {\n            \"text\": \"yu\",\n            \"type\": \"misspelled\",\n            \"offset\": 18,\n            \"length\": 2,\n            \"suggestions\": [\n                {\n                    \"suggestion\": \"you\",\n                    \"score\": 0.98\n                }\n            ]\n        }\n    ]\n}",
           "role": "assistant",
-          "content": "Text:\n###Hello, world! How are you?###"
-        },
-        "finish_reason": "stop"
+          "tool_calls": null,
+          "function_call": null,
+          "refusal": null
+        }
       }
     ],
+    "provider_time": 12595002608,
+    "edenai_time": null,
     "usage": {
-      "prompt_tokens": 88,
-      "completion_tokens": 12,
-      "total_tokens": 100
-    }
+      "completion_tokens": 405,
+      "prompt_tokens": 931,
+      "total_tokens": 1336,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      }
+    },
+    "service_tier": "default",
+    "cost": 0.006377500000000001
   },
   "standardized_response": {
     "text": "Hollo, wrld! How r yu?",
     "items": [
       {
         "text": "Hollo",
-        "type": null,
+        "type": "misspelled",
         "offset": 0,
         "length": 5,
         "suggestions": [
           {
-            "suggestion": "Text",
-            "score": 1.0
+            "suggestion": "Hello",
+            "score": 0.95
+          },
+          {
+            "suggestion": "Holloa",
+            "score": 0.56
+          },
+          {
+            "suggestion": "Hollow",
+            "score": 0.55
           }
         ]
       },
       {
         "text": "wrld",
-        "type": null,
+        "type": "misspelled",
         "offset": 7,
         "length": 4,
         "suggestions": [
           {
-            "suggestion": "Hello",
-            "score": 1.0
+            "suggestion": "world",
+            "score": 0.97
+          },
+          {
+            "suggestion": "weld",
+            "score": 0.34
+          },
+          {
+            "suggestion": "wild",
+            "score": 0.33
           }
         ]
       },
       {
         "text": "How",
-        "type": null,
-        "offset": 13,
+        "type": "correct",
+        "offset": 12,
         "length": 3,
-        "suggestions": [
-          {
-            "suggestion": "world",
-            "score": 1.0
-          }
-        ]
+        "suggestions": []
       },
       {
         "text": "r",
-        "type": null,
-        "offset": 17,
+        "type": "misspelled",
+        "offset": 16,
         "length": 1,
         "suggestions": [
           {
-            "suggestion": "How",
-            "score": 1.0
+            "suggestion": "are",
+            "score": 0.96
           }
         ]
       },
       {
         "text": "yu",
-        "type": null,
-        "offset": 19,
+        "type": "misspelled",
+        "offset": 18,
         "length": 2,
         "suggestions": [
           {
-            "suggestion": "are",
-            "score": 1.0
+            "suggestion": "you",
+            "score": 0.98
           }
         ]
       }
     ]
+  },
+  "usage": {
+    "completion_tokens": 405,
+    "prompt_tokens": 931,
+    "total_tokens": 1336,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0
+    }
   }
 }

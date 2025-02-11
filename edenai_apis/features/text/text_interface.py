@@ -20,7 +20,9 @@ from edenai_apis.features.text import (
     PromptOptimizationDataClass,
     EmotionDetectionDataClass,
 )
-from edenai_apis.features.text.ai_detection.ai_detection_dataclass import AiDetectionDataClass
+from edenai_apis.features.text.ai_detection.ai_detection_dataclass import (
+    AiDetectionDataClass,
+)
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
@@ -37,7 +39,7 @@ from edenai_apis.utils.types import ResponseType
 class TextInterface:
     @abstractmethod
     def text__anonymization(
-        self, text: str, language: str
+        self, text: str, language: str, model: Optional[str] = None
     ) -> ResponseType[AnonymizationDataClass]:
         """
         Anonymize text by hiding every *sensitive* words
@@ -66,7 +68,10 @@ class TextInterface:
 
     @abstractmethod
     def text__keyword_extraction(
-        self, language: str, text: str
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[KeywordExtractionDataClass]:
         """
         Extract Keywords from a given text
@@ -79,7 +84,7 @@ class TextInterface:
 
     @abstractmethod
     def text__named_entity_recognition(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         """
         Automatically identifies named entities in a text
@@ -141,7 +146,10 @@ class TextInterface:
 
     @abstractmethod
     def text__sentiment_analysis(
-        self, language: str, text: str
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SentimentAnalysisDataClass]:
         """
         Analyze sentiment of a text
@@ -187,7 +195,10 @@ class TextInterface:
 
     @abstractmethod
     def text__topic_extraction(
-        self, language: str, text: str
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
     ) -> ResponseType[TopicExtractionDataClass]:
         """
         Extract Keywords from a given text
@@ -216,7 +227,12 @@ class TextInterface:
 
     @abstractmethod
     def text__code_generation(
-        self, instruction: str, temperature: float, max_tokens: int, prompt: str = ""
+        self,
+        instruction: str,
+        temperature: float,
+        max_tokens: int,
+        prompt: str = "",
+        model: Optional[str] = None,
     ) -> ResponseType[CodeGenerationDataClass]:
         """Code generation
 
@@ -240,6 +256,7 @@ class TextInterface:
         text: str,
         entities: List[str],
         examples: Optional[List[Dict]] = None,
+        model: Optional[str] = None,
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         """Custom named entity recognition
 
@@ -254,7 +271,11 @@ class TextInterface:
 
     @abstractmethod
     def text__custom_classification(
-        self, texts: List[str], labels: List[str], examples: List[Tuple[str, str]]
+        self,
+        texts: List[str],
+        labels: List[str],
+        examples: List[Tuple[str, str]],
+        model: Optional[str] = None,
     ) -> ResponseType[CustomClassificationDataClass]:
         """custom text classification
 
@@ -273,7 +294,10 @@ class TextInterface:
 
     @abstractmethod
     def text__spell_check(
-        self, text: str, language: str
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
     ) -> ResponseType[SpellCheckDataClass]:
         """Spell check
 

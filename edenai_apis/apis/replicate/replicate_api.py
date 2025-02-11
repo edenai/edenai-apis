@@ -13,13 +13,13 @@ from edenai_apis.features.image.generation.generation_dataclass import (
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.text import (
     ChatDataClass,
-    ChatMessageDataClass,
 )
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from .config import get_model_id, get_model_id_image
+from edenai_apis.llmengine import LLMEngine
+from .config import get_model_id_image
 
 
 class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
@@ -29,11 +29,16 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         api_settings = load_provider(
             ProviderDataEnum.KEY, provider_name=self.provider_name, api_keys=api_keys
         )
+        self.api_key = api_settings["api_key"]
         self.headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": f"Token {api_settings['api_key']}",
+            "Authorization": f"Token {self.api_key}",
         }
+        self.llm_client = LLMEngine(
+            provider_name=self.provider_name,
+            provider_config={"api_key": self.api_key},
+        )
         self.base_url = "https://api.replicate.com/v1"
 
     @staticmethod
@@ -213,64 +218,16 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-
-        if any([available_tools, tool_results]):
-            raise ProviderException("This provider does not support the use of tools")
-        # Build the prompt by formatting the previous history and current text
-        prompt = ""
-        if previous_history:
-            for msg in previous_history:
-                if msg["role"] == "user":
-                    prompt += "\n[INST]" + msg["message"] + "[/INST]\n"
-                else:
-                    prompt += "\n" + msg["message"] + "\n"
-
-        prompt += "\n[INST]" + text + "[/INST]\n"
-
-        # Construct the payload for chat interaction
-        payload = {
-            "input": {
-                "prompt": prompt,
-                "max_new_tokens": max_tokens,
-                "temperature": temperature,
-                "min_new_tokens": -1,
-            }
-        }
-
-        if model in get_model_id:
-            url = f"{self.base_url}/predictions"
-            payload["version"] = get_model_id[model]
-        else:
-            url = f"{self.base_url}/models/{model}/predictions"
-
-        # Include system prompt if provided
-        if chatbot_global_action:
-            payload["input"]["system_prompt"] = chatbot_global_action
-
-        # Call the API and get the response dictionary
-        response = self.__get_response(url, payload, stream=stream)
-
-        if stream is False:
-            # Extract generated text from the API response
-            generated_text = "".join(response.get("output", [""]))
-
-            # Build a list of ChatMessageDataClass objects for the conversation history
-            message = [
-                ChatMessageDataClass(role="user", message=text),
-                ChatMessageDataClass(role="assistant", message=generated_text),
-            ]
-
-            # Build the standardized response
-            standardized_response = ChatDataClass(
-                generated_text=generated_text, message=message
-            )
-
-            return ResponseType[ChatDataClass](
-                original_response=response,
-                standardized_response=standardized_response,
-            )
-        else:
-            return ResponseType[StreamChat](
-                original_response=None,
-                standardized_response=StreamChat(stream=response),
-            )
+        response = self.llm_client.chat(
+            text=text,
+            chatbot_global_action=chatbot_global_action,
+            previous_history=previous_history,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
+            stream=stream,
+            available_tools=available_tools,
+            tool_choice=tool_choice,
+            tool_results=tool_results,
+        )
+        return response
