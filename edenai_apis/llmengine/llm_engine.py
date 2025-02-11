@@ -634,7 +634,7 @@ class LLMEngine:
             behavior="You are a Named Entity Extraction Model. Given a list of Entities Types and a text input, you should extract extract all entities of the given entities types."
             + instruction_message,
             example_file="text/custom_classification/custom_classification_response.json",
-            dataclass=CustomClassificationDataClass,
+            dataclass=CustomNamedEntityRecognitionDataClass,
         )
         messages.append({"role": "user", "content": text})
         args = self._prepare_args(
