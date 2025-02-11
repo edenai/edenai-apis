@@ -890,7 +890,7 @@ class GoogleVideoApi(VideoInterface):
                 temperature=inputs["temperature"],
                 file_data=file_data,
             )
-            self._delete_file(file=file_data["name"], api_key=api_key)
+            self.delete_file(file=file_data["name"], api_key=api_key)
             return AsyncResponseType[QuestionAnswerAsyncDataClass](
                 original_response=original_response,
                 standardized_response=QuestionAnswerAsyncDataClass(
