@@ -143,7 +143,7 @@ class GoogleVideoApi(VideoInterface):
 
         return file_data
 
-    def _delete_file(self, file: str, api_key: str):
+    def delete_file(self, file: str, api_key: str):
         delete_url = (
             f"https://generativelanguage.googleapis.com/v1beta/{file}?key={api_key}"
         )
@@ -758,7 +758,7 @@ class GoogleVideoApi(VideoInterface):
     def _bytes_to_mega(self, bytes_value):
         return bytes_value / (1024 * 1024)
 
-    def _request_question_answer(self, model, api_key, text, temperature, file_data):
+    def request_question_answer(self, model, api_key, text, temperature, file_data):
         base_url = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
         url = base_url.format(model=model, api_key=api_key)
         payload = {
@@ -781,13 +781,13 @@ class GoogleVideoApi(VideoInterface):
         try:
             original_response = response.json()
         except json.JSONDecodeError as exc:
-            self._delete_file(file=file_data["name"], api_key=api_key)
+            self.delete_file(file=file_data["name"], api_key=api_key)
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
 
         if response.status_code != 200:
-            self._delete_file(file=file_data["name"], api_key=api_key)
+            self.delete_file(file=file_data["name"], api_key=api_key)
             raise ProviderException(
                 message=original_response["error"]["message"],
                 code=response.status_code,
@@ -810,7 +810,7 @@ class GoogleVideoApi(VideoInterface):
         file_data = self._upload_and_process_file(file, api_key)
         file_size_mb = self._bytes_to_mega(int(file_data.get("sizeBytes", 0)))
         if file_size_mb >= 100:
-            self._delete_file(file=file_data["name"], api_key=api_key)
+            self.delete_file(file=file_data["name"], api_key=api_key)
             raise ProviderException(
                 message="The video file is too large (over 100 MB). Please use the asynchronous video question answering api instead.",
             )
@@ -818,7 +818,7 @@ class GoogleVideoApi(VideoInterface):
             sleep(5)
             file_data = self._check_file_status(file_data["uri"], api_key)
 
-        original_response, generated_text = self._request_question_answer(
+        original_response, generated_text = self.request_question_answer(
             model=model,
             api_key=api_key,
             text=text,
@@ -826,7 +826,7 @@ class GoogleVideoApi(VideoInterface):
             file_data=file_data,
         )
 
-        self._delete_file(file=file_data["name"], api_key=api_key)
+        self.delete_file(file=file_data["name"], api_key=api_key)
         return ResponseType[QuestionAnswerDataClass](
             original_response=original_response,
             standardized_response=QuestionAnswerDataClass(answer=generated_text),
@@ -883,7 +883,7 @@ class GoogleVideoApi(VideoInterface):
                 status="pending", provider_job_id=provider_job_id
             )
         else:
-            original_response, generated_text = self._request_question_answer(
+            original_response, generated_text = self.request_question_answer(
                 model=inputs["model"],
                 api_key=api_key,
                 text=inputs["text"],
