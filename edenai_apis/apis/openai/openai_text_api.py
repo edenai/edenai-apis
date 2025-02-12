@@ -138,7 +138,7 @@ class OpenaiTextApi(TextInterface):
             + "\nA:"
         ]
         payload = {
-            "model": self.model,
+            "model": "gpt-3.5-turbo-instruct",
             "prompt": prompts,
             "max_tokens": 100,
             "temperature": temperature,

@@ -16,6 +16,7 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
 from edenai_apis.llmengine.llm_engine import LLMEngine
 import json
+import boto3
 
 
 class MetaApi(ProviderInterface, TextInterface):
@@ -24,6 +25,12 @@ class MetaApi(ProviderInterface, TextInterface):
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
+        self.bedrock = boto3.client(
+            "bedrock-runtime",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
         )
         self.llm_client = LLMEngine(
             provider_name="bedrock",

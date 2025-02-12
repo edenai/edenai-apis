@@ -245,7 +245,7 @@ class CohereApi(ProviderInterface, TextInterface):
         ).original_response
 
         # Extracts embeddings from texts & query
-        texts_embed = list(texts_embed_response["embeddings"])
+        texts_embed = list(texts_embed_response["data"][0]["embedding"])
         query_embed = query_embed_response["embeddings"][0]
 
         items = []

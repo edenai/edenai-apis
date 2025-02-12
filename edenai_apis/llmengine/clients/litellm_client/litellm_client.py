@@ -57,7 +57,7 @@ class LiteLLMCompletionClient(CompletionClient):
         n: Optional[int] = None,
         stream: Optional[bool] = None,
         stream_options: Optional[dict] = None,
-        stop: Optional[str]=None,
+        stop: Optional[str] = None,
         stop_sequences: Optional[any] = None,
         max_tokens: Optional[int] = None,
         presence_penalty: Optional[float] = None,
@@ -212,6 +212,7 @@ class LiteLLMCompletionClient(CompletionClient):
         self,
         input=[],
         model: Optional[str] = None,
+        provider_model_name: Optional[str] = None,
         # Optional params
         dimensions: Optional[int] = None,
         timeout=600,  # default to 10 minutes
@@ -228,7 +229,9 @@ class LiteLLMCompletionClient(CompletionClient):
         call_params["input"] = input if isinstance(input, list) else [input]
         if model is not None:
             self.model_name = model
-        call_params["model"] = self.model_name
+        call_params["model"] = f"{self.provider_name}/{model}"
+        if provider_model_name:
+            call_params["model"] = provider_model_name
         call_params["timeout"] = timeout
         if dimensions is not None:
             call_params["dimensions"] = dimensions
