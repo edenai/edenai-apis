@@ -53,7 +53,7 @@ class TextInterface:
 
     @abstractmethod
     def text__moderation(
-        self, text: str, language: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[ModerationDataClass]:
         """
         Detects explecit content, profanity, and personal information
