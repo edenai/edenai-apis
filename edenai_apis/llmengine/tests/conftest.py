@@ -138,3 +138,28 @@ def unknown_models_to_litellm() -> List[LiteLLMModel]:
         }
     }
     return test_model
+
+@pytest.fixture
+def update_known_models_to_litellm() -> List[LiteLLMModel]:
+    test_model = {
+        "test-inexisting-model": {
+            "max_tokens": 131072,
+            "input_cost_per_token": 0.000001,
+            "output_cost_per_token": 0.2,
+            "litellm_provider": "openai",  # I thing we need to use a valid existing provider
+            "mode": "completion",
+        }
+    }
+    return test_model
+
+@pytest.fixture
+def invalid_models_to_litellm() -> dict[str, list]:
+    return {
+        "test-inexisting-model": [
+            "max_tokens",
+            "input_cost_per_token",
+            "output_cost_per_token",
+            "litellm_provider",
+            "mode",
+        ]
+    }
