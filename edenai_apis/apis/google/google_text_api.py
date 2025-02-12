@@ -332,7 +332,9 @@ class GoogleTextApi(TextInterface):
         self, texts: List[str], model: Optional[str] = None
     ) -> ResponseType[EmbeddingsDataClass]:
         model = model.split("__")[1] if "__" in model else model
-        response = self.clients["llm_client"].embeddings(texts=texts, model=model)
+        response = self.clients["llm_client"].embeddings(
+            texts=texts, provider_model_name=f"vertex_ai/{model}", model=model
+        )
         return response
 
     def text__code_generation(
@@ -476,10 +478,8 @@ class GoogleTextApi(TextInterface):
         ).original_response
 
         # Extracts embeddings from texts & query
-        texts_embed = [
-            item["embeddings"]["values"] for item in texts_embed_response["predictions"]
-        ]
-        query_embed = query_embed_response["predictions"][0]["embeddings"]["values"]
+        texts_embed = list(texts_embed_response["data"][0]["embedding"])
+        query_embed = query_embed_response["embeddings"][0]
 
         items = []
         # Calculate score for each text index

@@ -212,6 +212,7 @@ class LiteLLMCompletionClient(CompletionClient):
         self,
         input=[],
         model: Optional[str] = None,
+        provider_model_name: Optional[str] = None,
         # Optional params
         dimensions: Optional[int] = None,
         timeout=600,  # default to 10 minutes
@@ -229,6 +230,8 @@ class LiteLLMCompletionClient(CompletionClient):
         if model is not None:
             self.model_name = model
         call_params["model"] = f"{self.provider_name}/{model}"
+        if provider_model_name:
+            call_params["model"] = provider_model_name
         call_params["timeout"] = timeout
         if dimensions is not None:
             call_params["dimensions"] = dimensions
