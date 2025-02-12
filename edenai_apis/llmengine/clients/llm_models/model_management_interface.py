@@ -7,6 +7,8 @@ logger = logging.getLogger(__name__)
 
 class ModelManagementInterface:
 
+    CLIENT_NAME = "ignore"
+
     def __init__(self):
         pass
 

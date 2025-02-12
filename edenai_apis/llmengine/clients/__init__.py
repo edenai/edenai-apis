@@ -21,7 +21,7 @@ def _extract_client_classes(provider_classes):
     for name, cls in provider_classes:
         try:
             client_name = cls.CLIENT_NAME
-            if client_name not in LLM_COMPLETION_CLIENTS:
+            if client_name not in LLM_COMPLETION_CLIENTS and client_name != "ignore":
                 LLM_COMPLETION_CLIENTS[client_name] = cls
                 logger.info(f"Client {client_name} loaded")
         except AttributeError:
