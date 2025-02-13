@@ -333,8 +333,8 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["style"] = style
         if user is not None:
             call_params["user"] = user
-        if model is not None:
-            self.model_name = f"{self.provider_name}/{model}"
+        model_name = f"{self.provider_name}/{model}"
+        call_params["model"] = model_name
         call_params["timeout"] = timeout
         if api_base is not None:
             call_params["api_base"] = api_base
