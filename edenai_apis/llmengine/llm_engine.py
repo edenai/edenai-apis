@@ -721,3 +721,10 @@ class LLMEngine:
             standardized_response=standardized_response,
             usage=response.usage,
         )
+    
+    @staticmethod
+    def std_completion():
+        """
+        This is just an iterface to the litellm completion function
+        """
+        return LLM_COMPLETION_CLIENTS["litellm"].std_completion()

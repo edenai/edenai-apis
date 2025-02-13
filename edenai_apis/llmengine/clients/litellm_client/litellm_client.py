@@ -408,3 +408,7 @@ class LiteLLMCompletionClient(CompletionClient):
                 register_model(cost)
             except Exception as e:
                 logger.error(f"Error registering model {model.model_name}: {e}")
+
+    @staticmethod
+    def std_completion():
+        return completion

@@ -96,3 +96,9 @@ class CompletionClient:
 
     def _configure_google(self, auth_args):
         os.environ["GEMINI_API_KEY"] = auth_args["genai_api_key"]
+
+    @staticmethod
+    def std_completion():
+        raise CompletionClientError(
+            "Not implemented. Please implement this method in a subclass."
+        )
