@@ -31,7 +31,7 @@ from .microsoft_helpers import microsoft_text_moderation_personal_infos
 
 class MicrosoftTextApi(TextInterface):
     def text__moderation(
-        self, text: str, language: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[ModerationDataClass]:
         if not language:
             language = ""

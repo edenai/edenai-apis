@@ -399,7 +399,7 @@ class GoogleTextApi(TextInterface):
         )
 
     def text__moderation(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[ModerationDataClass]:
         """
         :param language:        String that contains the language code

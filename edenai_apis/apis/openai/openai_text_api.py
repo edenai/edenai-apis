@@ -49,7 +49,7 @@ class OpenaiTextApi(TextInterface):
         return response
 
     def text__moderation(
-        self, text: str, language: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[ModerationDataClass]:
         response = self.llm_client.moderation(text=text)
         return response
