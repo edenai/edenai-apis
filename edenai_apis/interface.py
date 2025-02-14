@@ -179,6 +179,7 @@ def compute_output(
     fake: bool = False,
     api_keys: Dict = {},
     user_email: Optional[str] = None,
+    **kwargs,
 ) -> Dict:
     """
     Compute subfeature for provider and subfeature
@@ -248,7 +249,7 @@ def compute_output(
 
         try:
             subfeature_result = subfeature_class(provider_name, api_keys)(
-                **args
+                **args, **kwargs
             ).model_dump()
         except ProviderException as exc:
             raise get_appropriate_error(provider_name, exc)

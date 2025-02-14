@@ -37,6 +37,7 @@ class TogetheraiApi(ProviderInterface, TextInterface):
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
+        **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         response = self.llm_client.chat(
             text=text,
@@ -49,5 +50,6 @@ class TogetheraiApi(ProviderInterface, TextInterface):
             available_tools=available_tools,
             tool_choice=tool_choice,
             tool_results=tool_results,
+            **kwargs,
         )
         return response

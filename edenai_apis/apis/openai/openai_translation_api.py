@@ -23,11 +23,13 @@ class OpenaiTranslationApi(TranslationInterface):
         target_language: str,
         text: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[AutomaticTranslationDataClass]:
         response = self.llm_client.automatic_translation(
             source_language=source_language,
             target_language=target_language,
             text=text,
             model=model,
+            **kwargs,
         )
         return response

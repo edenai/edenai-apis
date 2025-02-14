@@ -39,7 +39,11 @@ from edenai_apis.utils.types import ResponseType
 class TextInterface:
     @abstractmethod
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[AnonymizationDataClass]:
         """
         Anonymize text by hiding every *sensitive* words
@@ -53,7 +57,11 @@ class TextInterface:
 
     @abstractmethod
     def text__moderation(
-        self, language: str, text: str, model: Optional[str] = None
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[ModerationDataClass]:
         """
         Detects explecit content, profanity, and personal information
@@ -72,6 +80,7 @@ class TextInterface:
         language: str,
         text: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[KeywordExtractionDataClass]:
         """
         Extract Keywords from a given text
@@ -84,7 +93,11 @@ class TextInterface:
 
     @abstractmethod
     def text__named_entity_recognition(
-        self, language: str, text: str, model: Optional[str] = None
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         """
         Automatically identifies named entities in a text
@@ -105,6 +118,7 @@ class TextInterface:
         examples_context: str,
         examples: List[List[str]],
         model: Optional[str],
+        **kwargs,
     ) -> ResponseType[QuestionAnswerDataClass]:
         """
         Ask question related to given texts and get an answer
@@ -132,6 +146,7 @@ class TextInterface:
             "cosine", "hamming", "manhattan", "euclidean"
         ] = "cosine",
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SearchDataClass]:
         """
         Do sementic search over a set of texts
@@ -150,6 +165,7 @@ class TextInterface:
         language: str,
         text: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SentimentAnalysisDataClass]:
         """
         Analyze sentiment of a text
@@ -167,6 +183,7 @@ class TextInterface:
         output_sentences: int,
         language: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SummarizeDataClass]:
         """
         Summarize a given text in a given number of sentences
@@ -182,7 +199,10 @@ class TextInterface:
     ### Syntax analysis
     @abstractmethod
     def text__syntax_analysis(
-        self, language: str, text: str
+        self,
+        language: str,
+        text: str,
+        **kwargs,
     ) -> ResponseType[SyntaxAnalysisDataClass]:
         """
         Syntax analysis consists principally in highlighting the structure of a text.
@@ -199,6 +219,7 @@ class TextInterface:
         language: str,
         text: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[TopicExtractionDataClass]:
         """
         Extract Keywords from a given text
@@ -216,6 +237,7 @@ class TextInterface:
         temperature: float,
         max_tokens: int,
         model: str,
+        **kwargs,
     ) -> ResponseType[GenerationDataClass]:
         """
         Text generation from a given prompt
@@ -233,6 +255,7 @@ class TextInterface:
         max_tokens: int,
         prompt: str = "",
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[CodeGenerationDataClass]:
         """Code generation
 
@@ -257,6 +280,7 @@ class TextInterface:
         entities: List[str],
         examples: Optional[List[Dict]] = None,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         """Custom named entity recognition
 
@@ -276,6 +300,7 @@ class TextInterface:
         labels: List[str],
         examples: List[Tuple[str, str]],
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[CustomClassificationDataClass]:
         """custom text classification
 
@@ -298,6 +323,7 @@ class TextInterface:
         text: str,
         language: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SpellCheckDataClass]:
         """Spell check
 
@@ -312,7 +338,10 @@ class TextInterface:
 
     @abstractmethod
     def text__embeddings(
-        self, texts: List[str], model: Optional[str] = None
+        self,
+        texts: List[str],
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[EmbeddingsDataClass]:
         """Text embeddings
 
@@ -337,6 +366,7 @@ class TextInterface:
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
+        **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         """Text chat
 
@@ -371,7 +401,10 @@ class TextInterface:
 
     @abstractmethod
     def text__prompt_optimization(
-        self, text: str, target_provider: str
+        self,
+        text: str,
+        target_provider: str,
+        **kwargs,
     ) -> ResponseType[PromptOptimizationDataClass]:
         """
         Generate a prompt given a User description for generative providers eg : 'OpenAI', 'Google' & 'Cohere

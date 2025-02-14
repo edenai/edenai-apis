@@ -25,11 +25,13 @@ class XAiTranslationApi(TranslationInterface):
         target_language: str,
         text: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[AutomaticTranslationDataClass]:
         response = self.llm_client.automatic_translation(
             text=text,
             source_language=source_language,
             target_language=target_language,
             model=model,
+            **kwargs,
         )
         return response

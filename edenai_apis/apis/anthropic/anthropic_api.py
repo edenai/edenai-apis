@@ -37,8 +37,13 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
         output_sentences: int,
         language: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SummarizeDataClass]:
-        response = self.llm_client.summarize(text=text, model=model)
+        response = self.llm_client.summarize(
+            text=text,
+            model=model,
+            **kwargs,
+        )
         return response
 
     def text__chat(
@@ -53,6 +58,7 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
+        **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         response = self.llm_client.chat(
             text=text,
@@ -65,6 +71,7 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
             available_tools=available_tools,
             tool_choice=tool_choice,
             tool_results=tool_results,
+            **kwargs,
         )
         return response
 
@@ -97,9 +104,16 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
         return response
 
     def image__logo_detection(
-        self, file: str, file_url: str = "", model: Optional[str] = None
+        self,
+        file: str,
+        file_url: str = "",
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[LogoDetectionDataClass]:
         response = self.llm_client.logo_detection(
-            file=file, file_url=file_url, model=model
+            file=file,
+            file_url=file_url,
+            model=model,
+            **kwargs,
         )
         return response

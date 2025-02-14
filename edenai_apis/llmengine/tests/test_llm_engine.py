@@ -48,8 +48,8 @@ class TestLiteLLMClient:
             **mocked_image_generation_params
         )
         assert response is not None
-        assert response.data is not None
-        assert response.data[0].url == "url.net"
+        assert response["data"] is not None
+        assert response["data"][0]["url"] == "url.net"
 
 
 class TestLLMEngine:
