@@ -477,9 +477,13 @@ class GoogleTextApi(TextInterface):
             self, texts=[query], model=model
         ).original_response
 
+        # Extract Tokens consumed
+        texts_usage = texts_embed_response.get("usage").get("total_tokens")
+        query_usage = query_embed_response.get("usage").get("total_tokens")
+
         # Extracts embeddings from texts & query
-        texts_embed = list(texts_embed_response["data"][0]["embedding"])
-        query_embed = query_embed_response["embeddings"][0]
+        texts_embed = [item["embedding"] for item in texts_embed_response.get("data")]
+        query_embed = query_embed_response["data"][0]["embedding"]
 
         items = []
         # Calculate score for each text index
@@ -498,7 +502,9 @@ class GoogleTextApi(TextInterface):
         original_response = {
             "texts_embeddings": texts_embed_response,
             "embeddings_query": query_embed_response,
+            "usage": {"total_tokens": texts_usage + query_usage},
         }
+
         result = ResponseType[SearchDataClass](
             original_response=original_response,
             standardized_response=SearchDataClass(items=sorted_items),
