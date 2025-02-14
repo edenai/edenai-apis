@@ -217,7 +217,7 @@ class OpenaiTextApi(TextInterface):
         max_tokens: int,
         model: str,
     ) -> ResponseType[GenerationDataClass]:
-        url = f"{self.url}/chat/completions"
+        url = f"{self.url}/completions"
 
         payload = {
             "prompt": text,
