@@ -45,6 +45,7 @@ class OpenaiTextApi(TextInterface):
     def text__summarize(
         self, text: str, output_sentences: int, language: str, model: str
     ) -> ResponseType[SummarizeDataClass]:
+        self.check_content_moderation(text=text)
         response = self.llm_client.summarize(text=text, model=model)
         return response
 
@@ -164,6 +165,7 @@ class OpenaiTextApi(TextInterface):
     def text__anonymization(
         self, text: str, language: str, model: Optional[str] = None
     ) -> ResponseType[AnonymizationDataClass]:
+        self.check_content_moderation(text=text)
         response = self.llm_client.pii(text=text, model=model)
         return response
 
@@ -173,6 +175,7 @@ class OpenaiTextApi(TextInterface):
         text: str,
         model: Optional[str] = None,
     ) -> ResponseType[KeywordExtractionDataClass]:
+        self.check_content_moderation(text=text)
         response = self.llm_client.keyword_extraction(text=text, model=model)
         return response
 
@@ -182,6 +185,7 @@ class OpenaiTextApi(TextInterface):
         text: str,
         model: Optional[str] = None,
     ) -> ResponseType[SentimentAnalysisDataClass]:
+        self.check_content_moderation(text=text)
         response = self.llm_client.sentiment_analysis(text=text, model=model)
         return response
 
@@ -191,6 +195,7 @@ class OpenaiTextApi(TextInterface):
         text: str,
         model: Optional[str] = None,
     ) -> ResponseType[TopicExtractionDataClass]:
+        self.check_content_moderation(text=text)
         response = self.llm_client.topic_extraction(text=text, model=model)
         return response
 
@@ -202,6 +207,7 @@ class OpenaiTextApi(TextInterface):
         prompt: str = "",
         model: Optional[str] = None,
     ) -> ResponseType[CodeGenerationDataClass]:
+
         response = self.llm_client.code_generation(
             instruction=instruction,
             temperature=temperature,
@@ -217,6 +223,7 @@ class OpenaiTextApi(TextInterface):
         max_tokens: int,
         model: str,
     ) -> ResponseType[GenerationDataClass]:
+        self.check_content_moderation(text=text)
         url = f"{self.url}/completions"
 
         payload = {
@@ -245,6 +252,7 @@ class OpenaiTextApi(TextInterface):
         examples: Optional[List[Dict]] = None,
         model: Optional[str] = None,
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
+        self.check_content_moderation(text=text)
         response = self.llm_client.custom_named_entity_recognition(
             text=text, entities=entities, examples=examples, model=model
         )
@@ -257,6 +265,7 @@ class OpenaiTextApi(TextInterface):
         examples: List[List[str]],
         model: Optional[str] = None,
     ) -> ResponseType[CustomClassificationDataClass]:
+        self.check_content_moderation(texts=texts)
         response = self.llm_client.custom_classification(
             texts=texts, labels=labels, examples=examples, model=model
         )
@@ -268,18 +277,21 @@ class OpenaiTextApi(TextInterface):
         language: str,
         model: Optional[str] = None,
     ) -> ResponseType[SpellCheckDataClass]:
+        self.check_content_moderation(text=text)
         response = self.llm_client.spell_check(text=text, model=model)
         return response
 
     def text__named_entity_recognition(
         self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        self.check_content_moderation(text=text)
         response = self.llm_client.named_entity_recognition(text=text, model=model)
         return response
 
     def text__embeddings(
         self, texts: List[str], model: Optional[str] = None
     ) -> ResponseType[EmbeddingsDataClass]:
+        self.check_content_moderation(texts=texts)
         model = model.split("__")[1] if "__" in model else model
         response = self.llm_client.embeddings(texts=texts, model=model)
         return response
@@ -297,13 +309,12 @@ class OpenaiTextApi(TextInterface):
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        self.check_content_moderation(
+            text=text,
+            previous_history=previous_history,
+            chatbot_global_action=chatbot_global_action,
+        )
         previous_history = previous_history or []
-        # self.check_content_moderation(
-        #     text=text,
-        #     chatbot_global_action=chatbot_global_action,
-        #     previous_history=previous_history,
-        # )
-
         response = self.llm_client.chat(
             text=text,
             previous_history=previous_history,
@@ -321,6 +332,7 @@ class OpenaiTextApi(TextInterface):
     def text__prompt_optimization(
         self, text: str, target_provider: str
     ) -> ResponseType[PromptOptimizationDataClass]:
+        self.check_content_moderation(text=text)
         url = f"{self.url}/chat/completions"
         prompt = construct_prompt_optimization_instruction(text, target_provider)
         messages = [{"role": "user", "content": prompt}]

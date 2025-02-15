@@ -14,6 +14,7 @@ class OpenaiTranslationApi(TranslationInterface):
     def translation__language_detection(
         self, text: str, model: Optional[str] = None
     ) -> ResponseType[LanguageDetectionDataClass]:
+        self.check_content_moderation(text=text)
         response = self.llm_client.language_detection(text=text, model=model)
         return response
 
@@ -24,6 +25,7 @@ class OpenaiTranslationApi(TranslationInterface):
         text: str,
         model: Optional[str] = None,
     ) -> ResponseType[AutomaticTranslationDataClass]:
+        self.check_content_moderation(text=text)
         response = self.llm_client.automatic_translation(
             source_language=source_language,
             target_language=target_language,

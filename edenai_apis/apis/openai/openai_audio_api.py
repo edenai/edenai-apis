@@ -103,6 +103,9 @@ class OpenaiAudioApi(AudioInterface):
         speaking_volume: int,
         sampling_rate: int,
     ) -> ResponseType[TextToSpeechDataClass]:
+        self.check_content_moderation(
+            text=text,
+        )
         url = "https://api.openai.com/v1/audio/speech"
         speed = convert_tts_audio_rate(speaking_rate)
         if not audio_format:

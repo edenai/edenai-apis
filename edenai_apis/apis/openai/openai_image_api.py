@@ -37,6 +37,7 @@ class OpenaiImageApi(ImageInterface):
         num_images: int = 1,
         model: Optional[str] = None,
     ) -> ResponseType[ImageGenerationDataClass]:
+        self.check_content_moderation(text=text)
         response = self.llm_client.image_generation(
             prompt=text, resolution=resolution, n=num_images, model=model
         )
@@ -51,6 +52,7 @@ class OpenaiImageApi(ImageInterface):
         model: Optional[str] = None,
         question: Optional[str] = None,
     ) -> ResponseType[QuestionAnswerDataClass]:
+        self.check_content_moderation(text=question)
         response = self.llm_client.image_qa(
             file=file,
             temperature=temperature,

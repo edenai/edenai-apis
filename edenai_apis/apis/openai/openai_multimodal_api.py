@@ -29,6 +29,9 @@ class OpenaiMultimodalApi(MultimodalInterface):
         provider_params: Optional[dict] = None,
         response_format=None,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        self.check_content_moderation(
+            messages=messages, chatbot_global_action=chatbot_global_action
+        )
         response = self.llm_client.multimodal_chat(
             messages=messages,
             chatbot_global_action=chatbot_global_action,
