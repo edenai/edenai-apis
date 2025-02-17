@@ -58,11 +58,7 @@ class CohereApi(ProviderInterface, TextInterface):
             return "long"
 
     def text__generation(
-        self,
-        text: str,
-        temperature: float,
-        max_tokens: int,
-        model: str,
+        self, text: str, temperature: float, max_tokens: int, model: str, **kwargs
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.base_url}generate"
 
@@ -111,6 +107,7 @@ class CohereApi(ProviderInterface, TextInterface):
         labels: List[str],
         examples: List[Tuple[str, str]],
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[CustomClassificationDataClass]:
         # Build the request
         url = f"{self.base_url}classify"
@@ -155,6 +152,7 @@ class CohereApi(ProviderInterface, TextInterface):
         output_sentences: int,
         language: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SummarizeDataClass]:
         url = f"{self.base_url}summarize"
         length = "long"
@@ -203,23 +201,43 @@ class CohereApi(ProviderInterface, TextInterface):
         entities: List[str],
         examples: Optional[List[Dict]] = None,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         response = self.llm_client.custom_named_entity_recognition(
-            text=text, model=model, entities=entities, examples=examples
+            text=text,
+            model=model,
+            entities=entities,
+            examples=examples,
+            **kwargs,
         )
         return response
 
     def text__spell_check(
-        self, text: str, language: str, model: Optional[str] = None
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SpellCheckDataClass]:
-        response = self.llm_client.spell_check(text=text, model=model)
+        response = self.llm_client.spell_check(
+            text=text,
+            model=model,
+            **kwargs,
+        )
         return response
 
     def text__embeddings(
-        self, texts: List[str], model: Optional[str] = None
+        self,
+        texts: List[str],
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[EmbeddingsDataClass]:
         model = model.split("__")[1] if "__" in model else model
-        response = self.llm_client.embeddings(texts=texts, model=model)
+        response = self.llm_client.embeddings(
+            texts=texts,
+            model=model,
+            **kwargs,
+        )
         return response
 
     def text__search(
@@ -230,6 +248,7 @@ class CohereApi(ProviderInterface, TextInterface):
             "cosine", "hamming", "manhattan", "euclidean"
         ] = "cosine",
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SearchDataClass]:
         if model is None:
             model = "768__embed-multilingual-v2.0"
@@ -238,10 +257,10 @@ class CohereApi(ProviderInterface, TextInterface):
 
         # Embed the texts & query
         texts_embed_response = self.text__embeddings(
-            texts=texts, model=model
+            texts=texts, model=model, **kwargs
         ).original_response
         query_embed_response = self.text__embeddings(
-            texts=[query], model=model
+            texts=[query], model=model, **kwargs
         ).original_response
 
         # Extracts embeddings from texts & query
@@ -290,6 +309,7 @@ class CohereApi(ProviderInterface, TextInterface):
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
+        **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         response = self.llm_client.chat(
             text=text,
@@ -302,5 +322,6 @@ class CohereApi(ProviderInterface, TextInterface):
             available_tools=available_tools,
             tool_choice=tool_choice,
             tool_results=tool_results,
+            **kwargs,
         )
         return response

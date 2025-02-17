@@ -23,6 +23,7 @@ class GoogleMultimodalApi(MultimodalInterface):
         stream: bool = False,
         provider_params: Optional[dict] = None,
         response_format=None,
+        **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         response = self.clients["llm_client"].multimodal_chat(
             messages=messages,
@@ -35,5 +36,6 @@ class GoogleMultimodalApi(MultimodalInterface):
             top_p=top_p,
             stream=stream,
             response_format=response_format,
+            **kwargs,
         )
         return response

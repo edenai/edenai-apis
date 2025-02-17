@@ -31,7 +31,7 @@ class SmartClickApi(ProviderInterface, ImageInterface):
         }
 
     def image__logo_detection(
-        self, file: str, file_url: str = "", model: Optional[str] = None
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[LogoDetectionDataClass]:
         url = f"{self.base_url}logo-detection"
 

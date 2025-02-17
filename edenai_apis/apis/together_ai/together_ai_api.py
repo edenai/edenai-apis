@@ -28,15 +28,16 @@ class TogetheraiApi(ProviderInterface, TextInterface):
     def text__chat(
         self,
         text: str,
-        chatbot_global_action: Optional[str],
-        previous_history: Optional[List[Dict[str, str]]],
-        temperature: float,
-        max_tokens: int,
-        model: str,
-        stream=False,
+        chatbot_global_action: Optional[str] = None,
+        previous_history: Optional[List[Dict[str, str]]] = None,
+        temperature: float = 0.0,
+        max_tokens: int = 25,
+        model: Optional[str] = None,
+        stream: bool = False,
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
+        **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         response = self.llm_client.chat(
             text=text,
@@ -49,5 +50,6 @@ class TogetheraiApi(ProviderInterface, TextInterface):
             available_tools=available_tools,
             tool_choice=tool_choice,
             tool_results=tool_results,
+            **kwargs,
         )
         return response

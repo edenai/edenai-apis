@@ -89,6 +89,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         output_sentences: int,
         language: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SummarizeDataClass]:
         files, headers = self._prepare_request(language, text)
 
@@ -110,7 +111,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return result
 
     def text__syntax_analysis(
-        self, language: str, text: str
+        self, language: str, text: str, **kwargs
     ) -> ResponseType[SyntaxAnalysisDataClass]:
         files, headers = self._prepare_request(language, text)
 
@@ -148,7 +149,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return result
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
         files, headers = self._prepare_request(language, text)
 
@@ -191,10 +192,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return result
 
     def text__sentiment_analysis(
-        self,
-        language: str,
-        text: str,
-        model: Optional[str] = None,
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
         files, headers = self._prepare_request(language, text)
 
@@ -218,7 +216,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return result
 
     def text__keyword_extraction(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[KeywordExtractionDataClass]:
         """
         parameters:

@@ -21,6 +21,7 @@ class TranslationInterface:
         target_language: str,
         text: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[AutomaticTranslationDataClass]:
         """
         Translate a text

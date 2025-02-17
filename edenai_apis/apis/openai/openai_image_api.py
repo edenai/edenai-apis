@@ -110,9 +110,9 @@ class OpenaiImageApi(ImageInterface):
         return response
 
     def image__logo_detection(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[LogoDetectionDataClass]:
         response = self.llm_client.logo_detection(
-            file=file, file_url=file_url, model=model
+            file=file, file_url=file_url, model=model, **kwargs
         )
         return response

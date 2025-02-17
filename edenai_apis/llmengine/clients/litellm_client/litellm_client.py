@@ -10,6 +10,7 @@ from litellm import (
     embedding,
     moderation,
     image_generation,
+    response_cost_calculator,
 )
 from litellm.exceptions import (
     APIError,
@@ -168,6 +169,13 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["model_list"] = model_list
         if user is not None:
             call_params["user"] = user
+        # See if there's a custom pricing here
+        custom_pricing = {}
+        if kwargs.get("input_cost_per_token", None) and kwargs.get(
+            "output_cost_per_token", None
+        ):
+            custom_pricing["input_cost_per_token"] = kwargs["input_cost_per_token"]
+            custom_pricing["output_cost_per_token"] = kwargs["output_cost_per_token"]
         try:
             if drop_invalid_params == True:
                 litellm.drop_params = True
@@ -183,9 +191,15 @@ class LiteLLMCompletionClient(CompletionClient):
 
                 return generate_chunks()
             else:
+                cost_calc_params = {
+                    "completion_response": c_response,
+                    "call_type": "completion",
+                }
+                if len(custom_pricing.keys()) > 0:
+                    cost_calc_params["custom_cost_per_token"] = custom_pricing
                 response = {
                     **c_response.model_dump(),
-                    "cost": completion_cost(c_response),
+                    "cost": completion_cost(**cost_calc_params),
                     "provider_time": provider_end_time - provider_start_time,
                 }
                 return response
@@ -252,6 +266,13 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["caching"] = caching
         if encoding_format is not None:
             call_params["encoding_format"] = encoding_format
+        # See if there's a custom pricing here
+        custom_pricing = {}
+        if kwargs.get("input_cost_per_token", None) and kwargs.get(
+            "output_cost_per_token", None
+        ):
+            custom_pricing["input_cost_per_token"] = kwargs["input_cost_per_token"]
+            custom_pricing["output_cost_per_token"] = kwargs["output_cost_per_token"]
         try:
             if drop_invalid_params == True:
                 litellm.drop_params = True
@@ -260,7 +281,10 @@ class LiteLLMCompletionClient(CompletionClient):
             response.provider_name = self.provider_name
             provider_end_time = time.time_ns()
             response.provider_time = provider_end_time - provider_start_time
-            response.cost = completion_cost(response)
+            cost_calc_params = {"completion_response": response, "call_type": "embedding"}
+            if len(custom_pricing.keys()) > 0:
+                cost_calc_params["custom_cost_per_token"] = custom_pricing
+            response.cost = completion_cost(**cost_calc_params)
             return response
         except Exception as exc:
             if isinstance(
@@ -290,14 +314,31 @@ class LiteLLMCompletionClient(CompletionClient):
     def moderation(self, input: str, **kwargs):
         call_params = {}
         call_params["input"] = input
+        # See if there's a custom pricing here
+        custom_pricing = {}
+        if kwargs.get("input_cost_per_token", None) and kwargs.get(
+            "output_cost_per_token", None
+        ):
+            custom_pricing["input_cost_per_token"] = kwargs["input_cost_per_token"]
+            custom_pricing["output_cost_per_token"] = kwargs["output_cost_per_token"]
         try:
             # litellm.drop_params = True
             provider_start_time = time.time_ns()
             response = moderation(**call_params, **kwargs)
-            response.provider_name = self.provider_name
             provider_end_time = time.time_ns()
-            response.provider_time = provider_end_time - provider_start_time
-            response.cost = 0
+            
+            cost_calc_params = {
+                    "completion_response": response,
+                    "call_type": "moderation",
+                }
+            if len(custom_pricing.keys()) > 0:
+                cost_calc_params["custom_cost_per_token"] = custom_pricing
+            response = {
+                **response.model_dump(),
+                "cost": completion_cost(**cost_calc_params),
+                "provider_time": provider_end_time - provider_start_time,
+            }
+
             return response
         except Exception as e:
             logging.error(f"There's an unexpected error: {e}")
@@ -344,6 +385,12 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["api_version"] = api_version
         if api_key is not None:
             call_params["api_key"] = api_key
+        custom_pricing = {}
+        if kwargs.get("input_cost_per_token", None) and kwargs.get(
+            "output_cost_per_token", None
+        ):
+            custom_pricing["input_cost_per_token"] = kwargs["input_cost_per_token"]
+            custom_pricing["output_cost_per_token"] = kwargs["output_cost_per_token"]
         try:
             if drop_invalid_params == True:
                 litellm.drop_params = True
@@ -351,8 +398,19 @@ class LiteLLMCompletionClient(CompletionClient):
             response = image_generation(**call_params, **kwargs)
             response.provider_name = self.provider_name
             provider_end_time = time.time_ns()
-            response.provider_time = provider_end_time - provider_start_time
-            response.cost = None
+            cost_calc_params = {
+                    "completion_response": response,
+                    "call_type": "image_generation",
+                    "model": model_name,
+                }
+            if len(custom_pricing.keys()) > 0:
+                cost_calc_params["custom_cost_per_token"] = custom_pricing
+            response = {
+                **response.model_dump(),
+                "cost": completion_cost(**cost_calc_params),
+                "provider_time": provider_end_time - provider_start_time,
+            }
+
             return response
         except Exception as exc:
             if isinstance(

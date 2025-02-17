@@ -28,7 +28,7 @@ class WritesonicApi(ProviderInterface, TextInterface):
         }
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: Optional[str] = None
+        self, text: str, output_sentences: int, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SummarizeDataClass]:
         url = f"https://api.writesonic.com/v2/business/content/summary?engine=premium&language={language}"
         payload = {

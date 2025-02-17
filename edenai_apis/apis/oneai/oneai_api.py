@@ -65,7 +65,7 @@ class OneaiApi(
         self.header = {"api-key": self.api_key}
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
         data = json.dumps({"input": text, "steps": [{"skill": "anonymize"}]})
 
@@ -87,7 +87,7 @@ class OneaiApi(
         )
 
     def text__keyword_extraction(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[KeywordExtractionDataClass]:
         payload = {
             "input": text,
@@ -122,16 +122,15 @@ class OneaiApi(
         )
 
     def text__named_entity_recognition(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
-        response = self.llm_client.named_entity_recognition(text=text, model=model)
+        response = self.llm_client.named_entity_recognition(
+            text=text, model=model, **kwargs
+        )
         return response
 
     def text__sentiment_analysis(
-        self,
-        language: str,
-        text: str,
-        model: Optional[str] = None,
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
         data = json.dumps({"input": text, "steps": [{"skill": "sentiments"}]})
 
@@ -180,6 +179,7 @@ class OneaiApi(
         output_sentences: int,
         language: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SummarizeDataClass]:
         data = json.dumps({"input": text, "steps": [{"skill": "summarize"}]})
 

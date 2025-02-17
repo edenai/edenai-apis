@@ -41,6 +41,7 @@ class AmazonTranslationApi(TranslationInterface):
         target_language: str,
         text: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[AutomaticTranslationDataClass]:
         payload = {
             "Text": text,

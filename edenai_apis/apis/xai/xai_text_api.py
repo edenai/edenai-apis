@@ -39,36 +39,33 @@ from .helpers import (
 
 class XAiTextApi(TextInterface):
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str
+        self, text: str, output_sentences: int, language: str, model: str, **kwargs
     ) -> ResponseType[SummarizeDataClass]:
-        response = self.llm_client.summarize(text=text, model=model)
+        response = self.llm_client.summarize(text=text, model=model, **kwargs)
         return response
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
-        response = self.llm_client.pii(text=text, model=model)
+        response = self.llm_client.pii(text=text, model=model, **kwargs)
         return response
 
     def text__keyword_extraction(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[KeywordExtractionDataClass]:
-        response = self.llm_client.keyword_extraction(text=text, model=model)
+        response = self.llm_client.keyword_extraction(text=text, model=model, **kwargs)
         return response
 
     def text__sentiment_analysis(
-        self,
-        language: str,
-        text: str,
-        model: Optional[str] = None,
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
-        response = self.llm_client.sentiment_analysis(text=text, model=model)
+        response = self.llm_client.sentiment_analysis(text=text, model=model, **kwargs)
         return response
 
     def text__topic_extraction(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[TopicExtractionDataClass]:
-        response = self.llm_client.topic_extraction(text=text, model=model)
+        response = self.llm_client.topic_extraction(text=text, model=model, **kwargs)
         return response
 
     def text__code_generation(
@@ -78,21 +75,19 @@ class XAiTextApi(TextInterface):
         max_tokens: int,
         prompt: str = "",
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[CodeGenerationDataClass]:
         response = self.llm_client.code_generation(
             instruction=instruction,
             temperature=temperature,
             max_tokens=max_tokens,
             model=model,
+            **kwargs,
         )
         return response
 
     def text__generation(
-        self,
-        text: str,
-        temperature: float,
-        max_tokens: int,
-        model: str,
+        self, text: str, temperature: float, max_tokens: int, model: str, **kwargs
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.url}/chat/completions"
 
@@ -121,9 +116,10 @@ class XAiTextApi(TextInterface):
         entities: List[str],
         examples: Optional[List[Dict]] = None,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         response = self.llm_client.custom_named_entity_recognition(
-            text=text, model=model, entities=entities, examples=examples
+            text=text, model=model, entities=entities, examples=examples, **kwargs
         )
         return response
 
@@ -133,22 +129,25 @@ class XAiTextApi(TextInterface):
         labels: List[str],
         examples: List[List[str]],
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[CustomClassificationDataClass]:
         response = self.llm_client.custom_classification(
-            texts=texts, labels=labels, examples=examples, model=model
+            texts=texts, labels=labels, examples=examples, model=model, **kwargs
         )
         return response
 
     def text__spell_check(
-        self, text: str, language: str, model: Optional[str] = None
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SpellCheckDataClass]:
-        response = self.llm_client.spell_check(text=text, model=model)
+        response = self.llm_client.spell_check(text=text, model=model, **kwargs)
         return response
 
     def text__named_entity_recognition(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
-        response = self.llm_client.named_entity_recognition(text=text, model=model)
+        response = self.llm_client.named_entity_recognition(
+            text=text, model=model, **kwargs
+        )
         return response
 
     def text__chat(
@@ -163,6 +162,7 @@ class XAiTextApi(TextInterface):
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
+        **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         response = self.llm_client.chat(
             text=text,
@@ -175,5 +175,6 @@ class XAiTextApi(TextInterface):
             available_tools=available_tools,
             tool_choice=tool_choice,
             tool_results=tool_results,
+            **kwargs,
         )
         return response

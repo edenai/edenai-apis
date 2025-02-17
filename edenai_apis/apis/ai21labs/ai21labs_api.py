@@ -96,11 +96,7 @@ class Ai21labsApi(ProviderInterface, TextInterface):
         return total_tokens
 
     def text__generation(
-        self,
-        text: str,
-        temperature: float,
-        max_tokens: int,
-        model: str,
+        self, text: str, temperature: float, max_tokens: int, model: str, **kwargs
     ) -> ResponseType[GenerationDataClass]:
         response_body = self.__ai21labs_bedrock_request(
             text=text, temperature=temperature, max_tokens=max_tokens, model=model
@@ -118,7 +114,7 @@ class Ai21labsApi(ProviderInterface, TextInterface):
         )
 
     def text__embeddings(
-        self, texts: List[str], model: Optional[str] = None
+        self, texts: List[str], model: Optional[str] = None, **kwargs
     ) -> ResponseType[EmbeddingsDataClass]:
         payload = {"texts": texts}
         original_response = self.__ai21labs_api_request(url="embed", payload=payload)

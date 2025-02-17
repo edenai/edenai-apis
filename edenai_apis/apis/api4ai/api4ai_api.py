@@ -239,7 +239,7 @@ class Api4aiApi(
         return result
 
     def image__logo_detection(
-        self, file: str, file_url: str = "", model: Optional[str] = None
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[LogoDetectionDataClass]:
         with open(file, "rb") as file_:
             payload = {
