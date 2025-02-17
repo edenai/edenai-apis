@@ -60,6 +60,8 @@ from edenai_apis.features.multimodal.chat import (
     ChatStreamResponse as ChatMultimodalStreamResponse,
 )
 from edenai_apis.llmengine.prompts import BasePrompt
+from loaders.data_loader import ProviderDataEnum
+from loaders.loaders import load_provider
 
 
 class LLMEngine:
@@ -739,10 +741,11 @@ class StdLLMEngine(LLMEngine):
             application_name="std_chat",
             provider_config=provider_config,
             provider_name=None,
-            **kwargs
+            **kwargs,
         )
-    
-    def completion(self,
+
+    def completion(
+        self,
         messages: List = [],
         model: Optional[str] = None,
         # Optional OpenAI params: see https://platform.openai.com/docs/api-reference/chat/create
@@ -782,6 +785,12 @@ class StdLLMEngine(LLMEngine):
         # Optional parameters
         **kwargs,
     ):
+        if "provider" in kwargs:
+            provider_name = kwargs.pop("provider", None)
+            api_settings = load_provider(
+                ProviderDataEnum.KEY, provider_name, api_keys=api_key
+            )
+            api_key = api_settings["api_key"]
         try:
             completion_params = {
                 "messages": messages,
@@ -821,7 +830,6 @@ class StdLLMEngine(LLMEngine):
             return response
         except Exception as ex:
             raise ex
-
 
     def _execute_completion(self, params: Dict, **kwargs):
         try:
