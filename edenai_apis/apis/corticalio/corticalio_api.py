@@ -21,7 +21,7 @@ class CorticalioApi(ProviderInterface, TextInterface):
         self.client = CorticalClient(self.api_settings)
 
     def text__keyword_extraction(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[KeywordExtractionDataClass]:
         """
         Extract Keywords from a given text

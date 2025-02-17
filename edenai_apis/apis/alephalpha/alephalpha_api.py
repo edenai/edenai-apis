@@ -41,6 +41,7 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
         output_sentences: int,
         language: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SummarizeDataClass]:
         headers = {
             "Content-Type": "application/json",

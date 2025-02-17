@@ -150,7 +150,7 @@ class GoogleTextApi(TextInterface):
         )
 
     def text__syntax_analysis(
-        self, language: str, text: str
+        self, language: str, text: str, **kwargs
     ) -> ResponseType[SyntaxAnalysisDataClass]:
         """
         :param language:        String that contains the language code
@@ -246,11 +246,7 @@ class GoogleTextApi(TextInterface):
         return result
 
     def text__generation(
-        self,
-        text: str,
-        temperature: float,
-        max_tokens: int,
-        model: str,
+        self, text: str, temperature: float, max_tokens: int, model: str, **kwargs
     ) -> ResponseType[GenerationDataClass]:
         if "gemini" in model:
             payload = {
@@ -312,6 +308,7 @@ class GoogleTextApi(TextInterface):
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
+        **kwargs,
     ) -> ResponseType[Union[StreamChat, ChatDataClass]]:
 
         response = self.clients["llm_client"].chat(
@@ -325,15 +322,16 @@ class GoogleTextApi(TextInterface):
             available_tools=available_tools,
             tool_choice=tool_choice,
             tool_results=tool_results,
+            **kwargs,
         )
         return response
 
     def text__embeddings(
-        self, texts: List[str], model: Optional[str] = None
+        self, texts: List[str], model: Optional[str] = None, **kwargs
     ) -> ResponseType[EmbeddingsDataClass]:
         model = model.split("__")[1] if "__" in model else model
         response = self.clients["llm_client"].embeddings(
-            texts=texts, provider_model_name=f"vertex_ai/{model}", model=model
+            texts=texts, provider_model_name=f"vertex_ai/{model}", model=model, **kwargs
         )
         return response
 
@@ -399,7 +397,7 @@ class GoogleTextApi(TextInterface):
         )
 
     def text__moderation(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[ModerationDataClass]:
         """
         :param language:        String that contains the language code
@@ -459,6 +457,7 @@ class GoogleTextApi(TextInterface):
             "cosine", "hamming", "manhattan", "euclidean"
         ] = "cosine",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[SearchDataClass]:
         if len(texts) > 5:
             raise ProviderException(
@@ -471,15 +470,19 @@ class GoogleTextApi(TextInterface):
 
         # Embed the texts & query
         texts_embed_response = GoogleTextApi.text__embeddings(
-            self, texts=texts, model=model
+            self, texts=texts, model=model, **kwargs
         ).original_response
         query_embed_response = GoogleTextApi.text__embeddings(
-            self, texts=[query], model=model
+            self, texts=[query], model=model, **kwargs
         ).original_response
 
+        # Extract Tokens consumed
+        texts_usage = texts_embed_response.get("usage").get("total_tokens")
+        query_usage = query_embed_response.get("usage").get("total_tokens")
+
         # Extracts embeddings from texts & query
-        texts_embed = list(texts_embed_response["data"][0]["embedding"])
-        query_embed = query_embed_response["embeddings"][0]
+        texts_embed = [item["embedding"] for item in texts_embed_response.get("data")]
+        query_embed = query_embed_response["data"][0]["embedding"]
 
         items = []
         # Calculate score for each text index
@@ -498,7 +501,9 @@ class GoogleTextApi(TextInterface):
         original_response = {
             "texts_embeddings": texts_embed_response,
             "embeddings_query": query_embed_response,
+            "usage": {"total_tokens": texts_usage + query_usage},
         }
+
         result = ResponseType[SearchDataClass](
             original_response=original_response,
             standardized_response=SearchDataClass(items=sorted_items),

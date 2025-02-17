@@ -70,6 +70,7 @@ class MicrosoftTranslationApi(TranslationInterface):
         target_language: str,
         text: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[AutomaticTranslationDataClass]:
         """
         :param source_language:    String that contains language name of origin text

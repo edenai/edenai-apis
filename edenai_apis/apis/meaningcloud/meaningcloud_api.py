@@ -20,7 +20,12 @@ class MeaningcloudApi(ProviderInterface, TextInterface):
         self.url = "https://api.meaningcloud.com/summarization-1.0"
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: Optional[str] = None
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SummarizeDataClass]:
         data = {
             "key": self.api_key,

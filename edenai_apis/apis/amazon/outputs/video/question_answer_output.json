@@ -1,0 +1,28 @@
+{
+  "original_response": {
+    "output": {
+      "message": {
+        "content": [
+          {
+            "text": "The video starts with a person holding a smartphone and showing a picture of a room with a table, a chair, and a potted plant. The table has a glass and a skull-shaped object on it. The room has a checkered floor and a window with a curtain. The person then shows a picture of a building with a tower and a statue on top. The building has a clock tower and a tower with a statue of a person on top. The building is surrounded by trees and has a fence around it. The person then shows a picture of a man sitting in front of a desk with two monitors, a keyboard, and a mouse. He is holding a bottle and a pen in his hands. He is looking at the monitor on the right. The desk has a keyboard, a mouse, and a bottle. Behind him is a chair. The room is illuminated by a neon light."
+          }
+        ],
+        "role": "assistant"
+      }
+    },
+    "stopReason": "end_turn",
+    "usage": {
+      "completion_tokens": 180,
+      "prompt_tokens": 3461,
+      "total_tokens": 3641
+    }
+  },
+  "standardized_response": {
+    "answer": "The video starts with a person holding a smartphone and showing a picture of a room with a table, a chair, and a potted plant. The table has a glass and a skull-shaped object on it. The room has a checkered floor and a window with a curtain. The person then shows a picture of a building with a tower and a statue on top. The building has a clock tower and a tower with a statue of a person on top. The building is surrounded by trees and has a fence around it. The person then shows a picture of a man sitting in front of a desk with two monitors, a keyboard, and a mouse. He is holding a bottle and a pen in his hands. He is looking at the monitor on the right. The desk has a keyboard, a mouse, and a bottle. Behind him is a chair. The room is illuminated by a neon light."
+  },
+  "usage": {
+    "completion_tokens": 180,
+    "prompt_tokens": 3461,
+    "total_tokens": 3641
+  }
+}

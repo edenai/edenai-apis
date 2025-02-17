@@ -26,10 +26,7 @@ from .ibm_helpers import handle_ibm_call
 
 class IbmTextApi(TextInterface):
     def text__sentiment_analysis(
-        self,
-        language: str,
-        text: str,
-        model: Optional[str] = None,
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
         payload = {
             "text": text,
@@ -54,7 +51,7 @@ class IbmTextApi(TextInterface):
         )
 
     def text__syntax_analysis(
-        self, language: str, text: str
+        self, language: str, text: str, **kwargs
     ) -> ResponseType[SyntaxAnalysisDataClass]:
         payload = {
             "text": text,

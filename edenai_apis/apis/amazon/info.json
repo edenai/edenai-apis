@@ -835,6 +835,9 @@
     },
     "generation_async": {
       "version": "boto3"
+    },
+    "question_answer": {
+      "version": "boto3 (v1.29.6)"
     }
   },
   "multimodal": {

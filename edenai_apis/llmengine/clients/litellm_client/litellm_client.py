@@ -10,11 +10,23 @@ from litellm import (
     embedding,
     moderation,
     image_generation,
+    response_cost_calculator,
 )
 from litellm.exceptions import (
     APIError,
+    APIConnectionError,
+    APIResponseValidationError,
     AuthenticationError,
     BadRequestError,
+    NotFoundError,
+    RateLimitError,
+    ServiceUnavailableError,
+    ContentPolicyViolationError,
+    Timeout,
+    UnprocessableEntityError,
+    JSONSchemaValidationError,
+    UnsupportedParamsError,
+    ContextWindowExceededError,
     InternalServerError,
 )
 from litellm.utils import get_supported_openai_params
@@ -23,6 +35,7 @@ from llmengine.clients.completion import CompletionClient
 from llmengine.exceptions.llm_engine_exceptions import CompletionClientError
 from edenai_apis.utils.exception import ProviderException
 from llmengine.types.response_types import CustomStreamWrapperModel, ResponseModel
+from llmengine.exceptions.error_handler import handle_litellm_exception
 
 from pydantic import BaseModel
 from litellm import register_model
@@ -156,6 +169,13 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["model_list"] = model_list
         if user is not None:
             call_params["user"] = user
+        # See if there's a custom pricing here
+        custom_pricing = {}
+        if kwargs.get("input_cost_per_token", None) and kwargs.get(
+            "output_cost_per_token", None
+        ):
+            custom_pricing["input_cost_per_token"] = kwargs["input_cost_per_token"]
+            custom_pricing["output_cost_per_token"] = kwargs["output_cost_per_token"]
         try:
             if drop_invalid_params == True:
                 litellm.drop_params = True
@@ -169,44 +189,45 @@ class LiteLLMCompletionClient(CompletionClient):
                         if chunk is not None:
                             yield chunk
 
-                # c_response = litellm.stream_chunk_builder(chunks, messages=messages)
                 return generate_chunks()
             else:
+                cost_calc_params = {
+                    "completion_response": c_response,
+                    "call_type": "completion",
+                }
+                if len(custom_pricing.keys()) > 0:
+                    cost_calc_params["custom_cost_per_token"] = custom_pricing
                 response = {
                     **c_response.model_dump(),
-                    "cost": completion_cost(c_response),
+                    "cost": completion_cost(**cost_calc_params),
                     "provider_time": provider_end_time - provider_start_time,
                 }
                 return response
-        except InternalServerError as e:
-            logger.warning(f"There's an internal server error: {e}")
-            raise ProviderException(
-                message=e.message.replace("litellm.InternalServerError: ", ""),
-                code=500,
-            ) from e
-        except APIError as e:
-            logger.warning(f"There's an LiteLLM API error: {e}")
-            raise ProviderException(
-                message=e.message.replace("litellm.APIError: ", ""),
-                code=e.status_code,
-            ) from e
-        except BadRequestError as e:
-            logger.warning(
-                f"There's a Bad Request error calling the provider {self.provider_name}: {e}"
-            )
-            raise ProviderException(
-                message=e.message.replace("litellm.BadRequestError: ", ""),
-                code=e.status_code,
-            ) from e
-        except AuthenticationError as e:
-            logger.error(f"There's an authentication error: {e}")
-            raise ProviderException(
-                message=e.message.replace("litellm.AuthenticationError: ", ""),
-                code=e.status_code,
-            ) from e
-        except Exception as e:
-            logger.exception(e)
-            raise ProviderException(message=str(e))
+
+        except Exception as exc:
+            if isinstance(
+                exc,
+                (
+                    APIError,
+                    APIConnectionError,
+                    APIResponseValidationError,
+                    AuthenticationError,
+                    BadRequestError,
+                    NotFoundError,
+                    RateLimitError,
+                    ServiceUnavailableError,
+                    ContentPolicyViolationError,
+                    Timeout,
+                    UnprocessableEntityError,
+                    JSONSchemaValidationError,
+                    UnsupportedParamsError,
+                    ContextWindowExceededError,
+                    InternalServerError,
+                ),
+            ):
+                raise handle_litellm_exception(exc) from exc
+            else:
+                raise ProviderException(str(exc))
 
     def embedding(
         self,
@@ -245,6 +266,13 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["caching"] = caching
         if encoding_format is not None:
             call_params["encoding_format"] = encoding_format
+        # See if there's a custom pricing here
+        custom_pricing = {}
+        if kwargs.get("input_cost_per_token", None) and kwargs.get(
+            "output_cost_per_token", None
+        ):
+            custom_pricing["input_cost_per_token"] = kwargs["input_cost_per_token"]
+            custom_pricing["output_cost_per_token"] = kwargs["output_cost_per_token"]
         try:
             if drop_invalid_params == True:
                 litellm.drop_params = True
@@ -253,49 +281,64 @@ class LiteLLMCompletionClient(CompletionClient):
             response.provider_name = self.provider_name
             provider_end_time = time.time_ns()
             response.provider_time = provider_end_time - provider_start_time
-            response.cost = completion_cost(response)
+            cost_calc_params = {"completion_response": response, "call_type": "embedding"}
+            if len(custom_pricing.keys()) > 0:
+                cost_calc_params["custom_cost_per_token"] = custom_pricing
+            response.cost = completion_cost(**cost_calc_params)
             return response
-        except InternalServerError as e:
-            logger.warning(f"There's an internal server error: {e}")
-            raise ProviderException(
-                message=e.message.replace("litellm.InternalServerError: ", ""),
-                code=500,
-            ) from e
-        except APIError as e:
-            logger.warning(f"There's an LiteLLM API error: {e}")
-            raise ProviderException(
-                message=e.message.replace("litellm.APIError: ", ""),
-                code=e.status_code,
-            ) from e
-        except BadRequestError as e:
-            logger.warning(
-                f"There's a Bad Request error calling the provider {self.provider_name}: {e}"
-            )
-            raise ProviderException(
-                message=e.message.replace("litellm.BadRequestError: ", ""),
-                code=e.status_code,
-            ) from e
-        except AuthenticationError as e:
-            logger.error(f"There's an authentication error: {e}")
-            raise ProviderException(
-                message=e.message.replace("litellm.AuthenticationError: ", ""),
-                code=e.status_code,
-            ) from e
-        except Exception as e:
-            logger.exception(e)
-            raise ProviderException(message=str(e))
+        except Exception as exc:
+            if isinstance(
+                exc,
+                (
+                    APIError,
+                    APIConnectionError,
+                    APIResponseValidationError,
+                    AuthenticationError,
+                    BadRequestError,
+                    NotFoundError,
+                    RateLimitError,
+                    ServiceUnavailableError,
+                    ContentPolicyViolationError,
+                    Timeout,
+                    UnprocessableEntityError,
+                    JSONSchemaValidationError,
+                    UnsupportedParamsError,
+                    ContextWindowExceededError,
+                    InternalServerError,
+                ),
+            ):
+                raise handle_litellm_exception(exc) from exc
+            else:
+                raise ProviderException(message=str(exc))
 
     def moderation(self, input: str, **kwargs):
         call_params = {}
         call_params["input"] = input
+        # See if there's a custom pricing here
+        custom_pricing = {}
+        if kwargs.get("input_cost_per_token", None) and kwargs.get(
+            "output_cost_per_token", None
+        ):
+            custom_pricing["input_cost_per_token"] = kwargs["input_cost_per_token"]
+            custom_pricing["output_cost_per_token"] = kwargs["output_cost_per_token"]
         try:
             # litellm.drop_params = True
             provider_start_time = time.time_ns()
             response = moderation(**call_params, **kwargs)
-            response.provider_name = self.provider_name
             provider_end_time = time.time_ns()
-            response.provider_time = provider_end_time - provider_start_time
-            response.cost = 0
+            
+            cost_calc_params = {
+                    "completion_response": response,
+                    "call_type": "moderation",
+                }
+            if len(custom_pricing.keys()) > 0:
+                cost_calc_params["custom_cost_per_token"] = custom_pricing
+            response = {
+                **response.model_dump(),
+                "cost": completion_cost(**cost_calc_params),
+                "provider_time": provider_end_time - provider_start_time,
+            }
+
             return response
         except Exception as e:
             logging.error(f"There's an unexpected error: {e}")
@@ -333,8 +376,8 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["style"] = style
         if user is not None:
             call_params["user"] = user
-        if model is not None:
-            self.model_name = f"{self.provider_name}/{model}"
+        model_name = f"{self.provider_name}/{model}"
+        call_params["model"] = model_name
         call_params["timeout"] = timeout
         if api_base is not None:
             call_params["api_base"] = api_base
@@ -342,6 +385,12 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["api_version"] = api_version
         if api_key is not None:
             call_params["api_key"] = api_key
+        custom_pricing = {}
+        if kwargs.get("input_cost_per_token", None) and kwargs.get(
+            "output_cost_per_token", None
+        ):
+            custom_pricing["input_cost_per_token"] = kwargs["input_cost_per_token"]
+            custom_pricing["output_cost_per_token"] = kwargs["output_cost_per_token"]
         try:
             if drop_invalid_params == True:
                 litellm.drop_params = True
@@ -349,38 +398,44 @@ class LiteLLMCompletionClient(CompletionClient):
             response = image_generation(**call_params, **kwargs)
             response.provider_name = self.provider_name
             provider_end_time = time.time_ns()
-            response.provider_time = provider_end_time - provider_start_time
-            response.cost = None
+            cost_calc_params = {
+                    "completion_response": response,
+                    "call_type": "image_generation",
+                    "model": model_name,
+                }
+            if len(custom_pricing.keys()) > 0:
+                cost_calc_params["custom_cost_per_token"] = custom_pricing
+            response = {
+                **response.model_dump(),
+                "cost": completion_cost(**cost_calc_params),
+                "provider_time": provider_end_time - provider_start_time,
+            }
+
             return response
-        except InternalServerError as e:
-            logger.warning(f"There's an internal server error: {e}")
-            raise ProviderException(
-                message=e.message.replace("litellm.InternalServerError: ", ""),
-                code=500,
-            ) from e
-        except APIError as e:
-            logger.warning(f"There's an LiteLLM API error: {e}")
-            raise ProviderException(
-                message=e.message.replace("litellm.APIError: ", ""),
-                code=e.status_code,
-            ) from e
-        except BadRequestError as e:
-            logger.warning(
-                f"There's a Bad Request error calling the provider {self.provider_name}: {e}"
-            )
-            raise ProviderException(
-                message=e.message.replace("litellm.BadRequestError: ", ""),
-                code=e.status_code,
-            ) from e
-        except AuthenticationError as e:
-            logger.error(f"There's an authentication error: {e}")
-            raise ProviderException(
-                message=e.message.replace("litellm.AuthenticationError: ", ""),
-                code=e.status_code,
-            ) from e
-        except Exception as e:
-            logger.exception(e)
-            raise ProviderException(message=str(e))
+        except Exception as exc:
+            if isinstance(
+                exc,
+                (
+                    APIError,
+                    APIConnectionError,
+                    APIResponseValidationError,
+                    AuthenticationError,
+                    BadRequestError,
+                    NotFoundError,
+                    RateLimitError,
+                    ServiceUnavailableError,
+                    ContentPolicyViolationError,
+                    Timeout,
+                    UnprocessableEntityError,
+                    JSONSchemaValidationError,
+                    UnsupportedParamsError,
+                    ContextWindowExceededError,
+                    InternalServerError,
+                ),
+            ):
+                raise handle_litellm_exception(exc) from exc
+            else:
+                raise ProviderException(message=str(exc))
 
     def _process_response_format(self, input_response_format: any) -> any:
         """

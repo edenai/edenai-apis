@@ -24,7 +24,7 @@ from edenai_apis.utils.types import ResponseType
 
 class TenstorrentTextApi(TextInterface):
     def text__keyword_extraction(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[KeywordExtractionDataClass]:
         base_url = "https://keyword-extraction--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/keyword_extraction"
@@ -56,10 +56,7 @@ class TenstorrentTextApi(TextInterface):
         )
 
     def text__sentiment_analysis(
-        self,
-        language: str,
-        text: str,
-        model: Optional[str] = None,
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
         base_url = "https://sentiment-analysis--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/sentiment_analysis"

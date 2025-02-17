@@ -34,7 +34,7 @@ class MistralApi(ProviderInterface, TextInterface):
         )
 
     def text__generation(
-        self, text: str, temperature: float, max_tokens: int, model: str
+        self, text: str, temperature: float, max_tokens: int, model: str, **kwargs
     ) -> ResponseType[GenerationDataClass]:
         messages = [
             {
@@ -85,6 +85,7 @@ class MistralApi(ProviderInterface, TextInterface):
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
+        **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         response = self.llm_client.chat(
             text=text,
@@ -97,14 +98,22 @@ class MistralApi(ProviderInterface, TextInterface):
             available_tools=available_tools,
             tool_choice=tool_choice,
             tool_results=tool_results,
+            **kwargs,
         )
         return response
 
     def text__embeddings(
-        self, texts: List[str], model: Optional[str] = None
+        self,
+        texts: List[str],
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[EmbeddingsDataClass]:
         model = model.split("__")[1] if "__" in model else model
-        response = self.llm_client.embeddings(texts=texts, model=model)
+        response = self.llm_client.embeddings(
+            texts=texts,
+            model=model,
+            **kwargs,
+        )
         return response
 
     def multimodal__chat(

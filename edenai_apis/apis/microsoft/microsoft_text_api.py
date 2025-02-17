@@ -31,7 +31,7 @@ from .microsoft_helpers import microsoft_text_moderation_personal_infos
 
 class MicrosoftTextApi(TextInterface):
     def text__moderation(
-        self, text: str, language: str
+        self, language: str, text: str, model: Optional[str] = None
     ) -> ResponseType[ModerationDataClass]:
         if not language:
             language = ""
@@ -123,6 +123,7 @@ class MicrosoftTextApi(TextInterface):
         output_sentences: int,
         language: str,
         model: str = None,
+        **kwargs,
     ) -> ResponseType[SummarizeDataClass]:
         """
         :param text:        String that contains input text
@@ -191,7 +192,7 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
         try:
             response = requests.post(
@@ -259,10 +260,7 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__sentiment_analysis(
-        self,
-        language: str,
-        text: str,
-        model: Optional[str] = None,
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
         """
         :param language:    String that contains language code
@@ -353,7 +351,7 @@ class MicrosoftTextApi(TextInterface):
             )
 
     def text__keyword_extraction(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[KeywordExtractionDataClass]:
         """
         :param language:    String that contains language code
@@ -396,7 +394,7 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__spell_check(
-        self, text: str, language: str, model: Optional[str] = None
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SpellCheckDataClass]:
         if len(text) >= 130:
             raise ProviderException(
