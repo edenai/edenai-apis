@@ -103,6 +103,8 @@ class LiteLLMCompletionClient(CompletionClient):
             raise CompletionClientError("In completion, the messages cannot be empty")
         call_params = {}
         model_name = f"{self.provider_name}/{model}"
+        if self.provider_name is None:
+            model_name = model
         call_params["model"] = model_name
         call_params["messages"] = messages
         if timeout is not None:
@@ -463,7 +465,3 @@ class LiteLLMCompletionClient(CompletionClient):
                 register_model(cost)
             except Exception as e:
                 logger.error(f"Error registering model {model.model_name}: {e}")
-
-    @staticmethod
-    def std_completion():
-        return completion

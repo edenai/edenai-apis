@@ -19,8 +19,6 @@ class CompletionClient:
         model_name: Optional[str] = None,
         provider_config: dict = {},
     ) -> None:
-        if not provider_name:
-            raise CompletionClientError("Provider name is required.")
         self.model_name = model_name
         self.provider_name = provider_name
         self.provider_config = provider_config
