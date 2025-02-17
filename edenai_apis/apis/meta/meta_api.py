@@ -42,11 +42,7 @@ class MetaApi(ProviderInterface, TextInterface):
         )
 
     def text__generation(
-        self,
-        text: str,
-        temperature: float,
-        max_tokens: int,
-        model: str,
+        self, text: str, temperature: float, max_tokens: int, model: str, **kwargs
     ) -> ResponseType[GenerationDataClass]:
         # Headers for the HTTP request
         accept_header = "application/json"

@@ -43,15 +43,15 @@ from .helpers import (
 class OpenaiTextApi(TextInterface):
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: str
+        self, text: str, output_sentences: int, language: str, model: str, **kwargs
     ) -> ResponseType[SummarizeDataClass]:
-        response = self.llm_client.summarize(text=text, model=model)
+        response = self.llm_client.summarize(text=text, model=model, **kwargs)
         return response
 
     def text__moderation(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[ModerationDataClass]:
-        response = self.llm_client.moderation(text=text)
+        response = self.llm_client.moderation(text=text, **kwargs)
         return response
 
     def text__search(
@@ -62,6 +62,7 @@ class OpenaiTextApi(TextInterface):
             "cosine", "hamming", "manhattan", "euclidean"
         ] = "cosine",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[SearchDataClass]:
         if model is None:
             model = "1536__text-embedding-ada-002"
@@ -71,10 +72,10 @@ class OpenaiTextApi(TextInterface):
 
         # Embed the texts & query
         texts_embed_response = OpenaiTextApi.text__embeddings(
-            self, texts=texts, model=model
+            self, texts=texts, model=model, **kwargs
         ).original_response
         query_embed_response = OpenaiTextApi.text__embeddings(
-            self, texts=[query], model=model
+            self, texts=[query], model=model, **kwargs
         ).original_response
 
         # Extract Tokens consumed
@@ -119,6 +120,7 @@ class OpenaiTextApi(TextInterface):
         examples_context: str,
         examples: List[List[str]],
         model: Optional[str],
+        **kwargs,
     ) -> ResponseType[QuestionAnswerDataClass]:
         url = f"{self.url}/completions"
         # With search get the top document with the question & construct the context
@@ -162,36 +164,27 @@ class OpenaiTextApi(TextInterface):
         return result
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
-        response = self.llm_client.pii(text=text, model=model)
+        response = self.llm_client.pii(text=text, model=model, **kwargs)
         return response
 
     def text__keyword_extraction(
-        self,
-        language: str,
-        text: str,
-        model: Optional[str] = None,
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[KeywordExtractionDataClass]:
-        response = self.llm_client.keyword_extraction(text=text, model=model)
+        response = self.llm_client.keyword_extraction(text=text, model=model, **kwargs)
         return response
 
     def text__sentiment_analysis(
-        self,
-        language: str,
-        text: str,
-        model: Optional[str] = None,
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
-        response = self.llm_client.sentiment_analysis(text=text, model=model)
+        response = self.llm_client.sentiment_analysis(text=text, model=model, **kwargs)
         return response
 
     def text__topic_extraction(
-        self,
-        language: str,
-        text: str,
-        model: Optional[str] = None,
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[TopicExtractionDataClass]:
-        response = self.llm_client.topic_extraction(text=text, model=model)
+        response = self.llm_client.topic_extraction(text=text, model=model, **kwargs)
         return response
 
     def text__code_generation(
@@ -201,21 +194,19 @@ class OpenaiTextApi(TextInterface):
         max_tokens: int,
         prompt: str = "",
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[CodeGenerationDataClass]:
         response = self.llm_client.code_generation(
             instruction=instruction,
             temperature=temperature,
             max_tokens=max_tokens,
             model=model,
+            **kwargs,
         )
         return response
 
     def text__generation(
-        self,
-        text: str,
-        temperature: float,
-        max_tokens: int,
-        model: str,
+        self, text: str, temperature: float, max_tokens: int, model: str, **kwargs
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.url}/completions"
 
@@ -244,9 +235,10 @@ class OpenaiTextApi(TextInterface):
         entities: List[str],
         examples: Optional[List[Dict]] = None,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[CustomNamedEntityRecognitionDataClass]:
         response = self.llm_client.custom_named_entity_recognition(
-            text=text, entities=entities, examples=examples, model=model
+            text=text, entities=entities, examples=examples, model=model, **kwargs
         )
         return response
 
@@ -256,32 +248,32 @@ class OpenaiTextApi(TextInterface):
         labels: List[str],
         examples: List[List[str]],
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[CustomClassificationDataClass]:
         response = self.llm_client.custom_classification(
-            texts=texts, labels=labels, examples=examples, model=model
+            texts=texts, labels=labels, examples=examples, model=model, **kwargs
         )
         return response
 
     def text__spell_check(
-        self,
-        text: str,
-        language: str,
-        model: Optional[str] = None,
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SpellCheckDataClass]:
-        response = self.llm_client.spell_check(text=text, model=model)
+        response = self.llm_client.spell_check(text=text, model=model, **kwargs)
         return response
 
     def text__named_entity_recognition(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
-        response = self.llm_client.named_entity_recognition(text=text, model=model)
+        response = self.llm_client.named_entity_recognition(
+            text=text, model=model, **kwargs
+        )
         return response
 
     def text__embeddings(
-        self, texts: List[str], model: Optional[str] = None
+        self, texts: List[str], model: Optional[str] = None, **kwargs
     ) -> ResponseType[EmbeddingsDataClass]:
         model = model.split("__")[1] if "__" in model else model
-        response = self.llm_client.embeddings(texts=texts, model=model)
+        response = self.llm_client.embeddings(texts=texts, model=model, **kwargs)
         return response
 
     def text__chat(
@@ -296,6 +288,7 @@ class OpenaiTextApi(TextInterface):
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
+        **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         previous_history = previous_history or []
         # self.check_content_moderation(
@@ -315,11 +308,12 @@ class OpenaiTextApi(TextInterface):
             available_tools=available_tools,
             tool_choice=tool_choice,
             tool_results=tool_results,
+            **kwargs,
         )
         return response
 
     def text__prompt_optimization(
-        self, text: str, target_provider: str
+        self, text: str, target_provider: str, **kwargs
     ) -> ResponseType[PromptOptimizationDataClass]:
         url = f"{self.url}/chat/completions"
         prompt = construct_prompt_optimization_instruction(text, target_provider)

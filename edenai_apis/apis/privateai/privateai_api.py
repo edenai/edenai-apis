@@ -92,7 +92,7 @@ class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
         )
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
         payload = {
             "text": [text],

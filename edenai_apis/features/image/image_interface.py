@@ -196,7 +196,7 @@ class ImageInterface:
 
     @abstractmethod
     def image__logo_detection(
-        self, file: str, file_url: str = "", model: Optional[str] = None
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[LogoDetectionDataClass]:
         """
         Detect Logo in an image

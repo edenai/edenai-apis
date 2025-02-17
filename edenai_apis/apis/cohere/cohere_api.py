@@ -58,11 +58,7 @@ class CohereApi(ProviderInterface, TextInterface):
             return "long"
 
     def text__generation(
-        self,
-        text: str,
-        temperature: float,
-        max_tokens: int,
-        model: str,
+        self, text: str, temperature: float, max_tokens: int, model: str, **kwargs
     ) -> ResponseType[GenerationDataClass]:
         url = f"{self.base_url}generate"
 
@@ -111,6 +107,7 @@ class CohereApi(ProviderInterface, TextInterface):
         labels: List[str],
         examples: List[Tuple[str, str]],
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[CustomClassificationDataClass]:
         # Build the request
         url = f"{self.base_url}classify"
@@ -155,6 +152,7 @@ class CohereApi(ProviderInterface, TextInterface):
         output_sentences: int,
         language: str,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SummarizeDataClass]:
         url = f"{self.base_url}summarize"
         length = "long"
@@ -250,6 +248,7 @@ class CohereApi(ProviderInterface, TextInterface):
             "cosine", "hamming", "manhattan", "euclidean"
         ] = "cosine",
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SearchDataClass]:
         if model is None:
             model = "768__embed-multilingual-v2.0"
@@ -258,10 +257,10 @@ class CohereApi(ProviderInterface, TextInterface):
 
         # Embed the texts & query
         texts_embed_response = self.text__embeddings(
-            texts=texts, model=model
+            texts=texts, model=model, **kwargs
         ).original_response
         query_embed_response = self.text__embeddings(
-            texts=[query], model=model
+            texts=[query], model=model, **kwargs
         ).original_response
 
         # Extracts embeddings from texts & query

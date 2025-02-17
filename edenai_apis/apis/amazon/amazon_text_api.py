@@ -36,10 +36,7 @@ from .config import tags
 
 class AmazonTextApi(TextInterface):
     def text__sentiment_analysis(
-        self,
-        language: str,
-        text: str,
-        model: Optional[str] = None,
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
         # Getting response
         payload = {"Text": text, "LanguageCode": language}
@@ -77,7 +74,7 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__keyword_extraction(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[KeywordExtractionDataClass]:
         # Getting response
         payload = {"Text": text, "LanguageCode": language}
@@ -124,7 +121,7 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__syntax_analysis(
-        self, language: str, text: str
+        self, language: str, text: str, **kwargs
     ) -> ResponseType[SyntaxAnalysisDataClass]:
         # Getting response
         payload = {"Text": text, "LanguageCode": language}
@@ -156,7 +153,7 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
         payload = {"Text": text, "LanguageCode": language}
         res = handle_amazon_call(self.clients["text"].detect_pii_entities, **payload)
@@ -214,11 +211,7 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__generation(
-        self,
-        text: str,
-        temperature: float,
-        max_tokens: int,
-        model: str,
+        self, text: str, temperature: float, max_tokens: int, model: str, **kwargs
     ) -> ResponseType[GenerationDataClass]:
         # Headers for the HTTP request
         accept_header = "application/json"
@@ -272,6 +265,7 @@ class AmazonTextApi(TextInterface):
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
+        **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         response = self.llm_client.chat(
             text=text,
@@ -284,5 +278,6 @@ class AmazonTextApi(TextInterface):
             available_tools=available_tools,
             tool_choice=tool_choice,
             tool_results=tool_results,
+            **kwargs,
         )
         return response
