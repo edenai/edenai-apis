@@ -826,7 +826,7 @@ class StdLLMEngine(LLMEngine):
                 "user": user,
                 **kwargs,
             }
-            response = self._execute_completion(completion_params, **kwargs)
+            response = self._execute_completion(completion_params)
             return response
         except Exception as ex:
             raise ex
