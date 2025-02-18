@@ -1,8 +1,8 @@
 import base64
-from http import HTTPStatus
 import json
-from typing import Sequence, Optional, BinaryIO, Dict
+from typing import Sequence, Optional
 import numpy as np
+import mimetypes
 import requests
 from PIL import Image as Img, UnidentifiedImageError
 from google.cloud import vision
@@ -13,7 +13,6 @@ from edenai_apis.apis.google.google_helpers import (
     handle_google_call,
     score_to_content,
     get_access_token,
-    calculate_usage_tokens,
 )
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
@@ -398,11 +397,15 @@ class GoogleImageApi(ImageInterface):
         question: Optional[str] = None,
         settings: Optional[dict] = None,
     ) -> ResponseType[QuestionAnswerDataClass]:
+        with open(file, "rb") as fstream:
+            file_content = fstream.read()
+            file_b64 = base64.b64encode(file_content).decode("utf-8")
+        mime_type = mimetypes.guess_type(file)[0]
+        image_data = f"data:{mime_type};base64,{file_b64}"
         response = self.clients["llm_client"].image_qa(
-            file=file,
+            image_data=image_data,
             temperature=temperature,
             max_tokens=max_tokens,
-            file_url=file_url,
             model=model,
             question=question,
         )

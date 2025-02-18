@@ -3,16 +3,14 @@ from io import BytesIO
 from typing import Sequence, Literal, Optional
 
 from openai import APIError
+import mimetypes
 
-
-import requests
 from edenai_apis.features import ImageInterface
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
 )
 from edenai_apis.features.image.generation import (
     GenerationDataClass as ImageGenerationDataClass,
-    GeneratedImageDataClass,
 )
 from edenai_apis.features.image.logo_detection.logo_detection_dataclass import (
     LogoDetectionDataClass,
@@ -23,7 +21,6 @@ from edenai_apis.features.image.variation import (
 )
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
-from .helpers import get_openapi_response
 from ...features.image.question_answer import QuestionAnswerDataClass
 from ...utils.exception import ProviderException
 
@@ -51,11 +48,15 @@ class OpenaiImageApi(ImageInterface):
         model: Optional[str] = None,
         question: Optional[str] = None,
     ) -> ResponseType[QuestionAnswerDataClass]:
+        with open(file, "rb") as fstream:
+            file_content = fstream.read()
+            file_b64 = base64.b64encode(file_content).decode("utf-8")
+        mime_type = mimetypes.guess_type(file)[0]
+        image_data = f"data:{mime_type};base64,{file_b64}"
         response = self.llm_client.image_qa(
-            file=file,
+            image_data=image_data,
             temperature=temperature,
             max_tokens=max_tokens,
-            file_url=file_url,
             model=model,
             question=question,
         )
