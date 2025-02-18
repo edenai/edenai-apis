@@ -54,7 +54,7 @@ from edenai_apis.utils.types import ResponseType
 
 class MicrosoftImageApi(ImageInterface):
     def image__explicit_content(
-        self, file: str, file_url: str = "", model: Optional[str] = None
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
         with open(file, "rb") as file_:
             # Getting response of API
@@ -107,7 +107,7 @@ class MicrosoftImageApi(ImageInterface):
         return res
 
     def image__object_detection(
-        self, file: str, model: str = None, file_url: str = ""
+        self, file: str, model: str = None, file_url: str = "", **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
         with open(file, "rb") as file_:
             response = requests.post(
@@ -158,7 +158,7 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[FaceDetectionDataClass]:
         with open(file, "rb") as file_, Img.open(file) as img:
             file_content = file_.read()
@@ -244,7 +244,7 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__landmark_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[LandmarkDetectionDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -272,7 +272,7 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_recognition__create_collection(
-        self, collection_id: str
+        self, collection_id: str, **kwargs
     ) -> FaceRecognitionCreateCollectionDataClass:
         url = f"{self.url['face']}facelists/{collection_id}"
         headers = {
@@ -290,7 +290,7 @@ class MicrosoftImageApi(ImageInterface):
         return FaceRecognitionCreateCollectionDataClass(collection_id=collection_id)
 
     def image__face_recognition__list_collections(
-        self,
+        self, **kwargs
     ) -> ResponseType[FaceRecognitionListCollectionsDataClass]:
         url = f"{self.url['face']}facelists"
         headers = {
@@ -313,7 +313,7 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_recognition__list_faces(
-        self, collection_id: str
+        self, collection_id: str, **kwargs
     ) -> ResponseType[FaceRecognitionListFacesDataClass]:
         url = f"{self.url['face']}facelists/{collection_id}"
         headers = {
@@ -336,7 +336,7 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_recognition__delete_collection(
-        self, collection_id: str
+        self, collection_id: str, **kwargs
     ) -> ResponseType[FaceRecognitionDeleteCollectionDataClass]:
         url = f"{self.url['face']}facelists/{collection_id}"
         headers = {
@@ -357,7 +357,7 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_recognition__add_face(
-        self, collection_id: str, file: str, file_url: str = ""
+        self, collection_id: str, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
         url = f"{self.url['face']}facelists/{collection_id}/persistedFaces?detectionModel=detection_03"
         headers = self.headers["face"]
@@ -376,7 +376,7 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_recognition__delete_face(
-        self, collection_id, face_id
+        self, collection_id, face_id, **kwargs
     ) -> ResponseType[FaceRecognitionDeleteFaceDataClass]:
         url = f"{self.url['face']}facelists/{collection_id}/persistedFaces/{face_id}"
         headers = {
@@ -395,7 +395,7 @@ class MicrosoftImageApi(ImageInterface):
         )
 
     def image__face_recognition__recognize(
-        self, collection_id: str, file: str, file_url: str = ""
+        self, collection_id: str, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         # we first need to detect the face, extract the faceId
         # and then make the call for face similarities using this id
@@ -439,6 +439,7 @@ class MicrosoftImageApi(ImageInterface):
         file: str,
         file_url: str = "",
         provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         with open(file, "rb") as f:
             if provider_params is None or not isinstance(provider_params, dict):

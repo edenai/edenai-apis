@@ -72,10 +72,7 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
         self.text_generation_code = "mistral-7B-Instruct"
 
     def ocr__ocr(
-        self,
-        file: str,
-        language: str,
-        file_url: str = "",
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[OcrDataClass]:
         if not language:
             raise LanguageException("Language not provided", code=400)
@@ -142,7 +139,7 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
         return result
 
     def image__explicit_content(
-        self, file: str, file_url: str = "", model: Optional[str] = None
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
@@ -206,7 +203,7 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
         )
 
     def image__face_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[FaceDetectionDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
@@ -281,10 +278,7 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
             return result
 
     def image__object_detection(
-        self,
-        file: str,
-        file_url: str = "",
-        model: Optional[str] = None,
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)

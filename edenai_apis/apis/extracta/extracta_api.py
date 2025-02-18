@@ -54,7 +54,11 @@ class ExtractaApi(
         self.processFileRoute = self.api_settings["processFileRoute"]
 
     def ocr__custom_document_parsing_async__launch_job(
-        self, file: str, queries: List[Dict[str, Union[str, str]]], file_url: str = ""
+        self,
+        file: str,
+        queries: List[Dict[str, Union[str, str]]],
+        file_url: str = "",
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         isUrl = False
 
@@ -220,7 +224,7 @@ class ExtractaApi(
         )
 
     def ocr__resume_parser(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[ResumeParserDataClass]:
         isUrl = False
 
@@ -282,7 +286,7 @@ class ExtractaApi(
         )
 
     def ocr__bank_check_parsing(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[BankCheckParsingDataClass]:
         isUrl = False
 
@@ -350,6 +354,7 @@ class ExtractaApi(
         document_type: str = "",
         file_url: str = "",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         isUrl = False
 

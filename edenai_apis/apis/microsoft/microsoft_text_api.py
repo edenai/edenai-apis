@@ -31,7 +31,7 @@ from .microsoft_helpers import microsoft_text_moderation_personal_infos
 
 class MicrosoftTextApi(TextInterface):
     def text__moderation(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[ModerationDataClass]:
         if not language:
             language = ""
@@ -62,7 +62,7 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__named_entity_recognition(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         """
         :param language:        String that contains the language code

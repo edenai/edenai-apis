@@ -68,7 +68,7 @@ class GoogleImageApi(ImageInterface):
         return values[value]
 
     def image__explicit_content(
-        self, file: str, file_url: str = "", model: Optional[str] = None
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
         with open(file, "rb") as file_:
             content = file_.read()
@@ -116,7 +116,7 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__object_detection(
-        self, file: str, model: str = None, file_url: str = ""
+        self, file: str, model: str = None, file_url: str = "", **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
         with open(file, "rb") as file_:
             image = vision.Image(content=file_.read())
@@ -158,7 +158,7 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__face_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[FaceDetectionDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -299,7 +299,7 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__landmark_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[LandmarkDetectionDataClass]:
         with open(file, "rb") as file_:
             content = file_.read()
@@ -396,6 +396,7 @@ class GoogleImageApi(ImageInterface):
         model: Optional[str] = None,
         question: Optional[str] = None,
         settings: Optional[dict] = None,
+        **kwargs,
     ) -> ResponseType[QuestionAnswerDataClass]:
         with open(file, "rb") as fstream:
             file_content = fstream.read()
@@ -418,6 +419,7 @@ class GoogleImageApi(ImageInterface):
         model: Optional[str] = "multimodalembedding@001",
         embedding_dimension: int = 1408,
         file_url: Optional[str] = "",
+        **kwargs,
     ) -> ResponseType[EmbeddingsDataClass]:
 
         token = get_access_token(self.location)

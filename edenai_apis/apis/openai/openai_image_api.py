@@ -33,6 +33,7 @@ class OpenaiImageApi(ImageInterface):
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[ImageGenerationDataClass]:
         response = self.llm_client.image_generation(
             prompt=text, resolution=resolution, n=num_images, model=model
@@ -47,6 +48,7 @@ class OpenaiImageApi(ImageInterface):
         file_url: str = "",
         model: Optional[str] = None,
         question: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[QuestionAnswerDataClass]:
         with open(file, "rb") as fstream:
             file_content = fstream.read()
@@ -71,6 +73,7 @@ class OpenaiImageApi(ImageInterface):
         temperature: Optional[float] = 0.3,
         model: Optional[str] = None,
         file_url: str = "",
+        **kwargs,
     ) -> ResponseType[VariationDataClass]:
         try:
             with open(file, "rb") as file_:
@@ -103,7 +106,7 @@ class OpenaiImageApi(ImageInterface):
         )
 
     def image__explicit_content(
-        self, file: str, file_url: str = "", model: Optional[str] = None
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
         response = self.llm_client.image_moderation(
             file=file, file_url=file_url, model=model

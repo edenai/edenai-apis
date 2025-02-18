@@ -14,7 +14,7 @@ from edenai_apis.utils.types import ResponseType
 
 class XAiTranslationApi(TranslationInterface):
     def translation__language_detection(
-        self, text: str, model: Optional[str] = None
+        self, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[LanguageDetectionDataClass]:
         response = self.llm_client.language_detection(text=text, model=model)
         return response

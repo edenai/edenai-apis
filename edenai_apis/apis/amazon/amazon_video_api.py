@@ -52,7 +52,7 @@ from edenai_apis.utils.upload_s3 import (
 class AmazonVideoApi(VideoInterface):
     # Launch job label detection
     def video__label_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         video, notification_channel = amazon_get_video_data(file=file)
         response = clients(self.api_settings)["video"].start_label_detection(
@@ -64,7 +64,7 @@ class AmazonVideoApi(VideoInterface):
         return AsyncLaunchJobResponseType(provider_job_id=job_id)
 
     def video__text_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         video, notification_channel = amazon_get_video_data(file=file)
         response = clients(self.api_settings)["video"].start_text_detection(
@@ -77,7 +77,7 @@ class AmazonVideoApi(VideoInterface):
 
     # Launch job face detection
     def video__face_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         video, notification_channel = amazon_get_video_data(file=file)
         response = clients(self.api_settings)["video"].start_face_detection(
@@ -90,7 +90,7 @@ class AmazonVideoApi(VideoInterface):
 
     # Launch job person tracking
     def video__person_tracking_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         video, notification_channel = amazon_get_video_data(file=file)
         response = clients(self.api_settings)["video"].start_person_tracking(
@@ -103,7 +103,7 @@ class AmazonVideoApi(VideoInterface):
 
     # Launch job explicit content detection
     def video__explicit_content_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         video, notification_channel = amazon_get_video_data(file=file)
         response = clients(self.api_settings)["video"].start_content_moderation(
@@ -125,6 +125,7 @@ class AmazonVideoApi(VideoInterface):
         file: Optional[str] = None,
         file_url: Optional[str] = None,
         model: Optional[str] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         text_input = {"text": text}
         if file:
@@ -425,6 +426,7 @@ class AmazonVideoApi(VideoInterface):
         file_url: str = "",
         temperature: float = 0,
         model: str = None,
+        **kwargs,
     ) -> QuestionAnswerDataClass:
         with open(file, "rb") as video_file:
             binary_data = video_file.read()

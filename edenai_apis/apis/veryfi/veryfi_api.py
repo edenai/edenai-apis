@@ -131,7 +131,7 @@ class VeryfiApi(ProviderInterface, OcrInterface):
             )
 
     def ocr__invoice_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
         original_response = self._process_document(file)
 
@@ -142,7 +142,7 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__receipt_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[ReceiptParserDataClass]:
         original_response = self._process_document(file)
 
@@ -154,7 +154,7 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__bank_check_parsing(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[BankCheckParsingDataClass]:
         original_response = self._process_document(file, document_type="checks")
 
@@ -172,6 +172,7 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         document_type: str = "",
         file_url: str = "",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         original_response = self._process_document(file)
 

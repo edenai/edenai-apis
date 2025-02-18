@@ -32,6 +32,7 @@ class AudioInterface:
         model: Optional[str] = None,
         file_url: str = "",
         provider_params: Optional[dict] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         """Launch an asynchronous job to convert an audio file to text
         Args:
@@ -80,6 +81,7 @@ class AudioInterface:
         speaking_pitch: int,
         speaking_volume: int,
         sampling_rate: int,
+        **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
         """Convert Text into audio speech
         Args:
@@ -102,6 +104,7 @@ class AudioInterface:
         speaking_volume: int,
         sampling_rate: int,
         file_url: str = "",
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         """Convert text into longer audio speech
         Args:

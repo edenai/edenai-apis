@@ -50,6 +50,7 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         model: Optional[str] = None,
         file_url: str = "",
         provider_params: Optional[dict] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes

@@ -85,6 +85,7 @@ class DeeplApi(ProviderInterface, TranslationInterface):
         source_language: str,
         target_language: str,
         file_url: str = "",
+        **kwargs,
     ) -> ResponseType[DocumentTranslationDataClass]:
         mimetype = mimetypes.guess_type(file)[0]
         extension = mimetypes.guess_extension(mimetype)

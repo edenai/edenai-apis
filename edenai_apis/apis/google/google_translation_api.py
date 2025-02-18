@@ -59,7 +59,7 @@ class GoogleTranslationApi(TranslationInterface):
         )
 
     def translation__language_detection(
-        self, text: str, model: Optional[str] = None
+        self, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[LanguageDetectionDataClass]:
 
         payload = {
@@ -94,6 +94,7 @@ class GoogleTranslationApi(TranslationInterface):
         target_language: str,
         file_type: str,
         file_url: str = "",
+        **kwargs,
     ) -> ResponseType[DocumentTranslationDataClass]:
         mimetype = mimetypes.guess_type(file)[0]
         extension = mimetypes.guess_extension(mimetype)

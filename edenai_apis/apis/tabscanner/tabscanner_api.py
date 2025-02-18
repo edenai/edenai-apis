@@ -68,7 +68,7 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         return response_json, response.status_code
 
     def ocr__receipt_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[ReceiptParserDataClass]:
         with open(file, "rb") as file_:
             token = self._process(file_, "receipt")
@@ -161,6 +161,7 @@ class TabscannerApi(ProviderInterface, OcrInterface):
         document_type: str = "",
         file_url: str = "",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         with open(file, "rb") as file_:
             token = self._process(file_, document_type)

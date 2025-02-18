@@ -26,7 +26,7 @@ class SenseloafApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__resume_parser(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[ResumeParserDataClass]:
 
         original_response = self.client.parse_document(
