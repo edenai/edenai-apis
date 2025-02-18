@@ -13,15 +13,18 @@ from edenai_apis.utils.constraints import validate_all_provider_constraints
 chat_providers = sorted(list_providers(feature="text", subfeature="chat"))
 
 chat_provider_models = [
-    ("google", "chat-bison"),
+    ("meta", "llama3-1-70b-instruct-v1:0"),
+    ("amazon", "anthropic.claude-3-sonnet-20240229-v1:0"),
     ("openai", "gpt-3.5-turbo"),
-    ("mistral", "large-latest"),
-    ("anthropic", "claude-3-sonnet-20240229-v1:0"),
+    ("mistral", "mistral-large-latest"),
+    ("google", "gemini-1.5-pro"),
     ("cohere", "command-nightly"),
-    ("meta", "llama2-70b-chat-v1"),
-    ("perplexityai", "pplx-70b-online"),
-    ("replicate", "llama-2-70b-chat"),
+    ("perplexityai", "sonar-pro"),
+    ("replicate", "meta/llama-2-7b-chat"),
+    ("anthropic", "claude-3-5-sonnet-latest"),
+    ("xai", "grok-2-latest"),
     ("deepseek", "DeepSeek-V3"),
+    ("together_ai", "deepseek-ai/DeepSeek-V3"),
 ]
 
 
