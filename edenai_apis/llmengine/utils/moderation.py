@@ -24,7 +24,7 @@ async def moderate_content(headers, content: Union[str, List]) -> bool:
         async with session.post(
             "https://api.openai.com/v1/moderations",
             headers=headers,
-            json={"input": content},
+            json={"model": "omni-moderation-latest", "input": content},
         ) as response:
             response_data = await get_openapi_response_async(response)
 
