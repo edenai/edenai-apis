@@ -56,7 +56,7 @@ from edenai_apis.features.multimodal.chat import (
     ChatStreamResponse as ChatMultimodalStreamResponse,
 )
 from edenai_apis.llmengine.prompts import BasePrompt
-from edenai_apis.llmengine import moderate
+from edenai_apis.llmengine.utils.moderation import moderate
 
 
 class LLMEngine:
