@@ -281,7 +281,10 @@ class LiteLLMCompletionClient(CompletionClient):
             response.provider_name = self.provider_name
             provider_end_time = time.time_ns()
             response.provider_time = provider_end_time - provider_start_time
-            cost_calc_params = {"completion_response": response, "call_type": "embedding"}
+            cost_calc_params = {
+                "completion_response": response,
+                "call_type": "embedding",
+            }
             if len(custom_pricing.keys()) > 0:
                 cost_calc_params["custom_cost_per_token"] = custom_pricing
             response.cost = completion_cost(**cost_calc_params)
@@ -326,11 +329,11 @@ class LiteLLMCompletionClient(CompletionClient):
             provider_start_time = time.time_ns()
             response = moderation(**call_params, **kwargs)
             provider_end_time = time.time_ns()
-            
+
             cost_calc_params = {
-                    "completion_response": response,
-                    "call_type": "moderation",
-                }
+                "completion_response": response,
+                "call_type": "moderation",
+            }
             if len(custom_pricing.keys()) > 0:
                 cost_calc_params["custom_cost_per_token"] = custom_pricing
             response = {
@@ -399,18 +402,15 @@ class LiteLLMCompletionClient(CompletionClient):
             response.provider_name = self.provider_name
             provider_end_time = time.time_ns()
             cost_calc_params = {
-                    "completion_response": response,
-                    "call_type": "image_generation",
-                    "model": model_name,
-                }
+                "completion_response": response,
+                "call_type": "image_generation",
+                "model": model_name,
+            }
             if len(custom_pricing.keys()) > 0:
                 cost_calc_params["custom_cost_per_token"] = custom_pricing
-            response = {
-                **response.model_dump(),
-                "cost": completion_cost(**cost_calc_params),
-                "provider_time": provider_end_time - provider_start_time,
-            }
 
+            response.provider_time = provider_end_time - provider_start_time
+            response.cost = completion_cost(**cost_calc_params)
             return response
         except Exception as exc:
             if isinstance(
