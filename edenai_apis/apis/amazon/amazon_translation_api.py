@@ -15,7 +15,7 @@ from edenai_apis.utils.types import ResponseType
 
 class AmazonTranslationApi(TranslationInterface):
     def translation__language_detection(
-        self, text: str, model: Optional[str] = None
+        self, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[LanguageDetectionDataClass]:
         response = self.clients["text"].detect_dominant_language(Text=text)
         items: Sequence[InfosLanguageDetectionDataClass] = []

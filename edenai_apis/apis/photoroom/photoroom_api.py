@@ -49,6 +49,7 @@ class PhotoroomApi(ImageInterface, ProviderInterface):
         file: str,
         file_url: str = "",
         provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         with open(file, "rb") as f:
             files = {"image_file": f.read()}

@@ -3,16 +3,14 @@ from io import BytesIO
 from typing import Sequence, Literal, Optional
 
 from openai import APIError
+import mimetypes
 
-
-import requests
 from edenai_apis.features import ImageInterface
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
     ExplicitContentDataClass,
 )
 from edenai_apis.features.image.generation import (
     GenerationDataClass as ImageGenerationDataClass,
-    GeneratedImageDataClass,
 )
 from edenai_apis.features.image.logo_detection.logo_detection_dataclass import (
     LogoDetectionDataClass,
@@ -23,7 +21,6 @@ from edenai_apis.features.image.variation import (
 )
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
-from .helpers import get_openapi_response
 from ...features.image.question_answer import QuestionAnswerDataClass
 from ...utils.exception import ProviderException
 
@@ -36,6 +33,7 @@ class OpenaiImageApi(ImageInterface):
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[ImageGenerationDataClass]:
         response = self.llm_client.image_generation(
             prompt=text, resolution=resolution, n=num_images, model=model
@@ -50,12 +48,17 @@ class OpenaiImageApi(ImageInterface):
         file_url: str = "",
         model: Optional[str] = None,
         question: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[QuestionAnswerDataClass]:
+        with open(file, "rb") as fstream:
+            file_content = fstream.read()
+            file_b64 = base64.b64encode(file_content).decode("utf-8")
+        mime_type = mimetypes.guess_type(file)[0]
+        image_data = f"data:{mime_type};base64,{file_b64}"
         response = self.llm_client.image_qa(
-            file=file,
+            image_data=image_data,
             temperature=temperature,
             max_tokens=max_tokens,
-            file_url=file_url,
             model=model,
             question=question,
         )
@@ -70,6 +73,7 @@ class OpenaiImageApi(ImageInterface):
         temperature: Optional[float] = 0.3,
         model: Optional[str] = None,
         file_url: str = "",
+        **kwargs,
     ) -> ResponseType[VariationDataClass]:
         try:
             with open(file, "rb") as file_:
@@ -102,7 +106,7 @@ class OpenaiImageApi(ImageInterface):
         )
 
     def image__explicit_content(
-        self, file: str, file_url: str = "", model: Optional[str] = None
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
         response = self.llm_client.image_moderation(
             file=file, file_url=file_url, model=model

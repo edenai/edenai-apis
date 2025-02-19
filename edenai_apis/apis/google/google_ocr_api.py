@@ -66,10 +66,7 @@ from edenai_apis.utils.types import (
 
 class GoogleOcrApi(OcrInterface):
     def ocr__ocr(
-        self,
-        file: str,
-        language: str,
-        file_url: str = "",
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[OcrDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -123,7 +120,7 @@ class GoogleOcrApi(OcrInterface):
         )
 
     def ocr__receipt_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[ReceiptParserDataClass]:
         mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
 
@@ -236,7 +233,7 @@ class GoogleOcrApi(OcrInterface):
         )
 
     def ocr__invoice_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
         mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
 
@@ -387,7 +384,7 @@ class GoogleOcrApi(OcrInterface):
         )
 
     def ocr__ocr_tables_async__launch_job(
-        self, file: str, file_type: str, language: str, file_url: str = ""
+        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         file_name: str = file.split("/")[-1]  # file.name give its whole path
 
@@ -484,7 +481,7 @@ class GoogleOcrApi(OcrInterface):
         )
 
     def ocr__ocr_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         call_uuid = uuid.uuid4().hex
         filename: str = call_uuid + file.split("/")[-1]
@@ -553,6 +550,7 @@ class GoogleOcrApi(OcrInterface):
         document_type: str,
         file_url: str = "",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
         financial_project_id = self.api_settings["documentai"]["project_id"]

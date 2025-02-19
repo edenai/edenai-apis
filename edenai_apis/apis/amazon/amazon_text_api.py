@@ -98,7 +98,7 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__named_entity_recognition(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         # Getting response
         payload = {"Text": text, "LanguageCode": language}
@@ -186,7 +186,9 @@ class AmazonTextApi(TextInterface):
             original_response=res, standardized_response=standardized_response
         )
 
-    def text__entity_sentiment(self, text: str, language: str) -> ResponseType:
+    def text__entity_sentiment(
+        self, text: str, language: str, **kwargs
+    ) -> ResponseType:
         payload = {"Text": text, "LanguageCode": language}
         original_response = handle_amazon_call(
             self.clients["text"].detect_targeted_sentiment, **payload

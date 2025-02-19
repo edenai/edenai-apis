@@ -67,6 +67,7 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
         representation: Optional[str] = None,
         model: Optional[str] = None,
         file_url: str = "",
+        **kwargs,
     ) -> ResponseType[EmbeddingsDataClass]:
         if representation == "symmetric":
             representation_client = SemanticRepresentation.Symmetric
@@ -102,6 +103,7 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
         file_url: str = "",
         model: Optional[str] = None,
         question: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[QuestionAnswerDataClass]:
         client = Client(self.api_key)
         if question:

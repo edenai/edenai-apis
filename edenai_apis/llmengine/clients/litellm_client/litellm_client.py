@@ -181,6 +181,7 @@ class LiteLLMCompletionClient(CompletionClient):
         try:
             if drop_invalid_params == True:
                 litellm.drop_params = True
+            kwargs.pop("moderate_content", None)
             provider_start_time = time.time_ns()
             c_response = completion(**call_params, **kwargs)
             provider_end_time = time.time_ns()
@@ -278,6 +279,7 @@ class LiteLLMCompletionClient(CompletionClient):
         try:
             if drop_invalid_params == True:
                 litellm.drop_params = True
+            kwargs.pop("moderate_content", None)
             provider_start_time = time.time_ns()
             response = embedding(**call_params, **kwargs)
             response.provider_name = self.provider_name
@@ -328,6 +330,7 @@ class LiteLLMCompletionClient(CompletionClient):
             custom_pricing["output_cost_per_token"] = kwargs["output_cost_per_token"]
         try:
             # litellm.drop_params = True
+            kwargs.pop("moderate_content", None)
             provider_start_time = time.time_ns()
             response = moderation(**call_params, **kwargs)
             provider_end_time = time.time_ns()
@@ -396,6 +399,7 @@ class LiteLLMCompletionClient(CompletionClient):
         try:
             if drop_invalid_params == True:
                 litellm.drop_params = True
+            kwargs.pop("moderate_content", None)
             provider_start_time = time.time_ns()
             response = image_generation(**call_params, **kwargs)
             response.provider_name = self.provider_name

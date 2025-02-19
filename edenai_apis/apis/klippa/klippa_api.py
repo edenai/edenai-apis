@@ -60,7 +60,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         return original_response
 
     def ocr__invoice_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
         with open(file, "rb") as file_:
             original_response = self._make_post_request(file_)
@@ -72,7 +72,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__receipt_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[ReceiptParserDataClass]:
         with open(file, "rb") as file_:
             original_response = self._make_post_request(file_)
@@ -84,7 +84,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__identity_parser(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
         with open(file, "rb") as file_:
             original_response = self._make_post_request(file_, endpoint="/identity")
@@ -96,7 +96,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__resume_parser(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[ResumeParserDataClass]:
         with open(file, "rb") as file_:
             original_response = self._make_post_request(file_, endpoint="/resume")
@@ -114,6 +114,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
         document_type: str = "",
         file_url: str = "",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         with open(file, "rb") as file_:
             original_response = self._make_post_request(file_)

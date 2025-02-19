@@ -153,7 +153,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch label detection job
     def video__label_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         operation = self.clients["video"].annotate_video(
@@ -166,7 +166,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch text detection job
     def video__text_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         operation = self.clients["video"].annotate_video(
@@ -180,7 +180,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch face detection job
     def video__face_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
 
@@ -200,7 +200,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch person tracking job
     def video__person_tracking_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         # Configure the request for each feature
@@ -223,7 +223,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch logo detection job
     def video__logo_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         # Configure the request for each feature
@@ -239,7 +239,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch object tracking job
     def video__object_tracking_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         # Configure the request for each feature
@@ -255,7 +255,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch explicit content detection job
     def video__explicit_content_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         # Configure the request for each feature
@@ -270,7 +270,7 @@ class GoogleVideoApi(VideoInterface):
         return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
 
     def video__shot_change_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         operation = self.clients["video"].annotate_video(
@@ -805,6 +805,7 @@ class GoogleVideoApi(VideoInterface):
         file_url: str = "",
         temperature: float = 0,
         model: str = None,
+        **kwargs,
     ) -> QuestionAnswerDataClass:
         api_key = self.api_settings.get("genai_api_key")
         file_data = self._upload_and_process_file(file, api_key)
@@ -839,6 +840,7 @@ class GoogleVideoApi(VideoInterface):
         file_url: str = "",
         temperature: float = 0,
         model: str | None = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         data_job_id = {}
         api_key = self.api_settings.get("genai_api_key")

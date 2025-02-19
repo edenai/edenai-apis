@@ -164,6 +164,7 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[GenerationDataClass]:
         size = resolution.split("x")
         payload = {
