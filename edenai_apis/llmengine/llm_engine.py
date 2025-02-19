@@ -141,7 +141,6 @@ class LLMEngine:
                 tools=available_tools
             )
             call_params["tool_choice"] = tool_choice
-
         response = self.completion_client.completion(**call_params, **kwargs)
         if stream is False:
             response = ResponseModel.model_validate(response)
@@ -230,7 +229,6 @@ class LLMEngine:
 
         args["response_format"] = response_format
         args["drop_invalid_params"] = True
-        kwargs.pop("moderate_content", None)
         response = self.completion_client.completion(**args, **kwargs)
         response = ResponseModel.model_validate(response)
         if stream is False:
