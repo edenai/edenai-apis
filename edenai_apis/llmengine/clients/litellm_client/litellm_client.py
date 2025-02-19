@@ -412,12 +412,9 @@ class LiteLLMCompletionClient(CompletionClient):
             }
             if len(custom_pricing.keys()) > 0:
                 cost_calc_params["custom_cost_per_token"] = custom_pricing
-            response = {
-                **response.model_dump(),
-                "cost": completion_cost(**cost_calc_params),
-                "provider_time": provider_end_time - provider_start_time,
-            }
 
+            response.provider_time = provider_end_time - provider_start_time
+            response.cost = completion_cost(**cost_calc_params)
             return response
         except Exception as exc:
             if isinstance(
