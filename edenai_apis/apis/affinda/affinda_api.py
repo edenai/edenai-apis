@@ -63,7 +63,7 @@ class AffindaApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__invoice_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
         self.client.current_workspace = self.api_settings["invoice_workspace"]
 
