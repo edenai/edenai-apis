@@ -19,8 +19,6 @@ class CompletionClient:
         model_name: Optional[str] = None,
         provider_config: dict = {},
     ) -> None:
-        if not provider_name:
-            raise CompletionClientError("Provider name is required.")
         self.model_name = model_name
         self.provider_name = provider_name
         self.provider_config = provider_config
@@ -96,3 +94,9 @@ class CompletionClient:
 
     def _configure_google(self, auth_args):
         os.environ["GEMINI_API_KEY"] = auth_args["genai_api_key"]
+
+    @staticmethod
+    def std_completion():
+        raise CompletionClientError(
+            "Not implemented. Please implement this method in a subclass."
+        )
