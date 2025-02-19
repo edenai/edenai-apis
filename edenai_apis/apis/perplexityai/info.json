@@ -16,5 +16,8 @@
                 "default_model": "pplx-70b-online"
             }
         }
+    },
+    "_metadata": {
+        "privacy_url": "https://www.perplexity.ai/hub/legal/privacy-policy"
     }
 }

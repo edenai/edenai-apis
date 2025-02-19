@@ -16,11 +16,13 @@
                     "application/xhtml+xml",
                     "message/rfc822"
                 ],
-                "languages": [
-                ],
+                "languages": [],
                 "allow_null_language": true
             },
             "version": "hireability 1.0.0"
         }
+    },
+    "_metadata": {
+        "privacy_url": "https://www.hireability.com/company-about-hireability/privacy"
     }
 }

@@ -8,5 +8,8 @@
         "deepfake_detection_async": {
             "version": "v1beta"
         }
+    },
+    "_metadata": {
+        "privacy_url": "https://sightengine.com/policies/privacy"
     }
 }

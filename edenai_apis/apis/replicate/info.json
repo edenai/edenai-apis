@@ -3,29 +3,32 @@
         "generation": {
             "constraints": {
                 "resolutions": [
-                  "256x256",
-                  "512x512",
-                  "1024x1024"
+                    "256x256",
+                    "512x512",
+                    "1024x1024"
                 ],
                 "models": [
-                  "anime-style",
-                  "vintedois-diffusion",
-                  "classic"
+                    "anime-style",
+                    "vintedois-diffusion",
+                    "classic"
                 ],
-                "default_model" :  "classic"
-              },
-            "version" : "v1"
+                "default_model": "classic"
+            },
+            "version": "v1"
         }
     },
-    "text" : {
-      "chat" : {
-          "constraints": {
-            "models": [
-              "llama-2-70b-chat"
-            ],
-            "default_model" : "llama-2-70b-chat"
-          },
-          "version": "v1"
+    "text": {
+        "chat": {
+            "constraints": {
+                "models": [
+                    "llama-2-70b-chat"
+                ],
+                "default_model": "llama-2-70b-chat"
+            },
+            "version": "v1"
         }
-  }
+    },
+    "_metadata": {
+        "privacy_url": "https://replicate.com/privacy"
+    }
 }

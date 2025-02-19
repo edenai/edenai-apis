@@ -1,43 +1,46 @@
 {
-  "image": {
-    "generation": {
-      "constraints": {
-        "resolutions": [
-          "512x512",
-          "1024x1024"
-        ],
-        "models": [
-          "esrgan-v1-x2plus",
-          "stable-diffusion-xl-1024-v0-9",
-          "stable-diffusion-xl-1024-v1-0",
-          "stable-diffusion-v1-6",
-          "stable-diffusion-xl-beta-v2-2-2"
-        ],
-        "default_model": "stable-diffusion-xl-1024-v1-0"
-      },
-      "version": "v1Beta"
+    "image": {
+        "generation": {
+            "constraints": {
+                "resolutions": [
+                    "512x512",
+                    "1024x1024"
+                ],
+                "models": [
+                    "esrgan-v1-x2plus",
+                    "stable-diffusion-xl-1024-v0-9",
+                    "stable-diffusion-xl-1024-v1-0",
+                    "stable-diffusion-v1-6",
+                    "stable-diffusion-xl-beta-v2-2-2"
+                ],
+                "default_model": "stable-diffusion-xl-1024-v1-0"
+            },
+            "version": "v1Beta"
+        },
+        "background_removal": {
+            "version": "v2Beta"
+        },
+        "variation": {
+            "constraints": {
+                "resolutions": [
+                    "256x256",
+                    "512x512",
+                    "1024x1024"
+                ],
+                "models": [
+                    "esrgan-v1-x2plus",
+                    "stable-diffusion-xl-1024-v0-9",
+                    "stable-diffusion-xl-1024-v1-0",
+                    "stable-diffusion-v1-6",
+                    "stable-diffusion-512-v2-1",
+                    "stable-diffusion-xl-beta-v2-2-2"
+                ],
+                "default_model": "stable-diffusion-512-v2-1"
+            },
+            "version": "v1.0"
+        }
     },
-    "background_removal": {
-      "version": "v2Beta"
-    },
-    "variation": {
-      "constraints": {
-        "resolutions": [
-          "256x256",
-          "512x512",
-          "1024x1024"
-        ],
-        "models": [
-          "esrgan-v1-x2plus",
-          "stable-diffusion-xl-1024-v0-9",
-          "stable-diffusion-xl-1024-v1-0",
-          "stable-diffusion-v1-6",
-          "stable-diffusion-512-v2-1",
-          "stable-diffusion-xl-beta-v2-2-2"
-        ],
-        "default_model": "stable-diffusion-512-v2-1"
-      },
-      "version": "v1.0"
+    "_metadata": {
+        "privacy_url": "https://stability.ai/privacy-policy"
     }
-  }
 }

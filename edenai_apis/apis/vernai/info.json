@@ -1,9 +1,11 @@
 {
-  "text": {
-    "emotion_detection": {
-      "version": "v1",
-      "constraints": {
-      }
+    "text": {
+        "emotion_detection": {
+            "version": "v1",
+            "constraints": {}
+        }
+    },
+    "_metadata": {
+        "privacy_url": "https://vernai.com/privacy-policy"
     }
-  }
 }
