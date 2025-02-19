@@ -126,6 +126,7 @@ class LLMEngine:
         tool_results: Optional[List[dict]] = None,
         **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        previous_history = previous_history or []
         messages = Mappings.format_chat_messages(
             text, chatbot_global_action, previous_history, tool_results
         )
