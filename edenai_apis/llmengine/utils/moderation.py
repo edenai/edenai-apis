@@ -105,7 +105,7 @@ async def check_content_moderation_async(*args, **kwargs):
     tasks.append(moderate_if_exists(headers, kwargs.get("chatbot_global_action")))
     tasks.append(moderate_if_exists(headers, kwargs.get("instruction")))
 
-    if "previous_history" in kwargs:
+    if kwargs.get("previous_history"):
         tasks.extend(
             moderate_if_exists(headers, item.get("message"))
             for item in kwargs["previous_history"]
