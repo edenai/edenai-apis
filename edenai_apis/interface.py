@@ -167,6 +167,20 @@ def list_providers(
     return list(providers_set)
 
 
+def provider_info(provider_name: str):
+    """
+    Get provider info
+
+    Args:
+        provider_name (str): Eden AI provider name
+
+    Returns:
+        dict: Provider info
+    """
+    if provider_name is None:
+        return  {}
+    return load_provider(provider_name)
+
 STATUS_SUCCESS = "success"
 
 
