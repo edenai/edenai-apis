@@ -151,7 +151,7 @@ class SaplingApi(ProviderInterface, TextInterface):
         )
 
     def text__ai_detection(
-        self, text: str, provider_params: Optional[Dict[str, Any]] = None
+        self, text: str, provider_params: Optional[Dict[str, Any]] = None, **kwargs
     ) -> ResponseType[AiDetectionDataClass]:
         payload = {
             "key": self.api_key,

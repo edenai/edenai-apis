@@ -99,6 +99,7 @@ class TenstorrentTextApi(TextInterface):
         examples_context: str,
         examples: List[List[str]],
         model: Optional[str],
+        **kwargs,
     ) -> ResponseType[QuestionAnswerDataClass]:
         base_url = "https://question-answer--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/question_answer"
@@ -130,7 +131,7 @@ class TenstorrentTextApi(TextInterface):
         )
 
     def text__named_entity_recognition(
-        self, text: str, language: str, model: Optional[str] = None
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         base_url = "https://named-entity-recognition--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/named_entity_recognition"
@@ -161,7 +162,7 @@ class TenstorrentTextApi(TextInterface):
         )
 
     def text__topic_extraction(
-        self, text: str, language: str, model: Optional[str] = None
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[TopicExtractionDataClass]:
         base_url = "https://topic-extraction--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/topic_extraction"

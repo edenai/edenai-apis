@@ -65,6 +65,7 @@ class EagledocApi(ProviderInterface, OcrInterface):
         document_type: str = "",
         file_url: str = "",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
 
         with open(file, "rb") as file_:
@@ -80,7 +81,7 @@ class EagledocApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__invoice_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
         with open(file, "rb") as file_:
             original_response = self._make_post_request(
@@ -95,7 +96,7 @@ class EagledocApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__receipt_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[ReceiptParserDataClass]:
         with open(file, "rb") as file_:
             original_response = self._make_post_request(

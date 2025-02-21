@@ -23,7 +23,7 @@ class VideoInterface:
     ### Explicit content detection methods
     @abstractmethod
     def video__explicit_content_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect explicit content in a video
@@ -46,7 +46,7 @@ class VideoInterface:
     ### Deepfake detection methods
     @abstractmethod
     def video__deepfake_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect altered videos via inconsistencies
@@ -69,7 +69,7 @@ class VideoInterface:
     ### Face detection methods
     @abstractmethod
     def video__face_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect faces in a video
@@ -92,7 +92,7 @@ class VideoInterface:
     ### Label detection methods
     @abstractmethod
     def video__label_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect objects in a video
@@ -115,7 +115,7 @@ class VideoInterface:
     ### Logo detection methods
     @abstractmethod
     def video__logo_detection_async__launch_job(
-        self, file: str, file_url: str = "", language: str = "en"
+        self, file: str, file_url: str = "", language: str = "en", **kwargs
     ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect logos in a video
@@ -138,7 +138,7 @@ class VideoInterface:
     ### Object tracking methods
     @abstractmethod
     def video__object_tracking_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to track objects in a video
@@ -161,7 +161,7 @@ class VideoInterface:
     ### Person tracking methods
     @abstractmethod
     def video__person_tracking_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to track persons in a video
@@ -180,7 +180,7 @@ class VideoInterface:
     ### Text detection methods
     @abstractmethod
     def video__text_detection_async__launch_job(
-        self, file: str, file_url: str = "", language: str = "en"
+        self, file: str, file_url: str = "", language: str = "en", **kwargs
     ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect text in a video
@@ -202,7 +202,7 @@ class VideoInterface:
 
     @abstractmethod
     def video__shot_change_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         raise NotImplementedError
 
@@ -220,6 +220,7 @@ class VideoInterface:
         file_url: str = "",
         temperature: float = 0.0,
         model: Optional[str] = None,
+        **kwargs,
     ) -> QuestionAnswerDataClass:
         raise NotImplementedError
 
@@ -231,6 +232,7 @@ class VideoInterface:
         file_url: str = "",
         temperature: float = 0.0,
         model: Optional[str] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         raise NotImplementedError
 
@@ -252,6 +254,7 @@ class VideoInterface:
         file: Optional[str] = None,
         file_url: Optional[str] = None,
         model: Optional[str] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         """
         Launch an asynchronous job to detect text in a video

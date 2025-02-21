@@ -201,7 +201,7 @@ class OneaiApi(
         )
 
     def translation__language_detection(
-        self, text: str, model: Optional[str] = None
+        self, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[LanguageDetectionDataClass]:
         data = json.dumps(
             {
@@ -244,6 +244,7 @@ class OneaiApi(
         model: Optional[str] = None,
         file_url: str = "",
         provider_params: Optional[dict] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes
@@ -334,7 +335,7 @@ class OneaiApi(
             raise ProviderException(original_response)
 
     def ocr__ocr_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         params = {
             "input_type": "article",

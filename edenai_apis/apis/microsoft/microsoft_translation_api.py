@@ -33,7 +33,7 @@ class MicrosoftTranslationApi(TranslationInterface):
             raise ProviderException(error_message, code=status)
 
     def translation__language_detection(
-        self, text: str, model: Optional[str] = None
+        self, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[LanguageDetectionDataClass]:
         response = requests.post(
             url=f"{self.url['text']}",

@@ -290,7 +290,6 @@ class OpenaiTextApi(TextInterface):
         tool_results: Optional[List[dict]] = None,
         **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-        previous_history = previous_history or []
         # self.check_content_moderation(
         #     text=text,
         #     chatbot_global_action=chatbot_global_action,

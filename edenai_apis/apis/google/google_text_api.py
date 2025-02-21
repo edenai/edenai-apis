@@ -60,7 +60,7 @@ from google.protobuf.json_format import MessageToDict
 
 class GoogleTextApi(TextInterface):
     def text__named_entity_recognition(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         """
         :param language:        String that contains the language code
@@ -101,10 +101,7 @@ class GoogleTextApi(TextInterface):
         )
 
     def text__sentiment_analysis(
-        self,
-        language: str,
-        text: str,
-        model: Optional[str] = None,
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
         """
         :param language:        String that contains the language code
@@ -212,7 +209,7 @@ class GoogleTextApi(TextInterface):
         return result
 
     def text__topic_extraction(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[TopicExtractionDataClass]:
         # Create configuration dictionnary
         document = GoogleDocument(
@@ -342,6 +339,7 @@ class GoogleTextApi(TextInterface):
         max_tokens: int,
         prompt: str = "",
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[CodeGenerationDataClass]:
         response = self.clients["llm_client"].code_generation(
             instruction=instruction,
@@ -351,7 +349,7 @@ class GoogleTextApi(TextInterface):
         )
         return response
 
-    def text__entity_sentiment(self, text: str, language: str):
+    def text__entity_sentiment(self, text: str, language: str, **kwargs):
         client = language_v1.LanguageServiceClient()
         type_ = language_v1.types.Document.Type.PLAIN_TEXT
         document = {"content": text, "type_": type_, "language": language}
@@ -397,7 +395,7 @@ class GoogleTextApi(TextInterface):
         )
 
     def text__moderation(
-        self, language: str, text: str, model: Optional[str] = None
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[ModerationDataClass]:
         """
         :param language:        String that contains the language code

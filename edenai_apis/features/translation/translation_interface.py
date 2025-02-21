@@ -38,7 +38,7 @@ class TranslationInterface:
 
     @abstractmethod
     def translation__language_detection(
-        self, text: str, model: Optional[str] = None
+        self, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[LanguageDetectionDataClass]:
         """
         Detect language of a given text
@@ -56,6 +56,7 @@ class TranslationInterface:
         source_language: str,
         target_language: str,
         file_url: str = "",
+        **kwargs,
     ) -> ResponseType[DocumentTranslationDataClass]:
         """
         Translate a document

@@ -10,7 +10,6 @@ from pydantic import BaseModel
 from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3
 from edenai_apis.llmengine.types.response_types import (
     ResponseModel,
-    EmbeddingResponseModel,
 )
 from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS
 from edenai_apis.llmengine.clients.completion import CompletionClient
@@ -60,6 +59,7 @@ from edenai_apis.features.multimodal.chat import (
     ChatStreamResponse as ChatMultimodalStreamResponse,
 )
 from edenai_apis.llmengine.prompts import BasePrompt
+from edenai_apis.llmengine.utils.moderation import moderate
 from loaders.data_loader import ProviderDataEnum
 from loaders.loaders import load_provider
 
@@ -101,6 +101,7 @@ class LLMEngine:
 
     def _execute_completion(self, params: Dict, response_class: Type, **kwargs):
         try:
+            params.pop("moderate_content", None)
             response = self.completion_client.completion(**params, **kwargs)
             response = ResponseModel.model_validate(response)
             result = json.loads(response.choices[0].message.content)
@@ -115,6 +116,7 @@ class LLMEngine:
             usage=response.usage,
         )
 
+    @moderate
     def chat(
         self,
         text: str,
@@ -129,6 +131,7 @@ class LLMEngine:
         tool_results: Optional[List[dict]] = None,
         **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        previous_history = previous_history or []
         messages = Mappings.format_chat_messages(
             text, chatbot_global_action, previous_history, tool_results
         )
@@ -144,7 +147,6 @@ class LLMEngine:
                 tools=available_tools
             )
             call_params["tool_choice"] = tool_choice
-
         response = self.completion_client.completion(**call_params, **kwargs)
         if stream is False:
             response = ResponseModel.model_validate(response)
@@ -194,6 +196,7 @@ class LLMEngine:
                 original_response=None, standardized_response=StreamChat(stream=stream)
             )
 
+    @moderate
     def multimodal_chat(
         self,
         messages: List[ChatMessageDataClass],
@@ -316,20 +319,16 @@ class LLMEngine:
             params=args, response_class=LogoDetectionDataClass
         )
 
+    @moderate
     def image_qa(
         self,
-        file: str,
+        image_data: str,
         temperature: float,
         max_tokens: int,
-        file_url: str = "",
         model: Optional[str] = None,
         question: Optional[str] = None,
         **kwargs,
     ) -> ResponseType[QuestionAnswerDataClass]:
-        with open(file, "rb") as fstream:
-            file_content = fstream.read()
-            file_b64 = base64.b64encode(file_content).decode("utf-8")
-        mime_type = mimetypes.guess_type(file)[0]
         messages = BasePrompt.compose_prompt(
             behavior="You are a visual question-answering assistant that analyzes images and responds to questions about them.",
             example_file="image/question_answer/question_answer_response.json",
@@ -345,7 +344,7 @@ class LLMEngine:
                     },
                     {
                         "type": "image_url",
-                        "image_url": {"url": f"data:{mime_type};base64,{file_b64}"},
+                        "image_url": {"url": image_data},
                     },
                 ],
             }
@@ -695,6 +694,7 @@ class LLMEngine:
             params=args, response_class=AutomaticTranslationDataClass
         )
 
+    @moderate
     def image_generation(
         self, prompt: str, model: str, resolution: str, n: int, **kwargs
     ):

@@ -84,6 +84,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         speaking_pitch: int,
         speaking_volume: int,
         sampling_rate: int,
+        **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
         if not self.own_keys:
             self.__moderate_content(text=text)
