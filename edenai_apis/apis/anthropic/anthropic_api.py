@@ -28,7 +28,10 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
         )
         self.llm_client = LLMEngine(
             provider_name=self.provider_name,
-            provider_config={"api_key": self.api_settings.get("api_key")},
+            provider_config={
+                "api_key": self.api_settings.get("api_key"),
+                "cache_control": {"type": "ephemeral"},
+            },
         )
 
     def text__summarize(
