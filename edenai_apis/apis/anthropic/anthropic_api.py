@@ -1,22 +1,24 @@
-from typing import Dict, List, Literal, Union, Optional
-from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
+from typing import Dict, List, Literal, Optional, Union
+
+from edenai_apis.features import ImageInterface, ProviderInterface, TextInterface
 from edenai_apis.features.image.logo_detection.logo_detection_dataclass import (
     LogoDetectionDataClass,
 )
-from edenai_apis.features.text import SummarizeDataClass
-from edenai_apis.features.text.chat.chat_dataclass import (
-    StreamChat,
-    ChatDataClass,
-)
 from edenai_apis.features.multimodal.chat.chat_dataclass import (
     ChatDataClass as ChatMultimodalDataClass,
-    StreamChat as StreamChatMultimodal,
+)
+from edenai_apis.features.multimodal.chat.chat_dataclass import (
     ChatMessageDataClass as ChatMultimodalMessageDataClass,
 )
+from edenai_apis.features.multimodal.chat.chat_dataclass import (
+    StreamChat as StreamChatMultimodal,
+)
+from edenai_apis.features.text import SummarizeDataClass
+from edenai_apis.features.text.chat.chat_dataclass import ChatDataClass, StreamChat
+from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.llmengine.llm_engine import LLMEngine
 
 
 class AnthropicApi(ProviderInterface, TextInterface, ImageInterface):
