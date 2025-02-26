@@ -6,11 +6,10 @@
 """
 
 import importlib
-import os
-import traceback
 
 import pytest
 
+from edenai_apis.interface import IS_MONITORING
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.tests.conftest import global_features, without_async_and_phase
@@ -18,16 +17,19 @@ from edenai_apis.utils.compare import compare_responses
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.conversion import iterate_all
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.types import ResponseType
-
-from edenai_apis.interface import IS_MONITORING
 from edenai_apis.utils.monitoring import insert_api_call
+from edenai_apis.utils.types import ResponseType
 
 INTERFACE_MODULE = importlib.import_module("edenai_apis.interface_v2")
 
 
-class CommonTestsSubfeatures:
-    def _test_feature_with_invalid_file(self, provider, feature, subfeature):
+@pytest.mark.parametrize(
+    ("provider", "feature", "subfeature"),
+    global_features(filter=without_async_and_phase)["ungrouped_providers"],
+)
+class TestSyncProviders:
+    @pytest.mark.e2e
+    def test_feature_with_invalid_file(self, provider, feature, subfeature):
         # Setup
         invalid_file = "fakefile.txt"
         feature_args = load_feature(
@@ -51,7 +53,8 @@ class CommonTestsSubfeatures:
                 exc is not None
             ), "ProviderException, AttributeError or FileNotFoundError expected."
 
-    def _test_feature_api_call(self, provider, feature, subfeature):
+    @pytest.mark.e2e
+    def test_feature_api_call(self, provider, feature, subfeature):
         # Setup
         feature_args = load_feature(
             FeatureDataEnum.SAMPLES_ARGS, feature=feature, subfeature=subfeature
@@ -89,7 +92,7 @@ class CommonTestsSubfeatures:
         if IS_MONITORING:
             insert_api_call(provider, feature, subfeature, None, None)
 
-    def _test_feature_saved_output(self, provider, feature, subfeature):
+    def test_feature_saved_output(self, provider, feature, subfeature):
         # Step 1 (Setup) :
         saved_output = load_provider(
             ProviderDataEnum.OUTPUT, provider, feature, subfeature
@@ -102,69 +105,3 @@ class CommonTestsSubfeatures:
 
         # Step 3 (Assert) :
         assert standardized, "The output is not standardized"
-
-
-@pytest.mark.skipif(
-    os.environ.get("TEST_SCOPE") == "CICD", reason="Don't run this on CI/CD"
-)
-@pytest.mark.parametrize(
-    ("provider", "feature", "subfeature"),
-    global_features(filter=without_async_and_phase)["ungrouped_providers"],
-)
-class TestSyncProviders(CommonTestsSubfeatures):
-    @pytest.mark.skipif(
-        os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-        reason="Skip in opensource package cicd workflow",
-    )
-    def test_feature_with_invalid_file(self, provider, feature, subfeature):
-        self._test_feature_with_invalid_file(provider, feature, subfeature)
-
-    @pytest.mark.skipif(
-        os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-        reason="Skip in opensource package cicd workflow",
-    )
-    def test_feature_api_call(self, provider, feature, subfeature):
-        self._test_feature_api_call(provider, feature, subfeature)
-
-    def test_feature_saved_output(self, provider, feature, subfeature):
-        self._test_feature_saved_output(provider, feature, subfeature)
-
-
-@pytest.mark.skipif(
-    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-    reason="Run On CircleCI not github actions (need api key)",
-)
-@pytest.mark.parametrize(
-    ("providers", "feature", "subfeature"),
-    global_features(filter=without_async_and_phase)["grouped_providers"],
-)
-class TestSyncSubfeatures(CommonTestsSubfeatures):
-    def test_sync_subfeature(self, providers, feature, subfeature):
-        """Test API Call"""
-        failures = []
-        model_erros = [
-            "Resolution not supported by the provider",
-            "missing 1 required positional argument: 'model'",
-        ]
-        # List of providers with wokring / not working
-        for provider in providers:
-            self._test_feature_saved_output(provider, feature, subfeature)
-            try:
-                self._test_feature_api_call(provider, feature, subfeature)
-                self._test_feature_with_invalid_file(provider, feature, subfeature)
-            except Exception as exc:
-                print(traceback.format_exc())
-                failures.append(exc)
-
-        # Only fail if all providers failes in a certain feature/subfeature
-        print(failures)
-        if any([model_error in str(failures) for model_error in model_erros]):
-            pytest.skip(
-                "we skip test because of missing model argument. This should be tested in implementation of the feature"
-            )
-        assert len(providers) != len(failures)
-
-    def test_sync_subfeature_fake(self, providers, feature, subfeature):
-        """Fake call"""
-        for provider in providers:
-            self._test_feature_saved_output(provider, feature, subfeature)
