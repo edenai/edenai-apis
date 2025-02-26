@@ -731,7 +731,7 @@ class LLMEngine:
 
 class StdLLMEngine(LLMEngine):
 
-    PROVIDER_MAPPING = {"vertex_ai": "google"}
+    PROVIDER_MAPPING = {"vertex_ai": "google", "gemini": "google"}
 
     def __init__(
         self,

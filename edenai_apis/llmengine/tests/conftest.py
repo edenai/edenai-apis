@@ -179,7 +179,7 @@ def mapping_providers() -> List[Tuple[Union[str, None], Union[str, None]]]:
         ("togetherai", "togetherai"),
         ("huggingface", "huggingface"),
         ("azure", "azure"),
-        ("google", "google"),
+        ("gemini", "google"),
         ("vertex_ai-text-models", "google"),
         ("vertex_ai-chat-models", "google"),
         ("vertex_ai-language-models", "google"),
