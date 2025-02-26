@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple, Union
 import pytest
 
 from edenai_apis.llmengine.tests.fixtures.mocked_response import (
@@ -139,6 +139,7 @@ def unknown_models_to_litellm() -> List[LiteLLMModel]:
     }
     return test_model
 
+
 @pytest.fixture
 def update_known_models_to_litellm() -> List[LiteLLMModel]:
     test_model = {
@@ -152,6 +153,7 @@ def update_known_models_to_litellm() -> List[LiteLLMModel]:
     }
     return test_model
 
+
 @pytest.fixture
 def invalid_models_to_litellm() -> dict[str, list]:
     return {
@@ -163,3 +165,32 @@ def invalid_models_to_litellm() -> dict[str, list]:
             "mode",
         ]
     }
+
+
+@pytest.fixture
+def mapping_providers() -> List[Tuple[Union[str, None], Union[str, None]]]:
+    return [
+        ("openai", "openai"),
+        ("cohere", "cohere"),
+        ("anthropic", "anthropic"),
+        ("replicate", "replicate"),
+        ("mistral", "mistral"),
+        ("meta", "meta"),
+        ("togetherai", "togetherai"),
+        ("huggingface", "huggingface"),
+        ("azure", "azure"),
+        ("google", "google"),
+        ("vertex_ai-text-models", "google"),
+        ("vertex_ai-chat-models", "google"),
+        ("vertex_ai-language-models", "google"),
+        ("perplexity", "perplexity"),
+        ("openrouter", "openrouter"),
+        ("ai21", "ai21"),
+        ("amazon", "amazon"),
+        ("anyscale", "anyscale"),
+        ("deepinfra", "deepinfra"),
+        ("nlpcloud", "nlpcloud"),
+        ("openllm", "openllm"),
+        ("", ""),
+        (None, None),
+    ]
