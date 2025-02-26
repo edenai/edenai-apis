@@ -63,13 +63,16 @@
                     "mp4",
                     "flac"
                 ],
-                "models":[
+                "models": [
                     "standard",
                     "enhanced"
                 ],
-                "default_model" : "enhanced"
+                "default_model": "enhanced"
             },
             "version": "v2"
         }
+    },
+    "_metadata": {
+        "privacy_url": "https://www.speechmatics.com/legal/privacy-policy"
     }
 }

@@ -1,80 +1,83 @@
 {
-  "ocr": {
-    "ocr_async": {
-      "version": "v0",
-      "constraints": {
-        "file_types": [
-          "application/pdf"
-        ]
-      }
-    }
-  },
-  "text": {
-    "anonymization": {
-      "constraints": {
-        "languages": [
-          "en"
-        ],
-        "allow_null_language": false
-      },
-      "version": "v0"
+    "ocr": {
+        "ocr_async": {
+            "version": "v0",
+            "constraints": {
+                "file_types": [
+                    "application/pdf"
+                ]
+            }
+        }
     },
-    "keyword_extraction": {
-      "constraints": {
-        "languages": [
-          "en"
-        ],
-        "allow_null_language": false
-      },
-      "version": "v0"
+    "text": {
+        "anonymization": {
+            "constraints": {
+                "languages": [
+                    "en"
+                ],
+                "allow_null_language": false
+            },
+            "version": "v0"
+        },
+        "keyword_extraction": {
+            "constraints": {
+                "languages": [
+                    "en"
+                ],
+                "allow_null_language": false
+            },
+            "version": "v0"
+        },
+        "named_entity_recognition": {
+            "constraints": {
+                "languages": [
+                    "en"
+                ],
+                "allow_null_language": false
+            },
+            "version": "v0"
+        },
+        "sentiment_analysis": {
+            "constraints": {
+                "languages": [
+                    "en"
+                ],
+                "allow_null_language": false
+            },
+            "version": "v0"
+        },
+        "summarize": {
+            "constraints": {
+                "languages": [
+                    "en"
+                ],
+                "allow_null_language": false
+            },
+            "version": "v0"
+        }
     },
-    "named_entity_recognition": {
-      "constraints": {
-        "languages": [
-          "en"
-        ],
-        "allow_null_language": false
-      },
-      "version": "v0"
+    "translation": {
+        "language_detection": {
+            "version": "v0"
+        }
     },
-    "sentiment_analysis": {
-      "constraints": {
-        "languages": [
-          "en"
-        ],
-        "allow_null_language": false
-      },
-      "version": "v0"
+    "audio": {
+        "speech_to_text_async": {
+            "constraints": {
+                "languages": [
+                    "en"
+                ],
+                "file_extensions": [
+                    "wav",
+                    "mp3",
+                    "mpeg"
+                ],
+                "allow_null_language": false
+            },
+            "version": "v0"
+        }
     },
-    "summarize": {
-      "constraints": {
-        "languages": [
-          "en"
-        ],
-        "allow_null_language": false
-      },
-      "version": "v0"
+    "_metadata": {
+        "privacy_url": "https://oneai.com/privacy-policy"
     }
-  },
-  "translation": {
-    "language_detection": {
-      "version": "v0"
-    }
-  },
-  "audio": {
-    "speech_to_text_async": {
-      "constraints": {
-        "languages": [
-          "en"
-        ],
-        "file_extensions": [
-          "wav",
-          "mp3",
-          "mpeg"
-        ],
-        "allow_null_language": false
-      },
-      "version": "v0"
-    }
-  }
 }

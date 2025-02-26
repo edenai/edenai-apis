@@ -1,15 +1,18 @@
 {
-  "text": {
-    "keyword_extraction": {
-      "constraints": {
-        "languages": [
-          "de",
-          "en",
-          "fr",
-          "es"
-        ]
-      },
-      "version": "v1.3.0"
+    "text": {
+        "keyword_extraction": {
+            "constraints": {
+                "languages": [
+                    "de",
+                    "en",
+                    "fr",
+                    "es"
+                ]
+            },
+            "version": "v1.3.0"
+        }
+    },
+    "_metadata": {
+        "privacy_url": "https://www.cortical.io/privacy-policy/"
     }
-  }
 }

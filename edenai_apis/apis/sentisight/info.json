@@ -1,121 +1,123 @@
 {
-  "image": {
-    "object_detection": {
-      "constraints":{
-      },
-      "version": "v3.3.1"
-    },
-    "explicit_content": {
-      "version": "v3.3.1"
-    },
-    "search": {
-        "upload_image":{
-          "version": "v3.3.1"
+    "image": {
+        "object_detection": {
+            "constraints": {},
+            "version": "v3.3.1"
         },
-        "create_project":{
-          "version": "v3.3.1"
+        "explicit_content": {
+            "version": "v3.3.1"
         },
-        "delete_image":{
-          "version": "v3.3.1"
+        "search": {
+            "upload_image": {
+                "version": "v3.3.1"
+            },
+            "create_project": {
+                "version": "v3.3.1"
+            },
+            "delete_image": {
+                "version": "v3.3.1"
+            },
+            "get_image": {
+                "version": "v3.3.1"
+            },
+            "get_images": {
+                "version": "v3.3.1"
+            },
+            "launch_similarity": {
+                "version": "v3.3.1"
+            }
         },
-        "get_image":{
-          "version": "v3.3.1"
-        },
-        "get_images":{
-          "version": "v3.3.1"
-        },
-        "launch_similarity":{
-          "version": "v3.3.1"
+        "background_removal": {
+            "version": "v3.3.1"
         }
-      },
-    "background_removal": {
-      "version": "v3.3.1"
-    }
-  },
-  "ocr": {
+    },
     "ocr": {
-      "constraints": {
-        "file_types": [
-          "image/*"
-        ],
-        "languages": [
-          "af",
-          "az",
-          "bs",
-          "cs",
-          "cy",
-          "da",
-          "de",
-          "en",
-          "es",
-          "et",
-          "fr",
-          "ga",
-          "hr",
-          "hu",
-          "id",
-          "is",
-          "it",
-          "ku",
-          "la",
-          "lt",
-          "lv",
-          "mi",
-          "ms",
-          "mt",
-          "nl",
-          "no",
-          "oc",
-          "pi",
-          "pt",
-          "ro",
-          "sr",
-          "sk",
-          "sl",
-          "sq",
-          "sv",
-          "sw",
-          "tl",
-          "tr",
-          "uz",
-          "vi",
-          "ar",
-          "fa",
-          "ug",
-          "ur",
-          "bn",
-          "as",
-          "ru",
-          "be",
-          "bg",
-          "uk",
-          "mn",
-          "abq",
-          "ady",
-          "kbd",
-          "ava",
-          "dar",
-          "inh",
-          "che",
-          "lbe",
-          "lez",
-          "tab",
-          "hi",
-          "mr",
-          "ne",
-          "bh",
-          "mai",
-          "ang",
-          "bho",
-          "mah",
-          "sck",
-          "new",
-          "gom",
-          "zh-CN",
-          "zh-TW"
-        ]
-      },
-      "version": "v3.3.1"
+        "ocr": {
+            "constraints": {
+                "file_types": [
+                    "image/*"
+                ],
+                "languages": [
+                    "af",
+                    "az",
+                    "bs",
+                    "cs",
+                    "cy",
+                    "da",
+                    "de",
+                    "en",
+                    "es",
+                    "et",
+                    "fr",
+                    "ga",
+                    "hr",
+                    "hu",
+                    "id",
+                    "is",
+                    "it",
+                    "ku",
+                    "la",
+                    "lt",
+                    "lv",
+                    "mi",
+                    "ms",
+                    "mt",
+                    "nl",
+                    "no",
+                    "oc",
+                    "pi",
+                    "pt",
+                    "ro",
+                    "sr",
+                    "sk",
+                    "sl",
+                    "sq",
+                    "sv",
+                    "sw",
+                    "tl",
+                    "tr",
+                    "uz",
+                    "vi",
+                    "ar",
+                    "fa",
+                    "ug",
+                    "ur",
+                    "bn",
+                    "as",
+                    "ru",
+                    "be",
+                    "bg",
+                    "uk",
+                    "mn",
+                    "abq",
+                    "ady",
+                    "kbd",
+                    "ava",
+                    "dar",
+                    "inh",
+                    "che",
+                    "lbe",
+                    "lez",
+                    "tab",
+                    "hi",
+                    "mr",
+                    "ne",
+                    "bh",
+                    "mai",
+                    "ang",
+                    "bho",
+                    "mah",
+                    "sck",
+                    "new",
+                    "gom",
+                    "zh-CN",
+                    "zh-TW"
+                ]
+            },
+            "version": "v3.3.1"
+        }
+    },
+    "_metadata": {
+        "privacy_url": "https://www.sentisight.ai/privacy-policy/"
     }
-  }
 }

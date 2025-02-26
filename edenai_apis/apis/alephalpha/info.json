@@ -1,60 +1,63 @@
 {
-  "text": {
-    "summarize": {
-      "constraints": {
-        "languages": [
-          "en",
-          "de",
-          "fr",
-          "es",
-          "it"
-        ],
-        "models": [
-          "luminous-extended",
-          "luminous-base-control",
-          "luminous-base",
-          "luminous-supreme-control",
-          "luminous-supreme",
-          "luminous-extended-control"
-        ],
-        "default_model": "luminous-supreme"
-      },
-      "version": "1.12.0"
-    }
-  },
-  "image": {
-    "embeddings": {
-      "version": "1.12.0",
-      "constraints": {
-        "languages": [
-          "en",
-          "de",
-          "fr",
-          "es",
-          "it"
-        ],
-        "models": [
-          "luminous-base"
-        ],
-        "default_model": "luminous-base"
-      }
+    "text": {
+        "summarize": {
+            "constraints": {
+                "languages": [
+                    "en",
+                    "de",
+                    "fr",
+                    "es",
+                    "it"
+                ],
+                "models": [
+                    "luminous-extended",
+                    "luminous-base-control",
+                    "luminous-base",
+                    "luminous-supreme-control",
+                    "luminous-supreme",
+                    "luminous-extended-control"
+                ],
+                "default_model": "luminous-supreme"
+            },
+            "version": "1.12.0"
+        }
     },
-    "question_answer": {
-      "version": "1.12.0",
-      "constraints": {
-        "languages": [
-          "en",
-          "de",
-          "fr",
-          "es",
-          "it"
-        ],
-        "models": [
-          "luminous-base",
-          "luminous-extended"
-        ],
-        "default_model": "luminous-extended"
-      }
+    "image": {
+        "embeddings": {
+            "version": "1.12.0",
+            "constraints": {
+                "languages": [
+                    "en",
+                    "de",
+                    "fr",
+                    "es",
+                    "it"
+                ],
+                "models": [
+                    "luminous-base"
+                ],
+                "default_model": "luminous-base"
+            }
+        },
+        "question_answer": {
+            "version": "1.12.0",
+            "constraints": {
+                "languages": [
+                    "en",
+                    "de",
+                    "fr",
+                    "es",
+                    "it"
+                ],
+                "models": [
+                    "luminous-base",
+                    "luminous-extended"
+                ],
+                "default_model": "luminous-extended"
+            }
+        }
+    },
+    "_metadata": {
+        "privacy_url": "https://aleph-alpha.com/data-privacy"
     }
-  }
 }

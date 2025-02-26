@@ -1,17 +1,20 @@
 {
-  "text": {
-    "embeddings": {
-      "constraints": {
-        "models": [
-          "jina-embeddings-v2-base-en",
-          "jina-embeddings-v2-base-es",
-          "jina-embeddings-v2-base-de",
-          "jina-embeddings-v2-base-zh",
-          "jina-embeddings-v2-base-code"
-        ],
-        "default_model": "jina-embeddings-v2-base-en"
-      },
-      "version": "v1"
+    "text": {
+        "embeddings": {
+            "constraints": {
+                "models": [
+                    "jina-embeddings-v2-base-en",
+                    "jina-embeddings-v2-base-es",
+                    "jina-embeddings-v2-base-de",
+                    "jina-embeddings-v2-base-zh",
+                    "jina-embeddings-v2-base-code"
+                ],
+                "default_model": "jina-embeddings-v2-base-en"
+            },
+            "version": "v1"
+        }
+    },
+    "_metadata": {
+        "privacy_url": "https://jina.ai/legal/#privacy-policy"
     }
-  }
 }

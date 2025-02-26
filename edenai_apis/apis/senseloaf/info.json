@@ -1,21 +1,23 @@
 {
     "ocr": {
-      "resume_parser": {
-        "constraints": {
-          "file_types": [
-            "application/pdf",
-            "application/msword",
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "image/png",
-            "image/jpeg"
-          ],
-          "languages": [
-            "en"
-          ],
-          "allow_null_language": true
-        },
-        "version": "v3"
-      }
+        "resume_parser": {
+            "constraints": {
+                "file_types": [
+                    "application/pdf",
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "image/png",
+                    "image/jpeg"
+                ],
+                "languages": [
+                    "en"
+                ],
+                "allow_null_language": true
+            },
+            "version": "v3"
+        }
+    },
+    "_metadata": {
+        "privacy_url": "https://app.senseloaf.com/privacy-policy"
     }
-  }
-  
+}
