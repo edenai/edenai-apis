@@ -1,3 +1,4 @@
+import os
 import uuid
 import json
 import base64
@@ -799,9 +800,11 @@ class StdLLMEngine(LLMEngine):
         **kwargs,
     ):
         if "provider" in kwargs:
-            import os
-            provider_name = StdLLMEngine.map_provider(kwargs.pop("provider", None))
-            if provider_name == "google":
+            # Verify if the provider is gemini
+            provider_name = kwargs.pop("provider", None)
+            is_gemini = provider_name == "gemini"
+            provider_name = StdLLMEngine.map_provider(provider_name)
+            if provider_name == "google" and not is_gemini:
                 api_settings, location = load_provider(
                     ProviderDataEnum.KEY,
                     provider_name=provider_name,
@@ -810,6 +813,11 @@ class StdLLMEngine(LLMEngine):
                 )
                 self.project_id = api_settings["project_id"]
                 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = location
+            elif is_gemini:
+                api_settings = load_provider(
+                    ProviderDataEnum.KEY, provider_name, api_keys=api_key
+                )
+                api_key = api_settings["genai_api_key"]
             else:
                 api_settings = load_provider(
                     ProviderDataEnum.KEY, provider_name, api_keys=api_key
