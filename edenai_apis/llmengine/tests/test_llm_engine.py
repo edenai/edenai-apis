@@ -5,7 +5,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from litellm import register_model
 
-from llmengine.llm_engine import LLMEngine
+from llmengine.llm_engine import LLMEngine, StdLLMEngine
 from llmengine.clients.litellm_client.litellm_client import LiteLLMCompletionClient
 
 
@@ -223,3 +223,8 @@ class TestLLMEngine:
         assert (
             response.original_response["choices"][0]["message"]["content"] is not None
         )
+
+    @pytest.mark.unit
+    def test_map_provider(self, mapping_providers):
+        for source, target in mapping_providers:
+            assert StdLLMEngine.map_provider(source) == target
