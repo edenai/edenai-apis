@@ -42,7 +42,7 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
         self.headers = {"x-api-key": self.api_key}
 
     def video__logo_detection_async__launch_job(
-        self, file: str, file_url: str = "", language: str = "en"
+        self, file: str, file_url: str = "", language: str = "en", **kwargs
     ) -> AsyncLaunchJobResponseType:
 
         index_url = f"{self.base_url}/indexes"
@@ -157,7 +157,7 @@ class TwelveLabsApi(ProviderInterface, VideoInterface):
         )
 
     def video__text_detection_async__launch_job(
-        self, file: str, file_url: str = "", language: str = "en"
+        self, file: str, file_url: str = "", language: str = "en", **kwargs
     ) -> AsyncLaunchJobResponseType:
 
         index_url = f"{self.base_url}/indexes"
