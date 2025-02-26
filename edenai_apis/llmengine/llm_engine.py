@@ -799,11 +799,22 @@ class StdLLMEngine(LLMEngine):
         **kwargs,
     ):
         if "provider" in kwargs:
+            import os
             provider_name = StdLLMEngine.map_provider(kwargs.pop("provider", None))
-            api_settings = load_provider(
-                ProviderDataEnum.KEY, provider_name, api_keys=api_key
-            )
-            api_key = api_settings["api_key"]
+            if provider_name == "google":
+                api_settings, location = load_provider(
+                    ProviderDataEnum.KEY,
+                    provider_name=provider_name,
+                    location=True,
+                    api_keys=api_key,
+                )
+                self.project_id = api_settings["project_id"]
+                os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = location
+            else:
+                api_settings = load_provider(
+                    ProviderDataEnum.KEY, provider_name, api_keys=api_key
+                )
+                api_key = api_settings["api_key"]
         try:
             completion_params = {
                 "messages": messages,
