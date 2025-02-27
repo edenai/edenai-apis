@@ -70,6 +70,9 @@ class TestApiClass:
         info = load_provider(ProviderDataEnum.INFO_FILE, provider)
         for feature in info:
             for subfeature in info[feature]:
+                assert isinstance(
+                    info[feature][subfeature], dict
+                ), f"`{info[feature][subfeature]}` should be a dict"
                 if not info[feature][subfeature].get("version"):
                     for phase in info[feature][subfeature]:
                         assert (
