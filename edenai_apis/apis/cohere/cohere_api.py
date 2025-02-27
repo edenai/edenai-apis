@@ -264,13 +264,13 @@ class CohereApi(ProviderInterface, TextInterface):
         ).original_response
 
         # Extracts embeddings from texts & query
-        texts_embed = list(texts_embed_response["data"][0]["embedding"])
-        query_embed = query_embed_response["embeddings"][0]
+        texts_embeds = texts_embed_response["data"]
+        query_embed = query_embed_response["data"][0]["embedding"]
 
         items = []
         # Calculate score for each text index
-        for index, text in enumerate(texts_embed):
-            score = function_score(query_embed, text)
+        for index, text in enumerate(texts_embeds):
+            score = function_score(query_embed, text["embedding"])
             items.append(
                 InfosSearchDataClass(
                     object="search_result", document=index, score=score
@@ -282,8 +282,8 @@ class CohereApi(ProviderInterface, TextInterface):
 
         # Calculate total tokens
         usage = {
-            "total_tokens": texts_embed_response["meta"]["billed_units"]["input_tokens"]
-            + query_embed_response["meta"]["billed_units"]["input_tokens"]
+            "total_tokens": texts_embed_response["usage"]["total_tokens"]
+            + query_embed_response["usage"]["total_tokens"]
         }
         # Build the original response
         original_response = {
