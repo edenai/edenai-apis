@@ -13,10 +13,7 @@ _correct_list_feature = lambda: map(
 )
 
 
-@pytest.mark.skipif(
-    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-    reason="Don't run on opensource cicd workflow",
-)
+@pytest.mark.e2e
 @pytest.mark.parametrize(
     ("provider", "feature", "subfeature", "phase"), _correct_list_feature()
 )
@@ -71,10 +68,7 @@ def test_return_provider_method_returns_right_method(
         assert isinstance(test_method.__self__, type(right_method.__self__))
 
 
-@pytest.mark.skipif(
-    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-    reason="Don't run on opensource cicd workflow",
-)
+@pytest.mark.e2e
 @pytest.mark.parametrize(
     ("provider", "feature", "subfeature", "phase"), _correct_list_feature()
 )

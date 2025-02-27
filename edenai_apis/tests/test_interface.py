@@ -27,6 +27,7 @@ VALID_SUBFEATURE = "text_to_speech"
     global_features(return_phase=True)["ungrouped_providers"],
 )
 class TestComputeOutput:
+    @pytest.mark.integration
     def test_output_fake(
         self, mocker: MockerFixture, provider, feature, subfeature, phase
     ):
@@ -47,6 +48,7 @@ class TestComputeOutput:
     global_features(filter=only_async, return_phase=True)["ungrouped_providers"],
 )
 class TestGetAsyncJobResult:
+    @pytest.mark.integration
     def test_output_fake(
         self, mocker: MockerFixture, provider, feature, subfeature, phase
     ):
@@ -60,6 +62,7 @@ class TestGetAsyncJobResult:
         assert final_result["status"] == "success"
 
 
+@pytest.mark.integration
 def test_list_features():
     # with a list as return
     method_list = list_features()
@@ -89,6 +92,7 @@ def test_list_features():
                 assert method_dict[provider][feature][subfeature]
 
 
+@pytest.mark.unit
 def test_list_providers():
     # all providers
     providers = list_providers()
@@ -117,6 +121,7 @@ def test_list_providers():
     )
 
 
+@pytest.mark.unit
 def test_check_provider_constraints():
     assert check_provider_constraints(VALID_PROVIDER, VALID_FEATURE, VALID_SUBFEATURE)[
         0

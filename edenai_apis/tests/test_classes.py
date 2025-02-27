@@ -4,6 +4,7 @@
     - implement a well formatted info.json containing subfeatures versions
     - implement all features defined in info.json
 """
+
 from typing import List
 
 import pytest
@@ -51,16 +52,19 @@ def load_class_with_subfeature() -> List[ParameterSet]:
 
 @pytest.mark.parametrize("cls", load_class_with_subfeature())
 class TestApiClass:
+    @pytest.mark.unit
     def test_issubclass(self, cls: ProviderInterface):
         assert issubclass(
             cls, ProviderInterface
         ), f"Please inherit {cls} from ProviderInterface"
 
+    @pytest.mark.integration
     def test_info_file_exists(self, cls: ProviderInterface):
         provider = cls.provider_name
         info = load_provider(ProviderDataEnum.INFO_FILE, provider)
         assert info, "info file does not exist"
 
+    @pytest.mark.integration
     def test_version_exists(self, cls: ProviderInterface):
         provider = cls.provider_name
         info = load_provider(ProviderDataEnum.INFO_FILE, provider)
@@ -76,6 +80,7 @@ class TestApiClass:
                         "version" in info[feature][subfeature]
                     ), "missing 'version' property"
 
+    @pytest.mark.integration
     def test_implemented_features_documented(self, cls: ProviderInterface):
         """Test if all implemented features are documented in the provider's info.json file"""
         # Setup
