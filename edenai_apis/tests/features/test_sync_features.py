@@ -92,6 +92,7 @@ class TestSyncProviders:
         if IS_MONITORING:
             insert_api_call(provider, feature, subfeature, None, None)
 
+    @pytest.mark.e2e
     def test_feature_saved_output(self, provider, feature, subfeature):
         # Step 1 (Setup) :
         saved_output = load_provider(
