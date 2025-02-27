@@ -1,88 +1,91 @@
 {
-  "translation": {
-    "automatic_translation": {
-      "constraints": {
-        "languages": [
-          "ar",
-          "bg",
-          "zh",
-          "zh-Hant",
-          "cs",
-          "da",
-          "nl",
-          "en",
-          "en-US",
-          "en-GB",
-          "et",
-          "fi",
-          "fr",
-          "de",
-          "el",
-          "hu",
-          "id",
-          "it",
-          "ja",
-          "ko",
-          "lv",
-          "lt",
-          "no",
-          "pl",
-          "pt",
-          "ro",
-          "ru",
-          "sk",
-          "sl",
-          "es",
-          "sv",
-          "tr",
-          "uk"
-        ],
-        "allow_null_language": true
-      },
-      "version": "v2"
+    "translation": {
+        "automatic_translation": {
+            "constraints": {
+                "languages": [
+                    "ar",
+                    "bg",
+                    "zh",
+                    "zh-Hant",
+                    "cs",
+                    "da",
+                    "nl",
+                    "en",
+                    "en-US",
+                    "en-GB",
+                    "et",
+                    "fi",
+                    "fr",
+                    "de",
+                    "el",
+                    "hu",
+                    "id",
+                    "it",
+                    "ja",
+                    "ko",
+                    "lv",
+                    "lt",
+                    "no",
+                    "pl",
+                    "pt",
+                    "ro",
+                    "ru",
+                    "sk",
+                    "sl",
+                    "es",
+                    "sv",
+                    "tr",
+                    "uk"
+                ],
+                "allow_null_language": true
+            },
+            "version": "v2"
+        },
+        "document_translation": {
+            "constraints": {
+                "languages": [
+                    "bg",
+                    "cs",
+                    "da",
+                    "de",
+                    "el",
+                    "en",
+                    "es",
+                    "et",
+                    "fi",
+                    "fr",
+                    "hu",
+                    "id",
+                    "it",
+                    "ja",
+                    "lt",
+                    "lv",
+                    "nl",
+                    "pl",
+                    "pt",
+                    "ro",
+                    "ru",
+                    "sk",
+                    "sl",
+                    "sv",
+                    "tr",
+                    "uk",
+                    "zh"
+                ],
+                "allow_null_language": true,
+                "file_types": [
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                    "application/pdf",
+                    "text/html",
+                    "text/plain",
+                    "application/xliff+xml"
+                ]
+            },
+            "version": "v2"
+        }
     },
-    "document_translation": {
-      "constraints": {
-        "languages": [
-          "bg",
-          "cs",
-          "da",
-          "de",
-          "el",
-          "en",
-          "es",
-          "et",
-          "fi",
-          "fr",
-          "hu",
-          "id",
-          "it",
-          "ja",
-          "lt",
-          "lv",
-          "nl",
-          "pl",
-          "pt",
-          "ro",
-          "ru",
-          "sk",
-          "sl",
-          "sv",
-          "tr",
-          "uk",
-          "zh"
-        ],
-        "allow_null_language": true,
-        "file_types": [
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-          "application/pdf",
-          "text/html",
-          "text/plain",
-          "application/xliff+xml"
-        ]
-      },
-      "version": "v2"
+    "_metadata": {
+        "privacy_url": "https://www.deepl.com/en/privacy"
     }
-  }
 }

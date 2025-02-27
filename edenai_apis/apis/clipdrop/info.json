@@ -3,5 +3,8 @@
         "background_removal": {
             "version": "v1Beta"
         }
+    },
+    "_metadata": {
+        "privacy_url": "https://clipdrop.co/privacy"
     }
 }

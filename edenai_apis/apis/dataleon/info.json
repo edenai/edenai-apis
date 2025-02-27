@@ -17,7 +17,7 @@
                     "it-IT",
                     "da-DK"
                 ],
-                "allow_null_language":true
+                "allow_null_language": true
             },
             "version": "v4.0.0"
         },
@@ -38,7 +38,7 @@
                     "it-IT",
                     "da-DK"
                 ],
-                "allow_null_language":true
+                "allow_null_language": true
             },
             "version": "v4.0.0"
         },
@@ -59,13 +59,16 @@
                     "it-IT",
                     "da-DK"
                 ],
-                "allow_null_language":true,
-                "documents" : [
+                "allow_null_language": true,
+                "documents": [
                     "receipt",
                     "invoice"
-                  ]
+                ]
             },
             "version": "v4.0.0"
         }
+    },
+    "_metadata": {
+        "privacy_url": "https://www.dataleon.ai/en/privacy-policy"
     }
 }

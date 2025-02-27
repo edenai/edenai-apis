@@ -360,7 +360,6 @@
                         "ar-JO_Yousef Saleh",
                         "ms-MY_Zikri Wan",
                         "ar-DZ_Zuthimalin Brahimi"
-
                     ],
                     "FEMALE": [
                         "ta-MY_Aahna Konar",
@@ -602,7 +601,6 @@
                         "az_AZ_Zeynab Cafarova",
                         "hu-HU_Zoe Nagy",
                         "pl-PL_Zuzanna Kackz"
-
                     ]
                 }
             },
@@ -968,7 +966,6 @@
                         "ar-JO_Yousef Saleh",
                         "ms-MY_Zikri Wan",
                         "ar-DZ_Zuthimalin Brahimi"
-
                     ],
                     "FEMALE": [
                         "ta-MY_Aahna Konar",
@@ -1210,11 +1207,13 @@
                         "az_AZ_Zeynab Cafarova",
                         "hu-HU_Zoe Nagy",
                         "pl-PL_Zuzanna Kackz"
-                        
                     ]
                 }
             },
             "version": "v1"
         }
+    },
+    "_metadata": {
+        "privacy_url": "https://www.lovo.ai/privacy"
     }
 }
