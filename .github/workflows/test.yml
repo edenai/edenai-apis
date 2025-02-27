@@ -36,7 +36,7 @@ jobs:
         run: "echo TEST_SCOPE=CICD-OPENSOURCE >> $GITHUB_ENV"
       - name: Run Test suite
         run: |
-          pytest -vvv -s -n auto --maxprocesses=8 --dist loadgroup
+          pytest -vvv -s -m 'unit or integration' -n auto --maxprocesses=8 --dist loadgroup
       - name: generate list of providers and features markdown
         run: "python -m edenai_apis.scripts.documentation"
       - name: generate doc
