@@ -53,7 +53,10 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
             ) from exc
 
         if response.status_code != HTTPStatus.OK:
-            raise ProviderException(response.json(), code=response.status_code)
+            raise ProviderException(
+                original_response.get("message") or original_response,
+                code=response.status_code,
+            )
 
         total_score = float(
             int(original_response["total_text_score"].replace("%", "")) / 100
@@ -109,9 +112,10 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
                 message="Internal Server Error", code=response.status_code
             ) from exc
 
-        if response.status_code != 200:
+        if response.status_code != HTTPStatus.OK:
             raise ProviderException(
-                original_response.get("error"), code=response.status_code
+                original_response.get("message") or original_response,
+                code=response.status_code,
             )
 
         default_dict = defaultdict(lambda: None)
