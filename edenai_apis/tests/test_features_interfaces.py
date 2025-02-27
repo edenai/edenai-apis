@@ -2,9 +2,11 @@
 Test that the interfaces are correctly implemented
 """
 
-import pytest
-from edenai_apis.loaders.data_loader import load_class
 from inspect import signature
+
+import pytest
+
+from edenai_apis.loaders.data_loader import load_class
 
 
 def get_provider_methods():
@@ -18,6 +20,7 @@ def get_provider_methods():
                     yield (ProviderClass, Interface, method_name)
 
 
+@pytest.mark.integration
 @pytest.mark.parametrize(
     ("ProviderClass", "Interface", "method_name"),
     sorted(get_provider_methods(), key=lambda param: param[2]),

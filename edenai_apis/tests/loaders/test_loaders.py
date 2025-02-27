@@ -6,6 +6,7 @@ from edenai_apis.loaders.loaders import load_feature, load_provider
 
 
 class TestLoadFeature:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("data_feature"), [FeatureDataEnum.DATA_CLASS, FeatureDataEnum.SAMPLES_ARGS]
     )
@@ -23,6 +24,7 @@ class TestLoadFeature:
 
 
 class TestLoadProvider:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("data_provider"),
         [

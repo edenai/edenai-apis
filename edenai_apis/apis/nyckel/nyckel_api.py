@@ -110,7 +110,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
             error = "Please check your submited data for training/testing"
         raise ProviderException(error, response.status_code)
 
-    def image__search__create_project(self, project_name: str) -> str:
+    def image__search__create_project(self, project_name: str, **kwargs) -> str:
         """
         Search by image
         """
