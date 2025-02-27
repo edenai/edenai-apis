@@ -68,7 +68,8 @@ class TestApiClass:
     def test_version_exists(self, cls: ProviderInterface):
         provider = cls.provider_name
         info = load_provider(ProviderDataEnum.INFO_FILE, provider)
-        for feature in info:
+        # exclude _metadata as it's a special field and doesn't represent a feature
+        for feature in [f for f in info if f != "_metadata"]:
             for subfeature in info[feature]:
                 assert isinstance(
                     info[feature][subfeature], dict
