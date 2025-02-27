@@ -32,14 +32,27 @@ jobs:
           sudo apt-get update
           sudo apt-get install ffmpeg -y
           pip install -r requirements.txt -c constraints.txt
+
       - name: Set Env variables
         run: "echo TEST_SCOPE=CICD-OPENSOURCE >> $GITHUB_ENV"
+
       - name: Run Test suite
         run: |
           pytest -vvv -s -m 'unit or integration' -n auto --maxprocesses=8 --dist loadgroup
-      - name: generate list of providers and features markdown
+
+  generate_doc:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Generate list of providers and features markdown
         run: "python -m edenai_apis.scripts.documentation"
-      - name: generate doc
+
+      - name: Generate doc
         run: |
           cd .docsrc
           rm -rf _build/**
@@ -47,7 +60,8 @@ jobs:
           sphinx-apidoc -o _build/ ../edenai_apis/
           make html
           cp -r _build/html/* ../docs/
-      - name: commit documentation changes
+
+      - name: Commit documentation changes
         uses: EndBug/add-and-commit@v9
         with:
           add: AVAILABLES_FEATURES_AND_PROVIDERS.md
@@ -55,14 +69,13 @@ jobs:
           committer_email: mail@example.com
           message: '[doc] update available features & providers'
 
-
   generate_doc_and_deploy:
-    needs: test
+    needs: generate_doc
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
