@@ -269,7 +269,7 @@ class LLMEngine:
 
             return ResponseType[StreamMultimodalChat](
                 original_response=None,
-                standardized_response=StreamMultimodalChat(stream=stream),
+                standardized_response=StreamMultimodalChat(stream=stream_response),
             )
 
     def summarize(
@@ -815,12 +815,12 @@ class StdLLMEngine(LLMEngine):
                 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = location
             elif is_gemini:
                 api_settings = load_provider(
-                    ProviderDataEnum.KEY, provider_name, api_keys=api_key
+                    ProviderDataEnum.KEY, provider_name=provider_name, api_keys=api_key
                 )
                 api_key = api_settings["genai_api_key"]
             else:
                 api_settings = load_provider(
-                    ProviderDataEnum.KEY, provider_name, api_keys=api_key
+                    ProviderDataEnum.KEY, provider_name=provider_name, api_keys=api_key
                 )
                 api_key = api_settings["api_key"]
         try:
