@@ -228,8 +228,41 @@ class TestLLMEngine:
         assert isinstance(response, ResponseType)
         assert response.original_response
 
+    @pytest.mark.integration
+    def test_llm_engine_chat_stream(
+        self, llm_engine_instance_wo_oai_model, mocked_chat_stream_params
+    ):
+        llm_engine = LLMEngine(**llm_engine_instance_wo_oai_model)
+        response = llm_engine.chat(**mocked_chat_stream_params)
+        assert isinstance(response, ResponseType)
+        assert response.original_response is None
+        assert isinstance(response.standardized_response, StreamChat)
+        assert isinstance(response.standardized_response.stream, Iterator)
+        chat_response = ""
+        for chunk in response.standardized_response.stream:
+            assert isinstance(chunk, ChatStreamResponse)
+            chat_response += chunk.text
+        assert chat_response == mocked_chat_stream_params["mock_response"]
+
+    @pytest.mark.integration
+    def test_llm_engine_chat_multimodal_stream(
+        self, llm_engine_instance_wo_oai_model, mocked_multimodal_chat_stream_params
+    ):
+        llm_engine = LLMEngine(**llm_engine_instance_wo_oai_model)
+        response = llm_engine.multimodal_chat(**mocked_multimodal_chat_stream_params)
+        assert isinstance(response, ResponseType)
+        assert response.original_response is None
+        assert isinstance(response.standardized_response, StreamChatMultimodal)
+        assert isinstance(response.standardized_response.stream, Iterator)
+        chat_response = ""
+        for chunk in response.standardized_response.stream:
+            assert isinstance(chunk, ChatMultimodalStreamResponse)
+            chat_response += chunk.text
+        assert chat_response == mocked_multimodal_chat_stream_params["mock_response"]
+
     # class TestLLMClients:
 
+    @pytest.mark.integration
     def test_unregisterd_model(
         self, llm_engine_instance_w_unregestired_model, mocked_completion_parametrized
     ):

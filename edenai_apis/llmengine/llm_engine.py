@@ -184,7 +184,7 @@ class LLMEngine:
                 usage=response.usage,
             )
         else:
-            stream = (
+            stream_response = (
                 ChatStreamResponse(
                     text=chunk.choices[0].delta.content or "",
                     blocked=False,
@@ -195,7 +195,8 @@ class LLMEngine:
             )
 
             return ResponseType[StreamChat](
-                original_response=None, standardized_response=StreamChat(stream=stream)
+                original_response=None,
+                standardized_response=StreamChat(stream=stream_response),
             )
 
     @moderate
@@ -238,8 +239,8 @@ class LLMEngine:
         args["response_format"] = response_format
         args["drop_invalid_params"] = True
         response = self.completion_client.completion(**args, **kwargs)
-        response = ResponseModel.model_validate(response)
         if stream is False:
+            response = ResponseModel.model_validate(response)
             generated_text = (
                 response.choices[0].message.content or "" if response.choices else ""
             )
@@ -256,7 +257,7 @@ class LLMEngine:
             )
 
         else:
-            stream = (
+            stream_response = (
                 ChatMultimodalStreamResponse(
                     text=chunk["choices"][0]["delta"].get("content", ""),
                     blocked=not chunk["choices"][0].get("finish_reason")
