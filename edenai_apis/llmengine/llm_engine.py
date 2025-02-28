@@ -1,69 +1,70 @@
-import os
-import uuid
-import json
 import base64
+import json
 import mimetypes
+import os
+import re
+import uuid
 from io import BytesIO
-from typing import List, Literal, Optional, Union, Dict, Type
+from typing import Dict, List, Literal, Optional, Type, Union
 
 import httpx
+from loaders.data_loader import ProviderDataEnum
+from loaders.loaders import load_provider
 from pydantic import BaseModel
-from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3
-from edenai_apis.llmengine.types.response_types import (
-    ResponseModel,
+
+from edenai_apis.features.image import (
+    ExplicitContentDataClass,
+    GeneratedImageDataClass,
+    GenerationDataClass,
+    LogoDetectionDataClass,
+    QuestionAnswerDataClass,
 )
-from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS
-from edenai_apis.llmengine.clients.completion import CompletionClient
-from edenai_apis.llmengine.mapping import Mappings
-from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.exception import ProviderException
-from edenai_apis.features.translation import (
-    AutomaticTranslationDataClass,
-    LanguageDetectionDataClass,
+from edenai_apis.features.multimodal.chat import (
+    ChatDataClass as ChatMultimodalDataClass,
 )
+from edenai_apis.features.multimodal.chat import (
+    ChatStreamResponse as ChatMultimodalStreamResponse,
+)
+from edenai_apis.features.multimodal.chat import StreamChat as StreamMultimodalChat
 from edenai_apis.features.text import (
-    SummarizeDataClass,
-    TopicExtractionDataClass,
-    SpellCheckDataClass,
-    SentimentAnalysisDataClass,
-    KeywordExtractionDataClass,
     AnonymizationDataClass,
-    NamedEntityRecognitionDataClass,
     CodeGenerationDataClass,
-    EmbeddingDataClass,
-    EmbeddingsDataClass,
-    ModerationDataClass,
-    TextModerationItem,
     CustomClassificationDataClass,
     CustomNamedEntityRecognitionDataClass,
+    EmbeddingDataClass,
+    EmbeddingsDataClass,
+    KeywordExtractionDataClass,
+    ModerationDataClass,
+    NamedEntityRecognitionDataClass,
+    SentimentAnalysisDataClass,
+    SpellCheckDataClass,
+    SummarizeDataClass,
+    TextModerationItem,
+    TopicExtractionDataClass,
+)
+from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
+from edenai_apis.features.text.chat.chat_dataclass import (
+    ChatStreamResponse,
+    StreamChat,
+    ToolCall,
 )
 from edenai_apis.features.text.moderation.category import (
     CategoryType as CategoryTypeModeration,
 )
-from edenai_apis.utils.conversion import standardized_confidence_score
-from edenai_apis.features.image import (
-    LogoDetectionDataClass,
-    QuestionAnswerDataClass,
-    ExplicitContentDataClass,
-    GeneratedImageDataClass,
-    GenerationDataClass,
+from edenai_apis.features.translation import (
+    AutomaticTranslationDataClass,
+    LanguageDetectionDataClass,
 )
-from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
-from edenai_apis.features.text.chat.chat_dataclass import (
-    StreamChat,
-    ChatStreamResponse,
-    ToolCall,
-)
-from edenai_apis.features.multimodal.chat import (
-    ChatDataClass as ChatMultimodalDataClass,
-    StreamChat as StreamMultimodalChat,
-    ChatStreamResponse as ChatMultimodalStreamResponse,
-)
+from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS
+from edenai_apis.llmengine.clients.completion import CompletionClient
+from edenai_apis.llmengine.mapping import Mappings
 from edenai_apis.llmengine.prompts import BasePrompt
+from edenai_apis.llmengine.types.response_types import ResponseModel
 from edenai_apis.llmengine.utils.moderation import moderate
-from loaders.data_loader import ProviderDataEnum
-from loaders.loaders import load_provider
-import re
+from edenai_apis.utils.conversion import standardized_confidence_score
+from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3
 
 
 class LLMEngine:
