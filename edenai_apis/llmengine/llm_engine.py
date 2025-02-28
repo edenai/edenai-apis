@@ -260,7 +260,7 @@ class LLMEngine:
         else:
             stream_response = (
                 ChatMultimodalStreamResponse(
-                    text=chunk["choices"][0]["delta"].get("content", ""),
+                    text=chunk["choices"][0]["delta"].get("content") or "",
                     blocked=not chunk["choices"][0].get("finish_reason")
                     in (None, "stop"),
                     provider=self.provider_name,
