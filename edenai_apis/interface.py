@@ -363,7 +363,7 @@ def get_async_job_result(
     feature: str,
     subfeature: str,
     async_job_id: str,
-    phase: str | None = None,
+    phase: str = "",
     fake: bool = False,
     user_email=None,
     api_keys=dict(),

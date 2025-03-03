@@ -1,5 +1,6 @@
 from pprint import pprint
 from time import sleep
+from typing import Tuple
 
 import requests
 
@@ -12,7 +13,7 @@ def process_async_get_result(
     provider: str,
     feature: str,
     subfeature: str,
-    phase: str | None,
+    phase: str,
     async_job_id: str,
     max_time=300,
     sleep_time=5,
@@ -35,7 +36,7 @@ def process_async_get_result(
     raise TimeoutError(f"Async job timed out after {max_time} seconds")
 
 
-def process_provider(provider_info):
+def process_provider(provider_info: Tuple[str, str, str, str]):
     provider, feature, subfeature, phase = provider_info
     if phase == "create_project":
         return None
@@ -88,7 +89,7 @@ def main():
             provider["provider"]["name"],
             provider["feature"]["name"],
             provider["subfeature"]["name"],
-            provider.get("phase", ""),
+            provider.get("phase") or "",
         )
         for provider in provider_subfeatures
     ]
