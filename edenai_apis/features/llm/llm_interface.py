@@ -4,7 +4,7 @@ from typing import Optional, List, Dict, Type, Union
 from openai import BaseModel
 import httpx
 
-from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
+from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
 class LlmInterface:
@@ -50,7 +50,7 @@ class LlmInterface:
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ) -> ChatCompletionResponse:
+    ) -> ChatDataClass:
         """
         Generate responses in a multimodal conversation using a chatbot.
         Args:

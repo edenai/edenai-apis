@@ -23,7 +23,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
+from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
 class AnthropicApi(ProviderInterface, TextInterface, ImageInterface, LlmInterface):
@@ -177,7 +177,7 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface, LlmInterfac
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ) -> ChatCompletionResponse:
+    ) -> ChatDataClass:
         response = self.std_llm_client.completion(
             messages=messages,
             model=model,

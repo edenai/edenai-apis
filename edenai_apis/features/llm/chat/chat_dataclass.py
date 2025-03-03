@@ -195,7 +195,7 @@ class ChatCompletionUsage(BaseModel):
     )
 
 
-class ChatCompletionResponse(BaseModel):
+class ChatDataClass(BaseModel):
     id: str = Field(..., description="Unique identifier for this completion")
     object: str = Field(..., description="Object type, always 'chat.completion'")
     created: int = Field(

@@ -29,7 +29,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
+from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
 class CohereApi(ProviderInterface, TextInterface, LlmInterface):
@@ -371,7 +371,7 @@ class CohereApi(ProviderInterface, TextInterface, LlmInterface):
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ) -> ChatCompletionResponse:
+    ) -> ChatDataClass:
         response = self.std_llm_client.completion(
             messages=messages,
             model=model,

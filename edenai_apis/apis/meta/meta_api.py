@@ -22,7 +22,7 @@ import json
 import boto3
 
 from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
+from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
 class MetaApi(ProviderInterface, TextInterface, LlmInterface):
@@ -171,7 +171,7 @@ class MetaApi(ProviderInterface, TextInterface, LlmInterface):
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ) -> ChatCompletionResponse:
+    ) -> ChatDataClass:
         response = self.std_llm_client.completion(
             messages=messages,
             model=model,

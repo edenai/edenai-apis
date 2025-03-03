@@ -3,7 +3,7 @@ from typing import List, Type, Union, Optional
 import httpx
 from openai import BaseModel
 from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
+from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
 class GoogleLLMApi(LlmInterface):
@@ -48,7 +48,7 @@ class GoogleLLMApi(LlmInterface):
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ) -> ChatCompletionResponse:
+    ) -> ChatDataClass:
         response = self.clients["std_llm_client"].completion(
             messages=messages,
             model=model,

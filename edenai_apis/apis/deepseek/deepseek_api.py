@@ -13,7 +13,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.llmengine import LLMEngine
 from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.llmengine.llm_engine import StdLLMEngine
-from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
+from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
 class DeepseekApi(ProviderInterface, TextInterface, LlmInterface):
@@ -99,7 +99,7 @@ class DeepseekApi(ProviderInterface, TextInterface, LlmInterface):
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ) -> ChatCompletionResponse:
+    ) -> ChatDataClass:
         response = self.std_llm_client.completion(
             messages=messages,
             model=model,

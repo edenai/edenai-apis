@@ -20,7 +20,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
 from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
+from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
 class MistralApi(ProviderInterface, TextInterface, LlmInterface):
@@ -192,7 +192,7 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface):
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ) -> ChatCompletionResponse:
+    ) -> ChatDataClass:
         response = self.std_llm_client.completion(
             messages=messages,
             model=model,

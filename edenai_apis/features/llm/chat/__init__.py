@@ -5,7 +5,7 @@ from .chat_dataclass import (
     ChatCompletionRequest,
     ChatMessage,
     ResponseFormat,
-    ChatCompletionResponse,
+    ChatDataClass,
     ChatCompletionUsage,
     FunctionDefinition,
     ChatRole,
