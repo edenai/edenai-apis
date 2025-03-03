@@ -1,1 +1,1 @@
-from .standard_chat_interface import MultimodalInterface
+from .standard_chat_interface import StandardChatInterface
