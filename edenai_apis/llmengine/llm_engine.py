@@ -732,7 +732,12 @@ class LLMEngine:
 
 class StdLLMEngine(LLMEngine):
 
-    PROVIDER_MAPPING = {"vertex_ai": "google", "gemini": "google"}
+    PROVIDER_MAPPING = {
+        "vertex_ai": "google",
+        "gemini": "google",
+        "bedrock_converse": "bedrock",
+        "amazon": "bedrock",
+    }
 
     def __init__(
         self,
