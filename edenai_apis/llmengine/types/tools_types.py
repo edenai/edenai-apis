@@ -3,7 +3,9 @@ from typing import Dict, Optional
 
 
 class PropertyType(OpenAI_BaseModel):
-    def __init__(self, type: str, description: str, enum: Optional[list] = None, **params):
+    def __init__(
+        self, type: str, description: str, enum: Optional[list] = None, **params
+    ):
         super(PropertyType, self).__init__(**params)
         self.type = type
         self.description = description
@@ -26,7 +28,9 @@ class FunctionParameterType(OpenAI_BaseModel):
 
 
 class FunctionType(OpenAI_BaseModel):
-    def __init__(self, name: str, description: str, parameters: FunctionParameterType, **params):
+    def __init__(
+        self, name: str, description: str, parameters: FunctionParameterType, **params
+    ):
         super(FunctionType, self).__init__(**params)
         self.name = name
         self.description = description

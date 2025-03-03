@@ -1,7 +1,7 @@
 from edenai_apis.utils.exception import (
     ProviderErrorLists,
     ProviderInvalidInputFileFormatError,
-    ProviderInvalidInputPayloadSize
+    ProviderInvalidInputPayloadSize,
 )
 
 # NOTE: error messages should be regex patterns
@@ -11,5 +11,5 @@ ERRORS: ProviderErrorLists = {
     ],
     ProviderInvalidInputPayloadSize: [
         r"Length Required: Fetching failed to get valid content-length."
-    ]
+    ],
 }

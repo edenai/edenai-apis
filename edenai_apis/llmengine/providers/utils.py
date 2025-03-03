@@ -4,7 +4,9 @@ import logging
 
 logging = logging.getLogger(__name__)
 
-PROVIDERS_SETTINGS_BASE_DIR = os.path.join(os.path.dirname(__file__), "../..", "providers_keys")
+PROVIDERS_SETTINGS_BASE_DIR = os.path.join(
+    os.path.dirname(__file__), "../..", "providers_keys"
+)
 
 
 def open_settings_file(provider_name: str = None):

@@ -10,5 +10,5 @@ from .financial_parser_dataclass import (
     FinancialLineItem,
     FinancialDocumentMetadata,
     FinancialParserObjectDataClass,
-    FinancialParserDataClass
+    FinancialParserDataClass,
 )

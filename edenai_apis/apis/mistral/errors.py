@@ -12,6 +12,6 @@ ERRORS: ProviderErrorLists = {
     ],
     ProviderTimeoutError: [
         r"<[^<>]+debug_error_string = 'UNKNOWN:Error received from peer ipv4:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d+ {created_time:'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+[\+\-]\d{2}:\d{2}', grpc_status:14, grpc_message:'GOAWAY received'}'>",
-        r"Model is deploying"
-    ]
-    }
+        r"Model is deploying",
+    ],
+}

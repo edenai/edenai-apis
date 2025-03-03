@@ -21,7 +21,10 @@ def bank_check_parsing_arguments(provider_name: str) -> Dict:
     file_info = FileInfo(
         os.stat(ocr_path).st_size,
         mime_type,
-        [extension[1:] for extension in mimetypes.guess_all_extensions(mime_type or "")],
+        [
+            extension[1:]
+            for extension in mimetypes.guess_all_extensions(mime_type or "")
+        ],
         mediainfo(ocr_path).get("sample_rate", "44100"),
         mediainfo(ocr_path).get("channels", "1"),
     )

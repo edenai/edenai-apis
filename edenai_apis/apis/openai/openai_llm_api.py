@@ -2,7 +2,7 @@ from typing import Dict, List, Type, Union, Optional
 import httpx
 from openai import BaseModel, OpenAI
 from openai import NOT_GIVEN
-from features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
 
 

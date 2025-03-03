@@ -1,8 +1,5 @@
-from edenai_apis.utils.exception import (
-    ProviderErrorLists,
-    ProviderInternalServerError
-)
+from edenai_apis.utils.exception import ProviderErrorLists, ProviderInternalServerError
 
 ERRORS: ProviderErrorLists = {
-    ProviderInternalServerError : [r".*Internal server error.*"],
+    ProviderInternalServerError: [r".*Internal server error.*"],
 }

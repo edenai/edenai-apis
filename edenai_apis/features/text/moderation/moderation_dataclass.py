@@ -40,6 +40,7 @@ SubCategoryType = combine_enums(
     OtherSubCategoryType,
 )
 
+
 class TextModerationCategoriesMicrosoftEnum(Enum):
     Category1 = "sexually explicit"
     Category2 = "sexually suggestive"

@@ -124,8 +124,7 @@ class BoundingBox(BaseModel):
             "bottomLeft",
             "bottomRight",
         ],
-    ) -> "BoundingBox":
-        ...
+    ) -> "BoundingBox": ...
 
     @classmethod
     @overload
@@ -134,8 +133,7 @@ class BoundingBox(BaseModel):
         normalized_vertices: List[float],
         coordinate_keys: Sequence[str] = ["x", "y"],
         corner_position_keys: Sequence[int] = [0, 1, 2, 3],
-    ) -> "BoundingBox":
-        ...
+    ) -> "BoundingBox": ...
 
     @classmethod
     def from_normalized_vertices(

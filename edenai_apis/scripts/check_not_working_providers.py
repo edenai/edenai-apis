@@ -46,7 +46,7 @@ if __name__ == "__main__":
             )
             if res["status"] == "fail":
                 raise Exception(res["error"])
-            
+
         except Exception as exc:
             print(provider, feature, subfeature)
             print(exc)

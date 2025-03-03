@@ -1,8 +1,8 @@
 """
-    Test all async subfeatures for all providers to check if:
-    - Job ID is not null
-    - Saved output for each provider exists and is well standardized
-    - providers APIs work and their outputs are well standardized
+Test all async subfeatures for all providers to check if:
+- Job ID is not null
+- Saved output for each provider exists and is well standardized
+- providers APIs work and their outputs are well standardized
 """
 
 import importlib

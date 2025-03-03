@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 
 LITELLM_MODELS_FILE = f"{Path(__file__).parent.parent.resolve()}/llm_models/models.json"
 
+
 def register_litellm_models():
 
     with open(LITELLM_MODELS_FILE, "r") as f:
@@ -23,5 +24,6 @@ def register_litellm_models():
             except Exception as e:
                 logger.error(f"Error registering model {model_name}: {e}")
         return model_names
+
 
 register_litellm_models()

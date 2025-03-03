@@ -17,7 +17,7 @@ from edenai_apis.features import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
-from features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.llm_interface import LlmInterface
 
 
 class GoogleApi(

@@ -21,7 +21,7 @@ from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
 import json
 import boto3
 
-from features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
 
 

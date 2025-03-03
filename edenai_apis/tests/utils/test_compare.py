@@ -1,5 +1,5 @@
 """
-    Test functions used to compare output dictionaries.
+Test functions used to compare output dictionaries.
 """
 
 import pytest

@@ -19,7 +19,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
-from features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
 
 

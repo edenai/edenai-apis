@@ -1,9 +1,17 @@
 from typing import Literal, Optional
 from pydantic import BaseModel, Field
 
+
 class LiteLLMConfig(BaseModel):
     litellm_provider: str
-    mode: Literal["completion", "chat", "embedding", "image_generation", "audio_transcription", "audio_speech"] = "completion"
+    mode: Literal[
+        "completion",
+        "chat",
+        "embedding",
+        "image_generation",
+        "audio_transcription",
+        "audio_speech",
+    ] = "completion"
     max_tokens: int
     max_input_tokens: Optional[int] = 0
     max_output_tokens: Optional[int] = 0
@@ -17,7 +25,7 @@ class LiteLLMConfig(BaseModel):
     supports_prompt_caching: Optional[bool] = False
     supports_response_schema: Optional[bool] = False
     supports_system_messages: Optional[bool] = False
-    deprecation_date: Optional[str] = None# This is an useful information from LiteLLM
+    deprecation_date: Optional[str] = None  # This is an useful information from LiteLLM
     source: Optional[str] = None
 
 

@@ -5,6 +5,7 @@ These models are used as DTOs for affinda api responses.
 NOTE: Please note that these models do not represent the complete API responses, only what can be used.
       If any fields are missing, don't hesitate to add them.
 """
+
 from typing import Any, Dict, Literal, Optional, Sequence
 
 from pydantic import BaseModel, Field

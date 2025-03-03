@@ -31,7 +31,9 @@ def _find_providers_from_files():
     for provider in structure[1]:
         provider_folder = f"{structure[0]}/{provider}"
         provider_file = list(
-            filter(lambda name: name not in AVOID_FILES, next(os.walk(provider_folder))[2])
+            filter(
+                lambda name: name not in AVOID_FILES, next(os.walk(provider_folder))[2]
+            )
         )
         # Get the first...
         provider_file = provider_file[0]
@@ -46,7 +48,9 @@ def _find_providers_from_files():
                 except AttributeError:
                     continue
         except NameError:
-            logging.warning(f"Module {module_name} has a problem an cannot be instantiated")
+            logging.warning(
+                f"Module {module_name} has a problem an cannot be instantiated"
+            )
         except ModuleNotFoundError as e:
             logging.warning(f"Module {module_name} not found: {e}")
     return _classes

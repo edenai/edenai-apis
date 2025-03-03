@@ -12,6 +12,7 @@ class FileInfo:
         if args:
             self.file_frame_rate, self.file_channels = args
         self.file_duration = kwargs.get("duration", None)
+
     file_size: int
     file_media_type: str
     supported_extensions: List[str]
@@ -19,7 +20,6 @@ class FileInfo:
     file_frame_rate: Optional[str]
     file_channels: Optional[str]
     file_duration: Optional[float]
-
 
 
 class FileWrapper:

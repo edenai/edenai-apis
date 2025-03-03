@@ -2,6 +2,7 @@ from typing import List, Optional, Union
 from litellm import CustomStreamWrapper
 from litellm.types.utils import ModelResponse, EmbeddingResponse, Embedding, Usage
 
+
 class EmbeddingResponseModel(EmbeddingResponse):
     """
     Example response for an embedding request
@@ -28,6 +29,7 @@ class EmbeddingResponseModel(EmbeddingResponse):
 
     provider_time: int = 0
     edenai_time: int = 0
+
     def __init__(
         self,
         model: Optional[str] = None,
@@ -49,6 +51,7 @@ class EmbeddingResponseModel(EmbeddingResponse):
             hidden_params=hidden_params,
             **params,
         )
+
 
 class ResponseModel(ModelResponse):
     """
