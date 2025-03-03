@@ -12,20 +12,6 @@ from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
 
 class AmazonLLMApi(LlmInterface):
 
-    def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(
-            ProviderDataEnum.KEY, "amazon", api_keys=api_keys
-        )
-        self.clients = clients(self.api_settings)
-        self.storage_clients = storage_clients(self.api_settings)
-        self.llm_client = StdLLMEngine(
-            provider_config={
-                "aws_access_key_id": self.api_settings["aws_access_key_id"],
-                "aws_secret_access_key": self.api_settings["aws_secret_access_key"],
-                "aws_region_name": "us-east-1",
-            },
-        )
-
     def llm__chat(
         self,
         messages: List = [],
@@ -67,7 +53,7 @@ class AmazonLLMApi(LlmInterface):
         # Optional parameters
         **kwargs,
     ) -> ChatCompletionResponse:
-        response = self.llm_client.completion(
+        response = self.std_llm_client.completion(
             messages=messages,
             model=model,
             timeout=timeout,

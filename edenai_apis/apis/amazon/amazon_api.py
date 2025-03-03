@@ -11,7 +11,7 @@ from edenai_apis.apis.amazon.amazon_multimodal_api import AmazonMultimodalApi
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.llmengine.llm_engine import LLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
 from .config import clients, storage_clients
 
 
@@ -36,6 +36,14 @@ class AmazonApi(
         self.storage_clients = storage_clients(self.api_settings)
         self.llm_client = LLMEngine(
             provider_name="bedrock",
+            provider_config={
+                "aws_access_key_id": self.api_settings["aws_access_key_id"],
+                "aws_secret_access_key": self.api_settings["aws_secret_access_key"],
+                "aws_region_name": "us-east-1",
+            },
+        )
+
+        self.std_llm_client = StdLLMEngine(
             provider_config={
                 "aws_access_key_id": self.api_settings["aws_access_key_id"],
                 "aws_secret_access_key": self.api_settings["aws_secret_access_key"],
