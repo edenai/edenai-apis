@@ -67,6 +67,11 @@
             "version": "2022-12-06"
         }
     },
+    "llm": {
+        "chat": {
+            "version": "llmengine (v2)"
+        }
+    },
     "_metadata": {
         "privacy_url": "https://cohere.com/privacy"
     }

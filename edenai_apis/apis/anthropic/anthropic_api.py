@@ -22,11 +22,11 @@ from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.features.llm.standard_chat_interface import StandardChatInterface
+from features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
 
 
-class AnthropicApi(ProviderInterface, TextInterface, ImageInterface, StandardChatInterface):
+class AnthropicApi(ProviderInterface, TextInterface, ImageInterface, LlmInterface):
     provider_name = "anthropic"
 
     def __init__(self, api_keys: Dict = {}) -> None:

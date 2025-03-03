@@ -17,7 +17,7 @@ from edenai_apis.features import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
-from edenai_apis.features.llm.standard_chat_interface import StandardChatInterface
+from features.llm.llm_interface import LlmInterface
 
 
 class GoogleApi(
@@ -29,7 +29,7 @@ class GoogleApi(
     GoogleAudioApi,
     GoogleVideoApi,
     GoogleMultimodalApi,
-    StandardChatInterface,
+    LlmInterface,
 ):
     provider_name = "google"
 

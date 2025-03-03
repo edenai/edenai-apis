@@ -2,11 +2,11 @@ from typing import List, Type, Union, Optional
 
 import httpx
 from openai import BaseModel
-from edenai_apis.features.llm.standard_chat_interface import StandardChatInterface
+from features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
 
 
-class GoogleLLMApi(StandardChatInterface):
+class GoogleLLMApi(LlmInterface):
 
     def llm__chat(
         self,

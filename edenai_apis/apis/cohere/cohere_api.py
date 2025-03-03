@@ -28,11 +28,11 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.features.llm.standard_chat_interface import StandardChatInterface
+from features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
 
 
-class CohereApi(ProviderInterface, TextInterface, StandardChatInterface):
+class CohereApi(ProviderInterface, TextInterface, LlmInterface):
     provider_name = "cohere"
 
     def __init__(self, api_keys: Dict = {}):

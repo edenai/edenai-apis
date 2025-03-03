@@ -23,5 +23,10 @@
       },
       "version": "boto3 (v1.35.84)"
     }
+  },
+  "llm": {
+    "chat": {
+      "version": "llmengine (v2)"
+    }
   }
 }

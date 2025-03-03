@@ -11,11 +11,11 @@ from edenai_apis.features.text.chat.chat_dataclass import (
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.loaders.data_loader import ProviderDataEnum
-from edenai_apis.features.llm.standard_chat_interface import StandardChatInterface
+from features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
 
 
-class TogetheraiApi(ProviderInterface, TextInterface, StandardChatInterface):
+class TogetheraiApi(ProviderInterface, TextInterface, LlmInterface):
     provider_name = "together_ai"
 
     def __init__(self, api_keys: Dict = {}) -> None:
@@ -29,7 +29,7 @@ class TogetheraiApi(ProviderInterface, TextInterface, StandardChatInterface):
             },
         )
 
-        self.std_llm_client = StdLLMEngine(provider_config={"api_key": self.api_key})
+        self.std_llm_client = StdLLMEngine(provider_config={"api_key": self.api_settings.get("api_key")})
 
         self.moderation_flag = True
 

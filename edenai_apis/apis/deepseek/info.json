@@ -8,6 +8,11 @@
             "version": "v1"
         }
     },
+    "llm": {
+        "chat": {
+            "version": "llmengine (v2)"
+        }
+    },
     "_metadata": {
         "privacy_url": "https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html"
     }

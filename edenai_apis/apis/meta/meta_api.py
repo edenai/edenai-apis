@@ -21,11 +21,11 @@ from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
 import json
 import boto3
 
-from edenai_apis.features.llm.standard_chat_interface import StandardChatInterface
+from features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
 
 
-class MetaApi(ProviderInterface, TextInterface, StandardChatInterface):
+class MetaApi(ProviderInterface, TextInterface, LlmInterface):
     provider_name = "meta"
 
     def __init__(self, api_keys: Dict = {}) -> None:

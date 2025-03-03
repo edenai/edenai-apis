@@ -1,1 +1,1 @@
-from .standard_chat_interface import StandardChatInterface
+from .llm_interface import LlmInterface

@@ -7,7 +7,7 @@ import httpx
 from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
 
 
-class StandardChatInterface:
+class LlmInterface:
 
     @abstractmethod
     def llm__chat(

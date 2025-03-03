@@ -2,11 +2,11 @@ from typing import Dict, List, Type, Union, Optional
 import httpx
 from openai import BaseModel, OpenAI
 from openai import NOT_GIVEN
-from edenai_apis.features.llm.standard_chat_interface import StandardChatInterface
+from features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
 
 
-class OpenaiLLMApi(StandardChatInterface):
+class OpenaiLLMApi(LlmInterface):
 
     def llm__chat(
         self,
