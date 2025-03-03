@@ -1,14 +1,17 @@
 {
-  "ocr": {
-    "anonymization_async": {
-      "constraints": {
-        "file_types": [
-          "image/jpeg",
-          "image/png",
-          "application/pdf"
-        ]
-      },
+    "ocr": {
+        "anonymization_async": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "application/pdf"
+                ]
+            },
             "version": "v1"
         }
-  }
+    },
+    "_metadata": {
+        "privacy_url": "https://www.readyredact.com/privacy-policy"
+    }
 }

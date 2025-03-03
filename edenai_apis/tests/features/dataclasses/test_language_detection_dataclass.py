@@ -6,6 +6,7 @@ from edenai_apis.features.translation.language_detection import (
 
 
 class TestInfosLanguageDetectionDataClass:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("confidence", "expected_confidence"),
         [

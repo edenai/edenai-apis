@@ -13,6 +13,7 @@ from time import sleep
 
 import pytest
 
+from edenai_apis.interface import IS_MONITORING
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.tests.conftest import global_features, only_async_without_phase
@@ -20,17 +21,19 @@ from edenai_apis.utils.compare import compare_responses
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.conversion import iterate_all
 from edenai_apis.utils.exception import AsyncJobExceptionReason, ProviderException
-from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
-from edenai_apis.utils.compare import compare_responses
-from edenai_apis.interface import IS_MONITORING
 from edenai_apis.utils.monitoring import insert_api_call
+from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
 
 MAX_TIME = 300
 TIME_BETWEEN_CHECK = 10
 INTERFACE_MODULE = importlib.import_module("edenai_apis.interface_v2")
 
 
-class CommonAsyncTests:
+@pytest.mark.parametrize(
+    ("provider", "feature", "subfeature"),
+    global_features(only_async_without_phase)["ungrouped_providers"],
+)
+class TestAsyncSubFeatures:
     def _test_launch_job_id(self, provider, feature, subfeature):
         logging.info(f"Testing launch job id for {provider}, {subfeature}..\n")
 
@@ -114,11 +117,13 @@ class CommonAsyncTests:
         if IS_MONITORING:
             insert_api_call(provider, feature, subfeature, None, None)
 
-    def _test_async_job(self, provider, feature, subfeature):
+    @pytest.mark.e2e
+    def test_async_job(self, provider, feature, subfeature):
         self._test_launch_job_id(provider, feature, subfeature)
         self._test_api_get_job_result_real_output(provider, feature, subfeature)
 
-    def _test_launch_job_invalid_parameters(self, provider, feature, subfeature):
+    @pytest.mark.e2e
+    def test_launch_job_invalid_parameters(self, provider, feature, subfeature):
         logging.info(
             f"Testing launch job with invalid parameters for {provider}, {subfeature}..\n"
         )
@@ -138,7 +143,8 @@ class CommonAsyncTests:
         with pytest.raises(TypeError):
             provider_launch_job_function(**invalid_feature_args)
 
-    def _test_get_job_result_does_not_exist(self, provider, feature, subfeature):
+    @pytest.mark.e2e
+    def test_get_job_result_does_not_exist(self, provider, feature, subfeature):
         logging.info(
             f"Testing get job result with invalid id for {provider}, {subfeature}..\n"
         )
@@ -189,7 +195,8 @@ class CommonAsyncTests:
                     or str(provider_excp) == "Provider returned an empty response"
                 ), exception_message_error
 
-    def _test_api_get_job_result_saved_output(self, provider, feature, subfeature):
+    @pytest.mark.unit
+    def test_api_get_job_result_saved_output(self, provider, feature, subfeature):
         logging.info(
             f"Testing get job result with saved output for {provider}, {subfeature}..\n"
         )
@@ -206,69 +213,3 @@ class CommonAsyncTests:
 
         # Step 3 (Assert) :
         assert standardized, "The output is not standardized"
-
-
-@pytest.mark.skipif(
-    os.environ.get("TEST_SCOPE") == "CICD", reason="Don't run this on CI/CD"
-)
-@pytest.mark.parametrize(
-    ("provider", "feature", "subfeature"),
-    global_features(only_async_without_phase)["ungrouped_providers"],
-)
-class TestAsyncSubFeatures(CommonAsyncTests):
-    @pytest.mark.skipif(
-        os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-        reason="Skip in opensource package cicd workflow",
-    )
-    def test_async_job(self, provider, feature, subfeature):
-        self._test_async_job(provider, feature, subfeature)
-
-    def test_api_get_job_result_saved_output(self, provider, feature, subfeature):
-        self._test_api_get_job_result_saved_output(provider, feature, subfeature)
-
-    @pytest.mark.skipif(
-        os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-        reason="Skip in opensource package cicd workflow",
-    )
-    def test_launch_job_invalid_parameters(self, provider, feature, subfeature):
-        self._test_launch_job_invalid_parameters(provider, feature, subfeature)
-
-    @pytest.mark.skipif(
-        os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-        reason="Skip in opensource package cicd workflow",
-    )
-    def test_get_job_result_does_not_exist(self, provider, feature, subfeature):
-        self._test_get_job_result_does_not_exist(provider, feature, subfeature)
-
-
-@pytest.mark.skipif(
-    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-    reason="Run On CircleCI not github actions (need api key)",
-)
-@pytest.mark.parametrize(
-    ("providers", "feature", "subfeature"),
-    global_features(filter=only_async_without_phase)["grouped_providers"],
-)
-class TestFeatureAsyncSubfeatures(CommonAsyncTests):
-    def test_async_subfeature(self, providers, feature, subfeature):
-        """Test API Call"""
-        failures = []
-        # List of providers with wokring / not working
-        for provider in providers:
-            self._test_api_get_job_result_saved_output(provider, feature, subfeature)
-            try:
-                self._test_async_job(provider, feature, subfeature)
-                self._test_get_job_result_does_not_exist(provider, feature, subfeature)
-                self._test_launch_job_invalid_parameters(provider, feature, subfeature)
-            except Exception as exc:
-                print(traceback.format_exc())
-                failures.append(exc)
-
-        # Only fail if all providers failes in a certain feature/subfeature
-        print(failures)
-        assert len(providers) != len(failures)
-
-    def test_async_subfeature_fake(self, providers, feature, subfeature):
-        """Fake call"""
-        for provider in providers:
-            self._test_api_get_job_result_saved_output(provider, feature, subfeature)

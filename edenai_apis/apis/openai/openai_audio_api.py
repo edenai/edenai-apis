@@ -27,7 +27,7 @@ from .helpers import convert_tts_audio_rate
 
 
 class OpenaiAudioApi(AudioInterface):
-    def audio__speech_to_text(
+    def _speech_to_text(
         self,
         file: str,
         language: str,
@@ -80,7 +80,7 @@ class OpenaiAudioApi(AudioInterface):
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> AsyncLaunchJobResponseType:
-        return self.audio__speech_to_text(
+        return self._speech_to_text(
             file,
             language,
             speakers,

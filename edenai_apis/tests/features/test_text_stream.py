@@ -4,7 +4,7 @@ from typing import Iterator
 import pytest
 
 from edenai_apis import Text
-from edenai_apis.features.text.chat import StreamChat, ChatStreamResponse
+from edenai_apis.features.text.chat import ChatStreamResponse, StreamChat
 from edenai_apis.interface import list_providers
 from edenai_apis.loaders.data_loader import FeatureDataEnum
 from edenai_apis.loaders.loaders import load_feature
@@ -33,10 +33,7 @@ def test_provider_models_coverage():
         assert provider in list(map(lambda x: x[0], chat_provider_models))
 
 
-@pytest.mark.skipif(
-    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-    reason="Skip in opensource package cicd workflow",
-)
+@pytest.mark.e2e
 @pytest.mark.parametrize(("provider", "model"), chat_provider_models)
 class TestImageSearch:
     def test_stream(self, provider, model):

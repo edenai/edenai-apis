@@ -1,32 +1,31 @@
 import json
-from typing import Optional, List, Dict, Tuple, Union, Literal
+from typing import Dict, List, Literal, Optional, Tuple, Union
 
 import requests
+
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import ChatDataClass
-from edenai_apis.features.text.chat.chat_dataclass import (
-    StreamChat,
-)
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.custom_classification import (
-    ItemCustomClassificationDataClass,
     CustomClassificationDataClass,
+    ItemCustomClassificationDataClass,
 )
 from edenai_apis.features.text.custom_named_entity_recognition import (
     CustomNamedEntityRecognitionDataClass,
 )
-from edenai_apis.features.text.embeddings import EmbeddingsDataClass, EmbeddingDataClass
+from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
 from edenai_apis.features.text.generation import GenerationDataClass
-from edenai_apis.features.text.search import SearchDataClass, InfosSearchDataClass
+from edenai_apis.features.text.search import InfosSearchDataClass, SearchDataClass
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
 )
 from edenai_apis.features.text.summarize import SummarizeDataClass
+from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.llmengine.llm_engine import LLMEngine
 
 
 class CohereApi(ProviderInterface, TextInterface):
@@ -264,13 +263,13 @@ class CohereApi(ProviderInterface, TextInterface):
         ).original_response
 
         # Extracts embeddings from texts & query
-        texts_embed = list(texts_embed_response["data"][0]["embedding"])
-        query_embed = query_embed_response["embeddings"][0]
+        texts_embeds = texts_embed_response["data"]
+        query_embed = query_embed_response["data"][0]["embedding"]
 
         items = []
         # Calculate score for each text index
-        for index, text in enumerate(texts_embed):
-            score = function_score(query_embed, text)
+        for index, text in enumerate(texts_embeds):
+            score = function_score(query_embed, text["embedding"])
             items.append(
                 InfosSearchDataClass(
                     object="search_result", document=index, score=score
@@ -282,8 +281,8 @@ class CohereApi(ProviderInterface, TextInterface):
 
         # Calculate total tokens
         usage = {
-            "total_tokens": texts_embed_response["meta"]["billed_units"]["input_tokens"]
-            + query_embed_response["meta"]["billed_units"]["input_tokens"]
+            "total_tokens": texts_embed_response["usage"]["total_tokens"]
+            + query_embed_response["usage"]["total_tokens"]
         }
         # Build the original response
         original_response = {

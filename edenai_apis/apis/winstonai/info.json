@@ -1,25 +1,28 @@
 {
     "text": {
-      "ai_detection":{
-        "version" : "v2",
-        "constraints": { 
-        "languages": [
-          "en",
-          "fr",
-          "es",
-          "de",
-          "nl",
-          "zh-CN"
-        ] 
-     }
+        "ai_detection": {
+            "version": "v2",
+            "constraints": {
+                "languages": [
+                    "en",
+                    "fr",
+                    "es",
+                    "de",
+                    "nl",
+                    "zh-CN"
+                ]
+            }
+        },
+        "plagia_detection": {
+            "version": "v2"
+        }
     },
-      "plagia_detection":{
-        "version" : "v2"
+    "image": {
+        "ai_detection": {
+            "version": "v1"
+        }
+    },
+    "_metadata": {
+        "privacy_url": "https://gowinston.ai/privacy-policy"
     }
-  },
-  "image": {
-    "ai_detection":{
-      "version" : "v1"
-    }
-  }
 }

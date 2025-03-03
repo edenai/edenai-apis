@@ -27,6 +27,7 @@ def chat_arguments(provider_name: str):
             "xai": "grok-2-latest",
             "deepseek": "DeepSeek-V3",
             "microsoft": "gpt-4o-mini",
+            "togetherai": "microsoft/WizardLM-2-8x22B",
         },
         "stream": False,
     }

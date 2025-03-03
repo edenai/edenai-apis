@@ -9,6 +9,7 @@ SUBFEATURE = "topic_extraction"
 
 
 class TestTopicExtractionDataClass:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("category", "expected_category"),
         [
@@ -34,6 +35,7 @@ class TestTopicExtractionDataClass:
 
         assert klass.category == expected_category
 
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("importance", "expected_importance"),
         [

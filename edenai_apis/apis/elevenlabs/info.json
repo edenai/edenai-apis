@@ -1,4 +1,7 @@
 {
+    "_metadata": {
+        "privacy_url": "https://elevenlabs.io/privacy-policy"
+    },
     "audio": {
         "text_to_speech": {
             "constraints": {
