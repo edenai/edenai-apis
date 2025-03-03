@@ -1,69 +1,70 @@
-import os
-import uuid
-import json
 import base64
+import json
 import mimetypes
+import os
+import re
+import uuid
 from io import BytesIO
-from typing import List, Literal, Optional, Union, Dict, Type
+from typing import Dict, List, Literal, Optional, Type, Union
 
 import httpx
+from loaders.data_loader import ProviderDataEnum
+from loaders.loaders import load_provider
 from pydantic import BaseModel
-from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3
-from edenai_apis.llmengine.types.response_types import (
-    ResponseModel,
+
+from edenai_apis.features.image import (
+    ExplicitContentDataClass,
+    GeneratedImageDataClass,
+    GenerationDataClass,
+    LogoDetectionDataClass,
+    QuestionAnswerDataClass,
 )
-from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS
-from edenai_apis.llmengine.clients.completion import CompletionClient
-from edenai_apis.llmengine.mapping import Mappings
-from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.exception import ProviderException
-from edenai_apis.features.translation import (
-    AutomaticTranslationDataClass,
-    LanguageDetectionDataClass,
+from edenai_apis.features.multimodal.chat import (
+    ChatDataClass as ChatMultimodalDataClass,
 )
+from edenai_apis.features.multimodal.chat import (
+    ChatStreamResponse as ChatMultimodalStreamResponse,
+)
+from edenai_apis.features.multimodal.chat import StreamChat as StreamMultimodalChat
 from edenai_apis.features.text import (
-    SummarizeDataClass,
-    TopicExtractionDataClass,
-    SpellCheckDataClass,
-    SentimentAnalysisDataClass,
-    KeywordExtractionDataClass,
     AnonymizationDataClass,
-    NamedEntityRecognitionDataClass,
     CodeGenerationDataClass,
-    EmbeddingDataClass,
-    EmbeddingsDataClass,
-    ModerationDataClass,
-    TextModerationItem,
     CustomClassificationDataClass,
     CustomNamedEntityRecognitionDataClass,
+    EmbeddingDataClass,
+    EmbeddingsDataClass,
+    KeywordExtractionDataClass,
+    ModerationDataClass,
+    NamedEntityRecognitionDataClass,
+    SentimentAnalysisDataClass,
+    SpellCheckDataClass,
+    SummarizeDataClass,
+    TextModerationItem,
+    TopicExtractionDataClass,
+)
+from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
+from edenai_apis.features.text.chat.chat_dataclass import (
+    ChatStreamResponse,
+    StreamChat,
+    ToolCall,
 )
 from edenai_apis.features.text.moderation.category import (
     CategoryType as CategoryTypeModeration,
 )
-from edenai_apis.utils.conversion import standardized_confidence_score
-from edenai_apis.features.image import (
-    LogoDetectionDataClass,
-    QuestionAnswerDataClass,
-    ExplicitContentDataClass,
-    GeneratedImageDataClass,
-    GenerationDataClass,
+from edenai_apis.features.translation import (
+    AutomaticTranslationDataClass,
+    LanguageDetectionDataClass,
 )
-from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
-from edenai_apis.features.text.chat.chat_dataclass import (
-    StreamChat,
-    ChatStreamResponse,
-    ToolCall,
-)
-from edenai_apis.features.multimodal.chat import (
-    ChatDataClass as ChatMultimodalDataClass,
-    StreamChat as StreamMultimodalChat,
-    ChatStreamResponse as ChatMultimodalStreamResponse,
-)
+from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS
+from edenai_apis.llmengine.clients.completion import CompletionClient
+from edenai_apis.llmengine.mapping import Mappings
 from edenai_apis.llmengine.prompts import BasePrompt
+from edenai_apis.llmengine.types.response_types import ResponseModel
 from edenai_apis.llmengine.utils.moderation import moderate
-from loaders.data_loader import ProviderDataEnum
-from loaders.loaders import load_provider
-import re
+from edenai_apis.utils.conversion import standardized_confidence_score
+from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3
 
 
 class LLMEngine:
@@ -184,7 +185,7 @@ class LLMEngine:
                 usage=response.usage,
             )
         else:
-            stream = (
+            stream_response = (
                 ChatStreamResponse(
                     text=chunk.choices[0].delta.content or "",
                     blocked=False,
@@ -195,7 +196,8 @@ class LLMEngine:
             )
 
             return ResponseType[StreamChat](
-                original_response=None, standardized_response=StreamChat(stream=stream)
+                original_response=None,
+                standardized_response=StreamChat(stream=stream_response),
             )
 
     @moderate
@@ -238,8 +240,8 @@ class LLMEngine:
         args["response_format"] = response_format
         args["drop_invalid_params"] = True
         response = self.completion_client.completion(**args, **kwargs)
-        response = ResponseModel.model_validate(response)
         if stream is False:
+            response = ResponseModel.model_validate(response)
             generated_text = (
                 response.choices[0].message.content or "" if response.choices else ""
             )
@@ -256,9 +258,9 @@ class LLMEngine:
             )
 
         else:
-            stream = (
+            stream_response = (
                 ChatMultimodalStreamResponse(
-                    text=chunk["choices"][0]["delta"].get("content", ""),
+                    text=chunk["choices"][0]["delta"].get("content") or "",
                     blocked=not chunk["choices"][0].get("finish_reason")
                     in (None, "stop"),
                     provider=self.provider_name,
@@ -269,7 +271,7 @@ class LLMEngine:
 
             return ResponseType[StreamMultimodalChat](
                 original_response=None,
-                standardized_response=StreamMultimodalChat(stream=stream),
+                standardized_response=StreamMultimodalChat(stream=stream_response),
             )
 
     def summarize(
@@ -820,12 +822,12 @@ class StdLLMEngine(LLMEngine):
                 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = location
             elif is_gemini:
                 api_settings = load_provider(
-                    ProviderDataEnum.KEY, provider_name, api_keys=api_key
+                    ProviderDataEnum.KEY, provider_name=provider_name, api_keys=api_key
                 )
                 api_key = api_settings["genai_api_key"]
             else:
                 api_settings = load_provider(
-                    ProviderDataEnum.KEY, provider_name, api_keys=api_key
+                    ProviderDataEnum.KEY, provider_name=provider_name, api_keys=api_key
                 )
                 api_key = api_settings["api_key"]
         try:

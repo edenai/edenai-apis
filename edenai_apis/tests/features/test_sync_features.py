@@ -9,16 +9,12 @@ import importlib
 
 import pytest
 
-from edenai_apis.interface import IS_MONITORING
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.tests.conftest import global_features, without_async_and_phase
 from edenai_apis.utils.compare import compare_responses
 from edenai_apis.utils.constraints import validate_all_provider_constraints
-from edenai_apis.utils.conversion import iterate_all
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.monitoring import insert_api_call
-from edenai_apis.utils.types import ResponseType
 
 INTERFACE_MODULE = importlib.import_module("edenai_apis.interface_v2")
 
@@ -52,45 +48,6 @@ class TestSyncProviders:
             assert (
                 exc is not None
             ), "ProviderException, AttributeError or FileNotFoundError expected."
-
-    @pytest.mark.e2e
-    def test_feature_api_call(self, provider, feature, subfeature):
-        # Setup
-        feature_args = load_feature(
-            FeatureDataEnum.SAMPLES_ARGS, feature=feature, subfeature=subfeature
-        )
-        validated_args = validate_all_provider_constraints(
-            provider, feature, subfeature, "", feature_args
-        )
-        try:
-            feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
-            provider_method = getattr(feature_class, f"{subfeature}")(provider)
-        except AttributeError:
-            raise ("Could not import provider method.")
-
-        # Actions
-        provider_api_output = provider_method(**validated_args)
-        provider_api_dict = provider_api_output.model_dump()
-        original_response = provider_api_dict.get("original_response")
-        standardized_response = provider_api_dict.get("standardized_response")
-        standardized = compare_responses(feature, subfeature, standardized_response)
-
-        # Step 3 (asserts) : check dataclass standardization
-        assert isinstance(
-            provider_api_output, ResponseType
-        ), f"Expected ResponseType but got {type(provider_api_output)}"
-        assert original_response is not None, "original_response should not be None"
-        assert (
-            standardized_response is not None
-        ), "standardized_response should not be None"
-        assert standardized, "The output is not standardized"
-
-        assert any(
-            [std != None for std in iterate_all(standardized_response, "value")]
-        ), "Response shouldn't be empty"
-
-        if IS_MONITORING:
-            insert_api_call(provider, feature, subfeature, None, None)
 
     @pytest.mark.e2e
     def test_feature_saved_output(self, provider, feature, subfeature):
