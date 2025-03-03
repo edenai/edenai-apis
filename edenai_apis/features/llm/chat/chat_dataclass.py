@@ -105,7 +105,7 @@ class ChatCompletionRequest(BaseModel):
         None, description="A seed for deterministic sampling"
     )
     
-    @model_validator
+    @model_validator(mode="after")
     def check_functions_and_tools(cls, values):
         functions = values.get("functions")
         tools = values.get("tools")

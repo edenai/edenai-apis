@@ -1,6 +1,6 @@
 from typing import Dict
 
-from apis.amazon.amazon_llm_api import AmazonChatApi
+from apis.amazon.amazon_llm_api import AmazonLLMApi
 from edenai_apis.apis.amazon.amazon_audio_api import AmazonAudioApi
 from edenai_apis.apis.amazon.amazon_image_api import AmazonImageApi
 from edenai_apis.apis.amazon.amazon_ocr_api import AmazonOcrApi
@@ -24,7 +24,7 @@ class AmazonApi(
     AmazonTranslationApi,
     AmazonVideoApi,
     AmazonMultimodalApi,
-    AmazonChatApi,
+    AmazonLLMApi,
 ):
     provider_name = "amazon"
 
