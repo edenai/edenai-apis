@@ -1,4 +1,5 @@
 import pytest
+
 from edenai_apis.loaders.data_loader import load_output
 
 
@@ -12,6 +13,24 @@ def mocked_chat_params(model: str = "gpt-4o-mini"):
         "max_tokens": 120,
         "model": model,
         "stream": False,
+        "available_tools": None,
+        "tool_choice": "auto",
+        "tool_results": None,
+        "mock_response": "Hey, this is the testing machine",
+    }
+    return params
+
+
+@pytest.fixture
+def mocked_chat_stream_params(model: str = "gpt-4o-mini"):
+    params = {
+        "text": "hey how are you ? ",
+        "chatbot_global_action": "Act as an assistant",
+        "previous_history": [],
+        "temperature": 0,
+        "max_tokens": 120,
+        "model": model,
+        "stream": True,
         "available_tools": None,
         "tool_choice": "auto",
         "tool_results": None,
@@ -39,6 +58,30 @@ def mocked_multimodal_chat_params(model: str = "gpt-4o"):
         "max_tokens": 25,
         "model": model,
         "stream": False,
+        "mock_response": "hey hey",
+    }
+    return params
+
+
+@pytest.fixture
+def mocked_multimodal_chat_stream_params(model: str = "gpt-4o"):
+    params = {
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "content": {"text": "Describe this image please ! "},
+                    },
+                ],
+            }
+        ],
+        "chatbot_global_action": "act as an assistant",
+        "temperature": 0,
+        "max_tokens": 25,
+        "model": model,
+        "stream": True,
         "mock_response": "hey hey",
     }
     return params

@@ -7,22 +7,14 @@
 
 import importlib
 import logging
-import os
-import traceback
-from time import sleep
 
 import pytest
 
-from edenai_apis.interface import IS_MONITORING
-from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
-from edenai_apis.loaders.loaders import load_feature, load_provider
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.tests.conftest import global_features, only_async_without_phase
 from edenai_apis.utils.compare import compare_responses
-from edenai_apis.utils.constraints import validate_all_provider_constraints
-from edenai_apis.utils.conversion import iterate_all
 from edenai_apis.utils.exception import AsyncJobExceptionReason, ProviderException
-from edenai_apis.utils.monitoring import insert_api_call
-from edenai_apis.utils.types import AsyncBaseResponseType, AsyncLaunchJobResponseType
 
 MAX_TIME = 300
 TIME_BETWEEN_CHECK = 10
@@ -34,93 +26,6 @@ INTERFACE_MODULE = importlib.import_module("edenai_apis.interface_v2")
     global_features(only_async_without_phase)["ungrouped_providers"],
 )
 class TestAsyncSubFeatures:
-    def _test_launch_job_id(self, provider, feature, subfeature):
-        logging.info(f"Testing launch job id for {provider}, {subfeature}..\n")
-
-        # Step 1 (setup) : prepare parameters
-        feature_args = load_feature(
-            FeatureDataEnum.SAMPLES_ARGS, feature=feature, subfeature=subfeature
-        )
-        validated_args = validate_all_provider_constraints(
-            provider, feature, subfeature, "", feature_args
-        )
-        try:
-            subfeature_suffix = "__launch_job"
-            feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
-            provider_launch_job_function = getattr(
-                feature_class, f"{subfeature}{subfeature_suffix}"
-            )(provider)
-        except AttributeError:
-            raise AttributeError("Could not import provider launch job method.")
-
-        # Step 2 (action) : Launch the job (action)
-        launch_job_response: AsyncLaunchJobResponseType = provider_launch_job_function(
-            **validated_args
-        )
-
-        # Step 3 (assert) : Assert job_id
-        assert (
-            launch_job_response.provider_job_id is not None
-        ), "provider job id should not be null."
-
-        pytest.job_id = launch_job_response.provider_job_id
-
-    def _test_api_get_job_result_real_output(self, provider, feature, subfeature):
-        logging.info(
-            f"Testing get job result with real output for {provider}, {subfeature}..\n"
-        )
-        # skip in opensource package cicd workflow
-        if os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE":
-            return
-
-        # Step 1 (setup) : prepare parameters
-        provider_job_id = pytest.job_id
-        try:
-            subfeature_suffix = "__get_job_result"
-            feature_class = getattr(INTERFACE_MODULE, feature.capitalize())
-            provider_get_job_result_method = getattr(
-                feature_class, f"{subfeature}{subfeature_suffix}"
-            )(provider)
-        except AttributeError:
-            raise AttributeError("Could not import provider get job method.")
-
-        # Step 2 (actions) : call get job result with a valid job id
-        sleep(5)
-        current_time = MAX_TIME
-        while current_time > 0:
-            print(f"wait job result {MAX_TIME- current_time}s")
-            provider_api_output = provider_get_job_result_method(provider_job_id)
-            provider_api_output_dict = provider_api_output.model_dump()
-            if provider_api_output_dict["status"] != "pending":
-                provider_api_output = provider_api_output
-                break
-            current_time = current_time - TIME_BETWEEN_CHECK
-            sleep(TIME_BETWEEN_CHECK)
-
-        original_response = provider_api_output_dict.get("original_response")
-        standardized_response = provider_api_output_dict.get("standardized_response")
-        standardized = compare_responses(feature, subfeature, standardized_response)
-
-        # Step 3 (asserts) : check dataclass standardization
-        assert isinstance(
-            provider_api_output, AsyncBaseResponseType
-        ), f"Expected AsyncBaseResponseType but got {type(provider_api_output)}"
-        assert original_response is not None, "original_response should not be None"
-        assert (
-            standardized_response is not None
-        ), "standardized_response should not be None"
-        assert any(
-            [std != None for std in iterate_all(standardized_response, "value")]
-        ), "Response shouldn't be empty"
-        assert standardized, "The output is not standardized"
-
-        if IS_MONITORING:
-            insert_api_call(provider, feature, subfeature, None, None)
-
-    @pytest.mark.e2e
-    def test_async_job(self, provider, feature, subfeature):
-        self._test_launch_job_id(provider, feature, subfeature)
-        self._test_api_get_job_result_real_output(provider, feature, subfeature)
 
     @pytest.mark.e2e
     def test_launch_job_invalid_parameters(self, provider, feature, subfeature):

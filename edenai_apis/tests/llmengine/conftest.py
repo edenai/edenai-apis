@@ -1,23 +1,26 @@
 from typing import List, Tuple, Union
+
 import pytest
 
-from edenai_apis.llmengine.tests.fixtures.mocked_response import (
-    mocked_chat_params,
-    mocked_multimodal_chat_params,
-    mocked_summarize_params,
-    mocked_topic_extraction_params,
+from edenai_apis.llmengine.types.litellm_model import LiteLLMModel
+from edenai_apis.tests.llmengine.fixtures.mocked_response import (
     mocked_automatic_translation_params,
+    mocked_chat_params,
+    mocked_chat_stream_params,
     mocked_code_generation_params,
     mocked_custom_classification_params,
     mocked_custom_ner_params,
     mocked_keyword_extraction_params,
     mocked_language_detection_params,
+    mocked_multimodal_chat_params,
+    mocked_multimodal_chat_stream_params,
     mocked_named_entity_recognition_params,
     mocked_pii_params,
     mocked_sentiment_analysis_params,
     mocked_spell_check_params,
+    mocked_summarize_params,
+    mocked_topic_extraction_params,
 )
-from edenai_apis.llmengine.types.litellm_model import LiteLLMModel
 
 
 @pytest.fixture

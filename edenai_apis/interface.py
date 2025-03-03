@@ -362,7 +362,7 @@ def get_async_job_result(
     provider_name: str,
     feature: str,
     subfeature: str,
-    async_job_id: AsyncLaunchJobResponseType,
+    async_job_id: str,
     phase: str = "",
     fake: bool = False,
     user_email=None,
