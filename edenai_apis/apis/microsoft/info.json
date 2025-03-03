@@ -1582,6 +1582,9 @@
         "allow_null_language": true
       },
       "version": "v1.0"
+    },
+    "chat": {
+      "version": "Azure AI Foundry"
     }
   },
   "translation": {
@@ -1751,6 +1754,11 @@
     },
     "background_removal": {
       "version": "v3.2"
+    }
+  },
+  "multimodal": {
+    "chat": {
+      "version": "Azure AI Foundry"
     }
   }
 }

@@ -2,11 +2,15 @@ import sys
 from collections import defaultdict
 from http import HTTPStatus
 from time import sleep
-from typing import Dict, Sequence, Optional
+from typing import Dict, List, Sequence, Optional, Literal, Union
 
 import requests
 
-from edenai_apis.features.text import AnonymizationDataClass, ModerationDataClass
+from edenai_apis.features.text import (
+    AnonymizationDataClass,
+    ChatDataClass,
+    ModerationDataClass,
+)
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
     InfosNamedEntityRecognitionDataClass,
@@ -19,6 +23,7 @@ from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
 )
 from edenai_apis.features.text.anonymization.category import CategoryType
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SegmentSentimentAnalysisDataClass,
 )
@@ -439,3 +444,32 @@ class MicrosoftTextApi(TextInterface):
             original_response=orginal_response,
             standardized_response=standardized_response,
         )
+
+    def text__chat(
+        self,
+        text: str,
+        chatbot_global_action: Optional[str] = None,
+        previous_history: Optional[List[Dict[str, str]]] = None,
+        temperature: float = 0.0,
+        max_tokens: int = 25,
+        model: Optional[str] = None,
+        stream: bool = False,
+        available_tools: Optional[List[dict]] = None,
+        tool_choice: Literal["auto", "required", "none"] = "auto",
+        tool_results: Optional[List[dict]] = None,
+        **kwargs,
+    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        response = self.llm_client.chat(
+            text=text,
+            previous_history=previous_history,
+            chatbot_global_action=chatbot_global_action,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
+            stream=stream,
+            available_tools=available_tools,
+            tool_choice=tool_choice,
+            tool_results=tool_results,
+            **kwargs,
+        )
+        return response
