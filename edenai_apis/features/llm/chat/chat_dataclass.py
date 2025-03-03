@@ -1,119 +1,151 @@
-from typing import Dict, Generator, Optional, Sequence, Literal, List
-from pydantic import BaseModel, StrictStr, model_validator, Field
+from typing import List, Optional, Union, Dict, Any, Literal
+from enum import Enum
+from pydantic import BaseModel, Field, model_validator
 
-
-class ChatMessageContent(BaseModel):
-    media_url: Optional[str] = None
-    media_base64: Optional[str] = None
-    text: Optional[str] = None
-    media_type: Optional[str] = None
-
-    """
-    Most of this validation is already done on the backend, it's mostly to check 
-    if the message formatting is correct when adding a new provider
-    """
-
-    @model_validator(mode="before")
-    def _check_content(cls, values):
-        media_url, media_base64, text = (
-            values.get("media_url"),
-            values.get("media_base64"),
-            values.get("text"),
-        )
-        if media_url and (media_base64 or text):
-            raise ValueError(
-                "If media_url is provided, media_base64 and text should not be provided"
-            )
-        if media_base64 and (media_url or text):
-            raise ValueError(
-                "If media_base64 is provided, media_url and text should not be provided"
-            )
-        if text and (media_url or media_base64):
-            raise ValueError(
-                "If text is provided, media_url and media_base64 should not be provided"
-            )
-        return values
-
+class ChatRole(str, Enum):
+    SYSTEM = "system"
+    USER = "user"
+    ASSISTANT = "assistant"
+    FUNCTION = "function"
+    TOOL = "tool"
 
 class ChatMessage(BaseModel):
-    type: Literal["media_url", "media_base64", "text"]
-    content: ChatMessageContent
+    role: ChatRole = Field(..., description="The role of the message author")
+    content: Optional[str] = Field(None, description="The content of the message")
+    name: Optional[str] = Field(None, description="The name of the author of this message")
+    
+    # For function calls
+    function_call: Optional[Dict[str, Any]] = Field(None, description="The function call information")
+    
+    # For tool calls
+    tool_calls: Optional[List[Dict[str, Any]]] = Field(None, description="The tool call information")
 
-    # @model_validator(mode="before")
-    # def check_type_and_content(cls, values):
-    #     type_, content = values.get("type"), values.get("content")
-    #     if type_ == "media_url" and not content.media_url:
-    #         raise ValueError(
-    #             "If type is media_url, media_url must be provided in content"
-    #         )
-    #     if type_ == "media_base64" and not content.media_base64:
-    #         raise ValueError(
-    #             "If type is media_base64, media_base64 must be provided in content"
-    #         )
-    #     if type_ == "text" and not content.text:
-    #         raise ValueError("If type is text, text must be provided in content")
+class ChatCompletionModel(str, Enum):
+    GPT_4 = "gpt-4"
+    GPT_4_TURBO = "gpt-4-turbo"
+    GPT_4_VISION = "gpt-4-vision-preview"
+    GPT_4_32K = "gpt-4-32k"
+    GPT_3_5_TURBO = "gpt-3.5-turbo"
+    GPT_3_5_TURBO_16K = "gpt-3.5-turbo-16k"
 
-    #     return values
+class FunctionDefinition(BaseModel):
+    name: str = Field(..., description="The name of the function to be called")
+    description: Optional[str] = Field(None, description="A description of what the function does")
+    parameters: Dict[str, Any] = Field(..., description="The parameters the function accepts, in JSON Schema format")
 
+class ToolDefinition(BaseModel):
+    type: Literal["function"] = Field("function", description="The type of tool")
+    function: FunctionDefinition = Field(..., description="The function definition")
 
-class ChatMessageDataClass(BaseModel):
-    role: Optional[StrictStr]
-    content: Sequence[ChatMessage] = Field(default_factory=list)
+class ResponseFormat(BaseModel):
+    type: Literal["text", "json_object"] = Field("text", description="The format of the response")
 
+class ChatCompletionRequest(BaseModel):
+    model: Union[ChatCompletionModel, str] = Field(
+        ..., description="ID of the model to use"
+    )
+    messages: List[ChatMessage] = Field(
+        ..., description="A list of messages comprising the conversation so far"
+    )
+    functions: Optional[List[FunctionDefinition]] = Field(
+        None, description="A list of functions the model may generate JSON inputs for"
+    )
+    tools: Optional[List[ToolDefinition]] = Field(
+        None, description="A list of tools the model may use"
+    )
+    function_call: Optional[Union[str, Dict[str, str]]] = Field(
+        None, description="Controls how the model responds to function calls"
+    )
+    temperature: Optional[float] = Field(
+        1.0,
+        description="What sampling temperature to use, between 0 and 2",
+        ge=0,
+        le=2
+    )
+    top_p: Optional[float] = Field(
+        1.0,
+        description="An alternative to sampling with temperature, called nucleus sampling",
+        ge=0,
+        le=1
+    )
+    n: Optional[int] = Field(
+        1, description="How many chat completion choices to generate for each input message"
+    )
+    stream: Optional[bool] = Field(
+        False, description="If set, partial message deltas will be sent"
+    )
+    stop: Optional[Union[str, List[str]]] = Field(
+        None, description="Up to 4 sequences where the API will stop generating further tokens"
+    )
+    max_tokens: Optional[int] = Field(
+        None, description="The maximum number of tokens to generate in the chat completion"
+    )
+    presence_penalty: Optional[float] = Field(
+        0,
+        description="Number between -2.0 and 2.0 to penalize tokens based on their presence so far",
+        ge=-2.0,
+        le=2.0
+    )
+    frequency_penalty: Optional[float] = Field(
+        0,
+        description="Number between -2.0 and 2.0 to penalize tokens based on their frequency so far",
+        ge=-2.0,
+        le=2.0
+    )
+    logit_bias: Optional[Dict[str, float]] = Field(
+        None, description="Modify the likelihood of specified tokens appearing in the completion"
+    )
+    user: Optional[str] = Field(
+        None, description="A unique identifier representing your end-user"
+    )
+    response_format: Optional[ResponseFormat] = Field(
+        None, description="An object specifying the format that the model must output"
+    )
+    seed: Optional[int] = Field(
+        None, description="A seed for deterministic sampling"
+    )
+    
+    @model_validator
+    def check_functions_and_tools(cls, values):
+        functions = values.get("functions")
+        tools = values.get("tools")
+        
+        if functions is not None and tools is not None:
+            raise ValueError("You cannot provide both 'functions' and 'tools'")
+        
+        return values
 
-class ChatDataClass(BaseModel):
-    generated_text: StrictStr
-    messages: Sequence[ChatMessageDataClass] = Field(default_factory=list)
+class ToolCallFunction(BaseModel):
+    name: str = Field(..., description="The name of the function to call")
+    arguments: str = Field(..., description="The arguments to call the function with, as a JSON string")
 
-    @staticmethod
-    def direct_response(api_response: Dict):
-        return api_response["generated_text"]
+class ToolCall(BaseModel):
+    id: str = Field(..., description="The ID of the tool call")
+    type: Literal["function"] = Field(..., description="The type of tool call")
+    function: ToolCallFunction = Field(..., description="The function to call")
 
-    @staticmethod
-    def generate_standardized_response(
-        generated_text: str, messages: List[Dict[str, str]]
-    ):
-        # Format the messages
-        formatted_messages = [
-            ChatMessageDataClass(
-                role=item["role"],
-                content=[
-                    ChatMessage(
-                        type=sub_item["type"],
-                        content=ChatMessageContent(**sub_item["content"]),
-                    )
-                    for sub_item in item["content"]
-                ],
-            )
-            for item in messages
-        ]
+class ChatCompletionChoice(BaseModel):
+    index: int = Field(..., description="The index of this completion choice")
+    message: ChatMessage = Field(..., description="The chat completion message")
+    finish_reason: str = Field(
+        ..., 
+        description="The reason the completion finished: 'stop', 'length', 'tool_calls', 'content_filter', or 'function_call'"
+    )
 
-        # Append assistant's response
-        formatted_messages.append(
-            ChatMessageDataClass(
-                role="assistant",
-                content=[
-                    ChatMessage(
-                        type="text", content=ChatMessageContent(text=generated_text)
-                    )
-                ],
-            )
-        )
+class ChatCompletionUsage(BaseModel):
+    prompt_tokens: int = Field(..., description="Number of tokens in the prompt")
+    completion_tokens: int = Field(..., description="Number of tokens in the generated completion")
+    total_tokens: int = Field(..., description="Total number of tokens used (prompt + completion)")
 
-        # Construct the standardized response
-        standardized_response = ChatDataClass(
-            generated_text=generated_text,
-            messages=formatted_messages,
-        )
-
-        return standardized_response
-
-
-class ChatStreamResponse(BaseModel):
-    text: str
-    blocked: bool
-    provider: str
-
-
-class StreamChat(BaseModel):
-    stream: Generator[ChatStreamResponse, None, None]
+class ChatCompletionResponse(BaseModel):
+    id: str = Field(..., description="Unique identifier for this completion")
+    object: str = Field(..., description="Object type, always 'chat.completion'")
+    created: int = Field(..., description="Unix timestamp for when the completion was created")
+    model: str = Field(..., description="The model used for completion")
+    choices: List[ChatCompletionChoice] = Field(
+        ..., description="List of chat completion choices generated by the model"
+    )
+    usage: ChatCompletionUsage = Field(..., description="Usage statistics for the completion request")
+    system_fingerprint: Optional[str] = Field(
+        None, description="Identifier for the system version that processed the request"
+    )

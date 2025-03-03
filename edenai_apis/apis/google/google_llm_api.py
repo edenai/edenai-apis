@@ -1,36 +1,12 @@
-from typing import Dict, List, Type, Union, Optional
+from typing import List, Type, Union, Optional
 
 import httpx
 from openai import BaseModel
-from apis.amazon.config import clients, storage_clients
-from edenai_apis.features import MultimodalInterface
-from edenai_apis.features.multimodal.chat import (
-    ChatDataClass,
-    StreamChat,
-    ChatMessageDataClass,
-)
-from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.llm.standard_chat_interface import StandardChatInterface
-from edenai_apis.llmengine.llm_engine import StdLLMEngine
-from edenai_apis.loaders.data_loader import ProviderDataEnum
-from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
 
 
-class AmazonChatApi(StandardChatInterface):
-
-    def __init__(self, api_keys: Dict = {}) -> None:
-        self.api_settings = load_provider(
-            ProviderDataEnum.KEY, "amazon", api_keys=api_keys
-        )
-        self.clients = clients(self.api_settings)
-        self.storage_clients = storage_clients(self.api_settings)
-        self.llm_client = StdLLMEngine(
-            provider_config={
-                "aws_access_key_id": self.api_settings["aws_access_key_id"],
-                "aws_secret_access_key": self.api_settings["aws_secret_access_key"],
-                "aws_region_name": "us-east-1",
-            },
-        )
+class GoogleLLMApi(StandardChatInterface):
 
     def llm__chat(
         self,
@@ -72,8 +48,8 @@ class AmazonChatApi(StandardChatInterface):
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-        response = self.llm_client.completion(
+    ) -> ChatCompletionResponse:
+        response = self.clients["std_llm_client"].completion(
             messages=messages,
             model=model,
             timeout=timeout,

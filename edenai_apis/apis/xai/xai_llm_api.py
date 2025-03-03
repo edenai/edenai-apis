@@ -1,15 +1,13 @@
-from abc import abstractmethod
-from typing import Optional, List, Dict, Type, Union
+from typing import List, Type, Union, Optional
 
-from openai import BaseModel
 import httpx
-
+from openai import BaseModel
+from edenai_apis.features.llm.standard_chat_interface import StandardChatInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatCompletionResponse
 
 
-class StandardChatInterface:
+class XAiLLMApi(StandardChatInterface):
 
-    @abstractmethod
     def llm__chat(
         self,
         messages: List = [],
@@ -51,22 +49,38 @@ class StandardChatInterface:
         # Optional parameters
         **kwargs,
     ) -> ChatCompletionResponse:
-        """
-        Generate responses in a multimodal conversation using a chatbot.
-        Args:
-            messages (List[Dict[str, str]]): A list of messages exchanged in the conversation.
-            chatbot_global_action (Optional[str]): The global action or context for the chatbot.
-            temperature (float, optional): Controls the randomness of the response generation.
-            max_tokens (int, optional): The maximum number of tokens to generate for each response.
-            model (Optional[str], optional): The name or identifier of the model.
-            stop_sequences (Optional[List[str]], optional): A list of strings that, if encountered
-                in the generated response, will stop generation.
-            top_k (Optional[int], optional): Controls the diversity of the generated responses
-                by limiting the number of tokens considered at each step.
-            top_p (Optional[int], optional): Controls the diversity of the generated responses
-                by selecting from the most probable tokens whose cumulative probability exceeds
-                the given value.
-            stream (bool, optional): Whether to enable streaming for generating responses.
-            provider_params (dict, optional): Additional parameters specific to the provider
-        """
-        raise NotImplementedError
+        response = self.std_llm_client.completion(
+            messages=messages,
+            model=model,
+            timeout=timeout,
+            temperature=temperature,
+            top_p=top_p,
+            n=n,
+            stream=stream,
+            stream_options=stream_options,
+            stop=stop,
+            stop_sequences=stop_sequences,
+            max_tokens=max_tokens,
+            presence_penalty=presence_penalty,
+            frequency_penalty=frequency_penalty,
+            logit_bias=logit_bias,
+            response_format=response_format,
+            seed=seed,
+            tools=tools,
+            tool_choice=tool_choice,
+            logprobs=logprobs,
+            top_logprobs=top_logprobs,
+            parallel_tool_calls=parallel_tool_calls,
+            deployment_id=deployment_id,
+            extra_headers=extra_headers,
+            functions=functions,
+            function_call=function_call,
+            base_url=base_url,
+            api_version=api_version,
+            api_key=api_key,
+            model_list=model_list,
+            drop_invalid_params=drop_invalid_params,
+            user=user,
+            **kwargs,
+        )
+        return response
