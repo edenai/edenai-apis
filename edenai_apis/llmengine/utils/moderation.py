@@ -46,7 +46,7 @@ async def moderate_content(headers, content: Union[str, List]) -> bool:
 
     return not flagged
 
-async def standard_moderation(args, **kwargs):
+async def standard_moderation(*args, **kwargs):
     api_settings = load_provider(ProviderDataEnum.KEY, "openai", api_keys={})
 
     api_key = api_settings.get("api_key")
