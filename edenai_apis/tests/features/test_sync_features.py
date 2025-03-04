@@ -57,9 +57,14 @@ class TestSyncProviders:
         )
 
         # Step 2 (Action) :
-        standardized = compare_responses(
-            feature, subfeature, saved_output["standardized_response"]
-        )
+        if feature != "llm":
+            standardized = compare_responses(
+                feature, subfeature, saved_output["standardized_response"]
+            )
+        else:
+            standardized = compare_responses(
+                feature, subfeature, saved_output
+            )
 
         # Step 3 (Assert) :
         assert standardized, "The output is not standardized"
