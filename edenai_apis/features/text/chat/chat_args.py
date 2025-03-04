@@ -26,6 +26,7 @@ def chat_arguments(provider_name: str):
             "anthropic": "claude-3-5-sonnet-latest",
             "xai": "grok-2-latest",
             "deepseek": "DeepSeek-V3",
+            "microsoft": "gpt-4o-mini",
             "togetherai": "microsoft/WizardLM-2-8x22B",
         },
         "stream": False,
