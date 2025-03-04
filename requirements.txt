@@ -505,8 +505,9 @@ referencing==0.34.0
     #   jsonschema-specifications
 regex==2024.11.6
     # via tiktoken
-requests==2.31.0
+requests==2.32.3
     # via
+    #   -r requirements.in
     #   affinda
     #   aleph-alpha-client
     #   azure-core
