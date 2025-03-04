@@ -60,7 +60,7 @@ from edenai_apis.llmengine.clients.completion import CompletionClient
 from edenai_apis.llmengine.mapping import Mappings
 from edenai_apis.llmengine.prompts import BasePrompt
 from edenai_apis.llmengine.types.response_types import ResponseModel
-from edenai_apis.llmengine.utils.moderation import moderate
+from edenai_apis.llmengine.utils.moderation import moderate, moderate_std
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
@@ -764,7 +764,8 @@ class StdLLMEngine(LLMEngine):
             if re.match(key, provider_name, re.RegexFlag.IGNORECASE):
                 return StdLLMEngine.PROVIDER_MAPPING[key]
         return provider_name
-
+    
+    @moderate_std
     def completion(
         self,
         messages: List = [],
@@ -806,6 +807,7 @@ class StdLLMEngine(LLMEngine):
         # Optional parameters
         **kwargs,
     ):
+        kwargs.pop("moderate_content", None)
         if "provider" in kwargs:
             # Verify if the provider is gemini
             provider_name = kwargs.pop("provider", None)
