@@ -1,0 +1,41 @@
+{
+    "id": "chatcmpl-B71RkHwax2QEWCrZXYl3mZh20fC5y",
+    "created": 1741013556,
+    "model": "gpt-4o-mini-2024-07-18",
+    "object": "chat.completion",
+    "system_fingerprint": "fp_7fcd609668",
+    "choices": [
+        {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+                "content": "Arrr matey! In this fine image, ye be seein' a wooden pathway leadin' through a grand expanse of green grass and wild foliage. The sky above be painted in shades of blue, with fluffy clouds driftin' lazily. The boardwalk be settin' sail through this scenic wonder, invitin' ye to wander and explore the treasures of nature that lie ahead. Aye, 'tis a sight to behold for any landlubber or sea dog!",
+                "role": "assistant",
+                "tool_calls": null,
+                "function_call": null
+            }
+        }
+    ],
+    "provider_time": 3751955066,
+    "edenai_time": null,
+    "usage": {
+        "completion_tokens": 100,
+        "prompt_tokens": 1170,
+        "total_tokens": 1270,
+        "completion_tokens_details": {
+            "accepted_prediction_tokens": 0,
+            "audio_tokens": 0,
+            "reasoning_tokens": 0,
+            "rejected_prediction_tokens": 0,
+            "text_tokens": null
+        },
+        "prompt_tokens_details": {
+            "audio_tokens": 0,
+            "cached_tokens": 0,
+            "text_tokens": null,
+            "image_tokens": null
+        }
+    },
+    "service_tier": "default",
+    "cost": 0.00023549999999999998
+}

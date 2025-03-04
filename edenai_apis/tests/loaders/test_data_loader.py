@@ -129,8 +129,11 @@ class TestLoadOutput:
 
         assert isinstance(output, dict), "output should be a dict"
         try:
-            output["original_response"]
-            output["standardized_response"]
+            if feature == "llm":
+                output["choices"]
+            else:
+                output["original_response"]
+                output["standardized_response"]
         except KeyError:
             pytest.fail("Original_response and standradized_response not found")
 

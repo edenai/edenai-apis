@@ -16,6 +16,7 @@ LLM_COMPLETION_CLIENTS = {}
 
 logger.info("Loading clients...")
 
+
 def _extract_client_classes(provider_classes):
     "Takes the classes in the providers and verifies that they're valid"
     for name, cls in provider_classes:
@@ -30,6 +31,7 @@ def _extract_client_classes(provider_classes):
             )
             continue
 
+
 def file_to_avoid(filename: str) -> bool:
     return any([filename.endswith(ext) for ext in AVOID_FILES])
 
@@ -39,7 +41,11 @@ def _find_clients_from_files():
     _classes = []
     for client in structure[1]:
         provider_folder = f"{structure[0]}/{client}"
-        provider_file = [file for file in list(next(os.walk(provider_folder))[2]) if not file_to_avoid(file)]
+        provider_file = [
+            file
+            for file in list(next(os.walk(provider_folder))[2])
+            if not file_to_avoid(file)
+        ]
         if len(provider_file) > 0:
             # Get the first...
             provider_file = provider_file[0]
@@ -54,7 +60,9 @@ def _find_clients_from_files():
                     except AttributeError:
                         continue
             except NameError:
-                logger.warning(f"Module {module_name} has a problem an cannot be instantiated")
+                logger.warning(
+                    f"Module {module_name} has a problem an cannot be instantiated"
+                )
             except ModuleNotFoundError as e:
                 logger.warning(f"Module {module_name} not found: {e}")
     return _classes

@@ -1,8 +1,8 @@
 """
-    Test if providers classes are well formed :
-    - Inherit from ProviderInterface
-    - implement a well formatted info.json containing subfeatures versions
-    - implement all features defined in info.json
+Test if providers classes are well formed :
+- Inherit from ProviderInterface
+- implement a well formatted info.json containing subfeatures versions
+- implement all features defined in info.json
 """
 
 from typing import List

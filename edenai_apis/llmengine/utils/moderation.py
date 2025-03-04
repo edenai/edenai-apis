@@ -46,6 +46,24 @@ async def moderate_content(headers, content: Union[str, List]) -> bool:
 
     return not flagged
 
+async def standard_moderation(*args, **kwargs):
+    api_settings = load_provider(ProviderDataEnum.KEY, "openai", api_keys={})
+
+    api_key = api_settings.get("api_key")
+    headers = {"Authorization": f"Bearer {api_key}"}
+
+    tasks = []
+
+    messages = kwargs.get("messages", [])
+
+    for message in messages:
+        if "content" in message:
+            tasks.append(moderate_content(headers, message["content"]))
+
+    async with aiohttp.ClientSession() as session:
+        await asyncio.gather(*tasks)
+
+    
 
 async def moderate_if_exists(headers, value):
     if value:
@@ -144,6 +162,15 @@ def moderate(func):
     def wrapper(self, *args, **kwargs):
         if kwargs.get("moderate_content"):
             check_content_moderation(*args, **kwargs)
+        return func(self, *args, **kwargs)
+
+    return wrapper
+
+def moderate_std(func):
+    @wraps(func)
+    def wrapper(self, *args, **kwargs):
+        if kwargs.get("moderate_content"):
+            async_to_sync(standard_moderation)(*args, **kwargs)
         return func(self, *args, **kwargs)
 
     return wrapper

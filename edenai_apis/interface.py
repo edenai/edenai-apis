@@ -179,8 +179,9 @@ def provider_info(provider_name: str):
         dict: Provider info
     """
     if provider_name is None:
-        return  {}
+        return {}
     return load_info_file(provider_name)
+
 
 STATUS_SUCCESS = "success"
 

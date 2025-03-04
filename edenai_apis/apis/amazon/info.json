@@ -845,6 +845,11 @@
             "version": "boto3 (v1.29.6)"
         }
     },
+    "llm": {
+        "chat": {
+            "version": "llmengine (v2)"
+        }
+    },
     "_metadata": {
         "privacy_url": "https://aws.amazon.com/privacy"
     }

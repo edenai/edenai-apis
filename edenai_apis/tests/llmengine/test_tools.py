@@ -162,15 +162,14 @@ class TestTools:
             }
         ]
 
-        tool_calls = [{
-            "id": "call_12345xyz",
-            "type": "function",
-            "function": {
-                "name": "factorial",
-                "arguments": "{\"n\":\"5\"}"
+        tool_calls = [
+            {
+                "id": "call_12345xyz",
+                "type": "function",
+                "function": {"name": "factorial", "arguments": '{"n":"5"}'},
             }
-        }]
-        
+        ]
+
         params = {
             "chatbot_global_action": "You are a helpful assistant. You should use tools for calculating the factorial of an integer greater that 2",
             "text": "What is 5!",
@@ -181,7 +180,12 @@ class TestTools:
             "max_tokens": 1000,
             "model": "gpt-3.5-turbo",
             "mock_tool_calls": tool_calls,
-            "api_key": "opeizaopei"
+            "api_key": "opeizaopei",
         }
         response = engine.chat(**params)
-        assert response.original_response["choices"][0]["message"]["tool_calls"][0]["function"]["name"] == "factorial"
+        assert (
+            response.original_response["choices"][0]["message"]["tool_calls"][0][
+                "function"
+            ]["name"]
+            == "factorial"
+        )

@@ -189,7 +189,7 @@ def mapping_providers() -> List[Tuple[Union[str, None], Union[str, None]]]:
         ("perplexity", "perplexity"),
         ("openrouter", "openrouter"),
         ("ai21", "ai21"),
-        ("amazon", "amazon"),
+        ("amazon", "bedrock"),
         ("anyscale", "anyscale"),
         ("deepinfra", "deepinfra"),
         ("nlpcloud", "nlpcloud"),

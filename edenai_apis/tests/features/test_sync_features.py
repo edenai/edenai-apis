@@ -1,8 +1,8 @@
 """
-    Test all synchronous subfeatures (except image search and face regonition) for all providers to check if:
-    - Valid input data
-    - Saved output for each provider exists and is well standardized
-    - providers APIs work and their outputs are well standardized
+Test all synchronous subfeatures (except image search and face regonition) for all providers to check if:
+- Valid input data
+- Saved output for each provider exists and is well standardized
+- providers APIs work and their outputs are well standardized
 """
 
 import importlib
@@ -57,9 +57,14 @@ class TestSyncProviders:
         )
 
         # Step 2 (Action) :
-        standardized = compare_responses(
-            feature, subfeature, saved_output["standardized_response"]
-        )
+        if feature != "llm":
+            standardized = compare_responses(
+                feature, subfeature, saved_output["standardized_response"]
+            )
+        else:
+            standardized = compare_responses(
+                feature, subfeature, saved_output
+            )
 
         # Step 3 (Assert) :
         assert standardized, "The output is not standardized"

@@ -1197,6 +1197,11 @@
             "version": "v1"
         }
     },
+    "llm": {
+        "chat": {
+            "version": "llmengine (v2)"
+        }
+    },
     "_metadata": {
         "privacy_url": "https://openai.com/policies/privacy-policy"
     }

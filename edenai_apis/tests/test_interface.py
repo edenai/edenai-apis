@@ -1,9 +1,9 @@
 """
-    Test interface functions :
-    - compute_output
-    - list_features
-    - list_providers
-    - check_provider_constraints
+Test interface functions :
+- compute_output
+- list_features
+- list_providers
+- check_provider_constraints
 """
 
 import pytest

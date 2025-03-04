@@ -7,8 +7,6 @@ from pydub.utils import mediainfo
 from edenai_apis.utils.files import FileInfo, FileWrapper
 
 
-
-
 def search_upload_image_arguments(provider_name: str) -> Dict:
     feature_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     data_path = os.path.join(feature_path, "data")

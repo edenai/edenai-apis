@@ -6,3 +6,4 @@ from .text.text_interface import TextInterface
 from .translation.translation_interface import TranslationInterface
 from .video.video_interface import VideoInterface
 from .multimodal.multimodal_interface import MultimodalInterface
+from .llm.llm_interface import LlmInterface

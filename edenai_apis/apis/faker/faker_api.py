@@ -1,5 +1,5 @@
 """
-    Fake provider class used for tests
+Fake provider class used for tests
 """
 
 from io import BufferedReader

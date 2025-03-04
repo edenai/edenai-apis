@@ -1,7 +1,7 @@
 """
-    Test language standardization functions.
-    Different Providers handle different language formats.
-    We implement language utils to handle the standardisation.
+Test language standardization functions.
+Different Providers handle different language formats.
+We implement language utils to handle the standardisation.
 """
 
 import pytest
