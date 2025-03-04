@@ -792,9 +792,13 @@ class GoogleVideoApi(VideoInterface):
                 message=original_response["error"]["message"],
                 code=response.status_code,
             )
-        generated_text = original_response["candidates"][0]["content"]["parts"][0][
-            "text"
-        ]
+        try:
+            generated_text = original_response["candidates"][0]["content"]["parts"][0][
+                "text"
+            ]
+        except KeyError as exc:
+            raise ProviderException("Provider returned empty response") from exc
+
         calculate_usage_tokens(original_response=original_response)
         return original_response, generated_text
 
