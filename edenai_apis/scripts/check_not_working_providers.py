@@ -95,13 +95,13 @@ def main():
     ]
 
     for provider_info in all_providers:
+        print("test: ", provider_info)
         result = process_provider(provider_info)
         if result is None:
             continue
         provider, feature, subfeature, error = result
         if error is not None:
-            print(provider, feature, subfeature)
-            print(error)
+            print("ERROR: ", result)
             not_working.append((provider, feature, subfeature, error))
 
     print("=================================")
