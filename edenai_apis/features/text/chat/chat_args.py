@@ -24,7 +24,7 @@ def chat_arguments(provider_name: str):
             "replicate": "llama-2-70b-chat",
             "anthropic": "claude-3-sonnet-20240229-v1:0",
             "xai": "grok-beta",
-            "tenstorrent": "tenstorrent/Meta-Llama-3.1-70B-Instruct"
+            "tenstorrent": "tenstorrent/Meta-Llama-3.1-70B-Instruct",
         },
         "stream": False,
     }
