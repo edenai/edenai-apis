@@ -1,7 +1,5 @@
-from typing import List, Optional
-
 import requests
-
+from typing import Dict, List, Optional, Union
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
     KeywordExtractionDataClass,
 )
@@ -14,13 +12,19 @@ from edenai_apis.features.text.question_answer.question_answer_dataclass import 
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SentimentAnalysisDataClass,
 )
-from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass import (
     TopicExtractionDataClass,
 )
+from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-
+from edenai_apis.features.text.chat import ChatDataClass, ChatMessageDataClass
+from edenai_apis.features.text.chat.chat_dataclass import (
+    StreamChat,
+    ChatStreamResponse,
+)
+from edenai_apis.features.text.generation import GenerationDataClass
+from openai import OpenAI
 
 class TenstorrentTextApi(TextInterface):
     def text__keyword_extraction(
@@ -31,7 +35,6 @@ class TenstorrentTextApi(TextInterface):
         payload = {
             "text": text,
         }
-
         try:
             original_response = requests.post(url, json=payload, headers=self.headers)
         except requests.exceptions.RequestException as exc:
@@ -44,7 +47,6 @@ class TenstorrentTextApi(TextInterface):
 
         # Check for errors
         self.__check_for_errors(original_response, status_code)
-
         standardized_response = KeywordExtractionDataClass(
             items=original_response["items"]
         )
@@ -114,7 +116,6 @@ class TenstorrentTextApi(TextInterface):
 
         # Check for errors
         self.__check_for_errors(original_response, status_code)
-
         standardized_response = QuestionAnswerDataClass(
             answers=[original_response["answer"]]
         )
@@ -180,7 +181,113 @@ class TenstorrentTextApi(TextInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
+    
+    def text__chat(
+        self,
+        text: str,
+        chatbot_global_action: Optional[str],
+        previous_history: Optional[List[Dict[str, str]]],
+        temperature: float,
+        max_tokens: int,
+        model: str,
+        stream=False,
+    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        messages = []
+        for msg in previous_history:
+            message = {
+                "role": msg.get("role"),
+                "content": msg.get("message"),
+            }
+            messages.append(message)
+
+        if text:    
+            messages.append({"role": "user", "content": text})
+
+        if chatbot_global_action:
+            messages.insert(0, {"role": "system", "content": chatbot_global_action})
+        
+        payload = {
+            "model": model,
+            "temperature": temperature,
+            "messages": messages,
+            "max_tokens": max_tokens,
+            "stream": stream,
+        }
+
+
+        try:
+            response = self.client.chat.completions.create(**payload)
+        except Exception as exc:
+            raise ProviderException(str(exc))
+
+        # Standardize the response
+        if stream is False:
+            message = response.choices[0].message
+            generated_text = message.content
+            messages = [
+                ChatMessageDataClass(role="user", message=text),
+                ChatMessageDataClass(
+                    role="assistant",
+                    message=generated_text,
+                ),
+            ]
+            messages_json = [m.dict() for m in messages]
+
+            standardized_response = ChatDataClass(
+                generated_text=generated_text, message=messages_json
+            )
+
+            return ResponseType[ChatDataClass](
+                original_response=response.to_dict(),
+                standardized_response=standardized_response,
+            )
+        else:
+            stream = (
+                ChatStreamResponse(
+                    text=chunk.to_dict()["choices"][0]["delta"].get("content", ""),
+                    blocked=not chunk.to_dict()["choices"][0].get("finish_reason") in (None, "stop"),
+                    provider="tenstorrent",
+                )
+                for chunk in response
+                if chunk
+            )
+
+            return ResponseType[StreamChat](
+                original_response=None, standardized_response=StreamChat(stream=stream)
+            )
+        
+    def text__generation(
+        self,
+        text: str,
+        temperature: float,
+        max_tokens: int,
+        model: str,
+    ) -> ResponseType[GenerationDataClass]:
+        payload = {
+            "model": model,
+            "prompt": text,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+        }
+
+        try:
+            response = self.client.completions.create(**payload)
+        except Exception as exc:
+            raise ProviderException(str(exc))
+
+        # Standardize the response
+        generated_text = response.choices[0].text
+
+        standardized_response = GenerationDataClass(
+            generated_text=generated_text,
+        )
+
+        return ResponseType[GenerationDataClass](
+            original_response=response.to_dict(),
+            standardized_response=standardized_response,
+        )
 
     def __check_for_errors(self, response, status_code = None):
         if "message" in response:
             raise ProviderException(response["message"], code= status_code)
+        
