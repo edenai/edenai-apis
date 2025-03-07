@@ -1,25 +1,40 @@
 {
   "original_response": {
-    "id": "msg_bdrk_013mcN9k1Bh8uH8TpV6XAjzM",
-    "type": "message",
-    "role": "assistant",
-    "model": "claude-3-sonnet-20240229",
-    "content": [
+    "id": "chatcmpl-7455317c-9349-44da-b536-9b840d0ee774",
+    "created": 1738320464,
+    "model": "claude-3-5-sonnet-20241022",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
       {
-        "type": "text",
-        "text": "barack hussein obama, democratic party, african-american, united states, illinois, senator"
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "barack obama, president, united states, democratic party, illinois, senator, african-american",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null
+        }
       }
     ],
-    "stop_reason": "end_turn",
-    "stop_sequence": null,
+    "provider_time": 1095218894,
+    "edenai_time": null,
     "usage": {
-      "input_tokens": 236,
-      "output_tokens": 21,
-      "total_tokens": 257
-    }
+      "completion_tokens": 21,
+      "prompt_tokens": 236,
+      "total_tokens": 257,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      },
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0
+    },
+    "cost": 0.001023
   },
   "standardized_response": {
-    "generated_text": "barack hussein obama, democratic party, african-american, united states, illinois, senator",
+    "generated_text": "barack obama, president, united states, democratic party, illinois, senator, african-american",
     "message": [
       {
         "role": "user",
@@ -29,10 +44,22 @@
       },
       {
         "role": "assistant",
-        "message": "barack hussein obama, democratic party, african-american, united states, illinois, senator",
+        "message": "barack obama, president, united states, democratic party, illinois, senator, african-american",
         "tools": null,
-        "tool_calls": null
+        "tool_calls": []
       }
     ]
+  },
+  "usage": {
+    "completion_tokens": 21,
+    "prompt_tokens": 236,
+    "total_tokens": 257,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
   }
 }

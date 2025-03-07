@@ -99,7 +99,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__receipt_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[ReceiptParserDataClass]:
         with open(file, "rb") as file_:
             args = self._get_api_attributes(file_)
@@ -192,7 +192,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         return result
 
     def ocr__invoice_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
         headers = {
             "Authorization": self.api_key,
@@ -350,7 +350,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         return result
 
     def ocr__identity_parser(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
         with open(file, "rb") as file_:
             args = self._get_api_attributes(file_)
@@ -449,9 +449,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__bank_check_parsing(
-        self,
-        file: str,
-        file_url: str = "",
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[BankCheckParsingDataClass]:
         with open(file, "rb") as file_:
             headers = {
@@ -530,6 +528,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         document_type: str = "",
         file_url: str = "",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         headers = {
             "Authorization": self.api_key,
@@ -552,7 +551,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__invoice_splitter_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         with open(file, "rb") as file_:
             args = self._get_api_attributes(file_)

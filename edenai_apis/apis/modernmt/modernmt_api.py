@@ -1,4 +1,4 @@
-from typing import Dict, Sequence
+from typing import Dict, Sequence, Optional
 
 import requests
 
@@ -26,7 +26,7 @@ class ModernmtApi(ProviderInterface, TranslationInterface):
         self.url = "https://api.modernmt.com/translate"
 
     def translation__language_detection(
-        self, text: str
+        self, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[LanguageDetectionDataClass]:
         response = requests.get(
             url=f"{self.url}/detect", headers=self.header, data={"q": text}
@@ -55,7 +55,12 @@ class ModernmtApi(ProviderInterface, TranslationInterface):
         )
 
     def translation__automatic_translation(
-        self, source_language: str, target_language: str, text: str
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[AutomaticTranslationDataClass]:
         data = {
             "source": source_language,

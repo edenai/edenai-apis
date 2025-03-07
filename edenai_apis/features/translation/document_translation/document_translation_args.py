@@ -6,8 +6,6 @@ from pydub.utils import mediainfo
 from edenai_apis.utils.files import FileInfo, FileWrapper
 
 
-
-
 def document_translation_arguments(provider_name: str) -> dict:
     feature_path = os.path.dirname(os.path.dirname(__file__))
     data_path = os.path.join(feature_path, "data")

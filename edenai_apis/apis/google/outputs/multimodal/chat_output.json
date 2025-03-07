@@ -1,50 +1,38 @@
 {
   "original_response": {
-    "candidates": [
+    "id": "chatcmpl-8c03f5b3-490c-4176-9ca6-060588a340ee",
+    "created": 1738319559,
+    "model": "gemini-1.5-flash",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
       {
-        "content": {
-          "parts": [
-            {
-              "text": "Avast, matey! It be a fine day for a walk on the plank, eh? The sky be a clear blue, with a few fluffy clouds sailin' by. The grass be lush and green, and the path be straight ahead, leadin' to who knows where. A fine day for a seafaring adventure, I'd say! \n"
-            }
-          ],
-          "role": "model"
-        },
-        "finishReason": "STOP",
+        "finish_reason": "stop",
         "index": 0,
-        "safetyRatings": [
-          {
-            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-            "probability": "NEGLIGIBLE"
-          },
-          {
-            "category": "HARM_CATEGORY_HATE_SPEECH",
-            "probability": "NEGLIGIBLE"
-          },
-          {
-            "category": "HARM_CATEGORY_HARASSMENT",
-            "probability": "NEGLIGIBLE"
-          },
-          {
-            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-            "probability": "NEGLIGIBLE"
-          }
-        ]
+        "message": {
+          "content": "Ahoy, matey!  Shiver me timbers, that there's a picture of a fine wooden boardwalk cuttin' through a field o' tall, green grass under a sky as blue as a mermaid's eye!  The sun be shinin' bright, and there ain't a cloud in sight, except for a few fluffy ones driftin' lazily about.  Looks like a peaceful spot fer a stroll, aye?  Avast ye, and enjoy the view!\n",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null
+        }
       }
     ],
-    "usageMetadata": {
-      "promptTokenCount": 271,
-      "candidatesTokenCount": 73,
-      "totalTokenCount": 344
-    },
+    "provider_time": 2260240979,
+    "edenai_time": null,
     "usage": {
-      "prompt_tokens": 271,
-      "completion_tokens": 73,
-      "total_tokens": 344
-    }
+      "completion_tokens": 101,
+      "prompt_tokens": 270,
+      "total_tokens": 371,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    },
+    "vertex_ai_grounding_metadata": [],
+    "vertex_ai_safety_results": [],
+    "vertex_ai_citation_metadata": [],
+    "cost": 5.0549999999999995e-05
   },
   "standardized_response": {
-    "generated_text": "Avast, matey! It be a fine day for a walk on the plank, eh? The sky be a clear blue, with a few fluffy clouds sailin' by. The grass be lush and green, and the path be straight ahead, leadin' to who knows where. A fine day for a seafaring adventure, I'd say! \n",
+    "generated_text": "Ahoy, matey!  Shiver me timbers, that there's a picture of a fine wooden boardwalk cuttin' through a field o' tall, green grass under a sky as blue as a mermaid's eye!  The sun be shinin' bright, and there ain't a cloud in sight, except for a few fluffy ones driftin' lazily about.  Looks like a peaceful spot fer a stroll, aye?  Avast ye, and enjoy the view!\n",
     "messages": [
       {
         "role": "user",
@@ -77,12 +65,19 @@
             "content": {
               "media_url": null,
               "media_base64": null,
-              "text": "Avast, matey! It be a fine day for a walk on the plank, eh? The sky be a clear blue, with a few fluffy clouds sailin' by. The grass be lush and green, and the path be straight ahead, leadin' to who knows where. A fine day for a seafaring adventure, I'd say! \n",
+              "text": "Ahoy, matey!  Shiver me timbers, that there's a picture of a fine wooden boardwalk cuttin' through a field o' tall, green grass under a sky as blue as a mermaid's eye!  The sun be shinin' bright, and there ain't a cloud in sight, except for a few fluffy ones driftin' lazily about.  Looks like a peaceful spot fer a stroll, aye?  Avast ye, and enjoy the view!\n",
               "media_type": null
             }
           }
         ]
       }
     ]
+  },
+  "usage": {
+    "completion_tokens": 101,
+    "prompt_tokens": 270,
+    "total_tokens": 371,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": null
   }
 }

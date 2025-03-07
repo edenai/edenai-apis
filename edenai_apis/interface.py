@@ -9,6 +9,7 @@ from edenai_apis import interface_v2
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
 from edenai_apis.loaders.loaders import load_feature, load_provider
+from edenai_apis.loaders.data_loader import load_info_file
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException, get_appropriate_error
 from edenai_apis.utils.monitoring import insert_api_call, monitor_call
@@ -31,8 +32,7 @@ def list_features(
     feature: Optional[str] = None,
     subfeature: Optional[str] = None,
     as_dict: Literal[False] = False,
-) -> ProviderList:
-    ...
+) -> ProviderList: ...
 
 
 @overload
@@ -41,8 +41,7 @@ def list_features(
     feature: Optional[str] = None,
     subfeature: Optional[str] = None,
     as_dict: Literal[True] = True,
-) -> ProviderDict:
-    ...
+) -> ProviderDict: ...
 
 
 def list_features(
@@ -169,10 +168,24 @@ def list_providers(
     return list(providers_set)
 
 
+def provider_info(provider_name: str):
+    """
+    Get provider info
+
+    Args:
+        provider_name (str): Eden AI provider name
+
+    Returns:
+        dict: Provider info
+    """
+    if provider_name is None:
+        return {}
+    return load_info_file(provider_name)
+
+
 STATUS_SUCCESS = "success"
 
 
-@monitor_call(condition=IS_MONITORING)
 def compute_output(
     provider_name: str,
     feature: str,
@@ -182,6 +195,7 @@ def compute_output(
     fake: bool = False,
     api_keys: Dict = {},
     user_email: Optional[str] = None,
+    **kwargs,
 ) -> Dict:
     """
     Compute subfeature for provider and subfeature
@@ -251,7 +265,7 @@ def compute_output(
 
         try:
             subfeature_result = subfeature_class(provider_name, api_keys)(
-                **args
+                **args, **kwargs
             ).model_dump()
         except ProviderException as exc:
             raise get_appropriate_error(provider_name, exc)
@@ -345,12 +359,11 @@ def check_provider_constraints(
     return True, "All Good!"
 
 
-@monitor_call(condition=IS_MONITORING)
 def get_async_job_result(
     provider_name: str,
     feature: str,
     subfeature: str,
-    async_job_id: AsyncLaunchJobResponseType,
+    async_job_id: str,
     phase: str = "",
     fake: bool = False,
     user_email=None,

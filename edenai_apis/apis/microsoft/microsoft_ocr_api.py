@@ -64,10 +64,7 @@ from edenai_apis.utils.types import (
 
 class MicrosoftOcrApi(OcrInterface):
     def ocr__ocr(
-        self,
-        file: str,
-        language: str,
-        file_url: str = "",
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[OcrDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -115,7 +112,7 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__invoice_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
         with open(file, "rb") as file_:
             try:
@@ -147,7 +144,7 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__receipt_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[ReceiptParserDataClass]:
         with open(file, "rb") as file_:
             try:
@@ -248,7 +245,7 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__identity_parser(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
         with open(file, "rb") as file_:
             try:
@@ -359,7 +356,7 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__ocr_tables_async__launch_job(
-        self, file: str, file_type: str, language: str, file_url: str = ""
+        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -438,7 +435,7 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__ocr_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -514,6 +511,7 @@ class MicrosoftOcrApi(OcrInterface):
         document_type: str,
         file_url: str = "",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         with open(file, "rb") as file_:
             try:

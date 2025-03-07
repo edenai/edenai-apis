@@ -143,7 +143,7 @@ class GoogleVideoApi(VideoInterface):
 
         return file_data
 
-    def _delete_file(self, file: str, api_key: str):
+    def delete_file(self, file: str, api_key: str):
         delete_url = (
             f"https://generativelanguage.googleapis.com/v1beta/{file}?key={api_key}"
         )
@@ -153,7 +153,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch label detection job
     def video__label_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         operation = self.clients["video"].annotate_video(
@@ -166,7 +166,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch text detection job
     def video__text_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         operation = self.clients["video"].annotate_video(
@@ -180,7 +180,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch face detection job
     def video__face_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
 
@@ -200,7 +200,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch person tracking job
     def video__person_tracking_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         # Configure the request for each feature
@@ -223,7 +223,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch logo detection job
     def video__logo_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         # Configure the request for each feature
@@ -239,7 +239,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch object tracking job
     def video__object_tracking_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         # Configure the request for each feature
@@ -255,7 +255,7 @@ class GoogleVideoApi(VideoInterface):
 
     # Launch explicit content detection job
     def video__explicit_content_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         # Configure the request for each feature
@@ -270,7 +270,7 @@ class GoogleVideoApi(VideoInterface):
         return AsyncLaunchJobResponseType(provider_job_id=operation.operation.name)
 
     def video__shot_change_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         gcs_uri = self.google_upload_video(file=file)
         operation = self.clients["video"].annotate_video(
@@ -758,7 +758,7 @@ class GoogleVideoApi(VideoInterface):
     def _bytes_to_mega(self, bytes_value):
         return bytes_value / (1024 * 1024)
 
-    def _request_question_answer(self, model, api_key, text, temperature, file_data):
+    def request_question_answer(self, model, api_key, text, temperature, file_data):
         base_url = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
         url = base_url.format(model=model, api_key=api_key)
         payload = {
@@ -781,20 +781,24 @@ class GoogleVideoApi(VideoInterface):
         try:
             original_response = response.json()
         except json.JSONDecodeError as exc:
-            self._delete_file(file=file_data["name"], api_key=api_key)
+            self.delete_file(file=file_data["name"], api_key=api_key)
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
 
         if response.status_code != 200:
-            self._delete_file(file=file_data["name"], api_key=api_key)
+            self.delete_file(file=file_data["name"], api_key=api_key)
             raise ProviderException(
                 message=original_response["error"]["message"],
                 code=response.status_code,
             )
-        generated_text = original_response["candidates"][0]["content"]["parts"][0][
-            "text"
-        ]
+        try:
+            generated_text = original_response["candidates"][0]["content"]["parts"][0][
+                "text"
+            ]
+        except KeyError as exc:
+            raise ProviderException("Provider returned empty response") from exc
+
         calculate_usage_tokens(original_response=original_response)
         return original_response, generated_text
 
@@ -805,12 +809,13 @@ class GoogleVideoApi(VideoInterface):
         file_url: str = "",
         temperature: float = 0,
         model: str = None,
+        **kwargs,
     ) -> QuestionAnswerDataClass:
         api_key = self.api_settings.get("genai_api_key")
         file_data = self._upload_and_process_file(file, api_key)
         file_size_mb = self._bytes_to_mega(int(file_data.get("sizeBytes", 0)))
         if file_size_mb >= 100:
-            self._delete_file(file=file_data["name"], api_key=api_key)
+            self.delete_file(file=file_data["name"], api_key=api_key)
             raise ProviderException(
                 message="The video file is too large (over 100 MB). Please use the asynchronous video question answering api instead.",
             )
@@ -818,7 +823,7 @@ class GoogleVideoApi(VideoInterface):
             sleep(5)
             file_data = self._check_file_status(file_data["uri"], api_key)
 
-        original_response, generated_text = self._request_question_answer(
+        original_response, generated_text = self.request_question_answer(
             model=model,
             api_key=api_key,
             text=text,
@@ -826,7 +831,7 @@ class GoogleVideoApi(VideoInterface):
             file_data=file_data,
         )
 
-        self._delete_file(file=file_data["name"], api_key=api_key)
+        self.delete_file(file=file_data["name"], api_key=api_key)
         return ResponseType[QuestionAnswerDataClass](
             original_response=original_response,
             standardized_response=QuestionAnswerDataClass(answer=generated_text),
@@ -839,6 +844,7 @@ class GoogleVideoApi(VideoInterface):
         file_url: str = "",
         temperature: float = 0,
         model: str | None = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         data_job_id = {}
         api_key = self.api_settings.get("genai_api_key")
@@ -883,16 +889,14 @@ class GoogleVideoApi(VideoInterface):
                 status="pending", provider_job_id=provider_job_id
             )
         else:
-            original_response, generated_text = self._request_question_answer(
+            original_response, generated_text = self.request_question_answer(
                 model=inputs["model"],
                 api_key=api_key,
                 text=inputs["text"],
                 temperature=inputs["temperature"],
                 file_data=file_data,
             )
-            create_time = self._is_older_than_3_hours(file_data["createTime"])
-            if create_time:
-                self._delete_file(file=file_data["name"], api_key=api_key)
+            self.delete_file(file=file_data["name"], api_key=api_key)
             return AsyncResponseType[QuestionAnswerAsyncDataClass](
                 original_response=original_response,
                 standardized_response=QuestionAnswerAsyncDataClass(

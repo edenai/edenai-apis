@@ -1,4 +1,3 @@
-import itertools
 import json
 import re
 from typing import Dict, List, Optional, Tuple, Union
@@ -7,18 +6,18 @@ from edenai_apis.features.text.chat.helpers import get_tool_call_from_history_by
 
 
 def extract_json_text(input_string: str) -> Optional[Union[dict, list]]:
-    if '[' in input_string and ']' in input_string:
-        start_index = input_string.index('[')
-        end_index = input_string.rindex(']')
-        json_text = input_string[start_index:end_index + 1]
+    if "[" in input_string and "]" in input_string:
+        start_index = input_string.index("[")
+        end_index = input_string.rindex("]")
+        json_text = input_string[start_index : end_index + 1]
         json_text = json_text.replace("'", '"')
         return json.loads(json_text)
-    elif input_string[0] == '{':
+    elif input_string[0] == "{":
         match = re.search(r"\{.*\}", input_string)
         if match:
             json_text = match.group(0)
             return json.loads(json_text)
-    else: 
+    else:
         pattern = r"```json(.*?)```"
         match = re.search(pattern, input_string, re.DOTALL)
 

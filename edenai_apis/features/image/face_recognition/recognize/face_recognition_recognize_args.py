@@ -9,8 +9,6 @@ from edenai_apis.utils.files import FileInfo, FileWrapper
 from ..common_args import COLLECTION_ID
 
 
-
-
 def get_data_files() -> List[BufferedReader]:
     return [
         os.path.join(data_path, f"face_recognition_{num+1}.jpg") for num in range(3)

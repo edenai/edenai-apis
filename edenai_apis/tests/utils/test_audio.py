@@ -11,10 +11,10 @@ from settings import base_path
 
 from edenai_apis.utils.audio import (
     audio_converter,
-    get_audio_attributes,
     audio_format,
-    supported_extension,
+    get_audio_attributes,
     get_file_extension,
+    supported_extension,
 )
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.files import FileInfo, FileWrapper
@@ -42,6 +42,7 @@ class TestAudioConverter:
         self.mp3_file_input.close()
         self.txt_file.close()
 
+    @pytest.mark.unit
     def test_convert_wav_to_mp3(self):
         mp3_file, _, _, _ = audio_converter(self.wav_file_input, export_format="mp3")
         try:
@@ -49,6 +50,7 @@ class TestAudioConverter:
         except CouldntDecodeError:
             pytest.fail("The conversion from `wav` to `mp3` doesn't works")
 
+    @pytest.mark.unit
     def test_convert_mp3_to_wav(self):
         wav_file, _, _, _ = audio_converter(self.mp3_file_input, export_format="wav")
         try:
@@ -56,6 +58,7 @@ class TestAudioConverter:
         except CouldntDecodeError:
             pytest.fail("The conversion from `mp3` to `wav` doesn't works")
 
+    @pytest.mark.unit
     def test_convert_wav_to_wav(self):
         wav_file, _, _, _ = audio_converter(self.wav_file_input, export_format="wav")
         try:
@@ -63,11 +66,13 @@ class TestAudioConverter:
         except CouldntDecodeError:
             pytest.fail("The conversion from `wav` to `wav` doesn't works")
 
+    @pytest.mark.unit
     def test_invalid_file_format(self):
         with pytest.raises(CouldntDecodeError) as exc:
             AudioSegment.from_file(self.txt_file)
         assert "Decoding failed. ffmpeg returned error code: 1" in str(exc.value)
 
+    @pytest.mark.unit
     def test_set_frame_rate_mp3_format(self):
         expected_framerate = 16000
         _, frame_rate, _, _ = audio_converter(
@@ -79,6 +84,7 @@ class TestAudioConverter:
             frame_rate == expected_framerate
         ), f"Expected {expected_framerate} but got {frame_rate}"
 
+    @pytest.mark.unit
     def test_set_channels_mp3_format(self):
         expected_channels = 1
         _, _, _, channels = audio_converter(
@@ -90,6 +96,7 @@ class TestAudioConverter:
             channels == expected_channels
         ), f"Expected {expected_channels} but got {channels}"
 
+    @pytest.mark.unit
     def test_default_frame_rate_mp3_format(self):
         mp3_file, frame_rate, _, _ = audio_converter(
             self.mp3_file_input, export_format="mp3"
@@ -100,6 +107,7 @@ class TestAudioConverter:
             frame_rate == expected_framerate
         ), f"Expected {expected_framerate} but got {frame_rate}"
 
+    @pytest.mark.unit
     def test_default_channels_mp3_format(self):
         mp3_file, _, _, channels = audio_converter(
             self.mp3_file_input, export_format="mp3"
@@ -112,6 +120,7 @@ class TestAudioConverter:
 
 
 class TestGetAudioAttributes:
+    @pytest.mark.unit
     def test_get_audio_attributes_with_good_attr(self, mocker: MockerFixture):
         def fake_mediainfo(*args, **kwargs):
             return {"channels": "2", "sample_rate": "48000"}
@@ -128,6 +137,7 @@ class TestGetAudioAttributes:
             assert channels == 2
             assert sample_rate == 48000
 
+    @pytest.mark.unit
     def test_get_audio_attributes_without_channels(self, mocker: MockerFixture):
         def fake_mediainfo(*args, **kwargs):
             return {"sample_rate": "48000"}
@@ -144,6 +154,7 @@ class TestGetAudioAttributes:
             assert channels == 1
             assert sample_rate == 48000
 
+    @pytest.mark.unit
     def test_get_audio_attributes_without_sample_rate(self, mocker: MockerFixture):
         def fake_mediainfo(*args, **kwargs):
             return {"channels": "2"}
@@ -163,17 +174,20 @@ class TestGetAudioAttributes:
 
 
 class TestAudioFormat:
+    @pytest.mark.unit
     def test_with_array_extensions(self):
         audio_file = BytesIO(b"test file")
         audio_file.name = "audio.mp3"
         extensions = ["wav", "flac"]
         assert audio_format(audio_file.name, extensions) == extensions
 
+    @pytest.mark.unit
     def test_valid_file_type(self):
         audio_file = BytesIO(b"test file")
         audio_file.name = "audio.mp3"
         assert audio_format(audio_file.name, [])[0] == "mp3"
 
+    @pytest.mark.unit
     def test_unknown_file_type(self):
         audio_file = BytesIO(b"test file")
         audio_file.name = "audio.xyz"
@@ -181,6 +195,7 @@ class TestAudioFormat:
 
 
 class TestSupportedExtension:
+    @pytest.mark.unit
     def test_valid_extension(self):
         file = os.path.join(base_path, "features/audio/data/conversation.mp3")
         file_info = FileInfo(
@@ -194,6 +209,7 @@ class TestSupportedExtension:
         accepted_extensions = ["mp3", "wav", "m4a"]
         assert supported_extension(file_wrapper, accepted_extensions) == (True, "mp3")
 
+    @pytest.mark.unit
     def test_valid_extension_multiple(self):
         file = os.path.join(base_path, "features/audio/data/conversation.mp3")
         file_info = FileInfo(
@@ -207,6 +223,7 @@ class TestSupportedExtension:
         accepted_extensions = ["mp3", "mp4", "m4a"]
         assert supported_extension(file_wrapper, accepted_extensions) == (True, "mp3")
 
+    @pytest.mark.unit
     def test_invalid_extension(self):
         file = BytesIO(b"test file")
         file.name = "audio.xyz"
@@ -223,6 +240,7 @@ class TestSupportedExtension:
 
 
 class TestFileWithGoodExtension:
+    @pytest.mark.unit
     def test_raises_exception_on_unsupported_extension(self):
         file = BytesIO(b"fake audio file")
         file.name = "fake.txt"
@@ -242,6 +260,7 @@ class TestFileWithGoodExtension:
             == f"File extension not supported. Use one of the following extensions: {', '.join(accepted_extensions)}"
         )
 
+    @pytest.mark.unit
     def test_raises_exception_on_mismatch_channels(self):
         data_path = os.path.join(base_path, "features/audio/data/out.wav")
         accepted_extensions = ["wav", "mp3"]
@@ -258,6 +277,7 @@ class TestFileWithGoodExtension:
             get_file_extension(file_wrapper, accepted_extensions, channels)
         assert str(exc.value) == "File audio must be Stereo"
 
+    @pytest.mark.unit
     def test_raises_exception_on_mismatch_channels_mp3(self):
         data_path = os.path.join(base_path, "features/audio/data/conversation.mp3")
         accepted_extensions = ["wav", "mp3"]

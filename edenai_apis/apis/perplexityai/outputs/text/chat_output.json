@@ -1,13 +1,27 @@
 {
   "original_response": {
-    "id": "e9a431a0-a311-4287-ac94-3f09d68e3e41",
-    "model": "llama-3.1-sonar-large-128k-chat",
-    "created": 1733931867,
+    "id": "8a07bafe-f68d-43e6-ba83-1dea211c4d99",
+    "model": "sonar-pro",
+    "created": 1738832626,
     "usage": {
-      "prompt_tokens": 228,
-      "completion_tokens": 23,
-      "total_tokens": 251
+      "prompt_tokens": 202,
+      "completion_tokens": 21,
+      "total_tokens": 223,
+      "citation_tokens": 5520,
+      "num_search_queries": 2
     },
+    "citations": [
+      "https://en.wikipedia.org/?curid=534366",
+      "https://www.obama.org/about/administration/chicago-where-it-began/",
+      "https://www.britannica.com/biography/Barack-Obama/Politics-and-ascent-to-the-presidency",
+      "https://presidentlincoln.illinois.gov/oral-history/collections/brady-william-bill-2/interview-detail/",
+      "https://www.obamalibrary.gov/obamas/president-barack-obama",
+      "https://en.wikipedia.org/wiki/Illinois_Senate_career_of_Barack_Obama",
+      "https://millercenter.org/president/barack-obama/key-events",
+      "https://www.ilga.gov/senate/Senator.asp?MemberID=747",
+      "https://www.britannica.com/biography/Barack-Obama",
+      "https://www.senate.gov/artandhistory/history/common/image/ObamaBarack.htm"
+    ],
     "object": "chat.completion",
     "choices": [
       {
@@ -15,7 +29,7 @@
         "finish_reason": "stop",
         "message": {
           "role": "assistant",
-          "content": "Barack Hussein Obama, American, politician, president, United States, Democratic Party, African-American, senator, Illinois"
+          "content": "barack obama, president, united states, democratic party, african-american, senator, illinois"
         },
         "delta": {
           "role": "assistant",
@@ -25,7 +39,7 @@
     ]
   },
   "standardized_response": {
-    "generated_text": "Barack Hussein Obama, American, politician, president, United States, Democratic Party, African-American, senator, Illinois",
+    "generated_text": "barack obama, president, united states, democratic party, african-american, senator, illinois",
     "message": [
       {
         "role": "user",
@@ -35,10 +49,11 @@
       },
       {
         "role": "system",
-        "message": "Barack Hussein Obama, American, politician, president, United States, Democratic Party, African-American, senator, Illinois",
+        "message": "barack obama, president, united states, democratic party, african-american, senator, illinois",
         "tools": null,
         "tool_calls": null
       }
     ]
-  }
+  },
+  "usage": null
 }

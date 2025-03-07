@@ -19,7 +19,7 @@ class ACategoryType(str):
     pass
 
 
-class CategoryType(str,  Enum):
+class CategoryType(str, Enum):
     """This enum are used to categorize the explicit content extracted from the text"""
 
     Toxic = "Toxic"

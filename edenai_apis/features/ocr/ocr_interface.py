@@ -46,7 +46,7 @@ from edenai_apis.utils.types import (
 class OcrInterface:
     @abstractmethod
     def ocr__ocr(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[OcrDataClass]:
         """Optical Character Recognition on a file
 
@@ -60,7 +60,7 @@ class OcrInterface:
     # DEPRECATED
     @abstractmethod
     def ocr__invoice_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
         """Parse an invoice and returned structured data
 
@@ -73,7 +73,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__ocr_tables_async__launch_job(
-        self, file: str, file_type: str, language: str, file_url: str = ""
+        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         """Launch an asynchronous job to analyze tables in document
         Args:
@@ -110,7 +110,7 @@ class OcrInterface:
     # DEPRECATED
     @abstractmethod
     def ocr__receipt_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[ReceiptParserDataClass]:
         """Parse a receipt and returned structured data
 
@@ -129,6 +129,7 @@ class OcrInterface:
         document_type: str = "",
         file_url: str = "",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         """Parse a financial document (receipt or invoice) and returned structured data
 
@@ -142,7 +143,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__resume_parser(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[ResumeParserDataClass]:
         """Parse a resume and returned structured data
 
@@ -154,7 +155,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__identity_parser(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
         """Parse an identity document and returned structured data
 
@@ -166,7 +167,11 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__custom_document_parsing_async__launch_job(
-        self, file: str, queries: List[Dict[str, Union[str, str]]], file_url: str = ""
+        self,
+        file: str,
+        queries: List[Dict[str, Union[str, str]]],
+        file_url: str = "",
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         """
         Parse a document and extract data according to queries
@@ -192,7 +197,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__ocr_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         """Optical Character Recognition on a file
 
@@ -216,7 +221,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__data_extraction(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[DataExtractionDataClass]:
         """
         Parse a document and extract all information
@@ -225,9 +230,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__bank_check_parsing(
-        self,
-        file: str,
-        file_url: str = "",
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[BankCheckParsingDataClass]:
         """
         Parse a bank check and extract all information
@@ -240,7 +243,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__anonymization_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         """
         Parse a document and returns anonymized document
@@ -265,7 +268,7 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__invoice_splitter_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         """
         Split an invoice into multiple invoices

@@ -1,15 +1,18 @@
 import json
-from typing import Dict, Any, Optional
-import requests
-from edenai_apis.apis.amazon.helpers import check_webhook_result
-from edenai_apis.features import ProviderInterface, ImageInterface, VideoInterface
+from typing import Any, Dict, Optional
 
-from edenai_apis.features.video.deepfake_detection_async.deepfake_detection_async_dataclass import (
-    DeepfakeDetectionAsyncDataClass as VideoDeepfakeDetectionAsyncDataclass,
-    DetailPerFrame,
-)
+import requests
+
+from edenai_apis.apis.amazon.helpers import check_webhook_result
+from edenai_apis.features import ImageInterface, ProviderInterface, VideoInterface
 from edenai_apis.features.image.deepfake_detection.deepfake_detection_dataclass import (
     DeepfakeDetectionDataClass as ImageDeepfakeDetectionDataclass,
+)
+from edenai_apis.features.video.deepfake_detection_async.deepfake_detection_async_dataclass import (
+    DeepfakeDetectionAsyncDataClass as VideoDeepfakeDetectionAsyncDataclass,
+)
+from edenai_apis.features.video.deepfake_detection_async.deepfake_detection_async_dataclass import (
+    DetailPerFrame,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -22,7 +25,6 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
-from edenai_apis.utils.upload_s3 import upload_file_to_s3
 
 
 class SightEngineApi(ProviderInterface, ImageInterface, VideoInterface):
@@ -44,7 +46,7 @@ class SightEngineApi(ProviderInterface, ImageInterface, VideoInterface):
         self.webhook_url = f"https://webhook.site/{self.webhook_token}"
 
     def image__deepfake_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[ImageDeepfakeDetectionDataclass]:
         if not file_url and not file:
             raise ProviderException("file or file_url required")
@@ -94,7 +96,7 @@ class SightEngineApi(ProviderInterface, ImageInterface, VideoInterface):
         )
 
     def video__deepfake_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         if not file_url and not file:
             raise ProviderException("file or file_url required")

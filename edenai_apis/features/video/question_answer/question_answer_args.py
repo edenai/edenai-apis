@@ -28,5 +28,5 @@ def question_answer_arguments(provider_name: str) -> Dict:
         "file": file_wrapper,
         "text": "describe this video",
         "temperature": 0.0,
-        "settings": {"google": "gemini-1.5-flash"},
+        "settings": {"google": "gemini-1.5-flash", "amazon": "amazon.nova-pro-v1:0"},
     }

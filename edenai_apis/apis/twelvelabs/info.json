@@ -1,22 +1,25 @@
 {
-  "video": {
-    "logo_detection_async": {
-      "constraints": {
-        "file_types": [
-          "video/mp4",
-          "video/webm"
-        ]
-      },
-      "version": "v1.1.2"
+    "video": {
+        "logo_detection_async": {
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/webm"
+                ]
+            },
+            "version": "v1.1.2"
+        },
+        "text_detection_async": {
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/webm"
+                ]
+            },
+            "version": "v1.1.2"
+        }
     },
-    "text_detection_async": {
-      "constraints": {
-        "file_types": [
-          "video/mp4",
-          "video/webm"
-        ]
-      },
-      "version": "v1.1.2"
+    "_metadata": {
+        "privacy_url": "https://twelvelabs.io./privacy-policy"
     }
-  }
 }

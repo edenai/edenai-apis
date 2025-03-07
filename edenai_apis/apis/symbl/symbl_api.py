@@ -70,6 +70,7 @@ class SymblApi(ProviderInterface, AudioInterface):
         model: Optional[str] = None,
         file_url: str = "",
         provider_params: Optional[dict] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes
@@ -105,7 +106,7 @@ class SymblApi(ProviderInterface, AudioInterface):
             raise ProviderException(
                 f"Call to Symbl failed.\nResponse Status: {response.status_code}.\n"
                 + f"Response Content: {response.content}",
-                code = response.status_code
+                code=response.status_code,
             )
 
         original_response = response.json()
@@ -138,18 +139,17 @@ class SymblApi(ProviderInterface, AudioInterface):
                 ):
                     raise AsyncJobException(
                         reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
-                        code = response_status.status_code
+                        code=response_status.status_code,
                     )
             raise ProviderException(
-                original_response.get("message"),
-                code = response_status.status_code
+                original_response.get("message"), code=response_status.status_code
             )
 
         if original_response["status"] == "completed":
             url = f"https://api.symbl.ai/v1/conversations/{conversation_id}/messages?sentiment=true&verbose=true"
             response = requests.get(url=url, headers=headers)
             if response.status_code != 200:
-                raise ProviderException(response_status.text, code = response.status_code)
+                raise ProviderException(response_status.text, code=response.status_code)
 
             original_response = response.json()
             diarization_entries = []
@@ -174,7 +174,9 @@ class SymblApi(ProviderInterface, AudioInterface):
                         SpeechDiarizationEntry(
                             segment=word_info["word"],
                             speaker=word_info.get("speakerTag", 1),
-                            start_time=str(time_offset) if time_offset is not None else None,
+                            start_time=(
+                                str(time_offset) if time_offset is not None else None
+                            ),
                             end_time=str(end_time) if end_time is not None else None,
                             confidence=word_info.get("score"),
                         )

@@ -4,4 +4,5 @@ def automatic_translation_arguments(provider_name: str):
         + "該詞也指出研究這樣的智能系統是否能夠實現，以及如何實現。同时，通過醫學、神經科學、機器人學及統計學等的進步，常態預測則認為人類的很多職業也逐漸被其取代",
         "source_language": "zh",
         "target_language": "en",
+        "settings": {"openai": "gpt-4o", "xai": "grok-2-latest"},
     }

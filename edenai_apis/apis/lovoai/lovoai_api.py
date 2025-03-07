@@ -63,6 +63,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         speaking_pitch: int,
         speaking_volume: int,
         sampling_rate: int,
+        **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
         payload = json.dumps(
             {
@@ -135,6 +136,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         speaking_volume: int,
         sampling_rate: int,
         file_url: str = "",
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         url = "https://api.genny.lovo.ai/api/v1/tts"
         data = json.dumps(

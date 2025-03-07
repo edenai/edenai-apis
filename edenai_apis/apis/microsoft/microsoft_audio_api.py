@@ -52,6 +52,7 @@ class MicrosoftAudioApi(AudioInterface):
         speaking_pitch: int,
         speaking_volume: int,
         sampling_rate: int,
+        **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
@@ -108,7 +109,8 @@ class MicrosoftAudioApi(AudioInterface):
         audio_attributes: tuple,
         model: Optional[str] = None,
         file_url: str = "",
-        provider_params: Optional[dict] = None
+        provider_params: Optional[dict] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes
@@ -153,7 +155,9 @@ class MicrosoftAudioApi(AudioInterface):
             provider_id = result_location.split("/")[-1]
             return AsyncLaunchJobResponseType(provider_job_id=provider_id)
         else:
-            raise ProviderException(response.json().get("message"), code= response.status_code)
+            raise ProviderException(
+                response.json().get("message"), code=response.status_code
+            )
 
     def audio__speech_to_text_async__get_job_result(
         self, provider_job_id: str
@@ -238,7 +242,8 @@ class MicrosoftAudioApi(AudioInterface):
             if error:
                 if "entity cannot be found" in error:
                     raise AsyncJobException(
-                        reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, code=response.status_code
+                        reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                        code=response.status_code,
                     )
                 raise ProviderException(error, code=response.status_code)
             raise ProviderException(response.json(), code=response.status_code)

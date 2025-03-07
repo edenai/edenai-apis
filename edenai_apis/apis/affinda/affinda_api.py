@@ -39,7 +39,7 @@ class AffindaApi(ProviderInterface, OcrInterface):
         self.client.current_organization = self.client.get_organizations()[0].identifier
 
     def ocr__resume_parser(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[ResumeParserDataClass]:
         self.client.current_workspace = self.api_settings["nextgen_resume_parser"]
 
@@ -63,7 +63,7 @@ class AffindaApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__invoice_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
         self.client.current_workspace = self.api_settings["invoice_workspace"]
 
@@ -87,7 +87,7 @@ class AffindaApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__receipt_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[ReceiptParserDataClass]:
         self.client.current_workspace = self.api_settings["receipt_workspace"]
         document = self.client.create_document(
@@ -110,7 +110,7 @@ class AffindaApi(ProviderInterface, OcrInterface):
         )
 
     def ocr__identity_parser(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
         self.client.current_workspace = self.api_settings["identity_workspace"]
         document = self.client.create_document(
@@ -135,6 +135,7 @@ class AffindaApi(ProviderInterface, OcrInterface):
         document_type: str = "",
         file_url: str = "",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         workspace_key = (
             "receipt_workspace"

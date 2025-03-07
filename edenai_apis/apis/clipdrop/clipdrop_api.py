@@ -28,6 +28,7 @@ class ClipdropApi(ProviderInterface, ImageInterface):
         file: str,
         file_url: str = "",
         provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         url = "https://clipdrop-api.co/remove-background/v1"
         with open(file, "rb") as f:

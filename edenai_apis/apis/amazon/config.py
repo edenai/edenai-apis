@@ -59,12 +59,12 @@ def clients(api_settings: Dict) -> Dict:
             aws_access_key_id=api_settings["aws_access_key_id"],
             aws_secret_access_key=api_settings["aws_secret_access_key"],
         ),
-        "bedrock" : boto3.client(
+        "bedrock": boto3.client(
             "bedrock-runtime",
             region_name="us-east-1",
             aws_access_key_id=api_settings["aws_access_key_id"],
             aws_secret_access_key=api_settings["aws_secret_access_key"],
-        )
+        ),
     }
 
 
@@ -101,7 +101,7 @@ def storage_clients(api_settings: Dict) -> Dict:
             region_name=api_settings["ressource_region"],
             aws_access_key_id=api_settings["aws_access_key_id"],
             aws_secret_access_key=api_settings["aws_secret_access_key"],
-        )
+        ),
     }
 
 

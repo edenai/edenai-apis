@@ -48,7 +48,6 @@
             },
             "version": "v1"
         },
-
         "sentiment_analysis": {
             "constraints": {
                 "languages": [
@@ -71,14 +70,13 @@
         },
         "ai_detection": {
             "constraints": {
-                "languages": [
-                   
-                ],
+                "languages": [],
                 "allow_null_language": true
             },
             "version": "v1"
         }
+    },
+    "_metadata": {
+        "privacy_url": "https://www.sapling.ai/privacy"
     }
 }
-    
-  

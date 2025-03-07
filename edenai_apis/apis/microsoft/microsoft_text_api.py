@@ -2,11 +2,15 @@ import sys
 from collections import defaultdict
 from http import HTTPStatus
 from time import sleep
-from typing import Dict, Sequence
+from typing import Dict, List, Sequence, Optional, Literal, Union
 
 import requests
 
-from edenai_apis.features.text import AnonymizationDataClass, ModerationDataClass
+from edenai_apis.features.text import (
+    AnonymizationDataClass,
+    ChatDataClass,
+    ModerationDataClass,
+)
 from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
     InfosNamedEntityRecognitionDataClass,
@@ -19,6 +23,7 @@ from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationEntity,
 )
 from edenai_apis.features.text.anonymization.category import CategoryType
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SegmentSentimentAnalysisDataClass,
 )
@@ -31,7 +36,7 @@ from .microsoft_helpers import microsoft_text_moderation_personal_infos
 
 class MicrosoftTextApi(TextInterface):
     def text__moderation(
-        self, text: str, language: str
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[ModerationDataClass]:
         if not language:
             language = ""
@@ -62,7 +67,7 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__named_entity_recognition(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         """
         :param language:        String that contains the language code
@@ -123,6 +128,7 @@ class MicrosoftTextApi(TextInterface):
         output_sentences: int,
         language: str,
         model: str = None,
+        **kwargs,
     ) -> ResponseType[SummarizeDataClass]:
         """
         :param text:        String that contains input text
@@ -191,7 +197,7 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__anonymization(
-        self, text: str, language: str
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
         try:
             response = requests.post(
@@ -259,7 +265,7 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__sentiment_analysis(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
         """
         :param language:    String that contains language code
@@ -350,7 +356,7 @@ class MicrosoftTextApi(TextInterface):
             )
 
     def text__keyword_extraction(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[KeywordExtractionDataClass]:
         """
         :param language:    String that contains language code
@@ -393,7 +399,7 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__spell_check(
-        self, text: str, language: str
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SpellCheckDataClass]:
         if len(text) >= 130:
             raise ProviderException(
@@ -438,3 +444,32 @@ class MicrosoftTextApi(TextInterface):
             original_response=orginal_response,
             standardized_response=standardized_response,
         )
+
+    def text__chat(
+        self,
+        text: str,
+        chatbot_global_action: Optional[str] = None,
+        previous_history: Optional[List[Dict[str, str]]] = None,
+        temperature: float = 0.0,
+        max_tokens: int = 25,
+        model: Optional[str] = None,
+        stream: bool = False,
+        available_tools: Optional[List[dict]] = None,
+        tool_choice: Literal["auto", "required", "none"] = "auto",
+        tool_results: Optional[List[dict]] = None,
+        **kwargs,
+    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        response = self.llm_client.chat(
+            text=text,
+            previous_history=previous_history,
+            chatbot_global_action=chatbot_global_action,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
+            stream=stream,
+            available_tools=available_tools,
+            tool_choice=tool_choice,
+            tool_results=tool_results,
+            **kwargs,
+        )
+        return response

@@ -18,7 +18,7 @@ def load_feature(
     subfeature: str = "",
     phase: str = "",
     suffix: str = "",
-    **kwargs
+    **kwargs,
 ):
     """
     Call data_loader functions and returns data related to features
@@ -67,7 +67,7 @@ def load_provider(
     subfeature: str = "",
     phase: Optional[str] = "",
     suffix: str = "",
-    **kwargs
+    **kwargs,
 ):
     """
     Call data_loader functions and returns data related to providers

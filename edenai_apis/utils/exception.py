@@ -18,7 +18,7 @@ class ProviderException(Exception):
         super().__init__(message)
         if code:
             self.code = code
-    
+
     @property
     def status_code(self):
         if not hasattr(self, "code"):

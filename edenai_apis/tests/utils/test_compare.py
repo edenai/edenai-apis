@@ -1,9 +1,10 @@
 """
-    Test functions used to compare output dictionaries.
+Test functions used to compare output dictionaries.
 """
+
 import pytest
 
-from edenai_apis.utils.compare import compare, assert_standarization
+from edenai_apis.utils.compare import assert_standarization, compare
 
 a = {"a": [1, 2, 3], "b": {"e": "one", "f": "two"}, "c": 3}
 
@@ -16,6 +17,7 @@ d = {"a": [1, 2, 3, 4], "c": 43, "b": {"e": "hello", "f": "world"}}
 e = {"a": [1, 2, 3, 4], "c": 43, "b": {"e": "hello", "f": 1}}
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "first,second,expected",
     [
@@ -31,6 +33,7 @@ def test_compare(first, second, expected):
     assert compare(second, first) == expected
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "first,second,expected_assertion_exception",
     [

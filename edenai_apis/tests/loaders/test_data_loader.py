@@ -18,8 +18,8 @@ from edenai_apis.loaders.data_loader import (
 from edenai_apis.tests.conftest import (
     global_features,
     global_providers,
-    without_async,
     only_async,
+    without_async,
 )
 
 
@@ -40,11 +40,8 @@ def _get_feature_subfeature_phase():
     return sorted(detailed_providers_list)
 
 
-@pytest.mark.skipif(
-    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-    reason="Don't run on opensource cicd workflow",
-)
 class TestLoadKey:
+    @pytest.mark.e2e
     @pytest.mark.parametrize(("provider"), sorted(global_providers()))
     def test_load_key_of_valid_provider(self, provider: str):
         if provider == "faker":
@@ -56,18 +53,21 @@ class TestLoadKey:
 
 
 class TestLoadClass:
+    @pytest.mark.unit
     @pytest.mark.parametrize(("provider"), sorted(global_providers()))
     def test_load_class_with_all_provider(self, provider: Optional[str]):
         klass = load_class(provider)
 
         assert klass is not None
 
+    @pytest.mark.unit
     def test_load_class_with_bad_provider(self):
         with pytest.raises(
             ValueError, match="No ProviderInterface class implemented for provider:"
         ):
             load_class("NotAProvider")
 
+    @pytest.mark.unit
     def test_load_class_with_none_provider(self):
         klass = load_class()
 
@@ -77,6 +77,7 @@ class TestLoadClass:
 
 
 class TestLoadDataclass:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("feature", "subfeature", "phase"), _get_feature_subfeature_phase()
     )
@@ -92,6 +93,7 @@ class TestLoadDataclass:
 
 
 class TestLoadInfoFile:
+    @pytest.mark.unit
     @pytest.mark.parametrize(("provider"), sorted(global_providers()))
     def test_load_info_file_with_one_provider(self, provider):
         info = load_info_file(provider)
@@ -100,6 +102,7 @@ class TestLoadInfoFile:
 
 
 class TestLoadProviderSubfeatureInfo:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("provider", "feature", "subfeature", "phase"),
         global_features(return_phase=True)["ungrouped_providers"],
@@ -112,6 +115,7 @@ class TestLoadProviderSubfeatureInfo:
 
 
 class TestLoadOutput:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("provider", "feature", "subfeature", "phase"),
         global_features(return_phase=True)["ungrouped_providers"],
@@ -125,8 +129,11 @@ class TestLoadOutput:
 
         assert isinstance(output, dict), "output should be a dict"
         try:
-            output["original_response"]
-            output["standardized_response"]
+            if feature == "llm":
+                output["choices"]
+            else:
+                output["original_response"]
+                output["standardized_response"]
         except KeyError:
             pytest.fail("Original_response and standradized_response not found")
 
@@ -136,6 +143,7 @@ class TestLoadOutput:
     reason="Don't run on opensource cicd workflow",
 )
 class TestLoadSubfeature:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("provider", "feature", "subfeature", "phase"),
         global_features(without_async, return_phase=True)["ungrouped_providers"],
@@ -152,6 +160,7 @@ class TestLoadSubfeature:
         assert callable(method_subfeature)
         assert method_subfeature.__name__ == expected_name
 
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("provider", "feature", "subfeature", "phase"),
         global_features(only_async, return_phase=True)["ungrouped_providers"],
@@ -172,6 +181,7 @@ class TestLoadSubfeature:
         assert callable(method_subfeature)
         assert method_subfeature.__name__ == expected_name
 
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("provider", "feature", "subfeature", "phase"),
         global_features(only_async, return_phase=True)["ungrouped_providers"],
@@ -201,6 +211,7 @@ class TestLoadSubfeature:
 
 
 class TestLoadSamples:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("feature", "subfeature", "phase"), _get_feature_subfeature_phase()
     )

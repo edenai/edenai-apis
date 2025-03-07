@@ -6,7 +6,6 @@ from time import sleep
 import pytest
 from apis.amazon.errors import ERRORS as amazon_errors
 from apis.google.errors import ERRORS as google_errors
-
 from apis.microsoft.errors import ERRORS as microsoft_errors
 from features.audio.speech_to_text_async.speech_to_text_async_args import (
     data_path as audio_data_path,
@@ -32,10 +31,7 @@ from edenai_apis.utils.exception import (
 from edenai_apis.utils.files import FileInfo, FileWrapper
 
 
-@pytest.mark.skipif(
-    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-    reason="Don't run on opensource cicd workflow",
-)
+@pytest.mark.e2e
 class TestProviderErrors:
     def test_input_text_length_audio_ssml(self):
         error = google_errors[ProviderInvalidInputTextLengthError][0]

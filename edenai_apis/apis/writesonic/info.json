@@ -1,36 +1,39 @@
 {
     "text": {
-      "summarize":{
-        "version" : "2.2",
-        "constraints": {
-          "languages": [
-              "en",
-              "nl",
-              "fr",
-              "de",
-              "it",
-              "pl",
-              "es",
-              "pt-pt",
-              "pt-br",
-              "ru",
-              "ja",
-              "zh",
-              "bg",
-              "cs",
-              "da",
-              "el",
-              "hu",
-              "it",
-              "lv",
-              "ro",
-              "sk",
-              "sl",
-              "sv",
-              "fi",
-              "et"
-          ]
-      }
+        "summarize": {
+            "version": "2.2",
+            "constraints": {
+                "languages": [
+                    "en",
+                    "nl",
+                    "fr",
+                    "de",
+                    "it",
+                    "pl",
+                    "es",
+                    "pt-pt",
+                    "pt-br",
+                    "ru",
+                    "ja",
+                    "zh",
+                    "bg",
+                    "cs",
+                    "da",
+                    "el",
+                    "hu",
+                    "it",
+                    "lv",
+                    "ro",
+                    "sk",
+                    "sl",
+                    "sv",
+                    "fi",
+                    "et"
+                ]
+            }
+        }
+    },
+    "_metadata": {
+        "privacy_url": "https://writesonic.com/privacy-policy"
     }
-  }
 }

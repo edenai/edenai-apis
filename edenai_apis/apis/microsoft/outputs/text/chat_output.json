@@ -1,0 +1,99 @@
+{
+  "original_response": {
+    "id": "chatcmpl-B7HKqmir6QBKCNOjjUprkcj0dEkiG",
+    "created": 1741074632,
+    "model": "gpt-4o-mini-2024-07-18",
+    "object": "chat.completion",
+    "system_fingerprint": "fp_b705f0c291",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "barack obama, american, politician, president, united states, democratic party, african-american, senator, illinois",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null
+        }
+      }
+    ],
+    "provider_time": 4883536568,
+    "edenai_time": null,
+    "usage": {
+      "completion_tokens": 24,
+      "prompt_tokens": 221,
+      "total_tokens": 245,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      }
+    },
+    "service_tier": null,
+    "prompt_filter_results": [
+      {
+        "prompt_index": 0,
+        "content_filter_results": {
+          "hate": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "jailbreak": {
+            "filtered": false,
+            "detected": false
+          },
+          "self_harm": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "sexual": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "violence": {
+            "filtered": false,
+            "severity": "safe"
+          }
+        }
+      }
+    ],
+    "cost": 5.230500000000001e-05
+  },
+  "standardized_response": {
+    "generated_text": "barack obama, american, politician, president, united states, democratic party, african-american, senator, illinois",
+    "message": [
+      {
+        "role": "user",
+        "message": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+        "tools": null,
+        "tool_calls": null
+      },
+      {
+        "role": "assistant",
+        "message": "barack obama, american, politician, president, united states, democratic party, african-american, senator, illinois",
+        "tools": null,
+        "tool_calls": []
+      }
+    ]
+  },
+  "usage": {
+    "completion_tokens": 24,
+    "prompt_tokens": 221,
+    "total_tokens": 245,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0
+    }
+  }
+}

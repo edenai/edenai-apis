@@ -15,7 +15,7 @@ class CorticalClient:
     def __init__(self, api_settings: Dict) -> None:
         self.api_settings = api_settings
         self.auth_headers = {"Authorization": self.api_settings.get("api_key")}
-        self.base_url = self.api_settings.get("base_url").rstrip('/')
+        self.base_url = self.api_settings.get("base_url").rstrip("/")
 
     def extract_keywords(self, text: str, language: str):
         """
@@ -31,10 +31,7 @@ class CorticalClient:
         response = requests.post(
             url=f"{self.base_url}/keywords",
             headers=self.auth_headers,
-            json={
-                "text": json.dumps(text),
-                "language": language
-            }
+            json={"text": json.dumps(text), "language": language},
         )
         return self._handle_response(response)
 
