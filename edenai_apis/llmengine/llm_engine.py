@@ -553,6 +553,7 @@ class LLMEngine:
             original_response=response.to_dict(),
             standardized_response=standardized_response,
             usage=response.usage,
+            cost=response.cost,
         )
 
     def moderation(self, text: str, **kwargs) -> ResponseType[ModerationDataClass]:
