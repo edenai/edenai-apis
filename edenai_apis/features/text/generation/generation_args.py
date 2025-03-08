@@ -12,6 +12,7 @@ def generation_arguments(provider_name: str):
             "mistral": "large-latest",
             "ai21labs": "j2-ultra",
             "meta": "llama3-1-70b-instruct-v1:0",
+            "tenstorrent": "tenstorrent/Meta-Llama-3.1-70B-Instruct",
             "xai": "grok-2-latest",
         },
     }
