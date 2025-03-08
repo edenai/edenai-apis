@@ -107,7 +107,7 @@ class DataleonApi(ProviderInterface, OcrInterface):
         return normalized_response
 
     def ocr__invoice_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
         with open(file, "rb") as file_:
             response = requests.post(
@@ -208,7 +208,7 @@ class DataleonApi(ProviderInterface, OcrInterface):
         return result
 
     def ocr__receipt_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[ReceiptParserDataClass]:
         with open(file, "rb") as file_:
             response = requests.post(
@@ -271,6 +271,7 @@ class DataleonApi(ProviderInterface, OcrInterface):
         document_type: str = "",
         file_url: str = "",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         if document_type == FinancialParserType.RECEIPT.value:
             url = self.url_receipt

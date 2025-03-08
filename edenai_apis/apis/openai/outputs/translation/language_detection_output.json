@@ -1,25 +1,42 @@
 {
   "original_response": {
-    "id": "chatcmpl-8O20GGzcSGTmwRzGodPa59wq31JCe",
+    "id": "chatcmpl-Ax8EwKdp6MkydibZWYRgvWqnrWOWR",
+    "created": 1738656390,
+    "model": "gpt-4o-2024-08-06",
     "object": "chat.completion",
-    "created": 1700738264,
-    "model": "gpt-3.5-turbo-1106",
+    "system_fingerprint": "fp_4691090a87",
     "choices": [
       {
+        "finish_reason": "stop",
         "index": 0,
         "message": {
+          "content": "{\n    \"items\": [\n        {\n            \"language\": \"it\",\n            \"display_name\": \"Italian\",\n            \"confidence\": 1.0\n        }\n    ]\n}",
           "role": "assistant",
-          "content": "{\n  \"items\": [\n    {\n      \"language\": \"it\",\n      \"display_name\": \"Italian\",\n      \"confidence\": 1.0\n    }\n  ]\n}"
-        },
-        "finish_reason": "stop"
+          "tool_calls": null,
+          "function_call": null,
+          "refusal": null
+        }
       }
     ],
+    "provider_time": 5588856579,
+    "edenai_time": null,
     "usage": {
-      "prompt_tokens": 332,
-      "completion_tokens": 37,
-      "total_tokens": 369
+      "completion_tokens": 38,
+      "prompt_tokens": 471,
+      "total_tokens": 509,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      }
     },
-    "system_fingerprint": "fp_eeff13170a"
+    "service_tier": "default",
+    "cost": 0.0015575000000000003
   },
   "standardized_response": {
     "items": [
@@ -29,5 +46,20 @@
         "confidence": 1.0
       }
     ]
+  },
+  "usage": {
+    "completion_tokens": 38,
+    "prompt_tokens": 471,
+    "total_tokens": 509,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0
+    }
   }
 }

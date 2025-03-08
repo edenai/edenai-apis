@@ -20,7 +20,8 @@ ERRORS: ProviderErrorLists = {
         r"\d*\S*Requested language code \w+ doesn't match the voice \w+ language code \w+. Either pick a different voice, or change the requested language code to \w+.",
         r"\d*\S*Target language can't be equal to source language. \w+",
         r"The language \w+ is not supported for \w+.",
-        r"\d*\S*Invalid SSML. Newer voices like \w+ require valid SSML" r"Wrong voice id",
+        r"\d*\S*Invalid SSML. Newer voices like \w+ require valid SSML"
+        r"Wrong voice id",
     ],
     ProviderInvalidInputTextLengthError: [
         r"\d*\S*Either `input\.text` or `input\.ssml` is longer than the limit of 5000 bytes",

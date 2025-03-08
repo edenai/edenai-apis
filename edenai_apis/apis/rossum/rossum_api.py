@@ -393,7 +393,7 @@ class RossumApi(ProviderInterface, OcrInterface):
         return InvoiceParserDataClass(extracted_data=extracted_data)
 
     def ocr__invoice_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
         with open(file, "rb") as file_:
             _, annotation_endpoint = self._upload(file_)

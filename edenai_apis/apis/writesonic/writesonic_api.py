@@ -28,7 +28,12 @@ class WritesonicApi(ProviderInterface, TextInterface):
         }
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: Optional[str] = None
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SummarizeDataClass]:
         url = f"https://api.writesonic.com/v2/business/content/summary?engine=premium&language={language}"
         payload = {
@@ -36,15 +41,15 @@ class WritesonicApi(ProviderInterface, TextInterface):
         }
 
         try:
-            response = requests.post(
-                url, json=payload, headers=self.headers
-            )
+            response = requests.post(url, json=payload, headers=self.headers)
             original_response = response.json()
         except json.JSONDecodeError as exc:
             raise ProviderException("Internal Server Error", code=500) from exc
 
         if "detail" in original_response:
-            raise ProviderException(original_response["detail"], code= response.status_code)
+            raise ProviderException(
+                original_response["detail"], code=response.status_code
+            )
 
         standardized_response = SummarizeDataClass(
             result=original_response[0].get("summary", {})

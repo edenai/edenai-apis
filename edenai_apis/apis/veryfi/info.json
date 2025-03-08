@@ -1,33 +1,36 @@
 {
-  "ocr": {
-    "invoice_parser": {
-      "constraints": {
-        "languages": [],
-        "allow_null_language": true
-      },
-      "version": "v8"
+    "ocr": {
+        "invoice_parser": {
+            "constraints": {
+                "languages": [],
+                "allow_null_language": true
+            },
+            "version": "v8"
+        },
+        "receipt_parser": {
+            "constraints": {
+                "languages": [],
+                "allow_null_language": true
+            },
+            "version": "v8"
+        },
+        "bank_check_parsing": {
+            "version": "v8"
+        },
+        "financial_parser": {
+            "constraints": {
+                "languages": [],
+                "allow_null_language": true,
+                "documents": [
+                    "receipt",
+                    "invoice"
+                ],
+                "allow_null_document_type": true
+            },
+            "version": "v8"
+        }
     },
-    "receipt_parser": {
-      "constraints": {
-        "languages": [],
-        "allow_null_language": true
-      },
-      "version": "v8"
-    },
-    "bank_check_parsing": {
-      "version": "v8"
-    },
-    "financial_parser": {
-      "constraints": {
-        "languages": [],
-        "allow_null_language": true,
-        "documents" : [
-          "receipt",
-          "invoice"
-        ],
-      "allow_null_document_type": true
-      },
-      "version": "v8"
+    "_metadata": {
+        "privacy_url": "https://www.veryfi.comprivacy/"
     }
-  }
 }

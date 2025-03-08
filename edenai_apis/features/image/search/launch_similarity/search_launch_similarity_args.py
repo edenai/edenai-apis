@@ -7,7 +7,6 @@ from pydub.utils import mediainfo
 from edenai_apis.utils.files import FileInfo, FileWrapper
 
 
-
 def search_launch_similarity_arguments(provider_name: str) -> Dict:
     feature_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 

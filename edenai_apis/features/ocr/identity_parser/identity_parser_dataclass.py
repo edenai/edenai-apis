@@ -6,13 +6,7 @@ from enum import Enum
 from typing import Any, List, Optional, Sequence, Union
 
 from dateutil import parser
-from pydantic import (
-    BaseModel,
-    Field,
-    StrictStr,
-    field_validator,
-    ValidationInfo
-)
+from pydantic import BaseModel, Field, StrictStr, field_validator, ValidationInfo
 
 
 def format_date(value: Any) -> Union[str, None]:
@@ -119,7 +113,9 @@ class InfosIdentityParserDataClass(BaseModel):
         try:
             datetime.datetime.strptime(value.value, "%Y-%m-%d")
         except ValueError:
-            logging.warning(f"Incorrect date format received on {info.field_name}, format should be YYYY-MM-DD. Got: {value.value}")
+            logging.warning(
+                f"Incorrect date format received on {info.field_name}, format should be YYYY-MM-DD. Got: {value.value}"
+            )
         return value
 
     @staticmethod

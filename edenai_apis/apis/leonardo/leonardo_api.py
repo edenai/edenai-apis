@@ -15,6 +15,7 @@ from edenai_apis.utils.types import ResponseType
 from .config import get_model_id_image
 from edenai_apis.utils.parsing import extract
 
+
 class LeonardoApi(ProviderInterface, ImageInterface):
     provider_name = "leonardo"
 
@@ -30,25 +31,19 @@ class LeonardoApi(ProviderInterface, ImageInterface):
         self.base_url = "https://cloud.leonardo.ai/api/rest/v1"
 
     @overload
-    def __get_response(
-        self, url: str, payload: dict
-    ) -> Generator: ...
+    def __get_response(self, url: str, payload: dict) -> Generator: ...
 
     @overload
-    def __get_response(
-        self, url: str, payload: dict
-    ) -> dict: ...
+    def __get_response(self, url: str, payload: dict) -> dict: ...
 
-    def __get_response(
-        self, url: str, payload: dict
-    ) -> Union[Generator, dict]:
+    def __get_response(self, url: str, payload: dict) -> Union[Generator, dict]:
         # Launch job
 
         try:
             launch_job_response = requests.post(url, headers=self.headers, json=payload)
         except requests.exceptions.RequestException as e:
             raise ProviderException(e)
-        
+
         try:
             launch_job_response_dict = launch_job_response.json()
         except requests.JSONDecodeError:
@@ -58,7 +53,7 @@ class LeonardoApi(ProviderInterface, ImageInterface):
         if launch_job_response.status_code != 200:
             raise ProviderException(
                 launch_job_response_dict.get("error", launch_job_response_dict),
-                code=launch_job_response.status_code
+                code=launch_job_response.status_code,
             )
 
         generation_id = launch_job_response_dict["sdGenerationJob"]["generationId"]
@@ -76,12 +71,12 @@ class LeonardoApi(ProviderInterface, ImageInterface):
             response_dict = response.json()
         except requests.JSONDecodeError:
             raise ProviderException(f"Invalid JSON response: {response.text}")
-        
+
         if response.status_code != 200:
             raise ProviderException(
                 response_dict.get("detail"), code=response.status_code
             )
-        
+
         status = response_dict["generations_by_pk"]["status"]
         while status != "COMPLETE":
             response = requests.get(url_get_response, headers=self.headers)
@@ -105,6 +100,7 @@ class LeonardoApi(ProviderInterface, ImageInterface):
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[GenerationDataClass]:
         size = resolution.split("x")
         payload = {
@@ -113,10 +109,10 @@ class LeonardoApi(ProviderInterface, ImageInterface):
             "height": int(size[1]),
             "modelId": get_model_id_image.get(model, model),
             "num_images": num_images,
-            "ultra": False,         # True == High quality, False == Low quality
-            "alchemy": False,       # True == Quality, False == Speed 
-            "contrast": 3.5,        # low contrast : 3, medium contrast : 3.5, high contrast : 4
-            "styleUUID": None
+            "ultra": False,  # True == High quality, False == Low quality
+            "alchemy": False,  # True == Quality, False == Speed
+            "contrast": 3.5,  # low contrast : 3, medium contrast : 3.5, high contrast : 4
+            "styleUUID": None,
         }
 
         url = f"{self.base_url}/generations"
@@ -124,7 +120,7 @@ class LeonardoApi(ProviderInterface, ImageInterface):
         response_dict = LeonardoApi.__get_response(self, url, payload)
         generation_by_pk = response_dict.get("generations_by_pk", {}) or {}
         generated_images = generation_by_pk.get("generated_images", []) or []
-        image_url = [image.get('url') for image in generated_images]
+        image_url = [image.get("url") for image in generated_images]
 
         generated_images = []
         if isinstance(image_url, list):

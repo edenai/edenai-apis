@@ -138,10 +138,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         return result
 
     def ocr__ocr(
-        self,
-        file: str,
-        language: str,
-        file_url: str = "",
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[OcrDataClass]:
         raise ProviderException(
             message="This provider is deprecated. You won't be charged for your call.",
@@ -149,12 +146,12 @@ class Base64Api(ProviderInterface, OcrInterface):
         )
 
     def ocr__invoice_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
         return self._ocr_finance_document(file, SubfeatureParser.INVOICE)
 
     def ocr__receipt_parser(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[ReceiptParserDataClass]:
         return self._ocr_finance_document(file, SubfeatureParser.RECEIPT)
 
@@ -165,6 +162,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         document_type: str = "",
         file_url: str = "",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         original_response = self._send_ocr_document(file, "finance/" + document_type)
 
@@ -175,7 +173,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         )
 
     def ocr__identity_parser(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
         with open(file, "rb") as file_:
             image_as_base64 = (
@@ -323,11 +321,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         )
 
     def image__face_compare(
-        self,
-        file1: str,
-        file2: str,
-        file1_url: str = "",
-        file2_url: str = "",
+        self, file1: str, file2: str, file1_url: str = "", file2_url: str = "", **kwargs
     ) -> ResponseType[FaceCompareDataClass]:
         url = "https://base64.ai/api/face"
 
@@ -377,7 +371,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         )
 
     def ocr__data_extraction(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[DataExtractionDataClass]:
         with open(file, "rb") as f_stream:
             image_as_base64 = (
@@ -424,7 +418,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         )
 
     def ocr__bank_check_parsing(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[BankCheckParsingDataClass]:
         with open(file, "rb") as fstream:
             image_as_base64 = (
@@ -472,7 +466,7 @@ class Base64Api(ProviderInterface, OcrInterface):
             )
 
     def ocr__anonymization_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         data_job_id = {}
         with open(file, "rb") as file_:

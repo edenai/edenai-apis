@@ -1,0 +1,55 @@
+{
+  "original_response": {
+    "id": "chatcmpl-1cc4a890-f013-43d4-b264-d6b539765763",
+    "created": 1738839788,
+    "model": "anthropic.claude-3-sonnet-20240229-v1:0",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "barack hussein obama, democratic party, african-american, united states, illinois",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null
+        }
+      }
+    ],
+    "provider_time": 3854215717,
+    "edenai_time": null,
+    "usage": {
+      "completion_tokens": 19,
+      "prompt_tokens": 236,
+      "total_tokens": 255,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    },
+    "cost": 0.000993
+  },
+  "standardized_response": {
+    "generated_text": "barack hussein obama, democratic party, african-american, united states, illinois",
+    "message": [
+      {
+        "role": "user",
+        "message": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004.",
+        "tools": null,
+        "tool_calls": null
+      },
+      {
+        "role": "assistant",
+        "message": "barack hussein obama, democratic party, african-american, united states, illinois",
+        "tools": null,
+        "tool_calls": []
+      }
+    ]
+  },
+  "usage": {
+    "completion_tokens": 19,
+    "prompt_tokens": 236,
+    "total_tokens": 255,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": null
+  }
+}

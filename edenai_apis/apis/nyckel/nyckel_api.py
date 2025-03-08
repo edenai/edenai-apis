@@ -110,7 +110,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
             error = "Please check your submited data for training/testing"
         raise ProviderException(error, response.status_code)
 
-    def image__search__create_project(self, project_name: str) -> str:
+    def image__search__create_project(self, project_name: str, **kwargs) -> str:
         """
         Search by image
         """
@@ -123,7 +123,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         return strip_nyckel_prefix(response.json()["id"])
 
     def image__search__upload_image(
-        self, file: str, image_name: str, project_id: str, file_url: str = ""
+        self, file: str, image_name: str, project_id: str, file_url: str = "", **kwargs
     ) -> ResponseType[SearchUploadImageDataClass]:
         self._refresh_session_auth_headers_if_needed()
 
@@ -150,7 +150,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         )
 
     def image__search__get_image(
-        self, image_name: str, project_id: str
+        self, image_name: str, project_id: str, **kwargs
     ) -> ResponseType[SearchGetImageDataClass]:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{project_id}/samples?externalId={image_name}"
@@ -178,7 +178,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         )
 
     def image__search__get_images(
-        self, project_id: str
+        self, project_id: str, **kwargs
     ) -> ResponseType[SearchGetImagesDataClass]:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{project_id}/samples?batchSize=1000"
@@ -196,7 +196,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         )
 
     def image__search__delete_image(
-        self, image_name: str, project_id: str
+        self, image_name: str, project_id: str, **kwargs
     ) -> ResponseType[SearchDeleteImageDataClass]:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{project_id}/samples?externalId={image_name}"
@@ -217,6 +217,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         file: Optional[str] = None,
         file_url: Optional[str] = None,
         n: int = 10,
+        **kwargs,
     ) -> ResponseType[SearchDataClass]:
         self._refresh_session_auth_headers_if_needed()
 
@@ -253,7 +254,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         )
 
     def image__automl_classification__create_project(
-        self, name: Optional[str] = None
+        self, name: Optional[str] = None, **kwargs
     ) -> ResponseType[AutomlClassificationCreateProjectDataClass]:
         self._refresh_session_auth_headers_if_needed()
         url = "https://www.nyckel.com/v1/functions"
@@ -278,7 +279,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         )
 
     def __image__automl_classification_delete_image(
-        self, project_id: str, picture_id: str
+        self, project_id: str, picture_id: str, **kwargs
     ):
         self._refresh_session_auth_headers_if_needed()
 
@@ -321,6 +322,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         type_of_data: str,
         file: str,
         file_url: str = "",
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{project_id}/samples"
@@ -380,7 +382,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         return AsyncLaunchJobResponseType(provider_job_id=job_id)
 
     def image__automl_classification__upload_data_async__get_job_result(
-        self, provider_job_id: str
+        self, provider_job_id: str, **kwargs
     ) -> AsyncBaseResponseType[AutomlClassificationUploadDataAsyncDataClass]:
         if not provider_job_id:
             raise ProviderException("Job id None or empty!")
@@ -423,12 +425,12 @@ class NyckelApi(ProviderInterface, ImageInterface):
         )
 
     def image__automl_classification__train_async__launch_job(
-        self, project_id: str
+        self, project_id: str, **kwargs
     ) -> AsyncLaunchJobResponseType:
         return AsyncLaunchJobResponseType(provider_job_id=project_id)
 
     def image__automl_classification__train_async__get_job_result(
-        self, provider_job_id: str
+        self, provider_job_id: str, **kwargs
     ) -> AsyncBaseResponseType[AutomlClassificationTrainAsyncDataClass]:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{provider_job_id}/samples"
@@ -478,7 +480,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         )
 
     def image__automl_classification__predict_async__launch_job(
-        self, project_id: str, file: str, file_url: str = ""
+        self, project_id: str, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{project_id}/invoke"
@@ -514,7 +516,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         )
 
     def image__automl_classification__delete_project(
-        self, project_id: str
+        self, project_id: str, **kwargs
     ) -> ResponseType[AutomlClassificationDeleteProjectDataClass]:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{project_id}"

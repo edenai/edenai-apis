@@ -59,6 +59,7 @@ class AmazonAudioApi(AudioInterface):
         speaking_pitch: int,
         speaking_volume: int,
         sampling_rate: int,
+        **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
         _, voice_id_name, engine = voice_id.split("_")
         engine = engine.lower()
@@ -193,6 +194,7 @@ class AmazonAudioApi(AudioInterface):
         model: Optional[str] = None,
         file_url: str = "",
         provider_params: Optional[dict] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes
@@ -367,6 +369,7 @@ class AmazonAudioApi(AudioInterface):
         speaking_volume: int,
         sampling_rate: int,
         file_url: str = "",
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         _, voice_id_name, engine = voice_id.split("_")
         engine = engine.lower()

@@ -64,5 +64,7 @@ from .voxist import VoxistApi
 from .winstonai import WinstonaiApi
 from .writesonic import WritesonicApi
 from .xai import XAiApi
+from .deepseek import DeepseekApi
+from .together_ai import TogetheraiApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

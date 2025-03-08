@@ -8,8 +8,6 @@ from edenai_apis.utils.files import FileInfo, FileWrapper
 from ..common_args import COLLECTION_ID
 
 
-
-
 def face_recognition_add_face_arguments(provider_name: str) -> Dict:
     feature_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 

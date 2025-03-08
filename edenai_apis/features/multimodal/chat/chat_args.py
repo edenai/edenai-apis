@@ -27,8 +27,12 @@ def chat_arguments(provider_name: str):
         "stream": False,
         "settings": {
             "openai": "gpt-4-turbo",
-            "anthropic": "claude-3-sonnet-20240229-v1:0",
+            "anthropic": "claude-3-5-sonnet-latest",
             "google": "gemini-1.5-flash",
+            "amazon": "anthropic.claude-3-5-sonnet-20240620-v1:0",
+            "mistral": "pixtral-large-latest",
+            "xai": "grok-2-vision-1212",
+            "microsoft": "gpt-4o",
         },
         "provider_params": {},
         "response_format": None,

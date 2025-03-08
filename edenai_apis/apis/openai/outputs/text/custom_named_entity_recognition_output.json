@@ -1,41 +1,59 @@
 {
   "original_response": {
-    "id": "cmpl-834L8MCs2zmq5MwcjXzhbXLYT44AQ",
-    "object": "text_completion",
-    "created": 1695742358,
-    "model": "gpt-3.5-turbo-instruct",
+    "id": "chatcmpl-AxrJBmp5KObfhXHCcrkZliWdjrjQL",
+    "created": 1738829633,
+    "model": "gpt-4o-2024-08-06",
+    "object": "chat.completion",
+    "system_fingerprint": "fp_50cad350e4",
     "choices": [
       {
-        "text": " {\n            \"items\":[\n                {\"entity\":\"John Smith\", \"category\":\"person\"},\n                {\"entity\":\"Starbucks\", \"category\":\"location\"},\n                {\"entity\":\"New York City\", \"category\":\"location\"},\n                {\"entity\":\"IBM\", \"category\":\"organization\"}\n                ]\n        }",
+        "finish_reason": "stop",
         "index": 0,
-        "logprobs": null,
-        "finish_reason": "stop"
+        "message": {
+          "content": "{\n    \"classifications\": [\n        {\n            \"input\": \"John Smith\",\n            \"label\": \"person\",\n            \"confidence\": 0.95\n        },\n        {\n            \"input\": \"Starbucks\",\n            \"label\": \"location\",\n            \"confidence\": 0.9\n        },\n        {\n            \"input\": \"New York City\",\n            \"label\": \"location\",\n            \"confidence\": 0.97\n        },\n        {\n            \"input\": \"IBM\",\n            \"label\": \"organization\",\n            \"confidence\": 0.96\n        }\n    ]\n}",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null,
+          "refusal": null
+        }
       }
     ],
+    "provider_time": 11565781132,
+    "edenai_time": null,
     "usage": {
-      "prompt_tokens": 199,
-      "completion_tokens": 58,
-      "total_tokens": 257
-    }
+      "completion_tokens": 123,
+      "prompt_tokens": 350,
+      "total_tokens": 473,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      }
+    },
+    "service_tier": "default",
+    "cost": 0.002105
   },
   "standardized_response": {
-    "items": [
-      {
-        "entity": "John Smith",
-        "category": "person"
-      },
-      {
-        "entity": "Starbucks",
-        "category": "location"
-      },
-      {
-        "entity": "New York City",
-        "category": "location"
-      },
-      {
-        "entity": "IBM",
-        "category": "organization"
-      }
-    ]
+    "items": []
+  },
+  "usage": {
+    "completion_tokens": 123,
+    "prompt_tokens": 350,
+    "total_tokens": 473,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0
+    }
   }
 }

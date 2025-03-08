@@ -1,8 +1,8 @@
 import base64
-from http import HTTPStatus
 import json
-from typing import Sequence, Optional, BinaryIO, Dict
+from typing import Sequence, Optional
 import numpy as np
+import mimetypes
 import requests
 from PIL import Image as Img, UnidentifiedImageError
 from google.cloud import vision
@@ -13,7 +13,6 @@ from edenai_apis.apis.google.google_helpers import (
     handle_google_call,
     score_to_content,
     get_access_token,
-    calculate_usage_tokens,
 )
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
@@ -69,7 +68,7 @@ class GoogleImageApi(ImageInterface):
         return values[value]
 
     def image__explicit_content(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
         with open(file, "rb") as file_:
             content = file_.read()
@@ -117,7 +116,7 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__object_detection(
-        self, file: str, model: str = None, file_url: str = ""
+        self, file: str, model: str = None, file_url: str = "", **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
         with open(file, "rb") as file_:
             image = vision.Image(content=file_.read())
@@ -159,7 +158,7 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__face_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[FaceDetectionDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -300,7 +299,7 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__landmark_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[LandmarkDetectionDataClass]:
         with open(file, "rb") as file_:
             content = file_.read()
@@ -349,7 +348,7 @@ class GoogleImageApi(ImageInterface):
         )
 
     def image__logo_detection(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[LogoDetectionDataClass]:
         with open(file, "rb") as file_:
             content = file_.read()
@@ -397,64 +396,21 @@ class GoogleImageApi(ImageInterface):
         model: Optional[str] = None,
         question: Optional[str] = None,
         settings: Optional[dict] = None,
+        **kwargs,
     ) -> ResponseType[QuestionAnswerDataClass]:
         with open(file, "rb") as fstream:
-            if question is None:
-                question = "Describe the image"
-            api_key = self.api_settings.get("genai_api_key")
-            base_url = "https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={api_key}"
-            url = base_url.format(model=model, api_key=api_key)
-            payload = {
-                "contents": {
-                    "role": "user",
-                    "parts": [
-                        {
-                            "text": question,
-                        },
-                        {
-                            "inlineData": {
-                                "data": base64.b64encode(fstream.read()).decode(
-                                    "utf-8"
-                                ),
-                                "mimeType": "image/png",
-                            }
-                        },
-                    ],
-                },
-                "generationConfig": {
-                    "candidateCount": 1,
-                    "temperature": temperature,
-                    "max_output_tokens": max_tokens,
-                },
-            }
-
-            response = requests.post(url, json=payload)
-
-            try:
-                original_response = response.json()
-            except json.JSONDecodeError as exc:
-                raise ProviderException(
-                    message="Internal Server Error",
-                    code=500,
-                ) from exc
-            if response.status_code >= HTTPStatus.BAD_REQUEST:
-                raise ProviderException(
-                    extract(original_response, ["error", "message"])
-                    or "Something went wrong when performing the request",
-                    code=extract(original_response, ["error", "code"])
-                    or HTTPStatus.BAD_REQUEST,
-                )
-            calculate_usage_tokens(original_response=original_response)
-            answer = original_response["candidates"][0]["content"]["parts"][0]["text"]
-
-            standardized_response = QuestionAnswerDataClass(
-                answers=[answer],
-            )
-
-            return ResponseType[QuestionAnswerDataClass](
-                original_response=original_response,
-                standardized_response=standardized_response,
-            )
+            file_content = fstream.read()
+            file_b64 = base64.b64encode(file_content).decode("utf-8")
+        mime_type = mimetypes.guess_type(file)[0]
+        image_data = f"data:{mime_type};base64,{file_b64}"
+        response = self.clients["llm_client"].image_qa(
+            image_data=image_data,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
+            question=question,
+        )
+        return response
 
     def image__embeddings(
         self,
@@ -463,6 +419,7 @@ class GoogleImageApi(ImageInterface):
         model: Optional[str] = "multimodalembedding@001",
         embedding_dimension: int = 1408,
         file_url: Optional[str] = "",
+        **kwargs,
     ) -> ResponseType[EmbeddingsDataClass]:
 
         token = get_access_token(self.location)

@@ -1,17 +1,14 @@
-from typing import List, Optional, Sequence
+from typing import List, Literal, Optional, Sequence, Union, Dict
 import json
 
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
-from edenai_apis.features.text import GenerationDataClass
+from edenai_apis.features.text import ChatDataClass, GenerationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
     AnonymizationEntity,
 )
 from edenai_apis.features.text.anonymization.category import CategoryType
-from edenai_apis.features.text.embeddings.embeddings_dataclass import (
-    EmbeddingsDataClass,
-    EmbeddingDataClass
-)
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatDataClass
 from edenai_apis.features.text.entity_sentiment.entities import Entities
 from edenai_apis.features.text.entity_sentiment.entity_sentiment_dataclass import (
     Entity,
@@ -39,7 +36,7 @@ from .config import tags
 
 class AmazonTextApi(TextInterface):
     def text__sentiment_analysis(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
         # Getting response
         payload = {"Text": text, "LanguageCode": language}
@@ -77,7 +74,7 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__keyword_extraction(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[KeywordExtractionDataClass]:
         # Getting response
         payload = {"Text": text, "LanguageCode": language}
@@ -101,7 +98,7 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__named_entity_recognition(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         # Getting response
         payload = {"Text": text, "LanguageCode": language}
@@ -124,7 +121,7 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__syntax_analysis(
-        self, language: str, text: str
+        self, language: str, text: str, **kwargs
     ) -> ResponseType[SyntaxAnalysisDataClass]:
         # Getting response
         payload = {"Text": text, "LanguageCode": language}
@@ -156,7 +153,7 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__anonymization(
-        self, text: str, language: str
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
         payload = {"Text": text, "LanguageCode": language}
         res = handle_amazon_call(self.clients["text"].detect_pii_entities, **payload)
@@ -189,7 +186,9 @@ class AmazonTextApi(TextInterface):
             original_response=res, standardized_response=standardized_response
         )
 
-    def text__entity_sentiment(self, text: str, language: str) -> ResponseType:
+    def text__entity_sentiment(
+        self, text: str, language: str, **kwargs
+    ) -> ResponseType:
         payload = {"Text": text, "LanguageCode": language}
         original_response = handle_amazon_call(
             self.clients["text"].detect_targeted_sentiment, **payload
@@ -214,11 +213,7 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__generation(
-        self,
-        text: str,
-        temperature: float,
-        max_tokens: int,
-        model: str,
+        self, text: str, temperature: float, max_tokens: int, model: str, **kwargs
     ) -> ResponseType[GenerationDataClass]:
         # Headers for the HTTP request
         accept_header = "application/json"
@@ -259,3 +254,32 @@ class AmazonTextApi(TextInterface):
             original_response=response_body,
             standardized_response=standardized_response,
         )
+
+    def text__chat(
+        self,
+        text: str,
+        chatbot_global_action: Optional[str] = None,
+        previous_history: Optional[List[Dict[str, str]]] = None,
+        temperature: float = 0.0,
+        max_tokens: int = 25,
+        model: Optional[str] = None,
+        stream: bool = False,
+        available_tools: Optional[List[dict]] = None,
+        tool_choice: Literal["auto", "required", "none"] = "auto",
+        tool_results: Optional[List[dict]] = None,
+        **kwargs,
+    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        response = self.llm_client.chat(
+            text=text,
+            previous_history=previous_history,
+            chatbot_global_action=chatbot_global_action,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
+            stream=stream,
+            available_tools=available_tools,
+            tool_choice=tool_choice,
+            tool_results=tool_results,
+            **kwargs,
+        )
+        return response

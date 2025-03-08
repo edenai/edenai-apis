@@ -8,8 +8,10 @@ from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import
     FinancialMerchantInformation,
     FinancialParserDataClass,
     FinancialParserObjectDataClass,
-    FinancialPaymentInformation
+    FinancialPaymentInformation,
 )
+
+
 def mindee_financial_parser(original_response: dict) -> FinancialParserDataClass:
     """
     Parses data obtained from the Mindee financial parser into a structured format.
@@ -30,14 +32,16 @@ def mindee_financial_parser(original_response: dict) -> FinancialParserDataClass
         for customer_info in customer_company_registrations:
             customer_type = customer_info.get("type", "")
             customer_registration_value = customer_info.get("value", "")
-            customer_infos.update({customer_type:customer_registration_value})
+            customer_infos.update({customer_type: customer_registration_value})
 
-        merchant_company_registrations = predictions.get("supplier_company_registrations", [])
+        merchant_company_registrations = predictions.get(
+            "supplier_company_registrations", []
+        )
         supplier_infos = {}
         for supplier_info in merchant_company_registrations:
             supplier_type = supplier_info.get("type", "")
             supplier_registration_value = supplier_info.get("value", "")
-            supplier_infos.update({supplier_type:supplier_registration_value})
+            supplier_infos.update({supplier_type: supplier_registration_value})
 
         customer_information = FinancialCustomerInformation(
             name=predictions.get("customer_name", {}).get("value"),
@@ -66,34 +70,36 @@ def mindee_financial_parser(original_response: dict) -> FinancialParserDataClass
             total_tax=predictions.get("total_tax", {}).get("value"),
             amount_tip=predictions.get("tip", {}).get("value"),
             total=predictions.get("total_amount", {}).get("value"),
-            subtotal=predictions.get("total_net", {}).get("value")
-
+            subtotal=predictions.get("total_net", {}).get("value"),
         )
         document_information = FinancialDocumentInformation(
             invoice_date=predictions.get("date", {}).get("value"),
             invoice_due_date=predictions.get("due_date", {}).get("value"),
             invoice_receipt_id=predictions.get("invoice_number", {}).get("value"),
-            time=predictions.get("time", {}).get("value")
+            time=predictions.get("time", {}).get("value"),
         )
         bank = FinancialBankInformation()
 
         local = FinancialLocalInformation(
             currency=predictions.get("local", {}).get("currency"),
-            language=predictions.get("local", {}).get("language")
+            language=predictions.get("local", {}).get("language"),
         )
         metadata = FinancialDocumentMetadata(
             document_type=predictions.get("document_type", {}).get("value"),
-            document_page_number=idx+1
+            document_page_number=idx + 1,
         )
-        items = [FinancialLineItem(
-            description=item.get("description"),
-            product_code=item.get("product_code"),
-            quantity=item.get("quantity"),
-            amount_line=item.get("total_amount"),
-            tax=item.get("tax_amount"),
-            tax_rate=item.get("tax_rate"),
-            unit_price=item.get("unit_price")
-        ) for item in predictions.get("line_items")]
+        items = [
+            FinancialLineItem(
+                description=item.get("description"),
+                product_code=item.get("product_code"),
+                quantity=item.get("quantity"),
+                amount_line=item.get("total_amount"),
+                tax=item.get("tax_amount"),
+                tax_rate=item.get("tax_rate"),
+                unit_price=item.get("unit_price"),
+            )
+            for item in predictions.get("line_items")
+        ]
 
         extracted_data.append(
             FinancialParserObjectDataClass(
@@ -104,7 +110,7 @@ def mindee_financial_parser(original_response: dict) -> FinancialParserDataClass
                 document_metadata=metadata,
                 financial_document_information=document_information,
                 payment_information=payment_information,
-                item_lines=items
+                item_lines=items,
             )
         )
     return FinancialParserDataClass(extracted_data=extracted_data)

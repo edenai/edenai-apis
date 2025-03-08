@@ -1,837 +1,856 @@
 {
-  "audio": {
-    "speech_to_text_async": {
-      "constraints": {
-        "languages": [
-          "af-ZA",
-          "ar-AE",
-          "ar-SA",
-          "zh-CN",
-          "zh-TW",
-          "da-DK",
-          "nl-NL",
-          "en-AU",
-          "en-GB",
-          "en-IN",
-          "en-IE",
-          "en-NZ",
-          "en-ZA",
-          "en-US",
-          "fr-FR",
-          "fr-CA",
-          "fa-IR",
-          "de-DE",
-          "de-CH",
-          "he-IL",
-          "hi-IN",
-          "id-ID",
-          "it-IT",
-          "ja-JP",
-          "ko-KR",
-          "ms-MY",
-          "pt-PT",
-          "pt-BR",
-          "ru-RU",
-          "es-ES",
-          "es-US",
-          "ta-IN",
-          "te-IN",
-          "th-TH",
-          "tr-TR"
-        ],
-        "file_extensions": [
-          "amr",
-          "flac",
-          "wav",
-          "ogg",
-          "mp3",
-          "mp4",
-          "webm"
-        ],
-        "allow_null_language": true
-      },
-      "version": "boto3 (v1.15.18)"
-    },
-    "text_to_speech": {
-      "constraints": {
-        "languages": [
-          "arb",
-          "en-US",
-          "fr-FR",
-          "es-ES",
-          "de-DE",
-          "en-GB",
-          "nl-NL",
-          "it-IT",
-          "ja-JP",
-          "cmn-CN",
-          "ru-RU",
-          "pt-BR",
-          "da-DK",
-          "ko-KR",
-          "pt-PT",
-          "en-AU",
-          "en-IN",
-          "hi-IN",
-          "is-IS",
-          "nb-NO",
-          "pl-PL",
-          "ro-RO",
-          "es-MX",
-          "es-US",
-          "sv-SE",
-          "tr-TR",
-          "cy-GB"
-        ],
-        "audio_format": [
-          "mp3",
-          "ogg",
-          "pcm"
-        ],
-        "voice_ids": {
-          "MALE": [
-            "da-DK_Mads_Standard",
-            "nl-NL_Ruben_Standard",
-            "en-AU_Russell_Neural",
-            "en-GB_Brian_Standard",
-            "en-GB_Brian_Neural",
-            "en-GB_Arthur_Neural",
-            "en-US_Joey_Standard",
-            "en-US_Joey_Neural",
-            "en-US_Justin_Standard",
-            "en-US_Justin_Neural",
-            "en-US_Kevin_Neural",
-            "en-US_Matthew_Standard",
-            "en-US_Matthew_Neural",
-            "en-US_Stephen_Neural",
-            "fr-FR_Mathieu_Standard",
-            "fr-FR_Remi_Neural",
-            "fr-CA_Liam_Neural",
-            "de-DE_Hans_Standard",
-            "is-IS_Karl_Standard",
-            "de-DE_Daniel_Neural",
-            "is-IS_Karl_Neural",
-            "it-IT_Giorgio_Standard",
-            "it-IT_Adriano_Neural",
-            "ja-JP_Takumi_Standard",
-            "ja-JP_Takumi_Neural",
-            "pl-PL_Jacek_Standard",
-            "pl-PL_Jan_Standard",
-            "pt-BR_Ricardo_Standard",
-            "pt-BR_Thiago_Neural",
-            "pt-PT_Cristiano_Standard",
-            "ru-RU_Maxim_Standard",
-            "es-ES_Enrique_Standard",
-            "es-ES_Sergio_Neural",
-            "es-MX_Andres_Neural",
-            "es-US_Miguel_Standard",
-            "es-US_Pedro_Neural"
-          ],
-          "FEMALE": [
-            "arb_Zeina_Standard",
-            "ar-AE_Hala_Neural",
-            "ca-ES_Arlet_Neural",
-            "yue-CN_Hiujin_Neural",
-            "cmn-CN_Zhiyu_Standard",
-            "cmn-CN_Zhiyu_Neural",
-            "da-DK_Naja_Standard",
-            "nl-NL_Laura_Neural",
-            "nl-NL_Lotte_Standard",
-            "en-AU_Nicole_Neural",
-            "en-AU_Olivia_Standard",
-            "en-GB_Amy_Standard",
-            "en-GB_Amy_Neural",
-            "en-GB_Emma_Standard",
-            "en-GB_Emma_Neural",
-            "en-IN_Aditi_Standard",
-            "en-IN_Raveena_Standard",
-            "en-IN_Kajal_Neural",
-            "en-NZ_Aria_Neural",
-            "en-ZA_Ayanda_Neural",
-            "en-US_Ivy_Standard",
-            "en-US_Ivy_Neural",
-            "en-US_Joanna_Standard",
-            "en-US_Joanna_Neural",
-            "en-US_Kendra_Standard",
-            "en-US_Kendra_Neural",
-            "en-US_Kimberly_Standard",
-            "en-US_Kimberly_Neural",
-            "en-US_Salli_Standard",
-            "en-US_Salli_Neural",
-            "en-US_Ruth_Neural",
-            "fi-FI_Suvi_Neural",
-            "fr-FR_Celine_Standard",
-            "fr-FR_Lea_Standard",
-            "fr-FR_Lea_Neural",
-            "fr-CA_Chantal_Standard",
-            "fr-CA_Gabrielle_Neural",
-            "de-DE_Marlene_Standard",
-            "de-DE_Vicki_Standard",
-            "de-DE_Vicki_Neural",
-            "de-AT_Hannah_Neural",
-            "hi-IN_Aditi_Standard",
-            "hi-IN_Kajal_Neural",
-            "is-IS_Dora_Standard",
-            "it-IT_Carla_Standard",
-            "it-IT_Bianca_Standard",
-            "it-IT_Bianca_Neural",
-            "ja-JP_Mizuki_Standard",
-            "ja-JP_Kazuha_Neural",
-            "ja-JP_Tomoko_Neural",
-            "ko-KR_Seoyeon_Standard",
-            "ko-KR_Seoyeon_Neural",
-            "nb-NO_Liv_Standard",
-            "pl-PL_Ewa_Standard",
-            "pl-PL_Maja_Standard",
-            "pl-PL_Ola_Neural",
-            "pt-BR_Camila_Standard",
-            "pt-BR_Camila_Neural",
-            "pt-BR_Vitoria_Standard",
-            "pt-BR_Vitoria_Neural",
-            "pt-PT_Ines_Standard",
-            "pt-PT_Ines_Neural",
-            "ro-RO_Carmen_Standard",
-            "ru-RU_Tatyana_Standard",
-            "es-ES_Conchita_Standard",
-            "es-ES_Lucia_Standard",
-            "es-ES_Lucia_Neural",
-            "es-MX_Mia_Standard",
-            "es-MX_Mia_Neural",
-            "es-US_Lupe_Standard",
-            "es-US_Lupe_Neural",
-            "es-US_Penelope_Standard",
-            "sv-SE_Astrid_Standard",
-            "sv-SE_Elin_Neural",
-            "tr-TR_Filiz_Standard",
-            "cy-GB_Gwyneth_Standard"
-          ]
+    "audio": {
+        "speech_to_text_async": {
+            "constraints": {
+                "languages": [
+                    "af-ZA",
+                    "ar-AE",
+                    "ar-SA",
+                    "zh-CN",
+                    "zh-TW",
+                    "da-DK",
+                    "nl-NL",
+                    "en-AU",
+                    "en-GB",
+                    "en-IN",
+                    "en-IE",
+                    "en-NZ",
+                    "en-ZA",
+                    "en-US",
+                    "fr-FR",
+                    "fr-CA",
+                    "fa-IR",
+                    "de-DE",
+                    "de-CH",
+                    "he-IL",
+                    "hi-IN",
+                    "id-ID",
+                    "it-IT",
+                    "ja-JP",
+                    "ko-KR",
+                    "ms-MY",
+                    "pt-PT",
+                    "pt-BR",
+                    "ru-RU",
+                    "es-ES",
+                    "es-US",
+                    "ta-IN",
+                    "te-IN",
+                    "th-TH",
+                    "tr-TR"
+                ],
+                "file_extensions": [
+                    "amr",
+                    "flac",
+                    "wav",
+                    "ogg",
+                    "mp3",
+                    "mp4",
+                    "webm"
+                ],
+                "allow_null_language": true
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "text_to_speech": {
+            "constraints": {
+                "languages": [
+                    "arb",
+                    "en-US",
+                    "fr-FR",
+                    "es-ES",
+                    "de-DE",
+                    "en-GB",
+                    "nl-NL",
+                    "it-IT",
+                    "ja-JP",
+                    "cmn-CN",
+                    "ru-RU",
+                    "pt-BR",
+                    "da-DK",
+                    "ko-KR",
+                    "pt-PT",
+                    "en-AU",
+                    "en-IN",
+                    "hi-IN",
+                    "is-IS",
+                    "nb-NO",
+                    "pl-PL",
+                    "ro-RO",
+                    "es-MX",
+                    "es-US",
+                    "sv-SE",
+                    "tr-TR",
+                    "cy-GB"
+                ],
+                "audio_format": [
+                    "mp3",
+                    "ogg",
+                    "pcm"
+                ],
+                "voice_ids": {
+                    "MALE": [
+                        "da-DK_Mads_Standard",
+                        "nl-NL_Ruben_Standard",
+                        "en-AU_Russell_Neural",
+                        "en-GB_Brian_Standard",
+                        "en-GB_Brian_Neural",
+                        "en-GB_Arthur_Neural",
+                        "en-US_Joey_Standard",
+                        "en-US_Joey_Neural",
+                        "en-US_Justin_Standard",
+                        "en-US_Justin_Neural",
+                        "en-US_Kevin_Neural",
+                        "en-US_Matthew_Standard",
+                        "en-US_Matthew_Neural",
+                        "en-US_Stephen_Neural",
+                        "fr-FR_Mathieu_Standard",
+                        "fr-FR_Remi_Neural",
+                        "fr-CA_Liam_Neural",
+                        "de-DE_Hans_Standard",
+                        "is-IS_Karl_Standard",
+                        "de-DE_Daniel_Neural",
+                        "is-IS_Karl_Neural",
+                        "it-IT_Giorgio_Standard",
+                        "it-IT_Adriano_Neural",
+                        "ja-JP_Takumi_Standard",
+                        "ja-JP_Takumi_Neural",
+                        "pl-PL_Jacek_Standard",
+                        "pl-PL_Jan_Standard",
+                        "pt-BR_Ricardo_Standard",
+                        "pt-BR_Thiago_Neural",
+                        "pt-PT_Cristiano_Standard",
+                        "ru-RU_Maxim_Standard",
+                        "es-ES_Enrique_Standard",
+                        "es-ES_Sergio_Neural",
+                        "es-MX_Andres_Neural",
+                        "es-US_Miguel_Standard",
+                        "es-US_Pedro_Neural"
+                    ],
+                    "FEMALE": [
+                        "arb_Zeina_Standard",
+                        "ar-AE_Hala_Neural",
+                        "ca-ES_Arlet_Neural",
+                        "yue-CN_Hiujin_Neural",
+                        "cmn-CN_Zhiyu_Standard",
+                        "cmn-CN_Zhiyu_Neural",
+                        "da-DK_Naja_Standard",
+                        "nl-NL_Laura_Neural",
+                        "nl-NL_Lotte_Standard",
+                        "en-AU_Nicole_Neural",
+                        "en-AU_Olivia_Standard",
+                        "en-GB_Amy_Standard",
+                        "en-GB_Amy_Neural",
+                        "en-GB_Emma_Standard",
+                        "en-GB_Emma_Neural",
+                        "en-IN_Aditi_Standard",
+                        "en-IN_Raveena_Standard",
+                        "en-IN_Kajal_Neural",
+                        "en-NZ_Aria_Neural",
+                        "en-ZA_Ayanda_Neural",
+                        "en-US_Ivy_Standard",
+                        "en-US_Ivy_Neural",
+                        "en-US_Joanna_Standard",
+                        "en-US_Joanna_Neural",
+                        "en-US_Kendra_Standard",
+                        "en-US_Kendra_Neural",
+                        "en-US_Kimberly_Standard",
+                        "en-US_Kimberly_Neural",
+                        "en-US_Salli_Standard",
+                        "en-US_Salli_Neural",
+                        "en-US_Ruth_Neural",
+                        "fi-FI_Suvi_Neural",
+                        "fr-FR_Celine_Standard",
+                        "fr-FR_Lea_Standard",
+                        "fr-FR_Lea_Neural",
+                        "fr-CA_Chantal_Standard",
+                        "fr-CA_Gabrielle_Neural",
+                        "de-DE_Marlene_Standard",
+                        "de-DE_Vicki_Standard",
+                        "de-DE_Vicki_Neural",
+                        "de-AT_Hannah_Neural",
+                        "hi-IN_Aditi_Standard",
+                        "hi-IN_Kajal_Neural",
+                        "is-IS_Dora_Standard",
+                        "it-IT_Carla_Standard",
+                        "it-IT_Bianca_Standard",
+                        "it-IT_Bianca_Neural",
+                        "ja-JP_Mizuki_Standard",
+                        "ja-JP_Kazuha_Neural",
+                        "ja-JP_Tomoko_Neural",
+                        "ko-KR_Seoyeon_Standard",
+                        "ko-KR_Seoyeon_Neural",
+                        "nb-NO_Liv_Standard",
+                        "pl-PL_Ewa_Standard",
+                        "pl-PL_Maja_Standard",
+                        "pl-PL_Ola_Neural",
+                        "pt-BR_Camila_Standard",
+                        "pt-BR_Camila_Neural",
+                        "pt-BR_Vitoria_Standard",
+                        "pt-BR_Vitoria_Neural",
+                        "pt-PT_Ines_Standard",
+                        "pt-PT_Ines_Neural",
+                        "ro-RO_Carmen_Standard",
+                        "ru-RU_Tatyana_Standard",
+                        "es-ES_Conchita_Standard",
+                        "es-ES_Lucia_Standard",
+                        "es-ES_Lucia_Neural",
+                        "es-MX_Mia_Standard",
+                        "es-MX_Mia_Neural",
+                        "es-US_Lupe_Standard",
+                        "es-US_Lupe_Neural",
+                        "es-US_Penelope_Standard",
+                        "sv-SE_Astrid_Standard",
+                        "sv-SE_Elin_Neural",
+                        "tr-TR_Filiz_Standard",
+                        "cy-GB_Gwyneth_Standard"
+                    ]
+                }
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "text_to_speech_async": {
+            "constraints": {
+                "languages": [
+                    "arb",
+                    "en-US",
+                    "fr-FR",
+                    "es-ES",
+                    "de-DE",
+                    "en-GB",
+                    "nl-NL",
+                    "it-IT",
+                    "ja-JP",
+                    "cmn-CN",
+                    "ru-RU",
+                    "pt-BR",
+                    "da-DK",
+                    "ko-KR",
+                    "pt-PT",
+                    "en-AU",
+                    "en-IN",
+                    "hi-IN",
+                    "is-IS",
+                    "nb-NO",
+                    "pl-PL",
+                    "ro-RO",
+                    "es-MX",
+                    "es-US",
+                    "sv-SE",
+                    "tr-TR",
+                    "cy-GB"
+                ],
+                "audio_format": [
+                    "mp3",
+                    "ogg",
+                    "pcm"
+                ],
+                "voice_ids": {
+                    "MALE": [
+                        "da-DK_Mads_Standard",
+                        "nl-NL_Ruben_Standard",
+                        "en-AU_Russell_Neural",
+                        "en-GB_Brian_Standard",
+                        "en-GB_Brian_Neural",
+                        "en-GB_Arthur_Neural",
+                        "en-US_Joey_Standard",
+                        "en-US_Joey_Neural",
+                        "en-US_Justin_Standard",
+                        "en-US_Justin_Neural",
+                        "en-US_Kevin_Neural",
+                        "en-US_Matthew_Standard",
+                        "en-US_Matthew_Neural",
+                        "en-US_Stephen_Neural",
+                        "fr-FR_Mathieu_Standard",
+                        "fr-FR_Remi_Neural",
+                        "fr-CA_Liam_Neural",
+                        "de-DE_Hans_Standard",
+                        "is-IS_Karl_Standard",
+                        "de-DE_Daniel_Neural",
+                        "is-IS_Karl_Neural",
+                        "it-IT_Giorgio_Standard",
+                        "it-IT_Adriano_Neural",
+                        "ja-JP_Takumi_Standard",
+                        "ja-JP_Takumi_Neural",
+                        "pl-PL_Jacek_Standard",
+                        "pl-PL_Jan_Standard",
+                        "pt-BR_Ricardo_Standard",
+                        "pt-BR_Thiago_Neural",
+                        "pt-PT_Cristiano_Standard",
+                        "ru-RU_Maxim_Standard",
+                        "es-ES_Enrique_Standard",
+                        "es-ES_Sergio_Neural",
+                        "es-MX_Andres_Neural",
+                        "es-US_Miguel_Standard",
+                        "es-US_Pedro_Neural"
+                    ],
+                    "FEMALE": [
+                        "arb_Zeina_Standard",
+                        "ar-AE_Hala_Neural",
+                        "ca-ES_Arlet_Neural",
+                        "yue-CN_Hiujin_Neural",
+                        "cmn-CN_Zhiyu_Standard",
+                        "cmn-CN_Zhiyu_Neural",
+                        "da-DK_Naja_Standard",
+                        "nl-NL_Laura_Neural",
+                        "nl-NL_Lotte_Standard",
+                        "en-AU_Nicole_Neural",
+                        "en-AU_Olivia_Standard",
+                        "en-GB_Amy_Standard",
+                        "en-GB_Amy_Neural",
+                        "en-GB_Emma_Standard",
+                        "en-GB_Emma_Neural",
+                        "en-IN_Aditi_Standard",
+                        "en-IN_Raveena_Standard",
+                        "en-IN_Kajal_Neural",
+                        "en-NZ_Aria_Neural",
+                        "en-ZA_Ayanda_Neural",
+                        "en-US_Ivy_Standard",
+                        "en-US_Ivy_Neural",
+                        "en-US_Joanna_Standard",
+                        "en-US_Joanna_Neural",
+                        "en-US_Kendra_Standard",
+                        "en-US_Kendra_Neural",
+                        "en-US_Kimberly_Standard",
+                        "en-US_Kimberly_Neural",
+                        "en-US_Salli_Standard",
+                        "en-US_Salli_Neural",
+                        "en-US_Ruth_Neural",
+                        "fi-FI_Suvi_Neural",
+                        "fr-FR_Celine_Standard",
+                        "fr-FR_Lea_Standard",
+                        "fr-FR_Lea_Neural",
+                        "fr-CA_Chantal_Standard",
+                        "fr-CA_Gabrielle_Neural",
+                        "de-DE_Marlene_Standard",
+                        "de-DE_Vicki_Standard",
+                        "de-DE_Vicki_Neural",
+                        "de-AT_Hannah_Neural",
+                        "hi-IN_Aditi_Standard",
+                        "hi-IN_Kajal_Neural",
+                        "is-IS_Dora_Standard",
+                        "it-IT_Carla_Standard",
+                        "it-IT_Bianca_Standard",
+                        "it-IT_Bianca_Neural",
+                        "ja-JP_Mizuki_Standard",
+                        "ja-JP_Kazuha_Neural",
+                        "ja-JP_Tomoko_Neural",
+                        "ko-KR_Seoyeon_Standard",
+                        "ko-KR_Seoyeon_Neural",
+                        "nb-NO_Liv_Standard",
+                        "pl-PL_Ewa_Standard",
+                        "pl-PL_Maja_Standard",
+                        "pl-PL_Ola_Neural",
+                        "pt-BR_Camila_Standard",
+                        "pt-BR_Camila_Neural",
+                        "pt-BR_Vitoria_Standard",
+                        "pt-BR_Vitoria_Neural",
+                        "pt-PT_Ines_Standard",
+                        "pt-PT_Ines_Neural",
+                        "ro-RO_Carmen_Standard",
+                        "ru-RU_Tatyana_Standard",
+                        "es-ES_Conchita_Standard",
+                        "es-ES_Lucia_Standard",
+                        "es-ES_Lucia_Neural",
+                        "es-MX_Mia_Standard",
+                        "es-MX_Mia_Neural",
+                        "es-US_Lupe_Standard",
+                        "es-US_Lupe_Neural",
+                        "es-US_Penelope_Standard",
+                        "sv-SE_Astrid_Standard",
+                        "sv-SE_Elin_Neural",
+                        "tr-TR_Filiz_Standard",
+                        "cy-GB_Gwyneth_Standard"
+                    ]
+                }
+            },
+            "version": "boto3 (v1.15.18)"
         }
-      },
-      "version": "boto3 (v1.15.18)"
     },
-    "text_to_speech_async": {
-      "constraints": {
-        "languages": [
-          "arb",
-          "en-US",
-          "fr-FR",
-          "es-ES",
-          "de-DE",
-          "en-GB",
-          "nl-NL",
-          "it-IT",
-          "ja-JP",
-          "cmn-CN",
-          "ru-RU",
-          "pt-BR",
-          "da-DK",
-          "ko-KR",
-          "pt-PT",
-          "en-AU",
-          "en-IN",
-          "hi-IN",
-          "is-IS",
-          "nb-NO",
-          "pl-PL",
-          "ro-RO",
-          "es-MX",
-          "es-US",
-          "sv-SE",
-          "tr-TR",
-          "cy-GB"
-        ],
-        "audio_format": [
-          "mp3",
-          "ogg",
-          "pcm"
-        ],
-        "voice_ids": {
-          "MALE": [
-            "da-DK_Mads_Standard",
-            "nl-NL_Ruben_Standard",
-            "en-AU_Russell_Neural",
-            "en-GB_Brian_Standard",
-            "en-GB_Brian_Neural",
-            "en-GB_Arthur_Neural",
-            "en-US_Joey_Standard",
-            "en-US_Joey_Neural",
-            "en-US_Justin_Standard",
-            "en-US_Justin_Neural",
-            "en-US_Kevin_Neural",
-            "en-US_Matthew_Standard",
-            "en-US_Matthew_Neural",
-            "en-US_Stephen_Neural",
-            "fr-FR_Mathieu_Standard",
-            "fr-FR_Remi_Neural",
-            "fr-CA_Liam_Neural",
-            "de-DE_Hans_Standard",
-            "is-IS_Karl_Standard",
-            "de-DE_Daniel_Neural",
-            "is-IS_Karl_Neural",
-            "it-IT_Giorgio_Standard",
-            "it-IT_Adriano_Neural",
-            "ja-JP_Takumi_Standard",
-            "ja-JP_Takumi_Neural",
-            "pl-PL_Jacek_Standard",
-            "pl-PL_Jan_Standard",
-            "pt-BR_Ricardo_Standard",
-            "pt-BR_Thiago_Neural",
-            "pt-PT_Cristiano_Standard",
-            "ru-RU_Maxim_Standard",
-            "es-ES_Enrique_Standard",
-            "es-ES_Sergio_Neural",
-            "es-MX_Andres_Neural",
-            "es-US_Miguel_Standard",
-            "es-US_Pedro_Neural"
-          ],
-          "FEMALE": [
-            "arb_Zeina_Standard",
-            "ar-AE_Hala_Neural",
-            "ca-ES_Arlet_Neural",
-            "yue-CN_Hiujin_Neural",
-            "cmn-CN_Zhiyu_Standard",
-            "cmn-CN_Zhiyu_Neural",
-            "da-DK_Naja_Standard",
-            "nl-NL_Laura_Neural",
-            "nl-NL_Lotte_Standard",
-            "en-AU_Nicole_Neural",
-            "en-AU_Olivia_Standard",
-            "en-GB_Amy_Standard",
-            "en-GB_Amy_Neural",
-            "en-GB_Emma_Standard",
-            "en-GB_Emma_Neural",
-            "en-IN_Aditi_Standard",
-            "en-IN_Raveena_Standard",
-            "en-IN_Kajal_Neural",
-            "en-NZ_Aria_Neural",
-            "en-ZA_Ayanda_Neural",
-            "en-US_Ivy_Standard",
-            "en-US_Ivy_Neural",
-            "en-US_Joanna_Standard",
-            "en-US_Joanna_Neural",
-            "en-US_Kendra_Standard",
-            "en-US_Kendra_Neural",
-            "en-US_Kimberly_Standard",
-            "en-US_Kimberly_Neural",
-            "en-US_Salli_Standard",
-            "en-US_Salli_Neural",
-            "en-US_Ruth_Neural",
-            "fi-FI_Suvi_Neural",
-            "fr-FR_Celine_Standard",
-            "fr-FR_Lea_Standard",
-            "fr-FR_Lea_Neural",
-            "fr-CA_Chantal_Standard",
-            "fr-CA_Gabrielle_Neural",
-            "de-DE_Marlene_Standard",
-            "de-DE_Vicki_Standard",
-            "de-DE_Vicki_Neural",
-            "de-AT_Hannah_Neural",
-            "hi-IN_Aditi_Standard",
-            "hi-IN_Kajal_Neural",
-            "is-IS_Dora_Standard",
-            "it-IT_Carla_Standard",
-            "it-IT_Bianca_Standard",
-            "it-IT_Bianca_Neural",
-            "ja-JP_Mizuki_Standard",
-            "ja-JP_Kazuha_Neural",
-            "ja-JP_Tomoko_Neural",
-            "ko-KR_Seoyeon_Standard",
-            "ko-KR_Seoyeon_Neural",
-            "nb-NO_Liv_Standard",
-            "pl-PL_Ewa_Standard",
-            "pl-PL_Maja_Standard",
-            "pl-PL_Ola_Neural",
-            "pt-BR_Camila_Standard",
-            "pt-BR_Camila_Neural",
-            "pt-BR_Vitoria_Standard",
-            "pt-BR_Vitoria_Neural",
-            "pt-PT_Ines_Standard",
-            "pt-PT_Ines_Neural",
-            "ro-RO_Carmen_Standard",
-            "ru-RU_Tatyana_Standard",
-            "es-ES_Conchita_Standard",
-            "es-ES_Lucia_Standard",
-            "es-ES_Lucia_Neural",
-            "es-MX_Mia_Standard",
-            "es-MX_Mia_Neural",
-            "es-US_Lupe_Standard",
-            "es-US_Lupe_Neural",
-            "es-US_Penelope_Standard",
-            "sv-SE_Astrid_Standard",
-            "sv-SE_Elin_Neural",
-            "tr-TR_Filiz_Standard",
-            "cy-GB_Gwyneth_Standard"
-          ]
-        }
-      },
-      "version": "boto3 (v1.15.18)"
-    }
-  },
-  "ocr": {
     "ocr": {
-      "constraints": {
-        "file_types": [
-          "image/jpeg",
-          "image/png",
-          "application/pdf",
-          "image/tiff"
-        ],
-        "languages": [
-          "en",
-          "es",
-          "it",
-          "pt",
-          "fr",
-          "de"
-        ],
-        "allow_null_language": true
-      },
-      "version": "boto3 (v1.15.18)"
+        "ocr": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "application/pdf",
+                    "image/tiff"
+                ],
+                "languages": [
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "de"
+                ],
+                "allow_null_language": true
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "data_extraction": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "application/pdf",
+                    "image/tiff"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "ocr_async": {
+            "constraints": {
+                "file_types": [
+                    "application/pdf",
+                    "image/tiff"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "ocr_tables_async": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "application/pdf",
+                    "image/tiff"
+                ],
+                "languages": [
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "de"
+                ],
+                "allow_null_language": true
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "identity_parser": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "image/webp",
+                    "application/pdf",
+                    "image/tiff"
+                ],
+                "languages": [
+                    "en-US",
+                    "fr-FR",
+                    "es-ES",
+                    "de-DE",
+                    "it-IT",
+                    "pt-PT"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "custom_document_parsing_async": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "application/pdf",
+                    "image/tiff"
+                ],
+                "languages": [
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "de"
+                ]
+            },
+            "version": "boto3 1.26.8"
+        },
+        "invoice_parser": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "application/pdf",
+                    "image/tiff"
+                ],
+                "languages": [
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "de"
+                ]
+            },
+            "version": "boto3 1.26.8"
+        },
+        "receipt_parser": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "application/pdf",
+                    "image/tiff"
+                ],
+                "languages": [
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "de"
+                ]
+            },
+            "version": "boto3 1.26.8"
+        },
+        "financial_parser": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "application/pdf",
+                    "image/tiff"
+                ],
+                "languages": [
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "de"
+                ],
+                "documents": [
+                    "receipt",
+                    "invoice"
+                ],
+                "allow_null_document_type": true
+            },
+            "version": "boto3 1.26.8"
+        }
     },
-    "data_extraction": {
-      "constraints": {
-        "file_types": [
-          "image/jpeg",
-          "image/png",
-          "application/pdf",
-          "image/tiff"
-        ]
-      },
-      "version": "boto3 (v1.15.18)"
+    "text": {
+        "entity_sentiment": {
+            "constraints": {
+                "languages": [
+                    "en"
+                ]
+            },
+            "version": "boto3 1.26.8"
+        },
+        "keyword_extraction": {
+            "constraints": {
+                "languages": [
+                    "de",
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "ja",
+                    "ko",
+                    "hi",
+                    "ar",
+                    "zh",
+                    "zh-TW"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "named_entity_recognition": {
+            "constraints": {
+                "languages": [
+                    "de",
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "ja",
+                    "ko",
+                    "hi",
+                    "ar",
+                    "zh",
+                    "zh-TW"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "sentiment_analysis": {
+            "constraints": {
+                "languages": [
+                    "de",
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "ja",
+                    "ko",
+                    "hi",
+                    "ar",
+                    "zh",
+                    "zh-TW"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "syntax_analysis": {
+            "constraints": {
+                "languages": [
+                    "de",
+                    "en",
+                    "es",
+                    "it",
+                    "pt",
+                    "fr",
+                    "ja",
+                    "ko",
+                    "hi",
+                    "ar",
+                    "zh",
+                    "zh-TW"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "anonymization": {
+            "constraints": {
+                "languages": [
+                    "en"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "generation": {
+            "constraints": {
+                "models": [
+                    "titan-tg1-large",
+                    "titan-text-lite-v1",
+                    "titan-text-express-v1"
+                ],
+                "default_model": "titan-tg1-large"
+            },
+            "version": "v1"
+        },
+        "chat": {
+            "version": "boto3 (v1.29.6)"
+        }
     },
-    "ocr_async": {
-      "constraints": {
-        "file_types": [
-          "application/pdf",
-          "image/tiff"
-        ]
-      },
-      "version": "boto3 (v1.15.18)"
+    "translation": {
+        "automatic_translation": {
+            "constraints": {
+                "languages": [
+                    "af",
+                    "sq",
+                    "am",
+                    "ar",
+                    "hy",
+                    "az",
+                    "bn",
+                    "bs",
+                    "bg",
+                    "ca",
+                    "zh",
+                    "zh-TW",
+                    "hr",
+                    "cs",
+                    "da",
+                    "fa-AF",
+                    "nl",
+                    "en",
+                    "et",
+                    "fa",
+                    "tl",
+                    "fi",
+                    "fr",
+                    "fr-CA",
+                    "ka",
+                    "de",
+                    "el",
+                    "gu",
+                    "ht",
+                    "ha",
+                    "he",
+                    "hi",
+                    "hu",
+                    "is",
+                    "id",
+                    "ga",
+                    "it",
+                    "ja",
+                    "kn",
+                    "kk",
+                    "ko",
+                    "lv",
+                    "lt",
+                    "mk",
+                    "ms",
+                    "ml",
+                    "mt",
+                    "mr",
+                    "mn",
+                    "no",
+                    "ps",
+                    "pl",
+                    "pt",
+                    "pt-PT",
+                    "pa",
+                    "ro",
+                    "ru",
+                    "sr",
+                    "si",
+                    "sk",
+                    "sl",
+                    "so",
+                    "es",
+                    "es-MX",
+                    "sw",
+                    "sv",
+                    "ta",
+                    "te",
+                    "th",
+                    "tr",
+                    "uk",
+                    "ur",
+                    "uz",
+                    "vi",
+                    "cy"
+                ]
+            },
+            "version": "boto3 (v1.15.18)"
+        },
+        "language_detection": {
+            "version": "boto3 (v1.15.18)"
+        }
     },
-    "ocr_tables_async": {
-      "constraints": {
-        "file_types": [
-          "image/jpeg",
-          "image/png",
-          "application/pdf",
-          "image/tiff"
-        ],
-        "languages": [
-          "en",
-          "es",
-          "it",
-          "pt",
-          "fr",
-          "de"
-        ],
-        "allow_null_language": true
-      },
-      "version": "boto3 (v1.15.18)"
+    "image": {
+        "explicit_content": {
+            "version": "boto3 (v1.15.18)"
+        },
+        "face_detection": {
+            "version": "boto3 (v1.15.18)"
+        },
+        "object_detection": {
+            "constraints": {},
+            "version": "boto3 (v1.15.18)"
+        },
+        "face_recognition": {
+            "create_collection": {
+                "version": "boto3 1.26.8"
+            },
+            "list_collections": {
+                "version": "boto3 1.26.8"
+            },
+            "delete_collection": {
+                "version": "boto3 1.26.8"
+            },
+            "list_faces": {
+                "version": "boto3 1.26.8"
+            },
+            "add_face": {
+                "version": "boto3 1.26.8"
+            },
+            "delete_face": {
+                "version": "boto3 1.26.8"
+            },
+            "recognize": {
+                "version": "boto3 1.26.8"
+            }
+        },
+        "face_compare": {
+            "version": "boto3 (v1.15.18)"
+        },
+        "generation": {
+            "constraints": {
+                "resolutions": [
+                    "256x256",
+                    "512x512",
+                    "1024x1024"
+                ],
+                "models": [
+                    "titan-image-generator-v1_premium",
+                    "titan-image-generator-v1_standard"
+                ],
+                "default_model": "titan-image-generator-v1_premium"
+            },
+            "version": "boto3 (v1.29.6)"
+        },
+        "embeddings": {
+            "constraints": {
+                "models": [
+                    "titan-embed-image-v1"
+                ],
+                "default_model": "titan-embed-image-v1"
+            },
+            "version": "v1"
+        }
     },
-    "identity_parser": {
-      "constraints": {
-        "file_types": [
-          "image/jpeg",
-          "image/png",
-          "image/webp",
-          "application/pdf",
-          "image/tiff"
-        ],
-        "languages": [
-          "en-US",
-          "fr-FR",
-          "es-ES",
-          "de-DE",
-          "it-IT",
-          "pt-PT"
-        ]
-      },
-      "version": "boto3 (v1.15.18)"
+    "video": {
+        "label_detection_async": {
+            "version": "boto3",
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/quicktime"
+                ]
+            }
+        },
+        "text_detection_async": {
+            "version": "boto3",
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/quicktime"
+                ]
+            }
+        },
+        "face_detection_async": {
+            "version": "boto3",
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/quicktime"
+                ]
+            }
+        },
+        "person_tracking_async": {
+            "version": "boto3",
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/quicktime"
+                ]
+            }
+        },
+        "explicit_content_detection_async": {
+            "version": "boto3",
+            "constraints": {
+                "file_types": [
+                    "video/mp4",
+                    "video/quicktime"
+                ]
+            }
+        },
+        "generation_async": {
+            "version": "boto3"
+        },
+        "question_answer": {
+            "version": "boto3 (v1.29.6)"
+        }
     },
-    "custom_document_parsing_async": {
-      "constraints": {
-        "file_types": [
-          "image/jpeg",
-          "image/png",
-          "application/pdf",
-          "image/tiff"
-        ],
-        "languages": [
-          "en",
-          "es",
-          "it",
-          "pt",
-          "fr",
-          "de"
-        ]
-      },
-      "version": "boto3 1.26.8"
+    "multimodal": {
+        "chat": {
+            "version": "boto3 (v1.29.6)"
+        }
     },
-    "invoice_parser": {
-      "constraints": {
-        "file_types": [
-          "image/jpeg",
-          "image/png",
-          "application/pdf",
-          "image/tiff"
-        ],
-        "languages": [
-          "en",
-          "es",
-          "it",
-          "pt",
-          "fr",
-          "de"
-        ]
-      },
-      "version": "boto3 1.26.8"
+    "llm": {
+        "chat": {
+            "version": "llmengine (v2)"
+        }
     },
-    "receipt_parser": {
-      "constraints": {
-        "file_types": [
-          "image/jpeg",
-          "image/png",
-          "application/pdf",
-          "image/tiff"
-        ],
-        "languages": [
-          "en",
-          "es",
-          "it",
-          "pt",
-          "fr",
-          "de"
-        ]
-      },
-      "version": "boto3 1.26.8"
-    },
-    "financial_parser": {
-      "constraints": {
-        "file_types": [
-          "image/jpeg",
-          "image/png",
-          "application/pdf",
-          "image/tiff"
-        ],
-        "languages": [
-          "en",
-          "es",
-          "it",
-          "pt",
-          "fr",
-          "de"
-        ],
-        "documents": [
-          "receipt",
-          "invoice"
-        ],
-        "allow_null_document_type": true
-      },
-      "version": "boto3 1.26.8"
+    "_metadata": {
+        "privacy_url": "https://aws.amazon.com/privacy"
     }
-  },
-  "text": {
-    "entity_sentiment": {
-      "constraints": {
-        "languages": [
-          "en"
-        ]
-      },
-      "version": "boto3 1.26.8"
-    },
-    "keyword_extraction": {
-      "constraints": {
-        "languages": [
-          "de",
-          "en",
-          "es",
-          "it",
-          "pt",
-          "fr",
-          "ja",
-          "ko",
-          "hi",
-          "ar",
-          "zh",
-          "zh-TW"
-        ]
-      },
-      "version": "boto3 (v1.15.18)"
-    },
-    "named_entity_recognition": {
-      "constraints": {
-        "languages": [
-          "de",
-          "en",
-          "es",
-          "it",
-          "pt",
-          "fr",
-          "ja",
-          "ko",
-          "hi",
-          "ar",
-          "zh",
-          "zh-TW"
-        ]
-      },
-      "version": "boto3 (v1.15.18)"
-    },
-    "sentiment_analysis": {
-      "constraints": {
-        "languages": [
-          "de",
-          "en",
-          "es",
-          "it",
-          "pt",
-          "fr",
-          "ja",
-          "ko",
-          "hi",
-          "ar",
-          "zh",
-          "zh-TW"
-        ]
-      },
-      "version": "boto3 (v1.15.18)"
-    },
-    "syntax_analysis": {
-      "constraints": {
-        "languages": [
-          "de",
-          "en",
-          "es",
-          "it",
-          "pt",
-          "fr",
-          "ja",
-          "ko",
-          "hi",
-          "ar",
-          "zh",
-          "zh-TW"
-        ]
-      },
-      "version": "boto3 (v1.15.18)"
-    },
-    "anonymization": {
-      "constraints": {
-        "languages": [
-          "en"
-        ]
-      },
-      "version": "boto3 (v1.15.18)"
-    },
-    "generation": {
-      "constraints": {
-        "models": [
-          "titan-tg1-large",
-          "titan-text-lite-v1",
-          "titan-text-express-v1"
-        ],
-        "default_model": "titan-tg1-large"
-      },
-      "version": "v1"
-    }
-  },
-  "translation": {
-    "automatic_translation": {
-      "constraints": {
-        "languages": [
-          "af",
-          "sq",
-          "am",
-          "ar",
-          "hy",
-          "az",
-          "bn",
-          "bs",
-          "bg",
-          "ca",
-          "zh",
-          "zh-TW",
-          "hr",
-          "cs",
-          "da",
-          "fa-AF",
-          "nl",
-          "en",
-          "et",
-          "fa",
-          "tl",
-          "fi",
-          "fr",
-          "fr-CA",
-          "ka",
-          "de",
-          "el",
-          "gu",
-          "ht",
-          "ha",
-          "he",
-          "hi",
-          "hu",
-          "is",
-          "id",
-          "ga",
-          "it",
-          "ja",
-          "kn",
-          "kk",
-          "ko",
-          "lv",
-          "lt",
-          "mk",
-          "ms",
-          "ml",
-          "mt",
-          "mr",
-          "mn",
-          "no",
-          "ps",
-          "pl",
-          "pt",
-          "pt-PT",
-          "pa",
-          "ro",
-          "ru",
-          "sr",
-          "si",
-          "sk",
-          "sl",
-          "so",
-          "es",
-          "es-MX",
-          "sw",
-          "sv",
-          "ta",
-          "te",
-          "th",
-          "tr",
-          "uk",
-          "ur",
-          "uz",
-          "vi",
-          "cy"
-        ]
-      },
-      "version": "boto3 (v1.15.18)"
-    },
-    "language_detection": {
-      "version": "boto3 (v1.15.18)"
-    }
-  },
-  "image": {
-    "explicit_content": {
-      "version": "boto3 (v1.15.18)"
-    },
-    "face_detection": {
-      "version": "boto3 (v1.15.18)"
-    },
-    "object_detection": {
-      "constraints": {},
-      "version": "boto3 (v1.15.18)"
-    },
-    "face_recognition": {
-      "create_collection": {
-        "version": "boto3 1.26.8"
-      },
-      "list_collections": {
-        "version": "boto3 1.26.8"
-      },
-      "delete_collection": {
-        "version": "boto3 1.26.8"
-      },
-      "list_faces": {
-        "version": "boto3 1.26.8"
-      },
-      "add_face": {
-        "version": "boto3 1.26.8"
-      },
-      "delete_face": {
-        "version": "boto3 1.26.8"
-      },
-      "recognize": {
-        "version": "boto3 1.26.8"
-      }
-    },
-    "face_compare": {
-      "version": "boto3 (v1.15.18)"
-    },
-    "generation": {
-      "constraints": {
-        "resolutions": [
-          "256x256",
-          "512x512",
-          "1024x1024"
-        ],
-        "models": [
-          "titan-image-generator-v1_premium",
-          "titan-image-generator-v1_standard"
-        ],
-        "default_model": "titan-image-generator-v1_premium"
-      },
-      "version": "boto3 (v1.29.6)"
-    },
-    "embeddings": {
-      "constraints": {
-        "models": [
-          "titan-embed-image-v1"
-        ],
-        "default_model": "titan-embed-image-v1"
-      },
-      "version": "v1"
-    }
-  },
-  "video": {
-    "label_detection_async": {
-      "version": "boto3",
-      "constraints": {
-        "file_types": [
-          "video/mp4",
-          "video/quicktime"
-        ]
-      }
-    },
-    "text_detection_async": {
-      "version": "boto3",
-      "constraints": {
-        "file_types": [
-          "video/mp4",
-          "video/quicktime"
-        ]
-      }
-    },
-    "face_detection_async": {
-      "version": "boto3",
-      "constraints": {
-        "file_types": [
-          "video/mp4",
-          "video/quicktime"
-        ]
-      }
-    },
-    "person_tracking_async": {
-      "version": "boto3",
-      "constraints": {
-        "file_types": [
-          "video/mp4",
-          "video/quicktime"
-        ]
-      }
-    },
-    "explicit_content_detection_async": {
-      "version": "boto3",
-      "constraints": {
-        "file_types": [
-          "video/mp4",
-          "video/quicktime"
-        ]
-      }
-    },
-    "generation_async": {
-      "version": "boto3"
-    }
-  }
 }

@@ -10,7 +10,7 @@ class Entities:
         for ent in entitiy_cats:
             if value in getattr(cls, ent):
                 return ent
-        return 'OTHER'
+        return "OTHER"
 
     UNKNOWN = ["UNKNOWN"]
     PERSON = ["PERSON"]
@@ -18,7 +18,7 @@ class Entities:
     ORGANIZATION = ["ORGANIZATION"]
     EVENT = ["EVENT"]
     WORK_OF_ART = ["WORK_OF_ART"]
-    CONSUMER_GOOD = ["CONSUMER_GOOD", 'COMMERCIAL_ITEM']
+    CONSUMER_GOOD = ["CONSUMER_GOOD", "COMMERCIAL_ITEM"]
     PHONE_NUMBER = ["PHONE_NUMBER"]
     ADDRESS = ["ADDRESS"]
     DATE = ["DATE"]

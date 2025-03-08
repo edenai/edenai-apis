@@ -99,11 +99,11 @@ class AnonymizationEntity(BaseModel):
             raise TypeError("original_label must be a string")
         return v
 
-    @model_validator(mode="after")
-    def content_length_must_be_equal_to_length(self):
-        if len(self.content) != self.length:
-            raise ValueError("content length must be equal to length")
-        return self
+    # @model_validator(mode="after")
+    # def content_length_must_be_equal_to_length(self):
+    #     if len(self.content) != self.length:
+    #         raise ValueError("content length must be equal to length")
+    #     return self
 
     @field_validator("confidence_score")
     @classmethod

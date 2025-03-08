@@ -166,5 +166,8 @@
             "constraints": {},
             "version": "8.0.0"
         }
+    },
+    "_metadata": {
+        "privacy_url": "https://www.clarifai.com/company/privacy-policy"
     }
 }

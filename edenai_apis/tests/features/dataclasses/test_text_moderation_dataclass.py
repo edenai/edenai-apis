@@ -9,6 +9,7 @@ SUBFEATURE = "moderation"
 
 
 class TestTextModeration:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("nsfw_likelihood"),
         [
@@ -55,6 +56,7 @@ class TestTextModeration:
         except ValueError:
             pytest.fail(f"{nsfw_likelihood} value doesn't raises a ValueError")
 
+    @pytest.mark.unit
     def test_text_moderation_items(self):
 
         ModerationDataClass(

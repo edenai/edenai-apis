@@ -62,6 +62,7 @@ class PerplexityApi(ProviderInterface, TextInterface):
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
+        **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
         messages = []
 

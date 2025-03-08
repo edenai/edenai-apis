@@ -3,7 +3,7 @@ import json
 import mimetypes
 import uuid
 from io import BytesIO
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import requests
 from apis.amazon.helpers import check_webhook_result
@@ -48,7 +48,7 @@ class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
         self.webhook_token = self.webhook_settings.get("webhook_token")
 
     def ocr__anonymization_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         with open(file, "rb") as file_:
             file_data = base64.b64encode(file_.read())
@@ -92,7 +92,7 @@ class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
         )
 
     def text__anonymization(
-        self, text: str, language: str
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
         payload = {
             "text": [text],

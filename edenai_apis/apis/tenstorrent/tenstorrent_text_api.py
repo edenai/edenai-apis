@@ -28,7 +28,7 @@ from openai import OpenAI
 
 class TenstorrentTextApi(TextInterface):
     def text__keyword_extraction(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[KeywordExtractionDataClass]:
         base_url = "https://keyword-extraction--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/keyword_extraction"
@@ -40,7 +40,9 @@ class TenstorrentTextApi(TextInterface):
         except requests.exceptions.RequestException as exc:
             raise ProviderException(message=str(exc), code=500)
         if original_response.status_code != 200:
-            raise ProviderException(message=original_response.text, code=original_response.status_code)
+            raise ProviderException(
+                message=original_response.text, code=original_response.status_code
+            )
 
         status_code = original_response.status_code
         original_response = original_response.json()
@@ -56,7 +58,7 @@ class TenstorrentTextApi(TextInterface):
         )
 
     def text__sentiment_analysis(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
         base_url = "https://sentiment-analysis--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/sentiment_analysis"
@@ -68,7 +70,9 @@ class TenstorrentTextApi(TextInterface):
         except requests.exceptions.RequestException as exc:
             raise ProviderException(message=str(exc), code=500)
         if original_response.status_code != 200:
-            raise ProviderException(message=original_response.text, code=original_response.status_code)
+            raise ProviderException(
+                message=original_response.text, code=original_response.status_code
+            )
 
         status_code = original_response.status_code
         original_response = original_response.json()
@@ -97,6 +101,7 @@ class TenstorrentTextApi(TextInterface):
         examples_context: str,
         examples: List[List[str]],
         model: Optional[str],
+        **kwargs,
     ) -> ResponseType[QuestionAnswerDataClass]:
         base_url = "https://question-answer--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/question_answer"
@@ -109,7 +114,9 @@ class TenstorrentTextApi(TextInterface):
         except requests.exceptions.RequestException as exc:
             raise ProviderException(message=str(exc), code=500)
         if original_response.status_code != 200:
-            raise ProviderException(message=original_response.text, code=original_response.status_code)
+            raise ProviderException(
+                message=original_response.text, code=original_response.status_code
+            )
 
         status_code = original_response.status_code
         original_response = original_response.json()
@@ -125,7 +132,7 @@ class TenstorrentTextApi(TextInterface):
         )
 
     def text__named_entity_recognition(
-        self, text: str, language : str
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         base_url = "https://named-entity-recognition--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/named_entity_recognition"
@@ -137,7 +144,9 @@ class TenstorrentTextApi(TextInterface):
         except requests.exceptions.RequestException as exc:
             raise ProviderException(message=str(exc), code=500)
         if original_response.status_code != 200:
-            raise ProviderException(message=original_response.text, code=original_response.status_code)
+            raise ProviderException(
+                message=original_response.text, code=original_response.status_code
+            )
 
         status_code = original_response.status_code
         original_response = original_response.json()
@@ -154,7 +163,7 @@ class TenstorrentTextApi(TextInterface):
         )
 
     def text__topic_extraction(
-        self, text: str, language : str
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[TopicExtractionDataClass]:
         base_url = "https://topic-extraction--eden-ai.workload.tenstorrent.com"
         url = f"{base_url}/predictions/topic_extraction"
@@ -166,7 +175,9 @@ class TenstorrentTextApi(TextInterface):
         except requests.exceptions.RequestException as exc:
             raise ProviderException(message=str(exc), code=500)
         if original_response.status_code != 200:
-            raise ProviderException(message=original_response.text, code=original_response.status_code)
+            raise ProviderException(
+                message=original_response.text, code=original_response.status_code
+            )
 
         status_code = original_response.status_code
         original_response = original_response.json()
@@ -287,7 +298,6 @@ class TenstorrentTextApi(TextInterface):
             standardized_response=standardized_response,
         )
 
-    def __check_for_errors(self, response, status_code = None):
+    def __check_for_errors(self, response, status_code=None):
         if "message" in response:
-            raise ProviderException(response["message"], code= status_code)
-        
+            raise ProviderException(response["message"], code=status_code)

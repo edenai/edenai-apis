@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Sequence
+from typing import Sequence, Optional
 
 import requests
 
@@ -32,9 +32,8 @@ class MicrosoftTranslationApi(TranslationInterface):
             error_message = error.get("message", "")
             raise ProviderException(error_message, code=status)
 
-
     def translation__language_detection(
-        self, text
+        self, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[LanguageDetectionDataClass]:
         response = requests.post(
             url=f"{self.url['text']}",
@@ -66,7 +65,12 @@ class MicrosoftTranslationApi(TranslationInterface):
         )
 
     def translation__automatic_translation(
-        self, source_language: str, target_language: str, text: str
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[AutomaticTranslationDataClass]:
         """
         :param source_language:    String that contains language name of origin text

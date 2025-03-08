@@ -8,6 +8,7 @@ from requests import Response
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 
+
 class OpenAIErrorCode(Enum):
     RATE_LIMIT_EXCEEDED = "rate_limit_exceeded"
 
@@ -292,6 +293,7 @@ The User's description :
 missing information : 
 """
 )
+
 
 def finish_unterminated_json(json_string: str, end_brackets: str) -> str:
     """

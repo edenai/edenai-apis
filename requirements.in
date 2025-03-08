@@ -82,3 +82,5 @@ pymupdf
 
 asgiref
 jsonschema>=4.22
+
+litellm>=1.58.0

@@ -1,75 +1,83 @@
 {
   "original_response": {
-    "data": [
+    "id": "chatcmpl-Ax9muvOvPIHPV6jynODQR3EwBRoHY",
+    "created": 1738662340,
+    "model": "gpt-4o-2024-08-06",
+    "object": "chat.completion",
+    "system_fingerprint": "fp_4691090a87",
+    "choices": [
       {
-        "id": "msg_8oVI2RyHYbhTGzsGPJ8RYvxB",
-        "assistant_id": "asst_NkLFHBzi7Q24ImW20cbuBDWr",
-        "attachments": [],
-        "content": [
-          {
-            "text": {
-              "annotations": [],
-              "value": "{\n  \"nsfw_likelihood\": 5,\n  \"nsfw_likelihood_score\": 0.99,\n  \"items\": [\n    {\n      \"label\": \"Violence\",\n      \"likelihood\": 5,\n      \"likelihood_score\": 0.99,\n      \"category\": \"Violence\",\n      \"subcategory\": \"GraphicViolenceOrGore\"\n    }\n  ]\n}"
-            },
-            "type": "text"
-          }
-        ],
-        "created_at": 1721060031,
-        "metadata": {},
-        "object": "thread.message",
-        "role": "assistant",
-        "run_id": "run_9vdrQy3qxAxKbSn7LWYiu2CF",
-        "thread_id": "thread_wroSi0a2rfGOeH3ASHV4Su0Q"
-      },
-      {
-        "id": "msg_h633LuzTFH9OrJnMF3ZFtIGa",
-        "assistant_id": null,
-        "attachments": [],
-        "content": [
-          {
-            "text": {
-              "annotations": [],
-              "value": "Analys this image :"
-            },
-            "type": "text"
-          },
-          {
-            "image_file": {
-              "file_id": "file-FDfNMKttMaeDVv2RKlz8M5Jv",
-              "detail": "auto"
-            },
-            "type": "image_file"
-          }
-        ],
-        "created_at": 1721060029,
-        "metadata": {},
-        "object": "thread.message",
-        "role": "user",
-        "run_id": null,
-        "thread_id": "thread_wroSi0a2rfGOeH3ASHV4Su0Q"
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "{\"nsfw_likelihood\": 3, \"nsfw_likelihood_score\": 0.81, \"items\": [{\"label\": \"Gore\", \"likelihood\": 4, \"likelihood_score\": 0.85, \"category\": \"Violence\", \"subcategory\": \"GraphicViolenceOrGore\"}, {\"label\": \"Adult\", \"likelihood\": 1, \"likelihood_score\": 0.05, \"category\": \"Sexual\", \"subcategory\": \"Sexual\"}, {\"label\": \"Racy\", \"likelihood\": 1, \"likelihood_score\": 0.02, \"category\": \"HateAndExtremism\", \"subcategory\": \"Racy\"}]}",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null,
+          "refusal": null
+        }
       }
     ],
-    "object": "list",
-    "first_id": "msg_8oVI2RyHYbhTGzsGPJ8RYvxB",
-    "last_id": "msg_h633LuzTFH9OrJnMF3ZFtIGa",
-    "has_more": false,
+    "provider_time": 7339165289,
+    "edenai_time": null,
     "usage": {
-      "completion_tokens": 84,
-      "prompt_tokens": 1488,
-      "total_tokens": 1572
-    }
+      "completion_tokens": 147,
+      "prompt_tokens": 1437,
+      "total_tokens": 1584,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      }
+    },
+    "service_tier": "default",
+    "cost": 0.0050625
   },
   "standardized_response": {
-    "nsfw_likelihood": 5,
-    "nsfw_likelihood_score": 0.99,
+    "nsfw_likelihood": 3,
+    "nsfw_likelihood_score": 0.81,
     "items": [
       {
-        "label": "Violence",
-        "likelihood": 5,
-        "likelihood_score": 0.99,
+        "label": "Gore",
+        "likelihood": 4,
+        "likelihood_score": 0.85,
         "category": "Violence",
+        "subcategory": null
+      },
+      {
+        "label": "Adult",
+        "likelihood": 1,
+        "likelihood_score": 0.05,
+        "category": "Sexual",
+        "subcategory": null
+      },
+      {
+        "label": "Racy",
+        "likelihood": 1,
+        "likelihood_score": 0.02,
+        "category": "HateAndExtremism",
         "subcategory": null
       }
     ]
+  },
+  "usage": {
+    "completion_tokens": 147,
+    "prompt_tokens": 1437,
+    "total_tokens": 1584,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0
+    }
   }
 }

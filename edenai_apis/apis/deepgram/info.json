@@ -1,4 +1,7 @@
 {
+    "_metadata": {
+        "privacy_url": "https://deepgram.com/privacy"
+    },
     "audio": {
         "speech_to_text_async": {
             "constraints": {

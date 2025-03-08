@@ -84,7 +84,12 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return SentimentEnum.NEUTRAL.value
 
     def text__summarize(
-        self, text: str, output_sentences: int, language: str, model: Optional[str] = None
+        self,
+        text: str,
+        output_sentences: int,
+        language: str,
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[SummarizeDataClass]:
         files, headers = self._prepare_request(language, text)
 
@@ -106,7 +111,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return result
 
     def text__syntax_analysis(
-        self, language: str, text: str
+        self, language: str, text: str, **kwargs
     ) -> ResponseType[SyntaxAnalysisDataClass]:
         files, headers = self._prepare_request(language, text)
 
@@ -144,7 +149,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return result
 
     def text__anonymization(
-        self, text: str, language: str
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
         files, headers = self._prepare_request(language, text)
 
@@ -187,7 +192,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return result
 
     def text__sentiment_analysis(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
         files, headers = self._prepare_request(language, text)
 
@@ -197,9 +202,11 @@ class EmvistaApi(ProviderInterface, TextInterface):
             general_sentiment=EmvistaApi._normalize_sentiment(
                 result.get("globalScore", 0)
             ),
-            general_sentiment_rate=abs(result.get("globalScore", 0))
-            if result.get("globalScore") != "NaN"
-            else 0,
+            general_sentiment_rate=(
+                abs(result.get("globalScore", 0))
+                if result.get("globalScore") != "NaN"
+                else 0
+            ),
         )
 
         result = ResponseType[SentimentAnalysisDataClass](
@@ -209,7 +216,7 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return result
 
     def text__keyword_extraction(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[KeywordExtractionDataClass]:
         """
         parameters:

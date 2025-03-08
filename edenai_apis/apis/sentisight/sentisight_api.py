@@ -54,7 +54,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         self.headers = {"X-Auth-token": self.key, "Content-Type": "application/json"}
 
     def ocr__ocr(
-        self, file: str, language: str, file_url: str = ""
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[OcrDataClass]:
         url = f"{self.base_url}{SentisightPreTrainModel.TEXT_RECOGNITION.value}"
 
@@ -63,7 +63,9 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
 
         with open(file, "rb") as file_:
             response = requests.post(
-                url=add_query_param_in_url(url, {"lang": get_formatted_language(language)}),
+                url=add_query_param_in_url(
+                    url, {"lang": get_formatted_language(language)}
+                ),
                 headers={
                     "accept": "*/*",
                     "X-Auth-token": self.key,
@@ -107,7 +109,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         return result
 
     def image__object_detection(
-        self, file: str, file_url: str = "", model: Optional[str] = None
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
         with open(file, "rb") as file_:
             response = requests.post(
@@ -147,7 +149,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         return result
 
     def image__explicit_content(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
         with open(file, "rb") as file_:
             response = requests.post(
@@ -197,7 +199,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
         return result
 
-    def image__search__create_project(self, project_name: str) -> str:
+    def image__search__create_project(self, project_name: str, **kwargs) -> str:
         create_project_url = "https://platform.sentisight.ai/api/project"
 
         json_data = {
@@ -219,7 +221,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         return project_id
 
     def image__search__upload_image(
-        self, file: str, image_name: str, project_id: str, file_url: str = ""
+        self, file: str, image_name: str, project_id: str, file_url: str = "", **kwargs
     ) -> ResponseType[SearchUploadImageDataClass]:
         upload_project_url = (
             "https://platform.sentisight.ai/api/image/"
@@ -246,7 +248,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
 
     def image__search__delete_image(
-        self, image_name: str, project_id: str
+        self, image_name: str, project_id: str, **kwargs
     ) -> ResponseType[SearchDeleteImageDataClass]:
         delete_project_url = (
             f"https://platform.sentisight.ai/api/image/{project_id}/{image_name}/"
@@ -263,7 +265,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
 
     def image__search__get_images(
-        self, project_id: str
+        self, project_id: str, **kwargs
     ) -> ResponseType[SearchGetImagesDataClass]:
         get_images_url = f"https://platform.sentisight.ai/api/images/{project_id}/"
         response = requests.get(get_images_url, headers=self.headers)
@@ -282,7 +284,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
 
     def image__search__get_image(
-        self, image_name: str, project_id: str
+        self, image_name: str, project_id: str, **kwargs
     ) -> ResponseType[SearchGetImageDataClass]:
         get_image_url = (
             f"https://platform.sentisight.ai/api/image/{project_id}/{image_name}/"
@@ -304,7 +306,12 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
 
     def image__search__launch_similarity(
-        self, project_id: str, file: Optional[str] = None,  file_url: Optional[str] = None, n: int = 10
+        self,
+        project_id: str,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        n: int = 10,
+        **kwargs,
     ) -> ResponseType[SearchDataClass]:
         search_project_url = (
             "https://platform.sentisight.ai/api/similarity"
@@ -341,6 +348,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         file: str,
         file_url: str = "",
         provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         with open(file, "rb") as fstream:
             if provider_params is None or not isinstance(provider_params, dict):

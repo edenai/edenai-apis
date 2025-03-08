@@ -46,6 +46,7 @@ class GoogleAudioApi(AudioInterface):
         speaking_pitch: int,
         speaking_volume: int,
         sampling_rate: int,
+        **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
         voice_type = 1
 
@@ -111,6 +112,7 @@ class GoogleAudioApi(AudioInterface):
         model: Optional[str] = None,
         file_url: str = "",
         provider_params: Optional[dict] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         provider_params = provider_params or {}
         export_format, channels, _ = audio_attributes
@@ -132,7 +134,7 @@ class GoogleAudioApi(AudioInterface):
         client = SpeechClient()
 
         try:
-            features = cloud_speech.RecognitionFeatures(**provider_params) 
+            features = cloud_speech.RecognitionFeatures(**provider_params)
         except ValueError as err:
             """Wrong config are set by users"""
             raise ProviderException(str(err), code=400)

@@ -28,7 +28,7 @@ class JinaApi(ProviderInterface, TextInterface):
         )
 
     def text__embeddings(
-        self, texts: List[str], model: Optional[str] = None
+        self, texts: List[str], model: Optional[str] = None, **kwargs
     ) -> ResponseType[EmbeddingsDataClass]:
         model = model or "jina-embeddings-v2-base-en"
         resp = self.session.post(  # type: ignore

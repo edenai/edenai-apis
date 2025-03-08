@@ -1,50 +1,53 @@
 {
-  "text": {
-    "summarize": {
-      "constraints": {
-        "languages": [
-          "en",
-          "fr"
-        ]
-      },
-      "version": "v1.0"
+    "text": {
+        "summarize": {
+            "constraints": {
+                "languages": [
+                    "en",
+                    "fr"
+                ]
+            },
+            "version": "v1.0"
+        },
+        "syntax_analysis": {
+            "constraints": {
+                "languages": [
+                    "en",
+                    "fr"
+                ]
+            },
+            "version": "v1.0"
+        },
+        "anonymization": {
+            "constraints": {
+                "languages": [
+                    "en",
+                    "fr"
+                ],
+                "allow_null_language": false
+            },
+            "version": "v1.0"
+        },
+        "sentiment_analysis": {
+            "constraints": {
+                "languages": [
+                    "en",
+                    "fr"
+                ]
+            },
+            "version": "v1.0"
+        },
+        "keyword_extraction": {
+            "constraints": {
+                "languages": [
+                    "en",
+                    "fr"
+                ]
+            },
+            "version": "v1.0"
+        }
     },
-    "syntax_analysis": {
-      "constraints": {
-        "languages": [
-          "en",
-          "fr"
-        ]
-      },
-      "version": "v1.0"
-    },
-    "anonymization": {
-      "constraints": {
-        "languages": [
-          "en",
-          "fr"
-        ],
-        "allow_null_language": false
-      },
-      "version": "v1.0"
-    },
-    "sentiment_analysis": {
-      "constraints": {
-        "languages": [
-          "en",
-          "fr"
-        ]
-      },
-      "version": "v1.0"
-    },
-    "keyword_extraction": {
-      "constraints": {
-        "languages": [
-          "en",
-          "fr"
-        ]
-      },
-      "version": "v1.0"
+    "_metadata": {
+        "privacy_url": "not found"
     }
-  }
 }

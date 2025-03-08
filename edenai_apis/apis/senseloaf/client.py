@@ -120,9 +120,9 @@ class Client:
             try:
                 message = json.loads(exc.response.text)
                 if message.get("errorCode") == "AUTHENTICATION_FAILED":
-                    message[
-                        "errorMessage"
-                    ] = "Authentication Failed. Please check your EmailID/Password Combination or API Key"
+                    message["errorMessage"] = (
+                        "Authentication Failed. Please check your EmailID/Password Combination or API Key"
+                    )
                     message["response"]["error"]["faultDetail"] = [
                         "Authentication Failed. Please check your EmailID/Password Combination or API Key"
                     ]
