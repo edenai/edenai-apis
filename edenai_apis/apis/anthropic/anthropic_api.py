@@ -37,14 +37,14 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface, LlmInterfac
             provider_name=self.provider_name,
             provider_config={
                 "api_key": self.api_settings.get("api_key"),
-                "cache_control": {"type": "ephemeral"},
+                # "cache_control": {"type": "ephemeral"},
             },
         )
 
         self.std_llm_client = StdLLMEngine(
             provider_config={
                 "api_key": self.api_settings.get("api_key"),
-                "cache_control": {"type": "ephemeral"},
+                # "cache_control": {"type": "ephemeral"},
             },
         )
 
