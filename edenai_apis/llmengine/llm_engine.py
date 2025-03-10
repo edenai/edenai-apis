@@ -765,7 +765,7 @@ class StdLLMEngine(LLMEngine):
             if re.match(key, provider_name, re.RegexFlag.IGNORECASE):
                 return StdLLMEngine.PROVIDER_MAPPING[key]
         return provider_name
-    
+
     @moderate_std
     def completion(
         self,
