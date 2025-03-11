@@ -86,5 +86,3 @@ jsonschema>=4.22
 litellm>=1.58.0
 
 requests>=2.32
-
-docling==2.25.1

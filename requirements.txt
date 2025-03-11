@@ -4,42 +4,37 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-affinda==4.25.0
+affinda==4.20.0
     # via -r requirements.in
 aiodns==3.2.0
     # via aleph-alpha-client
-aiohappyeyeballs==2.4.8
-    # via aiohttp
-aiohttp==3.11.13
+aiohttp==3.9.3
     # via
     #   aiohttp-retry
     #   aleph-alpha-client
     #   litellm
-aiohttp-retry==2.9.1
+aiohttp-retry==2.8.3
     # via aleph-alpha-client
-aiosignal==1.3.2
+aiosignal==1.3.1
     # via aiohttp
-alabaster==1.0.0
+alabaster==0.7.16
     # via sphinx
 aleph-alpha-client==6.0.0
     # via -r requirements.in
-amazon-textract-response-parser==1.0.3
+amazon-textract-response-parser==1.0.2
     # via -r requirements.in
-annotated-types==0.7.0
+annotated-types==0.6.0
     # via pydantic
 anthropic-bedrock==0.8.0
     # via -r requirements.in
-antlr4-python3-runtime==4.9.3
-    # via omegaconf
-anyio==4.8.0
+anyio==4.3.0
     # via
     #   anthropic-bedrock
     #   httpx
     #   openai
-    #   starlette
 asgiref==3.8.1
     # via -r requirements.in
-astroid==3.3.8
+astroid==3.1.0
     # via pylint
 attrs==23.2.0
     # via
@@ -56,66 +51,61 @@ automat==24.8.1
     # via twisted
 azure-ai-formrecognizer==3.3.0
     # via -r requirements.in
-azure-cognitiveservices-speech==1.42.0
+azure-cognitiveservices-speech==1.36.0
     # via -r requirements.in
 azure-common==1.1.28
     # via azure-ai-formrecognizer
-azure-core==1.32.0
+azure-core==1.30.1
     # via
     #   -r requirements.in
     #   affinda
     #   azure-ai-formrecognizer
     #   azure-identity
     #   msrest
-azure-identity==1.20.0
+azure-identity==1.15.0
     # via affinda
-babel==2.17.0
+babel==2.14.0
     # via sphinx
-beautifulsoup4==4.13.3
-    # via
-    #   docling
-    #   furo
+beautifulsoup4==4.12.3
+    # via furo
 boto3==1.35.84
     # via
     #   -r requirements.in
     #   amazon-textract-response-parser
     #   anthropic-bedrock
     #   sagemaker
-    #   sagemaker-core
-botocore==1.35.99
+botocore==1.35.84
     # via
     #   anthropic-bedrock
     #   boto3
     #   s3transfer
-cachetools==5.5.2
+cachetools==5.3.3
     # via google-auth
-certifi==2025.1.31
+certifi==2024.2.2
     # via
-    #   docling
     #   httpcore
     #   httpx
     #   msrest
     #   requests
-cffi==1.17.1
+cffi==1.16.0
     # via
     #   cryptography
     #   pycares
-charset-normalizer==3.4.1
+charset-normalizer==3.3.2
     # via requests
 clarifai-grpc==9.10.7
     # via -r requirements.in
 click==8.1.8
-    # via
-    #   litellm
-    #   typer
-    #   uvicorn
-cloudpickle==3.1.1
+    # via litellm
+cloudpickle==2.2.1
     # via sagemaker
 constantly==23.10.4
     # via twisted
-coverage[toml]==7.6.12
+contextlib2==21.6.0
+    # via schema
+coverage[toml]==7.4.4
     # via pytest-cov
-cryptography==44.0.2
+cryptography==42.0.5
     # via
     #   autobahn
     #   azure-identity
@@ -123,7 +113,7 @@ cryptography==44.0.2
     #   pyjwt
     #   pyopenssl
     #   service-identity
-dill==0.3.9
+dill==0.3.8
     # via
     #   multiprocess
     #   pathos
@@ -132,53 +122,29 @@ distro==1.9.0
     # via
     #   anthropic-bedrock
     #   openai
-docker==7.1.0
+docker==7.0.0
     # via sagemaker
-docling==2.25.1
-    # via -r requirements.in
-docling-core[chunking]==2.21.1
-    # via
-    #   docling
-    #   docling-ibm-models
-    #   docling-parse
-docling-ibm-models==3.4.1
-    # via docling
-docling-parse==3.4.0
-    # via docling
 docstring-parser==0.16
     # via -r requirements.in
-docutils==0.21.2
+docutils==0.20.1
     # via sphinx
-easyocr==1.7.2
-    # via docling
-et-xmlfile==2.0.0
-    # via openpyxl
 execnet==2.1.1
     # via pytest-xdist
-fastapi==0.115.11
-    # via sagemaker
 ffmpeg-python==0.2.0
     # via -r requirements.in
-filelock==3.17.0
-    # via
-    #   huggingface-hub
-    #   torch
-    #   transformers
-filetype==1.2.0
-    # via docling
-frozenlist==1.5.0
+filelock==3.13.3
+    # via huggingface-hub
+frozenlist==1.4.1
     # via
     #   aiohttp
     #   aiosignal
-fsspec==2025.2.0
-    # via
-    #   huggingface-hub
-    #   torch
-furo==2024.8.6
+fsspec==2024.3.1
+    # via huggingface-hub
+furo==2024.1.29
     # via -r requirements.in
 future==1.0.0
     # via ffmpeg-python
-google-api-core[grpc]==2.24.1
+google-api-core[grpc]==2.18.0
     # via
     #   google-api-python-client
     #   google-cloud-aiplatform
@@ -196,7 +162,7 @@ google-api-core[grpc]==2.24.1
     #   google-cloud-vision
 google-api-python-client==2.88.0
     # via -r requirements.in
-google-auth==2.38.0
+google-auth==2.29.0
     # via
     #   google-api-core
     #   google-api-python-client
@@ -212,9 +178,9 @@ google-cloud-aiplatform==1.35.0
     # via -r requirements.in
 google-cloud-automl==2.11.1
     # via -r requirements.in
-google-cloud-bigquery==3.30.0
+google-cloud-bigquery==3.20.1
     # via google-cloud-aiplatform
-google-cloud-core==2.4.2
+google-cloud-core==2.4.1
     # via
     #   google-cloud-bigquery
     #   google-cloud-storage
@@ -223,7 +189,7 @@ google-cloud-documentai==2.15.0
     # via -r requirements.in
 google-cloud-language==2.10.0
     # via -r requirements.in
-google-cloud-resource-manager==1.14.1
+google-cloud-resource-manager==1.12.3
     # via google-cloud-aiplatform
 google-cloud-speech==2.26.0
     # via -r requirements.in
@@ -239,52 +205,46 @@ google-cloud-videointelligence==2.11.2
     # via -r requirements.in
 google-cloud-vision==3.4.2
     # via -r requirements.in
-google-crc32c==1.6.0
+google-crc32c==1.5.0
     # via google-resumable-media
 google-pasta==0.2.0
     # via sagemaker
-google-resumable-media==2.7.2
+google-resumable-media==2.7.0
     # via
     #   google-cloud-bigquery
     #   google-cloud-storage
-googleapis-common-protos[grpc]==1.69.0
+googleapis-common-protos[grpc]==1.63.0
     # via
     #   clarifai-grpc
     #   google-api-core
     #   grpc-google-iam-v1
     #   grpcio-status
-grpc-google-iam-v1==0.14.1
+grpc-google-iam-v1==0.13.0
     # via google-cloud-resource-manager
-grpcio==1.70.0
+grpcio==1.62.1
     # via
     #   clarifai-grpc
     #   google-api-core
     #   googleapis-common-protos
     #   grpc-google-iam-v1
     #   grpcio-status
-grpcio-status==1.62.3
+grpcio-status==1.62.1
     # via google-api-core
 h11==0.14.0
-    # via
-    #   httpcore
-    #   uvicorn
-httpcore==1.0.7
+    # via httpcore
+httpcore==1.0.5
     # via httpx
 httplib2==0.22.0
     # via
     #   google-api-python-client
     #   google-auth-httplib2
-httpx==0.27.2
+httpx==0.27.0
     # via
     #   anthropic-bedrock
     #   litellm
     #   openai
-huggingface-hub==0.29.1
-    # via
-    #   docling
-    #   docling-ibm-models
-    #   tokenizers
-    #   transformers
+huggingface-hub==0.22.2
+    # via tokenizers
 hyperlink==21.0.0
     # via
     #   autobahn
@@ -293,243 +253,133 @@ ibm-cloud-sdk-core==3.22.1
     # via ibm-watson
 ibm-watson==9.0.0
     # via -r requirements.in
-idna==3.10
+idna==3.6
     # via
     #   anyio
     #   httpx
     #   hyperlink
     #   requests
     #   yarl
-imageio==2.37.0
-    # via scikit-image
 imagesize==1.4.1
     # via sphinx
 importlib-metadata==6.11.0
     # via
     #   litellm
     #   sagemaker
-    #   sagemaker-core
-importlib-resources==6.5.2
+importlib-resources==6.4.0
     # via python-liquid
 incremental==24.7.2
     # via twisted
 iniconfig==2.0.0
     # via pytest
-isodate==0.7.2
+isodate==0.6.1
     # via msrest
-isort==6.0.1
+isort==5.13.2
     # via pylint
-jinja2==3.1.5
+jinja2==3.1.3
     # via
     #   litellm
     #   sphinx
-    #   torch
-jiter==0.8.2
+jiter==0.5.0
     # via openai
 jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-jsonlines==3.1.0
-    # via
-    #   docling-ibm-models
-    #   lettria
-jsonref==1.1.0
-    # via docling-core
+jsonlines==4.0.0
+    # via lettria
 jsonschema==4.23.0
     # via
     #   -r requirements.in
-    #   docling-core
     #   litellm
     #   sagemaker
-    #   sagemaker-core
-jsonschema-specifications==2024.10.1
+jsonschema-specifications==2023.12.1
     # via jsonschema
-langcodes==3.5.0
+langcodes==3.3.0
     # via -r requirements.in
-language-data==1.3.0
-    # via
-    #   -r requirements.in
-    #   langcodes
-latex2mathml==3.77.0
-    # via docling-core
-lazy-loader==0.4
-    # via scikit-image
+language-data==1.2.0
+    # via -r requirements.in
 lettria==6.0.0
     # via -r requirements.in
-litellm==1.60.0
+litellm==1.59.5
     # via -r requirements.in
-lxml==5.3.1
-    # via
-    #   docling
-    #   python-docx
-    #   python-pptx
-marisa-trie==1.2.1
+marisa-trie==1.1.0
     # via language-data
-markdown-it-py==3.0.0
-    # via rich
-marko==2.1.2
-    # via docling
-markupsafe==3.0.2
+markupsafe==2.1.5
     # via jinja2
-marshmallow==3.26.1
+marshmallow==3.21.1
     # via amazon-textract-response-parser
 mccabe==0.7.0
     # via pylint
-mdurl==0.1.2
-    # via markdown-it-py
-mock==4.0.3
-    # via sagemaker-core
-mpire[dill]==2.10.2
-    # via semchunk
-mpmath==1.3.0
-    # via sympy
-msal==1.31.1
+msal==1.28.0
     # via
     #   azure-identity
     #   msal-extensions
-msal-extensions==1.2.0
+msal-extensions==1.1.0
     # via azure-identity
 msrest==0.7.1
     # via
     #   affinda
     #   azure-ai-formrecognizer
-multidict==6.1.0
+multidict==6.0.5
     # via
     #   aiohttp
     #   yarl
-multiprocess==0.70.17
-    # via
-    #   mpire
-    #   pathos
-mypy==1.15.0
+multiprocess==0.70.16
+    # via pathos
+mypy==1.9.0
     # via -r requirements.in
 mypy-extensions==1.0.0
     # via mypy
-networkx==3.4.2
-    # via
-    #   scikit-image
-    #   torch
-ninja==1.11.1.3
-    # via easyocr
 numpy==1.26.4
     # via
-    #   docling-ibm-models
-    #   easyocr
-    #   imageio
-    #   opencv-python-headless
     #   pandas
-    #   safetensors
     #   sagemaker
-    #   scikit-image
-    #   scipy
     #   shapely
-    #   tifffile
-    #   torchvision
-    #   transformers
-nvidia-cublas-cu12==12.4.5.8
-    # via
-    #   nvidia-cudnn-cu12
-    #   nvidia-cusolver-cu12
-    #   torch
-nvidia-cuda-cupti-cu12==12.4.127
-    # via torch
-nvidia-cuda-nvrtc-cu12==12.4.127
-    # via torch
-nvidia-cuda-runtime-cu12==12.4.127
-    # via torch
-nvidia-cudnn-cu12==9.1.0.70
-    # via torch
-nvidia-cufft-cu12==11.2.1.3
-    # via torch
-nvidia-curand-cu12==10.3.5.147
-    # via torch
-nvidia-cusolver-cu12==11.6.1.9
-    # via torch
-nvidia-cusparse-cu12==12.3.1.170
-    # via
-    #   nvidia-cusolver-cu12
-    #   torch
-nvidia-cusparselt-cu12==0.6.2
-    # via torch
-nvidia-nccl-cu12==2.21.5
-    # via torch
-nvidia-nvjitlink-cu12==12.4.127
-    # via
-    #   nvidia-cusolver-cu12
-    #   nvidia-cusparse-cu12
-    #   torch
-nvidia-nvtx-cu12==12.4.127
-    # via torch
 oauthlib==3.2.2
     # via requests-oauthlib
-omegaconf==2.3.0
-    # via sagemaker
 openai==1.55.3
     # via
     #   -r requirements.in
     #   litellm
-opencv-python-headless==4.11.0.86
-    # via
-    #   docling-ibm-models
-    #   easyocr
-openpyxl==3.1.5
-    # via docling
-packaging==24.2
+packaging==24.0
     # via
     #   aleph-alpha-client
+    #   docker
     #   google-cloud-aiplatform
     #   google-cloud-bigquery
     #   huggingface-hub
-    #   lazy-loader
     #   marshmallow
+    #   msal-extensions
     #   pytest
     #   sagemaker
-    #   scikit-image
     #   sphinx
-    #   transformers
-pandas==2.2.3
+pandas==2.2.1
     # via
     #   -r requirements.in
-    #   docling
-    #   docling-core
     #   sagemaker
-pathos==0.3.3
+pathos==0.3.2
     # via sagemaker
 pdf2image==1.17.0
     # via -r requirements.in
-pillow==11.1.0
+pillow==10.3.0
     # via
     #   -r requirements.in
     #   aleph-alpha-client
-    #   docling
-    #   docling-core
-    #   docling-ibm-models
-    #   docling-parse
-    #   easyocr
-    #   imageio
     #   pdf2image
-    #   python-pptx
-    #   scikit-image
-    #   torchvision
-platformdirs==4.3.6
+platformdirs==4.2.0
     # via
     #   pylint
     #   sagemaker
-    #   sagemaker-core
-pluggy==1.5.0
+pluggy==1.4.0
     # via pytest
-portalocker==2.10.1
+portalocker==2.8.2
     # via msal-extensions
-pox==0.3.5
+pox==0.3.4
     # via pathos
-ppft==1.7.6.9
+ppft==1.7.6.8
     # via pathos
-propcache==0.3.0
-    # via
-    #   aiohttp
-    #   yarl
-proto-plus==1.26.0
+proto-plus==1.23.0
     # via
     #   google-api-core
     #   google-cloud-aiplatform
@@ -542,7 +392,7 @@ proto-plus==1.26.0
     #   google-cloud-translate
     #   google-cloud-videointelligence
     #   google-cloud-vision
-protobuf==4.25.6
+protobuf==4.25.3
     # via
     #   clarifai-grpc
     #   google-api-core
@@ -561,24 +411,22 @@ protobuf==4.25.6
     #   grpcio-status
     #   proto-plus
     #   sagemaker
-psutil==7.0.0
+psutil==5.9.8
     # via sagemaker
-psycopg2==2.9.10
+psycopg2==2.9.9
     # via -r requirements.in
-pyasn1==0.6.1
+pyasn1==0.6.0
     # via
     #   pyasn1-modules
     #   rsa
     #   service-identity
-pyasn1-modules==0.4.1
+pyasn1-modules==0.4.0
     # via
     #   google-auth
     #   service-identity
-pycares==4.5.0
+pycares==4.4.0
     # via aiodns
-pyclipper==1.3.0.post6
-    # via easyocr
-pycountry==24.6.1
+pycountry==23.12.11
     # via -r requirements.in
 pycparser==2.22
     # via cffi
@@ -586,43 +434,32 @@ pydantic==2.7.4
     # via
     #   -r requirements.in
     #   anthropic-bedrock
-    #   docling
-    #   docling-core
-    #   docling-ibm-models
-    #   docling-parse
-    #   fastapi
     #   litellm
     #   openai
-    #   pydantic-settings
-    #   sagemaker-core
 pydantic-core==2.18.4
     # via pydantic
-pydantic-settings==2.8.1
-    # via docling
 pydub==0.25.1
     # via -r requirements.in
-pygments==2.19.1
+pygments==2.17.2
     # via
     #   furo
-    #   mpire
-    #   rich
     #   sphinx
-pyjwt[crypto]==2.10.1
+pyjwt[crypto]==2.8.0
     # via
     #   ibm-cloud-sdk-core
     #   msal
-pylint==3.3.4
+pylint==3.1.0
     # via -r requirements.in
-pymupdf==1.25.3
+pymupdf==1.24.8
     # via -r requirements.in
+pymupdfb==1.24.8
+    # via pymupdf
 pyopenssl==25.0.0
     # via watson-developer-cloud
-pyparsing==3.2.1
+pyparsing==3.1.2
     # via httplib2
-pypdf==5.3.1
+pypdf==4.2.0
     # via -r requirements.in
-pypdfium2==4.30.1
-    # via docling
 pytest==7.4.4
     # via
     #   -r requirements.in
@@ -630,16 +467,14 @@ pytest==7.4.4
     #   pytest-mock
     #   pytest-timeout
     #   pytest-xdist
-pytest-cov==6.0.0
+pytest-cov==5.0.0
     # via -r requirements.in
 pytest-mock==3.14.0
     # via -r requirements.in
 pytest-timeout==2.3.1
     # via -r requirements.in
-pytest-xdist==3.6.1
+pytest-xdist==3.5.0
     # via -r requirements.in
-python-bidi==0.6.6
-    # via easyocr
 python-dateutil==2.9.0.post0
     # via
     #   botocore
@@ -649,39 +484,27 @@ python-dateutil==2.9.0.post0
     #   pandas
     #   python-liquid
     #   watson-developer-cloud
-python-docx==1.1.2
-    # via docling
 python-dotenv==1.0.1
     # via
     #   -r requirements.in
     #   litellm
-    #   pydantic-settings
-python-liquid==1.13.0
+python-liquid==1.12.1
     # via aleph-alpha-client
 python-magic==0.4.27
     # via -r requirements.in
-python-pptx==1.0.2
-    # via docling
-pytz==2025.1
+pytz==2024.1
     # via pandas
-pyyaml==6.0.2
+pyyaml==6.0.1
     # via
-    #   docling-core
-    #   easyocr
     #   huggingface-hub
-    #   omegaconf
     #   responses
     #   sagemaker
-    #   sagemaker-core
-    #   transformers
-referencing==0.36.2
+referencing==0.34.0
     # via
     #   jsonschema
     #   jsonschema-specifications
 regex==2024.11.6
-    # via
-    #   tiktoken
-    #   transformers
+    # via tiktoken
 requests==2.32.3
     # via
     #   -r requirements.in
@@ -690,7 +513,6 @@ requests==2.32.3
     #   azure-core
     #   clarifai-grpc
     #   docker
-    #   docling
     #   google-api-core
     #   google-cloud-bigquery
     #   google-cloud-storage
@@ -705,59 +527,32 @@ requests==2.32.3
     #   sagemaker
     #   sphinx
     #   tiktoken
-    #   transformers
     #   watson-developer-cloud
 requests-oauthlib==2.0.0
     # via msrest
 responses==0.24.1
     # via -r requirements.in
-rich==13.9.4
-    # via
-    #   sagemaker-core
-    #   typer
-roman-numerals-py==3.1.0
-    # via sphinx
-rpds-py==0.23.1
+rpds-py==0.18.0
     # via
     #   jsonschema
     #   referencing
 rsa==4.9
     # via google-auth
-rtree==1.3.0
-    # via docling
-s3transfer==0.10.4
+s3transfer==0.10.1
     # via boto3
-safetensors[numpy,torch]==0.5.3
-    # via
-    #   docling-ibm-models
-    #   transformers
-sagemaker==2.240.0
+sagemaker==2.214.3
     # via -r requirements.in
-sagemaker-core==1.0.25
+schema==0.7.5
     # via sagemaker
-schema==0.7.7
-    # via sagemaker
-scikit-image==0.25.2
-    # via easyocr
-scipy==1.15.2
-    # via
-    #   docling
-    #   easyocr
-    #   scikit-image
-semchunk==2.2.2
-    # via docling-core
 service-identity==24.2.0
     # via watson-developer-cloud
-shapely==2.0.7
-    # via
-    #   easyocr
-    #   google-cloud-aiplatform
-shellingham==1.5.4
-    # via typer
-six==1.17.0
+shapely==2.0.3
+    # via google-cloud-aiplatform
+six==1.16.0
     # via
     #   azure-core
     #   google-pasta
+    #   isodate
     #   python-dateutil
 smdebug-rulesconfig==1.0.1
     # via sagemaker
@@ -769,113 +564,67 @@ sniffio==1.3.1
     #   openai
 snowballstemmer==2.2.0
     # via sphinx
-soupsieve==2.6
+soupsieve==2.5
     # via beautifulsoup4
-sphinx==8.2.3
+sphinx==7.2.6
     # via
     #   -r requirements.in
     #   furo
     #   sphinx-basic-ng
 sphinx-basic-ng==1.0.0b2
     # via furo
-sphinxcontrib-applehelp==2.0.0
+sphinxcontrib-applehelp==1.0.8
     # via sphinx
-sphinxcontrib-devhelp==2.0.0
+sphinxcontrib-devhelp==1.0.6
     # via sphinx
-sphinxcontrib-htmlhelp==2.1.0
+sphinxcontrib-htmlhelp==2.0.5
     # via sphinx
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
-sphinxcontrib-qthelp==2.0.0
+sphinxcontrib-qthelp==1.0.7
     # via sphinx
-sphinxcontrib-serializinghtml==2.0.0
+sphinxcontrib-serializinghtml==1.1.10
     # via sphinx
-starlette==0.46.0
-    # via fastapi
-sympy==1.13.1
-    # via torch
-tabulate==0.9.0
-    # via
-    #   docling-core
-    #   docling-parse
 tblib==3.0.0
     # via sagemaker
-tifffile==2025.2.18
-    # via scikit-image
-tiktoken==0.9.0
+tiktoken==0.8.0
     # via litellm
-tokenizers==0.21.0
+tokenizers==0.15.2
     # via
     #   aleph-alpha-client
     #   anthropic-bedrock
     #   litellm
-    #   transformers
-tomlkit==0.13.2
+tomlkit==0.12.4
     # via pylint
-torch==2.6.0
-    # via
-    #   docling-ibm-models
-    #   easyocr
-    #   safetensors
-    #   torchvision
-torchvision==0.21.0
-    # via
-    #   docling-ibm-models
-    #   easyocr
-tqdm==4.67.1
+tqdm==4.66.2
     # via
     #   aleph-alpha-client
-    #   docling
-    #   docling-ibm-models
     #   huggingface-hub
-    #   mpire
     #   openai
     #   sagemaker
-    #   semchunk
-    #   transformers
-transformers==4.49.0
-    # via
-    #   docling-core
-    #   docling-ibm-models
-triton==3.2.0
-    # via torch
 twisted==24.11.0
     # via watson-developer-cloud
 txaio==23.1.1
     # via autobahn
-typer==0.12.5
-    # via
-    #   docling
-    #   docling-core
-typing-extensions==4.12.2
+typing-extensions==4.11.0
     # via
     #   aleph-alpha-client
     #   anthropic-bedrock
-    #   anyio
     #   azure-ai-formrecognizer
     #   azure-core
-    #   azure-identity
-    #   beautifulsoup4
-    #   docling-core
-    #   fastapi
     #   huggingface-hub
     #   mypy
     #   openai
     #   pydantic
     #   pydantic-core
     #   pyopenssl
-    #   python-docx
     #   python-liquid
-    #   python-pptx
-    #   referencing
-    #   torch
     #   twisted
-    #   typer
-tzdata==2025.1
+tzdata==2024.1
     # via pandas
 uritemplate==4.1.1
     # via google-api-python-client
-urllib3==2.3.0
+urllib3==2.2.1
     # via
     #   aleph-alpha-client
     #   botocore
@@ -884,17 +633,13 @@ urllib3==2.3.0
     #   requests
     #   responses
     #   sagemaker
-uvicorn==0.34.0
-    # via sagemaker
 watson-developer-cloud==2.0.0
     # via -r requirements.in
 websocket-client==1.8.0
     # via ibm-watson
-xlsxwriter==3.2.2
-    # via python-pptx
-yarl==1.18.3
+yarl==1.9.4
     # via aiohttp
-zipp==3.21.0
+zipp==3.18.1
     # via importlib-metadata
 zope-interface==7.2
     # via twisted

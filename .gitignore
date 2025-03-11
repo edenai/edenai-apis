@@ -27,3 +27,4 @@ media
 pyrightconfig.json
 
 *.env*
+.pre-commit-config.yaml
