@@ -553,6 +553,7 @@ class LLMEngine:
             original_response=response.to_dict(),
             standardized_response=standardized_response,
             usage=response.usage,
+            cost=response.cost,
         )
 
     def moderation(self, text: str, **kwargs) -> ResponseType[ModerationDataClass]:
@@ -764,7 +765,7 @@ class StdLLMEngine(LLMEngine):
             if re.match(key, provider_name, re.RegexFlag.IGNORECASE):
                 return StdLLMEngine.PROVIDER_MAPPING[key]
         return provider_name
-    
+
     @moderate_std
     def completion(
         self,
