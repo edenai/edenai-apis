@@ -1,9 +1,18 @@
+import base64
+import json
 from typing import Dict, List, Literal, Optional, Type, Union
 import httpx
 from openai import BaseModel
 import requests
 
-from edenai_apis.features import ProviderInterface, TextInterface
+from edenai_apis.features import ProviderInterface, TextInterface, OcrInterface
+from edenai_apis.features.ocr.ocr.ocr_dataclass import OcrDataClass
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
+    OcrAsyncDataClass,
+    Page,
+    Line,
+    BoundingBox,
+)
 from edenai_apis.features.text.chat.chat_dataclass import ChatDataClass, StreamChat
 from edenai_apis.features.multimodal.chat.chat_dataclass import (
     ChatDataClass as ChatMultimodalDataClass,
@@ -17,13 +26,18 @@ from edenai_apis.features.text.generation.generation_dataclass import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.types import (
+    AsyncBaseResponseType,
+    AsyncLaunchJobResponseType,
+    ResponseType,
+    AsyncResponseType,
+)
 from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
 from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
-class MistralApi(ProviderInterface, TextInterface, LlmInterface):
+class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
     provider_name = "mistral"
 
     def __init__(self, api_keys: Dict = {}) -> None:
@@ -228,3 +242,117 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface):
             **kwargs,
         )
         return response
+
+    def ocr__ocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        url = "https://api.mistral.ai/v1/ocr"
+        if file_url:
+            image_data = file_url
+        else:
+            with open(file, "rb") as image_file:
+                base64_image = base64.b64encode(image_file.read()).decode("utf-8")
+                image_data = f"data:image/jpeg;base64,{base64_image}"
+
+        document = {"type": "image_url", "image_url": image_data}
+        payload = {"model": "mistral-ocr-latest", "document": document}
+        response = requests.post(url=url, headers=self.headers, json=payload)
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+
+        standardized_response = OcrDataClass(text=response_data["pages"][0]["markdown"])
+
+        return ResponseType[OcrDataClass](
+            original_response=response_data, standardized_response=standardized_response
+        )
+
+    def ocr__ocr_async__launch_job(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        url = "https://api.mistral.ai/v1/files"
+        with open(file, "rb") as f:
+            files = {"file": f}
+            data = {"purpose": "ocr"}
+            response = requests.post(
+                url=url, headers=self.headers, files=files, data=data
+            )
+
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+        return AsyncLaunchJobResponseType(provider_job_id=response_data["id"])
+
+    def ocr__ocr_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrAsyncDataClass]:
+        url = f"https://api.mistral.ai/v1/files/{provider_job_id}/url?expiry=24"
+        response = requests.get(url=url, headers=self.headers)
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+        response = requests.get(url=url, headers=self.headers)
+        file_url = response.json()["url"]
+        payload = {
+            "model": "mistral-ocr-latest",
+            "document": {
+                "type": "document_url",
+                "document_url": file_url,
+            },
+        }
+        url = "https://api.mistral.ai/v1/ocr"
+        response = requests.post(url=url, headers=self.headers, json=payload)
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+        number_of_pages = response_data["usage_info"]["pages_processed"]
+        raw_text = ""
+        pages = []
+        for page in response_data["pages"]:
+            raw_text += page["markdown"]
+            # markdown_lines = page["markdown"].split("\n")
+            # lines = []
+            # for line_text in markdown_lines:
+            #     line = Line(text=line_text, bounding_box=BoundingBox())
+            #     lines.append(line)
+            # pages.append(Page(lines=lines))
+
+        return AsyncResponseType(
+            original_response=response_data,
+            standardized_response=OcrAsyncDataClass(
+                raw_text=raw_text, pages=pages, number_of_pages=number_of_pages
+            ),
+            provider_job_id=provider_job_id,
+        )
