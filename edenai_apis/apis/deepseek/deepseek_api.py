@@ -21,7 +21,7 @@ class DeepseekApi(ProviderInterface, TextInterface, LlmInterface):
 
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+            ProviderDataEnum.KEY, "together_ai", api_keys=api_keys
         )
         self.api_key = self.api_settings["api_key"]
         self.llm_client = LLMEngine(

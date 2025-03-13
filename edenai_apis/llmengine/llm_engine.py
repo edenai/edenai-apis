@@ -150,6 +150,7 @@ class LLMEngine:
                 tools=available_tools
             )
             call_params["tool_choice"] = tool_choice
+        print(f"======================> chat call_params: {call_params}")
         response = self.completion_client.completion(**call_params, **kwargs)
         if stream is False:
             response = ResponseModel.model_validate(response)
@@ -839,13 +840,13 @@ class LLMEngine:
         except Exception as ex:
             raise ex
 
-    def _execute_completion(self, params: Dict, **kwargs):
-        try:
-            response = self.completion_client.completion(**params, **kwargs)
-            response = ResponseModel.model_validate(response)
-            return response
-        except Exception as ex:
-            raise ex
+    # def _execute_completion(self, params: Dict, **kwargs):
+    #     try:
+    #         response = self.completion_client.completion(**params, **kwargs)
+    #         response = ResponseModel.model_validate(response)
+    #         return response
+    #     except Exception as ex:
+    #         raise ex
 
 
 class StdLLMEngine(LLMEngine):
