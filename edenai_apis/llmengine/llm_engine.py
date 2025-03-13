@@ -809,30 +809,30 @@ class StdLLMEngine(LLMEngine):
         **kwargs,
     ):
         kwargs.pop("moderate_content", None)
-        if "provider" in kwargs:
-            # Verify if the provider is gemini
-            provider_name = kwargs.pop("provider", None)
-            is_gemini = provider_name == "gemini"
-            provider_name = StdLLMEngine.map_provider(provider_name)
-            if provider_name == "google" and not is_gemini:
-                api_settings, location = load_provider(
-                    ProviderDataEnum.KEY,
-                    provider_name=provider_name,
-                    location=True,
-                    api_keys=api_key,
-                )
-                self.project_id = api_settings["project_id"]
-                os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = location
-            elif is_gemini:
-                api_settings = load_provider(
-                    ProviderDataEnum.KEY, provider_name=provider_name, api_keys=api_key
-                )
-                api_key = api_settings["genai_api_key"]
-            else:
-                api_settings = load_provider(
-                    ProviderDataEnum.KEY, provider_name=provider_name, api_keys=api_key
-                )
-                api_key = api_settings["api_key"]
+        # if "provider" in kwargs:
+        #     # Verify if the provider is gemini
+        #     provider_name = kwargs.pop("provider", None)
+        #     is_gemini = provider_name == "gemini"
+        #     provider_name = StdLLMEngine.map_provider(provider_name)
+        #     if provider_name == "google" and not is_gemini:
+        #         api_settings, location = load_provider(
+        #             ProviderDataEnum.KEY,
+        #             provider_name=provider_name,
+        #             location=True,
+        #             api_keys=api_key,
+        #         )
+        #         self.project_id = api_settings["project_id"]
+        #         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = location
+        #     elif is_gemini:
+        #         api_settings = load_provider(
+        #             ProviderDataEnum.KEY, provider_name=provider_name, api_keys=api_key
+        #         )
+        #         api_key = api_settings["genai_api_key"]
+        #     else:
+        #         api_settings = load_provider(
+        #             ProviderDataEnum.KEY, provider_name=provider_name, api_keys=api_key
+        #         )
+        #         api_key = api_settings["api_key"]
         try:
             completion_params = {
                 "messages": messages,
@@ -862,7 +862,7 @@ class StdLLMEngine(LLMEngine):
                 "function_call": function_call,
                 "base_url": base_url,
                 "api_version": api_version,
-                "api_key": api_key,
+                "api_key": self.provider_config["api_key"],
                 "model_list": model_list,
                 "drop_invalid_params": drop_invalid_params,
                 "user": user,

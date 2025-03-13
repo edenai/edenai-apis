@@ -32,6 +32,8 @@ class OpenaiApi(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
 
+        print(self.api_settings)
+
         self.api_key = self.api_settings.get("api_key")
         self.headers = {"Authorization": f"Bearer {self.api_key}"}
         self.api_key = self.api_settings["api_key"]

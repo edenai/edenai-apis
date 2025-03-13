@@ -77,7 +77,6 @@ class OpenaiLLMApi(LlmInterface):
             function_call=function_call,
             base_url=base_url,
             api_version=api_version,
-            api_key=api_key,
             model_list=model_list,
             drop_invalid_params=drop_invalid_params,
             user=user,
