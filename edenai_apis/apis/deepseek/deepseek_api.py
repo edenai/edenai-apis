@@ -100,9 +100,9 @@ class DeepseekApi(ProviderInterface, TextInterface, LlmInterface):
         # Optional parameters
         **kwargs,
     ) -> ChatDataClass:
-        response = self.std_llm_client.completion(
+        response = self.llm_client.completion(
             messages=messages,
-            model=model,
+            model=f"deepseek-ai/{model}",
             timeout=timeout,
             temperature=temperature,
             top_p=top_p,
