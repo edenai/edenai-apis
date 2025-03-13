@@ -315,8 +315,7 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
                 message=response_data.get("message", response.text),
                 code=response.status_code,
             )
-        response = requests.get(url=url, headers=self.headers)
-        file_url = response.json()["url"]
+        file_url = response_data["url"]
         payload = {
             "model": "mistral-ocr-latest",
             "document": {
