@@ -812,7 +812,9 @@ class LLMEngine:
             }
             call_params = self._prepare_args(**completion_params)
             print(f"======================> chat call_params: {call_params}")
-            response = self._execute_completion(call_params)
+            response = self._execute_completion(
+                call_params, response_class=ResponseModel
+            )
             return response
         except Exception as ex:
             raise ex
