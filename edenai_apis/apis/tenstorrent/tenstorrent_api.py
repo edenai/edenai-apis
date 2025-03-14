@@ -29,6 +29,7 @@ class TenstorrentApi(
             "Tenstorrent-Version": "2023-06-26",
         }
         self.url = "https://chat-and-generation--eden-ai.workload.tenstorrent.com/v1"
-        self.llm_client = LLMEngine(provider_name=self.provider_name,provider_config={"api_key": self.api_key,},)
+        self.client = OpenAI(api_key=self.api_key, base_url=self.url)
+        self.llm_client = LLMEngine(provider_name=self.provider_name,provider_config={"api_key": self.api_key})
         self.std_llm_client = StdLLMEngine(provider_config={"api_key": self.api_key})
         self.moderation_flag = True
