@@ -838,10 +838,9 @@ class LLMEngine:
 
             completion_params = completion_params | kwargs
             call_params = self._prepare_args(**completion_params)
-            print(f"======================> chat call_params: {call_params}")
-            response = self._execute_completion(
-                call_params, response_class=ResponseModel
-            )
+            print(f"======================> std chat call_params: {call_params}")
+            response = self.completion_client.completion(**call_params, **kwargs)
+            response = ResponseModel.model_validate(response)
             return response
         except Exception as ex:
             raise ex
