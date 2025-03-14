@@ -1,6 +1,6 @@
 def chat_arguments(provider_name: str):
     return {
-        "model": "mistral/mistral-saba-latest",
+        "model": "openai/tenstorrent/Meta-Llama-3.1-70B-Instruct",
         "messages": [
             {"role": "system", "content": "Always reply like a pirate"},
             {
