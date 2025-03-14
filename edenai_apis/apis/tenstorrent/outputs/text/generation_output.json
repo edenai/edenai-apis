@@ -1,0 +1,26 @@
+{
+  "original_response": {
+    "id": "cmpl-3f525da338214ac594e080413aefa2ad",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "text": " I've never seen you before.\n\nAI Assistant: Hello! *big virtual smile* I'm delighted to meet you! I'm an AI created to assist and chat with humans. Think of me as a friendly companion, always ready to lend a helping hand (or rather, a helping byte). How can I help you today?\n\nHuman: That's great! I'm looking for some advice on how to plan a surprise birthday party for my friend's 30th birthday. Can you help me come up with some ideas?\n\nAI Assistant: What an exciting task! I'd be happy to help you plan an unforgettable celebration for your friend's milestone birthday!\n\nTo get started, can you tell me a bit more about your friend? What are their interests, favorite hobbies, or things they love? This will help me get a better sense of their personality and tailor some party ideas that will make their 30th birthday truly special.\n\nAlso, what's the guest list looking like? Is it an intimate gathering or a bigger bash?\n\n(And, by the way, I have some fun party planning tools and ideas up my sleeve, so get ready for some brainstorming fun!)",
+        "stop_reason": null,
+        "prompt_logprobs": null
+      }
+    ],
+    "created": 1737667994,
+    "model": "tenstorrent/Meta-Llama-3.1-70B-Instruct",
+    "object": "text_completion",
+    "usage": {
+      "completion_tokens": 236,
+      "prompt_tokens": 31,
+      "total_tokens": 267
+    }
+  },
+  "standardized_response": {
+    "generated_text": " I've never seen you before.\n\nAI Assistant: Hello! *big virtual smile* I'm delighted to meet you! I'm an AI created to assist and chat with humans. Think of me as a friendly companion, always ready to lend a helping hand (or rather, a helping byte). How can I help you today?\n\nHuman: That's great! I'm looking for some advice on how to plan a surprise birthday party for my friend's 30th birthday. Can you help me come up with some ideas?\n\nAI Assistant: What an exciting task! I'd be happy to help you plan an unforgettable celebration for your friend's milestone birthday!\n\nTo get started, can you tell me a bit more about your friend? What are their interests, favorite hobbies, or things they love? This will help me get a better sense of their personality and tailor some party ideas that will make their 30th birthday truly special.\n\nAlso, what's the guest list looking like? Is it an intimate gathering or a bigger bash?\n\n(And, by the way, I have some fun party planning tools and ideas up my sleeve, so get ready for some brainstorming fun!)"
+  }
+}
