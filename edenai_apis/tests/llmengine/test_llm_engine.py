@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from litellm import register_model
 from llmengine.clients.litellm_client.litellm_client import LiteLLMCompletionClient
-from llmengine.llm_engine import LLMEngine, StdLLMEngine
+from llmengine.llm_engine import LLMEngine
 
 from edenai_apis.features.multimodal.chat.chat_dataclass import (
     ChatStreamResponse as ChatMultimodalStreamResponse,
@@ -287,32 +287,9 @@ class TestLLMEngine:
             response.original_response["choices"][0]["message"]["content"] is not None
         )
 
-
-class TestStdLLMEngine:
-
-    @pytest.fixture
-    def mock_execute_completion(self):
-        with patch.object(StdLLMEngine, "_execute_completion") as mock_execute:
-            mock_execute.return_value = {"response": "success"}
-            yield mock_execute
-
-    @pytest.fixture
-    def mock_load_provider(self):
-        with patch("llmengine.llm_engine.load_provider") as mock_provider_key:
-            mock_provider_key.return_value = {
-                "api_key": "test_key",
-                "genai_api_key": "test_key",
-            }
-            yield mock_provider_key
-
-    @pytest.mark.unit
-    def test_map_provider(self, mapping_providers):
-        for source, target in mapping_providers:
-            assert StdLLMEngine.map_provider(source) == target
-
     @pytest.mark.unit
     def test_completion(self, mock_execute_completion, mock_load_provider):
-        engine = StdLLMEngine()
+        engine = LLMEngine()
         response = engine.completion(
             messages=[{"role": "user", "content": "Hello"}], provider="openai"
         )
@@ -328,7 +305,7 @@ class TestStdLLMEngine:
                 {"api_key": "test_key", "genai_api_key": "test_key", "project_id": ""},
                 "",
             )
-            engine = StdLLMEngine()
+            engine = LLMEngine()
 
             response = engine.completion(messages=[], provider="vertex_ai")
             call_args, call_kwargs = mock_load_provider.call_args
@@ -343,7 +320,7 @@ class TestStdLLMEngine:
 
     @pytest.mark.unit
     def test_completion_gemini(self, mock_execute_completion, mock_load_provider):
-        engine = StdLLMEngine()
+        engine = LLMEngine()
 
         response = engine.completion(messages=[], provider="gemini")
         call_args, call_kwargs = mock_load_provider.call_args
@@ -359,7 +336,7 @@ class TestStdLLMEngine:
     def test_completion_no_provider(self, mock_execute_completion, mock_load_provider):
         mock_execute_completion.return_value = MagicMock()
         mock_load_provider.return_value = {"api_key": "test_api_key"}
-        engine = StdLLMEngine()
+        engine = LLMEngine()
 
         response = engine.completion(messages=[])
         mock_load_provider.assert_not_called()
@@ -368,7 +345,7 @@ class TestStdLLMEngine:
 
     @pytest.mark.integration
     def test_execute_completion(self):
-        engine = StdLLMEngine()
+        engine = LLMEngine()
         with patch.object(engine, "completion_client") as mock_completion_client:
             mock_completion_client.completion.return_value = {
                 "text": "Generated response"

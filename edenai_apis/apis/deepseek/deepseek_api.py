@@ -12,7 +12,6 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.llmengine import LLMEngine
 from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.llmengine.llm_engine import StdLLMEngine
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
@@ -27,8 +26,6 @@ class DeepseekApi(ProviderInterface, TextInterface, LlmInterface):
         self.llm_client = LLMEngine(
             provider_name="together_ai", provider_config={"api_key": self.api_key}
         )
-
-        self.std_llm_client = StdLLMEngine(provider_config={"api_key": self.api_key})
 
     def text__chat(
         self,

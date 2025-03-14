@@ -49,7 +49,7 @@ class OpenaiLLMApi(LlmInterface):
         # Optional parameters
         **kwargs,
     ) -> ChatDataClass:
-        response = self.std_llm_client.completion(
+        response = self.llm_client.completion(
             messages=messages,
             model=model,
             timeout=timeout,

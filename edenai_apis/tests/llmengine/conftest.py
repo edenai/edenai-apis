@@ -1,4 +1,5 @@
 from typing import List, Tuple, Union
+from unittest.mock import patch
 
 import pytest
 
@@ -171,29 +172,10 @@ def invalid_models_to_litellm() -> dict[str, list]:
 
 
 @pytest.fixture
-def mapping_providers() -> List[Tuple[Union[str, None], Union[str, None]]]:
-    return [
-        ("openai", "openai"),
-        ("cohere", "cohere"),
-        ("anthropic", "anthropic"),
-        ("replicate", "replicate"),
-        ("mistral", "mistral"),
-        ("meta", "meta"),
-        ("togetherai", "togetherai"),
-        ("huggingface", "huggingface"),
-        ("azure", "azure"),
-        ("gemini", "google"),
-        ("vertex_ai-text-models", "google"),
-        ("vertex_ai-chat-models", "google"),
-        ("vertex_ai-language-models", "google"),
-        ("perplexity", "perplexity"),
-        ("openrouter", "openrouter"),
-        ("ai21", "ai21"),
-        ("amazon", "bedrock"),
-        ("anyscale", "anyscale"),
-        ("deepinfra", "deepinfra"),
-        ("nlpcloud", "nlpcloud"),
-        ("openllm", "openllm"),
-        ("", ""),
-        (None, None),
-    ]
+def mock_load_provider(self):
+    with patch("llmengine.llm_engine.load_provider") as mock_provider_key:
+        mock_provider_key.return_value = {
+            "api_key": "test_key",
+            "genai_api_key": "test_key",
+        }
+        yield mock_provider_key

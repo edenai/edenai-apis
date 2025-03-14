@@ -1,6 +1,6 @@
 from typing import Dict
 
-from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.apis.openai.openai_doc_parsing_api import OpenaiDocParsingApi
 from edenai_apis.apis.openai.openai_audio_api import OpenaiAudioApi
 from edenai_apis.apis.openai.openai_image_api import OpenaiImageApi
@@ -57,7 +57,5 @@ class OpenaiApi(
                 "api_key": self.api_key,
             },
         )
-
-        self.std_llm_client = StdLLMEngine(provider_config={"api_key": self.api_key})
 
         self.moderation_flag = True
