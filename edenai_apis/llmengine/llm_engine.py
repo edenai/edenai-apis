@@ -777,39 +777,65 @@ class LLMEngine:
     ):
         kwargs.pop("moderate_content", None)
         try:
-            completion_params = {
-                "messages": messages,
-                "model": model,
-                "timeout": timeout,
-                "temperature": temperature,
-                "top_p": top_p,
-                "n": n,
-                "stream": stream,
-                "stream_options": stream_options,
-                "stop": stop,
-                "stop_sequences": stop_sequences,
-                "max_tokens": max_tokens,
-                "presence_penalty": presence_penalty,
-                "frequency_penalty": frequency_penalty,
-                "logit_bias": logit_bias,
-                "response_format": response_format,
-                "seed": seed,
-                "tools": tools,
-                "tool_choice": tool_choice,
-                "logprobs": logprobs,
-                "top_logprobs": top_logprobs,
-                "parallel_tool_calls": parallel_tool_calls,
-                "deployment_id": deployment_id,
-                "extra_headers": extra_headers,
-                "functions": functions,
-                "function_call": function_call,
-                "base_url": base_url,
-                "api_version": api_version,
-                "model_list": model_list,
-                "drop_invalid_params": drop_invalid_params,
-                "user": user,
-                **kwargs,
-            }
+            completion_params = {"messages": messages, "model": model}
+            if timeout is not None:
+                completion_params["timeout"] = timeout
+            if temperature is not None:
+                completion_params["temperature"] = temperature
+            if top_p is not None:
+                completion_params["top_p"] = top_p
+            if n is not None:
+                completion_params["n"] = n
+            if stream is not None:
+                completion_params["stream"] = stream
+            if stream_options is not None:
+                completion_params["stream_options"] = stream_options
+            if stop is not None:
+                completion_params["stop"] = stop
+            if stop_sequences is not None:
+                completion_params["stop"] = stop_sequences
+            if max_tokens is not None:
+                completion_params["max_tokens"] = max_tokens
+            if presence_penalty is not None:
+                completion_params["presence_penalty"] = presence_penalty
+            if frequency_penalty is not None:
+                completion_params["frequency_penalty"] = frequency_penalty
+            if logit_bias is not None:
+                completion_params["logit_bias"] = logit_bias
+            if response_format is not None:
+                completion_params["response_format"] = response_format
+            if seed is not None:
+                completion_params["seed"] = seed
+            if tools is not None:
+                completion_params["tools"] = tools
+            if tool_choice is not None:
+                completion_params["tool_choice"] = tool_choice
+            if logprobs is not None:
+                completion_params["logprobs"] = logprobs
+            if top_logprobs is not None:
+                completion_params["top_logprobs"] = top_logprobs
+            if parallel_tool_calls is not None:
+                completion_params["parallel_tool_calls"] = parallel_tool_calls
+            if deployment_id is not None:
+                completion_params["deployment_id"] = deployment_id
+            if extra_headers is not None:
+                completion_params["extra_headers"] = extra_headers
+            if functions is not None:
+                completion_params["functions"] = functions
+            if function_call is not None:
+                completion_params["function_call"] = function_call
+            if base_url is not None:
+                completion_params["base_url"] = base_url
+            if api_version is not None:
+                completion_params["api_version"] = api_version
+            if model_list is not None:
+                completion_params["model_list"] = model_list
+            if drop_invalid_params is not None:
+                completion_params["drop_invalid_params"] = drop_invalid_params
+            if user is not None:
+                completion_params["user"] = user
+
+            completion_params = completion_params | kwargs
             call_params = self._prepare_args(**completion_params)
             print(f"======================> chat call_params: {call_params}")
             response = self._execute_completion(
