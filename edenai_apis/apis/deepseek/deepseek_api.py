@@ -12,7 +12,6 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.llmengine import LLMEngine
 from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.llmengine.llm_engine import StdLLMEngine
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
@@ -21,14 +20,12 @@ class DeepseekApi(ProviderInterface, TextInterface, LlmInterface):
 
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+            ProviderDataEnum.KEY, "together_ai", api_keys=api_keys
         )
         self.api_key = self.api_settings["api_key"]
         self.llm_client = LLMEngine(
             provider_name="together_ai", provider_config={"api_key": self.api_key}
         )
-
-        self.std_llm_client = StdLLMEngine(provider_config={"api_key": self.api_key})
 
     def text__chat(
         self,
@@ -100,9 +97,9 @@ class DeepseekApi(ProviderInterface, TextInterface, LlmInterface):
         # Optional parameters
         **kwargs,
     ) -> ChatDataClass:
-        response = self.std_llm_client.completion(
+        response = self.llm_client.completion(
             messages=messages,
-            model=model,
+            model=f"deepseek-ai/{model}",
             timeout=timeout,
             temperature=temperature,
             top_p=top_p,

@@ -18,7 +18,7 @@ from edenai_apis.features.multimodal.chat.chat_dataclass import (
 )
 from edenai_apis.features.text import SummarizeDataClass
 from edenai_apis.features.text.chat.chat_dataclass import ChatDataClass, StreamChat
-from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
@@ -35,13 +35,6 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface, LlmInterfac
         )
         self.llm_client = LLMEngine(
             provider_name=self.provider_name,
-            provider_config={
-                "api_key": self.api_settings.get("api_key"),
-                # "cache_control": {"type": "ephemeral"},
-            },
-        )
-
-        self.std_llm_client = StdLLMEngine(
             provider_config={
                 "api_key": self.api_settings.get("api_key"),
                 # "cache_control": {"type": "ephemeral"},
@@ -178,7 +171,7 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface, LlmInterfac
         # Optional parameters
         **kwargs,
     ) -> ChatDataClass:
-        response = self.std_llm_client.completion(
+        response = self.llm_client.completion(
             messages=messages,
             model=model,
             timeout=timeout,

@@ -176,8 +176,10 @@ class LiteLLMCompletionClient(CompletionClient):
         if kwargs.get("input_cost_per_token", None) and kwargs.get(
             "output_cost_per_token", None
         ):
-            custom_pricing["input_cost_per_token"] = kwargs["input_cost_per_token"]
-            custom_pricing["output_cost_per_token"] = kwargs["output_cost_per_token"]
+            custom_pricing["input_cost_per_token"] = kwargs.pop("input_cost_per_token")
+            custom_pricing["output_cost_per_token"] = kwargs.pop(
+                "output_cost_per_token"
+            )
         try:
             if drop_invalid_params == True:
                 litellm.drop_params = True

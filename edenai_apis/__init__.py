@@ -24,4 +24,4 @@ from . import interface
 from . import loaders
 from . import settings
 from . import utils
-from .interface_v2 import Text, Ocr, Video, Audio, Image, Translation, Multimodal, LLM
+from .interface_v2 import Text, Ocr, Video, Audio, Image, Translation, Multimodal, Llm

@@ -17,7 +17,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
-from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine
 import json
 import boto3
 
@@ -40,14 +40,6 @@ class MetaApi(ProviderInterface, TextInterface, LlmInterface):
         )
         self.llm_client = LLMEngine(
             provider_name="bedrock",
-            provider_config={
-                "aws_access_key_id": self.api_settings["aws_access_key_id"],
-                "aws_secret_access_key": self.api_settings["aws_secret_access_key"],
-                "aws_region_name": self.api_settings["region_name"],
-            },
-        )
-
-        self.std_llm_client = StdLLMEngine(
             provider_config={
                 "aws_access_key_id": self.api_settings["aws_access_key_id"],
                 "aws_secret_access_key": self.api_settings["aws_secret_access_key"],
@@ -172,7 +164,7 @@ class MetaApi(ProviderInterface, TextInterface, LlmInterface):
         # Optional parameters
         **kwargs,
     ) -> ChatDataClass:
-        response = self.std_llm_client.completion(
+        response = self.llm_client.completion(
             messages=messages,
             model=model,
             timeout=timeout,
