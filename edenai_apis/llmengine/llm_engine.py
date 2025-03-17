@@ -834,7 +834,7 @@ class LLMEngine:
             if user is not None:
                 completion_params["user"] = user
 
-            completion_params = completion_params | kwargs
+            completion_params = completion_params
             call_params = self._prepare_args(**completion_params)
             response = self.completion_client.completion(**call_params, **kwargs)
             response = ResponseModel.model_validate(response)
