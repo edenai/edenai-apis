@@ -112,6 +112,8 @@ class LLMEngine:
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
+        except ValueError as exc_v:
+            raise ProviderException("Provider returned an empty or mal-formatted response") from exc_v
         standardized_response = response_class(**result)
         return ResponseType[response_class](
             original_response=response.to_dict(),
