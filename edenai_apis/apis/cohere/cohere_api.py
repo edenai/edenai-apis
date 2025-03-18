@@ -22,7 +22,7 @@ from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
 )
 from edenai_apis.features.text.summarize import SummarizeDataClass
-from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
@@ -50,8 +50,6 @@ class CohereApi(ProviderInterface, TextInterface, LlmInterface):
         self.llm_client = LLMEngine(
             provider_name=self.provider_name, provider_config={"api_key": self.api_key}
         )
-
-        self.std_llm_client = StdLLMEngine(provider_config={"api_key": self.api_key})
 
     @staticmethod
     def _calculate_summarize_length(output_sentences: int):
@@ -372,7 +370,7 @@ class CohereApi(ProviderInterface, TextInterface, LlmInterface):
         # Optional parameters
         **kwargs,
     ) -> ChatDataClass:
-        response = self.std_llm_client.completion(
+        response = self.llm_client.completion(
             messages=messages,
             model=model,
             timeout=timeout,

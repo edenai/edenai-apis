@@ -112,6 +112,8 @@ class LLMEngine:
             raise ProviderException(
                 "An error occurred while parsing the response."
             ) from exc
+        except ValueError as exc_v:
+            raise ProviderException("Provider returned an empty or mal-formatted response") from exc_v
         standardized_response = response_class(**result)
         return ResponseType[response_class](
             original_response=response.to_dict(),
@@ -732,40 +734,6 @@ class LLMEngine:
             usage=response.usage,
         )
 
-
-class StdLLMEngine(LLMEngine):
-
-    PROVIDER_MAPPING = {
-        "vertex_ai": "google",
-        "gemini": "google",
-        "bedrock_converse": "bedrock",
-        "amazon": "bedrock",
-    }
-
-    def __init__(
-        self,
-        provider_config: dict = {},
-        **kwargs,
-    ):
-        super().__init__(
-            model=None,
-            client_name="litellm",
-            application_name="std_chat",
-            provider_config=provider_config,
-            provider_name=None,
-            **kwargs,
-        )
-
-    @staticmethod
-    def map_provider(provider_name: str) -> str:
-        if provider_name is None:
-            return None
-        # Try to regex match the keys of PROVIDER_MAPPING and provider_name. The first one ot match wins
-        for key in StdLLMEngine.PROVIDER_MAPPING.keys():
-            if re.match(key, provider_name, re.RegexFlag.IGNORECASE):
-                return StdLLMEngine.PROVIDER_MAPPING[key]
-        return provider_name
-
     @moderate_std
     def completion(
         self,
@@ -809,73 +777,68 @@ class StdLLMEngine(LLMEngine):
         **kwargs,
     ):
         kwargs.pop("moderate_content", None)
-        if "provider" in kwargs:
-            # Verify if the provider is gemini
-            provider_name = kwargs.pop("provider", None)
-            is_gemini = provider_name == "gemini"
-            provider_name = StdLLMEngine.map_provider(provider_name)
-            if provider_name == "google" and not is_gemini:
-                api_settings, location = load_provider(
-                    ProviderDataEnum.KEY,
-                    provider_name=provider_name,
-                    location=True,
-                    api_keys=api_key,
-                )
-                self.project_id = api_settings["project_id"]
-                os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = location
-            elif is_gemini:
-                api_settings = load_provider(
-                    ProviderDataEnum.KEY, provider_name=provider_name, api_keys=api_key
-                )
-                api_key = api_settings["genai_api_key"]
-            else:
-                api_settings = load_provider(
-                    ProviderDataEnum.KEY, provider_name=provider_name, api_keys=api_key
-                )
-                api_key = api_settings["api_key"]
         try:
-            completion_params = {
-                "messages": messages,
-                "model": model,
-                "timeout": timeout,
-                "temperature": temperature,
-                "top_p": top_p,
-                "n": n,
-                "stream": stream,
-                "stream_options": stream_options,
-                "stop": stop,
-                "stop_sequences": stop_sequences,
-                "max_tokens": max_tokens,
-                "presence_penalty": presence_penalty,
-                "frequency_penalty": frequency_penalty,
-                "logit_bias": logit_bias,
-                "response_format": response_format,
-                "seed": seed,
-                "tools": tools,
-                "tool_choice": tool_choice,
-                "logprobs": logprobs,
-                "top_logprobs": top_logprobs,
-                "parallel_tool_calls": parallel_tool_calls,
-                "deployment_id": deployment_id,
-                "extra_headers": extra_headers,
-                "functions": functions,
-                "function_call": function_call,
-                "base_url": base_url,
-                "api_version": api_version,
-                "api_key": api_key,
-                "model_list": model_list,
-                "drop_invalid_params": drop_invalid_params,
-                "user": user,
-                **kwargs,
-            }
-            response = self._execute_completion(completion_params)
-            return response
-        except Exception as ex:
-            raise ex
+            completion_params = {"messages": messages, "model": model}
+            if timeout is not None:
+                completion_params["timeout"] = timeout
+            if temperature is not None:
+                completion_params["temperature"] = temperature
+            if top_p is not None:
+                completion_params["top_p"] = top_p
+            if n is not None:
+                completion_params["n"] = n
+            if stream is not None:
+                completion_params["stream"] = stream
+            if stream_options is not None:
+                completion_params["stream_options"] = stream_options
+            if stop is not None:
+                completion_params["stop"] = stop
+            if stop_sequences is not None:
+                completion_params["stop"] = stop_sequences
+            if max_tokens is not None:
+                completion_params["max_tokens"] = max_tokens
+            if presence_penalty is not None:
+                completion_params["presence_penalty"] = presence_penalty
+            if frequency_penalty is not None:
+                completion_params["frequency_penalty"] = frequency_penalty
+            if logit_bias is not None:
+                completion_params["logit_bias"] = logit_bias
+            if response_format is not None:
+                completion_params["response_format"] = response_format
+            if seed is not None:
+                completion_params["seed"] = seed
+            if tools is not None:
+                completion_params["tools"] = tools
+            if tool_choice is not None:
+                completion_params["tool_choice"] = tool_choice
+            if logprobs is not None:
+                completion_params["logprobs"] = logprobs
+            if top_logprobs is not None:
+                completion_params["top_logprobs"] = top_logprobs
+            if parallel_tool_calls is not None:
+                completion_params["parallel_tool_calls"] = parallel_tool_calls
+            if deployment_id is not None:
+                completion_params["deployment_id"] = deployment_id
+            if extra_headers is not None:
+                completion_params["extra_headers"] = extra_headers
+            if functions is not None:
+                completion_params["functions"] = functions
+            if function_call is not None:
+                completion_params["function_call"] = function_call
+            if base_url is not None:
+                completion_params["base_url"] = base_url
+            if api_version is not None:
+                completion_params["api_version"] = api_version
+            if model_list is not None:
+                completion_params["model_list"] = model_list
+            if drop_invalid_params is not None:
+                completion_params["drop_invalid_params"] = drop_invalid_params
+            if user is not None:
+                completion_params["user"] = user
 
-    def _execute_completion(self, params: Dict, **kwargs):
-        try:
-            response = self.completion_client.completion(**params, **kwargs)
+            completion_params = completion_params
+            call_params = self._prepare_args(**completion_params)
+            response = self.completion_client.completion(**call_params, **kwargs)
             response = ResponseModel.model_validate(response)
             return response
         except Exception as ex:

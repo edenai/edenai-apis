@@ -22,7 +22,6 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.llmengine import LLMEngine
 from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.llmengine.llm_engine import StdLLMEngine
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 from .config import get_model_id_image
 
@@ -45,8 +44,6 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface, LlmInterfac
             provider_config={"api_key": self.api_key},
         )
         self.base_url = "https://api.replicate.com/v1"
-
-        self.std_llm_client = StdLLMEngine(provider_config={"api_key": self.api_key})
 
     @staticmethod
     def __calculate_predict_time(get_response: dict):
@@ -283,7 +280,7 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface, LlmInterfac
         # Optional parameters
         **kwargs,
     ) -> ChatDataClass:
-        response = self.std_llm_client.completion(
+        response = self.llm_client.completion(
             messages=messages,
             model=model,
             timeout=timeout,

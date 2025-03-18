@@ -6,7 +6,7 @@ from edenai_apis.apis.xai.xai_llm_api import XAiLLMApi
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine
 
 
 class XAiApi(
@@ -22,5 +22,3 @@ class XAiApi(
         self.llm_client = LLMEngine(
             provider_name=self.provider_name, provider_config={"api_key": self.api_key}
         )
-
-        self.std_llm_client = StdLLMEngine(provider_config={"api_key": self.api_key})

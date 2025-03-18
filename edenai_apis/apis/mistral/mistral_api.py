@@ -32,7 +32,7 @@ from edenai_apis.utils.types import (
     ResponseType,
     AsyncResponseType,
 )
-from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
@@ -50,8 +50,6 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
         self.llm_client = LLMEngine(
             provider_name=self.provider_name, provider_config={"api_key": self.api_key}
         )
-
-        self.std_llm_client = StdLLMEngine(provider_config={"api_key": self.api_key})
 
     def text__generation(
         self, text: str, temperature: float, max_tokens: int, model: str, **kwargs
@@ -207,7 +205,7 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
         # Optional parameters
         **kwargs,
     ) -> ChatDataClass:
-        response = self.std_llm_client.completion(
+        response = self.llm_client.completion(
             messages=messages,
             model=model,
             timeout=timeout,

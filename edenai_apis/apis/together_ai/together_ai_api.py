@@ -2,7 +2,7 @@ from typing import Dict, List, Literal, Optional, Type, Union
 
 import httpx
 from openai import BaseModel
-from edenai_apis.llmengine.llm_engine import LLMEngine, StdLLMEngine
+from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.text import ChatDataClass
 from edenai_apis.features.text.chat.chat_dataclass import (
@@ -27,10 +27,6 @@ class TogetheraiApi(ProviderInterface, TextInterface, LlmInterface):
             provider_config={
                 "api_key": self.api_settings.get("api_key"),
             },
-        )
-
-        self.std_llm_client = StdLLMEngine(
-            provider_config={"api_key": self.api_settings.get("api_key")}
         )
 
         self.moderation_flag = True
@@ -105,7 +101,7 @@ class TogetheraiApi(ProviderInterface, TextInterface, LlmInterface):
         # Optional parameters
         **kwargs,
     ) -> ChatDataClass:
-        response = self.std_llm_client.completion(
+        response = self.llm_client.completion(
             messages=messages,
             model=model,
             timeout=timeout,

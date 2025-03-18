@@ -49,7 +49,7 @@ class GoogleLLMApi(LlmInterface):
         # Optional parameters
         **kwargs,
     ) -> ChatDataClass:
-        response = self.clients["std_llm_client"].completion(
+        response = self.clients["llm_client"].completion(
             messages=messages,
             model=model,
             timeout=timeout,
