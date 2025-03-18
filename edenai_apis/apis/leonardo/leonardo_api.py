@@ -14,6 +14,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from .config import get_model_id_image
 from edenai_apis.utils.parsing import extract
+from edenai_apis.llmengine.utils.moderation import moderate
 
 
 class LeonardoApi(ProviderInterface, ImageInterface):
@@ -94,6 +95,7 @@ class LeonardoApi(ProviderInterface, ImageInterface):
 
         return response_dict
 
+    @moderate
     def image__generation(
         self,
         text: str,

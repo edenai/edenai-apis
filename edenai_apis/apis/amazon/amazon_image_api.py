@@ -2,6 +2,7 @@ import json
 import base64
 from io import BytesIO
 from typing import Literal, Optional, Sequence
+from edenai_apis.llmengine.utils.moderation import moderate
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
 from edenai_apis.features.image.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
@@ -458,6 +459,7 @@ class AmazonImageApi(ImageInterface):
             standardized_response=FaceCompareDataClass(items=face_match_list),
         )
 
+    @moderate
     def image__generation(
         self,
         text: str,
