@@ -52,8 +52,7 @@ google-cloud-automl==2.11.1
 google-cloud-aiplatform==1.35.0
 
 #ibm
-ibm-watson>=6.0.0
-watson-developer-cloud
+ibm-watson
 
 #lettria
 lettria==6.0.0
