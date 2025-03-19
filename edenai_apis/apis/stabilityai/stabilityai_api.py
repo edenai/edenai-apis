@@ -21,6 +21,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
+from edenai_apis.llmengine.utils.moderation import moderate
 
 
 class StabilityAIApi(ProviderInterface, ImageInterface):
@@ -37,6 +38,7 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
             "Accept": "application/json",
         }
 
+    @moderate
     def image__generation(
         self,
         text: str,

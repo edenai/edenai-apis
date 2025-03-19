@@ -44,6 +44,21 @@
             "version": "llmengine (v2)"
         }
     },
+    "ocr": {
+        "ocr": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png"
+                ],
+                "allow_null_language": true
+            },
+            "version": "v1"
+        },
+        "ocr_async": {
+            "version": "v1"
+        }
+    },
     "_metadata": {
         "privacy_url": "https://mistral.ai/terms#privacy-policy"
     }
