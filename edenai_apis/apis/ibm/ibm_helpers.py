@@ -1,4 +1,4 @@
-from watson_developer_cloud.watson_service import WatsonApiException
+from ibm_watson import ApiException
 
 from edenai_apis.utils.exception import (
     AsyncJobException,
@@ -11,7 +11,7 @@ def handle_ibm_call(function_call, **kwargs):
     provider_job_id_error = "job not found"
     try:
         response = function_call(**kwargs)
-    except WatsonApiException as exc:
+    except ApiException as exc:
         message = exc.message
         code = exc.code
         if provider_job_id_error in str(exc):

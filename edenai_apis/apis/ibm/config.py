@@ -1,14 +1,26 @@
 from typing import Dict
 
-from watson_developer_cloud import NaturalLanguageUnderstandingV1
+from ibm_cloud_sdk_core.authenticators import BearerTokenAuthenticator, IAMAuthenticator
+from ibm_watson import NaturalLanguageUnderstandingV1
+
+
+def text_client(
+    api_key: str, version: str, service_url: str
+) -> NaturalLanguageUnderstandingV1:
+    authenticator = IAMAuthenticator(api_key)
+    assistant = NaturalLanguageUnderstandingV1(
+        version=version, authenticator=authenticator
+    )
+    assistant.set_service_url(service_url)
+    return assistant
 
 
 def ibm_clients(api_settings: Dict) -> Dict:
     return {
-        "text": NaturalLanguageUnderstandingV1(
+        "text": text_client(
+            api_key=api_settings["natural_language_understanding"]["apikey"],
             version="2021-08-01",
-            iam_apikey=api_settings["natural_language_understanding"]["apikey"],
-            url=api_settings["natural_language_understanding"]["url"],
+            service_url=api_settings["natural_language_understanding"]["url"],
         )
     }
 
