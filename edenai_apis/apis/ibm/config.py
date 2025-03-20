@@ -1,6 +1,6 @@
 from typing import Dict
 
-from watson_developer_cloud import NaturalLanguageUnderstandingV1
+from ibm_watson import NaturalLanguageUnderstandingV1
 
 
 def ibm_clients(api_settings: Dict) -> Dict:
