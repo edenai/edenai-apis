@@ -1,5 +1,5 @@
 [project]
-name = "edenai-apis"
+name = "edenai_apis"
 version = "0.1.2"
 description = "Providers connectors"
 dynamic = ["dependencies"]
@@ -135,5 +135,5 @@ requests = "^2.32"
 
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
