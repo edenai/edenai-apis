@@ -13,6 +13,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.llmengine.utils.moderation import moderate
 
 
 class DeepAIApi(ProviderInterface, ImageInterface):
@@ -27,6 +28,7 @@ class DeepAIApi(ProviderInterface, ImageInterface):
             "Api-Key": f"{self.api_key}",
         }
 
+    @moderate
     def image__generation(
         self,
         text: str,
