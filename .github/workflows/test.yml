@@ -27,11 +27,16 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH  # Ensure Poetry is in PATH
+
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install ffmpeg -y
-          pip install -r requirements.txt -c constraints.txt
+          poetry install --no-interaction --no-root  # Installs dependencies from `poetry.lock`
 
       - name: Set Env variables
         run: "echo TEST_SCOPE=CICD-OPENSOURCE >> $GITHUB_ENV"
