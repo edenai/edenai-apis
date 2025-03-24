@@ -25,12 +25,15 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Install Poetry
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
           echo "$HOME/.local/bin" >> $GITHUB_PATH  # Ensure Poetry is in PATH
+
+      - name: Clear Poetry cache
+        run: poetry cache clear pypi --all
 
       - name: Install dependencies
         run: |
