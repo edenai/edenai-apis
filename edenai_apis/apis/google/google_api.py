@@ -8,6 +8,7 @@ from google.cloud.language import LanguageServiceClient
 
 from edenai_apis.apis.google.google_audio_api import GoogleAudioApi
 from edenai_apis.apis.google.google_image_api import GoogleImageApi
+from edenai_apis.apis.google.google_llm_api import GoogleLLMApi
 from edenai_apis.apis.google.google_ocr_api import GoogleOcrApi
 from edenai_apis.apis.google.google_text_api import GoogleTextApi
 from edenai_apis.apis.google.google_translation_api import GoogleTranslationApi
@@ -17,7 +18,6 @@ from edenai_apis.features import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.llmengine.llm_engine import LLMEngine
-from edenai_apis.features.llm.llm_interface import LlmInterface
 
 
 class GoogleApi(
@@ -29,7 +29,7 @@ class GoogleApi(
     GoogleAudioApi,
     GoogleVideoApi,
     GoogleMultimodalApi,
-    LlmInterface,
+    GoogleLLMApi,
 ):
     provider_name = "google"
 
