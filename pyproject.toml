@@ -63,7 +63,7 @@ homepage = "https://www.edenai.co/"
 documentation = "https://docs.edenai.co/docs"
 
 [tool.poetry]
-name = "edenai-apis"
+name = "edenai_apis"
 version = "0.1.2"
 description = "Providers connectors"
 license = "Apache-2.0"
