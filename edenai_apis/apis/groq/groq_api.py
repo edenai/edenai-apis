@@ -10,7 +10,9 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
+from edenai_apis.features.llm.chat.chat_dataclass import (
+    ChatDataClass as LLMChatDataClass,
+)
 
 
 class GroqApi(ProviderInterface, TextInterface, LlmInterface):
@@ -95,7 +97,7 @@ class GroqApi(ProviderInterface, TextInterface, LlmInterface):
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ) -> ChatDataClass:
+    ) -> LLMChatDataClass:
         response = self.llm_client.completion(
             messages=messages,
             model=model,
