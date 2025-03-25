@@ -1,0 +1,17 @@
+{
+    "text": {
+        "chat": {
+            "version": "v1"
+        }
+    },
+    "multimodal": {
+        "chat": {
+            "version": "v1"
+        }
+    },
+    "llm": {
+        "chat": {
+            "version": "v1"
+        }
+    }
+}
