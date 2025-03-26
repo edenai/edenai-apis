@@ -10,6 +10,7 @@ from edenai_apis.apis.microsoft.microsoft_ocr_api import MicrosoftOcrApi
 from edenai_apis.apis.microsoft.microsoft_text_api import MicrosoftTextApi
 from edenai_apis.apis.microsoft.microsoft_translation_api import MicrosoftTranslationApi
 from edenai_apis.apis.microsoft.microsoft_multimodal_api import MicrosoftMultimodalApi
+from edenai_apis.apis.microsoft.microsoft_llm_api import MicrosoftLLMApi
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -24,6 +25,7 @@ class MicrosoftApi(
     MicrosoftOcrApi,
     MicrosoftAudioApi,
     MicrosoftMultimodalApi,
+    MicrosoftLLMApi,
 ):
     provider_name = "microsoft"
 

@@ -1761,6 +1761,11 @@
       "version": "Azure AI Foundry"
     }
   },
+  "llm": {
+    "chat": {
+      "version": "Azure AI Foundry"
+    }
+  },
   "_metadata": {
     "privacy_url": "https://privacy.microsoft.com/en-us"
   }
