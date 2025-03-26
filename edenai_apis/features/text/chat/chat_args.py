@@ -28,6 +28,7 @@ def chat_arguments(provider_name: str):
             "deepseek": "DeepSeek-V3",
             "microsoft": "gpt-4o-mini",
             "togetherai": "microsoft/WizardLM-2-8x22B",
+            "groq": "llama-3.1-8b-instant",
         },
         "stream": False,
     }
