@@ -181,6 +181,8 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
         presence_penalty: Optional[float] = None,
         frequency_penalty: Optional[float] = None,
         logit_bias: Optional[dict] = None,
+        modalities: Optional[List[Literal["text", "audio"]]] = None,
+        audio: Optional[Dict] = None,
         # openai v1.0+ new params
         response_format: Optional[
             Union[dict, Type[BaseModel]]
@@ -237,6 +239,8 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
             model_list=model_list,
             drop_invalid_params=drop_invalid_params,
             user=user,
+            modalities=modalities,
+            audio=audio,
             **kwargs,
         )
         return response
