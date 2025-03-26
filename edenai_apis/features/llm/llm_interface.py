@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Optional, List, Dict, Type, Union
+from typing import Optional, List, Dict, Type, Union, Literal
 
 from openai import BaseModel
 import httpx
@@ -27,6 +27,8 @@ class LlmInterface:
         presence_penalty: Optional[float] = None,
         frequency_penalty: Optional[float] = None,
         logit_bias: Optional[dict] = None,
+        modalities: Optional[List[Literal["text", "audio"]]] = None,
+        audio: Optional[Dict] = None,
         # openai v1.0+ new params
         response_format: Optional[
             Union[dict, Type[BaseModel]]

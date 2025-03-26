@@ -1,7 +1,6 @@
-from typing import Dict, List, Type, Union, Optional
+from typing import Dict, List, Type, Union, Optional, Literal
 import httpx
-from openai import BaseModel, OpenAI
-from openai import NOT_GIVEN
+from openai import BaseModel
 from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
@@ -25,6 +24,8 @@ class OpenaiLLMApi(LlmInterface):
         presence_penalty: Optional[float] = None,
         frequency_penalty: Optional[float] = None,
         logit_bias: Optional[dict] = None,
+        modalities: Optional[List[Literal["text", "audio"]]] = None,
+        audio: Optional[Dict] = None,
         # openai v1.0+ new params
         response_format: Optional[
             Union[dict, Type[BaseModel]]
@@ -80,6 +81,8 @@ class OpenaiLLMApi(LlmInterface):
             model_list=model_list,
             drop_invalid_params=drop_invalid_params,
             user=user,
+            modalities=modalities,
+            audio=audio,
             **kwargs,
         )
         return response

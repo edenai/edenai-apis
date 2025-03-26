@@ -8,10 +8,8 @@ from io import BytesIO
 from typing import Dict, List, Literal, Optional, Type, Union
 
 import httpx
-from loaders.data_loader import ProviderDataEnum
-from loaders.loaders import load_provider
 from pydantic import BaseModel
-
+from litellm.types.llms.openai import ChatCompletionAudioParam
 from edenai_apis.features.image import (
     ExplicitContentDataClass,
     GeneratedImageDataClass,
@@ -113,7 +111,9 @@ class LLMEngine:
                 "An error occurred while parsing the response."
             ) from exc
         except ValueError as exc_v:
-            raise ProviderException("Provider returned an empty or mal-formatted response") from exc_v
+            raise ProviderException(
+                "Provider returned an empty or mal-formatted response"
+            ) from exc_v
         standardized_response = response_class(**result)
         return ResponseType[response_class](
             original_response=response.to_dict(),
@@ -743,6 +743,8 @@ class LLMEngine:
         timeout: Optional[Union[float, str, httpx.Timeout]] = None,
         temperature: Optional[float] = None,
         top_p: Optional[float] = None,
+        modalities: Optional[List[Literal["text", "audio"]]] = None,
+        audio: Optional[ChatCompletionAudioParam] = None,
         n: Optional[int] = None,
         stream: Optional[bool] = None,
         stream_options: Optional[dict] = None,
@@ -779,6 +781,10 @@ class LLMEngine:
         kwargs.pop("moderate_content", None)
         try:
             completion_params = {"messages": messages, "model": model}
+            if modalities is not None:
+                completion_params["modalities"] = modalities
+            if audio is not None:
+                completion_params["audio"] = audio
             if timeout is not None:
                 completion_params["timeout"] = timeout
             if temperature is not None:
