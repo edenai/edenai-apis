@@ -1,4 +1,4 @@
-from typing import List, Type, Union, Optional
+from typing import List, Type, Union, Optional, Literal, Dict
 
 import httpx
 from openai import BaseModel
