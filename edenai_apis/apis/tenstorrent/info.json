@@ -32,8 +32,18 @@
         },
         "named_entity_recognition": {
             "version": "v1.0.0"
+        },
+        "generation": {
+            "version": "v1.0.0"
         }
     },
+
+    "llm": {
+        "chat": {
+            "version": "v1.0.0"
+        }
+    },
+
     "_metadata": {
         "privacy_url": "not found"
     }
