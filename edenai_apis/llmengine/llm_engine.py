@@ -1,8 +1,6 @@
 import base64
 import json
 import mimetypes
-import os
-import re
 import uuid
 from io import BytesIO
 from typing import Dict, List, Literal, Optional, Type, Union
@@ -10,6 +8,7 @@ from typing import Dict, List, Literal, Optional, Type, Union
 import httpx
 from pydantic import BaseModel
 from litellm.types.llms.openai import ChatCompletionAudioParam
+from litellm import stream_chunk_builder
 from edenai_apis.features.image import (
     ExplicitContentDataClass,
     GeneratedImageDataClass,
@@ -845,7 +844,13 @@ class LLMEngine:
             completion_params = completion_params
             call_params = self._prepare_args(**completion_params)
             response = self.completion_client.completion(**call_params, **kwargs)
-            response = ResponseModel.model_validate(response)
-            return response
+            if stream:
+                streaming_response = (
+                    part.choices[0].delta.content or "" for part in response
+                )
+                return streaming_response
+            else:
+                response = ResponseModel.model_validate(response)
+                return response
         except Exception as ex:
             raise ex
