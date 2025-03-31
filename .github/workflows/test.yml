@@ -44,6 +44,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install ffmpeg -y
+          rm -f poetry.lock # Need to be sure we have the last poetry.lock file
+          poetry lock
           poetry install --no-interaction --no-root  # Installs dependencies from `poetry.lock`
 
       - name: Set Env variables
