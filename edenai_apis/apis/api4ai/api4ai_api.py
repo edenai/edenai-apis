@@ -84,8 +84,6 @@ class Api4aiApi(
             for k, v in self.endpoints.items()
         }
 
-        print(self.urls)
-
     def image__object_detection(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:

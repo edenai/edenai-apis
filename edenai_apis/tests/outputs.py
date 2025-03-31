@@ -59,9 +59,7 @@ def test_outputs(provider, feature, subfeature, phase, generate=True):
     )
     print("------------------------------------------------------------")
     args = validate_all_provider_constraints(provider, feature, subfeature, phase, args)
-
-    print(args)
-
+    
     if "async" in subfeature or "async" in phase:
         # Subfeature is asyncronous
 

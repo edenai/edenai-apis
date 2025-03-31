@@ -239,7 +239,6 @@ class NyckelApi(ProviderInterface, ImageInterface):
         if not response.status_code == 200:
             self._raise_provider_exception(url, data, response)
 
-        print(response.json())
         return ResponseType[SearchDataClass](
             original_response=response.json(),
             standardized_response=SearchDataClass(
