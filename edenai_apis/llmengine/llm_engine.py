@@ -1,8 +1,6 @@
 import base64
 import json
 import mimetypes
-import os
-import re
 import uuid
 from io import BytesIO
 from typing import Dict, List, Literal, Optional, Type, Union
@@ -52,6 +50,9 @@ from edenai_apis.features.text.moderation.category import (
 from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
     LanguageDetectionDataClass,
+)
+from edenai_apis.features.llm.chat.chat_dataclass import (
+    StreamChat as StreamChatCompletion,
 )
 from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS
 from edenai_apis.llmengine.clients.completion import CompletionClient
@@ -845,7 +846,10 @@ class LLMEngine:
             completion_params = completion_params
             call_params = self._prepare_args(**completion_params)
             response = self.completion_client.completion(**call_params, **kwargs)
-            response = ResponseModel.model_validate(response)
-            return response
+            if stream:
+                return StreamChatCompletion(stream=response)
+            else:
+                response = ResponseModel.model_validate(response)
+                return response
         except Exception as ex:
             raise ex
