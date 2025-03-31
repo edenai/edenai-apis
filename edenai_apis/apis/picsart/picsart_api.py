@@ -30,6 +30,7 @@ class PicsartApi(ProviderInterface, ImageInterface):
         file: Optional[str] = None,
         file_url: Optional[str] = None,
         provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         """
         Calls the Picsart Remove Background API.
