@@ -67,5 +67,6 @@ from .xai import XAiApi
 from .deepseek import DeepseekApi
 from .together_ai import TogetheraiApi
 from .groq import GroqApi
+from .picsart import PicsartApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
