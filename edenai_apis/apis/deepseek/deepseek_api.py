@@ -47,7 +47,7 @@ class DeepseekApi(ProviderInterface, TextInterface, LlmInterface):
             previous_history=previous_history,
             temperature=temperature,
             max_tokens=max_tokens,
-            model=f"deepseek/{model}",
+            model=f"{model}",
             stream=stream,
             available_tools=available_tools,
             tool_choice=tool_choice,
@@ -101,7 +101,7 @@ class DeepseekApi(ProviderInterface, TextInterface, LlmInterface):
     ) -> ChatDataClass:
         response = self.llm_client.completion(
             messages=messages,
-            model=f"deepseek/{model}",
+            model=f"{model}",
             timeout=timeout,
             temperature=temperature,
             top_p=top_p,
