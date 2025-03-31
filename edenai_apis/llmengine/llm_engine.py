@@ -8,7 +8,6 @@ from typing import Dict, List, Literal, Optional, Type, Union
 import httpx
 from pydantic import BaseModel
 from litellm.types.llms.openai import ChatCompletionAudioParam
-from litellm import stream_chunk_builder
 from edenai_apis.features.image import (
     ExplicitContentDataClass,
     GeneratedImageDataClass,
@@ -51,6 +50,9 @@ from edenai_apis.features.text.moderation.category import (
 from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
     LanguageDetectionDataClass,
+)
+from edenai_apis.features.llm.chat.chat_dataclass import (
+    StreamChat as StreamChatCompletion,
 )
 from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS
 from edenai_apis.llmengine.clients.completion import CompletionClient
@@ -845,10 +847,7 @@ class LLMEngine:
             call_params = self._prepare_args(**completion_params)
             response = self.completion_client.completion(**call_params, **kwargs)
             if stream:
-                streaming_response = (
-                    part.choices[0].delta.content or "" for part in response
-                )
-                return streaming_response
+                return StreamChatCompletion(stream=response)
             else:
                 response = ResponseModel.model_validate(response)
                 return response
