@@ -21,13 +21,16 @@
         "financial_parser": {
             "constraints": {
                 "allow_null_language": true,
-                "documents" : [
+                "documents": [
                     "receipt",
                     "invoice"
-                  ],
+                ],
                 "allow_null_document_type": true
             },
             "version": "v1"
         }
+    },
+    "_metadata": {
+        "privacy_url": "https://www.klippa.com/en/compliance"
     }
 }

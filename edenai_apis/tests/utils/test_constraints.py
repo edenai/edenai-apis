@@ -33,6 +33,7 @@ class TestValidateInputFileType:
         """
         return f"Expected `{expected_output}` for parameters `{kwargs}`, but got `{output}`"
 
+    @pytest.mark.integration
     @pytest.mark.parametrize(
         "constraints",
         [{"file_types": ["image/png", "image/jpeg"]}, {"file_types": ["image/*"]}, {}],
@@ -66,6 +67,7 @@ class TestValidateInputFileType:
             constraints=constraints,
         )
 
+    @pytest.mark.integration
     @pytest.mark.parametrize(
         "file",
         [
@@ -100,6 +102,7 @@ class TestValidateInputFileType:
 
 
 class TestValidateSingleLanguage:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("language", "expected_output", "null_language", "ret_mock_function"),
         [
@@ -157,6 +160,7 @@ class TestValidateSingleLanguage:
 
         assert output == expected_output
 
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         (
             "language",
@@ -236,6 +240,7 @@ class TestValidateSingleLanguage:
 
 
 class TestValidateAllInputLanguages:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("args", "number_of_call"),
         [
@@ -268,6 +273,7 @@ class TestValidateAllInputLanguages:
         )
         assert constraints.validate_single_language.call_count == number_of_call
 
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("args", "ret_mock", "expected_output"),
         [

@@ -12,6 +12,8 @@ class ResponseSuccess(BaseModel):
 class ResponseType(BaseModel, Generic[T]):
     original_response: Any
     standardized_response: T
+    usage: Optional[Any] = None
+    cost: Optional[Any] = None
 
 
 class AsyncLaunchJobResponseType(BaseModel):

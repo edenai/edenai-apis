@@ -1,0 +1,137 @@
+{
+  "original_response": {
+    "id": "chatcmpl-B6uwJ8c7ENCzk6hdEZu40DIaxP53S",
+    "created": 1740988543,
+    "model": "gpt-4o-2024-11-20",
+    "object": "chat.completion",
+    "system_fingerprint": "fp_b705f0c291",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "Arrr, matey! What we have here be a fine scene of nature's bounty! A wooden plank path stretches straight ahead, leadin' through a lush green meadow filled with tall grass swayin' in the gentle breeze. The sky above be painted with a brilliant blue, streaked with soft, wispy clouds, as if the heavens themselves be smilin' down on this tranquil land. In the distance, ye can spy a line of trees and bushes, addin' depth to this peaceful landscape. Aye, 'tis a place where a pirate might rest his weary bones and dream of treasure!",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null
+        }
+      }
+    ],
+    "provider_time": 6070973921,
+    "edenai_time": null,
+    "usage": {
+      "completion_tokens": 124,
+      "prompt_tokens": 930,
+      "total_tokens": 1054,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      }
+    },
+    "service_tier": null,
+    "prompt_filter_results": [
+      {
+        "prompt_index": 0,
+        "content_filter_result": {
+          "jailbreak": {
+            "filtered": false,
+            "detected": false
+          },
+          "custom_blocklists": {
+            "filtered": false,
+            "details": []
+          }
+        }
+      },
+      {
+        "prompt_index": 1,
+        "content_filter_result": {
+          "sexual": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "violence": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "hate": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "self_harm": {
+            "filtered": false,
+            "severity": "safe"
+          },
+          "custom_blocklists": {
+            "filtered": false,
+            "details": []
+          }
+        }
+      }
+    ],
+    "cost": 0.0039215
+  },
+  "standardized_response": {
+    "generated_text": "Arrr, matey! What we have here be a fine scene of nature's bounty! A wooden plank path stretches straight ahead, leadin' through a lush green meadow filled with tall grass swayin' in the gentle breeze. The sky above be painted with a brilliant blue, streaked with soft, wispy clouds, as if the heavens themselves be smilin' down on this tranquil land. In the distance, ye can spy a line of trees and bushes, addin' depth to this peaceful landscape. Aye, 'tis a place where a pirate might rest his weary bones and dream of treasure!",
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": "Describe this image please ! ",
+              "media_type": null
+            }
+          },
+          {
+            "type": "media_url",
+            "content": {
+              "media_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+              "media_base64": null,
+              "text": null,
+              "media_type": "image/jpeg"
+            }
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": "Arrr, matey! What we have here be a fine scene of nature's bounty! A wooden plank path stretches straight ahead, leadin' through a lush green meadow filled with tall grass swayin' in the gentle breeze. The sky above be painted with a brilliant blue, streaked with soft, wispy clouds, as if the heavens themselves be smilin' down on this tranquil land. In the distance, ye can spy a line of trees and bushes, addin' depth to this peaceful landscape. Aye, 'tis a place where a pirate might rest his weary bones and dream of treasure!",
+              "media_type": null
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "usage": {
+    "completion_tokens": 124,
+    "prompt_tokens": 930,
+    "total_tokens": 1054,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0
+    }
+  }
+}

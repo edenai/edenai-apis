@@ -1,3 +1,4 @@
+from json import JSONDecodeError
 from typing import List, Dict, Optional
 
 import requests
@@ -27,21 +28,30 @@ class JinaApi(ProviderInterface, TextInterface):
         )
 
     def text__embeddings(
-        self, texts: List[str], model: Optional[str] = None
+        self, texts: List[str], model: Optional[str] = None, **kwargs
     ) -> ResponseType[EmbeddingsDataClass]:
         model = model or "jina-embeddings-v2-base-en"
         resp = self.session.post(  # type: ignore
             self.api_url, json={"input": texts, "model": model}
-        ).json()
-        if "data" not in resp:
-            raise ProviderException(resp["detail"])
-        embeddings = resp["data"]
+        )
+        try:
+            original_resp = resp.json()
+        except JSONDecodeError as exp:
+            raise ProviderException(
+                message="Internal server error", code=resp.status_code
+            ) from exp
+        if "data" not in original_resp:
+            raise ProviderException(original_resp["detail"], resp.status_code)
+        embeddings = original_resp["data"]
         # Sort resulting embeddings by index
         sorted_embeddings = sorted(embeddings, key=lambda e: e["index"])  # type: ignore
         # Return just the embeddings
-        items = [EmbeddingDataClass(embedding=result["embedding"]) for result in sorted_embeddings]
+        items = [
+            EmbeddingDataClass(embedding=result["embedding"])
+            for result in sorted_embeddings
+        ]
         standardized_response = EmbeddingsDataClass(items=items)
         return ResponseType[EmbeddingsDataClass](
-            original_response=resp,
+            original_response=original_resp,
             standardized_response=standardized_response,
         )

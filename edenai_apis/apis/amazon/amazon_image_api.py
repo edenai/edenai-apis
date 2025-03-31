@@ -2,6 +2,7 @@ import json
 import base64
 from io import BytesIO
 from typing import Literal, Optional, Sequence
+from edenai_apis.llmengine.utils.moderation import moderate
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
 from edenai_apis.features.image.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
@@ -71,7 +72,7 @@ from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
 class AmazonImageApi(ImageInterface):
     def image__object_detection(
-        self, file: str, model: str = None, file_url: str = ""
+        self, file: str, model: str = None, file_url: str = "", **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -114,7 +115,7 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[FaceDetectionDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -176,8 +177,8 @@ class AmazonImageApi(ImageInterface):
                 if emo.get("Type"):
                     if emo["Type"].lower() == "happy":  # normalise keywords
                         emo["Type"] = "happiness"
-                    emotion_output[emo["Type"].lower()] = (
-                        standardized_confidence_score(normalized_emo / 100)
+                    emotion_output[emo["Type"].lower()] = standardized_confidence_score(
+                        normalized_emo / 100
                     )
             emotions = FaceEmotions(
                 anger=emotion_output.get("angry"),
@@ -270,7 +271,7 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__explicit_content(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -310,7 +311,7 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_recognition__create_collection(
-        self, collection_id: str
+        self, collection_id: str, **kwargs
     ) -> FaceRecognitionCreateCollectionDataClass:
         payload = {"CollectionId": collection_id}
         handle_amazon_call(self.clients["image"].create_collection, **payload)
@@ -318,7 +319,7 @@ class AmazonImageApi(ImageInterface):
         return FaceRecognitionCreateCollectionDataClass(collection_id=collection_id)
 
     def image__face_recognition__list_collections(
-        self,
+        self, **kwargs
     ) -> ResponseType[FaceRecognitionListCollectionsDataClass]:
         response = handle_amazon_call(self.clients["image"].list_collections)
 
@@ -330,7 +331,7 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_recognition__list_faces(
-        self, collection_id: str
+        self, collection_id: str, **kwargs
     ) -> ResponseType[FaceRecognitionListFacesDataClass]:
         payload = {"CollectionId": collection_id}
         response = handle_amazon_call(self.clients["image"].list_faces, **payload)
@@ -343,7 +344,7 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_recognition__delete_collection(
-        self, collection_id: str
+        self, collection_id: str, **kwargs
     ) -> ResponseType[FaceRecognitionDeleteCollectionDataClass]:
         payload = {"CollectionId": collection_id}
         response = handle_amazon_call(
@@ -358,7 +359,7 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_recognition__add_face(
-        self, collection_id: str, file: str, file_url: str = ""
+        self, collection_id: str, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[FaceRecognitionAddFaceDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
@@ -375,7 +376,7 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_recognition__delete_face(
-        self, collection_id, face_id
+        self, collection_id, face_id, **kwargs
     ) -> ResponseType[FaceRecognitionDeleteFaceDataClass]:
         payload = {"CollectionId": collection_id, "FaceIds": [face_id]}
         response = handle_amazon_call(self.clients["image"].delete_faces, **payload)
@@ -386,7 +387,7 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_recognition__recognize(
-        self, collection_id: str, file: str, file_url: str = ""
+        self, collection_id: str, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[FaceRecognitionRecognizeDataClass]:
         client = self.clients["image"]
         with open(file, "rb") as file_:
@@ -415,11 +416,7 @@ class AmazonImageApi(ImageInterface):
         )
 
     def image__face_compare(
-        self,
-        file1: str,
-        file2: str,
-        file1_url: str = "",
-        file2_url: str = "",
+        self, file1: str, file2: str, file1_url: str = "", file2_url: str = "", **kwargs
     ) -> ResponseType[FaceCompareDataClass]:
         client = self.clients.get("image")
 
@@ -462,12 +459,14 @@ class AmazonImageApi(ImageInterface):
             standardized_response=FaceCompareDataClass(items=face_match_list),
         )
 
+    @moderate
     def image__generation(
         self,
         text: str,
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[GenerationDataClass]:
         # Headers for the HTTP request
         accept_header = "application/json"
@@ -523,6 +522,7 @@ class AmazonImageApi(ImageInterface):
         embedding_dimension: Optional[int] = 256,
         representation: Optional[str] = "image",
         file_url: str = "",
+        **kwargs,
     ) -> ResponseType[EmbeddingsDataClass]:
         accept_header = "application/json"
         content_type_header = "application/json"
@@ -547,7 +547,6 @@ class AmazonImageApi(ImageInterface):
         )
 
         original_response = json.loads(response.get("body").read())
-
 
         embeddings = original_response["embedding"] or []
         items: Sequence[EmbeddingDataClass] = []

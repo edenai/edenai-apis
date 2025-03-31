@@ -145,4 +145,3 @@ def insert_api_call(
     # except errors.InFailedSqlTransaction as exc:
     #     print(exc)
     #     POSTGRES_CONNECTION.rollback()
-

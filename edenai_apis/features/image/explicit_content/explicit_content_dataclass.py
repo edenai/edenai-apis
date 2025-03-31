@@ -22,8 +22,11 @@ from edenai_apis.features.image.explicit_content.subcategory import (
     SafeSubCategoryType,
     OtherSubCategoryType,
 )
+from edenai_apis.utils.combine_enums import combine_enums
 
-SubCategoryType = Union[
+
+SubCategoryType = combine_enums(
+    "SubCategoryType",
     ToxicSubCategoryType,
     ContentSubCategoryType,
     SexualSubCategoryType,
@@ -33,7 +36,7 @@ SubCategoryType = Union[
     HateAndExtremismSubCategoryType,
     SafeSubCategoryType,
     OtherSubCategoryType,
-]
+)
 
 
 class ExplicitItem(BaseModel):

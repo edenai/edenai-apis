@@ -1,0 +1,88 @@
+{
+  "original_response": {
+    "id": "dcd5323e-59a9-4cea-8a64-a303aef544ac",
+    "created": 1738839819,
+    "model": "xai/grok-2-vision-1212",
+    "object": "chat.completion",
+    "system_fingerprint": "fp_21e54090c4",
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "Arrr, matey! This here be a fine image o' a wooden boardwalk stretchin' out into a vast sea o' green grass, leadin' ye towards the horizon. The sky above be a brilliant blue, dotted with fluffy white clouds, like sails on the high seas. The path be straight and true, invitin' ye to walk the plank into the heart o' this lush meadow. Aye, 'tis a peaceful sight, perfect fer a pirate lookin' fer a bit o' tranquility on land!",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null,
+          "refusal": null
+        }
+      }
+    ],
+    "provider_time": 4080611031,
+    "edenai_time": null,
+    "usage": {
+      "completion_tokens": 109,
+      "prompt_tokens": 277,
+      "total_tokens": 386,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      }
+    },
+    "service_tier": null,
+    "cost": 0.001644
+  },
+  "standardized_response": {
+    "generated_text": "Arrr, matey! This here be a fine image o' a wooden boardwalk stretchin' out into a vast sea o' green grass, leadin' ye towards the horizon. The sky above be a brilliant blue, dotted with fluffy white clouds, like sails on the high seas. The path be straight and true, invitin' ye to walk the plank into the heart o' this lush meadow. Aye, 'tis a peaceful sight, perfect fer a pirate lookin' fer a bit o' tranquility on land!",
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": "Describe this image please ! ",
+              "media_type": null
+            }
+          },
+          {
+            "type": "media_url",
+            "content": {
+              "media_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+              "media_base64": null,
+              "text": null,
+              "media_type": "image/jpeg"
+            }
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "content": {
+              "media_url": null,
+              "media_base64": null,
+              "text": "Arrr, matey! This here be a fine image o' a wooden boardwalk stretchin' out into a vast sea o' green grass, leadin' ye towards the horizon. The sky above be a brilliant blue, dotted with fluffy white clouds, like sails on the high seas. The path be straight and true, invitin' ye to walk the plank into the heart o' this lush meadow. Aye, 'tis a peaceful sight, perfect fer a pirate lookin' fer a bit o' tranquility on land!",
+              "media_type": null
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "usage": {
+    "completion_tokens": 109,
+    "prompt_tokens": 277,
+    "total_tokens": 386,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0
+    }
+  }
+}

@@ -18,6 +18,7 @@ from edenai_apis.features import (
     ImageInterface,
     OcrInterface,
     MultimodalInterface,
+    LlmInterface,
 )
 from edenai_apis.features import ProviderInterface
 from edenai_apis.features import TextInterface, TranslationInterface, VideoInterface
@@ -95,3 +96,4 @@ Ocr = abstract(OcrInterface, method_prefix="ocr__")
 Video = abstract(VideoInterface, method_prefix="video__")
 Audio = abstract(AudioInterface, method_prefix="audio__")
 Multimodal = abstract(MultimodalInterface, method_prefix="multimodal__")
+Llm = abstract(LlmInterface, method_prefix="llm__")

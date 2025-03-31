@@ -3,8 +3,8 @@ from pydantic import ValidationError
 
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SegmentSentimentAnalysisDataClass,
-    SentimentEnum,
     SentimentAnalysisDataClass,
+    SentimentEnum,
 )
 
 FEATURE = "text"
@@ -20,6 +20,7 @@ def _assign_markers_parametrize(expected, **kwargs):
 
 
 class TestSegmentSentimentAnalysisDataClass:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("kwargs", "expected"),
         [
@@ -72,6 +73,7 @@ class TestSegmentSentimentAnalysisDataClass:
             segment_sentiment_class.sentiment_rate == expected["sentiment_rate"]
         ), "The value of `sentiment_rate` must be rounded to the hundredth"
 
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("kwargs", "expected"),
         [
@@ -157,6 +159,7 @@ class TestSentimentAnalysisDataClass:
         )
     ]
 
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("kwargs", "expected"),
         [

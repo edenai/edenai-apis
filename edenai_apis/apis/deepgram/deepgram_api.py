@@ -54,6 +54,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         model: Optional[str] = None,
         file_url: str = "",
         provider_params: Optional[dict] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         provider_params = provider_params or {}
         export_format, channels, frame_rate = audio_attributes
@@ -161,6 +162,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         speaking_pitch: int,
         speaking_volume: int,
         sampling_rate: int,
+        **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
         _, model = voice_id.split("_")
         base_url = f"https://api.deepgram.com/v1/speak?model={model}"

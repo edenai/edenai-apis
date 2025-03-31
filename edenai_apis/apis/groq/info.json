@@ -1,0 +1,20 @@
+{
+    "_metadata": {
+        "privacy_url": "https://groq.com/privacy-policy"
+    },
+    "text": {
+        "chat": {
+            "version": "v1"
+        }
+    },
+    "multimodal": {
+        "chat": {
+            "version": "v1"
+        }
+    },
+    "llm": {
+        "chat": {
+            "version": "v1"
+        }
+    }
+}

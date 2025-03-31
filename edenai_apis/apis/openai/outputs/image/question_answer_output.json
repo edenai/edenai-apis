@@ -1,30 +1,61 @@
 {
   "original_response": {
-    "id": "chatcmpl-8QBuI35InuUHU0ZWIxncpk6auVn8v",
+    "id": "chatcmpl-Ax8byozybzPZ2HujFa81N8u7ncFmX",
+    "created": 1738657818,
+    "model": "gpt-4o-2024-08-06",
     "object": "chat.completion",
-    "created": 1701252990,
-    "model": "gpt-4-1106-vision-preview",
-    "usage": {
-      "prompt_tokens": 1120,
-      "completion_tokens": 64,
-      "total_tokens": 1184
-    },
+    "system_fingerprint": "fp_4691090a87",
     "choices": [
       {
+        "finish_reason": "stop",
+        "index": 0,
         "message": {
+          "content": "{\"answers\": [\"Logos - Facebook, Apple, Amazon, Netflix, Google\"]}",
           "role": "assistant",
-          "content": "The image contains a combination of logos from four major technology companies, often referred to collectively as \"FAANG\" (Facebook, Apple, Amazon, Netflix, Google), but without the Netflix logo. From left to right, the logos are:\n\n1. Facebook: The blue square with a lowercase 'f' is the logo"
-        },
-        "finish_details": {
-          "type": "max_tokens"
-        },
-        "index": 0
+          "tool_calls": null,
+          "function_call": null,
+          "refusal": null
+        }
       }
-    ]
+    ],
+    "provider_time": 3849116441,
+    "edenai_time": null,
+    "usage": {
+      "completion_tokens": 19,
+      "prompt_tokens": 1659,
+      "total_tokens": 1678,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": 0,
+        "audio_tokens": 0,
+        "reasoning_tokens": 0,
+        "rejected_prediction_tokens": 0
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": 0,
+        "cached_tokens": 0
+      }
+    },
+    "service_tier": "default",
+    "cost": 0.0043375
   },
   "standardized_response": {
     "answers": [
-      "The image contains a combination of logos from four major technology companies, often referred to collectively as \"FAANG\" (Facebook, Apple, Amazon, Netflix, Google), but without the Netflix logo. From left to right, the logos are:\n\n1. Facebook: The blue square with a lowercase 'f' is the logo"
+      "Logos - Facebook, Apple, Amazon, Netflix, Google"
     ]
+  },
+  "usage": {
+    "completion_tokens": 19,
+    "prompt_tokens": 1659,
+    "total_tokens": 1678,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": 0,
+      "audio_tokens": 0,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": 0
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": 0,
+      "cached_tokens": 0
+    }
   }
 }

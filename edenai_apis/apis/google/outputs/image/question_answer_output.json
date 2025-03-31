@@ -1,51 +1,46 @@
 {
   "original_response": {
-    "candidates": [
+    "id": "chatcmpl-b66d85b4-b6dc-4d37-8055-042a3e09e898",
+    "created": 1738657961,
+    "model": "gemini-1.5-flash",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
       {
-        "content": {
-          "parts": [
-            {
-              "text": "The logos are: Facebook, Apple, Amazon, Netflix, and Google."
-            }
-          ],
-          "role": "model"
-        },
-        "finishReason": "STOP",
+        "finish_reason": "stop",
         "index": 0,
-        "safetyRatings": [
-          {
-            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-            "probability": "NEGLIGIBLE"
-          },
-          {
-            "category": "HARM_CATEGORY_HATE_SPEECH",
-            "probability": "NEGLIGIBLE"
-          },
-          {
-            "category": "HARM_CATEGORY_HARASSMENT",
-            "probability": "NEGLIGIBLE"
-          },
-          {
-            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-            "probability": "NEGLIGIBLE"
-          }
-        ]
+        "message": {
+          "content": "{\"answers\": [\"Logo - Facebook, Apple, Amazon, Netflix, and Google\"]}",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null
+        }
       }
     ],
-    "usageMetadata": {
-      "promptTokenCount": 267,
-      "candidatesTokenCount": 15,
-      "totalTokenCount": 282
-    },
+    "provider_time": 1338049176,
+    "edenai_time": null,
     "usage": {
-      "prompt_tokens": 267,
-      "completion_tokens": 15,
-      "total_tokens": 282
-    }
+      "completion_tokens": 17,
+      "prompt_tokens": 770,
+      "total_tokens": 787,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
+    },
+    "vertex_ai_grounding_metadata": [],
+    "vertex_ai_safety_results": [],
+    "vertex_ai_citation_metadata": [],
+    "cost": 6.285e-05
   },
   "standardized_response": {
     "answers": [
-      "The logos are: Facebook, Apple, Amazon, Netflix, and Google."
+      "Logo - Facebook, Apple, Amazon, Netflix, and Google"
     ]
+  },
+  "usage": {
+    "completion_tokens": 17,
+    "prompt_tokens": 770,
+    "total_tokens": 787,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": null
   }
 }

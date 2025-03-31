@@ -1,28 +1,43 @@
-import itertools
-from typing import Dict, List, Literal, Optional, Union, Generator
-import requests
+import base64
 import json
-from edenai_apis.apis.openai.helpers import convert_tools_to_openai
+from typing import Dict, List, Literal, Optional, Type, Union
+import httpx
+from openai import BaseModel
+import requests
 
-from edenai_apis.features import ProviderInterface, TextInterface
-from edenai_apis.features.text import ChatDataClass, ChatMessageDataClass
-from edenai_apis.features.text.chat.chat_dataclass import (
-    StreamChat,
-    ChatStreamResponse,
-    ToolCall,
+from edenai_apis.features import ProviderInterface, TextInterface, OcrInterface
+from edenai_apis.features.ocr.ocr.ocr_dataclass import OcrDataClass
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
+    OcrAsyncDataClass,
+    Page,
+    Line,
+    BoundingBox,
 )
-from edenai_apis.features.text.chat.helpers import get_tool_call_from_history_by_id
-from edenai_apis.features.text.embeddings import EmbeddingDataClass, EmbeddingsDataClass
+from edenai_apis.features.text.chat.chat_dataclass import ChatDataClass, StreamChat
+from edenai_apis.features.multimodal.chat.chat_dataclass import (
+    ChatDataClass as ChatMultimodalDataClass,
+    StreamChat as StreamChatMultimodal,
+    ChatMessageDataClass as ChatMultimodalMessageDataClass,
+)
+from edenai_apis.features.text.embeddings import EmbeddingsDataClass
 from edenai_apis.features.text.generation.generation_dataclass import (
     GenerationDataClass,
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.types import (
+    AsyncBaseResponseType,
+    AsyncLaunchJobResponseType,
+    ResponseType,
+    AsyncResponseType,
+)
+from edenai_apis.llmengine.llm_engine import LLMEngine
+from edenai_apis.features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
-class MistralApi(ProviderInterface, TextInterface):
+class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
     provider_name = "mistral"
 
     def __init__(self, api_keys: Dict = {}) -> None:
@@ -32,30 +47,12 @@ class MistralApi(ProviderInterface, TextInterface):
         self.api_key = self.api_settings["api_key"]
         self.url = "https://api.mistral.ai/"
         self.headers = {"Authorization": f"Bearer {self.api_key}"}
-
-    def __get_stream_response(self, response: requests.Response) -> Generator:
-        """returns a generator of chat messages
-
-        Args:
-            response (requests.Response): The post request
-
-        Yields:
-            Generator: generator of messages
-        """
-        for res in response.iter_lines():
-            chunk = res.decode().split("data: ")
-            if len(chunk) > 1:
-                if chunk[1] != "[DONE]":
-                    data = json.loads(chunk[1])
-                    yield ChatStreamResponse(
-                        text=data["choices"][0]["delta"]["content"],
-                        blocked=not data["choices"][0].get("finish_reason")
-                        in (None, "stop"),
-                        provider=self.provider_name,
-                    )
+        self.llm_client = LLMEngine(
+            provider_name=self.provider_name, provider_config={"api_key": self.api_key}
+        )
 
     def text__generation(
-        self, text: str, temperature: float, max_tokens: int, model: str
+        self, text: str, temperature: float, max_tokens: int, model: str, **kwargs
     ) -> ResponseType[GenerationDataClass]:
         messages = [
             {
@@ -106,149 +103,257 @@ class MistralApi(ProviderInterface, TextInterface):
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
+        **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
-        previous_history = previous_history or []
-        messages = []
-        for msg in previous_history:
-            message = {
-                "role": msg.get("role"),
-                "content": msg.get("message"),
-            }
-            if msg.get("tool_calls"):
-                message["tool_calls"] = [
-                    {
-                        "id": t.get("id"),
-                        "function": {
-                            "name": t.get("name"),
-                            "arguments": t.get("arguments"),
-                        },
-                    }
-                    for t in msg["tool_calls"]
-                ]
-            messages.append(message)
-
-        if text and not tool_results:
-            messages.append({"role": "user", "content": text})
-
-        if tool_results:
-            for tool in tool_results or []:
-                tool_call = get_tool_call_from_history_by_id(
-                    tool["id"], previous_history
-                )
-                try:
-                    result = json.dumps(tool["result"])
-                except json.JSONDecodeError:
-                    result = str(result)
-                messages.append(
-                    {
-                        "role": "tool",
-                        "content": result,
-                        "name": tool_call["name"],
-                    }
-                )
-
-        if chatbot_global_action:
-            messages.insert(0, {"role": "system", "content": chatbot_global_action})
-
-        if "ministral" not in model:
-            model = f"{self.provider_name}-{model}"
-
-        payload = {
-            "model": model,
-            "messages": messages,
-            "temperature": temperature,
-            "max_tokens": max_tokens,
-        }
-
-        if available_tools:
-            payload["tools"] = convert_tools_to_openai(available_tools)
-            payload["tool_choice"] = "any" if tool_choice == "required" else tool_choice
-
-        if not stream:
-            response = requests.post(
-                self.url + "v1/chat/completions", json=payload, headers=self.headers
-            )
-            try:
-                original_response = response.json()
-                if "message" in original_response or response.status_code >= 400:
-                    message_error = original_response["message"]
-                    raise ProviderException(message_error, code=response.status_code)
-            except Exception:
-                raise ProviderException(response.text, code=response.status_code)
-
-            # Build a list of ChatMessageDataClass objects for the conversation history
-            message = original_response["choices"][0]["message"]
-            generated_text = message["content"]
-            original_tools_calls = message.get("tool_calls") or []
-            tool_calls = []
-            for tool_call in original_tools_calls:
-                tool_calls.append(
-                    ToolCall(
-                        id=tool_call["id"],
-                        name=tool_call["function"]["name"],
-                        arguments=tool_call["function"]["arguments"],
-                    )
-                )
-
-            message = [
-                ChatMessageDataClass(role="user", message=text, tools=available_tools),
-                ChatMessageDataClass(
-                    role="assistant", message=generated_text, tool_calls=tool_calls
-                ),
-            ]
-
-            # Build the standardized response
-            standardized_response = ChatDataClass(
-                generated_text=generated_text, message=message
-            )
-
-            # Calculate number of tokens :
-            original_response["usage"]["total_tokens"] = (
-                original_response["usage"]["completion_tokens"]
-                + original_response["usage"]["prompt_tokens"]
-            )
-
-            return ResponseType[ChatDataClass](
-                original_response=original_response,
-                standardized_response=standardized_response,
-            )
-        else:
-            payload["stream"] = True
-            response = requests.post(
-                self.url + "v1/chat/completions",
-                json=payload,
-                headers=self.headers,
-                stream=True,
-            )
-            response = self.__get_stream_response(response)
-            return ResponseType[StreamChat](
-                original_response=None,
-                standardized_response=StreamChat(stream=response),
-            )
+        response = self.llm_client.chat(
+            text=text,
+            chatbot_global_action=chatbot_global_action,
+            previous_history=previous_history,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
+            stream=stream,
+            available_tools=available_tools,
+            tool_choice=tool_choice,
+            tool_results=tool_results,
+            **kwargs,
+        )
+        return response
 
     def text__embeddings(
-        self, texts: List[str], model: Optional[str] = None
+        self,
+        texts: List[str],
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[EmbeddingsDataClass]:
-        model = model.split("__")[1]
-        payload = {"model": model, "input": texts}
-        response = requests.post(
-            url=self.url + "v1/embeddings", json=payload, headers=self.headers
+        model = model.split("__")[1] if "__" in model else model
+        response = self.llm_client.embeddings(
+            texts=texts,
+            model=model,
+            **kwargs,
         )
+        return response
+
+    def multimodal__chat(
+        self,
+        messages: List[ChatMultimodalMessageDataClass],
+        chatbot_global_action: Optional[str],
+        temperature: float = 0,
+        max_tokens: int = 25,
+        model: Optional[str] = None,
+        stop_sequences: Optional[List[str]] = None,
+        top_k: Optional[int] = None,
+        top_p: Optional[int] = None,
+        stream: bool = False,
+        provider_params: Optional[dict] = None,
+        response_format=None,
+        **kwargs,
+    ) -> ResponseType[Union[ChatMultimodalDataClass, StreamChatMultimodal]]:
+        response = self.llm_client.multimodal_chat(
+            messages=messages,
+            chatbot_global_action=chatbot_global_action,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
+            stop_sequences=stop_sequences,
+            top_k=top_k,
+            top_p=top_p,
+            stream=stream,
+            response_format=response_format,
+            **kwargs,
+        )
+        return response
+
+    def llm__chat(
+        self,
+        messages: List = [],
+        model: Optional[str] = None,
+        # Optional OpenAI params: see https://platform.openai.com/docs/api-reference/chat/create
+        timeout: Optional[Union[float, str, httpx.Timeout]] = None,
+        temperature: Optional[float] = None,
+        top_p: Optional[float] = None,
+        n: Optional[int] = None,
+        stream: Optional[bool] = None,
+        stream_options: Optional[dict] = None,
+        stop: Optional[str] = None,
+        stop_sequences: Optional[any] = None,
+        max_tokens: Optional[int] = None,
+        presence_penalty: Optional[float] = None,
+        frequency_penalty: Optional[float] = None,
+        logit_bias: Optional[dict] = None,
+        modalities: Optional[List[Literal["text", "audio"]]] = None,
+        audio: Optional[Dict] = None,
+        # openai v1.0+ new params
+        response_format: Optional[
+            Union[dict, Type[BaseModel]]
+        ] = None,  # Structured outputs
+        seed: Optional[int] = None,
+        tools: Optional[List] = None,
+        tool_choice: Optional[Union[str, dict]] = None,
+        logprobs: Optional[bool] = None,
+        top_logprobs: Optional[int] = None,
+        parallel_tool_calls: Optional[bool] = None,
+        deployment_id=None,
+        extra_headers: Optional[dict] = None,
+        # soon to be deprecated params by OpenAI -> This should be replaced by tools
+        functions: Optional[List] = None,
+        function_call: Optional[str] = None,
+        base_url: Optional[str] = None,
+        api_version: Optional[str] = None,
+        api_key: Optional[str] = None,
+        model_list: Optional[list] = None,  # pass in a list of api_base,keys, etc.
+        drop_invalid_params: bool = True,  # If true, all the invalid parameters will be ignored (dropped) before sending to the model
+        user: str | None = None,
+        # Optional parameters
+        **kwargs,
+    ) -> ChatDataClass:
+        response = self.llm_client.completion(
+            messages=messages,
+            model=model,
+            timeout=timeout,
+            temperature=temperature,
+            top_p=top_p,
+            n=n,
+            stream=stream,
+            stream_options=stream_options,
+            stop=stop,
+            stop_sequences=stop_sequences,
+            max_tokens=max_tokens,
+            presence_penalty=presence_penalty,
+            frequency_penalty=frequency_penalty,
+            logit_bias=logit_bias,
+            response_format=response_format,
+            seed=seed,
+            tools=tools,
+            tool_choice=tool_choice,
+            logprobs=logprobs,
+            top_logprobs=top_logprobs,
+            parallel_tool_calls=parallel_tool_calls,
+            deployment_id=deployment_id,
+            extra_headers=extra_headers,
+            functions=functions,
+            function_call=function_call,
+            base_url=base_url,
+            api_version=api_version,
+            api_key=api_key,
+            model_list=model_list,
+            drop_invalid_params=drop_invalid_params,
+            user=user,
+            modalities=modalities,
+            audio=audio,
+            **kwargs,
+        )
+        return response
+
+    def ocr__ocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        url = "https://api.mistral.ai/v1/ocr"
+        if file_url:
+            image_data = file_url
+        else:
+            with open(file, "rb") as image_file:
+                base64_image = base64.b64encode(image_file.read()).decode("utf-8")
+                image_data = f"data:image/jpeg;base64,{base64_image}"
+
+        document = {"type": "image_url", "image_url": image_data}
+        payload = {"model": "mistral-ocr-latest", "document": document}
+        response = requests.post(url=url, headers=self.headers, json=payload)
         try:
-            original_response = response.json()
-            if "message" in original_response or response.status_code >= 400:
-                message_error = original_response["message"]
-                raise ProviderException(message_error, code=response.status_code)
-        except Exception:
-            raise ProviderException(response.text, code=response.status_code)
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
 
-        items = []
-        embeddings = original_response["data"]
+        standardized_response = OcrDataClass(text=response_data["pages"][0]["markdown"])
 
-        for embedding in embeddings:
-            items.append(EmbeddingDataClass(embedding=embedding["embedding"]))
+        return ResponseType[OcrDataClass](
+            original_response=response_data, standardized_response=standardized_response
+        )
 
-        return ResponseType[EmbeddingsDataClass](
-            original_response=original_response,
-            standardized_response=EmbeddingsDataClass(items=items),
+    def ocr__ocr_async__launch_job(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        url = "https://api.mistral.ai/v1/files"
+        with open(file, "rb") as f:
+            files = {"file": f}
+            data = {"purpose": "ocr"}
+            response = requests.post(
+                url=url, headers=self.headers, files=files, data=data
+            )
+
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+        return AsyncLaunchJobResponseType(provider_job_id=response_data["id"])
+
+    def ocr__ocr_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrAsyncDataClass]:
+        url = f"https://api.mistral.ai/v1/files/{provider_job_id}/url?expiry=24"
+        response = requests.get(url=url, headers=self.headers)
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+        file_url = response_data["url"]
+        payload = {
+            "model": "mistral-ocr-latest",
+            "document": {
+                "type": "document_url",
+                "document_url": file_url,
+            },
+        }
+        url = "https://api.mistral.ai/v1/ocr"
+        response = requests.post(url=url, headers=self.headers, json=payload)
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+        number_of_pages = response_data["usage_info"]["pages_processed"]
+        raw_text = ""
+        pages = []
+        for page in response_data["pages"]:
+            raw_text += page["markdown"]
+            # markdown_lines = page["markdown"].split("\n")
+            # lines = []
+            # for line_text in markdown_lines:
+            #     line = Line(text=line_text, bounding_box=BoundingBox())
+            #     lines.append(line)
+            # pages.append(Page(lines=lines))
+
+        return AsyncResponseType(
+            original_response=response_data,
+            standardized_response=OcrAsyncDataClass(
+                raw_text=raw_text, pages=pages, number_of_pages=number_of_pages
+            ),
+            provider_job_id=provider_job_id,
         )

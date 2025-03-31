@@ -1,0 +1,120 @@
+{
+  "original_response": {
+    "id": "modr-85YtMYHAr9eeZPW6J1kLD01V3KRcS",
+    "model": "text-moderation-006",
+    "results": [
+      {
+        "flagged": false,
+        "categories": {
+          "sexual": false,
+          "hate": false,
+          "harassment": false,
+          "self-harm": false,
+          "sexual/minors": false,
+          "hate/threatening": false,
+          "violence/graphic": false,
+          "self-harm/intent": false,
+          "self-harm/instructions": false,
+          "harassment/threatening": false,
+          "violence": false
+        },
+        "category_scores": {
+          "sexual": 8.123514999169856e-05,
+          "hate": 0.001375643303617835,
+          "harassment": 0.01840096339583397,
+          "self-harm": 0.001366300624795258,
+          "sexual/minors": 0.00031155155738815665,
+          "hate/threatening": 7.793232362018898e-05,
+          "violence/graphic": 0.0005688181845471263,
+          "self-harm/intent": 0.00025184746482409537,
+          "self-harm/instructions": 0.0005795329925604165,
+          "harassment/threatening": 9.946248610503972e-05,
+          "violence": 0.00023565968149341643
+        }
+      }
+    ]
+  },
+  "standardized_response": {
+    "nsfw_likelihood": 1,
+    "items": [
+      {
+        "label": "sexual",
+        "likelihood": 1,
+        "category": "Sexual",
+        "subcategory": "Sexual",
+        "likelihood_score": 8.123514999169856e-05
+      },
+      {
+        "label": "hate",
+        "likelihood": 1,
+        "category": "HateAndExtremism",
+        "subcategory": "Hate",
+        "likelihood_score": 0.001375643303617835
+      },
+      {
+        "label": "harassment",
+        "likelihood": 1,
+        "category": "HateAndExtremism",
+        "subcategory": "Harassment",
+        "likelihood_score": 0.01840096339583397
+      },
+      {
+        "label": "self-harm",
+        "likelihood": 1,
+        "category": "Violence",
+        "subcategory": "PhysicalViolence",
+        "likelihood_score": 0.001366300624795258
+      },
+      {
+        "label": "sexual/minors",
+        "likelihood": 1,
+        "category": "Other",
+        "subcategory": "Other",
+        "likelihood_score": 0.00031155155738815665
+      },
+      {
+        "label": "hate/threatening",
+        "likelihood": 1,
+        "category": "HateAndExtremism",
+        "subcategory": "Threatening",
+        "likelihood_score": 7.793232362018898e-05
+      },
+      {
+        "label": "violence/graphic",
+        "likelihood": 1,
+        "category": "Violence",
+        "subcategory": "GraphicViolenceOrGore",
+        "likelihood_score": 0.0005688181845471263
+      },
+      {
+        "label": "self-harm/intent",
+        "likelihood": 1,
+        "category": "Violence",
+        "subcategory": "PhysicalViolence",
+        "likelihood_score": 0.00025184746482409537
+      },
+      {
+        "label": "self-harm/instructions",
+        "likelihood": 1,
+        "category": "Violence",
+        "subcategory": "PhysicalViolence",
+        "likelihood_score": 0.0005795329925604165
+      },
+      {
+        "label": "harassment/threatening",
+        "likelihood": 1,
+        "category": "HateAndExtremism",
+        "subcategory": "Threatening",
+        "likelihood_score": 9.946248610503972e-05
+      },
+      {
+        "label": "violence",
+        "likelihood": 1,
+        "category": "Violence",
+        "subcategory": "Violence",
+        "likelihood_score": 0.00023565968149341643
+      }
+    ],
+    "nsfw_likelihood_score": 0.01840096339583397
+  }
+}

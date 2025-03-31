@@ -25,5 +25,3 @@ file_wrapper = FileWrapper(video_path, "", file_info)
 
 def shot_change_detection_async_arguments(provider_name: str) -> Dict:
     return {"file": file_wrapper}
-
-

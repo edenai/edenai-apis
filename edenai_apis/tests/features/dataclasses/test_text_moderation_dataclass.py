@@ -9,6 +9,7 @@ SUBFEATURE = "moderation"
 
 
 class TestTextModeration:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("nsfw_likelihood"),
         [
@@ -43,8 +44,31 @@ class TestTextModeration:
             ),
         ],
     )
-    def test_valid_value_check_min_mac_nsfw(self, nsfw_likelihood, nsfw_likelihood_score):
+    def test_valid_value_check_min_mac_nsfw(
+        self, nsfw_likelihood, nsfw_likelihood_score
+    ):
         try:
-            ModerationDataClass(nsfw_likelihood=nsfw_likelihood, items=[], nsfw_likelihood_score=nsfw_likelihood_score)
+            ModerationDataClass(
+                nsfw_likelihood=nsfw_likelihood,
+                items=[],
+                nsfw_likelihood_score=nsfw_likelihood_score,
+            )
         except ValueError:
             pytest.fail(f"{nsfw_likelihood} value doesn't raises a ValueError")
+
+    @pytest.mark.unit
+    def test_text_moderation_items(self):
+
+        ModerationDataClass(
+            nsfw_likelihood=0,
+            items=[
+                {
+                    "label": "hi",
+                    "category": "Toxic",
+                    "likelihood": 1,
+                    "subcategory": "Toxic",
+                    "likelihood_score": 0.5,
+                }
+            ],
+            nsfw_likelihood_score=0.0,
+        )

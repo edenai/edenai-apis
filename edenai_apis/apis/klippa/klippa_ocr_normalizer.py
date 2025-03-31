@@ -1,4 +1,3 @@
-
 from typing import List, Sequence
 
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
@@ -7,7 +6,7 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     ItemIdentityParserDataClass,
     format_date,
     get_info_country,
-    IdentityParserDataClass
+    IdentityParserDataClass,
 )
 from edenai_apis.features.ocr.invoice_parser import InvoiceParserDataClass
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
@@ -52,9 +51,10 @@ from edenai_apis.features.ocr.financial_parser import (
     FinancialMerchantInformation,
     FinancialParserDataClass,
     FinancialParserObjectDataClass,
-    FinancialPaymentInformation
+    FinancialPaymentInformation,
 )
 from edenai_apis.utils.parsing import extract
+
 
 # *****************************Invoice parser***************************************************
 def klippa_invoice_parser(original_response: dict) -> InvoiceParserDataClass:
@@ -155,65 +155,68 @@ def klippa_invoice_parser(original_response: dict) -> InvoiceParserDataClass:
         ]
     )
 
+
 # *****************************receipt parser***************************************************
 
+
 def klippa_receipt_parser(original_response: dict) -> ReceiptParserDataClass:
-        data_response = original_response["data"]
-        customer_information = CustomerInformation(
-            customer_name=data_response["customer_name"],
-        )
+    data_response = original_response["data"]
+    customer_information = CustomerInformation(
+        customer_name=data_response["customer_name"],
+    )
 
-        merchant_information = MerchantInformation(
-            merchant_name=data_response["merchant_name"],
-            merchant_address=data_response["merchant_address"],
-            merchant_phone=data_response["merchant_phone"],
-            merchant_tax_id=data_response["merchant_vat_number"],
-            merchant_siret=data_response["merchant_coc_number"],
-            merchant_url=data_response["merchant_website"],
-        )
+    merchant_information = MerchantInformation(
+        merchant_name=data_response["merchant_name"],
+        merchant_address=data_response["merchant_address"],
+        merchant_phone=data_response["merchant_phone"],
+        merchant_tax_id=data_response["merchant_vat_number"],
+        merchant_siret=data_response["merchant_coc_number"],
+        merchant_url=data_response["merchant_website"],
+    )
 
-        locale_information = Locale(
-            currency=data_response["currency"],
-            language=data_response["document_language"],
-            country=data_response["merchant_country_code"],
-        )
+    locale_information = Locale(
+        currency=data_response["currency"],
+        language=data_response["document_language"],
+        country=data_response["merchant_country_code"],
+    )
 
-        taxes_information = Taxes(
-            rate=data_response["personal_income_tax_rate"],
-            taxes=data_response["personal_income_tax_amount"],
-        )
+    taxes_information = Taxes(
+        rate=data_response["personal_income_tax_rate"],
+        taxes=data_response["personal_income_tax_amount"],
+    )
 
-        payment_information = PaymentInformation(
-            card_type=data_response["paymentmethod"],
-            card_number=data_response["payment_card_number"],
-        )
+    payment_information = PaymentInformation(
+        card_type=data_response["paymentmethod"],
+        card_number=data_response["payment_card_number"],
+    )
 
-        item_lines: List[ItemLines] = []
-        for line in data_response.get("lines", []):
-            for lineitem in line.get("linetimes", []):
-                item_lines.append(
-                    ItemLines(
-                        description=lineitem["description"],
-                        quantity=lineitem["quantity"],
-                        unit_price=lineitem["amount_each"],
-                        amount=lineitem["amount"],
-                    )
+    item_lines: List[ItemLines] = []
+    for line in data_response.get("lines", []):
+        for lineitem in line.get("linetimes", []):
+            item_lines.append(
+                ItemLines(
+                    description=lineitem["description"],
+                    quantity=lineitem["quantity"],
+                    unit_price=lineitem["amount_each"],
+                    amount=lineitem["amount"],
                 )
-
-        info_receipt = [
-            InfosReceiptParserDataClass(
-                customer_information=customer_information,
-                merchant_information=merchant_information,
-                locale=locale_information,
-                taxes=[taxes_information],
-                payment_information=payment_information,
-                invoice_number=data_response["invoice_number"],
-                date=data_response["date"],
-                invoice_total=data_response["amount"],
             )
-        ]
 
-        return ReceiptParserDataClass(extracted_data=info_receipt)
+    info_receipt = [
+        InfosReceiptParserDataClass(
+            customer_information=customer_information,
+            merchant_information=merchant_information,
+            locale=locale_information,
+            taxes=[taxes_information],
+            payment_information=payment_information,
+            invoice_number=data_response["invoice_number"],
+            date=data_response["date"],
+            invoice_total=data_response["amount"],
+        )
+    ]
+
+    return ReceiptParserDataClass(extracted_data=info_receipt)
+
 
 # *****************************financial parser***************************************************
 def klippa_financial_parser(original_response: dict) -> FinancialParserDataClass:
@@ -242,7 +245,7 @@ def klippa_financial_parser(original_response: dict) -> FinancialParserDataClass
         province=data_response["customer_municipality"],
         municipality=data_response["customer_municipality"],
         country=data_response["customer_country"],
-        coc_number=data_response["customer_coc_number"]
+        coc_number=data_response["customer_coc_number"],
     )
 
     merchant_information = FinancialMerchantInformation(
@@ -259,7 +262,7 @@ def klippa_financial_parser(original_response: dict) -> FinancialParserDataClass
         house_number=data_response["merchant_house_number"],
         country=data_response["merchant_country_code"],
         province=data_response["merchant_province"],
-        fiscal_number=data_response["merchant_fiscal_number"]
+        fiscal_number=data_response["merchant_fiscal_number"],
     )
 
     payment_information = FinancialPaymentInformation(
@@ -282,19 +285,25 @@ def klippa_financial_parser(original_response: dict) -> FinancialParserDataClass
         order_date=data_response["purchasedate"],
         invoice_due_date=data_response["payment_due_date"],
         service_start_date=data_response["service_date"],
-        barcodes=[FinancialBarcode(value=barcode.get("value"), type=barcode.get("type"))
-                  for barcode in data_response["barcodes"]] if len(data_response.get("barcodes") or []) > 0 else []
+        barcodes=(
+            [
+                FinancialBarcode(value=barcode.get("value"), type=barcode.get("type"))
+                for barcode in data_response["barcodes"]
+            ]
+            if len(data_response.get("barcodes") or []) > 0
+            else []
+        ),
     )
 
     bank = FinancialBankInformation(
         account_number=data_response["merchant_bank_account_number"],
         bic=data_response["merchant_bank_account_number_bic"],
-        sort_code=data_response["merchant_bank_domestic_bank_code"]
+        sort_code=data_response["merchant_bank_domestic_bank_code"],
     )
 
     local = FinancialLocalInformation(
         currency_code=data_response["currency"],
-        language=data_response["document_language"]
+        language=data_response["document_language"],
     )
 
     item_lines: List[FinancialLineItem] = []
@@ -312,23 +321,27 @@ def klippa_financial_parser(original_response: dict) -> FinancialParserDataClass
                     product_code=item["sku"],
                 )
             )
-    
+
     document_metadata = FinancialDocumentMetadata(
         document_type=data_response["document_type"]
     )
 
     return FinancialParserDataClass(
-        extracted_data=[FinancialParserObjectDataClass(
-            customer_information=customer_information,
-            merchant_information=merchant_information,
-            payment_information=payment_information,
-            financial_document_information=financial_document_information,
-            bank=bank,
-            local=local,
-            document_metadata=document_metadata,
-            item_lines=item_lines
-        )]
+        extracted_data=[
+            FinancialParserObjectDataClass(
+                customer_information=customer_information,
+                merchant_information=merchant_information,
+                payment_information=payment_information,
+                financial_document_information=financial_document_information,
+                bank=bank,
+                local=local,
+                document_metadata=document_metadata,
+                item_lines=item_lines,
+            )
+        ]
     )
+
+
 # *****************************identity parser***************************************************
 def klippa_id_parser(original_response: dict) -> IdentityParserDataClass:
     items: Sequence[InfosIdentityParserDataClass] = []
@@ -348,9 +361,7 @@ def klippa_id_parser(original_response: dict) -> IdentityParserDataClass:
         final_given_names.append(
             ItemIdentityParserDataClass(
                 value=given_name,
-                confidence=(parsed_data.get("given_names", {}) or {}).get(
-                    "confidence"
-                ),
+                confidence=(parsed_data.get("given_names", {}) or {}).get("confidence"),
             )
         )
     birth_date = parsed_data.get("date_of_birth", {}) or {}
@@ -474,6 +485,7 @@ def klippa_id_parser(original_response: dict) -> IdentityParserDataClass:
     )
 
     return IdentityParserDataClass(extracted_data=items)
+
 
 # *****************************resume parser***************************************************
 def klippa_resume_parser(original_response: dict) -> ResumeParserDataClass:

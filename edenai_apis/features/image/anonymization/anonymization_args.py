@@ -9,8 +9,9 @@ from edenai_apis.utils.files import FileInfo, FileWrapper
 feature_path = os.path.dirname(os.path.dirname(__file__))
 data_path = os.path.join(feature_path, "data")
 
+
 def anonymization_arguments(provider_name: str) -> Dict:
-    
+
     image_path = f"{data_path}/face.jpeg"
 
     mime_type = mimetypes.guess_type(image_path)[0]

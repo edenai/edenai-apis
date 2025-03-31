@@ -1,7 +1,10 @@
 {
-  "image": {
-    "background_removal": {
-      "version": "v1"
+    "image": {
+        "background_removal": {
+            "version": "v1"
+        }
+    },
+    "_metadata": {
+        "privacy_url": "https://www.photoroom.com/legal/privacy"
     }
-  }
 }

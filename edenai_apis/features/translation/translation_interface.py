@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Optional
 
 from edenai_apis.features.translation.automatic_translation.automatic_translation_dataclass import (
     AutomaticTranslationDataClass,
@@ -15,7 +16,12 @@ from edenai_apis.utils.types import ResponseType
 class TranslationInterface:
     @abstractmethod
     def translation__automatic_translation(
-        self, source_language: str, target_language: str, text: str
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[AutomaticTranslationDataClass]:
         """
         Translate a text
@@ -32,7 +38,7 @@ class TranslationInterface:
 
     @abstractmethod
     def translation__language_detection(
-        self, text: str
+        self, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[LanguageDetectionDataClass]:
         """
         Detect language of a given text
@@ -50,6 +56,7 @@ class TranslationInterface:
         source_language: str,
         target_language: str,
         file_url: str = "",
+        **kwargs,
     ) -> ResponseType[DocumentTranslationDataClass]:
         """
         Translate a document

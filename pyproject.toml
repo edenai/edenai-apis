@@ -1,10 +1,10 @@
 [project]
-name = "edenaiapis"
+name = "edenai-apis"
 version = "0.1.2"
 description = "Providers connectors"
 dynamic = ["dependencies"]
-requires-python = ">=3.8"
-license = { file = "LICENCE"}
+requires-python = ">=3.11"
+license = { file = "LICENSE"}
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: Apache Software License",
@@ -61,3 +61,79 @@ warn_required_dynamic_aliases = true
 repository = "https://github.com/edenai/edenai-apis"
 homepage = "https://www.edenai.co/"
 documentation = "https://docs.edenai.co/docs"
+
+[tool.poetry]
+name = "edenai-apis"
+version = "0.1.2"
+description = "Providers connectors"
+license = "Apache-2.0"
+authors = [
+    "Samy Melaine <samy@edenai.co>",
+    "François Humbert <francois.humbert@edenai.co>",
+    "Adnane Guettaf <adnane.guettaf@edenai.co>",
+    "Abdelghani Kaoula <ghani.kaoula@edenai.co>",
+    "Kyrian Castel <kyrian.castel@edenai.co>",
+    "Corentin Scialpi <corentin.scialpi@edenai.co>"
+]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+ffmpeg-python = "^0.2.0"
+langcodes = "^3.5.0"
+language-data = "^1.3.0"
+pandas = "^2.2.3"
+pdf2image = "^1.17.0"
+pillow = "^11.1.0"
+pycountry = "^24.6.1"
+pydantic = "^2.7.4"
+pylint = "^3.3.5"
+mypy = "^1.15.0"
+pydub = "^0.25.1"
+pypdf = "^5.4.0"
+sagemaker = "^2.242.0"
+python-magic = "^0.4.27"
+sphinx = "^8.2.3"
+furo = "^2024.8.6"
+psycopg2 = "^2.9.10"
+pytest-mock = "^3.14.0"
+pytest-cov = "^6.0.0"
+pytest = "^7.4.4"
+pytest-xdist = "^3.6.1"
+pytest-timeout = "^2.3.1"
+affinda = "^4.25.0"
+amazon-textract-response-parser = "^1.0.3"
+boto3 = "^1.35.84"
+clarifai-grpc = "^9.10.7"
+google-api-python-client = "^2.88.0"
+google-cloud-documentai = "^2.15.0"
+google-cloud-language = "^2.10.0"
+google-cloud-speech = "^2.26.0"
+google-cloud-storage = "^2.9.0"
+google-cloud-texttospeech = "^2.14.1"
+google-cloud-translate = "^3.11.1"
+google-cloud-vision = "^3.4.2"
+google-cloud-videointelligence = "^2.11.2"
+google-cloud-automl = "^2.11.1"
+google-cloud-aiplatform = "^1.35.0"
+ibm-watson = "^9.0.0"
+lettria = "^6.0.0"
+azure-ai-formrecognizer = "^3.3"
+azure-cognitiveservices-speech = "^1.42.0"
+azure-core = "^1.32.0"
+aleph-alpha-client = "^6.0.0"
+openai = "^1.55.3"
+python-dotenv = "^1.0.1"
+responses = "^0.24.1"
+anthropic-bedrock = "^0.8.0"
+docstring-parser = "^0.16"
+pymupdf = "^1.25.4"
+asgiref = "^3.8.1"
+jsonschema = "^4.22"
+litellm = "^1.58.0"
+requests = "^2.32"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

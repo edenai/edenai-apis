@@ -1,8 +1,10 @@
 import base64
 import http.client
 from datetime import datetime
-from typing import Dict, Generator, List, Literal, Optional, Union, overload
+from typing import Dict, Generator, List, Literal, Optional, Type, Union, overload
 
+import httpx
+from openai import BaseModel
 import requests
 
 from edenai_apis.features import TextInterface, ImageInterface
@@ -13,27 +15,35 @@ from edenai_apis.features.image.generation.generation_dataclass import (
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.text import (
     ChatDataClass,
-    ChatMessageDataClass,
 )
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from .config import get_model_id, get_model_id_image
+from edenai_apis.llmengine import LLMEngine
+from edenai_apis.features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
+from edenai_apis.llmengine.utils.moderation import moderate
+from .config import get_model_id_image
 
 
-class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
+class ReplicateApi(ProviderInterface, ImageInterface, TextInterface, LlmInterface):
     provider_name = "replicate"
 
     def __init__(self, api_keys: Dict = {}):
         api_settings = load_provider(
             ProviderDataEnum.KEY, provider_name=self.provider_name, api_keys=api_keys
         )
+        self.api_key = api_settings["api_key"]
         self.headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": f"Token {api_settings['api_key']}",
+            "Authorization": f"Token {self.api_key}",
         }
+        self.llm_client = LLMEngine(
+            provider_name=self.provider_name,
+            provider_config={"api_key": self.api_key},
+        )
         self.base_url = "https://api.replicate.com/v1"
 
     @staticmethod
@@ -153,12 +163,14 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         self.__calculate_predict_time(response_dict)
         return response_dict
 
+    @moderate
     def image__generation(
         self,
         text: str,
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[GenerationDataClass]:
         size = resolution.split("x")
         payload = {
@@ -212,65 +224,100 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface):
         available_tools: Optional[List[dict]] = None,
         tool_choice: Literal["auto", "required", "none"] = "auto",
         tool_results: Optional[List[dict]] = None,
+        **kwargs,
     ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        response = self.llm_client.chat(
+            text=text,
+            chatbot_global_action=chatbot_global_action,
+            previous_history=previous_history,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            model=model,
+            stream=stream,
+            available_tools=available_tools,
+            tool_choice=tool_choice,
+            tool_results=tool_results,
+            **kwargs,
+        )
+        return response
 
-        if any([available_tools, tool_results]):
-            raise ProviderException("This provider does not support the use of tools")
-        # Build the prompt by formatting the previous history and current text
-        prompt = ""
-        if previous_history:
-            for msg in previous_history:
-                if msg["role"] == "user":
-                    prompt += "\n[INST]" + msg["message"] + "[/INST]\n"
-                else:
-                    prompt += "\n" + msg["message"] + "\n"
-
-        prompt += "\n[INST]" + text + "[/INST]\n"
-
-        # Construct the payload for chat interaction
-        payload = {
-            "input": {
-                "prompt": prompt,
-                "max_new_tokens": max_tokens,
-                "temperature": temperature,
-                "min_new_tokens": -1,
-            }
-        }
-
-        if model in get_model_id:
-            url = f"{self.base_url}/predictions"
-            payload["version"] = get_model_id[model]
-        else:
-            url = f"{self.base_url}/models/{model}/predictions"
-
-        # Include system prompt if provided
-        if chatbot_global_action:
-            payload["input"]["system_prompt"] = chatbot_global_action
-
-        # Call the API and get the response dictionary
-        response = self.__get_response(url, payload, stream=stream)
-
-        if stream is False:
-            # Extract generated text from the API response
-            generated_text = "".join(response.get("output", [""]))
-
-            # Build a list of ChatMessageDataClass objects for the conversation history
-            message = [
-                ChatMessageDataClass(role="user", message=text),
-                ChatMessageDataClass(role="assistant", message=generated_text),
-            ]
-
-            # Build the standardized response
-            standardized_response = ChatDataClass(
-                generated_text=generated_text, message=message
-            )
-
-            return ResponseType[ChatDataClass](
-                original_response=response,
-                standardized_response=standardized_response,
-            )
-        else:
-            return ResponseType[StreamChat](
-                original_response=None,
-                standardized_response=StreamChat(stream=response),
-            )
+    def llm__chat(
+        self,
+        messages: List = [],
+        model: Optional[str] = None,
+        # Optional OpenAI params: see https://platform.openai.com/docs/api-reference/chat/create
+        timeout: Optional[Union[float, str, httpx.Timeout]] = None,
+        temperature: Optional[float] = None,
+        top_p: Optional[float] = None,
+        n: Optional[int] = None,
+        stream: Optional[bool] = None,
+        stream_options: Optional[dict] = None,
+        stop: Optional[str] = None,
+        stop_sequences: Optional[any] = None,
+        max_tokens: Optional[int] = None,
+        presence_penalty: Optional[float] = None,
+        frequency_penalty: Optional[float] = None,
+        logit_bias: Optional[dict] = None,
+        modalities: Optional[List[Literal["text", "audio"]]] = None,
+        audio: Optional[Dict] = None,
+        # openai v1.0+ new params
+        response_format: Optional[
+            Union[dict, Type[BaseModel]]
+        ] = None,  # Structured outputs
+        seed: Optional[int] = None,
+        tools: Optional[List] = None,
+        tool_choice: Optional[Union[str, dict]] = None,
+        logprobs: Optional[bool] = None,
+        top_logprobs: Optional[int] = None,
+        parallel_tool_calls: Optional[bool] = None,
+        deployment_id=None,
+        extra_headers: Optional[dict] = None,
+        # soon to be deprecated params by OpenAI -> This should be replaced by tools
+        functions: Optional[List] = None,
+        function_call: Optional[str] = None,
+        base_url: Optional[str] = None,
+        api_version: Optional[str] = None,
+        api_key: Optional[str] = None,
+        model_list: Optional[list] = None,  # pass in a list of api_base,keys, etc.
+        drop_invalid_params: bool = True,  # If true, all the invalid parameters will be ignored (dropped) before sending to the model
+        user: str | None = None,
+        # Optional parameters
+        **kwargs,
+    ) -> ChatDataClass:
+        response = self.llm_client.completion(
+            messages=messages,
+            model=model,
+            timeout=timeout,
+            temperature=temperature,
+            top_p=top_p,
+            n=n,
+            stream=stream,
+            stream_options=stream_options,
+            stop=stop,
+            stop_sequences=stop_sequences,
+            max_tokens=max_tokens,
+            presence_penalty=presence_penalty,
+            frequency_penalty=frequency_penalty,
+            logit_bias=logit_bias,
+            response_format=response_format,
+            seed=seed,
+            tools=tools,
+            tool_choice=tool_choice,
+            logprobs=logprobs,
+            top_logprobs=top_logprobs,
+            parallel_tool_calls=parallel_tool_calls,
+            deployment_id=deployment_id,
+            extra_headers=extra_headers,
+            functions=functions,
+            function_call=function_call,
+            base_url=base_url,
+            api_version=api_version,
+            api_key=api_key,
+            model_list=model_list,
+            drop_invalid_params=drop_invalid_params,
+            user=user,
+            modalities=modalities,
+            audio=audio,
+            **kwargs,
+        )
+        return response

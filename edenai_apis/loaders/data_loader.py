@@ -41,7 +41,7 @@ def load_key(provider_name, location=False, api_keys: Dict = {}):
 
     if api_keys:
         data = api_keys
-        #check_messsing_keys(provider_settings_data, data)
+        # check_messsing_keys(provider_settings_data, data)
 
     if location:
         return data, provider_settings_path
@@ -49,13 +49,11 @@ def load_key(provider_name, location=False, api_keys: Dict = {}):
 
 
 @overload
-def load_class() -> List[Type[ProviderInterface]]:
-    ...
+def load_class() -> List[Type[ProviderInterface]]: ...
 
 
 @overload
-def load_class(provider_name: str) -> Type[ProviderInterface]:
-    ...
+def load_class(provider_name: str) -> Type[ProviderInterface]: ...
 
 
 def load_class(
@@ -148,6 +146,11 @@ def load_info_file(provider_name: str = "") -> Dict:
     ):
         provider_info = load_info_file(provider_name_i)
         for feature in provider_info:
+            if feature == "_metadata":
+                all_infos[(provider_name_i, feature, "privacy_url")] = provider_info[
+                    feature
+                ]["privacy_url"]
+                continue
             for subfeature in provider_info[feature]:
                 if (
                     not provider_info.get(feature, {})
@@ -155,9 +158,9 @@ def load_info_file(provider_name: str = "") -> Dict:
                     .get("version")
                 ):
                     for phase in provider_info.get(feature, {}).get(subfeature, []):
-                        all_infos[
-                            (provider_name_i, feature, subfeature, phase)
-                        ] = provider_info[feature][subfeature][phase]
+                        all_infos[(provider_name_i, feature, subfeature, phase)] = (
+                            provider_info[feature][subfeature][phase]
+                        )
                 else:
                     all_infos[(provider_name_i, feature, subfeature)] = provider_info[
                         feature

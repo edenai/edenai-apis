@@ -1,4 +1,3 @@
-
 from typing import Dict, List
 
 from edenai_apis.features.ocr.invoice_parser import InvoiceParserDataClass
@@ -38,8 +37,9 @@ from edenai_apis.features.ocr.financial_parser import (
     FinancialMerchantInformation,
     FinancialParserDataClass,
     FinancialParserObjectDataClass,
-    FinancialPaymentInformation
+    FinancialPaymentInformation,
 )
+
 
 # *****************************Invoice parser***************************************************
 def veryfi_invoice_parser(original_response: dict) -> InvoiceParserDataClass:
@@ -127,8 +127,9 @@ def veryfi_invoice_parser(original_response: dict) -> InvoiceParserDataClass:
 
     return InvoiceParserDataClass(extracted_data=info_invoice)
 
+
 # *****************************receipt parser***************************************************
-def veryfi_receipt_parser(original_response : dict) -> ReceiptParserDataClass:
+def veryfi_receipt_parser(original_response: dict) -> ReceiptParserDataClass:
     customer_information = CustomerInformation(
         customer_name=original_response["bill_to"]["name"],
     )
@@ -180,6 +181,7 @@ def veryfi_receipt_parser(original_response : dict) -> ReceiptParserDataClass:
 
     return ReceiptParserDataClass(extracted_data=info_receipt)
 
+
 # *****************************bank check parser***************************************************
 def veryfi_bank_check_parser(original_response: dict) -> BankCheckParsingDataClass:
     items = [
@@ -197,20 +199,15 @@ def veryfi_bank_check_parser(original_response: dict) -> BankCheckParsingDataCla
             currency=None,
             micr=MicrModel(
                 raw=original_response.get("micr", {}).get("raw"),
-                account_number=original_response.get("micr", {}).get(
-                    "account_number"
-                ),
-                serial_number=original_response.get("micr", {}).get(
-                    "serial_number"
-                ),
+                account_number=original_response.get("micr", {}).get("account_number"),
+                serial_number=original_response.get("micr", {}).get("serial_number"),
                 check_number=original_response["check_number"],
-                routing_number=original_response.get("micr", {}).get(
-                    "routing_number"
-                ),
+                routing_number=original_response.get("micr", {}).get("routing_number"),
             ),
         )
     ]
     return BankCheckParsingDataClass(extracted_data=items)
+
 
 # *****************************financial parser***************************************************
 def veryfi_financial_parser(original_response: dict) -> FinancialParserDataClass:
@@ -219,14 +216,13 @@ def veryfi_financial_parser(original_response: dict) -> FinancialParserDataClass
         billing_address=original_response["bill_to"]["address"],
         shipping_address=original_response["ship_to"]["address"],
         vat_number=original_response["bill_to"]["vat_number"],
-
     )
     merchant_information = FinancialMerchantInformation(
         name=original_response["vendor"]["name"],
         abn_number=original_response["vendor"]["abn_number"],
         address=original_response["vendor"]["address"],
         phone=original_response["vendor"]["phone_number"],
-        email=original_response["vendor"]["email"]
+        email=original_response["vendor"]["email"],
     )
     payment_information = FinancialPaymentInformation(
         total=original_response["total"],
@@ -247,24 +243,28 @@ def veryfi_financial_parser(original_response: dict) -> FinancialParserDataClass
         purchase_order=original_response["purchase_order_number"],
         reference=original_response["reference_number"],
         invoice_type=original_response["document_type"],
-        barcodes=[FinancialBarcode(type=code["type"], value=code["data"])
-        for code in original_response.get("barcodes", [])
-        if code["data"] is not None and code["type"] is not None]
+        barcodes=[
+            FinancialBarcode(type=code["type"], value=code["data"])
+            for code in original_response.get("barcodes", [])
+            if code["data"] is not None and code["type"] is not None
+        ],
     )
     bank = FinancialBankInformation(
         swift=original_response["vendor"]["bank_swift"],
         account_number=original_response["vendor"]["account_number"],
-        iban=original_response["vendor"]["iban"]
+        iban=original_response["vendor"]["iban"],
     )
-    local = FinancialLocalInformation(
-        currency=original_response["currency_code"]
-    )
+    local = FinancialLocalInformation(currency=original_response["currency_code"])
     item_lines = []
     for item in original_response["line_items"]:
         item_lines.append(
             FinancialLineItem(
                 description=item["description"],
-                quantity = int(item.get("quantity")) if item.get("quantity") is not None else None,
+                quantity=(
+                    int(item.get("quantity"))
+                    if item.get("quantity") is not None
+                    else None
+                ),
                 discount=item["discount"],
                 unit_price=item["price"],
                 tax_item=item["tax"],
@@ -284,6 +284,6 @@ def veryfi_financial_parser(original_response: dict) -> FinancialParserDataClass
         item_lines=item_lines,
         document_metadata=FinancialDocumentMetadata(
             document_type=original_response.get("document_type")
-        )
+        ),
     )
     return FinancialParserDataClass(extracted_data=[financial_document_object])

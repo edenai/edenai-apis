@@ -87,10 +87,7 @@ class Api4aiApi(
         print(self.urls)
 
     def image__object_detection(
-        self,
-        file: str,
-        file_url: str = "",
-        model: Optional[str] = None,
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
         """
         This function is used to detect objects in an image.
@@ -131,7 +128,7 @@ class Api4aiApi(
         return result
 
     def image__face_detection(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[FaceDetectionDataClass]:
         with open(file, "rb") as file_:
             payload = {
@@ -195,7 +192,7 @@ class Api4aiApi(
         return result
 
     def image__anonymization(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
         with open(file, "rb") as file_:
             files = {"image": file_}
@@ -239,7 +236,7 @@ class Api4aiApi(
         return result
 
     def image__logo_detection(
-        self, file: str, file_url: str = "", model: Optional[str] = None
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[LogoDetectionDataClass]:
         with open(file, "rb") as file_:
             payload = {
@@ -301,7 +298,7 @@ class Api4aiApi(
         return result
 
     def image__explicit_content(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
         with open(file, "rb") as file_:
             payload = {
@@ -358,10 +355,7 @@ class Api4aiApi(
         return result
 
     def ocr__ocr(
-        self,
-        file: str,
-        language: str,
-        file_url: str = "",
+        self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[OcrDataClass]:
         with open(file, "rb") as file_:
             response = requests.post(self.urls["ocr"], files={"image": file_})
@@ -402,6 +396,7 @@ class Api4aiApi(
         file: str,
         file_url: str = "",
         provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         if provider_params is None or not isinstance(provider_params, dict):
             api4ai_params = Api4aiBackgroundRemovalParams()

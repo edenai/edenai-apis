@@ -17,10 +17,11 @@ You have now access to the provider's response or our own standardize response
 To see all available providers and features,
 check the Full documentation at <https://edenai.github.io/edenai_apis>.
 """
+
 from . import apis
 from . import features
 from . import interface
 from . import loaders
 from . import settings
 from . import utils
-from .interface_v2 import Text, Ocr, Video, Audio, Image, Translation, Multimodal
+from .interface_v2 import Text, Ocr, Video, Audio, Image, Translation, Multimodal, Llm

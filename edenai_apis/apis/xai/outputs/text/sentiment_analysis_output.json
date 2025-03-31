@@ -1,0 +1,29 @@
+{
+  "original_response": {
+    "id": "chatcmpl-8UbU5T8Nxq6wQyAa3GsCYjSMhHU5B",
+    "object": "chat.completion",
+    "created": 1702304621,
+    "model": "gpt-3.5-turbo-1106",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "{\n  \"general_sentiment\": \"Negative\",\n  \"general_sentiment_rate\": 0.3\n}"
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 208,
+      "completion_tokens": 23,
+      "total_tokens": 231
+    },
+    "system_fingerprint": "fp_eeff13170a"
+  },
+  "standardized_response": {
+    "general_sentiment": "Negative",
+    "general_sentiment_rate": 0.3,
+    "items": []
+  }
+}

@@ -1,7 +1,15 @@
 from enum import Enum
-from typing import Sequence, Union
+from typing import Sequence, Union, Type
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator, FieldSerializationInfo, field_serializer
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictStr,
+    field_validator,
+    FieldSerializationInfo,
+    field_serializer,
+)
 
 from edenai_apis.features.text.moderation.category import (
     CategoryType,
@@ -17,8 +25,10 @@ from edenai_apis.features.text.moderation.subcategory import (
     SafeSubCategoryType,
     OtherSubCategoryType,
 )
+from edenai_apis.utils.combine_enums import combine_enums
 
-SubCategoryType = Union[
+SubCategoryType = combine_enums(
+    "SubCategoryType",
     ToxicSubCategoryType,
     ContentSubCategoryType,
     SexualSubCategoryType,
@@ -28,7 +38,9 @@ SubCategoryType = Union[
     HateAndExtremismSubCategoryType,
     SafeSubCategoryType,
     OtherSubCategoryType,
-]
+)
+
+
 class TextModerationCategoriesMicrosoftEnum(Enum):
     Category1 = "sexually explicit"
     Category2 = "sexually suggestive"
@@ -43,14 +55,16 @@ class TextModerationItem(BaseModel):
     likelihood_score: float
 
     model_config = ConfigDict(use_enum_values=True)
-    @field_serializer('subcategory', mode="plain", when_used="always")
+
+    @field_serializer("subcategory", mode="plain", when_used="always")
     def serialize_subcategory(self, value: SubCategoryType, _: FieldSerializationInfo):
-        return getattr(value, 'value', None)
+        return getattr(value, "value", None)
+
 
 class ModerationDataClass(BaseModel):
     nsfw_likelihood: int
     items: Sequence[TextModerationItem] = Field(default_factory=list)
-    nsfw_likelihood_score : float
+    nsfw_likelihood_score: float
 
     @field_validator("nsfw_likelihood")
     @classmethod
@@ -58,7 +72,6 @@ class ModerationDataClass(BaseModel):
         if not 0 <= value <= 5:
             raise ValueError("Likelihood walue should be between 0 and 5")
         return value
-
 
     @staticmethod
     def calculate_nsfw_likelihood(items: Sequence[TextModerationItem]):

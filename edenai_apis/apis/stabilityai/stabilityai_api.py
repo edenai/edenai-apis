@@ -21,6 +21,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
+from edenai_apis.llmengine.utils.moderation import moderate
 
 
 class StabilityAIApi(ProviderInterface, ImageInterface):
@@ -37,12 +38,14 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
             "Accept": "application/json",
         }
 
+    @moderate
     def image__generation(
         self,
         text: str,
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
         model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[GenerationDataClass]:
         url = f"https://api.stability.ai/v1/generation/{model}/text-to-image"
         size = resolution.split("x")
@@ -92,6 +95,7 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         file: str,
         file_url: str = "",
         provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         url = "https://api.stability.ai/v2beta/stable-image/edit/remove-background"
         with open(file, "rb") as f:
@@ -129,6 +133,7 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
         temperature: Optional[float] = 0.3,
         model: Optional[str] = None,
         file_url: str = "",
+        **kwargs,
     ) -> ResponseType[VariationDataClass]:
         url = f"https://api.stability.ai/v1/generation/{model}/image-to-image"
         del self.headers["Content-Type"]

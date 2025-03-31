@@ -40,7 +40,7 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
         }
 
     def image__ai_detection(
-        self, file: Optional[str] = None, file_url: Optional[str] = None
+        self, file: Optional[str] = None, file_url: Optional[str] = None, **kwargs
     ) -> ResponseType[ImageAiDetectionDataclass]:
         if not file_url and not file:
             raise ProviderException("file or file_url required")
@@ -75,7 +75,7 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
         )
 
     def text__ai_detection(
-        self, text: str, provider_params: Optional[Dict[str, Any]] = None
+        self, text: str, provider_params: Optional[Dict[str, Any]] = None, **kwargs
     ) -> ResponseType[AiDetectionDataClass]:
         if provider_params is None:
             provider_params = {}
@@ -128,6 +128,7 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
         text: str,
         title: str = "",
         provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[PlagiaDetectionDataClass]:
         if provider_params is None:
             provider_params = {}

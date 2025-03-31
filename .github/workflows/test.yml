@@ -25,21 +25,47 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH  # Ensure Poetry is in PATH
+
+
+      - name: Debug 
+        run: |
+          git diff HEAD pyproject.toml
+
+      - name: Clear Poetry cache
+        run: poetry cache clear pypi --all
 
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install ffmpeg -y
-          pip install -r requirements.txt -c constraints.txt
+          poetry install --no-interaction --no-root  # Installs dependencies from `poetry.lock`
+
       - name: Set Env variables
         run: "echo TEST_SCOPE=CICD-OPENSOURCE >> $GITHUB_ENV"
+
       - name: Run Test suite
         run: |
-          pytest -vvv -s -n auto --maxprocesses=8 --dist loadgroup
-      - name: generate list of providers and features markdown
+          pytest -vvv -s -m 'unit or integration' -n auto --maxprocesses=8 --dist loadgroup
+
+  generate_doc:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Generate list of providers and features markdown
         run: "python -m edenai_apis.scripts.documentation"
-      - name: generate doc
+
+      - name: Generate doc
         run: |
           cd .docsrc
           rm -rf _build/**
@@ -47,7 +73,8 @@ jobs:
           sphinx-apidoc -o _build/ ../edenai_apis/
           make html
           cp -r _build/html/* ../docs/
-      - name: commit documentation changes
+
+      - name: Commit documentation changes
         uses: EndBug/add-and-commit@v9
         with:
           add: AVAILABLES_FEATURES_AND_PROVIDERS.md
@@ -55,14 +82,13 @@ jobs:
           committer_email: mail@example.com
           message: '[doc] update available features & providers'
 
-
   generate_doc_and_deploy:
-    needs: test
+    needs: generate_doc
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3

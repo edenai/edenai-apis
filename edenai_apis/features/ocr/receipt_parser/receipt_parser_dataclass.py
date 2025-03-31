@@ -70,6 +70,7 @@ class InfosReceiptParserDataClass(BaseModel):
     )  # DEPRECATED MUST BE DELETED
     item_lines: Sequence[ItemLines] = Field(default_factory=list)
 
+
 # DEORECATED
 class ReceiptParserDataClass(BaseModel):
     extracted_data: Sequence[InfosReceiptParserDataClass] = Field(default_factory=list)

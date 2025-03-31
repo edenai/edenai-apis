@@ -1,7 +1,9 @@
 from typing import Optional
 import base64
 from io import BytesIO
+import json
 
+from edenai_apis.features.video import QuestionAnswerDataClass
 from edenai_apis.features.video.explicit_content_detection_async.explicit_content_detection_async_dataclass import (
     ExplicitContentDetectionAsyncDataClass,
 )
@@ -29,6 +31,7 @@ from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
+    ResponseType,
 )
 from .helpers import (
     amazon_get_video_data,
@@ -49,7 +52,7 @@ from edenai_apis.utils.upload_s3 import (
 class AmazonVideoApi(VideoInterface):
     # Launch job label detection
     def video__label_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         video, notification_channel = amazon_get_video_data(file=file)
         response = clients(self.api_settings)["video"].start_label_detection(
@@ -61,7 +64,7 @@ class AmazonVideoApi(VideoInterface):
         return AsyncLaunchJobResponseType(provider_job_id=job_id)
 
     def video__text_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         video, notification_channel = amazon_get_video_data(file=file)
         response = clients(self.api_settings)["video"].start_text_detection(
@@ -74,7 +77,7 @@ class AmazonVideoApi(VideoInterface):
 
     # Launch job face detection
     def video__face_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         video, notification_channel = amazon_get_video_data(file=file)
         response = clients(self.api_settings)["video"].start_face_detection(
@@ -87,7 +90,7 @@ class AmazonVideoApi(VideoInterface):
 
     # Launch job person tracking
     def video__person_tracking_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         video, notification_channel = amazon_get_video_data(file=file)
         response = clients(self.api_settings)["video"].start_person_tracking(
@@ -100,7 +103,7 @@ class AmazonVideoApi(VideoInterface):
 
     # Launch job explicit content detection
     def video__explicit_content_detection_async__launch_job(
-        self, file: str, file_url: str = ""
+        self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         video, notification_channel = amazon_get_video_data(file=file)
         response = clients(self.api_settings)["video"].start_content_moderation(
@@ -122,6 +125,7 @@ class AmazonVideoApi(VideoInterface):
         file: Optional[str] = None,
         file_url: Optional[str] = None,
         model: Optional[str] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         text_input = {"text": text}
         if file:
@@ -414,3 +418,57 @@ class AmazonVideoApi(VideoInterface):
         if invocation["status"] == "Failed":
             failure_message = invocation["failureMessage"]
             raise ProviderException(failure_message)
+
+    def video__question_answer(
+        self,
+        text: str,
+        file: str,
+        file_url: str = "",
+        temperature: float = 0,
+        model: str = None,
+        **kwargs,
+    ) -> QuestionAnswerDataClass:
+        with open(file, "rb") as video_file:
+            binary_data = video_file.read()
+            base_64_encoded_data = base64.b64encode(binary_data)
+            base64_string = base_64_encoded_data.decode("utf-8")
+        message_list = [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "video": {
+                            "format": "mp4",
+                            "source": {"bytes": base64_string},
+                        }
+                    },
+                    {"text": text},
+                ],
+            }
+        ]
+        request_params = {
+            "body": json.dumps(
+                {
+                    "schemaVersion": "messages-v1",
+                    "messages": message_list,
+                    "inferenceConfig": {"temperature": temperature},
+                }
+            ),
+            "modelId": model,
+        }
+        response = handle_amazon_call(
+            self.clients["bedrock"].invoke_model, **request_params
+        )
+        model_response = json.loads(response["body"].read())
+        usage = {
+            "completion_tokens": model_response["usage"]["outputTokens"],
+            "prompt_tokens": model_response["usage"]["inputTokens"],
+            "total_tokens": model_response["usage"]["totalTokens"],
+        }
+        model_response["usage"] = usage
+        content_text = model_response["output"]["message"]["content"][0]["text"]
+        return ResponseType[QuestionAnswerDataClass](
+            original_response=model_response,
+            standardized_response=QuestionAnswerDataClass(answer=content_text),
+            usage=usage,
+        )

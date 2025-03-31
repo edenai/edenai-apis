@@ -1,16 +1,16 @@
 {
- "image":{
-      "generation":{
-        "constraints": {
-          "resolutions":[
-            "256x256",
-            "512x512"
-          ]
-      },
-        "version": "v1Beta"
-     }
+    "image": {
+        "generation": {
+            "constraints": {
+                "resolutions": [
+                    "256x256",
+                    "512x512"
+                ]
+            },
+            "version": "v1Beta"
+        }
+    },
+    "_metadata": {
+        "privacy_url": "https://freestar.com/privacy-policy"
     }
 }
-  
-  
-  

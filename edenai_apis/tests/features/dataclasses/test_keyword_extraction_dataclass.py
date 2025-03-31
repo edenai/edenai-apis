@@ -7,6 +7,7 @@ SUBFEATURE = "keyword_extraction"
 
 
 class TestInfosKeywordExtraction:
+    @pytest.mark.unit
     @pytest.mark.parametrize(
         ("importance", "expected_importance"),
         [

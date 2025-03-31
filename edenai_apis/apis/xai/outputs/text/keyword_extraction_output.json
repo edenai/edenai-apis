@@ -1,0 +1,91 @@
+{
+  "original_response": {
+    "data": [
+      {
+        "id": "msg_aR7GiCfFGzuMYmrbrJTlh1yC",
+        "assistant_id": "asst_OPxUqu0B84reeCwmxjzKO0SM",
+        "attachments": [],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "{\n  \"items\": [\n    {\n      \"keyword\": \"Barack Hussein Obama\",\n      \"importance\": 0.9\n    },\n    {\n      \"keyword\": \"American politician\",\n      \"importance\": 0.8\n    },\n    {\n      \"keyword\": \"44th president\",\n      \"importance\": 0.7\n    },\n    {\n      \"keyword\": \"United States\",\n      \"importance\": 0.8\n    },\n    {\n      \"keyword\": \"Democratic Party\",\n      \"importance\": 0.6\n    },\n    {\n      \"keyword\": \"African-American president\",\n      \"importance\": 0.9\n    },\n    {\n      \"keyword\": \"U.S. senator\",\n      \"importance\": 0.7\n    },\n    {\n      \"keyword\": \"Illinois state senator\",\n      \"importance\": 0.6\n    }\n  ]\n}"
+            },
+            "type": "text"
+          }
+        ],
+        "created_at": 1721034690,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "assistant",
+        "run_id": "run_oL0tf0E4YV75IJXCcDzNYv9w",
+        "thread_id": "thread_Dva9VafbTwMBZR51w2pHCOC5"
+      },
+      {
+        "id": "msg_5oznfZUOXpMI1LaaPFryOpye",
+        "assistant_id": null,
+        "attachments": [],
+        "content": [
+          {
+            "text": {
+              "annotations": [],
+              "value": "Barack Hussein Obama is an American politician who served as the 44th president of the United States from 2009 to 2017. A member of the Democratic Party, Obama was the first African-American president of the United States. He previously served as a U.S. senator from Illinois from 2005 to 2008 and as an Illinois state senator from 1997 to 2004."
+            },
+            "type": "text"
+          }
+        ],
+        "created_at": 1721034689,
+        "metadata": {},
+        "object": "thread.message",
+        "role": "user",
+        "run_id": null,
+        "thread_id": "thread_Dva9VafbTwMBZR51w2pHCOC5"
+      }
+    ],
+    "object": "list",
+    "first_id": "msg_aR7GiCfFGzuMYmrbrJTlh1yC",
+    "last_id": "msg_5oznfZUOXpMI1LaaPFryOpye",
+    "has_more": false,
+    "usage": {
+      "completion_tokens": 186,
+      "prompt_tokens": 427,
+      "total_tokens": 613
+    }
+  },
+  "standardized_response": {
+    "items": [
+      {
+        "keyword": "Barack Hussein Obama",
+        "importance": 0.9
+      },
+      {
+        "keyword": "American politician",
+        "importance": 0.8
+      },
+      {
+        "keyword": "44th president",
+        "importance": 0.7
+      },
+      {
+        "keyword": "United States",
+        "importance": 0.8
+      },
+      {
+        "keyword": "Democratic Party",
+        "importance": 0.6
+      },
+      {
+        "keyword": "African-American president",
+        "importance": 0.9
+      },
+      {
+        "keyword": "U.S. senator",
+        "importance": 0.7
+      },
+      {
+        "keyword": "Illinois state senator",
+        "importance": 0.6
+      }
+    ]
+  }
+}

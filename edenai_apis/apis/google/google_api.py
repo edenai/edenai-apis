@@ -8,6 +8,7 @@ from google.cloud.language import LanguageServiceClient
 
 from edenai_apis.apis.google.google_audio_api import GoogleAudioApi
 from edenai_apis.apis.google.google_image_api import GoogleImageApi
+from edenai_apis.apis.google.google_llm_api import GoogleLLMApi
 from edenai_apis.apis.google.google_ocr_api import GoogleOcrApi
 from edenai_apis.apis.google.google_text_api import GoogleTextApi
 from edenai_apis.apis.google.google_translation_api import GoogleTranslationApi
@@ -16,6 +17,7 @@ from edenai_apis.apis.google.google_multimodal_api import GoogleMultimodalApi
 from edenai_apis.features import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
+from edenai_apis.llmengine.llm_engine import LLMEngine
 
 
 class GoogleApi(
@@ -27,6 +29,7 @@ class GoogleApi(
     GoogleAudioApi,
     GoogleVideoApi,
     GoogleMultimodalApi,
+    GoogleLLMApi,
 ):
     provider_name = "google"
 
@@ -48,6 +51,12 @@ class GoogleApi(
             "storage": storage.Client(),
             "video": videointelligence.VideoIntelligenceServiceClient(),
             "translate": translate.TranslationServiceClient(),
+            "llm_client": LLMEngine(
+                provider_name="gemini",
+                provider_config={
+                    "api_key": self.api_settings.get("genai_api_key"),
+                },
+            ),
         }
 
         aiplatform.init(

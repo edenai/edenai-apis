@@ -31,10 +31,7 @@ from edenai_apis.utils.exception import (
 from edenai_apis.utils.files import FileInfo, FileWrapper
 
 
-@pytest.mark.skipif(
-    os.environ.get("TEST_SCOPE") == "CICD-OPENSOURCE",
-    reason="Don't run on opensource cicd workflow",
-)
+@pytest.mark.e2e
 class TestProviderErrors:
     def test_input_text_length_audio_ssml(self):
         error = google_errors[ProviderInvalidInputTextLengthError][0]

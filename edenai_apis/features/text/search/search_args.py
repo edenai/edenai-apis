@@ -15,6 +15,6 @@ def search_arguments(provider_name: str):
     return {
         "texts": search_sample["texts"],
         "query": search_sample["query"],
-        "similarity_metric" : "cosine",
+        "similarity_metric": "cosine",
         "model": None,
     }

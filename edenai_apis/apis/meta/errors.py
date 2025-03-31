@@ -3,6 +3,4 @@ from edenai_apis.utils.exception import (
 )
 
 # NOTE: error messages should be regex patterns
-ERRORS: ProviderErrorLists = {
-
-}
+ERRORS: ProviderErrorLists = {}

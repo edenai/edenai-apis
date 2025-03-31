@@ -1,7 +1,5 @@
 import itertools
-from typing import Dict
-
-from trp import List
+from typing import Dict, List
 
 from edenai_apis.utils.exception import ProviderException
 

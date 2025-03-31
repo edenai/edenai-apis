@@ -1,5 +1,13 @@
 from typing import Dict, Optional, Sequence, Union
-from pydantic import BaseModel, ConfigDict, Field, FieldSerializationInfo, field_serializer, field_validator, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    FieldSerializationInfo,
+    field_serializer,
+    field_validator,
+    model_validator,
+)
 
 from edenai_apis.features.text.anonymization.category import (
     CategoryType,
@@ -16,8 +24,15 @@ from edenai_apis.features.text.anonymization.subcategory import (
 )
 from typing import Dict, Optional, Sequence, Union
 
-from pydantic import BaseModel, ConfigDict, Field, FieldSerializationInfo, field_serializer, field_validator, \
-    model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    FieldSerializationInfo,
+    field_serializer,
+    field_validator,
+    model_validator,
+)
 
 from edenai_apis.features.text.anonymization.category import (
     CategoryType,
@@ -32,8 +47,11 @@ from edenai_apis.features.text.anonymization.subcategory import (
     LocationInformationSubCategoryType,
     OtherSubCategoryType,
 )
+from edenai_apis.utils.combine_enums import combine_enums
 
-SubCategoryType = Union[
+
+SubCategoryType = combine_enums(
+    "SubCategoryType",
     FinancialInformationSubCategoryType,
     PersonalInformationSubCategoryType,
     IdentificationNumbersSubCategoryType,
@@ -42,7 +60,7 @@ SubCategoryType = Union[
     DateAndTimeSubCategoryType,
     LocationInformationSubCategoryType,
     OtherSubCategoryType,
-]
+)
 
 
 class AnonymizationEntity(BaseModel):
@@ -81,11 +99,11 @@ class AnonymizationEntity(BaseModel):
             raise TypeError("original_label must be a string")
         return v
 
-    @model_validator(mode="after")
-    def content_length_must_be_equal_to_length(self):
-        if len(self.content) != self.length:
-            raise ValueError("content length must be equal to length")
-        return self
+    # @model_validator(mode="after")
+    # def content_length_must_be_equal_to_length(self):
+    #     if len(self.content) != self.length:
+    #         raise ValueError("content length must be equal to length")
+    #     return self
 
     @field_validator("confidence_score")
     @classmethod
@@ -94,9 +112,9 @@ class AnonymizationEntity(BaseModel):
             return round(v, 3)
         return v
 
-    @field_serializer('subcategory', mode="plain", when_used="always")
+    @field_serializer("subcategory", mode="plain", when_used="always")
     def serialize_subcategory(self, value: SubCategoryType, _: FieldSerializationInfo):
-        return getattr(value, 'value', None)
+        return getattr(value, "value", None)
 
 
 class AnonymizationDataClass(BaseModel):

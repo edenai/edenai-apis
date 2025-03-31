@@ -95,6 +95,7 @@ class OpenaiDocParsingApi(OcrInterface):
         document_type: str = "",
         file_url: str = "",
         model: str = None,
+        **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
 
         original_response, result = self.__assistant_parser(
@@ -112,7 +113,7 @@ class OpenaiDocParsingApi(OcrInterface):
         )
 
     def ocr__resume_parser(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[ResumeParserDataClass]:
 
         original_response, result = self.__assistant_parser(
@@ -131,7 +132,7 @@ class OpenaiDocParsingApi(OcrInterface):
         )
 
     def ocr__identity_parser(
-        self, file: str, file_url: str = "", model: str = None
+        self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
 
         original_response, result = self.__assistant_parser(

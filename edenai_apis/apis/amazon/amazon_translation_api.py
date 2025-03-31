@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Sequence, Optional
 
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
 from edenai_apis.features.translation.automatic_translation.automatic_translation_dataclass import (
@@ -15,7 +15,7 @@ from edenai_apis.utils.types import ResponseType
 
 class AmazonTranslationApi(TranslationInterface):
     def translation__language_detection(
-        self, text
+        self, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[LanguageDetectionDataClass]:
         response = self.clients["text"].detect_dominant_language(Text=text)
         items: Sequence[InfosLanguageDetectionDataClass] = []
@@ -36,14 +36,21 @@ class AmazonTranslationApi(TranslationInterface):
         )
 
     def translation__automatic_translation(
-        self, source_language: str, target_language: str, text: str
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[AutomaticTranslationDataClass]:
         payload = {
             "Text": text,
             "SourceLanguageCode": source_language,
-            "TargetLanguageCode": target_language
+            "TargetLanguageCode": target_language,
         }
-        response = handle_amazon_call(self.clients["translate"].translate_text, **payload)
+        response = handle_amazon_call(
+            self.clients["translate"].translate_text, **payload
+        )
 
         standardized: AutomaticTranslationDataClass = AutomaticTranslationDataClass(
             text=response["TranslatedText"]

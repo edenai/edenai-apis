@@ -34,7 +34,8 @@ class VoxistApi(ProviderInterface, AudioInterface):
         audio_attributes: tuple,
         model: Optional[str] = None,
         file_url: str = "",
-        provider_params: Optional[dict] = None
+        provider_params: Optional[dict] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
         raise ProviderException(
             message="This provider is deprecated.",

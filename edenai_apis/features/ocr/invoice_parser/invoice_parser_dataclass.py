@@ -18,8 +18,8 @@ class CustomerInformationInvoice(BaseModel):
     gst_number: Optional[StrictStr]  # New
     pan_number: Optional[StrictStr]  # New
     vat_number: Optional[StrictStr]  # New
-    siret_number: Optional[StrictStr] = None # New
-    siren_number: Optional[StrictStr] = None # New
+    siret_number: Optional[StrictStr] = None  # New
+    siren_number: Optional[StrictStr] = None  # New
 
     @staticmethod
     def default() -> "CustomerInformationInvoice":
@@ -159,6 +159,7 @@ class InfosInvoiceParserDataClass(BaseModel):
     bank_informations: BankInvoice = BankInvoice.default()  # New
     # --------------------------------------------#
     item_lines: Sequence[ItemLinesInvoice] = Field(default_factory=list)
+
 
 # DEPRECATED
 class InvoiceParserDataClass(BaseModel):

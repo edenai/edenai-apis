@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Optional
 
 from edenai_apis.apis.corticalio.client import CorticalClient
 from edenai_apis.apis.corticalio.helpers import normalize_keywords
@@ -10,10 +10,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
 
 
-class CorticalioApi(
-    ProviderInterface,
-    TextInterface
-):
+class CorticalioApi(ProviderInterface, TextInterface):
     provider_name = "corticalio"
 
     def __init__(self, api_keys: Dict = None):
@@ -24,7 +21,7 @@ class CorticalioApi(
         self.client = CorticalClient(self.api_settings)
 
     def text__keyword_extraction(
-        self, language: str, text: str
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[KeywordExtractionDataClass]:
         """
         Extract Keywords from a given text
@@ -38,12 +35,9 @@ class CorticalioApi(
             ProviderException: if the specified or auto-detected language is not supported, or
                                some error occurred while processing request.
         """
-        response = self.client.extract_keywords(
-            text=text,
-            language=language
-        )
+        response = self.client.extract_keywords(text=text, language=language)
 
         return ResponseType[KeywordExtractionDataClass](
             original_response=response,
-            standardized_response=normalize_keywords(response)
+            standardized_response=normalize_keywords(response),
         )

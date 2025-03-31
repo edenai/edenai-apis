@@ -1,28 +1,38 @@
 {
   "original_response": {
-    "candidates": [
+    "id": "chatcmpl-3f5dfb72-8500-4756-9fbd-ac855028cc54",
+    "created": 1738319593,
+    "model": "gemini-1.5-pro",
+    "object": "chat.completion",
+    "system_fingerprint": null,
+    "choices": [
       {
-        "content": {
-          "parts": [
-            {
-              "text": "barack obama, united states\n"
-            }
-          ],
-          "role": "model"
-        },
-        "finishReason": "STOP",
-        "avgLogprobs": -0.2852514088153839
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "Barack Obama, president, United States\n",
+          "role": "assistant",
+          "tool_calls": null,
+          "function_call": null
+        }
       }
     ],
-    "usageMetadata": {
-      "promptTokenCount": 220,
-      "candidatesTokenCount": 8,
-      "totalTokenCount": 228
+    "provider_time": 983109025,
+    "edenai_time": null,
+    "usage": {
+      "completion_tokens": 9,
+      "prompt_tokens": 219,
+      "total_tokens": 228,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": null
     },
-    "modelVersion": "gemini-1.5-pro-002"
+    "vertex_ai_grounding_metadata": [],
+    "vertex_ai_safety_results": [],
+    "vertex_ai_citation_metadata": [],
+    "cost": 0.000861
   },
   "standardized_response": {
-    "generated_text": "barack obama, united states\n",
+    "generated_text": "Barack Obama, president, United States\n",
     "message": [
       {
         "role": "user",
@@ -32,10 +42,17 @@
       },
       {
         "role": "assistant",
-        "message": "barack obama, united states\n",
+        "message": "Barack Obama, president, United States\n",
         "tools": null,
-        "tool_calls": null
+        "tool_calls": []
       }
     ]
+  },
+  "usage": {
+    "completion_tokens": 9,
+    "prompt_tokens": 219,
+    "total_tokens": 228,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": null
   }
 }

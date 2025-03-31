@@ -13,6 +13,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.llmengine.utils.moderation import moderate
 
 
 class DeepAIApi(ProviderInterface, ImageInterface):
@@ -27,12 +28,14 @@ class DeepAIApi(ProviderInterface, ImageInterface):
             "Api-Key": f"{self.api_key}",
         }
 
+    @moderate
     def image__generation(
         self,
         text: str,
         resolution: Literal["256x256", "512x512", "1024x1024"],
         num_images: int = 1,
-        model: Optional[str] = None
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[GenerationDataClass]:
         url = "https://api.deepai.org/api/text2img"
         size = resolution.split("x")
@@ -42,22 +45,22 @@ class DeepAIApi(ProviderInterface, ImageInterface):
             "width": int(size[0]),
             "height": int(size[1]),
         }
-        response = requests.post(
-            url, data=payload, headers=self.headers
-        )
+        response = requests.post(url, data=payload, headers=self.headers)
         try:
             original_response = response.json()
         except requests.JSONDecodeError:
-            raise ProviderException(response.text, code = response.status_code)
+            raise ProviderException(response.text, code=response.status_code)
 
         if not response.ok:
-            err_msg = original_response.get('err') or json.dumps(original_response)
+            err_msg = original_response.get("err") or json.dumps(original_response)
             raise ProviderException(err_msg, response.status_code)
 
         image_url = original_response.get("output_url")
         image_response = requests.get(image_url)
         if not image_response.ok:
-            raise ProviderException(image_response.text, code=image_response.status_code)
+            raise ProviderException(
+                image_response.text, code=image_response.status_code
+            )
         image_bytes = base64.b64encode(image_response.content)
 
         return ResponseType[GenerationDataClass](
