@@ -44,7 +44,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install ffmpeg -y
-          poetry install --no-interaction --no-root  --with-dev # Installs dependencies from `poetry.lock`
+          poetry install --no-interaction --no-root  --with dev # Installs dependencies from `poetry.lock`
 
       - name: Set Env variables
         run: "echo TEST_SCOPE=CICD-OPENSOURCE >> $GITHUB_ENV"
