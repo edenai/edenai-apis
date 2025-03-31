@@ -1,6 +1,7 @@
-from typing import List, Optional, Union, Dict, Any, Literal
+from typing import List, Optional, Union, Dict, Any, Literal, Generator
 from enum import Enum
 from pydantic import BaseModel, Field, model_validator
+from litellm import ModelResponseStream
 
 
 class ChatRole(str, Enum):
@@ -211,3 +212,7 @@ class ChatDataClass(BaseModel):
     system_fingerprint: Optional[str] = Field(
         None, description="Identifier for the system version that processed the request"
     )
+
+
+class StreamChat(BaseModel):
+    stream: Generator[ModelResponseStream, None, None]
