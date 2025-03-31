@@ -12,25 +12,24 @@ from edenai_apis.utils.types import ResponseType
 
 
 class PicsartApi(ProviderInterface, ImageInterface):
-    provider_name = 'picsart'
+    provider_name = "picsart"
 
     def __init__(self, api_key: Optional[str] = None):
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_key or {}
         )
-        self.base_image_api_url = self.api_settings["image_api_base_url"]  # "https://api.picsart.io/tools/1.0"
+        self.base_image_api_url = self.api_settings["image_api_base_url"]
         self.api_key = self.api_settings["api_key"]
         self.headers = {
             "X-Picsart-API-Key": self.api_settings["api_key"],
             "Accept": "application/json",
         }
 
-
     def image__background_removal(
-            self,
-            file: Optional[str] = None,
-            file_url: Optional[str] = None,
-            provider_params: Optional[Dict[str, Any]] = None,
+        self,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
     ) -> ResponseType[BackgroundRemovalDataClass]:
         """
         Calls the Picsart Remove Background API.
@@ -60,7 +59,9 @@ class PicsartApi(ProviderInterface, ImageInterface):
             files["bg_image"] = bg_image
 
         try:
-            response = requests.post(url, files=files, data=provider_params, headers=self.headers)
+            response = requests.post(
+                url, files=files, data=provider_params, headers=self.headers
+            )
         finally:
             if image_file and not image_file.closed:
                 image_file.close()
