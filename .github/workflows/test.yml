@@ -46,14 +46,12 @@ jobs:
           sudo apt-get install ffmpeg -y
           rm -f poetry.lock
           poetry install --no-interaction --no-root  --with dev # Installs dependencies from `poetry.lock`
-
       - name: Set Env variables
         run: "echo TEST_SCOPE=CICD-OPENSOURCE >> $GITHUB_ENV"
 
       - name: Run Test suite
         run: |
           poetry run pytest -vvv -s -m 'unit or integration' -n auto --maxprocesses=8 --dist loadgroup
-
   generate_doc:
     needs: test
     runs-on: ubuntu-latest
