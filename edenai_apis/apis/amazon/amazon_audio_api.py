@@ -438,7 +438,6 @@ class AmazonAudioApi(AudioInterface):
             )
             synthesis_task["OutputUri"] = file_url
             response_file = requests.get(file_url)
-            print(response_file.content)
             audio_content = BytesIO(response_file.content)
             audio = base64.b64encode(audio_content.read()).decode("utf-8")
             standardized_response = TextToSpeechAsyncDataClass(

@@ -20,11 +20,11 @@ class DeepseekApi(ProviderInterface, TextInterface, LlmInterface):
 
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(
-            ProviderDataEnum.KEY, "together_ai", api_keys=api_keys
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
         self.api_key = self.api_settings["api_key"]
         self.llm_client = LLMEngine(
-            provider_name="together_ai", provider_config={"api_key": self.api_key}
+            provider_name=self.provider_name, provider_config={"api_key": self.api_key}
         )
 
     def text__chat(
@@ -47,7 +47,7 @@ class DeepseekApi(ProviderInterface, TextInterface, LlmInterface):
             previous_history=previous_history,
             temperature=temperature,
             max_tokens=max_tokens,
-            model=f"deepseek-ai/{model}",
+            model=f"{model}",
             stream=stream,
             available_tools=available_tools,
             tool_choice=tool_choice,
@@ -101,7 +101,7 @@ class DeepseekApi(ProviderInterface, TextInterface, LlmInterface):
     ) -> ChatDataClass:
         response = self.llm_client.completion(
             messages=messages,
-            model=f"deepseek-ai/{model}",
+            model=f"{model}",
             timeout=timeout,
             temperature=temperature,
             top_p=top_p,

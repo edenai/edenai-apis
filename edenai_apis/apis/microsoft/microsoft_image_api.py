@@ -462,7 +462,6 @@ class MicrosoftImageApi(ImageInterface):
             if response.status_code != 200:
                 try:
                     original_response = response.json()
-                    print(original_response)
                     error_message = (
                         original_response["error"]["code"]
                         + ": "

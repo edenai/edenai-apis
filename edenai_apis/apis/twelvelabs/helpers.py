@@ -49,7 +49,6 @@ def convert_json_to_text_dataclass(data: Dict) -> TextDetectionAsyncDataClass:
             video_text = VideoText(text=item["value"], frames=[video_text_frame])
             texts.append(video_text)
 
-        print(texts)
         return TextDetectionAsyncDataClass(texts=texts)
     except Exception as e:
         return TextDetectionAsyncDataClass(texts=[])

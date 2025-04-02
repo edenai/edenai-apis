@@ -91,8 +91,6 @@ class Base64Api(ProviderInterface, OcrInterface):
             return self.document.get("fields", {}).get(key, {}).get("value")
 
     def _get_response(self, response: requests.Response) -> Any:
-        print(response.text)
-        print(response.status_code)
         try:
             original_response = response.json()
             if response.status_code >= 400:

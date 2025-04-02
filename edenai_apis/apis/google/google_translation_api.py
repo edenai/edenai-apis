@@ -119,7 +119,6 @@ class GoogleTranslationApi(TranslationInterface):
 
             file_bytes = original_response.document_translation.byte_stream_outputs[0]
 
-        print(dir(original_response))
         serialized_response = MessageToDict(original_response._pb)
 
         b64_file = base64.b64encode(file_bytes)

@@ -27,8 +27,8 @@ class PicsartApi(ProviderInterface, ImageInterface):
 
     def image__background_removal(
         self,
-        file: Optional[str] = None,
-        file_url: Optional[str] = None,
+        file: str,
+        file_url: str = "",
         provider_params: Optional[Dict[str, Any]] = None,
         **kwargs,
     ) -> ResponseType[BackgroundRemovalDataClass]:
