@@ -12,12 +12,10 @@ from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.loaders.data_loader import load_info_file
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException, get_appropriate_error
-from edenai_apis.utils.monitoring import insert_api_call, monitor_call
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
 from dotenv import load_dotenv
 
 load_dotenv()
-IS_MONITORING = os.environ.get("MONITORING") is not None  # see utils.monitoring
 
 ProviderDict = Dict[
     str, Dict[str, Dict[str, Union[Dict[str, Literal[True]], Literal[True]]]]
@@ -208,7 +206,7 @@ def compute_output(
         args (Dict): inputs arguments for the feature call
         fake (bool, optional): take result from sample. Defaults to `False`.
         api_keys (dict, optional): optional user's api_keys for each providers
-        user_email (str, optional): optinal user email for monitoring (opted-out by default)
+        user_email (str, optional): optional user email for monitoring (opted-out by default)
 
     Returns:
         dict: Result dict
@@ -275,16 +273,6 @@ def compute_output(
         "provider": provider_name,
         **subfeature_result,
     }
-
-    if os.environ.get("MONITORING", False) is True and user_email:
-        error = "Fake" if fake else None
-        insert_api_call(
-            provider=provider_name,
-            feature=feature,
-            subfeature=subfeature,
-            user_email=user_email,
-            error=error,
-        )
 
     return final_result
 
