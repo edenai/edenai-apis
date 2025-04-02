@@ -44,6 +44,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install ffmpeg -y
+          rm -f poetry.lock
           poetry install --no-interaction --no-root  # Installs dependencies from `poetry.lock`
 
       - name: Set Env variables
@@ -51,7 +52,7 @@ jobs:
 
       - name: Run Test suite
         run: |
-          pytest -vvv -s -m 'unit or integration' -n auto --maxprocesses=8 --dist loadgroup
+          poetry pytest -vvv -s -m 'unit or integration' -n auto --maxprocesses=8 --dist loadgroup
 
   generate_doc:
     needs: test
