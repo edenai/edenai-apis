@@ -14,13 +14,14 @@ from edenai_apis.features.text.question_answer.question_answer_dataclass import 
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SentimentAnalysisDataClass,
 )
-from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass import (
     TopicExtractionDataClass,
 )
+from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
+from edenai_apis.features.text.generation import GenerationDataClass
 
 class TenstorrentTextApi(TextInterface):
     def text__keyword_extraction(
@@ -31,7 +32,6 @@ class TenstorrentTextApi(TextInterface):
         payload = {
             "text": text,
         }
-
         try:
             original_response = requests.post(url, json=payload, headers=self.headers)
         except requests.exceptions.RequestException as exc:
@@ -143,9 +143,7 @@ class TenstorrentTextApi(TextInterface):
         except requests.exceptions.RequestException as exc:
             raise ProviderException(message=str(exc), code=500)
         if original_response.status_code != 200:
-            raise ProviderException(
-                message=original_response.text, code=original_response.status_code
-            )
+            raise ProviderException(message=original_response.text, code=original_response.status_code)
 
         status_code = original_response.status_code
         original_response = original_response.json()
@@ -191,7 +189,41 @@ class TenstorrentTextApi(TextInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
+    
+        
+    def text__generation(
+        self,
+        text: str,
+        temperature: float,
+        max_tokens: int,
+        model: str,
+    ) -> ResponseType[GenerationDataClass]:
+        payload = {
+            "model": model,
+            "prompt": text,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+        }
+
+        try:
+            response = self.client.completions.create(**payload)
+        except Exception as exc:
+            raise ProviderException(str(exc))
+
+        # Standardize the response
+        generated_text = response.choices[0].text
+
+        standardized_response = GenerationDataClass(
+            generated_text=generated_text,
+        )
+
+        return ResponseType[GenerationDataClass](
+            original_response=response.to_dict(),
+            standardized_response=standardized_response,
+        )
+    
 
     def __check_for_errors(self, response, status_code=None):
         if "message" in response:
             raise ProviderException(response["message"], code=status_code)
+        

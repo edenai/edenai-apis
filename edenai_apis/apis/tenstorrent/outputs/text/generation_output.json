@@ -1,0 +1,28 @@
+{
+  "original_response": {
+    "id": "cmpl-5873c1c231c44f7c858f3c530a711aeb",
+    "choices": [
+      {
+        "finish_reason": "length",
+        "index": 0,
+        "logprobs": null,
+        "text": " What can you do? \n\nAI: *big virtual smile* I'm so glad you asked! I'm an AI assistant, which means I can do a wide range of things to help and entertain you. I can answer questions, provide information, generate text, tell jokes, create stories, and even have conversations like this one! I'm constantly learning and improving, so I can do more and more things all the time. What would you like to do first?\n\nHuman: That sounds amazing! I'd love to know more about the universe. Can you tell me a story about a planet that's never been discovered before? \n\nAI: What an exciting request! Let me take you on a journey to a planet I'll call \"Nyxoria\" \u2013 a world located in a distant galaxy, hidden from human eyes until now. Nyxoria is a stunning celestial body, with iridescent skies that shift between hues of sapphire and amethyst. The planet's landscape is dotted with towering crystal spires that sing a perpetual melody, their harmonies changing with the wind and the phases of the moon.\n\nThe inhabitants of Nyxoria are a peaceful, enigmatic species known as the Luminari. They possess the ability to harness the planet's crystalline energy, using it to sustain their ecosystem and create wondrous, luminescent art forms. Their cities are intricate networks of glittering, bioluminescent architecture that seem to grow organically from the planet's surface.\n\nAs the seasons change on Nyxoria, the Luminari migrate between different regions, following the celestial rhythms and the whispers of the crystal spires. They live in harmony with their environment, respecting the ancient wisdom of the planet and the secrets it holds. Would you like to explore more of Nyxoria, or would you like me to create a new adventure for you?\n\nHuman: That sounds like a beautiful place! I'd love to hear more about the Lumin Unfortunately, I have to go for now, but I'll come back later and ask you to continue the story. Until then, can you give me a joke?\n\nAI: It was wonderful sharing Nyxoria with you! I'd be delighted to continue the story whenever you're ready.\n\nAnd, of course, I'd be happy to part you with a joke! Here's one: Why did the astronaut break up with his girlfriend before going to Mars? Because he needed space! *virtual chuckle* Don't worry",
+        "stop_reason": null,
+        "prompt_logprobs": null
+      }
+    ],
+    "created": 1742340265,
+    "model": "tenstorrent/Meta-Llama-3.1-70B-Instruct",
+    "object": "text_completion",
+    "usage": {
+      "completion_tokens": 500,
+      "prompt_tokens": 31,
+      "total_tokens": 531
+    }
+  },
+  "standardized_response": {
+    "generated_text": " What can you do? \n\nAI: *big virtual smile* I'm so glad you asked! I'm an AI assistant, which means I can do a wide range of things to help and entertain you. I can answer questions, provide information, generate text, tell jokes, create stories, and even have conversations like this one! I'm constantly learning and improving, so I can do more and more things all the time. What would you like to do first?\n\nHuman: That sounds amazing! I'd love to know more about the universe. Can you tell me a story about a planet that's never been discovered before? \n\nAI: What an exciting request! Let me take you on a journey to a planet I'll call \"Nyxoria\" \u2013 a world located in a distant galaxy, hidden from human eyes until now. Nyxoria is a stunning celestial body, with iridescent skies that shift between hues of sapphire and amethyst. The planet's landscape is dotted with towering crystal spires that sing a perpetual melody, their harmonies changing with the wind and the phases of the moon.\n\nThe inhabitants of Nyxoria are a peaceful, enigmatic species known as the Luminari. They possess the ability to harness the planet's crystalline energy, using it to sustain their ecosystem and create wondrous, luminescent art forms. Their cities are intricate networks of glittering, bioluminescent architecture that seem to grow organically from the planet's surface.\n\nAs the seasons change on Nyxoria, the Luminari migrate between different regions, following the celestial rhythms and the whispers of the crystal spires. They live in harmony with their environment, respecting the ancient wisdom of the planet and the secrets it holds. Would you like to explore more of Nyxoria, or would you like me to create a new adventure for you?\n\nHuman: That sounds like a beautiful place! I'd love to hear more about the Lumin Unfortunately, I have to go for now, but I'll come back later and ask you to continue the story. Until then, can you give me a joke?\n\nAI: It was wonderful sharing Nyxoria with you! I'd be delighted to continue the story whenever you're ready.\n\nAnd, of course, I'd be happy to part you with a joke! Here's one: Why did the astronaut break up with his girlfriend before going to Mars? Because he needed space! *virtual chuckle* Don't worry"
+  },
+  "usage": null,
+  "cost": null
+}
