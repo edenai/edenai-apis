@@ -1,5 +1,6 @@
 import json
 import base64
+import time
 from io import BytesIO
 from typing import Literal, Optional, Sequence
 from edenai_apis.llmengine.utils.moderation import moderate
@@ -392,28 +393,30 @@ class AmazonImageApi(ImageInterface):
         client = self.clients["image"]
         with open(file, "rb") as file_:
             file_content = file_.read()
-
-        # First check that collection is not empty
+        # time.sleep(5)
+        # # First check that collection is not empty
         list_faces = self.image__face_recognition__list_faces(collection_id)
         if len(list_faces.standardized_response.face_ids) == 0:
             raise ProviderException("Face Collection is empty.")
 
         payload = {"CollectionId": collection_id, "Image": {"Bytes": file_content}}
-        response = handle_amazon_call(
-            self.clients["image"].search_faces_by_image, **payload
-        )
 
-        faces = [
-            FaceRecognitionRecognizedFaceDataClass(
-                confidence=face["Similarity"] / 100, face_id=face["Face"]["FaceId"]
-            )
-            for face in response["FaceMatches"]
-        ]
+        return {"some": "response"}
+        # response = handle_amazon_call(
+        #     self.clients["image"].search_faces_by_image, **payload
+        # )
 
-        return ResponseType(
-            original_response=response,
-            standardized_response=FaceRecognitionRecognizeDataClass(items=faces),
-        )
+        # faces = [
+        #     FaceRecognitionRecognizedFaceDataClass(
+        #         confidence=face["Similarity"] / 100, face_id=face["Face"]["FaceId"]
+        #     )
+        #     for face in response["FaceMatches"]
+        # ]
+
+        # return ResponseType(
+        #     original_response=response,
+        #     standardized_response=FaceRecognitionRecognizeDataClass(items=faces),
+        # )
 
     def image__face_compare(
         self, file1: str, file2: str, file1_url: str = "", file2_url: str = "", **kwargs

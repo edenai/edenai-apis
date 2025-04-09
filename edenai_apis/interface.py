@@ -222,9 +222,7 @@ def compute_output(
     )
 
     if fake:
-        time.sleep(
-            random.uniform(0.5, 1.5)
-        )  # sleep to fake the response time from a provider
+        time.sleep(5)  # sleep to fake the response time from a provider
         # sample_args = load_feature(
         #     FeatureDataEnum.SAMPLES_ARGS,
         #     feature=feature,
@@ -256,12 +254,19 @@ def compute_output(
 
     else:
         # Fake == False : Compute real output
-
+        #  time.sleep(5)
         feature_class = getattr(interface_v2, feature.title())
         subfeature_method_name = f'{subfeature}{f"__{phase}" if phase else ""}{suffix}'
         subfeature_class = getattr(feature_class, subfeature_method_name)
 
         try:
+            # subfeature_result = load_provider(
+            #     ProviderDataEnum.OUTPUT,
+            #     provider_name=provider_name,
+            #     feature=feature,
+            #     subfeature=subfeature,
+            #     phase=phase,
+            # )
             subfeature_result = subfeature_class(provider_name, api_keys)(
                 **args, **kwargs
             ).model_dump()

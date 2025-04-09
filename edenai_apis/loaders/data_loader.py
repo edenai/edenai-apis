@@ -9,7 +9,7 @@ from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.utils import load_json, check_messsing_keys
 from edenai_apis.settings import info_path, keys_path, outputs_path
 from edenai_apis.utils.compare import is_valid
-
+from edenai_apis import apis
 
 class FeatureDataEnum(Enum):
     DATA_CLASS = "load_dataclass"
@@ -38,7 +38,7 @@ def load_key(provider_name, location=False, api_keys: Dict = {}):
     provider_settings_path = os.path.join(keys_path, provider_name + "_settings.json")
     provider_settings_data = load_json(provider_settings_path)
     data = provider_settings_data
-
+    print("LOAD KEY")
     if api_keys:
         data = api_keys
         # check_messsing_keys(provider_settings_data, data)
@@ -72,8 +72,9 @@ def load_class(
         Union[List[ProviderInterface], ProviderInterface]: returnd ProviderInterface class(es)
             single class if provider_name is provided, or a list if provider_name is None.
     """
-    from edenai_apis import apis
+   
 
+    print("LOAD CLASS")
     api_class_list: List[Type[ProviderInterface]] = [
         getattr(apis, api) for api in dir(apis) if is_valid(".*Api", api)
     ]
@@ -105,8 +106,10 @@ def load_dataclass(
     Returns:
         OutputDataClass: dataclass related to subfeature
     """
+    print("LOAD_DATACLASS")
     module_path = f"edenai_apis.features.{feature}.{subfeature}.{subfeature}_dataclass"
     dataclass_name = subfeature.replace("_", " ").title().replace(" ", "") + "DataClass"
+    
     if (
         phase and phase != "launch_similarity"
     ):  # if there is a phase, there will be a dataclass by phase
@@ -136,7 +139,7 @@ def load_info_file(provider_name: str = "") -> Dict:
         (provider_name, feature, subfeature) to it's info.json information
 
     """
-
+    print("LOAD INFO FILE", provider_name)
     if provider_name:
         return load_json(info_path(provider_name))
 
@@ -168,20 +171,23 @@ def load_info_file(provider_name: str = "") -> Dict:
     return all_infos
 
 
-global ALL_PROVIDERS_INFOS
-ALL_PROVIDERS_INFOS = load_info_file()
+# global ALL_PROVIDERS_INFOS
+# ALL_PROVIDERS_INFOS = load_info_file()
 
 
 def load_provider_subfeature_info(
     provider_name: str, feature: str, subfeature: str, phase: str = ""
 ):
     """Get provider subfeature info.json from memory"""
-    global ALL_PROVIDERS_INFOS
-    if len(ALL_PROVIDERS_INFOS) == 0:
-        ALL_PROVIDERS_INFOS = load_info_file()
-    if phase:
-        return ALL_PROVIDERS_INFOS[(provider_name, feature, subfeature, phase)].copy()
-    return ALL_PROVIDERS_INFOS.get((provider_name, feature, subfeature), {}).copy()
+    # print("LOAD PROVIDER SUBFEATURE INFO")
+    # global ALL_PROVIDERS_INFOS
+    # if len(ALL_PROVIDERS_INFOS) == 0:
+    #     ALL_PROVIDERS_INFOS = load_info_file()
+    # if phase:
+    #     return ALL_PROVIDERS_INFOS[(provider_name, feature, subfeature, phase)].copy()
+    # return ALL_PROVIDERS_INFOS.get((provider_name, feature, subfeature), {}).copy()
+    provider_info = load_info_file(provider_name)
+    return provider_info[feature][subfeature]
 
 
 def load_output(
@@ -198,6 +204,7 @@ def load_output(
     Returns:
         Dict: output
     """
+    print("LOAD OUTPUT")
     if phase:
         path = os.path.join(
             outputs_path(provider_name), feature, f"{subfeature}_{phase}_output.json"
@@ -225,6 +232,7 @@ def load_subfeature(
     Returns:
         Callable: function to get subfeature result
     """
+    print("LOAD SUBFEATURE")
     api = load_class(provider_name)()
     phase_ = f"__{phase}" if phase else ""
 
@@ -245,6 +253,7 @@ def load_samples(
     Returns:
         Dict: arguments related to a subfeautre or phase
     """
+    print("LOAD SAMPLES")
     normalized_subfeature = f"{subfeature}{f'_{phase}' if phase else ''}"
     imp = import_module(
         f"edenai_apis.features.{feature}.{subfeature}{f'.{phase}' if phase else ''}.{normalized_subfeature}_args"
