@@ -346,10 +346,12 @@ class NyckelApi(ProviderInterface, ImageInterface):
             post_parameters["data"] = {"annotation.labelName": label}
 
         response = self._session.post(**post_parameters)
+        print(f"=========> PP_response: {response.data}")
         if file_ is not None:
             file_.close()
         if response.status_code >= 400:
-            self._raise_provider_exception(url, post_parameters, response)
+            # self._raise_provider_exception(url, post_parameters, response)
+            self.handle_provider_error(response)
         try:
             original_response = response.json()
         except Exception as exp:
@@ -538,3 +540,39 @@ class NyckelApi(ProviderInterface, ImageInterface):
                 deleted=True
             ),
         )
+
+    def handle_provider_error(self, response: requests.Response):
+        """
+        402	Billing issue. Mostly likely because you have exceeded the free tier quota.
+        403	Forbidden. Check your credentials.
+        409	Resouce conflict. Commonly raised when trying to create a sample that already exists in the function (Nyckel does not allow duplicate samples). When annotating an existing sample, use the PUT samples endpoint instead.
+        429	Throttled. You have exceeded either 25 requests per second or 25 concurrent requests.
+        500	Internal error. Retry -- ideally with exponential backoff.
+        503	Service temporarily unavailable. Retry -- ideally with exponential backoff.
+        """
+        if response.status_code == 402:
+            raise ProviderException(
+                "Billing issue. Mostly likely because you have exceeded the free tier quota."
+            )
+        elif response.status_code == 403:
+            raise ProviderException("Forbidden. Check your credentials.")
+        elif response.status_code == 409:
+            raise ProviderException(
+                "Resouce conflict. Commonly raised when trying to create a sample that already exists in the function (Nyckel does not allow duplicate samples). When annotating an existing sample, use the PUT samples endpoint instead."
+            )
+        elif response.status_code == 429:
+            raise ProviderException(
+                "Throttled. You have exceeded either 25 requests per second or 25 concurrent requests."
+            )
+        elif response.status_code == 500:
+            raise ProviderException(
+                "Internal error. Retry -- ideally with exponential backoff."
+            )
+        elif response.status_code == 503:
+            raise ProviderException(
+                "Service temporarily unavailable. Retry -- ideally with exponential backoff."
+            )
+        else:
+            raise ProviderException(
+                "Something went wrong when running the prediction !!", 500
+            )
