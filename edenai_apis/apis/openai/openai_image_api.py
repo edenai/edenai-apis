@@ -1,7 +1,7 @@
 import base64
 from io import BytesIO
 from typing import Sequence, Literal, Optional
-
+import time
 from openai import APIError
 import mimetypes
 
@@ -24,6 +24,36 @@ from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 from ...features.image.question_answer import QuestionAnswerDataClass
 from ...utils.exception import ProviderException
 
+
+import base64
+import mimetypes
+from io import BytesIO
+
+def efficient_base64_encode(file_path, chunk_size=65536):
+    """
+    More efficient base64 encoding using pybase64 library:
+    1. Uses larger chunks for better performance
+    2. Uses pybase64 which is faster than standard base64
+    3. Writes directly to the output string in chunks
+    4. Avoids creating intermediate BytesIO object
+    """
+    import pybase64
+    
+    # Initialize an empty string to store the base64 data
+    base64_data = ""
+    
+    with open(file_path, 'rb') as f:
+        while True:
+            # Read a chunk of binary data
+            chunk = f.read(chunk_size)
+            if not chunk:
+                break
+                
+            # Encode the chunk and append to our result
+            base64_chunk = pybase64.b64encode(chunk).decode('utf-8')
+            base64_data += base64_chunk
+    
+    return base64_data
 
 class OpenaiImageApi(ImageInterface):
 
@@ -50,20 +80,19 @@ class OpenaiImageApi(ImageInterface):
         question: Optional[str] = None,
         **kwargs,
     ) -> ResponseType[QuestionAnswerDataClass]:
-        with open(file, "rb") as fstream:
-            file_content = fstream.read()
-            file_b64 = base64.b64encode(file_content).decode("utf-8")
         mime_type = mimetypes.guess_type(file)[0]
+        file_b64 = efficient_base64_encode(file)
         image_data = f"data:{mime_type};base64,{file_b64}"
-        response = self.llm_client.image_qa(
-            image_data=image_data,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            model=model,
-            question=question,
-        )
-        return response
-
+        time.sleep(10)
+        # response = self.llm_client.image_qa(
+        #     image_data=image_data,
+        #     temperature=temperature,
+        #     max_tokens=max_tokens,
+        #     model=model,
+        #     question=question,
+        # )
+        return {"something": "response"}
+        # return response
     def image__variation(
         self,
         file: str,
