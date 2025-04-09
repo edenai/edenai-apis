@@ -401,22 +401,22 @@ class AmazonImageApi(ImageInterface):
 
         payload = {"CollectionId": collection_id, "Image": {"Bytes": file_content}}
 
-        return {"some": "response"}
-        # response = handle_amazon_call(
-        #     self.clients["image"].search_faces_by_image, **payload
-        # )
+        # return {"some": "response"}
+        response = handle_amazon_call(
+            self.clients["image"].search_faces_by_image, **payload
+        )
 
-        # faces = [
-        #     FaceRecognitionRecognizedFaceDataClass(
-        #         confidence=face["Similarity"] / 100, face_id=face["Face"]["FaceId"]
-        #     )
-        #     for face in response["FaceMatches"]
-        # ]
+        faces = [
+            FaceRecognitionRecognizedFaceDataClass(
+                confidence=face["Similarity"] / 100, face_id=face["Face"]["FaceId"]
+            )
+            for face in response["FaceMatches"]
+        ]
 
-        # return ResponseType(
-        #     original_response=response,
-        #     standardized_response=FaceRecognitionRecognizeDataClass(items=faces),
-        # )
+        return ResponseType(
+            original_response=response,
+            standardized_response=FaceRecognitionRecognizeDataClass(items=faces),
+        )
 
     def image__face_compare(
         self, file1: str, file2: str, file1_url: str = "", file2_url: str = "", **kwargs
