@@ -15,6 +15,7 @@ from edenai_apis.utils.exception import ProviderException
 class OpenAIErrorCode(Enum):
     RATE_LIMIT_EXCEEDED = "rate_limit_exceeded"
     INVALID_IMAGE = "invalid_image_format"
+    INVALID_IMAGE_URL = "invalid_data_url"
 
 
 async def moderate_content(headers, content: Union[str, List]) -> bool:
@@ -83,6 +84,8 @@ async def get_openapi_response_async(response: aiohttp.ClientResponse):
             if code == OpenAIErrorCode.RATE_LIMIT_EXCEEDED.value:
                 return None
             if code == OpenAIErrorCode.INVALID_IMAGE.value:
+                return None
+            if code == OpenAIErrorCode.INVALID_IMAGE_URL.value:
                 return None
             message_error = original_response["error"]["message"]
             raise ProviderException(message_error, code=response.status)
