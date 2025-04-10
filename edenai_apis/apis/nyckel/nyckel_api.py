@@ -346,7 +346,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
             post_parameters["data"] = {"annotation.labelName": label}
 
         response = self._session.post(**post_parameters)
-        print(f"=========> PP_response: {response.data}")
+        print(f"=========> PP_response: {response}")
         if file_ is not None:
             file_.close()
         if response.status_code >= 400:
