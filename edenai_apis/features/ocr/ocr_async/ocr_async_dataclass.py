@@ -187,8 +187,8 @@ class Line(BaseModel):
 
     text: str = Field(description="Text detected in the line")
     words: Sequence[Word] = Field(default_factory=list, description="List of words")
-    bounding_box: BoundingBox = Field(
-        description="Bounding boxes of the words in the line"
+    bounding_box: Optional[BoundingBox] = Field(
+        default=None, description="Bounding box of the line, can be None"
     )
     confidence: Optional[float] = Field(..., description="Confidence of the line")
 
