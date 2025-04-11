@@ -343,12 +343,12 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
         pages = []
         for page in response_data["pages"]:
             raw_text += page["markdown"]
-            # markdown_lines = page["markdown"].split("\n")
-            # lines = []
-            # for line_text in markdown_lines:
-            #     line = Line(text=line_text, bounding_box=BoundingBox())
-            #     lines.append(line)
-            # pages.append(Page(lines=lines))
+            markdown_lines = page["markdown"].split("\n")
+            lines = []
+            for line_text in markdown_lines:
+                line = Line(text=line_text, confidence=100)
+                lines.append(line)
+            pages.append(Page(lines=lines))
 
         return AsyncResponseType(
             original_response=response_data,
