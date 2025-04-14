@@ -380,7 +380,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
             raise ProviderException("Could not upload image data", 400) from exp
         if webook_response.status_code >= 400:
             self.__image__automl_classification_delete_image(project_id, data["id"])
-            raise ProviderException("Could not upload image data", 400) from exp
+            raise ProviderException("Could not upload image data", 400)
         return AsyncLaunchJobResponseType(provider_job_id=job_id)
 
     def image__automl_classification__upload_data_async__get_job_result(
