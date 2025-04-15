@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from time import sleep, time
 from typing import Any, Dict, List
+import mimetypes
 
 import requests
 from dateutil.parser import parse
@@ -126,22 +127,111 @@ class GoogleVideoApi(VideoInterface):
         return response_json
 
     def _upload_and_process_file(self, file: str, api_key: str) -> Dict[str, Any]:
+        """
+        Upload a file to the Google API using resumable upload protocol to handle large files.
+        """
+        import os
+        import json
+        import time
+        
+        # Get file metadata
+        file_size = os.path.getsize(file)
+        file_name = os.path.basename(file)
+        mime_type, _ = mimetypes.guess_type(file_path) # You might want to determine this dynamically
+        
+        # Step 1: Initialize the resumable upload
         upload_url = f"https://generativelanguage.googleapis.com/upload/v1beta/files?key={api_key}"
-
-        with open(file, "rb") as video_file:
-            file = {"file": video_file}
-            response = requests.post(upload_url, files=file)
-
-        if response.status_code != 200:
-            raise ProviderException(message=response.text, code=response.status_code)
-        try:
-            file_data = response.json()["file"]
-        except json.JSONDecodeError as exc:
+        
+        headers = {
+            "X-Goog-Upload-Protocol": "resumable",
+            "X-Goog-Upload-Command": "start",
+            "X-Goog-Upload-Header-Content-Length": str(file_size),
+            "X-Goog-Upload-Header-Content-Type": mime_type,
+            "Content-Type": "application/json"
+        }
+        
+        # Create metadata for the file
+        metadata = {
+            "file": {
+                "display_name": file_name
+            }
+        }
+        
+        # Initialize resumable upload and get upload URL
+        init_response = requests.post(
+            upload_url,
+            headers=headers,
+            data=json.dumps(metadata)
+        )
+        
+        if init_response.status_code != 200:
             raise ProviderException(
-                "An error occurred while parsing the response."
-            ) from exc
-
-        return file_data
+                message=f"Failed to initialize upload: {init_response.text}",
+                code=init_response.status_code
+            )
+        
+        # Extract the upload URL from the response headers
+        resumable_upload_url = init_response.headers.get("X-Goog-Upload-URL")
+        if not resumable_upload_url:
+            raise ProviderException(
+                message="Failed to get resumable upload URL from response headers",
+                code=500
+            )
+        
+        # Step 2: Upload the file in chunks
+        chunk_size = 8 * 1024 * 1024  # 5MB chunks
+        
+        with open(file, 'rb') as f:
+            offset = 0
+            while offset < file_size:
+                # Read the chunk
+                f.seek(offset)
+                chunk = f.read(chunk_size)
+                
+                # Prepare headers for the chunk upload
+                chunk_headers = {
+                    "Content-Length": str(len(chunk)),
+                    "X-Goog-Upload-Offset": str(offset)
+                }
+                
+                # If this is the final chunk, add the finalize command
+                if offset + len(chunk) >= file_size:
+                    chunk_headers["X-Goog-Upload-Command"] = "upload, finalize"
+                else:
+                    chunk_headers["X-Goog-Upload-Command"] = "upload"
+                
+                # Upload the chunk
+                chunk_response = requests.post(
+                    resumable_upload_url,
+                    headers=chunk_headers,
+                    data=chunk
+                )
+                
+                # Check for errors
+                if chunk_response.status_code not in (200, 308):
+                    raise ProviderException(
+                        message=f"Chunk upload failed: {chunk_response.text}",
+                        code=chunk_response.status_code
+                    )
+                
+                # Update the offset for the next chunk
+                offset += len(chunk)
+                
+                # If this was the final chunk and we got a 200 response, we're done
+                if offset >= file_size and chunk_response.status_code == 200:
+                    try:
+                        file_data = chunk_response.json()["file"]
+                        return file_data
+                    except (json.JSONDecodeError, KeyError) as exc:
+                        raise ProviderException(
+                            "An error occurred while parsing the final response."
+                        ) from exc
+        
+        # If we get here, something went wrong with the upload
+        raise ProviderException(
+            message="Failed to complete file upload",
+            code=500
+        )
 
     def delete_file(self, file: str, api_key: str):
         delete_url = (
