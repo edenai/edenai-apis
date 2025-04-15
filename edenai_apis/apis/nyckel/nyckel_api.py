@@ -349,7 +349,8 @@ class NyckelApi(ProviderInterface, ImageInterface):
         if file_ is not None:
             file_.close()
         if response.status_code >= 400:
-            self._raise_provider_exception(url, post_parameters, response)
+            # self._raise_provider_exception(url, post_parameters, response)
+            self.handle_provider_error(response)
         try:
             original_response = response.json()
         except Exception as exp:
@@ -377,7 +378,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
             raise ProviderException("Could not upload image data", 400) from exp
         if webook_response.status_code >= 400:
             self.__image__automl_classification_delete_image(project_id, data["id"])
-            raise ProviderException("Could not upload image data", 400) from exp
+            raise ProviderException("Could not upload image data", 400)
         return AsyncLaunchJobResponseType(provider_job_id=job_id)
 
     def image__automl_classification__upload_data_async__get_job_result(
@@ -538,3 +539,45 @@ class NyckelApi(ProviderInterface, ImageInterface):
                 deleted=True
             ),
         )
+
+    def handle_provider_error(self, response: requests.Response):
+        """
+        402	Billing issue. Mostly likely because you have exceeded the free tier quota.
+        403	Forbidden. Check your credentials.
+        409	Resouce conflict. Commonly raised when trying to create a sample that already exists in the function (Nyckel does not allow duplicate samples). When annotating an existing sample, use the PUT samples endpoint instead.
+        429	Throttled. You have exceeded either 25 requests per second or 25 concurrent requests.
+        500	Internal error. Retry -- ideally with exponential backoff.
+        503	Service temporarily unavailable. Retry -- ideally with exponential backoff.
+        """
+        if response.status_code == 402:
+            raise ProviderException(
+                "Billing issue. Mostly likely because you have exceeded the free tier quota.",
+                response.status_code,
+            )
+        elif response.status_code == 403:
+            raise ProviderException("Forbidden. Check your credentials.")
+        elif response.status_code == 409:
+            raise ProviderException(
+                "Resouce conflict. Commonly raised when trying to create a sample that already exists in the function (Nyckel does not allow duplicate samples). When annotating an existing sample, use the PUT samples endpoint instead.",
+                response.status_code,
+            )
+        elif response.status_code == 429:
+            raise ProviderException(
+                "Throttled. You have exceeded either 25 requests per second or 25 concurrent requests.",
+                response.status_code,
+            )
+        elif response.status_code == 500:
+            raise ProviderException(
+                "Internal error. Retry -- ideally with exponential backoff.",
+                response.status_code,
+            )
+        elif response.status_code == 503:
+            raise ProviderException(
+                "Service temporarily unavailable. Retry -- ideally with exponential backoff.",
+                response.status_code,
+            )
+        else:
+            raise ProviderException(
+                f"Unexpected error with status code {response.status_code}: {response.text}",
+                response.status_code,
+            )
