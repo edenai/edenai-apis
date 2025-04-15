@@ -61,7 +61,11 @@ async def standard_moderation(*args, **kwargs):
 
     for message in messages:
         if "content" in message:
-            tasks.append(moderate_content(headers, message["content"]))
+            if isinstance(message["content"], list):
+                for content in message["content"]:
+                    tasks.append(moderate_content(headers, [content]))
+            else:
+                tasks.append(moderate_content(headers, message["content"]))
 
     async with aiohttp.ClientSession() as session:
         await asyncio.gather(*tasks)
