@@ -551,27 +551,33 @@ class NyckelApi(ProviderInterface, ImageInterface):
         """
         if response.status_code == 402:
             raise ProviderException(
-                "Billing issue. Mostly likely because you have exceeded the free tier quota."
+                "Billing issue. Mostly likely because you have exceeded the free tier quota.",
+                response.status_code,
             )
         elif response.status_code == 403:
             raise ProviderException("Forbidden. Check your credentials.")
         elif response.status_code == 409:
             raise ProviderException(
-                "Resouce conflict. Commonly raised when trying to create a sample that already exists in the function (Nyckel does not allow duplicate samples). When annotating an existing sample, use the PUT samples endpoint instead."
+                "Resouce conflict. Commonly raised when trying to create a sample that already exists in the function (Nyckel does not allow duplicate samples). When annotating an existing sample, use the PUT samples endpoint instead.",
+                response.status_code,
             )
         elif response.status_code == 429:
             raise ProviderException(
-                "Throttled. You have exceeded either 25 requests per second or 25 concurrent requests."
+                "Throttled. You have exceeded either 25 requests per second or 25 concurrent requests.",
+                response.status_code,
             )
         elif response.status_code == 500:
             raise ProviderException(
-                "Internal error. Retry -- ideally with exponential backoff."
+                "Internal error. Retry -- ideally with exponential backoff.",
+                response.status_code,
             )
         elif response.status_code == 503:
             raise ProviderException(
-                "Service temporarily unavailable. Retry -- ideally with exponential backoff."
+                "Service temporarily unavailable. Retry -- ideally with exponential backoff.",
+                response.status_code,
             )
         else:
             raise ProviderException(
-                "Something went wrong when running the prediction !!", 500
+                f"Unexpected error with status code {response.status_code}: {response.text}",
+                response.status_code,
             )
