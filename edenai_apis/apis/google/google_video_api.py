@@ -147,9 +147,9 @@ class GoogleVideoApi(VideoInterface):
         delete_url = (
             f"https://generativelanguage.googleapis.com/v1beta/{file}?key={api_key}"
         )
-        response = requests.delete(url=delete_url)
-        if response.status_code != 200:
-            raise ProviderException(message=response.text, code=response.status_code)
+        # don't throw error, delete should be able to fail gracefully
+        requests.delete(url=delete_url)
+
 
     # Launch label detection job
     def video__label_detection_async__launch_job(
