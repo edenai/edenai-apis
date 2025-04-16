@@ -77,7 +77,7 @@ class TogetheraiApi(ProviderInterface, TextInterface, LlmInterface):
         presence_penalty: Optional[float] = None,
         frequency_penalty: Optional[float] = None,
         logit_bias: Optional[dict] = None,
-        modalities: Optional[List[Literal["text", "audio"]]] = None,
+        modalities: Optional[List[Literal["text", "audio", "image"]]] = None,
         audio: Optional[Dict] = None,
         # openai v1.0+ new params
         response_format: Optional[

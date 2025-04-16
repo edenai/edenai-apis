@@ -744,7 +744,7 @@ class LLMEngine:
         timeout: Optional[Union[float, str, httpx.Timeout]] = None,
         temperature: Optional[float] = None,
         top_p: Optional[float] = None,
-        modalities: Optional[List[Literal["text", "audio"]]] = None,
+        modalities: Optional[List[Literal["text", "audio", "image"]]] = None,
         audio: Optional[ChatCompletionAudioParam] = None,
         n: Optional[int] = None,
         stream: Optional[bool] = None,
