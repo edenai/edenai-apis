@@ -76,7 +76,7 @@ jobs:
          name: Install Poetry
          command: |
           curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH  # Ensure Poetry is in PATH
+          echo 'export PATH="$HOME/.local/bin:$PATH"' >> $BASH_ENV
 
       - run:
           name: Install dependencies
