@@ -15,6 +15,9 @@ from edenai_apis.features.image.automl_classification.create_project.automl_clas
 from edenai_apis.features.image.automl_classification.delete_project.automl_classification_delete_project_dataclass import (
     AutomlClassificationDeleteProjectDataClass,
 )
+from edenai_apis.features.image.automl_classification.list_data.automl_classification_list_data_dataclass import (
+    AutomlClassificationListDataDataClass,
+)
 from edenai_apis.features.image.automl_classification.predict_async.automl_classification_predict_async_dataclass import (
     AutomlClassificationPredictAsyncDataClass,
 )
@@ -359,6 +362,39 @@ class NyckelApi(ProviderInterface, ImageInterface):
             )
         except Exception as exp:
             raise ProviderException("Something went wrong !!", 500) from exp
+
+    def image__automl_classification__list_data(
+        self, provider_job_id: str, pagination: dict = None, **kwargs
+    ) -> ResponseType:
+        self._refresh_session_auth_headers_if_needed()
+        # startIndex = 0
+        # count = 0
+        # sortBy = creation
+        url = f"https://www.nyckel.com/v1/functions/{provider_job_id}/samples"
+        if pagination:
+            url += f"?startIndex={pagination.get('start_index', 0)}&count={pagination.get('count', 10)}&sortBy={pagination.get('sort_by', 'creation')}"
+        try:
+            response = self._session.get(url)
+            print(response)
+        except:
+            # return ResponseType[AutomlClassificationListDataDataClass](
+            #     original_response="",
+            #     standardized_response=AutomlClassificationListDataDataClass(
+            #         message="Model is trained", project_id=provider_job_id, name=None
+            #     ),
+            #     provider_job_id=provider_job_id,
+            # )
+            return None
+        response_json = response.json()
+        if response.status_code >= 400:
+            return ResponseType[AutomlClassificationListDataDataClass](
+                original_response="",
+                standardized_response=AutomlClassificationListDataDataClass(
+                    message="Model is trained", project_id=provider_job_id, name=None
+                ),
+                provider_job_id=provider_job_id,
+            )
+        return ResponseType[AutomlClassificationListDataDataClass](**response_json)
 
     def image__automl_classification__upload_data_async__launch_job(
         self,

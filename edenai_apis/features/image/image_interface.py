@@ -491,7 +491,23 @@ class ImageInterface:
         file: str,
         file_url: str = "",
         **kwargs,
-    ) -> AsyncLaunchJobResponseType:
+    ) -> ResponseType:
+        """
+        Upload image to dataset
+
+        Args:
+            project_id (str): id of project
+            label (str): label of the data
+            type_of_data (str): type of data (train, test)
+            file (str): image to upload
+            file_url (str): url of the image to upload
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def image__automl_classification__list_data(
+        self, provider_job_id: str, pagination: dict = None, **kwargs
+    ) -> ResponseType:
         """
         Upload image to dataset
 
