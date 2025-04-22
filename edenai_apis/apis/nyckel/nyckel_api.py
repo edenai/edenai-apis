@@ -2,7 +2,7 @@ import base64
 import json
 import time
 import uuid
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 import requests
 from requests.adapters import HTTPAdapter, Retry
@@ -357,44 +357,44 @@ class NyckelApi(ProviderInterface, ImageInterface):
         if response.status_code >= 400:
             self.handle_provider_error(response)
         try:
+            response = response.json()
             return ResponseType[AutomlClassificationUploadDataDataClass](
-                response.json(),
+                original_response="",
+                standardized_response=response,
             )
         except Exception as exp:
+            print(exp)
             raise ProviderException("Something went wrong !!", 500) from exp
 
     def image__automl_classification__list_data(
         self, provider_job_id: str, pagination: dict = None, **kwargs
     ) -> ResponseType:
         self._refresh_session_auth_headers_if_needed()
-        # startIndex = 0
-        # count = 0
-        # sortBy = creation
         url = f"https://www.nyckel.com/v1/functions/{provider_job_id}/samples"
         if pagination:
             url += f"?startIndex={pagination.get('start_index', 0)}&count={pagination.get('count', 10)}&sortBy={pagination.get('sort_by', 'creation')}"
         try:
             response = self._session.get(url)
-            print(response)
-        except:
-            # return ResponseType[AutomlClassificationListDataDataClass](
-            #     original_response="",
-            #     standardized_response=AutomlClassificationListDataDataClass(
-            #         message="Model is trained", project_id=provider_job_id, name=None
-            #     ),
-            #     provider_job_id=provider_job_id,
-            # )
-            return None
+        except Exception as ex:
+            print(f"There's an error getting the samples list: {ex}")
+            return ResponseType[AutomlClassificationListDataDataClass](
+                original_response="",
+                standardized_response=AutomlClassificationListDataDataClass(
+                    message="Model is trained", id=provider_job_id, name=None
+                ),
+            )
         response_json = response.json()
         if response.status_code >= 400:
             return ResponseType[AutomlClassificationListDataDataClass](
                 original_response="",
                 standardized_response=AutomlClassificationListDataDataClass(
-                    message="Model is trained", project_id=provider_job_id, name=None
+                    message="Model is trained", id=provider_job_id, name=None
                 ),
-                provider_job_id=provider_job_id,
             )
-        return ResponseType[AutomlClassificationListDataDataClass](**response_json)
+        return ResponseType[List[AutomlClassificationListDataDataClass]](
+            original_response="",
+            standardized_response=response_json,
+        )
 
     def image__automl_classification__upload_data_async__launch_job(
         self,

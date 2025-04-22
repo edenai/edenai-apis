@@ -1,7 +1,10 @@
+from typing import Optional
 from pydantic import BaseModel, StrictStr
 
 
 class AutomlClassificationUploadDataDataClass(BaseModel):
-    message: str
-    image: StrictStr
-    label_name: str
+    annotation: dict
+    data: StrictStr
+    externalId: Optional[StrictStr] = None
+    id: StrictStr
+    prediction: Optional[dict] = None
