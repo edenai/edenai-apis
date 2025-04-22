@@ -314,6 +314,50 @@ class NyckelApi(ProviderInterface, ImageInterface):
         ):
             raise self._raise_provider_exception(url, payload, response)
 
+    def image__automl_classification__upload_data(
+        self,
+        project_id: str,
+        label: str,
+        type_of_data: str,
+        file: str,
+        file_url: str = "",
+        **kwargs,
+    ) -> ResponseType[SearchUploadImageDataClass]:
+        self._refresh_session_auth_headers_if_needed()
+        url = f"https://www.nyckel.com/v1/functions/{project_id}/samples"
+        file_ = None
+
+        if not label:
+            raise ProviderException("Label needs to be specified !!")
+
+        # Create Label
+        self.__create_label_if_no_exists(project_id=project_id, label_name=label)
+
+        # Upload Sample
+        post_parameters = {"url": url}
+        if file_url:
+            post_parameters["json"] = {
+                "annotation": {"LabelName": label},
+                "data": file_url,
+            }
+        else:
+            file_ = open(file, "rb")
+            post_parameters["files"] = {"data": file_}
+            post_parameters["data"] = {"annotation.labelName": label}
+
+        response = self._session.post(**post_parameters)
+        if file_ is not None:
+            file_.close()
+        if response.status_code >= 400:
+            self.handle_provider_error(response)
+        try:
+            return ResponseType[SearchUploadImageDataClass](
+                standardized_response=SearchUploadImageDataClass(status="success"),
+                original_response=response.json(),
+            )
+        except Exception as exp:
+            raise ProviderException("Something went wrong !!", 500) from exp
+
     def image__automl_classification__upload_data_async__launch_job(
         self,
         project_id: str,

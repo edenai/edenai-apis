@@ -483,6 +483,28 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
+    def image__automl_classification__upload_data(
+        self,
+        project_id: str,
+        label: str,
+        type_of_data: str,
+        file: str,
+        file_url: str = "",
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Upload image to dataset
+
+        Args:
+            project_id (str): id of project
+            label (str): label of the data
+            type_of_data (str): type of data (train, test)
+            file (str): image to upload
+            file_url (str): url of the image to upload
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def image__automl_classification__upload_data_async__launch_job(
         self,
         project_id: str,
