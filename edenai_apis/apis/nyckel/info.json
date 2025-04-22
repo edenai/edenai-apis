@@ -35,6 +35,12 @@
             },
             "delete_project": {
                 "version": "v1.0.0"
+            },
+            "upload_data": {
+                "version": "v1.0.0"
+            },
+            "predict": {
+                "version": "v1.0.0"
             }
         }
     },
