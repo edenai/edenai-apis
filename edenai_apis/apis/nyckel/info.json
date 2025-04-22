@@ -39,6 +39,9 @@
             "upload_data": {
                 "version": "v1.0.0"
             },
+            "list_data": {
+                "version": "v1.0.0"
+            },
             "predict": {
                 "version": "v1.0.0"
             }
