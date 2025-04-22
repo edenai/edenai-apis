@@ -21,6 +21,9 @@ from edenai_apis.features.image.automl_classification.predict_async.automl_class
 from edenai_apis.features.image.automl_classification.train_async.automl_classification_train_async_dataclass import (
     AutomlClassificationTrainAsyncDataClass,
 )
+from edenai_apis.features.image.automl_classification.upload_data.automl_classification_upload_data_dataclass import (
+    AutomlClassificationUploadDataDataClass,
+)
 from edenai_apis.features.image.automl_classification.upload_data_async.automl_classification_upload_data_async_dataclass import (
     AutomlClassificationUploadDataAsyncDataClass,
 )
@@ -322,7 +325,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
         file: str,
         file_url: str = "",
         **kwargs,
-    ) -> ResponseType[SearchUploadImageDataClass]:
+    ) -> ResponseType[AutomlClassificationUploadDataDataClass]:
         self._refresh_session_auth_headers_if_needed()
         url = f"https://www.nyckel.com/v1/functions/{project_id}/samples"
         file_ = None
@@ -351,9 +354,8 @@ class NyckelApi(ProviderInterface, ImageInterface):
         if response.status_code >= 400:
             self.handle_provider_error(response)
         try:
-            return ResponseType[SearchUploadImageDataClass](
-                standardized_response=SearchUploadImageDataClass(status="success"),
-                original_response=response.json(),
+            return ResponseType[AutomlClassificationUploadDataDataClass](
+                response.json(),
             )
         except Exception as exp:
             raise ProviderException("Something went wrong !!", 500) from exp
