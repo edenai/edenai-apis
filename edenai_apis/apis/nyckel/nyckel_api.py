@@ -418,7 +418,7 @@ class NyckelApi(ProviderInterface, ImageInterface):
                     original_response="",
                     standardized_response=AutomlCalssificationErrorDataClass(
                         message=f"Model is trained but received a non 200 status: {response.status_code}",
-                        final_status="failed",
+                        status="failed",
                     ),
                 )
             response = response.json()
@@ -428,16 +428,17 @@ class NyckelApi(ProviderInterface, ImageInterface):
                 original_response="",
                 standardized_response=AutomlCalssificationErrorDataClass(
                     message=f"There's an error getting the samples list: {ex}",
-                    final_status="failed",
+                    status="failed",
                 ),
             )
         # ----
         response = update_label_names(label_names=labels_response, samples=response)
+        response["final_status"] = "success"
         # ----
         return ResponseType[AutomlClassificationListDataClass](
             original_response="",
             standardized_response=AutomlClassificationListDataClass(
-                items=response, final_status="success"
+                items=response
             ),
         )
 

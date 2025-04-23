@@ -19,13 +19,13 @@ class AutomlClassificationListEntryDataClass(BaseModel):
     externalId: Optional[StrictStr] = None
     id: StrictStr
     prediction: Optional[AutomlClassificationPredictionDataClass] = None
+    final_status: StrictStr
 
 
 class AutomlClassificationListDataClass(BaseModel):
     items: list[AutomlClassificationListEntryDataClass]
-    final_status: StrictStr
 
 
 class AutomlCalssificationErrorDataClass(BaseModel):
     message: StrictStr
-    final_status: StrictStr
+    status: StrictStr
