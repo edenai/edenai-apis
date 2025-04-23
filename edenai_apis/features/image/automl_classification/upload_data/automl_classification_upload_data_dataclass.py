@@ -8,3 +8,5 @@ class AutomlClassificationUploadDataDataClass(BaseModel):
     externalId: Optional[StrictStr] = None
     id: StrictStr
     prediction: Optional[dict] = None
+    label_name: StrictStr
+    final_status: StrictStr

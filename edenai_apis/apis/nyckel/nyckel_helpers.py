@@ -1,7 +1,11 @@
 import urllib
-from typing import Dict
+from typing import Dict, List
 
 import requests
+
+from edenai_apis.features.image.automl_classification.list_data.automl_classification_list_data_dataclass import (
+    AutomlClassificationListEntryDataClass,
+)
 
 
 def check_webhook_result(job_id: str, webhook_settings: dict) -> Dict:
@@ -27,3 +31,29 @@ def check_webhook_result(job_id: str, webhook_settings: dict) -> Dict:
         return webhook_response.json().get("data"), response_status
     except Exception:
         return None, response_status
+
+
+def update_label_names(
+    label_names: List = None, samples: List = None
+) -> List[AutomlClassificationListEntryDataClass]:
+    result: AutomlClassificationListEntryDataClass = []
+    if not label_names:
+        return samples
+    labels = {}
+    for label in label_names:
+        labels[label["id"]] = label["name"]
+    for sample in samples:
+        data = {**sample}
+        data["annotation"]["label_name"] = (
+            labels[sample["annotation"]["labelId"]]
+            if sample["annotation"]["labelId"] in labels
+            else "unknown"
+        )
+        if sample.get("prediction"):
+            data["prediction"]["label_name"] = (
+                labels[sample["prediction"]["labelId"]]
+                if sample["prediction"]["labelId"] in labels
+                else "unknown"
+            )
+        result.append(AutomlClassificationListEntryDataClass(**data))
+    return result

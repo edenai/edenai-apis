@@ -7,7 +7,10 @@ from typing import Dict, List, Optional
 import requests
 from requests.adapters import HTTPAdapter, Retry
 
-from edenai_apis.apis.nyckel.nyckel_helpers import check_webhook_result
+from edenai_apis.apis.nyckel.nyckel_helpers import (
+    check_webhook_result,
+    update_label_names,
+)
 from edenai_apis.features import ImageInterface, ProviderInterface
 from edenai_apis.features.image.automl_classification.create_project.automl_classification_create_project_dataclass import (
     AutomlClassificationCreateProjectDataClass,
@@ -16,7 +19,8 @@ from edenai_apis.features.image.automl_classification.delete_project.automl_clas
     AutomlClassificationDeleteProjectDataClass,
 )
 from edenai_apis.features.image.automl_classification.list_data.automl_classification_list_data_dataclass import (
-    AutomlClassificationListDataDataClass,
+    AutomlCalssificationErrorDataClass,
+    AutomlClassificationListDataClass,
 )
 from edenai_apis.features.image.automl_classification.predict_async.automl_classification_predict_async_dataclass import (
     AutomlClassificationPredictAsyncDataClass,
@@ -52,7 +56,6 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
-    AsyncErrorResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
@@ -354,46 +357,88 @@ class NyckelApi(ProviderInterface, ImageInterface):
         response = self._session.post(**post_parameters)
         if file_ is not None:
             file_.close()
-        if response.status_code >= 400:
-            self.handle_provider_error(response)
+
         try:
+            if response.status_code >= 400:
+                self.handle_provider_error(response)
             response = response.json()
+            response["label_name"] = label
+            response["final_status"] = "success"
             return ResponseType[AutomlClassificationUploadDataDataClass](
                 original_response="",
                 standardized_response=response,
             )
         except Exception as exp:
-            print(exp)
-            raise ProviderException("Something went wrong !!", 500) from exp
+            return ResponseType[AutomlClassificationUploadDataDataClass](
+                original_response="",
+                standardized_response={
+                    "final_status": "failed",
+                    "message": "Something went wrong !!",
+                    "label_name": label,
+                    "data": exp,
+                },
+            )
 
     def image__automl_classification__list_data(
         self, provider_job_id: str, pagination: dict = None, **kwargs
     ) -> ResponseType:
+        # This requires several steps:
+        # 1. Re-autehtify
+        # 2. Get the project labels
+        # 3. Get the images
+        # 4. Create a composed response:
+        #   4.1. final_status
+        #   4.2. public_id
+        #   4.3. label_name
+        # ----
         self._refresh_session_auth_headers_if_needed()
+        # ----
+        label_url = f"https://www.nyckel.com/v1/functions/{provider_job_id}/labels"
+        try:
+            labels_response = self._session.get(label_url)
+            labels_response = labels_response.json()
+        except Exception as ex:
+            print(f"There's an error getting the labels list: {ex}")
+            return ResponseType[AutomlCalssificationErrorDataClass](
+                original_response="",
+                standardized_response=AutomlCalssificationErrorDataClass(
+                    message=f"There's an error getting the labels: {ex}",
+                    items=None,
+                    final_status="failed",
+                ),
+            )
+        # ----
         url = f"https://www.nyckel.com/v1/functions/{provider_job_id}/samples"
         if pagination:
             url += f"?startIndex={pagination.get('start_index', 0)}&count={pagination.get('count', 10)}&sortBy={pagination.get('sort_by', 'creation')}"
         try:
             response = self._session.get(url)
+            if response.status_code >= 400:
+                return ResponseType[AutomlCalssificationErrorDataClass](
+                    original_response="",
+                    standardized_response=AutomlCalssificationErrorDataClass(
+                        message=f"Model is trained but received a non 200 status: {response.status_code}",
+                        final_status="failed",
+                    ),
+                )
+            response = response.json()
         except Exception as ex:
             print(f"There's an error getting the samples list: {ex}")
-            return ResponseType[AutomlClassificationListDataDataClass](
+            return ResponseType[AutomlCalssificationErrorDataClass](
                 original_response="",
-                standardized_response=AutomlClassificationListDataDataClass(
-                    message="Model is trained", id=provider_job_id, name=None
+                standardized_response=AutomlCalssificationErrorDataClass(
+                    message=f"There's an error getting the samples list: {ex}",
+                    final_status="failed",
                 ),
             )
-        response_json = response.json()
-        if response.status_code >= 400:
-            return ResponseType[AutomlClassificationListDataDataClass](
-                original_response="",
-                standardized_response=AutomlClassificationListDataDataClass(
-                    message="Model is trained", id=provider_job_id, name=None
-                ),
-            )
-        return ResponseType[Dict[str, List[AutomlClassificationListDataDataClass]]](
+        # ----
+        response = update_label_names(label_names=labels_response, samples=response)
+        # ----
+        return ResponseType[AutomlClassificationListDataClass](
             original_response="",
-            standardized_response={"data_list": response_json},
+            standardized_response=AutomlClassificationListDataClass(
+                items=response, final_status="success"
+            ),
         )
 
     def image__automl_classification__upload_data_async__launch_job(
