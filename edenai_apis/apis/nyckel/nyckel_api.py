@@ -391,9 +391,9 @@ class NyckelApi(ProviderInterface, ImageInterface):
                     message="Model is trained", id=provider_job_id, name=None
                 ),
             )
-        return ResponseType[List[AutomlClassificationListDataDataClass]](
+        return ResponseType[Dict[str, List[AutomlClassificationListDataDataClass]]](
             original_response="",
-            standardized_response=response_json,
+            standardized_response={"data_list": response_json},
         )
 
     def image__automl_classification__upload_data_async__launch_job(
