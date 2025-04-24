@@ -38,7 +38,10 @@ def update_label_names(
 ) -> List[AutomlClassificationListEntryDataClass]:
     result: AutomlClassificationListEntryDataClass = []
     if not label_names:
-        return samples
+        return [
+            AutomlClassificationListEntryDataClass(**sample, final_status="success")
+            for sample in samples
+        ]
     labels = {}
     for label in label_names:
         labels[label["id"]] = label["name"]
@@ -55,5 +58,6 @@ def update_label_names(
                 if sample["prediction"]["labelId"] in labels
                 else "unknown"
             )
+        data["final_status"] = "success"
         result.append(AutomlClassificationListEntryDataClass(**data))
     return result

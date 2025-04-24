@@ -433,7 +433,6 @@ class NyckelApi(ProviderInterface, ImageInterface):
             )
         # ----
         response = update_label_names(label_names=labels_response, samples=response)
-        response["final_status"] = "success"
         # ----
         return ResponseType[AutomlClassificationListDataClass](
             original_response="",
