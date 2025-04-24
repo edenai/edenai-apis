@@ -44,7 +44,7 @@ def load_key(provider_name, location=False, api_keys: Dict = {}):
         # check_messsing_keys(provider_settings_data, data)
 
     if location:
-        return data, provider_settings_path
+        return data, provider_settings_path if not api_keys else ""
     return data
 
 

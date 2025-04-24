@@ -5,6 +5,7 @@ from google.cloud import aiplatform, storage
 from google.cloud import translate_v3 as translate
 from google.cloud import videointelligence, vision
 from google.cloud.language import LanguageServiceClient
+from google.oauth2 import service_account
 
 from edenai_apis.apis.google.google_audio_api import GoogleAudioApi
 from edenai_apis.apis.google.google_image_api import GoogleImageApi
@@ -43,14 +44,24 @@ class GoogleApi(
         self.webhook_settings = load_provider(ProviderDataEnum.KEY, "webhooksite")
         self.webhook_token = self.webhook_settings["webhook_token"]
         self.project_id = self.api_settings["project_id"]
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self.location
+
+        clients_init_payload = {}
+        if self.location:
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self.location
+        else:
+            credentials = service_account.Credentials.from_service_account_info(
+                self.api_settings
+            )
+            clients_init_payload["credentials"] = credentials
 
         self.clients = {
-            "image": vision.ImageAnnotatorClient(),
-            "text": LanguageServiceClient(),
-            "storage": storage.Client(),
-            "video": videointelligence.VideoIntelligenceServiceClient(),
-            "translate": translate.TranslationServiceClient(),
+            "image": vision.ImageAnnotatorClient(**clients_init_payload),
+            "text": LanguageServiceClient(**clients_init_payload),
+            "storage": storage.Client(**clients_init_payload),
+            "video": videointelligence.VideoIntelligenceServiceClient(
+                **clients_init_payload
+            ),
+            "translate": translate.TranslationServiceClient(**clients_init_payload),
             "llm_client": LLMEngine(
                 provider_name="gemini",
                 provider_config={
@@ -59,6 +70,4 @@ class GoogleApi(
             ),
         }
 
-        aiplatform.init(
-            project=self.project_id,
-        )
+        aiplatform.init(project=self.project_id, **clients_init_payload)
