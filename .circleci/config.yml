@@ -83,7 +83,7 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt-get install ffmpeg -y
-            poetry install --no-interaction --no-root
+            poetry install --no-interaction
             
       - run:
           name: check working providers
