@@ -4,6 +4,7 @@ from typing import Dict
 from google.cloud import aiplatform, storage
 from google.cloud import translate_v3 as translate
 from google.cloud import videointelligence, vision
+from edenai_apis.loaders.utils import check_empty_values
 from google.cloud.language import LanguageServiceClient
 from google.oauth2 import service_account
 
@@ -46,28 +47,33 @@ class GoogleApi(
         self.project_id = self.api_settings["project_id"]
 
         clients_init_payload = {}
-        if self.location:
-            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self.location
-        else:
-            credentials = service_account.Credentials.from_service_account_info(
-                self.api_settings
-            )
-            clients_init_payload["credentials"] = credentials
-
         self.clients = {
-            "image": vision.ImageAnnotatorClient(**clients_init_payload),
-            "text": LanguageServiceClient(**clients_init_payload),
-            "storage": storage.Client(**clients_init_payload),
-            "video": videointelligence.VideoIntelligenceServiceClient(
-                **clients_init_payload
-            ),
-            "translate": translate.TranslationServiceClient(**clients_init_payload),
             "llm_client": LLMEngine(
                 provider_name="gemini",
                 provider_config={
-                    "api_key": self.api_settings.get("genai_api_key"),
+                    "api_key": self.api_settings.pop("genai_api_key", None),
                 },
             ),
         }
+        if self.location:
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self.location
+            self.__set_remaing_clients(clients_init_payload)
+        else:
+            if not check_empty_values(self.api_settings):
+                credentials = service_account.Credentials.from_service_account_info(
+                    self.api_settings
+                )
+                clients_init_payload["credentials"] = credentials
+                self.__set_remaing_clients(clients_init_payload)
 
         aiplatform.init(project=self.project_id, **clients_init_payload)
+
+    def __set_remaing_clients(self, payload: Dict):
+        self.clients = {
+            **self.clients,
+            "image": vision.ImageAnnotatorClient(**payload),
+            "text": LanguageServiceClient(**payload),
+            "storage": storage.Client(**payload),
+            "video": videointelligence.VideoIntelligenceServiceClient(**payload),
+            "translate": translate.TranslationServiceClient(**payload),
+        }
