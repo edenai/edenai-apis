@@ -57,18 +57,18 @@ class GoogleApi(
         }
         if self.location:
             os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self.location
-            self.__set_remaing_clients(clients_init_payload)
+            self.__set_remaining_clients(clients_init_payload)
         else:
             if not check_empty_values(self.api_settings):
                 credentials = service_account.Credentials.from_service_account_info(
                     self.api_settings
                 )
                 clients_init_payload["credentials"] = credentials
-                self.__set_remaing_clients(clients_init_payload)
+                self.__set_remaining_clients(clients_init_payload)
 
         aiplatform.init(project=self.project_id, **clients_init_payload)
 
-    def __set_remaing_clients(self, payload: Dict):
+    def __set_remaining_clients(self, payload: Dict):
         self.clients = {
             **self.clients,
             "image": vision.ImageAnnotatorClient(**payload),
