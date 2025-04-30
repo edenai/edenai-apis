@@ -21,14 +21,18 @@ def check_messsing_keys(owr_dict: Dict, own_dict: Dict):
     return True
 
 
-def check_empty_values(data):
+def check_empty_values(data, keys_to_ignore: List[str] = []) -> bool:
     """
     Recursively checks if all values in a dictionary (JSON-like object)
-    are None, empty strings, or empty containers (like {}, [], etc.).
+    are None, empty strings, or empty containers (like {}, [], etc.),
+    excluding keys listed in keys_to_ignore.
     """
     if isinstance(data, dict):
-        return all(check_empty_values(v) for v in data.values())
+        return all(
+            key in keys_to_ignore or check_empty_values(value, keys_to_ignore)
+            for key, value in data.items()
+        )
     elif isinstance(data, list):
-        return all(check_empty_values(item) for item in data)
+        return all(check_empty_values(item, keys_to_ignore) for item in data)
     else:
         return data in (None, "", [], {})

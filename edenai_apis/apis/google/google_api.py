@@ -51,7 +51,7 @@ class GoogleApi(
             "llm_client": LLMEngine(
                 provider_name="gemini",
                 provider_config={
-                    "api_key": self.api_settings.pop("genai_api_key", None),
+                    "api_key": self.api_settings.get("genai_api_key"),
                 },
             ),
         }
@@ -59,7 +59,7 @@ class GoogleApi(
             os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self.location
             self.__set_remaining_clients(clients_init_payload)
         else:
-            if not check_empty_values(self.api_settings):
+            if not check_empty_values(self.api_settings, ["genai_api_key"]):
                 credentials = service_account.Credentials.from_service_account_info(
                     self.api_settings
                 )
