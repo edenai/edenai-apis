@@ -1,6 +1,6 @@
 import json
 import ntpath
-from typing import Dict
+from typing import Dict, List
 
 from edenai_apis.utils.exception import ProviderException
 
