@@ -44,13 +44,14 @@ class PicsartApi(ProviderInterface, ImageInterface):
         if provider_params is None:
             provider_params = {}
 
-        files = None
+        files = {}
         image_file = None
-        if file and not file_url:
+
+        if file_url:
+            provider_params["image_url"] = file_url
+        elif file:
             image_file = open(file, "rb")
             files = {"image": image_file}
-        elif file_url and not file:
-            provider_params["image_url"] = file_url
         else:
             raise ProviderException("No file or file_url provided")
 
