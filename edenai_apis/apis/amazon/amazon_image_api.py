@@ -3,7 +3,7 @@ import base64
 from io import BytesIO
 from typing import Literal, Optional, Sequence
 from edenai_apis.llmengine.utils.moderation import moderate
-from edenai_apis.apis.amazon.helpers import handle_amazon_call
+from edenai_apis.apis.amazon.helpers import handle_amazon_call, get_confidence_if_true
 from edenai_apis.features.image.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
     EmbeddingDataClass,
@@ -139,15 +139,15 @@ class AmazonImageApi(ImageInterface):
 
             # features
             features = FaceFeatures(
-                eyes_open=face.get("eyes_open", {}).get("Confidence", 0.0) / 100,
-                smile=face.get("smile", {}).get("Confidence", 0.0) / 100,
-                mouth_open=face.get("mouth_open", {}).get("Confidence", 0.0) / 100,
+                eyes_open=get_confidence_if_true(face, "EyeOpen"),
+                smile=get_confidence_if_true(face, "Smile"),
+                mouth_open=get_confidence_if_true(face, "MouthOpen"),
             )
 
             # accessories
             accessories = FaceAccessories(
-                sunglasses=face.get("Sunglasses", {}).get("Confidence", 0.0) / 100,
-                eyeglasses=face.get("Eyeglasses", {}).get("Confidence", 0.0) / 100,
+                sunglasses=get_confidence_if_true(face, "Sunglasses"),
+                eyeglasses=get_confidence_if_true(face, "Eyeglasses"),
                 reading_glasses=None,
                 swimming_goggles=None,
                 face_mask=None,
@@ -156,8 +156,8 @@ class AmazonImageApi(ImageInterface):
 
             # facial hair
             facial_hair = FaceFacialHair(
-                moustache=face.get("Mustache", {}).get("Confidence", 0.0) / 100,
-                beard=face.get("Beard", {}).get("Confidence", 0.0) / 100,
+                moustache=get_confidence_if_true(face, "Mustache"),
+                beard=get_confidence_if_true(face, "Beard"),
                 sideburns=None,
             )
 
