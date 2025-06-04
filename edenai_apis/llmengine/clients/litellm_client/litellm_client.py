@@ -42,6 +42,8 @@ from litellm import register_model
 
 logger = logging.getLogger(__name__)
 
+litellm.modify_params = True
+
 
 class LiteLLMCompletionClient(CompletionClient):
 
