@@ -3,7 +3,7 @@ import json
 import mimetypes
 import uuid
 from io import BytesIO
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 import requests
 from apis.amazon.helpers import check_webhook_result
@@ -92,12 +92,27 @@ class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
         )
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None, **kwargs
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[AnonymizationDataClass]:
+        if provider_params is None:
+            provider_params = {}
+        entity_detection_params = provider_params.get("entity_detection", {}) or {}
+        processed_text_params = provider_params.get("processed_text", {}) or {}
         payload = {
             "text": [text],
-            "entity_detection": {"accuracy": "high", "return_entity": True},
+            "entity_detection": {
+                "accuracy": "high",
+                "return_entity": True,
+                **entity_detection_params,
+            },
         }
+        if processed_text_params:
+            payload["processed_text"] = processed_text_params
         response = requests.post(
             url=self.url + "v3/process/text", json=payload, headers=self.headers
         )
@@ -111,7 +126,13 @@ class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
             raise ProviderException(message="Internal server error", code=500) from exc
 
         entities: List[AnonymizationEntity] = []
+        assemble_text = True
         new_text = text
+        if processed_text_params.get(
+            "type", ""
+        ) == "MASK" and processed_text_params.get("mask_character"):
+            assemble_text = False
+            new_text = original_response[0].get("processed_text", "") or ""
         for entity in original_response[0].get("entities", []):
             start_index = extract(entity, ["location", "stt_idx"])
             end_index = extract(entity, ["location", "end_idx"])
@@ -119,7 +140,8 @@ class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
             confidence = extract(entity, ["labels", original_label])
             classification = CategoryType.choose_category_subcategory(original_label)
             replacement = "*" * (end_index - start_index)
-            new_text = new_text[:start_index] + replacement + new_text[end_index:]
+            if assemble_text:
+                new_text = new_text[:start_index] + replacement + new_text[end_index:]
             entities.append(
                 AnonymizationEntity(
                     offset=start_index,
