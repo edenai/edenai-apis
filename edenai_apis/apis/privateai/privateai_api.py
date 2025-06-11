@@ -48,8 +48,17 @@ class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
         self.webhook_token = self.webhook_settings.get("webhook_token")
 
     def ocr__anonymization_async__launch_job(
-        self, file: str, file_url: str = "", **kwargs
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> AsyncLaunchJobResponseType:
+        if provider_params is None:
+            provider_params = {}
+        entity_detection_params = provider_params.get("entity_detection", {}) or {}
+        processed_text_params = provider_params.get("processed_text", {}) or {}
+
         with open(file, "rb") as file_:
             file_data = base64.b64encode(file_.read())
             file_data = file_data.decode("ascii")
@@ -63,8 +72,12 @@ class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
             "entity_detection": {
                 "accuracy": "high",
                 "return_entity": True,
+                **entity_detection_params,
             },
         }
+        if processed_text_params:
+            data["processed_text"] = processed_text_params
+
         response = requests.post(
             url=self.url + "v3/process/files/base64",
             data=json.dumps(data),
