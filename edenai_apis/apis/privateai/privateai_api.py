@@ -58,6 +58,7 @@ class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
             provider_params = {}
         entity_detection_params = provider_params.get("entity_detection", {}) or {}
         processed_text_params = provider_params.get("processed_text", {}) or {}
+        is_multilingual = provider_params.get("multilingual", False) or False
 
         with open(file, "rb") as file_:
             file_data = base64.b64encode(file_.read())
@@ -70,7 +71,7 @@ class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
                 "content_type": mimetype,
             },
             "entity_detection": {
-                "accuracy": "high",
+                "accuracy": "high" if not is_multilingual else "high_multilingual",
                 "return_entity": True,
                 **entity_detection_params,
             },
