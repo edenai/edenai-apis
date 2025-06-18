@@ -1,7 +1,6 @@
 import json
 from http import HTTPStatus
 from typing import Dict, Sequence, Any, Optional
-from uuid import uuid4
 import requests
 from edenai_apis.apis.winstonai.config import WINSTON_AI_API_URL
 from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
@@ -45,11 +44,11 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
         if not file_url and not file:
             raise ProviderException("file or file_url required")
 
-        payload = json.dumps({"url": file_url or upload_file_to_s3(file, file)})
+        payload = json.dumps({"url": file_url or upload_file_to_s3(file, file), "version": "latest"})
 
         response = requests.request(
             "POST",
-            f"{self.api_url}/image-detection",
+            f"{self.api_url}/v2/image-detection",
             headers=self.headers,
             data=payload,
         )
@@ -83,13 +82,13 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
             {
                 "text": text,
                 "sentences": True,
-                "language": provider_params.get("language", "en"),
-                "version": provider_params.get("version", "2.0"),
+                "language": provider_params.get("language", "auto"),
+                "version": provider_params.get("version", "latest"),
             }
         )
 
         response = requests.request(
-            "POST", f"{self.api_url}/predict", headers=self.headers, data=payload
+            "POST", f"{self.api_url}/v2/ai-content-detection", headers=self.headers, data=payload
         )
 
         if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
@@ -136,12 +135,11 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
             {
                 "text": text,
                 "language": provider_params.get("language", "en"),
-                "version": provider_params.get("version", "2.0"),
             }
         )
 
         response = requests.request(
-            "POST", f"{self.api_url}/plagiarism", headers=self.headers, data=payload
+            "POST", f"{self.api_url}/v1/plagiarism", headers=self.headers, data=payload
         )
 
         if response.status_code != 200:
