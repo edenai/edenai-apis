@@ -73,6 +73,7 @@ class PrivateaiApi(ProviderInterface, OcrInterface, TextInterface):
             "entity_detection": {
                 "accuracy": "high" if not is_multilingual else "high_multilingual",
                 "return_entity": True,
+                "enable_non_max_suppression": True,
                 **entity_detection_params,
             },
         }
