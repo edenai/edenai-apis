@@ -1,4 +1,4 @@
-from typing import Dict, List, Literal, Optional, Sequence, Union
+from typing import Dict, List, Literal, Optional, Sequence, Union, Any
 import requests
 from edenai_apis.features import TextInterface
 from edenai_apis.features.text.anonymization import AnonymizationDataClass
@@ -164,7 +164,12 @@ class OpenaiTextApi(TextInterface):
         return result
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None, **kwargs
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[AnonymizationDataClass]:
         response = self.llm_client.pii(text=text, model=model, **kwargs)
         return response

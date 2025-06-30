@@ -1,0 +1,21 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "285550883516528",
+  "original_response": {
+    "task_id": "285550883516528",
+    "status": "Success",
+    "file_id": "285555749093448",
+    "video_width": 1366,
+    "video_height": 768,
+    "base_resp": {
+      "status_code": 0,
+      "status_msg": "success"
+    }
+  },
+  "standardized_response": {
+    "video": "",
+    "video_resource_url": "https://public-cdn-video-data-algeng.oss-cn-wulanchabu.aliyuncs.com/inference_output%2Fvideo%2F2025-06-30%2Fd8b7b455-b0df-40c8-808c-0d4608bd9a4c%2Foutput.mp4?Expires=1751301140&OSSAccessKeyId=LTAI5tAmwsjSaaZVA6cEFAUu&Signature=dLZBCKZJ7rakkpVmNPUoVHrDn%2B0%3D"
+  },
+  "usage": null,
+  "cost": null
+}

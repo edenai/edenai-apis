@@ -1,5 +1,5 @@
 import json
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 
 import requests
 
@@ -65,7 +65,12 @@ class OneaiApi(
         self.header = {"api-key": self.api_key}
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None, **kwargs
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[AnonymizationDataClass]:
         data = json.dumps({"input": text, "steps": [{"skill": "anonymize"}]})
 

@@ -43,6 +43,7 @@ class TextInterface:
         text: str,
         language: str,
         model: Optional[str] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
         **kwargs,
     ) -> ResponseType[AnonymizationDataClass]:
         """

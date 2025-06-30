@@ -1,0 +1,17 @@
+{
+    "llm": {
+        "chat": {
+            "version": "v1"
+        }
+    },
+    "image": {
+        "generation": {
+            "version": "v1"
+        }
+    },
+    "video": {
+        "generation_async": {
+            "version": "v1"
+        }
+    }
+}
