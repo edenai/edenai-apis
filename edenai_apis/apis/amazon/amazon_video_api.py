@@ -425,6 +425,7 @@ class AmazonVideoApi(VideoInterface):
         file: str,
         file_url: str = "",
         temperature: float = 0,
+        max_tokens: int = None,
         model: str = None,
         **kwargs,
     ) -> QuestionAnswerDataClass:
