@@ -29,6 +29,7 @@ from edenai_apis.utils.types import (
     AsyncPendingResponseType,
     AsyncResponseType,
     ResponseType,
+    AsyncBaseResponseType,
 )
 from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.utils.exception import ProviderException
@@ -94,7 +95,7 @@ class MinimaxApi(
 
     def video__generation_async__get_job_result(
         self, provider_job_id: str
-    ) -> GenerationAsyncDataClass:
+    ) -> AsyncBaseResponseType[GenerationAsyncDataClass]:
         response = requests.get(
             url=f"{self.base_url}/query/video_generation?task_id={provider_job_id}",
             headers={"Authorization": f"Bearer {self.api_key}"},

@@ -1,4 +1,4 @@
-from typing import List, Literal, Optional, Sequence, Union, Dict
+from typing import List, Literal, Optional, Sequence, Union, Dict, Any
 import json
 
 from edenai_apis.apis.amazon.helpers import handle_amazon_call
@@ -153,7 +153,12 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None, **kwargs
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[AnonymizationDataClass]:
         payload = {"Text": text, "LanguageCode": language}
         res = handle_amazon_call(self.clients["text"].detect_pii_entities, **payload)

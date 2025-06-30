@@ -149,7 +149,12 @@ class EmvistaApi(ProviderInterface, TextInterface):
         return result
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None, **kwargs
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[AnonymizationDataClass]:
         files, headers = self._prepare_request(language, text)
 

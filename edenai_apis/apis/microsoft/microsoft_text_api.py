@@ -2,7 +2,7 @@ import sys
 from collections import defaultdict
 from http import HTTPStatus
 from time import sleep
-from typing import Dict, List, Sequence, Optional, Literal, Union
+from typing import Dict, List, Sequence, Optional, Literal, Union, Any
 
 import requests
 
@@ -197,7 +197,12 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None, **kwargs
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[AnonymizationDataClass]:
         try:
             response = requests.post(
