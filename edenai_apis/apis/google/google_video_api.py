@@ -150,7 +150,6 @@ class GoogleVideoApi(VideoInterface):
         # don't throw error, delete should be able to fail gracefully
         requests.delete(url=delete_url)
 
-
     # Launch label detection job
     def video__label_detection_async__launch_job(
         self, file: str, file_url: str = "", **kwargs
@@ -758,9 +757,14 @@ class GoogleVideoApi(VideoInterface):
     def _bytes_to_mega(self, bytes_value):
         return bytes_value / (1024 * 1024)
 
-    def request_question_answer(self, model, api_key, text, temperature, file_data):
+    def request_question_answer(
+        self, model, api_key, text, temperature, file_data, max_tokens=None
+    ):
         base_url = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
         url = base_url.format(model=model, api_key=api_key)
+        generation_config = {"candidateCount": 1, "temperature": temperature}
+        if max_tokens is not None:
+            generation_config["maxOutputTokens"] = max_tokens
         payload = {
             "contents": [
                 {
@@ -775,7 +779,7 @@ class GoogleVideoApi(VideoInterface):
                     ]
                 }
             ],
-            "generationConfig": {"candidateCount": 1, "temperature": temperature},
+            "generationConfig": generation_config,
         }
         response = requests.post(url, json=payload)
         try:
@@ -796,11 +800,15 @@ class GoogleVideoApi(VideoInterface):
             generated_text = original_response["candidates"][0]["content"]["parts"][0][
                 "text"
             ]
+            finish_reason = original_response["candidates"][0]["finishReason"]
         except KeyError as exc:
             raise ProviderException("Provider returned empty response") from exc
+        standardized_response = QuestionAnswerAsyncDataClass(
+            answer=generated_text, finish_reason=finish_reason
+        )
 
         calculate_usage_tokens(original_response=original_response)
-        return original_response, generated_text
+        return original_response, standardized_response
 
     def video__question_answer(
         self,
@@ -808,6 +816,7 @@ class GoogleVideoApi(VideoInterface):
         file: str,
         file_url: str = "",
         temperature: float = 0,
+        max_tokens: int = None,
         model: str = None,
         **kwargs,
     ) -> QuestionAnswerDataClass:
@@ -823,18 +832,22 @@ class GoogleVideoApi(VideoInterface):
             sleep(5)
             file_data = self._check_file_status(file_data["uri"], api_key)
 
-        original_response, generated_text = self.request_question_answer(
+        original_response, standardized_output = self.request_question_answer(
             model=model,
             api_key=api_key,
             text=text,
             temperature=temperature,
             file_data=file_data,
+            max_tokens=max_tokens,
         )
 
         self.delete_file(file=file_data["name"], api_key=api_key)
         return ResponseType[QuestionAnswerDataClass](
             original_response=original_response,
-            standardized_response=QuestionAnswerDataClass(answer=generated_text),
+            standardized_response=QuestionAnswerDataClass(
+                answer=standardized_output.answer,
+                finish_reason=standardized_output.finish_reason,
+            ),
         )
 
     def video__question_answer_async__launch_job(
@@ -843,6 +856,7 @@ class GoogleVideoApi(VideoInterface):
         file: str,
         file_url: str = "",
         temperature: float = 0,
+        max_tokens: int = None,
         model: str | None = None,
         **kwargs,
     ) -> AsyncLaunchJobResponseType:
@@ -855,6 +869,7 @@ class GoogleVideoApi(VideoInterface):
             "text": text,
             "temperature": temperature,
             "model": model,
+            "max_tokens": max_tokens,
             "process_file_id": process_file_id,
         }
         # HACK: serializer inputs as a job_id to be able to use them in get_job_result
@@ -889,18 +904,17 @@ class GoogleVideoApi(VideoInterface):
                 status="pending", provider_job_id=provider_job_id
             )
         else:
-            original_response, generated_text = self.request_question_answer(
+            original_response, standardized_response = self.request_question_answer(
                 model=inputs["model"],
                 api_key=api_key,
                 text=inputs["text"],
                 temperature=inputs["temperature"],
                 file_data=file_data,
+                max_tokens=inputs["max_tokens"],
             )
             self.delete_file(file=file_data["name"], api_key=api_key)
             return AsyncResponseType[QuestionAnswerAsyncDataClass](
                 original_response=original_response,
-                standardized_response=QuestionAnswerAsyncDataClass(
-                    answer=generated_text
-                ),
+                standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )

@@ -600,9 +600,11 @@ def calculate_usage_tokens(original_response: dict) -> dict:
     Calculates the token usage from the original response.
     """
     original_response["usage"] = {
-        "prompt_tokens": original_response["usageMetadata"]["promptTokenCount"],
-        "completion_tokens": original_response["usageMetadata"]["candidatesTokenCount"],
-        "total_tokens": original_response["usageMetadata"]["totalTokenCount"],
+        "prompt_tokens": original_response["usageMetadata"].get("promptTokenCount", 0),
+        "completion_tokens": original_response["usageMetadata"].get(
+            "candidatesTokenCount", 0
+        ),
+        "total_tokens": original_response["usageMetadata"].get("totalTokenCount", 0),
     }
 
 
