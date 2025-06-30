@@ -68,5 +68,6 @@ from .deepseek import DeepseekApi
 from .together_ai import TogetheraiApi
 from .groq import GroqApi
 from .picsart import PicsartApi
+from .minimax import MinimaxApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

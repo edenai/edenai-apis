@@ -12,5 +12,6 @@ def generation_arguments(provider_name: str) -> Dict:
             "stabilityai": "stable-diffusion-xl-1024-v1-0",
             "replicate": "black-forest-labs/flux-pro",
             "leonardo": "Leonardo Phoenix",
+            "minimax": "image-01",
         },
     }
