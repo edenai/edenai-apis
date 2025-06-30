@@ -58,7 +58,6 @@ class MinimaxApi(
         duration: Optional[int] = 6,
         fps: Optional[int] = 24,
         dimension: Optional[str] = "1280x720",
-        resolution: Optional[str] = "720p",
         seed: Optional[float] = 12,
         file: Optional[str] = None,
         file_url: Optional[str] = None,
