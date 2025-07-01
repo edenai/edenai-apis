@@ -84,6 +84,26 @@ class IointelligenceApi(ProviderInterface, LlmInterface, TextInterface):
             completion_params["top_p"] = top_p
         if stream is not None:
             completion_params["stream"] = stream
+        if frequency_penalty is not None:
+            completion_params["frequency_penalty"] = frequency_penalty
+        if logprobs is not None:
+            completion_params["logprobs"] = logprobs
+        if top_logprobs is not None:
+            completion_params["top_logprobs"] = top_logprobs
+        if n is not None:
+            completion_params["n"] = n
+        if presence_penalty is not None:
+            completion_params["presence_penalty"] = presence_penalty
+        if seed is not None:
+            completion_params["seed"] = seed
+        if stop is not None:
+            completion_params["stop"] = stop
+        if tool_choice is not None:
+            completion_params["tool_choice"] = tool_choice
+        if parallel_tool_calls is not None:
+            completion_params["parallel_tool_calls"] = parallel_tool_calls
+        if user is not None:
+            completion_params["user"] = user
         try:
             response = self.client.chat.completions.create(**completion_params)
             if stream:
