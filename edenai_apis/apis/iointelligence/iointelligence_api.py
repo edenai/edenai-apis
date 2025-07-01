@@ -1,9 +1,15 @@
+import json
 from typing import Dict, List, Literal, Optional, Type, Union
 
+import requests
 import httpx
 from openai import BaseModel, OpenAI
 
 from edenai_apis.features import ProviderInterface, LlmInterface, TextInterface
+from edenai_apis.features.text.embeddings.embeddings_dataclass import (
+    EmbeddingsDataClass,
+    EmbeddingDataClass,
+)
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features.llm.chat.chat_dataclass import (
@@ -12,6 +18,7 @@ from edenai_apis.features.llm.chat.chat_dataclass import (
 )
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.llmengine.types.response_types import ResponseModel
+from edenai_apis.utils.types import ResponseType
 
 
 class IointelligenceApi(ProviderInterface, LlmInterface, TextInterface):
@@ -122,3 +129,31 @@ class IointelligenceApi(ProviderInterface, LlmInterface, TextInterface):
             raise ProviderException(str(exc)) from exc
 
         return response_model
+
+    def text__embeddings(
+        self, texts: List[str], model: Optional[str] = None, **kwargs
+    ) -> ResponseType[EmbeddingsDataClass]:
+        url = f"{self.base_url}embeddings"
+        payload = {"model": model, "input": texts}
+        response = requests.post(
+            url, json=payload, headers={"Authorization": f"Bearer {self.api_key}"}
+        )
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(message="Internal Server Error", code=500) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=original_response["detail"], code=response.status_code
+            )
+        items = []
+        embeddings = original_response.get("data", [{}])
+        for embedding in embeddings:
+            items.append(EmbeddingDataClass(embedding=embedding["embedding"]))
+        standardized_response = EmbeddingsDataClass(items=items)
+        return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+            usage=original_response.get("usage"),
+            # cost=response.cost,
+        )

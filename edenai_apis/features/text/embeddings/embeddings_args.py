@@ -8,5 +8,6 @@ def embeddings_arguments(provider_name: str):
             "google": "768__textembedding-gecko",
             "jina": "jina-embeddings-v2-base-en",
             "mistral": "1024__mistral-embed",
+            "iointelligence": "BAAI/bge-multilingual-gemma2",
         },
     }
