@@ -18,9 +18,7 @@ from edenai_apis.features import (
     VideoInterface,
     AudioInterface,
 )
-from edenai_apis.features.llm.chat.chat_dataclass import (
-    StreamChat as StreamChatCompletion,
-)
+from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 from edenai_apis.features.video import GenerationAsyncDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
