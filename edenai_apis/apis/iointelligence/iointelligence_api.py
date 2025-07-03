@@ -12,13 +12,11 @@ from edenai_apis.features.text.embeddings.embeddings_dataclass import (
 )
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.features.llm.chat.chat_dataclass import (
-    ChatDataClass,
-    StreamChat as StreamChatCompletion,
-)
+from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.llmengine.types.response_types import ResponseModel
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.llmengine.llm_engine import LLMEngine
 
 
 class IointelligenceApi(ProviderInterface, LlmInterface, TextInterface):
@@ -30,9 +28,11 @@ class IointelligenceApi(ProviderInterface, LlmInterface, TextInterface):
         )
         self.api_key = self.api_settings["api_key"]
         self.base_url = "https://api.intelligence.io.solutions/api/v1/"
-        self.client = OpenAI(
-            api_key=self.api_key,
-            base_url=self.base_url,
+        self.llm_client = LLMEngine(
+            provider_name="openai",
+            provider_config={
+                "api_key": self.api_key,
+            },
         )
 
     def llm__chat(
@@ -78,57 +78,42 @@ class IointelligenceApi(ProviderInterface, LlmInterface, TextInterface):
         # Optional parameters
         **kwargs,
     ) -> ChatDataClass:
-        completion_params = {"messages": messages, "model": model}
-        if response_format is not None:
-            completion_params["response_format"] = response_format
-        if max_tokens is not None:
-            completion_params["max_tokens"] = max_tokens
-        if temperature is not None:
-            completion_params["temperature"] = temperature
-        if tools is not None:
-            completion_params["tools"] = tools
-        if top_p is not None:
-            completion_params["top_p"] = top_p
-        if stream is not None:
-            completion_params["stream"] = stream
-        if frequency_penalty is not None:
-            completion_params["frequency_penalty"] = frequency_penalty
-        if logprobs is not None:
-            completion_params["logprobs"] = logprobs
-        if top_logprobs is not None:
-            completion_params["top_logprobs"] = top_logprobs
-        if n is not None:
-            completion_params["n"] = n
-        if presence_penalty is not None:
-            completion_params["presence_penalty"] = presence_penalty
-        if seed is not None:
-            completion_params["seed"] = seed
-        if stop is not None:
-            completion_params["stop"] = stop
-        if tool_choice is not None:
-            completion_params["tool_choice"] = tool_choice
-        if parallel_tool_calls is not None:
-            completion_params["parallel_tool_calls"] = parallel_tool_calls
-        if user is not None:
-            completion_params["user"] = user
-        try:
-            response = self.client.chat.completions.create(**completion_params)
-            if stream:
-
-                def generate_chunks():
-                    for chunk in response:
-                        if chunk is not None:
-                            yield chunk.to_dict()
-                            # yield ModelResponseStream.model(data)
-
-                return StreamChatCompletion(stream=generate_chunks())
-            else:
-                response = response.to_dict()
-                response_model = ResponseModel.model_validate(response)
-        except Exception as exc:
-            raise ProviderException(str(exc)) from exc
-
-        return response_model
+        response = self.llm_client.completion(
+            messages=messages,
+            model=model,
+            timeout=timeout,
+            temperature=temperature,
+            top_p=top_p,
+            n=n,
+            stream=stream,
+            stream_options=stream_options,
+            stop=stop,
+            stop_sequences=stop_sequences,
+            max_tokens=max_tokens,
+            presence_penalty=presence_penalty,
+            frequency_penalty=frequency_penalty,
+            logit_bias=logit_bias,
+            response_format=response_format,
+            seed=seed,
+            tools=tools,
+            tool_choice=tool_choice,
+            logprobs=logprobs,
+            top_logprobs=top_logprobs,
+            parallel_tool_calls=parallel_tool_calls,
+            deployment_id=deployment_id,
+            extra_headers=extra_headers,
+            functions=functions,
+            function_call=function_call,
+            base_url=self.base_url,
+            api_version=api_version,
+            model_list=model_list,
+            drop_invalid_params=drop_invalid_params,
+            user=user,
+            modalities=modalities,
+            audio=audio,
+            **kwargs,
+        )
+        return response
 
     def text__embeddings(
         self, texts: List[str], model: Optional[str] = None, **kwargs
