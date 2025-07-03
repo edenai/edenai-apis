@@ -34,6 +34,7 @@ from edenai_apis.utils.types import (
 from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3
+from edenai_apis.llmengine.llm_engine import LLMEngine
 
 
 class MinimaxApi(
@@ -48,9 +49,11 @@ class MinimaxApi(
         self.base_url = "https://api.minimax.io/v1"
         self.api_key = self.api_settings.get("api_key")
         self.group_id = self.api_settings.get("group_id")
-        self.client = OpenAI(
-            api_key=self.api_key,
-            base_url=self.base_url,
+        self.llm_client = LLMEngine(
+            provider_name="openai",
+            provider_config={
+                "api_key": self.api_key,
+            },
         )
 
     def video__generation_async__launch_job(
@@ -179,44 +182,43 @@ class MinimaxApi(
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ):
-        completion_params = {"messages": messages, "model": model}
-        if response_format is not None:
-            completion_params["response_format"] = response_format
-        if max_tokens is not None:
-            completion_params["max_tokens"] = max_tokens
-        if temperature is not None:
-            completion_params["temperature"] = temperature
-        if tools is not None:
-            completion_params["tools"] = tools
-        if top_p is not None:
-            completion_params["top_p"] = top_p
-        if stream is not None:
-            completion_params["stream"] = stream
-        try:
-            response = self.client.chat.completions.create(**completion_params)
-            if stream:
-
-                def generate_chunks():
-                    for chunk in response:
-                        if chunk is not None:
-                            yield chunk.to_dict()
-                            # yield ModelResponseStream.model(data)
-
-                return StreamChatCompletion(stream=generate_chunks())
-            else:
-                response = response.to_dict()
-                base_resp = response["base_resp"]
-                if base_resp["status_msg"] != "":
-                    raise ProviderException(
-                        message=base_resp["status_msg"],
-                        code=base_resp["status_code"],
-                    )
-                response_model = ResponseModel.model_validate(response)
-        except Exception as exc:
-            raise ProviderException(str(exc)) from exc
-
-        return response_model
+    ) -> ChatDataClass:
+        response = self.llm_client.completion(
+            messages=messages,
+            model=model,
+            timeout=timeout,
+            temperature=temperature,
+            top_p=top_p,
+            n=n,
+            stream=stream,
+            stream_options=stream_options,
+            stop=stop,
+            stop_sequences=stop_sequences,
+            max_tokens=max_tokens,
+            presence_penalty=presence_penalty,
+            frequency_penalty=frequency_penalty,
+            logit_bias=logit_bias,
+            response_format=response_format,
+            seed=seed,
+            tools=tools,
+            tool_choice=tool_choice,
+            logprobs=logprobs,
+            top_logprobs=top_logprobs,
+            parallel_tool_calls=parallel_tool_calls,
+            deployment_id=deployment_id,
+            extra_headers=extra_headers,
+            functions=functions,
+            function_call=function_call,
+            base_url=self.base_url,
+            api_version=api_version,
+            model_list=model_list,
+            drop_invalid_params=drop_invalid_params,
+            user=user,
+            modalities=modalities,
+            audio=audio,
+            **kwargs,
+        )
+        return response
 
     def image__generation(
         self,
