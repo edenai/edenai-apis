@@ -104,14 +104,13 @@ class IointelligenceApi(ProviderInterface, LlmInterface, TextInterface):
             extra_headers=extra_headers,
             functions=functions,
             function_call=function_call,
-            base_url=base_url,
+            base_url=self.base_url,
             api_version=api_version,
             model_list=model_list,
             drop_invalid_params=drop_invalid_params,
             user=user,
             modalities=modalities,
             audio=audio,
-            base_url=self.base_url,
             **kwargs,
         )
         return response
