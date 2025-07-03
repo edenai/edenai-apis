@@ -69,5 +69,6 @@ from .together_ai import TogetheraiApi
 from .groq import GroqApi
 from .picsart import PicsartApi
 from .minimax import MinimaxApi
+from .iointelligence import IointelligenceApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

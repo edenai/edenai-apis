@@ -1,0 +1,12 @@
+{
+    "llm": {
+        "chat": {
+            "version": "v1"
+        }
+    },
+    "text": {
+        "embeddings": {
+            "version": "v1"
+        }
+    }
+}
