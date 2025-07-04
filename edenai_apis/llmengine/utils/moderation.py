@@ -177,6 +177,16 @@ def moderate(func):
     return wrapper
 
 
+def async_moderate(func):
+    @wraps(func)
+    async def wrapper(self, *args, **kwargs):
+        if kwargs.get("moderate_content"):
+            await check_content_moderation_async(*args, **kwargs)
+        return await func(self, *args, **kwargs)
+
+    return wrapper
+
+
 def moderate_std(func):
     @wraps(func)
     def wrapper(self, *args, **kwargs):

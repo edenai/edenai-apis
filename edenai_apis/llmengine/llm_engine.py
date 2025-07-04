@@ -59,7 +59,11 @@ from edenai_apis.llmengine.clients.completion import CompletionClient
 from edenai_apis.llmengine.mapping import Mappings
 from edenai_apis.llmengine.prompts import BasePrompt
 from edenai_apis.llmengine.types.response_types import ResponseModel
-from edenai_apis.llmengine.utils.moderation import moderate, moderate_std
+from edenai_apis.llmengine.utils.moderation import (
+    moderate,
+    moderate_std,
+    async_moderate,
+)
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
@@ -853,3 +857,86 @@ class LLMEngine:
                 return response
         except Exception as ex:
             raise ex
+
+    # async version of the completion method
+
+    @async_moderate
+    async def achat(
+        self,
+        text: str,
+        chatbot_global_action: Optional[str],
+        previous_history: Optional[List[Dict[str, str]]],
+        temperature: float,
+        max_tokens: int,
+        model: str,
+        stream=False,
+        available_tools: Optional[List[dict]] = None,
+        tool_choice: Literal["auto", "required", "none"] = "auto",
+        tool_results: Optional[List[dict]] = None,
+        **kwargs,
+    ) -> ResponseType[Union[ChatDataClass, StreamChat]]:
+        previous_history = previous_history or []
+        messages = Mappings.format_chat_messages(
+            text, chatbot_global_action, previous_history, tool_results
+        )
+        call_params = self._prepare_args(
+            model=model,
+            messages=messages,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            stream=stream,
+        )
+        if available_tools and not tool_results:
+            call_params["tools"] = Mappings.convert_tools_to_openai(
+                tools=available_tools
+            )
+            call_params["tool_choice"] = tool_choice
+        response = await self.completion_client.acompletion(**call_params, **kwargs)
+        if stream is False:
+            response = ResponseModel.model_validate(response)
+            message = response.choices[0].message
+            generated_text = message.content
+            original_tool_calls = message.tool_calls or []
+            tool_calls = []
+            for call in original_tool_calls:
+                tool_calls.append(
+                    ToolCall(
+                        id=call["id"],
+                        name=call["function"]["name"],
+                        arguments=call["function"]["arguments"],
+                    )
+                )
+            messages = [
+                ChatMessageDataClass(role="user", message=text, tools=available_tools),
+                ChatMessageDataClass(
+                    role="assistant",
+                    message=generated_text,
+                    tool_calls=tool_calls,
+                ),
+            ]
+            messages_json = [m.dict() for m in messages]
+
+            standardized_response = ChatDataClass(
+                generated_text=generated_text, message=messages_json
+            )
+
+            return ResponseType[ChatDataClass](
+                original_response=response.to_dict(),
+                standardized_response=standardized_response,
+                usage=response.usage,
+            )
+        else:
+            stream_response = (
+                ChatStreamResponse(
+                    text=chunk.choices[0].delta.content or "",
+                    blocked=False,
+                    provider=self.provider_name,
+                )
+                for chunk in response
+                if chunk
+            )
+
+            return ResponseType[StreamChat](
+                original_response=None,
+                standardized_response=StreamChat(stream=stream_response),
+            )
