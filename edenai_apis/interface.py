@@ -14,6 +14,7 @@ from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException, get_appropriate_error
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
 from dotenv import load_dotenv
+import asyncio
 
 load_dotenv()
 
@@ -256,10 +257,106 @@ def compute_output(
 
     else:
         # Fake == False : Compute real output
-
         feature_class = getattr(interface_v2, feature.title())
         subfeature_method_name = f'{subfeature}{f"__{phase}" if phase else ""}{suffix}'
         subfeature_class = getattr(feature_class, subfeature_method_name)
+
+        try:
+            subfeature_result = subfeature_class(provider_name, api_keys)(
+                **args, **kwargs
+            ).model_dump()
+        except ProviderException as exc:
+            raise get_appropriate_error(provider_name, exc)
+
+    final_result: Dict[str, Any] = {
+        "status": STATUS_SUCCESS,
+        "provider": provider_name,
+        **subfeature_result,
+    }
+
+    return final_result
+
+
+async def acompute_output(
+    provider_name: str,
+    feature: str,
+    subfeature: str,
+    args: Dict[str, Any],
+    phase: str = "",
+    fake: bool = False,
+    api_keys: Dict = {},
+    user_email: Optional[str] = None,
+    **kwargs,
+) -> Dict:
+    """
+    Compute subfeature for provider and subfeature
+
+    Args:
+        provider_name (str): EdenAI provider name
+        feature (str): EdenAI feature name
+        subfeature (str): EdenAI subfeature name
+        phase (str): Eden AI phase name if give, Default to `Literal[""]`
+        args (Dict): inputs arguments for the feature call
+        fake (bool, optional): take result from sample. Defaults to `False`.
+        api_keys (dict, optional): optional user's api_keys for each providers
+        user_email (str, optional): optional user email for monitoring (opted-out by default)
+
+    Returns:
+        dict: Result dict
+    """
+    # check if the function we're running is asyncronous
+    is_async = ("_async" in phase) if phase else ("_async" in subfeature)
+
+    if is_async:
+        raise ValueError(
+            "For async apis that launch a job, use `compute_output` instead of `acompute_output`."
+        )
+
+    # if language input, update args with a standardized language
+    args = validate_all_provider_constraints(
+        provider_name, feature, subfeature, phase, args
+    )
+
+    if fake:
+        await asyncio.sleep(
+            random.uniform(0.5, 1.5)
+        )  # sleep to fake the response time from a provider
+        # sample_args = load_feature(
+        #     FeatureDataEnum.SAMPLES_ARGS,
+        #     feature=feature,
+        #     subfeature=subfeature,
+        #     phase=phase,
+        #     provider_name=provider_name,
+        # )
+        # replace File Wrapper by file and file_url inputs and also transform input attributes as settings for tts
+        # sample_args = validate_all_provider_constraints(
+        #     provider_name, feature, subfeature, phase, sample_args
+        # )
+
+        # Return mocked results
+        if is_async:
+            subfeature_result: Any = AsyncLaunchJobResponseType(
+                provider_job_id=str(uuid4())
+            ).model_dump()
+        # TODO: refacto image search to save output with this phase
+        elif phase in ["upload_image", "delete_image"]:
+            subfeature_result = {"status": STATUS_SUCCESS}
+        else:
+            subfeature_result = load_provider(
+                ProviderDataEnum.OUTPUT,
+                provider_name=provider_name,
+                feature=feature,
+                subfeature=subfeature,
+                phase=phase,
+            )
+
+    else:
+        # Fake == False : Compute real output
+        ProviderClass = load_provider(
+            ProviderDataEnum.CLASS, provider_name=provider_name
+        )
+        func_name = f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}'
+        subfeature_class = getattr(ProviderClass, func_name)
 
         try:
             subfeature_result = subfeature_class(provider_name, api_keys)(

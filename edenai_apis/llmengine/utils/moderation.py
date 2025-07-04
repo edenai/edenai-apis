@@ -195,3 +195,13 @@ def moderate_std(func):
         return func(self, *args, **kwargs)
 
     return wrapper
+
+
+def async_moderate_std(func):
+    @wraps(func)
+    async def wrapper(self, *args, **kwargs):
+        if kwargs.get("moderate_content"):
+            await standard_moderation(*args, **kwargs)
+        return await func(self, *args, **kwargs)
+
+    return wrapper
