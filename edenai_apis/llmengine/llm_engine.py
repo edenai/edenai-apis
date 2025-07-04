@@ -576,8 +576,8 @@ class LLMEngine:
                         label=key,
                         category=classificator["category"],
                         subcategory=classificator["subcategory"],
-                        likelihood_score=value,
-                        likelihood=standardized_confidence_score(value),
+                        likelihood_score=value or 0,
+                        likelihood=standardized_confidence_score(value or 0),
                     )
                 )
         standardized_response: ModerationDataClass = ModerationDataClass(
