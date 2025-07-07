@@ -5,7 +5,7 @@
         }
     },
     "video": {
-        "generation": {
+        "generation_async": {
             "version": "v3"
         }
     }
