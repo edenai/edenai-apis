@@ -30,5 +30,9 @@ def generation_async_arguments(provider_name: str) -> Dict:
         "seed": 12,
         "dimension": "1280x720",
         "file": file_wrapper,
-        "settings": {"amazon": "amazon.nova-reel-v1:0", "minimax": "MiniMax-Hailuo-02"},
+        "settings": {
+            "amazon": "amazon.nova-reel-v1:0",
+            "minimax": "MiniMax-Hailuo-02",
+            "bytedance": "seedance-1-0-lite-t2v-250428",
+        },
     }

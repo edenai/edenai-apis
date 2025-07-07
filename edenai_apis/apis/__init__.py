@@ -70,5 +70,6 @@ from .groq import GroqApi
 from .picsart import PicsartApi
 from .minimax import MinimaxApi
 from .iointelligence import IointelligenceApi
+from .bytedance import BytedanceApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
