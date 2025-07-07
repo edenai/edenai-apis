@@ -647,4 +647,4 @@ class LiteLLMCompletionClient(CompletionClient):
             ):
                 raise handle_litellm_exception(exc) from exc
             else:
-                raise ProviderException(str(exc))
+                raise ProviderException(str(exc)) from exc
