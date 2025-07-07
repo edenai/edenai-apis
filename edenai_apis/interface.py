@@ -14,6 +14,7 @@ from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException, get_appropriate_error
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
 from dotenv import load_dotenv
+from pydantic import BaseModel
 import asyncio
 
 load_dotenv()
@@ -296,11 +297,17 @@ async def acompute_output(
         args (Dict): inputs arguments for the feature call
         fake (bool, optional): take result from sample. Defaults to `False`.
         api_keys (dict, optional): optional user's api_keys for each providers
-        user_email (str, optional): optional user email for monitoring (opted-out by default)
 
     Returns:
-        dict: Result dict
+        Union[Dict,AsyncGenerator]:
+            - If the keyword argument `stream=True` is passed, returns an async generator that yields
+            chunks of the streaming response asynchronously.
+            - Otherwise, returns a dictionary containing the full result synchronously.
     """
+    if fake and kwargs.get("stream", False):
+        raise ValueError(
+            "Asynchronous calls with fake data are not supported for streaming responses."
+        )
     phase = ""
     if feature not in ("llm") and subfeature not in ("achat"):
         raise ValueError(
@@ -335,6 +342,15 @@ async def acompute_output(
             subfeature_result = subfeature_result.model_dump()
         except ProviderException as exc:
             raise get_appropriate_error(provider_name, exc)
+
+    if kwargs.get("stream", False):
+
+        async def generate_chunks():
+            async for chunk in subfeature_result["stream"]:
+                if chunk is not None:
+                    yield chunk.model_dump()
+
+        return generate_chunks()
 
     final_result: Dict[str, Any] = {
         "status": STATUS_SUCCESS,
