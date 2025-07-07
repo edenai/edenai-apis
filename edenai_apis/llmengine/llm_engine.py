@@ -60,7 +60,11 @@ from edenai_apis.llmengine.clients.completion import CompletionClient
 from edenai_apis.llmengine.mapping import Mappings
 from edenai_apis.llmengine.prompts import BasePrompt
 from edenai_apis.llmengine.types.response_types import ResponseModel
-from edenai_apis.llmengine.utils.moderation import moderate, moderate_std
+from edenai_apis.llmengine.utils.moderation import (
+    moderate,
+    moderate_std,
+    async_moderate_std,
+)
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
@@ -847,6 +851,127 @@ class LLMEngine:
             completion_params = completion_params
             call_params = self._prepare_args(**completion_params)
             response = self.completion_client.completion(**call_params, **kwargs)
+            if stream:
+                return StreamChatCompletion(stream=response)
+            else:
+                response = ResponseModel.model_validate(response)
+                return response
+        except Exception as ex:
+            raise ex
+
+    # async version of the completion method
+
+    @async_moderate_std
+    async def acompletion(
+        self,
+        messages: List = [],
+        model: Optional[str] = None,
+        # Optional OpenAI params: see https://platform.openai.com/docs/api-reference/chat/create
+        timeout: Optional[Union[float, str, httpx.Timeout]] = None,
+        temperature: Optional[float] = None,
+        top_p: Optional[float] = None,
+        modalities: Optional[List[Literal["text", "audio", "image"]]] = None,
+        audio: Optional[ChatCompletionAudioParam] = None,
+        n: Optional[int] = None,
+        stream: Optional[bool] = None,
+        stream_options: Optional[dict] = None,
+        stop: Optional[str] = None,
+        stop_sequences: Optional[any] = None,
+        max_tokens: Optional[int] = None,
+        presence_penalty: Optional[float] = None,
+        frequency_penalty: Optional[float] = None,
+        logit_bias: Optional[dict] = None,
+        # openai v1.0+ new params
+        response_format: Optional[
+            Union[dict, Type[BaseModel]]
+        ] = None,  # Structured outputs
+        seed: Optional[int] = None,
+        tools: Optional[List] = None,
+        tool_choice: Optional[Union[str, dict]] = None,
+        logprobs: Optional[bool] = None,
+        top_logprobs: Optional[int] = None,
+        parallel_tool_calls: Optional[bool] = None,
+        deployment_id=None,
+        extra_headers: Optional[dict] = None,
+        # soon to be deprecated params by OpenAI -> This should be replaced by tools
+        functions: Optional[List] = None,
+        function_call: Optional[str] = None,
+        base_url: Optional[str] = None,
+        api_version: Optional[str] = None,
+        api_key: Optional[str] = None,
+        model_list: Optional[list] = None,  # pass in a list of api_base,keys, etc.
+        drop_invalid_params: bool = True,  # If true, all the invalid parameters will be ignored (dropped) before sending to the model
+        user: str | None = None,
+        # Optional parameters
+        **kwargs,
+    ):
+        kwargs.pop("moderate_content", None)
+        try:
+            completion_params = {"messages": messages, "model": model}
+            if modalities is not None:
+                completion_params["modalities"] = modalities
+            if audio is not None:
+                completion_params["audio"] = audio
+            if timeout is not None:
+                completion_params["timeout"] = timeout
+            if temperature is not None:
+                completion_params["temperature"] = temperature
+            if top_p is not None:
+                completion_params["top_p"] = top_p
+            if n is not None:
+                completion_params["n"] = n
+            if stream is not None:
+                completion_params["stream"] = stream
+            if stream_options is not None:
+                completion_params["stream_options"] = stream_options
+            if stop is not None:
+                completion_params["stop"] = stop
+            if stop_sequences is not None:
+                completion_params["stop"] = stop_sequences
+            if max_tokens is not None:
+                completion_params["max_tokens"] = max_tokens
+            if presence_penalty is not None:
+                completion_params["presence_penalty"] = presence_penalty
+            if frequency_penalty is not None:
+                completion_params["frequency_penalty"] = frequency_penalty
+            if logit_bias is not None:
+                completion_params["logit_bias"] = logit_bias
+            if response_format is not None:
+                completion_params["response_format"] = response_format
+            if seed is not None:
+                completion_params["seed"] = seed
+            if tools is not None:
+                completion_params["tools"] = tools
+            if tool_choice is not None:
+                completion_params["tool_choice"] = tool_choice
+            if logprobs is not None:
+                completion_params["logprobs"] = logprobs
+            if top_logprobs is not None:
+                completion_params["top_logprobs"] = top_logprobs
+            if parallel_tool_calls is not None:
+                completion_params["parallel_tool_calls"] = parallel_tool_calls
+            if deployment_id is not None:
+                completion_params["deployment_id"] = deployment_id
+            if extra_headers is not None:
+                completion_params["extra_headers"] = extra_headers
+            if functions is not None:
+                completion_params["functions"] = functions
+            if function_call is not None:
+                completion_params["function_call"] = function_call
+            if base_url is not None:
+                completion_params["base_url"] = base_url
+            if api_version is not None:
+                completion_params["api_version"] = api_version
+            if model_list is not None:
+                completion_params["model_list"] = model_list
+            if drop_invalid_params is not None:
+                completion_params["drop_invalid_params"] = drop_invalid_params
+            if user is not None:
+                completion_params["user"] = user
+
+            completion_params = completion_params
+            call_params = self._prepare_args(**completion_params)
+            response = await self.completion_client.acompletion(**call_params, **kwargs)
             if stream:
                 return StreamChatCompletion(stream=response)
             else:

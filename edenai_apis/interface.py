@@ -14,6 +14,7 @@ from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException, get_appropriate_error
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
 from dotenv import load_dotenv
+import asyncio
 
 load_dotenv()
 
@@ -256,10 +257,77 @@ def compute_output(
 
     else:
         # Fake == False : Compute real output
-
         feature_class = getattr(interface_v2, feature.title())
         subfeature_method_name = f'{subfeature}{f"__{phase}" if phase else ""}{suffix}'
         subfeature_class = getattr(feature_class, subfeature_method_name)
+
+        try:
+            subfeature_result = subfeature_class(provider_name, api_keys)(
+                **args, **kwargs
+            ).model_dump()
+        except ProviderException as exc:
+            raise get_appropriate_error(provider_name, exc)
+
+    final_result: Dict[str, Any] = {
+        "status": STATUS_SUCCESS,
+        "provider": provider_name,
+        **subfeature_result,
+    }
+
+    return final_result
+
+
+async def acompute_output(
+    provider_name: str,
+    feature: str,
+    subfeature: str,
+    args: Dict[str, Any],
+    fake: bool = False,
+    api_keys: Dict = {},
+    **kwargs,
+) -> Dict:
+    """
+    Compute subfeature for provider and subfeature
+
+    Args:
+        provider_name (str): EdenAI provider name
+        feature (str): EdenAI feature name
+        subfeature (str): EdenAI subfeature name
+        args (Dict): inputs arguments for the feature call
+        fake (bool, optional): take result from sample. Defaults to `False`.
+        api_keys (dict, optional): optional user's api_keys for each providers
+        user_email (str, optional): optional user email for monitoring (opted-out by default)
+
+    Returns:
+        dict: Result dict
+    """
+    phase = ""
+    if feature not in ("llm") and subfeature not in ("achat"):
+        raise ValueError(
+            "Asynchronous calls are only supported for LLM chat subfeature at the moment."
+        )
+
+    args = validate_all_provider_constraints(
+        provider_name, feature, subfeature, phase, args
+    )
+
+    if fake:
+        await asyncio.sleep(random.uniform(0.5, 1.5))
+
+        subfeature_result = load_provider(
+            ProviderDataEnum.OUTPUT,
+            provider_name=provider_name,
+            feature=feature,
+            subfeature=subfeature,
+            phase=phase,
+        )
+
+    else:
+        ProviderClass = load_provider(
+            ProviderDataEnum.CLASS, provider_name=provider_name
+        )
+        func_name = f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}'
+        subfeature_class = getattr(ProviderClass, func_name)
 
         try:
             subfeature_result = subfeature_class(provider_name, api_keys)(
