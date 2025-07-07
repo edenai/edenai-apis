@@ -54,6 +54,9 @@ from edenai_apis.features.translation import (
 from edenai_apis.features.llm.chat.chat_dataclass import (
     StreamChat as StreamChatCompletion,
 )
+from edenai_apis.features.llm.achat.achat_dataclass import (
+    StreamAchat as StreamAchatCompletion,
+)
 from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS
 from edenai_apis.llmengine.clients.completion import CompletionClient
 from edenai_apis.llmengine.mapping import Mappings
@@ -972,7 +975,7 @@ class LLMEngine:
             call_params = self._prepare_args(**completion_params)
             response = await self.completion_client.acompletion(**call_params, **kwargs)
             if stream:
-                return StreamChatCompletion(stream=response)
+                return StreamAchatCompletion(stream=response)
             else:
                 response = ResponseModel.model_validate(response)
                 return response
