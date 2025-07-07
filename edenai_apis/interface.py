@@ -326,13 +326,13 @@ async def acompute_output(
         ProviderClass = load_provider(
             ProviderDataEnum.CLASS, provider_name=provider_name
         )
+        provider_instance = ProviderClass(api_keys)
         func_name = f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}'
-        subfeature_class = getattr(ProviderClass, func_name)
+        subfeature_func = getattr(provider_instance, func_name)
 
         try:
-            subfeature_result = subfeature_class(provider_name, api_keys)(
-                **args, **kwargs
-            ).model_dump()
+            subfeature_result = await subfeature_func(**args, **kwargs)
+            subfeature_result = subfeature_result.model_dump()
         except ProviderException as exc:
             raise get_appropriate_error(provider_name, exc)
 
