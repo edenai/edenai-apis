@@ -13,5 +13,6 @@ def generation_arguments(provider_name: str) -> Dict:
             "replicate": "black-forest-labs/flux-pro",
             "leonardo": "Leonardo Phoenix",
             "minimax": "image-01",
+            "bytedance": "seedream-3-0-t2i-250415",
         },
     }

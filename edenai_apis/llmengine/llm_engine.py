@@ -6,14 +6,18 @@ from io import BytesIO
 from typing import Dict, List, Literal, Optional, Type, Union
 
 import httpx
-from pydantic import BaseModel
 from litellm.types.llms.openai import ChatCompletionAudioParam
+from pydantic import BaseModel
+
 from edenai_apis.features.image import (
     ExplicitContentDataClass,
     GeneratedImageDataClass,
     GenerationDataClass,
     LogoDetectionDataClass,
     QuestionAnswerDataClass,
+)
+from edenai_apis.features.llm.chat.chat_dataclass import (
+    StreamChat as StreamChatCompletion,
 )
 from edenai_apis.features.multimodal.chat import (
     ChatDataClass as ChatMultimodalDataClass,
@@ -572,18 +576,18 @@ class LLMEngine:
         args.update(self.provider_config)
         response = self.completion_client.moderation(**args, **kwargs)
         classification = []
-        result = response.results
+        result = response["results"]
         if result:
-            category_scores = result[0].category_scores
-            for key, value in category_scores.to_dict().items():
+            category_scores = result[0]["category_scores"]
+            for key, value in category_scores.items():
                 classificator = CategoryTypeModeration.choose_category_subcategory(key)
                 classification.append(
                     TextModerationItem(
                         label=key,
                         category=classificator["category"],
                         subcategory=classificator["subcategory"],
-                        likelihood_score=value,
-                        likelihood=standardized_confidence_score(value),
+                        likelihood_score=value or 0,
+                        likelihood=standardized_confidence_score(value or 0),
                     )
                 )
         standardized_response: ModerationDataClass = ModerationDataClass(
@@ -596,7 +600,7 @@ class LLMEngine:
             ),
         )
         return ResponseType[ModerationDataClass](
-            original_response=response.to_dict(),
+            original_response=response,
             standardized_response=standardized_response,
         )
 

@@ -8,38 +8,38 @@ from litellm import (
     completion,
     completion_cost,
     embedding,
-    moderation,
     image_generation,
+    moderation,
+    register_model,
     response_cost_calculator,
     acompletion,
 )
 from litellm.exceptions import (
-    APIError,
     APIConnectionError,
+    APIError,
     APIResponseValidationError,
     AuthenticationError,
     BadRequestError,
+    ContentPolicyViolationError,
+    ContextWindowExceededError,
+    InternalServerError,
+    JSONSchemaValidationError,
     NotFoundError,
     RateLimitError,
     ServiceUnavailableError,
-    ContentPolicyViolationError,
     Timeout,
     UnprocessableEntityError,
-    JSONSchemaValidationError,
     UnsupportedParamsError,
-    ContextWindowExceededError,
-    InternalServerError,
 )
 from litellm.utils import get_supported_openai_params
-from edenai_apis.llmengine.types.litellm_model import LiteLLMModel
 from llmengine.clients.completion import CompletionClient
-from llmengine.exceptions.llm_engine_exceptions import CompletionClientError
-from edenai_apis.utils.exception import ProviderException
-from llmengine.types.response_types import CustomStreamWrapperModel, ResponseModel
 from llmengine.exceptions.error_handler import handle_litellm_exception
-
+from llmengine.exceptions.llm_engine_exceptions import CompletionClientError
+from llmengine.types.response_types import CustomStreamWrapperModel, ResponseModel
 from pydantic import BaseModel
-from litellm import register_model
+
+from edenai_apis.llmengine.types.litellm_model import LiteLLMModel
+from edenai_apis.utils.exception import ProviderException
 
 logger = logging.getLogger(__name__)
 
@@ -337,7 +337,7 @@ class LiteLLMCompletionClient(CompletionClient):
             # litellm.drop_params = True
             kwargs.pop("moderate_content", None)
             provider_start_time = time.time_ns()
-            response = moderation(**call_params, **kwargs)
+            response = moderation(**call_params, **kwargs).model_dump()
             provider_end_time = time.time_ns()
 
             cost_calc_params = {
@@ -347,8 +347,8 @@ class LiteLLMCompletionClient(CompletionClient):
             if len(custom_pricing.keys()) > 0:
                 cost_calc_params["custom_cost_per_token"] = custom_pricing
 
-            response.cost = completion_cost(**cost_calc_params)
-            response.provider_time = provider_end_time - provider_start_time
+            response["cost"] = completion_cost(**cost_calc_params)
+            response["provider_time"] = provider_end_time - provider_start_time
             return response
         except Exception as e:
             logging.error(f"There's an unexpected error: {e}")

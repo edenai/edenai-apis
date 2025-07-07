@@ -1,0 +1,11 @@
+{
+  "status": "succeeded",
+  "provider_job_id": "cgt-20250707165107-vhw95",
+  "original_response": "cgt-20250707165107-vhw95",
+  "standardized_response": {
+    "video": "",
+    "video_resource_url": "url"
+  },
+  "usage": null,
+  "cost": null
+}
