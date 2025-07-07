@@ -604,8 +604,8 @@ class LiteLLMCompletionClient(CompletionClient):
             provider_end_time = time.time_ns()
             if stream:
 
-                def generate_chunks():
-                    for chunk in c_response:
+                async def generate_chunks():
+                    async for chunk in c_response:
                         if chunk is not None:
                             yield chunk
 
