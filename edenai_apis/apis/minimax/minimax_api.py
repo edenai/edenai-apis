@@ -254,7 +254,7 @@ class MinimaxApi(
             image_data = generated_image.encode()
             image_content = BytesIO(base64.b64decode(image_data))
             resource_url = upload_file_bytes_to_s3(
-                image_content, ".png", "users_process"
+                image_content, ".jpeg", "users_process"
             )
             generations.append(
                 GeneratedImageDataClass(
