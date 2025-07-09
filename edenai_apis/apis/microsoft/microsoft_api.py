@@ -6,6 +6,7 @@ from edenai_apis.apis.microsoft.microsoft_helpers import (
     get_microsoft_urls,
 )
 from edenai_apis.apis.microsoft.microsoft_image_api import MicrosoftImageApi
+from edenai_apis.apis.microsoft.microsoft_video_api import MicrosoftVideoApi
 from edenai_apis.apis.microsoft.microsoft_ocr_api import MicrosoftOcrApi
 from edenai_apis.apis.microsoft.microsoft_text_api import MicrosoftTextApi
 from edenai_apis.apis.microsoft.microsoft_translation_api import MicrosoftTranslationApi
@@ -26,6 +27,7 @@ class MicrosoftApi(
     MicrosoftAudioApi,
     MicrosoftMultimodalApi,
     MicrosoftLLMApi,
+    MicrosoftVideoApi,
 ):
     provider_name = "microsoft"
 
