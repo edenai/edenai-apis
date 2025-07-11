@@ -39,7 +39,13 @@ class MicrosoftVideoApi(VideoInterface):
         base_url = self.azure_ai_credentials.get("azure_api_sora")
         api_key = self.azure_ai_credentials.get("azure_api_key")
         url = f"{base_url}openai/v1/video/generations/jobs?api-version=preview"
-        height, width = dimension.split("x")
+        try:
+            height, width = dimension.split("x")
+        except (ValueError, AttributeError) as exc:
+            raise ProviderException(
+                message=f"Invalid dimension format: {dimension}. Expected format: 'heightxwidth' (e.g., '1280x720')",
+                code=400,
+            ) from exc
         payload = {
             "model": model,
             "prompt": text,

@@ -122,10 +122,15 @@ class MinimaxApi(
                 raise ProviderException(
                     message=base_msg["status_msg"], code=base_msg["status_code"]
                 )
+            video_url = file_response_data["file"]["download_url"]
+            video_response = requests.get(video_url)
+            base64_encoded_string = base64.b64encode(video_response.content).decode(
+                "utf-8"
+            )
             return AsyncResponseType(
                 original_response=original_response,
                 standardized_response=GenerationAsyncDataClass(
-                    video="",
+                    video=base64_encoded_string,
                     video_resource_url=file_response_data["file"]["download_url"],
                 ),
                 provider_job_id=provider_job_id,
