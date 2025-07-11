@@ -24,7 +24,7 @@ def generation_async_arguments(provider_name: str) -> Dict:
     )
     file_wrapper = FileWrapper(image_path, "", file_info)
     return {
-        "text": "Make this image move like the ocean",
+        "text": "Panning wide shot of a calico kitten sleeping in the sunshine",
         "duration": 6,
         "fps": 24,
         "seed": 12,
@@ -34,5 +34,7 @@ def generation_async_arguments(provider_name: str) -> Dict:
             "amazon": "amazon.nova-reel-v1:0",
             "minimax": "MiniMax-Hailuo-02",
             "bytedance": "seedance-1-0-lite-t2v-250428",
+            "google": "veo-2.0-generate-001",
+            "microsoft": "sora",
         },
     }

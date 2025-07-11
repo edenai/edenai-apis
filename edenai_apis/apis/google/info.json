@@ -1353,6 +1353,9 @@
                 ]
             },
             "version": "v1Beta"
+        },
+        "generation_async": {
+            "version": "v1Beta"
         }
     },
     "image": {
