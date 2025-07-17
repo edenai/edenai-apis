@@ -362,7 +362,7 @@ class MicrosoftOcrApi(OcrInterface):
             file_content = file_.read()
         url = (
             f"{self.url['documentintelligence']}documentintelligence/documentModels/"
-            f"prebuilt-layout:analyze?api-version=2024-02-29-preview"
+            f"prebuilt-layout:analyze?api-version=2024-11-30"
         )
         url = add_query_param_in_url(url, {"locale": language})
 
@@ -398,10 +398,9 @@ class MicrosoftOcrApi(OcrInterface):
         url = (
             self.url["documentintelligence"]
             + f"documentintelligence/documentModels/prebuilt-layout/"
-            f"analyzeResults/{provider_job_id}?api-version=2024-02-29-preview"
+            f"analyzeResults/{provider_job_id}?api-version=2024-11-30"
         )
         response = requests.get(url, headers=headers)
-
         if response.status_code >= 400:
             try:
                 error = response.json()["error"]["message"]
