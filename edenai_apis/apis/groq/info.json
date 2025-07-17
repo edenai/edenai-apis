@@ -1,20 +1,23 @@
 {
-    "_metadata": {
-        "privacy_url": "https://groq.com/privacy-policy"
-    },
-    "text": {
-        "chat": {
-            "version": "v1"
-        }
-    },
-    "multimodal": {
-        "chat": {
-            "version": "v1"
-        }
-    },
-    "llm": {
-        "chat": {
-            "version": "v1"
-        }
+  "_metadata": {
+    "privacy_url": "https://groq.com/privacy-policy"
+  },
+  "text": {
+    "chat": {
+      "version": "v1"
     }
+  },
+  "multimodal": {
+    "chat": {
+      "version": "v1"
+    }
+  },
+  "llm": {
+    "chat": {
+      "version": "v1"
+    },
+    "achat": {
+      "version": "llmengine (v2)"
+    }
+  }
 }

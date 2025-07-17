@@ -5,11 +5,7 @@
   "text": {
     "generation": {
       "constraints": {
-        "models": [
-          "claude-instant-v1",
-          "claude-v1",
-          "claude-v2"
-        ],
+        "models": ["claude-instant-v1", "claude-v1", "claude-v2"],
         "default_model": "claude-v2"
       },
       "version": "bedrock-2023-05-31"
@@ -59,6 +55,9 @@
         "claude-3-7-sonnet-20250219"
       ],
       "version": "v1"
+    },
+    "achat": {
+      "version": "llmengine (v2)"
     }
   }
 }

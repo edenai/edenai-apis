@@ -5,20 +5,14 @@
   "text": {
     "generation": {
       "constraints": {
-        "models": [
-          "llama2-13b-chat-v1",
-          "llama2-70b-chat-v1"
-        ],
+        "models": ["llama2-13b-chat-v1", "llama2-70b-chat-v1"],
         "default_model": "llama2-70b-chat-v1"
       },
       "version": "v1"
     },
     "chat": {
       "constraints": {
-        "models": [
-          "llama2-13b-chat-v1",
-          "llama2-70b-chat-v1"
-        ],
+        "models": ["llama2-13b-chat-v1", "llama2-70b-chat-v1"],
         "default_model": "llama2-70b-chat-v1"
       },
       "version": "boto3 (v1.35.84)"
@@ -26,6 +20,9 @@
   },
   "llm": {
     "chat": {
+      "version": "llmengine (v2)"
+    },
+    "achat": {
       "version": "llmengine (v2)"
     }
   }

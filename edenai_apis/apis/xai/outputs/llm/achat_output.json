@@ -1,7 +1,7 @@
 {
   "id": "chatcmpl-B71qqu4Y7m1ZVuF5YGqxz7LXzgf0Y",
   "created": 1741015112,
-  "model": "model",
+  "model": "gpt-4o-mini-2024-07-18",
   "object": "chat.completion",
   "system_fingerprint": "fp_7fcd609668",
   "choices": [
@@ -9,7 +9,7 @@
       "finish_reason": "stop",
       "index": 0,
       "message": {
-        "content": "Arrr, matey! What ye be seein in this here image is a grand pathway, made of wooden planks, weavin' its way through a lush and green landscape. The verdant grass sways in the gentle breeze, and the sky above be a brilliant blue, decorated with fluffy white clouds. Ye can spot trees and bushes on either side, makin' it a perfect setting for a stroll amongst nature. A peaceful place for a pirate at heart, aye!",
+        "content": "Arrr, matey! What ye be seein’ in this here image is a grand pathway, made of wooden planks, weavin' its way through a lush and green landscape. The verdant grass sways in the gentle breeze, and the sky above be a brilliant blue, decorated with fluffy white clouds. Ye can spot trees and bushes on either side, makin' it a perfect setting for a stroll amongst nature. A peaceful place for a pirate at heart, aye!",
         "role": "assistant",
         "tool_calls": null,
         "function_call": null

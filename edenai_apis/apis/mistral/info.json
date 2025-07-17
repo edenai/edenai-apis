@@ -1,65 +1,53 @@
 {
-    "text": {
-        "generation": {
-            "constraints": {
-                "models": [
-                    "medium",
-                    "small",
-                    "tiny",
-                    "large-latest"
-                ],
-                "default_model": "large-latest"
-            },
-            "version": "v0.0.1"
-        },
-        "chat": {
-            "constraints": {
-                "models": [
-                    "medium",
-                    "small",
-                    "tiny",
-                    "large-latest"
-                ],
-                "default_model": "large-latest"
-            },
-            "version": "v0.0.1"
-        },
-        "embeddings": {
-            "constraints": {
-                "models": [
-                    "1024__mistral-embed"
-                ],
-                "default_model": "1024__mistral-embed"
-            },
-            "version": "v0.0.1"
-        }
+  "text": {
+    "generation": {
+      "constraints": {
+        "models": ["medium", "small", "tiny", "large-latest"],
+        "default_model": "large-latest"
+      },
+      "version": "v0.0.1"
     },
-    "multimodal": {
-        "chat": {
-            "version": "v0.0.1"
-        }
+    "chat": {
+      "constraints": {
+        "models": ["medium", "small", "tiny", "large-latest"],
+        "default_model": "large-latest"
+      },
+      "version": "v0.0.1"
     },
-    "llm": {
-        "chat": {
-            "version": "llmengine (v2)"
-        }
-    },
-    "ocr": {
-        "ocr": {
-            "constraints": {
-                "file_types": [
-                    "image/jpeg",
-                    "image/png"
-                ],
-                "allow_null_language": true
-            },
-            "version": "v1"
-        },
-        "ocr_async": {
-            "version": "v1"
-        }
-    },
-    "_metadata": {
-        "privacy_url": "https://mistral.ai/terms#privacy-policy"
+    "embeddings": {
+      "constraints": {
+        "models": ["1024__mistral-embed"],
+        "default_model": "1024__mistral-embed"
+      },
+      "version": "v0.0.1"
     }
+  },
+  "multimodal": {
+    "chat": {
+      "version": "v0.0.1"
+    }
+  },
+  "llm": {
+    "chat": {
+      "version": "llmengine (v2)"
+    },
+    "achat": {
+      "version": "llmengine (v2)"
+    }
+  },
+  "ocr": {
+    "ocr": {
+      "constraints": {
+        "file_types": ["image/jpeg", "image/png"],
+        "allow_null_language": true
+      },
+      "version": "v1"
+    },
+    "ocr_async": {
+      "version": "v1"
+    }
+  },
+  "_metadata": {
+    "privacy_url": "https://mistral.ai/terms#privacy-policy"
+  }
 }
