@@ -151,10 +151,16 @@ class BytedanceApi(ProviderInterface, ImageInterface, VideoInterface):
         if original_response["status"] != "succeeded":
             return AsyncPendingResponseType(provider_job_id=provider_job_id)
         video_uri = original_response["content"]["video_url"]
+        video_response = requests.get(video_uri)
+        base64_encoded_string = base64.b64encode(video_response.content).decode("utf-8")
+        resource_url = upload_file_bytes_to_s3(
+            BytesIO(video_response.content), ".mp4", USER_PROCESS
+        )
+
         return AsyncResponseType(
-            original_response=provider_job_id,
+            original_response=original_response,
             standardized_response=GenerationAsyncDataClass(
-                video="", video_resource_url=video_uri
+                video=base64_encoded_string, video_resource_url=resource_url
             ),
             provider_job_id=provider_job_id,
         )
