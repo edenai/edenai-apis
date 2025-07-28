@@ -142,14 +142,7 @@
           "cy-GB",
           "zu-ZA"
         ],
-        "file_extensions": [
-          "wav",
-          "mp3",
-          "flac",
-          "mp4",
-          "ogg",
-          "opus"
-        ]
+        "file_extensions": ["wav", "mp3", "flac", "mp4", "ogg", "opus"]
       },
       "version": "v1.0"
     },
@@ -789,15 +782,7 @@
           "image/tiff",
           "application/pdf"
         ],
-        "languages": [
-          "en-US",
-          "es",
-          "de",
-          "fr",
-          "it",
-          "pt",
-          "nl"
-        ],
+        "languages": ["en-US", "es", "de", "fr", "it", "pt", "nl"],
         "allow_null_language": true
       },
       "version": "rest API 4.0 (2024-02-29-preview)"
@@ -1174,14 +1159,7 @@
           "image/tiff",
           "application/pdf"
         ],
-        "languages": [
-          "en-US",
-          "fr-FR",
-          "es-ES",
-          "de-DE",
-          "it-IT",
-          "pt-PT"
-        ],
+        "languages": ["en-US", "fr-FR", "es-ES", "de-DE", "it-IT", "pt-PT"],
         "allow_null_language": true
       },
       "version": "rest API 4.0 (2024-02-29-preview)"
@@ -1197,14 +1175,7 @@
           "image/webp",
           "application/pdf"
         ],
-        "languages": [
-          "en-US",
-          "fr-FR",
-          "es-ES",
-          "de-DE",
-          "it-IT",
-          "pt-PT"
-        ]
+        "languages": ["en-US", "fr-FR", "es-ES", "de-DE", "it-IT", "pt-PT"]
       },
       "version": "rest API 4.0 (2024-02-29-preview)"
     },
@@ -1231,20 +1202,9 @@
           "image/tiff",
           "application/pdf"
         ],
-        "languages": [
-          "en-US",
-          "es",
-          "de",
-          "fr",
-          "it",
-          "pt",
-          "nl"
-        ],
+        "languages": ["en-US", "es", "de", "fr", "it", "pt", "nl"],
         "allow_null_language": true,
-        "documents": [
-          "receipt",
-          "invoice"
-        ]
+        "documents": ["receipt", "invoice"]
       },
       "version": "rest API 4.0 (2024-02-29-preview)"
     }
@@ -1764,6 +1724,9 @@
   "llm": {
     "chat": {
       "version": "Azure AI Foundry"
+    },
+    "achat": {
+      "version": "llmengine (v2)"
     }
   },
   "video": {
