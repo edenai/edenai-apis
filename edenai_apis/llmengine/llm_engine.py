@@ -854,6 +854,11 @@ class LLMEngine:
             if user is not None:
                 completion_params["user"] = user
 
+            # Process service tier
+            service_tier = kwargs.pop("service_tier", None)
+            if service_tier is not None:
+                completion_params["service_tier"] = service_tier
+
             completion_params = completion_params
             call_params = self._prepare_args(**completion_params)
             response = self.completion_client.completion(**call_params, **kwargs)
@@ -974,6 +979,11 @@ class LLMEngine:
                 completion_params["drop_invalid_params"] = drop_invalid_params
             if user is not None:
                 completion_params["user"] = user
+
+            # Process service tier
+            service_tier = kwargs.pop("service_tier", None)
+            if service_tier is not None:
+                completion_params["service_tier"] = service_tier
 
             completion_params = completion_params
             call_params = self._prepare_args(**completion_params)
