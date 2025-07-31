@@ -33,8 +33,8 @@ def generation_async_arguments(provider_name: str) -> Dict:
         "settings": {
             "amazon": "amazon.nova-reel-v1:0",
             "minimax": "MiniMax-Hailuo-02",
-            "bytedance": "seedance-1-0-lite-t2v-250428",
-            "google": "veo-2.0-generate-001",
+            "bytedance": "seedance-1-0-pro-250528",
+            "google": "veo-3.0-generate-preview",
             "microsoft": "sora",
         },
     }

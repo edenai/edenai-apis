@@ -941,23 +941,25 @@ class GoogleVideoApi(VideoInterface):
         api_key = self.api_settings.get("genai_api_key")
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:predictLongRunning?key={api_key}"
         prompt = {"prompt": text}
-        if file:
-            with open(file, "rb") as file_:
-                file_content = file_.read()
-                input_image_base64 = base64.b64encode(file_content).decode("utf-8")
-                mime_type = mimetypes.guess_type(file)[0]
-                image = {
-                    "bytesBase64Encoded": input_image_base64,
-                    "mimeType": mime_type,
-                }
-                prompt["image"] = image
+        params = {
+        }
+        is_veo2 = True if "veo-2.0-generate-001" in model else False
+        if is_veo2:
+            if file:
+                with open(file, "rb") as file_:
+                    file_content = file_.read()
+                    input_image_base64 = base64.b64encode(file_content).decode("utf-8")
+                    mime_type = mimetypes.guess_type(file)[0]
+                    image = {
+                        "bytesBase64Encoded": input_image_base64,
+                        "mimeType": mime_type,
+                    }
+                    prompt["image"] = image
+                    params["durationSeconds"] = duration
 
         payload = {
             "instances": [prompt],
-            "parameters": {
-                "durationSeconds": duration,
-                # "personGeneration": "allow_adult",
-            },
+            "parameters": params,
         }
         response = requests.post(url=url, json=payload)
         try:
