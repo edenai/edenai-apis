@@ -272,7 +272,7 @@ class OpenaiTextApi(TextInterface):
     async def text__aspell_check(
         self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SpellCheckDataClass]:
-        response = await self.llm_client.aspell_check(text=text, model=model, **kwargs)
+        response = await self.llm_client.aspell_check(text=text, model=model)
         return response
 
     def text__named_entity_recognition(
