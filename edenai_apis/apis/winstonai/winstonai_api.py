@@ -138,12 +138,9 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
             "version": provider_params.get("version", "2.0"),
         }
 
-        async with httpx.AsyncClient(timeout=120) as client:
-            response = await client.request(
-                "POST",
-                f"{self.api_url}/predict",
-                headers=self.headers,
-                data=payload,
+        async with httpx.AsyncClient(timeout=60) as client:
+            response = await client.post(
+                f"{self.api_url}/predict", headers=self.headers, data=payload
             )
 
         if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
