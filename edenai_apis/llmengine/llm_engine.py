@@ -16,6 +16,9 @@ from edenai_apis.features.image import (
     LogoDetectionDataClass,
     QuestionAnswerDataClass,
 )
+from edenai_apis.features.llm.achat.achat_dataclass import (
+    StreamAchat as StreamAchatCompletion,
+)
 from edenai_apis.features.llm.chat.chat_dataclass import (
     StreamChat as StreamChatCompletion,
 )
@@ -55,21 +58,15 @@ from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
     LanguageDetectionDataClass,
 )
-from edenai_apis.features.llm.chat.chat_dataclass import (
-    StreamChat as StreamChatCompletion,
-)
-from edenai_apis.features.llm.achat.achat_dataclass import (
-    StreamAchat as StreamAchatCompletion,
-)
 from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS
 from edenai_apis.llmengine.clients.completion import CompletionClient
 from edenai_apis.llmengine.mapping import Mappings
 from edenai_apis.llmengine.prompts import BasePrompt
 from edenai_apis.llmengine.types.response_types import ResponseModel
 from edenai_apis.llmengine.utils.moderation import (
+    async_moderate_std,
     moderate,
     moderate_std,
-    async_moderate_std,
 )
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
@@ -116,6 +113,27 @@ class LLMEngine:
         try:
             params.pop("moderate_content", None)
             response = self.completion_client.completion(**params, **kwargs)
+            response = ResponseModel.model_validate(response)
+            result = json.loads(response.choices[0].message.content)
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+        except ValueError as exc_v:
+            raise ProviderException(
+                "Provider returned an empty or mal-formatted response"
+            ) from exc_v
+        standardized_response = response_class(**result)
+        return ResponseType[response_class](
+            original_response=response.to_dict(),
+            standardized_response=standardized_response,
+            usage=response.usage,
+        )
+
+    async def _execute_acompletion(self, params: Dict, response_class: Type, **kwargs):
+        try:
+            params.pop("moderate_content", None)
+            response = await self.completion_client.acompletion(**params, **kwargs)
             response = ResponseModel.model_validate(response)
             result = json.loads(response.choices[0].message.content)
         except json.JSONDecodeError as exc:
@@ -463,6 +481,23 @@ class LLMEngine:
             **kwargs,
         )
         return self._execute_completion(params=args, response_class=SpellCheckDataClass)
+
+    async def aspell_check(self, text: str, model: str, **kwargs):
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a Spell Checking model. You analyze a text input and proficiently detect and correct any grammar, syntax, spelling or other types of errors.",
+            example_file="text/spell_check/spell_check_response.json",
+            dataclass=SpellCheckDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
+        return await self._execute_acompletion(
+            params=args, response_class=SpellCheckDataClass
+        )
 
     def topic_extraction(
         self, text: str, model: str, **kwargs

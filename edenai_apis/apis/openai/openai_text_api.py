@@ -1,8 +1,10 @@
-from typing import Dict, List, Literal, Optional, Sequence, Union, Any
+from typing import Any, Dict, List, Literal, Optional, Sequence, Union
+
 import requests
+
 from edenai_apis.features import TextInterface
 from edenai_apis.features.text.anonymization import AnonymizationDataClass
-from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatDataClass
+from edenai_apis.features.text.chat.chat_dataclass import ChatDataClass, StreamChat
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
     CodeGenerationDataClass,
 )
@@ -33,6 +35,7 @@ from edenai_apis.features.text.summarize import SummarizeDataClass
 from edenai_apis.features.text.topic_extraction import TopicExtractionDataClass
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
+
 from .helpers import (
     construct_prompt_optimization_instruction,
     get_openapi_response,
@@ -264,6 +267,12 @@ class OpenaiTextApi(TextInterface):
         self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SpellCheckDataClass]:
         response = self.llm_client.spell_check(text=text, model=model, **kwargs)
+        return response
+
+    async def text__aspell_check(
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[SpellCheckDataClass]:
+        response = await self.llm_client.aspell_check(text=text, model=model, **kwargs)
         return response
 
     def text__named_entity_recognition(
