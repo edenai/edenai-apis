@@ -80,10 +80,6 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
     def text__ai_detection(
         self, text: str, provider_params: Optional[Dict[str, Any]] = None, **kwargs
     ) -> ResponseType[AiDetectionDataClass]:
-        print("========================")
-        print(self.api_settings)
-        print(self.headers)
-        print("========================")
         if provider_params is None:
             provider_params = {}
         payload = json.dumps(
