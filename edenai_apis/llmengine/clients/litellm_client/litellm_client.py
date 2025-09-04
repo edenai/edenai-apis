@@ -370,7 +370,7 @@ class LiteLLMCompletionClient(CompletionClient):
             # litellm.drop_params = True
             kwargs.pop("moderate_content", None)
             provider_start_time = time.time_ns()
-            response = await amoderation(**call_params, **kwargs).model_dump()
+            response = (await amoderation(**call_params, **kwargs)).model_dump()
             provider_end_time = time.time_ns()
 
             cost_calc_params = {
