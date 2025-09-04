@@ -309,10 +309,6 @@ async def acompute_output(
             "Asynchronous calls with fake data are not supported for streaming responses."
         )
     phase = ""
-    if feature not in ("llm") and subfeature not in ("achat"):
-        raise ValueError(
-            "Asynchronous calls are only supported for LLM chat subfeature at the moment."
-        )
 
     args = validate_all_provider_constraints(
         provider_name, feature, subfeature, phase, args
@@ -335,7 +331,12 @@ async def acompute_output(
         )
         provider_instance = ProviderClass(api_keys)
         func_name = f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}'
-        subfeature_func = getattr(provider_instance, func_name)
+        try:
+            subfeature_func = getattr(provider_instance, func_name)
+        except AttributeError:
+            raise NotImplementedError(
+                f'Async method "{func_name}" is not implemented for provider "{provider_name}".'
+            )
 
         try:
             subfeature_result = await subfeature_func(**args, **kwargs)
