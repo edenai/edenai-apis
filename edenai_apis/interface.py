@@ -20,8 +20,18 @@ from edenai_apis.loaders.loaders import load_feature, load_provider
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException, get_appropriate_error
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
+from dotenv import load_dotenv
+from pydantic import BaseModel
+import asyncio
+import inspect
+
 
 load_dotenv()
+
+
+def is_async(func):
+    return inspect.iscoroutinefunction(func) or inspect.isasyncgenfunction(func)
+
 
 ProviderDict = Dict[
     str, Dict[str, Dict[str, Union[Dict[str, Literal[True]], Literal[True]]]]
@@ -111,7 +121,8 @@ def list_features(
                 lambda method_name: not method_name.startswith("_")
                 and "__" in method_name
                 and getattr(getattr(cls, method_name), "__isabstractmethod__", False)
-                is False,  # do not include method that are not implemented yet (interfaces abstract methods)
+                is False  # do not include method that are not implemented yet (interfaces abstract methods)
+                and not is_async(getattr(cls, method_name)),  # we skin async methods
                 dir(cls),
             ):
                 feature_i, subfeature_i, *others = method_name.split("__")
