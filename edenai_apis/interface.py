@@ -1,21 +1,25 @@
 # pylint: disable=locally-disabled, too-many-branches
+import asyncio
 import os
 import random
 import time
 from typing import Any, Dict, List, Literal, Optional, Set, Tuple, Type, Union, overload
 from uuid import uuid4
 
+from dotenv import load_dotenv
+from pydantic import BaseModel
+
 from edenai_apis import interface_v2
 from edenai_apis.features.provider.provider_interface import ProviderInterface
-from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
+from edenai_apis.loaders.data_loader import (
+    FeatureDataEnum,
+    ProviderDataEnum,
+    load_info_file,
+)
 from edenai_apis.loaders.loaders import load_feature, load_provider
-from edenai_apis.loaders.data_loader import load_info_file
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException, get_appropriate_error
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
-from dotenv import load_dotenv
-from pydantic import BaseModel
-import asyncio
 
 load_dotenv()
 
@@ -308,11 +312,7 @@ async def acompute_output(
         raise ValueError(
             "Asynchronous calls with fake data are not supported for streaming responses."
         )
-    phase = ""
-    if feature not in ("llm") and subfeature not in ("achat"):
-        raise ValueError(
-            "Asynchronous calls are only supported for LLM chat subfeature at the moment."
-        )
+    phase = ""  # TODO: add phase support for async calls
 
     args = validate_all_provider_constraints(
         provider_name, feature, subfeature, phase, args
@@ -335,7 +335,12 @@ async def acompute_output(
         )
         provider_instance = ProviderClass(api_keys)
         func_name = f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}'
-        subfeature_func = getattr(provider_instance, func_name)
+        try:
+            subfeature_func = getattr(provider_instance, func_name)
+        except AttributeError:
+            raise NotImplementedError(
+                f'Async method "{func_name}" is not implemented for provider "{provider_name}".'
+            )
 
         try:
             subfeature_result = await subfeature_func(**args, **kwargs)
