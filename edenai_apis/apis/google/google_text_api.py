@@ -220,7 +220,6 @@ class GoogleTextApi(TextInterface):
             "document": {
                 "type": "PLAIN_TEXT",
                 "content": text,
-                "language": language,
             }
         }
 
