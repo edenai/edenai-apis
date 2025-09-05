@@ -230,7 +230,11 @@ class GoogleTextApi(TextInterface):
         async with httpx.AsyncClient(timeout=30) as client:
             response = await client.post(url, json=payload, headers=headers)
 
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except Exception:
+            raise ProviderException(message=response.text, code=response.status_code)
+
         original_response = response.json()
 
         categories: Sequence[ExtractedTopic] = [
