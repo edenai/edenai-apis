@@ -459,14 +459,14 @@ class GoogleTextApi(TextInterface):
         """
 
         # Create configuration dictionnary
-        client = language_v1.LanguageServiceAsyncClient()
         document = GoogleDocument(
             content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
         )
 
         # Getting response of API
-        payload = {"document": document}
-        response = await ahandle_google_call(client.moderate_text, **payload)
+        async with language_v1.LanguageServiceAsyncClient() as client:
+            payload = {"document": document}
+            response = await ahandle_google_call(client.moderate_text, **payload)
 
         # Convert response to dict
         original_response = MessageToDict(response._pb)
