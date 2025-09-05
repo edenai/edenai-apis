@@ -321,8 +321,7 @@ async def acompute_output(
             ProviderDataEnum.OUTPUT,
             provider_name=provider_name,
             feature=feature,
-            # here we remove the 'a' prefix from subfeature to load the correct fake data (e.g., 'chat' instead of 'achat')
-            subfeature=subfeature[1:],
+            subfeature=subfeature,
             phase=phase,
         )
 
