@@ -209,6 +209,51 @@ class GoogleTextApi(TextInterface):
         )
         return result
 
+    def text__topic_extraction(
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[TopicExtractionDataClass]:
+        payload = {
+            "document": {
+                "type": "PLAIN_TEXT",
+                "content": text,
+            }
+        }
+
+        url = f"https://language.googleapis.com/v2/documents:classifyText?key={self.api_settings['api_key']}"
+
+        response = requests.post(url, json=payload)
+
+        try:
+            response.raise_for_status()
+        except Exception:
+            try:
+                error = response.json()
+                detail = error["error"]["message"]
+            except:
+                detail = response.text  # e.g. if html response, can't get error detail
+            raise ProviderException(message=detail, code=response.status_code)
+
+        original_response = response.json()
+
+        categories: Sequence[ExtractedTopic] = [
+            ExtractedTopic(
+                category=cat.get("name"),
+                importance=cat.get("confidence"),
+            )
+            for cat in original_response.get("categories", [])
+        ]
+
+        standardized_response = TopicExtractionDataClass(items=categories)
+
+        return ResponseType[TopicExtractionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
     async def text__atopic_extraction(
         self,
         language: str,
@@ -223,11 +268,10 @@ class GoogleTextApi(TextInterface):
             }
         }
 
-        headers = {"Content-Type": "application/json; charset=utf-8"}
-        url = f"https://language.googleapis.com/v2/documents:classifyText?key={self.api_settings['rest_api_key']}"
+        url = f"https://language.googleapis.com/v2/documents:classifyText?key={self.api_settings['api_key']}"
 
         async with httpx.AsyncClient(timeout=30) as client:
-            response = await client.post(url, json=payload, headers=headers)
+            response = await client.post(url, json=payload)
 
         try:
             response.raise_for_status()
