@@ -1,7 +1,9 @@
 from typing import List, Optional
 
+import httpx
 import requests
 
+from edenai_apis.features.text.generation import GenerationDataClass
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
     KeywordExtractionDataClass,
 )
@@ -14,14 +16,13 @@ from edenai_apis.features.text.question_answer.question_answer_dataclass import 
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SentimentAnalysisDataClass,
 )
+from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.features.text.topic_extraction.topic_extraction_dataclass import (
     TopicExtractionDataClass,
 )
-from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
-from edenai_apis.features.text.generation import GenerationDataClass
 
 class TenstorrentTextApi(TextInterface):
     def text__keyword_extraction(
@@ -143,7 +144,9 @@ class TenstorrentTextApi(TextInterface):
         except requests.exceptions.RequestException as exc:
             raise ProviderException(message=str(exc), code=500)
         if original_response.status_code != 200:
-            raise ProviderException(message=original_response.text, code=original_response.status_code)
+            raise ProviderException(
+                message=original_response.text, code=original_response.status_code
+            )
 
         status_code = original_response.status_code
         original_response = original_response.json()
@@ -189,8 +192,38 @@ class TenstorrentTextApi(TextInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
-    
-        
+
+    async def text__atopic_extraction(
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[TopicExtractionDataClass]:
+        base_url = "https://topic-extraction--eden-ai.workload.tenstorrent.com"
+        url = f"{base_url}/predictions/topic_extraction"
+        payload = {
+            "text": text,
+        }
+        try:
+            async with httpx.AsyncClient(timeout=120) as client:
+                response = await client.post(url, json=payload, headers=self.headers)
+        except httpx.RequestError as exc:
+            raise ProviderException(message=str(exc), code=500)
+
+        if response.status_code != 200:
+            raise ProviderException(message=response.text, code=response.status_code)
+
+        status_code = response.status_code
+        original_response = response.json()
+
+        # Check for errors
+        self.__check_for_errors(original_response, status_code)
+
+        standardized_response = TopicExtractionDataClass(
+            items=original_response["items"]
+        )
+        return ResponseType[TopicExtractionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
     def text__generation(
         self,
         text: str,
@@ -221,9 +254,8 @@ class TenstorrentTextApi(TextInterface):
             original_response=response.to_dict(),
             standardized_response=standardized_response,
         )
-    
 
     def __check_for_errors(self, response, status_code=None):
         if "message" in response:
             raise ProviderException(response["message"], code=status_code)
-        
+

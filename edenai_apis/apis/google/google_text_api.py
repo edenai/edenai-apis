@@ -1,14 +1,19 @@
 import json
 from typing import Dict, List, Literal, Optional, Sequence, Union
 
+import httpx
 import requests
+from google.cloud import language_v1
+from google.cloud.language import Document as GoogleDocument
+from google.protobuf.json_format import MessageToDict
+
 from edenai_apis.apis.google.google_helpers import (
+    gemini_request,
     get_access_token,
     get_tag_name,
     handle_google_call,
-    score_to_sentiment,
-    gemini_request,
     palm_request,
+    score_to_sentiment,
 )
 from edenai_apis.features.text import (
     ChatDataClass,
@@ -52,10 +57,6 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.parsing import extract
 from edenai_apis.utils.types import ResponseType
-
-from google.cloud import language_v1
-from google.cloud.language import Document as GoogleDocument
-from google.protobuf.json_format import MessageToDict
 
 
 class GoogleTextApi(TextInterface):
@@ -208,39 +209,44 @@ class GoogleTextApi(TextInterface):
         )
         return result
 
-    def text__topic_extraction(
-        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    async def text__atopic_extraction(
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
     ) -> ResponseType[TopicExtractionDataClass]:
-        # Create configuration dictionnary
-        document = GoogleDocument(
-            content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
-        )
-        # Get Api response
         payload = {
-            "document": document,
+            "document": {
+                "type": "PLAIN_TEXT",
+                "content": text,
+                "language": language,
+            }
         }
-        response = handle_google_call(self.clients["text"].classify_text, **payload)
 
-        # Create output response
-        # Convert response to dict
-        original_response = MessageToDict(response._pb)
+        headers = {"Content-Type": "application/json; charset=utf-8"}
+        url = f"https://language.googleapis.com/v2/documents:classifyText?key={self.api_settings['rest_api_key']}"
 
-        # Standardize the response
-        categories: Sequence[ExtractedTopic] = []
-        for category in original_response.get("categories", []):
-            categories.append(
-                ExtractedTopic(
-                    category=category.get("name"), importance=category.get("confidence")
-                )
+        async with httpx.AsyncClient(timeout=30) as client:
+            response = await client.post(url, json=payload, headers=headers)
+
+        response.raise_for_status()
+        original_response = response.json()
+
+        categories: Sequence[ExtractedTopic] = [
+            ExtractedTopic(
+                category=cat.get("name"),
+                importance=cat.get("confidence"),
             )
+            for cat in original_response.get("categories", [])
+        ]
+
         standardized_response = TopicExtractionDataClass(items=categories)
 
-        result = ResponseType[TopicExtractionDataClass](
+        return ResponseType[TopicExtractionDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
         )
-
-        return result
 
     def text__generation(
         self, text: str, temperature: float, max_tokens: int, model: str, **kwargs

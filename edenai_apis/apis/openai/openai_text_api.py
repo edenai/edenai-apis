@@ -195,6 +195,12 @@ class OpenaiTextApi(TextInterface):
         response = self.llm_client.topic_extraction(text=text, model=model, **kwargs)
         return response
 
+    async def text__atopic_extraction(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[TopicExtractionDataClass]:
+        response = await self.llm_client.atopic_extraction(text=text, model=model)
+        return response
+
     def text__code_generation(
         self,
         instruction: str,
