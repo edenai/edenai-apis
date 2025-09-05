@@ -570,6 +570,29 @@ class LLMEngine:
             cost=response.cost,
         )
 
+    async def aembeddings(
+        self, texts: List[str], model: str, **kwargs
+    ) -> ResponseType[EmbeddingsDataClass]:
+        args = {
+            "model": model,
+            "input": texts,
+            "drop_params": True,
+        }
+        args.update(self.provider_config)
+        response = await self.completion_client.aembedding(**args, **kwargs)
+        # response = EmbeddingResponseModel.model_validate(response)
+        items = []
+        embeddings = response.get("data", [{}])
+        for embedding in embeddings:
+            items.append(EmbeddingDataClass(embedding=embedding["embedding"]))
+        standardized_response = EmbeddingsDataClass(items=items)
+        return ResponseType[EmbeddingsDataClass](
+            original_response=response.to_dict(),
+            standardized_response=standardized_response,
+            usage=response.usage,
+            cost=response.cost,
+        )
+
     def moderation(self, text: str, **kwargs) -> ResponseType[ModerationDataClass]:
         # Only availaible for OpenAI
         args = {"input": text}
