@@ -243,6 +243,13 @@ class CohereApi(ProviderInterface, TextInterface, LlmInterface):
         )
         return response
 
+    async def text__aembeddings(
+        self, texts: List[str], model: Optional[str] = None, **kwargs
+    ) -> ResponseType[EmbeddingsDataClass]:
+        model = model.split("__")[1] if "__" in model else model
+        response = await self.llm_client.aembeddings(texts=texts, model=model, **kwargs)
+        return response
+
     def text__search(
         self,
         texts: List[str],
