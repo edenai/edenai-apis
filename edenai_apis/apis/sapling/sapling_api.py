@@ -38,7 +38,7 @@ class SaplingApi(ProviderInterface, TextInterface):
         self.url = "https://api.sapling.ai/api/v1/"
 
     @staticmethod
-    def _check_error(response: requests.Response) -> None:
+    def _check_error(response: requests.Response | httpx.Response) -> None:
         if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
             raise ProviderException("Internal server error", code=response.status_code)
 
@@ -67,6 +67,57 @@ class SaplingApi(ProviderInterface, TextInterface):
             payload["lang"] = language
 
         response = requests.post(f"{self.url}spellcheck", json=payload)
+        SaplingApi._check_error(response)
+        original_response = response.json()
+
+        items: List[SpellCheckItem] = []
+        candidates = original_response.get("candidates", {})
+        edits = original_response.get("edits", [])
+
+        def extract_item(misspelled_word: Dict[str, Any]) -> SpellCheckItem:
+            end, _, replacement, __, sentence_start, start = misspelled_word.values()
+            offset = start + sentence_start
+            length = end - start
+            checked_word = text[offset : offset + length]
+            list_of_suggestions = candidates.get(checked_word, [replacement])
+
+            suggestions: List[SuggestionItem] = [
+                SuggestionItem(suggestion=suggestion, score=None)
+                for suggestion in list_of_suggestions
+            ]
+            return SpellCheckItem(
+                text=checked_word,
+                offset=offset,
+                length=length,
+                suggestions=suggestions,
+                type=None,
+            )
+
+        for edit in edits:
+            extracted_item = extract_item(edit)
+            items.append(extracted_item)
+
+        return ResponseType[SpellCheckDataClass](
+            original_response=original_response,
+            standardized_response=SpellCheckDataClass(text=text, items=items),
+        )
+
+    async def text__aspell_check(
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[SpellCheckDataClass]:
+        session_id = str(uuid.uuid4())
+        payload = {
+            "key": self.api_key,
+            "text": text,
+            "session_id": session_id,
+            "multiple_edits": True,
+        }
+
+        if language is not None:
+            payload["lang"] = language
+
+        async with httpx.AsyncClient(timeout=120) as client:
+            response = await client.post(f"{self.url}spellcheck", json=payload)
         SaplingApi._check_error(response)
         original_response = response.json()
 

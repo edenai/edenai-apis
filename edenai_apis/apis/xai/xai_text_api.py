@@ -1,11 +1,11 @@
-from typing import Dict, List, Literal, Optional, Any, Union
+from typing import Any, Dict, List, Literal, Optional, Union
+
 import requests
+
 from edenai_apis.features import TextInterface
 from edenai_apis.features.text.anonymization import AnonymizationDataClass
 from edenai_apis.features.text.chat import ChatDataClass
-from edenai_apis.features.text.chat.chat_dataclass import (
-    StreamChat,
-)
+from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
     CodeGenerationDataClass,
 )
@@ -31,10 +31,8 @@ from edenai_apis.features.text.spell_check.spell_check_dataclass import (
 from edenai_apis.features.text.summarize import SummarizeDataClass
 from edenai_apis.features.text.topic_extraction import TopicExtractionDataClass
 from edenai_apis.utils.types import ResponseType
-from .helpers import (
-    get_openapi_response,
-    prompt_optimization_missing_information,
-)
+
+from .helpers import get_openapi_response, prompt_optimization_missing_information
 
 
 class XAiTextApi(TextInterface):
@@ -145,6 +143,12 @@ class XAiTextApi(TextInterface):
         self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SpellCheckDataClass]:
         response = self.llm_client.spell_check(text=text, model=model, **kwargs)
+        return response
+
+    async def text__aspell_check(
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[SpellCheckDataClass]:
+        response = await self.llm_client.aspell_check(text=text, model=model, **kwargs)
         return response
 
     def text__named_entity_recognition(
