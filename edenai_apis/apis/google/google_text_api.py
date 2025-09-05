@@ -232,7 +232,12 @@ class GoogleTextApi(TextInterface):
         try:
             response.raise_for_status()
         except Exception:
-            raise ProviderException(message=response.text, code=response.status_code)
+            try:
+                error = response.json()
+                detail = error["error"]["message"]
+            except:
+                detail = response.text  # e.g. if html response, can't get error detail
+            raise ProviderException(message=detail, code=response.status_code)
 
         original_response = response.json()
 
