@@ -129,7 +129,7 @@ def list_features(
         ):  # filter for provider_name if provided
             # detect feature,subfeature,phase by looking at methods names
             for method_name in filter(
-                lambda m: _is_feature_method(cls, m),  # we skin async methods
+                lambda m: _is_feature_method(cls, m),  # we skip async methods
                 dir(cls),
             ):
                 feature_i, subfeature_i, *others = method_name.split("__")
