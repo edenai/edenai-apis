@@ -12,7 +12,9 @@ from litellm import (
     moderation,
     register_model,
     response_cost_calculator,
+    # async versions
     acompletion,
+    amoderation,
 )
 from litellm.exceptions import (
     APIConnectionError,
@@ -338,6 +340,37 @@ class LiteLLMCompletionClient(CompletionClient):
             kwargs.pop("moderate_content", None)
             provider_start_time = time.time_ns()
             response = moderation(**call_params, **kwargs).model_dump()
+            provider_end_time = time.time_ns()
+
+            cost_calc_params = {
+                "completion_response": response,
+                "call_type": "moderation",
+            }
+            if len(custom_pricing.keys()) > 0:
+                cost_calc_params["custom_cost_per_token"] = custom_pricing
+
+            response["cost"] = completion_cost(**cost_calc_params)
+            response["provider_time"] = provider_end_time - provider_start_time
+            return response
+        except Exception as e:
+            logging.error(f"There's an unexpected error: {e}")
+            raise e
+
+    async def amoderation(self, input: str, **kwargs):
+        call_params = {}
+        call_params["input"] = input
+        # See if there's a custom pricing here
+        custom_pricing = {}
+        if kwargs.get("input_cost_per_token", None) and kwargs.get(
+            "output_cost_per_token", None
+        ):
+            custom_pricing["input_cost_per_token"] = kwargs["input_cost_per_token"]
+            custom_pricing["output_cost_per_token"] = kwargs["output_cost_per_token"]
+        try:
+            # litellm.drop_params = True
+            kwargs.pop("moderate_content", None)
+            provider_start_time = time.time_ns()
+            response = (await amoderation(**call_params, **kwargs)).model_dump()
             provider_end_time = time.time_ns()
 
             cost_calc_params = {
