@@ -52,6 +52,23 @@ def list_features(
 ) -> ProviderDict: ...
 
 
+def _is_feature_method(cls, method_name: str) -> bool:
+    if method_name.startswith("_"):
+        return False
+    if "__" not in method_name:
+        return False
+
+    method = getattr(cls, method_name)
+
+    if getattr(method, "__isabstractmethod__", False):
+        return False
+
+    if is_async(method):
+        return False
+
+    return True
+
+
 def list_features(
     provider_name: Optional[str] = None,
     feature: Optional[str] = None,
@@ -112,11 +129,7 @@ def list_features(
         ):  # filter for provider_name if provided
             # detect feature,subfeature,phase by looking at methods names
             for method_name in filter(
-                lambda method_name: not method_name.startswith("_")
-                and "__" in method_name
-                and getattr(getattr(cls, method_name), "__isabstractmethod__", False)
-                is False  # do not include method that are not implemented yet (interfaces abstract methods)
-                and not is_async(getattr(cls, method_name)),  # we skin async methods
+                lambda m: _is_feature_method(cls, m),  # we skin async methods
                 dir(cls),
             ):
                 feature_i, subfeature_i, *others = method_name.split("__")
