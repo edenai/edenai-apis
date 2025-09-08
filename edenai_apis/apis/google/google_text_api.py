@@ -333,6 +333,15 @@ class GoogleTextApi(TextInterface):
         )
         return response
 
+    async def text__aembeddings(
+        self, texts: List[str], model: Optional[str] = None, **kwargs
+    ) -> ResponseType[EmbeddingsDataClass]:
+        model = model.split("__")[1] if "__" in model else model
+        response = await self.clients["llm_client"].aembeddings(
+            texts=texts, provider_model_name=f"vertex_ai/{model}", model=model, **kwargs
+        )
+        return response
+
     def text__code_generation(
         self,
         instruction: str,

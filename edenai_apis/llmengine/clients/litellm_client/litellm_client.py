@@ -15,6 +15,8 @@ from litellm import (
     # async versions
     acompletion,
     amoderation,
+    aembedding,
+
 )
 from litellm.exceptions import (
     APIConnectionError,
@@ -289,6 +291,92 @@ class LiteLLMCompletionClient(CompletionClient):
             kwargs.pop("moderate_content", None)
             provider_start_time = time.time_ns()
             response = embedding(**call_params, **kwargs)
+            response.provider_name = self.provider_name
+            provider_end_time = time.time_ns()
+            response.provider_time = provider_end_time - provider_start_time
+            cost_calc_params = {
+                "completion_response": response,
+                "call_type": "embedding",
+            }
+            if len(custom_pricing.keys()) > 0:
+                cost_calc_params["custom_cost_per_token"] = custom_pricing
+            response.cost = completion_cost(**cost_calc_params)
+            return response
+        except Exception as exc:
+            if isinstance(
+                exc,
+                (
+                    APIError,
+                    APIConnectionError,
+                    APIResponseValidationError,
+                    AuthenticationError,
+                    BadRequestError,
+                    NotFoundError,
+                    RateLimitError,
+                    ServiceUnavailableError,
+                    ContentPolicyViolationError,
+                    Timeout,
+                    UnprocessableEntityError,
+                    JSONSchemaValidationError,
+                    UnsupportedParamsError,
+                    ContextWindowExceededError,
+                    InternalServerError,
+                ),
+            ):
+                raise handle_litellm_exception(exc) from exc
+            else:
+                raise ProviderException(message=str(exc))
+
+    async def aembedding(
+        self,
+        input=[],
+        model: Optional[str] = None,
+        provider_model_name: Optional[str] = None,
+        # Optional params
+        dimensions: Optional[int] = None,
+        timeout=600,  # default to 10 minutes
+        # set api_base, api_version, api_key
+        api_base: Optional[str] = None,
+        api_version: Optional[str] = None,
+        api_type: Optional[str] = None,
+        caching: bool = False,
+        drop_invalid_params: bool = False,  # If true, all the invalid parameters will be ignored (dropped) before sending to the model
+        encoding_format: Literal["float", "base64"] = "float",
+        **kwargs,
+    ):
+        call_params = {}
+        call_params["input"] = input if isinstance(input, list) else [input]
+        if model is not None:
+            self.model_name = model
+        call_params["model"] = f"{self.provider_name}/{model}"
+        if provider_model_name:
+            call_params["model"] = provider_model_name
+        call_params["timeout"] = timeout
+        if dimensions is not None:
+            call_params["dimensions"] = dimensions
+        if api_base is not None:
+            call_params["api_base"] = api_base
+        if api_version is not None:
+            call_params["api_version"] = api_version
+        if api_type is not None:
+            call_params["api_type"] = api_type
+        if caching is not None:
+            call_params["caching"] = caching
+        if encoding_format is not None:
+            call_params["encoding_format"] = encoding_format
+        # See if there's a custom pricing here
+        custom_pricing = {}
+        if kwargs.get("input_cost_per_token", None) and kwargs.get(
+            "output_cost_per_token", None
+        ):
+            custom_pricing["input_cost_per_token"] = kwargs["input_cost_per_token"]
+            custom_pricing["output_cost_per_token"] = kwargs["output_cost_per_token"]
+        try:
+            if drop_invalid_params == True:
+                litellm.drop_params = True
+            kwargs.pop("moderate_content", None)
+            provider_start_time = time.time_ns()
+            response = await aembedding(**call_params, **kwargs)
             response.provider_name = self.provider_name
             provider_end_time = time.time_ns()
             response.provider_time = provider_end_time - provider_start_time

@@ -134,6 +134,17 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
         )
         return response
 
+    async def text__aembeddings(
+        self, texts: List[str], model: Optional[str] = None, **kwargs
+    ) -> ResponseType[EmbeddingsDataClass]:
+        model = model.split("__")[1] if "__" in model else model
+        response = await self.llm_client.aembeddings(
+            texts=texts,
+            model=model,
+            **kwargs,
+        )
+        return response
+
     def multimodal__chat(
         self,
         messages: List[ChatMultimodalMessageDataClass],
