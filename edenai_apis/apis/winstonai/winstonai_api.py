@@ -1,10 +1,13 @@
 import json
 from http import HTTPStatus
-from typing import Dict, Sequence, Any, Optional
+from typing import Any, Dict, Optional, Sequence
 from uuid import uuid4
+
+import httpx
 import requests
+
 from edenai_apis.apis.winstonai.config import WINSTON_AI_API_URL
-from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
+from edenai_apis.features import ImageInterface, ProviderInterface, TextInterface
 from edenai_apis.features.image.ai_detection.ai_detection_dataclass import (
     AiDetectionDataClass as ImageAiDetectionDataclass,
 )
@@ -91,6 +94,54 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
         response = requests.request(
             "POST", f"{self.api_url}/predict", headers=self.headers, data=payload
         )
+
+        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
+            raise ProviderException("Internal Server Error")
+
+        if response.status_code != 200:
+            raise ProviderException(response.json(), code=response.status_code)
+
+        original_response = response.json()
+        score = original_response.get("score") / 100
+        sentences = original_response.get("sentences")
+
+        if score is None or sentences is None:
+            raise ProviderException(response.json())
+
+        items: Sequence[AiDetectionItem] = [
+            AiDetectionItem(
+                text=sentence["text"],
+                ai_score=1 - (sentence["score"] / 100),
+                prediction=AiDetectionItem.set_label_based_on_score(
+                    1 - (sentence["score"] / 100)
+                ),
+            )
+            for sentence in sentences
+        ]
+
+        standardized_response = AiDetectionDataClass(ai_score=1 - score, items=items)
+
+        return ResponseType[AiDetectionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    async def text__aai_detection(
+        self, text: str, provider_params: Optional[Dict[str, Any]] = None, **kwargs
+    ) -> ResponseType[AiDetectionDataClass]:
+        if provider_params is None:
+            provider_params = {}
+        payload = {
+            "text": text,
+            "sentences": True,
+            "language": provider_params.get("language", "en"),
+            "version": provider_params.get("version", "2.0"),
+        }
+
+        async with httpx.AsyncClient(timeout=60) as client:
+            response = await client.post(
+                f"{self.api_url}/predict", headers=self.headers, data=payload
+            )
 
         if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
             raise ProviderException("Internal Server Error")

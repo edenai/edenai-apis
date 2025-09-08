@@ -2,10 +2,12 @@ import json
 from typing import Dict, List, Literal, Optional, Tuple, Type, Union
 
 import httpx
-from openai import BaseModel
 import requests
+from openai import BaseModel
 
 from edenai_apis.features import ProviderInterface, TextInterface
+from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
+from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.features.text import ChatDataClass
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.custom_classification import (
@@ -28,8 +30,6 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
 class CohereApi(ProviderInterface, TextInterface, LlmInterface):
@@ -223,6 +223,20 @@ class CohereApi(ProviderInterface, TextInterface, LlmInterface):
         **kwargs,
     ) -> ResponseType[SpellCheckDataClass]:
         response = self.llm_client.spell_check(
+            text=text,
+            model=model,
+            **kwargs,
+        )
+        return response
+
+    async def text__aspell_check(
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[SpellCheckDataClass]:
+        response = await self.llm_client.aspell_check(
             text=text,
             model=model,
             **kwargs,

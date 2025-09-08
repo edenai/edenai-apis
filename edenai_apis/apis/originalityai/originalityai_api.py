@@ -3,6 +3,7 @@ from collections import defaultdict
 from http import HTTPStatus
 from typing import Any, Dict, Optional
 
+import httpx
 import requests
 
 from edenai_apis.features import TextInterface
@@ -104,6 +105,61 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
             "X-OAI-API-KEY": self.api_key,
         }
         response = requests.post(url=url, headers=headers, json=payload)
+
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message="Internal Server Error", code=response.status_code
+            ) from exc
+
+        if response.status_code != HTTPStatus.OK:
+            raise ProviderException(
+                original_response.get("message") or original_response,
+                code=response.status_code,
+            )
+
+        default_dict = defaultdict(lambda: None)
+        items = []
+        for block in original_response.get("blocks"):
+            ai_score = block.get("result", default_dict).get("fake")
+            items.append(
+                AiDetectionItem(
+                    text=block.get("text"),
+                    prediction=AiDetectionItem.set_label_based_on_score(ai_score),
+                    ai_score=ai_score,
+                )
+            )
+
+        standardized_response = AiDetectionDataClass(
+            ai_score=original_response.get("score", defaultdict).get("ai"), items=items
+        )
+
+        # remove credits information from original response
+        original_response.pop("credits_used")
+        original_response.pop("credits")
+
+        result = ResponseType[AiDetectionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+        return result
+
+    async def text__aai_detection(
+        self, text: str, provider_params: Optional[Dict[str, Any]] = None, **kwargs
+    ) -> ResponseType[AiDetectionDataClass]:
+        url = f"{self.base_url}/ai"
+        payload = {
+            "title": "optional title",
+            "content": text,
+        }
+        headers = {
+            "content-type": "application/json",
+            "X-OAI-API-KEY": self.api_key,
+        }
+        async with httpx.AsyncClient(timeout=120) as client:
+            response = await client.post(url=url, headers=headers, json=payload)
 
         try:
             original_response = response.json()

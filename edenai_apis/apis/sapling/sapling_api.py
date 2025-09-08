@@ -1,9 +1,9 @@
 import json
 import uuid
 from http import HTTPStatus
-from typing import Dict, List, Optional, Any
-from typing import cast
+from typing import Any, Dict, List, Optional, cast
 
+import httpx
 import requests
 
 from edenai_apis.features import ProviderInterface, TextInterface
@@ -13,8 +13,8 @@ from edenai_apis.features.text.ai_detection.ai_detection_dataclass import (
     AiDetectionItem,
 )
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
-    SentimentAnalysisDataClass,
     SegmentSentimentAnalysisDataClass,
+    SentimentAnalysisDataClass,
 )
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
@@ -38,7 +38,7 @@ class SaplingApi(ProviderInterface, TextInterface):
         self.url = "https://api.sapling.ai/api/v1/"
 
     @staticmethod
-    def _check_error(response: requests.Response) -> None:
+    def _check_error(response: requests.Response | httpx.Response) -> None:
         if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
             raise ProviderException("Internal server error", code=response.status_code)
 
@@ -67,6 +67,57 @@ class SaplingApi(ProviderInterface, TextInterface):
             payload["lang"] = language
 
         response = requests.post(f"{self.url}spellcheck", json=payload)
+        SaplingApi._check_error(response)
+        original_response = response.json()
+
+        items: List[SpellCheckItem] = []
+        candidates = original_response.get("candidates", {})
+        edits = original_response.get("edits", [])
+
+        def extract_item(misspelled_word: Dict[str, Any]) -> SpellCheckItem:
+            end, _, replacement, __, sentence_start, start = misspelled_word.values()
+            offset = start + sentence_start
+            length = end - start
+            checked_word = text[offset : offset + length]
+            list_of_suggestions = candidates.get(checked_word, [replacement])
+
+            suggestions: List[SuggestionItem] = [
+                SuggestionItem(suggestion=suggestion, score=None)
+                for suggestion in list_of_suggestions
+            ]
+            return SpellCheckItem(
+                text=checked_word,
+                offset=offset,
+                length=length,
+                suggestions=suggestions,
+                type=None,
+            )
+
+        for edit in edits:
+            extracted_item = extract_item(edit)
+            items.append(extracted_item)
+
+        return ResponseType[SpellCheckDataClass](
+            original_response=original_response,
+            standardized_response=SpellCheckDataClass(text=text, items=items),
+        )
+
+    async def text__aspell_check(
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[SpellCheckDataClass]:
+        session_id = str(uuid.uuid4())
+        payload = {
+            "key": self.api_key,
+            "text": text,
+            "session_id": session_id,
+            "multiple_edits": True,
+        }
+
+        if language is not None:
+            payload["lang"] = language
+
+        async with httpx.AsyncClient(timeout=120) as client:
+            response = await client.post(f"{self.url}spellcheck", json=payload)
         SaplingApi._check_error(response)
         original_response = response.json()
 
@@ -195,3 +246,54 @@ class SaplingApi(ProviderInterface, TextInterface):
         )
 
         return result
+
+    async def text__aai_detection(
+        self, text: str, provider_params: Optional[Dict[str, Any]] = None, **kwargs
+    ) -> ResponseType[AiDetectionDataClass]:
+        payload = {
+            "key": self.api_key,
+            "text": text,
+        }
+
+        async with httpx.AsyncClient(timeout=60) as client:
+            try:
+                response = await client.post(f"{self.url}aidetect", json=payload)
+            except Exception as excp:
+                raise ProviderException(str(excp), code=500)
+
+            if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
+                raise ProviderException(
+                    "Internal server error", code=response.status_code
+                )
+
+            try:
+                original_response = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException(
+                    response.text, code=response.status_code
+                ) from exc
+
+            if response.status_code >= HTTPStatus.BAD_REQUEST:
+                raise ProviderException(original_response, code=response.status_code)
+
+            items = []
+            for sentence_score in original_response.get("sentence_scores", {}):
+                ai_score = sentence_score["score"]
+                items.append(
+                    AiDetectionItem(
+                        text=sentence_score["sentence"],
+                        prediction=AiDetectionItem.set_label_based_on_score(ai_score),
+                        ai_score=ai_score,
+                    )
+                )
+
+            standardized_response = AiDetectionDataClass(
+                ai_score=original_response.get("score") or 0, items=items
+            )
+
+            result = ResponseType[AiDetectionDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+
+            return result
