@@ -54,6 +54,12 @@ class OpenaiTextApi(TextInterface):
         response = self.llm_client.moderation(text=text, **kwargs)
         return response
 
+    async def text__amoderation(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ModerationDataClass]:
+        response = await self.llm_client.amoderation(text=text, **kwargs)
+        return response
+
     def text__search(
         self,
         texts: List[str],

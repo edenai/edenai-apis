@@ -627,6 +627,42 @@ class LLMEngine:
             standardized_response=standardized_response,
         )
 
+    async def amoderation(
+        self, text: str, **kwargs
+    ) -> ResponseType[ModerationDataClass]:
+        # Only availaible for OpenAI
+        args = {"input": text}
+        args.update(self.provider_config)
+        response = await self.completion_client.amoderation(**args, **kwargs)
+        classification = []
+        result = response["results"]
+        if result:
+            category_scores = result[0]["category_scores"]
+            for key, value in category_scores.items():
+                classificator = CategoryTypeModeration.choose_category_subcategory(key)
+                classification.append(
+                    TextModerationItem(
+                        label=key,
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        likelihood_score=value or 0,
+                        likelihood=standardized_confidence_score(value or 0),
+                    )
+                )
+        standardized_response: ModerationDataClass = ModerationDataClass(
+            nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
+                classification
+            ),
+            items=classification,
+            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(
+                classification
+            ),
+        )
+        return ResponseType[ModerationDataClass](
+            original_response=response,
+            standardized_response=standardized_response,
+        )
+
     def custom_classification(
         self,
         texts: List[str],

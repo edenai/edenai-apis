@@ -330,7 +330,8 @@ async def acompute_output(
         raise ValueError(
             "Asynchronous calls with fake data are not supported for streaming responses."
         )
-    phase = ""  # TODO: add phase support for async calls
+
+    phase = ""
 
     args = validate_all_provider_constraints(
         provider_name, feature, subfeature, phase, args
