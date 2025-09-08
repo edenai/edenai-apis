@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Literal, Optional, Sequence, Union
 
 import httpx
 import requests
-
+import httpx
 from edenai_apis.features.text import (
     AnonymizationDataClass,
     ChatDataClass,
@@ -46,6 +46,38 @@ class MicrosoftTextApi(TextInterface):
                 headers=self.headers["text_moderation"],
                 json={"text": text},
             )
+        except Exception as exc:
+            raise ProviderException(str(exc), code=500)
+
+        data = response.json()
+        if response.status_code != 200:
+            if "Errors" in data:
+                error = data.get("Errors", []) or []
+                if error:
+                    raise ProviderException(
+                        error[0].get("Message", "Provider could not process request"),
+                        code=response.status_code,
+                    )
+            else:
+                raise ProviderException(data)
+        standardized_response = microsoft_text_moderation_personal_infos(data)
+
+        return ResponseType[ModerationDataClass](
+            original_response=data, standardized_response=standardized_response
+        )
+
+    async def text__amoderation(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ModerationDataClass]:
+        if not language:
+            language = ""
+        try:
+            async with httpx.AsyncClient(timeout=120) as client:
+                response = await client.post(
+                    f"{self.url['text_moderation']}&language={language}",
+                    headers=self.headers["text_moderation"],
+                    json={"text": text},
+                )
         except Exception as exc:
             raise ProviderException(str(exc), code=500)
 

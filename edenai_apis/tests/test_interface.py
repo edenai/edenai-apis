@@ -34,8 +34,6 @@ class TestComputeOutput:
     ):
         if phase == "create_project":
             pytest.skip("create_project is not supported in fake mode")
-        if subfeature in ["achat"]:
-            pytest.skip("achat is an async feature, we test it in async tests")
         mocker.patch(
             "edenai_apis.interface.validate_all_provider_constraints", return_value={}
         )
@@ -45,13 +43,12 @@ class TestComputeOutput:
         assert final_result["provider"] == provider
         assert final_result["status"] == "success"
 
+    # TODO: async subfeatures (achat, aembedding...) are not returned by global_features so this test is never run
     @pytest.mark.integration
     @pytest.mark.asyncio
     async def test_async_output_fake(
         self, mocker: MockerFixture, provider, feature, subfeature, phase
     ):
-        if subfeature not in ["achat"]:
-            pytest.skip("we test async features only with achat")
         if phase == "create_project":
             pytest.skip("create_project is not supported in fake mode")
         mocker.patch(

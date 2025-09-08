@@ -6,6 +6,7 @@ from edenai_apis.apis.google.google_helpers import (
     get_access_token,
     get_tag_name,
     handle_google_call,
+    ahandle_google_call,
     score_to_sentiment,
     gemini_request,
     palm_request,
@@ -332,6 +333,15 @@ class GoogleTextApi(TextInterface):
         )
         return response
 
+    async def text__aembeddings(
+        self, texts: List[str], model: Optional[str] = None, **kwargs
+    ) -> ResponseType[EmbeddingsDataClass]:
+        model = model.split("__")[1] if "__" in model else model
+        response = await self.clients["llm_client"].aembeddings(
+            texts=texts, provider_model_name=f"vertex_ai/{model}", model=model, **kwargs
+        )
+        return response
+
     def text__code_generation(
         self,
         instruction: str,
@@ -413,6 +423,59 @@ class GoogleTextApi(TextInterface):
         # Getting response of API
         payload = {"document": document}
         response = handle_google_call(client.moderate_text, **payload)
+
+        # Convert response to dict
+        original_response = MessageToDict(response._pb)
+
+        # Create output response
+        items: Sequence[TextModerationItem] = []
+        for moderation in original_response.get("moderationCategories", []) or []:
+            classificator = CategoryType.choose_category_subcategory(
+                moderation.get("name")
+            )
+            items.append(
+                TextModerationItem(
+                    label=moderation.get("name"),
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood_score=moderation.get("confidence", 0),
+                    likelihood=standardized_confidence_score(
+                        moderation.get("confidence", 0)
+                    ),
+                )
+            )
+        standardized_response: ModerationDataClass = ModerationDataClass(
+            nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(items),
+            items=items,
+            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(
+                items
+            ),
+        )
+
+        return ResponseType[ModerationDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    async def text__amoderation(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ModerationDataClass]:
+        """
+        :param language:        String that contains the language code
+        :param text:            String that contains the text to analyse
+        :return:                Array that contain api response and TextSentimentAnalysis
+        Object that contains the sentiments and their rates
+        """
+
+        # Create configuration dictionnary
+        document = GoogleDocument(
+            content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
+        )
+
+        # Getting response of API
+        async with language_v1.LanguageServiceAsyncClient() as client:
+            payload = {"document": document}
+            response = await ahandle_google_call(client.moderate_text, **payload)
 
         # Convert response to dict
         original_response = MessageToDict(response._pb)
