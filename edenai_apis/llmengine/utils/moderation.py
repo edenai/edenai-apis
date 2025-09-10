@@ -1,15 +1,15 @@
-from typing import Union, List
-from enum import Enum
-
-from functools import wraps
-from asgiref.sync import async_to_sync
 import asyncio
-import aiohttp
+from enum import Enum
+from functools import wraps
+from typing import List, Union
 
+import httpx
+from asgiref.sync import async_to_sync
 
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.http import async_client
 
 
 class OpenAIErrorCode(Enum):
@@ -22,29 +22,26 @@ async def moderate_content(headers, content: Union[str, List]) -> bool:
     if not content:
         return False
 
-    async with aiohttp.ClientSession() as session:
-        async with session.post(
-            "https://api.openai.com/v1/moderations",
-            headers=headers,
-            json={"model": "omni-moderation-latest", "input": content},
-        ) as response:
-            response_data = await get_openapi_response_async(response)
+    response = await async_client.post(
+        "https://api.openai.com/v1/moderations",
+        headers=headers,
+        json={"model": "omni-moderation-latest", "input": content},
+    )
+    response_data = await get_openapi_response_async(response)
 
-            if response_data is None:
-                return False
+    if response_data is None:
+        return False
 
-            flagged = response_data["results"][0]["flagged"]
+    flagged = response_data["results"][0]["flagged"]
 
-            if flagged:
-                categories = [
-                    category
-                    for category, value in response_data["results"][0][
-                        "categories"
-                    ].items()
-                    if value
-                ]
-                message = f"Content rejected due to the violation of the following policies: {', '.join(categories)}."
-                raise ProviderException(message=message, code=400)
+    if flagged:
+        categories = [
+            category
+            for category, value in response_data["results"][0]["categories"].items()
+            if value
+        ]
+        message = f"Content rejected due to the violation of the following policies: {', '.join(categories)}."
+        raise ProviderException(message=message, code=400)
 
     return not flagged
 
@@ -67,8 +64,7 @@ async def standard_moderation(*args, **kwargs):
             else:
                 tasks.append(moderate_content(headers, message["content"]))
 
-    async with aiohttp.ClientSession() as session:
-        await asyncio.gather(*tasks)
+    await asyncio.gather(*tasks)
 
 
 async def moderate_if_exists(headers, value):
@@ -76,14 +72,14 @@ async def moderate_if_exists(headers, value):
         await moderate_content(headers, value)  # could be a problem
 
 
-async def get_openapi_response_async(response: aiohttp.ClientResponse):
+async def get_openapi_response_async(response: httpx.Response):
     """
     This function takes an aiohttp.ClientResponse as input and returns its response.json()
     raises a ProviderException if the response contains an error.
     """
     try:
         original_response = await response.json()
-        if "error" in original_response or response.status >= 400:
+        if "error" in original_response or response.status_code >= 400:
             code = original_response["error"]["code"]
             if code == OpenAIErrorCode.RATE_LIMIT_EXCEEDED.value:
                 return None
@@ -92,10 +88,10 @@ async def get_openapi_response_async(response: aiohttp.ClientResponse):
             if code == OpenAIErrorCode.INVALID_IMAGE_URL.value:
                 return None
             message_error = original_response["error"]["message"]
-            raise ProviderException(message_error, code=response.status)
+            raise ProviderException(message_error, code=response.status_code)
         return original_response
     except Exception:
-        raise ProviderException(await response.text(), code=response.status)
+        raise ProviderException(response.text, code=response.status_code)
 
 
 def prepare_messages_for_moderation(headers, content):
@@ -145,12 +141,15 @@ async def check_content_moderation_async(*args, **kwargs):
 
     if "image_data" in kwargs:
         tasks.append(
-            [
-                {
-                    "type": "image_url",
-                    "image_url": {"url": kwargs.get("image_data")},
-                }
-            ]
+            moderate_content(
+                headers,
+                [
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": kwargs.get("image_data")},
+                    }
+                ],
+            )
         )
 
     if "messages" in kwargs:
@@ -159,8 +158,7 @@ async def check_content_moderation_async(*args, **kwargs):
                 for content in message["content"]:
                     if isinstance(content, dict) and "content" in content:
                         tasks.append(prepare_messages_for_moderation(headers, content))
-    async with aiohttp.ClientSession() as session:
-        await asyncio.gather(*tasks)
+    await asyncio.gather(*tasks)
 
 
 def check_content_moderation(*args, **kwargs):
