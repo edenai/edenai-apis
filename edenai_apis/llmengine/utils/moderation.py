@@ -27,7 +27,7 @@ async def moderate_content(headers, content: Union[str, List]) -> bool:
         headers=headers,
         json={"model": "omni-moderation-latest", "input": content},
     )
-    response_data = await get_openapi_response_async(response)
+    response_data = get_openapi_response_async(response)
 
     if response_data is None:
         return False
@@ -72,13 +72,13 @@ async def moderate_if_exists(headers, value):
         await moderate_content(headers, value)  # could be a problem
 
 
-async def get_openapi_response_async(response: httpx.Response):
+def get_openapi_response_async(response: httpx.Response):
     """
     This function takes an aiohttp.ClientResponse as input and returns its response.json()
     raises a ProviderException if the response contains an error.
     """
     try:
-        original_response = await response.json()
+        original_response = response.json()
         if "error" in original_response or response.status_code >= 400:
             code = original_response["error"]["code"]
             if code == OpenAIErrorCode.RATE_LIMIT_EXCEEDED.value:
