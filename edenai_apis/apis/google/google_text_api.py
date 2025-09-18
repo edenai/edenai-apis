@@ -1,3 +1,4 @@
+from http import client
 import json
 from typing import Dict, List, Literal, Optional, Sequence, Union
 
@@ -221,6 +222,42 @@ class GoogleTextApi(TextInterface):
             "document": document,
         }
         response = handle_google_call(self.clients["text"].classify_text, **payload)
+
+        # Create output response
+        # Convert response to dict
+        original_response = MessageToDict(response._pb)
+
+        # Standardize the response
+        categories: Sequence[ExtractedTopic] = []
+        for category in original_response.get("categories", []):
+            categories.append(
+                ExtractedTopic(
+                    category=category.get("name"), importance=category.get("confidence")
+                )
+            )
+        standardized_response = TopicExtractionDataClass(items=categories)
+
+        result = ResponseType[TopicExtractionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+        return result
+
+    async def text__atopic_extraction(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[TopicExtractionDataClass]:
+        # Create configuration dictionnary
+        document = GoogleDocument(
+            content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
+        )
+        # Get Api response
+        payload = {
+            "document": document,
+        }
+
+        async with language_v1.LanguageServiceAsyncClient() as client:
+            response = await ahandle_google_call(client.classify_text, **payload)
 
         # Create output response
         # Convert response to dict

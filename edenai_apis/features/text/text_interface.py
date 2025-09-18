@@ -232,6 +232,23 @@ class TextInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def text__atopic_extraction(
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[TopicExtractionDataClass]:
+        """
+        (Async) Extract Keywords from a given text
+
+        Args:
+            text (str): text to analyze
+            language (str): text's language code in ISO format
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def text__generation(
         self,
         text: str,

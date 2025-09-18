@@ -518,6 +518,25 @@ class LLMEngine:
             params=args, response_class=TopicExtractionDataClass
         )
 
+    async def atopic_extraction(
+        self, text: str, model: str, **kwargs
+    ) -> ResponseType[TopicExtractionDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a Text Topic Exstraction Model. You extract the main topic of a textual input.",
+            example_file="text/topic_extraction/topic_extraction_response.json",
+            dataclass=TopicExtractionDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
+        return await self._execute_acompletion(
+            params=args, response_class=TopicExtractionDataClass
+        )
+
     def named_entity_recognition(
         self, text: str, model: str, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
