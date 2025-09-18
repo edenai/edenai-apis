@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 import requests
+import httpx
 
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
     KeywordExtractionDataClass,
@@ -22,6 +23,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 
 from edenai_apis.features.text.generation import GenerationDataClass
+
 
 class TenstorrentTextApi(TextInterface):
     def text__keyword_extraction(
@@ -143,7 +145,9 @@ class TenstorrentTextApi(TextInterface):
         except requests.exceptions.RequestException as exc:
             raise ProviderException(message=str(exc), code=500)
         if original_response.status_code != 200:
-            raise ProviderException(message=original_response.text, code=original_response.status_code)
+            raise ProviderException(
+                message=original_response.text, code=original_response.status_code
+            )
 
         status_code = original_response.status_code
         original_response = original_response.json()
@@ -189,8 +193,41 @@ class TenstorrentTextApi(TextInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
-    
-        
+
+    async def text__atopic_extraction(
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[TopicExtractionDataClass]:
+        base_url = "https://topic-extraction--eden-ai.workload.tenstorrent.com"
+        url = f"{base_url}/predictions/topic_extraction"
+        payload = {
+            "text": text,
+        }
+        with httpx.AsyncClient(timeout=120) as client:
+            try:
+                original_response = await client.post(
+                    url, json=payload, headers=self.headers
+                )
+            except httpx.HTTPError as exc:
+                raise ProviderException(message=str(exc), code=500)
+            if original_response.status_code != 200:
+                raise ProviderException(
+                    message=original_response.text, code=original_response.status_code
+                )
+
+        status_code = original_response.status_code
+        original_response = original_response.json()
+
+        # Check for errors
+        self.__check_for_errors(original_response, status_code)
+
+        standardized_response = TopicExtractionDataClass(
+            items=original_response["items"]
+        )
+        return ResponseType[TopicExtractionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
     def text__generation(
         self,
         text: str,
@@ -221,9 +258,7 @@ class TenstorrentTextApi(TextInterface):
             original_response=response.to_dict(),
             standardized_response=standardized_response,
         )
-    
 
     def __check_for_errors(self, response, status_code=None):
         if "message" in response:
             raise ProviderException(response["message"], code=status_code)
-        
