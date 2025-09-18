@@ -202,7 +202,7 @@ class TenstorrentTextApi(TextInterface):
         payload = {
             "text": text,
         }
-        with httpx.AsyncClient(timeout=120) as client:
+        async with httpx.AsyncClient(timeout=120) as client:
             try:
                 original_response = await client.post(
                     url, json=payload, headers=self.headers
