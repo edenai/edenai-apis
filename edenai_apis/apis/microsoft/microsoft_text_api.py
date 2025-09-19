@@ -175,7 +175,7 @@ class MicrosoftTextApi(TextInterface):
                 },
             )
 
-        if not response.ok:
+        if not response.is_success:
             try:
                 data = response.json()
                 raise ProviderException(
