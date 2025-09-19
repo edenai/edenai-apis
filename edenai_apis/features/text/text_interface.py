@@ -111,6 +111,24 @@ class TextInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def text__anamed_entity_recognition(
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        """
+        (Async) Automatically identifies named entities in a text
+        and classifies them into predefined categories.
+
+        Args:
+            text (str): text to analyze
+            language (str): text's language code in ISO format
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def text__question_answer(
         self,
         texts: List[str],

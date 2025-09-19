@@ -297,6 +297,14 @@ class OpenaiTextApi(TextInterface):
         )
         return response
 
+    async def text__anamed_entity_recognition(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        response = await self.llm_client.anamed_entity_recognition(
+            text=text, model=model, **kwargs
+        )
+        return response
+
     def text__embeddings(
         self, texts: List[str], model: Optional[str] = None, **kwargs
     ) -> ResponseType[EmbeddingsDataClass]:
