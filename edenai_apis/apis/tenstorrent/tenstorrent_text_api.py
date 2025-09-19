@@ -163,6 +163,40 @@ class TenstorrentTextApi(TextInterface):
             standardized_response=standardized_response,
         )
 
+    async def text__anamed_entity_recognition(
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        base_url = "https://named-entity-recognition--eden-ai.workload.tenstorrent.com"
+        url = f"{base_url}/predictions/named_entity_recognition"
+        payload = {
+            "text": text,
+        }
+        async with httpx.AsyncClient(timeout=120) as client:
+            try:
+                original_response = await client.post(
+                    url, json=payload, headers=self.headers
+                )
+            except httpx.HTTPError as exc:
+                raise ProviderException(message=str(exc), code=500)
+            if original_response.status_code != 200:
+                raise ProviderException(
+                    message=original_response.text, code=original_response.status_code
+                )
+
+        status_code = original_response.status_code
+        original_response = original_response.json()
+
+        # Check for errors
+        self.__check_for_errors(original_response, status_code)
+
+        standardized_response = NamedEntityRecognitionDataClass(
+            items=original_response["items"]
+        )
+        return ResponseType[NamedEntityRecognitionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
     def text__topic_extraction(
         self, text: str, language: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[TopicExtractionDataClass]:

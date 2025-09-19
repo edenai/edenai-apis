@@ -556,6 +556,25 @@ class LLMEngine:
             params=args, response_class=NamedEntityRecognitionDataClass
         )
 
+    async def anamed_entity_recognition(
+        self, text: str, model: str, **kwargs
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a Named Entity Extraction Model. Given an input text you should extract extract all entities in it.",
+            example_file="text/named_entity_recognition/named_entity_recognition_response.json",
+            dataclass=NamedEntityRecognitionDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
+        return await self._execute_acompletion(
+            params=args, response_class=NamedEntityRecognitionDataClass
+        )
+
     def pii(
         self, text: str, model: str, **kwargs
     ) -> ResponseType[AnonymizationDataClass]:

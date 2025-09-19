@@ -4,7 +4,6 @@ from http import HTTPStatus
 from time import sleep
 from typing import Any, Dict, List, Literal, Optional, Sequence, Union
 
-import httpx
 import requests
 import httpx
 from edenai_apis.features.text import (
@@ -121,6 +120,62 @@ class MicrosoftTextApi(TextInterface):
         )
 
         if not response.ok:
+            try:
+                data = response.json()
+                raise ProviderException(
+                    data["error"]["innererror"]["message"], code=response.status_code
+                )
+            except:
+                raise ProviderException(response.text, code=response.status_code)
+
+        data = response.json()
+        self._check_microsoft_error(data)
+        items: Sequence[InfosNamedEntityRecognitionDataClass] = []
+        documents = data["results"]["documents"]
+        if len(documents) > 0:
+            for ent in data["results"]["documents"][0]["entities"]:
+                entity = ent["text"]
+                importance = ent["confidenceScore"]
+                entity_type = ent["category"].upper()
+                if entity_type == "DATETIME":
+                    entity_type = "DATE"
+                items.append(
+                    InfosNamedEntityRecognitionDataClass(
+                        entity=entity,
+                        importance=importance,
+                        category=entity_type,
+                    )
+                )
+
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
+
+        return ResponseType[NamedEntityRecognitionDataClass](
+            original_response=data, standardized_response=standardized_response
+        )
+
+    async def text__anamed_entity_recognition(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        """
+        :param language:        String that contains the language code
+        :param text:            String that contains the text to analyse
+        :return:                TextNamedEntityRecognition Object that contains
+        the entities and their importances
+        """
+        async with httpx.AsyncClient(timeout=120) as client:
+            response = await client.post(
+                f"{self.url['text']}",
+                headers=self.headers["text"],
+                json={
+                    "kind": "EntityRecognition",
+                    "parameters": {"modelVersion": "latest"},
+                    "analysisInput": {
+                        "documents": [{"id": "1", "language": language, "text": text}]
+                    },
+                },
+            )
+
+        if not response.is_success:
             try:
                 data = response.json()
                 raise ProviderException(
