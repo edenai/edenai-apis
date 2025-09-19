@@ -867,7 +867,7 @@ def handle_amazon_call(func: Callable, **kwargs):
     return response
 
 
-async def handle_amazon_acall(func: Callable, **kwargs):
+async def ahandle_amazon_call(func: Callable, **kwargs):
     job_id_strings_errors = [
         "InvalidJobIdException",
         "Request has invalid Job Id",
