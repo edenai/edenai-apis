@@ -1,6 +1,6 @@
 from typing import List, Literal, Optional, Sequence, Union, Dict, Any
 import json
-import aioboto3
+from aiobotocore.session import get_session
 
 from edenai_apis.apis.amazon.helpers import handle_amazon_call, ahandle_amazon_call
 from edenai_apis.features.text import ChatDataClass, GenerationDataClass
@@ -126,8 +126,8 @@ class AmazonTextApi(TextInterface):
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         # Getting response
         payload = {"Text": text, "LanguageCode": language}
-        session = aioboto3.Session()
-        async with session.client(
+        session = get_session()
+        async with session.create_client(
             "comprehend",
             region_name=self.api_settings["region_name"],
             aws_access_key_id=self.api_settings["aws_access_key_id"],

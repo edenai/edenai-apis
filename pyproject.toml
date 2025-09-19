@@ -126,7 +126,7 @@ asgiref = "^3.8.1"
 jsonschema = "^4.22"
 litellm = "^1.75.5"
 requests = "^2.32"
-aioboto3 = "^15.1.0"
+aiobotocore = "^2.24.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest-mock = "^3.14.0"
