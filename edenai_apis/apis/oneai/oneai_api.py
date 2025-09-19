@@ -134,6 +134,14 @@ class OneaiApi(
         )
         return response
 
+    async def text__anamed_entity_recognition(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        response = await self.llm_client.anamed_entity_recognition(
+            text=text, model=model, **kwargs
+        )
+        return response
+
     def text__sentiment_analysis(
         self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
