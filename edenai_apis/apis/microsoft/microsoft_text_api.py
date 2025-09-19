@@ -507,9 +507,12 @@ class MicrosoftTextApi(TextInterface):
 
         orginal_response = response.json()
         if response.status_code != HTTPStatus.OK:
-            raise ProviderException(
-                orginal_response["errors"]["message"], response.status_code
+            error_message = (
+                orginal_response.get("error", {}).get("message")
+                or orginal_response.get("errors", {}).get("message")
+                or "Provider threw an unknown error"
             )
+            raise ProviderException(error_message, response.status_code)
 
         items: Sequence[SpellCheckItem] = []
         for flag_token in orginal_response["flaggedTokens"]:
