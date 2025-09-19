@@ -102,6 +102,48 @@ class GoogleTextApi(TextInterface):
             original_response=response, standardized_response=standardized_response
         )
 
+    async def text__anamed_entity_recognition(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        """
+        :param language:        String that contains the language code
+        :param text:            String that contains the text to analyse
+        """
+
+        # Create configuration dictionnary
+        document = GoogleDocument(
+            content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
+        )
+        # Getting response of API
+        payload = {"document": document, "encoding_type": "UTF8"}
+        async with language_v1.LanguageServiceAsyncClient() as client:
+            response = await ahandle_google_call(client.analyze_entities, **payload)
+
+        # Create output response
+        # Convert response to dict
+        response = MessageToDict(response._pb)
+        items: Sequence[InfosNamedEntityRecognitionDataClass] = []
+
+        # Analyse response
+        # Getting name of entity, its category and its score of confidence
+        if response.get("entities") and isinstance(response["entities"], list):
+            for ent in response["entities"]:
+                if ent.get("salience"):
+                    items.append(
+                        InfosNamedEntityRecognitionDataClass(
+                            entity=ent["name"],
+                            importance=ent.get("salience"),
+                            category=ent["type"],
+                            #    url=ent.get("metadata", {}).get("wikipedia_url", None),
+                        )
+                    )
+
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
+
+        return ResponseType[NamedEntityRecognitionDataClass](
+            original_response=response, standardized_response=standardized_response
+        )
+
     def text__sentiment_analysis(
         self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
