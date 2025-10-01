@@ -214,7 +214,7 @@ class PerplexityApi(ProviderInterface, TextInterface, LlmInterface):
         )
         return response
 
-    def llm__chat(
+    async def llm__achat(
         self,
         messages: List = [],
         model: Optional[str] = None,
