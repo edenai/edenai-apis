@@ -24,10 +24,12 @@ class PerplexityApi(ProviderInterface, TextInterface, LlmInterface):
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
 
+        self.api_key = self.api_settings["api_key"]
+
         self.headers = {
             "accept": "application/json",
             "content-type": "application/json",
-            "authorization": f"Bearer {self.api_settings['api_key']}",
+            "authorization": f"Bearer {self.api_key}",
         }
 
         self.llm_client = LLMEngine(
