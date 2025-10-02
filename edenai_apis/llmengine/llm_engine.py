@@ -100,7 +100,10 @@ class LLMEngine:
         self.completion_client: CompletionClient = LLM_COMPLETION_CLIENTS[client_name](
             model_name=model, provider_name=self.provider_name
         )
-        self.reranker_client: RerankerClient = RERANKING_CLIENTS[client_name]()
+        reranker_cls = RERANKING_CLIENTS.get(client_name)
+        self.reranker_client: Optional[RerankerClient] = (
+            reranker_cls() if reranker_cls else None
+        )
 
     def _prepare_args(self, model: str, **kwargs) -> Dict:
         params = {
@@ -1159,6 +1162,8 @@ class LLMEngine:
         if api_key:
             call_params["api_key"] = api_key
         try:
+            if self.reranker_client is None:
+                raise Exception("The client has no reranking capabilities")
             response = await self.reranker_client.arerank(**call_params, **kwargs)
             return response
         except Exception as ex:

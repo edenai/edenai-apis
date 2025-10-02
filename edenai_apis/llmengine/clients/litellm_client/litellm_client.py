@@ -835,12 +835,12 @@ class LiteLLMRerankClient(RerankerClient):
             call_params["top_n"] = top_n
         if rank_fields:
             call_params["rank_fields"] = rank_fields
-        if return_documents:
+        if return_documents is not None:
             call_params["return_documents"] = return_documents
         if max_chunks_per_doc:
             call_params["max_chunks_per_doc"] = max_chunks_per_doc
         if max_tokens_per_doc:
-            call_params["max_tokens_per_doct"] = max_tokens_per_doc
+            call_params["max_tokens_per_doc"] = max_tokens_per_doc
 
         try:
             response = await arerank(**call_params, **kwargs)
