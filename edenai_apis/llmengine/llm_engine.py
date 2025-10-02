@@ -3,7 +3,7 @@ import json
 import mimetypes
 import uuid
 from io import BytesIO
-from typing import Dict, List, Literal, Optional, Type, Union
+from typing import Any, Coroutine, Dict, List, Literal, Optional, Type, Union
 
 import httpx
 from litellm.types.llms.openai import ChatCompletionAudioParam
@@ -58,11 +58,12 @@ from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
     LanguageDetectionDataClass,
 )
-from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS
+from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS, RERANKING_CLIENTS
 from edenai_apis.llmengine.clients.completion import CompletionClient
+from edenai_apis.llmengine.clients.reranker import RerankerClient
 from edenai_apis.llmengine.mapping import Mappings
 from edenai_apis.llmengine.prompts import BasePrompt
-from edenai_apis.llmengine.types.response_types import ResponseModel
+from edenai_apis.llmengine.types.response_types import RerankerResponse, ResponseModel
 from edenai_apis.llmengine.utils.moderation import (
     async_moderate_std,
     moderate,
@@ -99,6 +100,7 @@ class LLMEngine:
         self.completion_client: CompletionClient = LLM_COMPLETION_CLIENTS[client_name](
             model_name=model, provider_name=self.provider_name
         )
+        self.reranker_client: RerankerClient = RERANKING_CLIENTS[client_name]()
 
     def _prepare_args(self, model: str, **kwargs) -> Dict:
         params = {
@@ -1125,5 +1127,39 @@ class LLMEngine:
             else:
                 response = ResponseModel.model_validate(response)
                 return response
+        except Exception as ex:
+            raise ex
+
+    async def arerank(
+        self,
+        model: str,
+        query: str,
+        documents: List[Union[str, Dict[str, Any]]],
+        custom_llm_provider: Optional[
+            Literal["cohere", "together_ai", "azure_ai", "infinity", "litellm_proxy"]
+        ] = None,
+        api_key: str = None,
+        top_n: Optional[int] = None,
+        rank_fields: Optional[List[str]] = None,
+        return_documents: Optional[bool] = True,
+        max_chunks_per_doc: Optional[int] = None,
+        max_tokens_per_doc: Optional[int] = None,
+        **kwargs,
+    ) -> Coroutine[Any, Any, RerankerResponse]:
+        call_params = {
+            "model": model,
+            "query": query,
+            "documents": documents,
+            "top_n": top_n,
+            "rank_fields": rank_fields,
+            "return_documents": return_documents,
+            "max_chunks_per_doc": max_chunks_per_doc,
+            "max_tokens_per_doc": max_tokens_per_doc,
+        }
+        if api_key:
+            call_params["api_key"] = api_key
+        try:
+            response = await self.reranker_client.arerank(**call_params, **kwargs)
+            return response
         except Exception as ex:
             raise ex

@@ -1,6 +1,6 @@
 import logging
 import time
-from typing import List, Literal, Optional, Type, Union
+from typing import Any, Coroutine, Dict, List, Literal, Optional, Type, Union
 
 import httpx
 import litellm
@@ -16,7 +16,7 @@ from litellm import (
     acompletion,
     amoderation,
     aembedding,
-
+    arerank,
 )
 from litellm.exceptions import (
     APIConnectionError,
@@ -36,10 +36,18 @@ from litellm.exceptions import (
     UnsupportedParamsError,
 )
 from litellm.utils import get_supported_openai_params
+from edenai_apis.llmengine.clients.reranker import RerankerClient
 from llmengine.clients.completion import CompletionClient
 from llmengine.exceptions.error_handler import handle_litellm_exception
-from llmengine.exceptions.llm_engine_exceptions import CompletionClientError
-from llmengine.types.response_types import CustomStreamWrapperModel, ResponseModel
+from llmengine.exceptions.llm_engine_exceptions import (
+    CompletionClientError,
+    RerankClientError,
+)
+from llmengine.types.response_types import (
+    CustomStreamWrapperModel,
+    RerankerResponse,
+    ResponseModel,
+)
 from pydantic import BaseModel
 
 from edenai_apis.llmengine.types.litellm_model import LiteLLMModel
@@ -769,3 +777,95 @@ class LiteLLMCompletionClient(CompletionClient):
                 raise handle_litellm_exception(exc) from exc
             else:
                 raise ProviderException(str(exc)) from exc
+
+
+class LiteLLMRerankClient(RerankerClient):
+    CLIENT_NAME = "rerank_litellm"
+
+    def __init__(
+        self,
+        model_name: Optional[str] = None,
+        provider_name: str = None,
+        provider_config: dict = {},
+    ):
+        super().__init__(
+            model_name=model_name,
+            provider_name=provider_name,
+            provider_config=provider_config,
+        )
+
+    async def arerank(
+        self,
+        model: str,
+        query: str,
+        documents: List[Union[str, Dict[str, Any]]],
+        custom_llm_provider: Optional[
+            Literal["cohere", "together_ai", "azure_ai", "infinity", "litellm_proxy"]
+        ] = None,
+        api_key: str = None,
+        top_n: Optional[int] = None,
+        rank_fields: Optional[List[str]] = None,
+        return_documents: Optional[bool] = True,
+        max_chunks_per_doc: Optional[int] = None,
+        max_tokens_per_doc: Optional[int] = None,
+        **kwargs,
+    ) -> Coroutine[Any, Any, RerankerResponse]:
+        call_params = {}
+        model_name = f"{self.provider_name}/{model}"
+        if self.provider_name is None:
+            model_name = model
+        if not model_name:
+            raise RerankClientError(
+                message="You must provide the model name", status_code=400
+            )
+        call_params["model"] = model_name
+        if not query:
+            raise RerankClientError(message="You must provide a query", status_code=400)
+        call_params["query"] = query
+        if not documents:
+            raise RerankClientError(
+                message="You must provide a list of documents to search",
+                status_code=400,
+            )
+        call_params["documents"] = documents
+        ### Optional params...
+        if api_key:
+            call_params["api_key"] = api_key
+        if top_n:
+            call_params["top_n"] = top_n
+        if rank_fields:
+            call_params["rank_fields"] = rank_fields
+        if return_documents:
+            call_params["return_documents"] = return_documents
+        if max_chunks_per_doc:
+            call_params["max_chunks_per_doc"] = max_chunks_per_doc
+        if max_tokens_per_doc:
+            call_params["max_tokens_per_doct"] = max_tokens_per_doc
+
+        try:
+            response = await arerank(**call_params, **kwargs)
+            return RerankerResponse(**(response.model_dump()))
+        except Exception as ex:
+            if isinstance(
+                ex,
+                (
+                    APIError,
+                    APIConnectionError,
+                    APIResponseValidationError,
+                    AuthenticationError,
+                    BadRequestError,
+                    NotFoundError,
+                    RateLimitError,
+                    ServiceUnavailableError,
+                    ContentPolicyViolationError,
+                    Timeout,
+                    UnprocessableEntityError,
+                    JSONSchemaValidationError,
+                    UnsupportedParamsError,
+                    ContextWindowExceededError,
+                    InternalServerError,
+                ),
+            ):
+                raise handle_litellm_exception(ex) from ex
+            else:
+                raise ProviderException(str(ex))
