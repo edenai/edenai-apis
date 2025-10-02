@@ -1,1 +1,1 @@
-from .perplexityai_api import PerplexityApi
+from .perplexityai_api import PerplexityAIApi
