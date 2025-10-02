@@ -39,7 +39,8 @@ from .nyckel import NyckelApi
 from .oneai import OneaiApi
 from .openai import OpenaiApi
 from .originalityai import OriginalityaiApi
-from .perplexityai import PerplexityApi
+from .perplexityai import PerplexityAIApi
+from .perplexity import PerplexityApi
 from .photoroom import PhotoroomApi
 from .privateai import PrivateaiApi
 from .prowritingaid import ProWritingAidApi
