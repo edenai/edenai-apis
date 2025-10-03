@@ -1,6 +1,7 @@
 from typing import List, Optional, Union
-from litellm import CustomStreamWrapper
+from litellm import CustomStreamWrapper, RerankResponse
 from litellm.types.utils import ModelResponse, EmbeddingResponse, Embedding, Usage
+from litellm.types.rerank import RerankResponseResult, RerankResponseMeta
 
 
 class EmbeddingResponseModel(EmbeddingResponse):
@@ -135,3 +136,15 @@ class CustomStreamWrapperModel(CustomStreamWrapper):
             logging_obj=logging_obj,
             stream_options=stream_options,
         )
+
+
+class RerankerResponse(RerankResponse):
+    def __init__(
+        self,
+        id: Optional[str] = None,
+        results: Optional[
+            List[RerankResponseResult]
+        ] = None,  # Contains index and relevance_score
+        meta: Optional[RerankResponseMeta] = None,
+    ):
+        super().__init__(id=id, results=results, meta=meta)

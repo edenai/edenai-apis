@@ -12,7 +12,7 @@ structure = next(os.walk(os.path.dirname(__file__)))
 AVOID_FILES = ["__init__.py", "__pycache__", "pyc", "json"]
 
 LLM_COMPLETION_CLIENTS = {}
-
+RERANKING_CLIENTS = {}
 
 logger.info("Loading clients...")
 
@@ -21,10 +21,15 @@ def _extract_client_classes(provider_classes):
     "Takes the classes in the providers and verifies that they're valid"
     for name, cls in provider_classes:
         try:
-            client_name = cls.CLIENT_NAME
-            if client_name not in LLM_COMPLETION_CLIENTS and client_name != "ignore":
+            client_name: str = cls.CLIENT_NAME
+            if client_name in LLM_COMPLETION_CLIENTS or client_name == "ignore":
+                continue
+            if client_name.startswith("rerank_"):
+                client_name = client_name.replace("rerank_", "")
+                RERANKING_CLIENTS[client_name] = cls
+            else:
                 LLM_COMPLETION_CLIENTS[client_name] = cls
-                logger.info(f"Client {client_name} loaded")
+            logger.info(f"Client {client_name} loaded")
         except AttributeError:
             logger.warning(
                 f"Client {name} does not have a client name. Are you sure is a valid client?"
