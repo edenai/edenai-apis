@@ -259,7 +259,7 @@ class PerplexityApi(ProviderInterface, TextInterface, LlmInterface):
         # Optional parameters
         **kwargs,
     ) -> ChatDataClass:
-        response = self.llm_client.acompletion(
+        response = await self.llm_client.acompletion(
             messages=messages,
             model=model,
             timeout=timeout,
