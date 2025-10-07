@@ -33,7 +33,7 @@ class PerplexityApi(ProviderInterface, TextInterface, LlmInterface):
         }
 
         self.llm_client = LLMEngine(
-            provider_name=self.provider_name,
+            provider_name="perplexity",
             provider_config={
                 "api_key": self.api_key,
             },
