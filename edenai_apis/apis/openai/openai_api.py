@@ -2,6 +2,7 @@ from typing import Dict
 
 from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.apis.openai.openai_doc_parsing_api import OpenaiDocParsingApi
+from edenai_apis.apis.openai.openai_video_api import OpenaiVideoApi
 from edenai_apis.apis.openai.openai_audio_api import OpenaiAudioApi
 from edenai_apis.apis.openai.openai_image_api import OpenaiImageApi
 from edenai_apis.apis.openai.openai_text_api import OpenaiTextApi
@@ -24,6 +25,7 @@ class OpenaiApi(
     OpenaiMultimodalApi,
     OpenaiDocParsingApi,
     OpenaiLLMApi,
+    OpenaiVideoApi,
 ):
     provider_name = "openai"
 
@@ -31,7 +33,7 @@ class OpenaiApi(
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
-        
+
         self.api_key = self.api_settings.get("api_key")
         self.headers = {"Authorization": f"Bearer {self.api_key}"}
         self.api_key = self.api_settings["api_key"]
