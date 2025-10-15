@@ -71,5 +71,6 @@ from .picsart import PicsartApi
 from .minimax import MinimaxApi
 from .iointelligence import IointelligenceApi
 from .bytedance import BytedanceApi
+from .dashscope import DashscopeApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
