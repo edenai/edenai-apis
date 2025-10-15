@@ -2,6 +2,9 @@
     "llm": {
         "chat": {
             "version": "v1"
+        },
+        "achat": {
+            "version": "v1"
         }
     }
 }

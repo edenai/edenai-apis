@@ -8,5 +8,13 @@
         "generation_async": {
             "version": "v3"
         }
+    },
+    "llm": {
+        "chat": {
+            "version": "llmengine (v2)"
+        },
+        "achat": {
+            "version": "llmengine (v2)"
+        }
     }
 }
