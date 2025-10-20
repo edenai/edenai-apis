@@ -1,40 +1,46 @@
 import base64
 import json
 from typing import Dict, List, Literal, Optional, Type, Union
-import httpx
-from openai import BaseModel
-import requests
 
-from edenai_apis.features import ProviderInterface, TextInterface, OcrInterface
-from edenai_apis.features.ocr.ocr.ocr_dataclass import OcrDataClass
-from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
-    OcrAsyncDataClass,
-    Page,
-    Line,
-    BoundingBox,
-)
-from edenai_apis.features.text.chat.chat_dataclass import ChatDataClass, StreamChat
+import httpx
+import requests
+from openai import BaseModel
+
+from edenai_apis.features import OcrInterface, ProviderInterface, TextInterface
+from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
+from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.features.multimodal.chat.chat_dataclass import (
     ChatDataClass as ChatMultimodalDataClass,
-    StreamChat as StreamChatMultimodal,
+)
+from edenai_apis.features.multimodal.chat.chat_dataclass import (
     ChatMessageDataClass as ChatMultimodalMessageDataClass,
 )
+from edenai_apis.features.multimodal.chat.chat_dataclass import (
+    StreamChat as StreamChatMultimodal,
+)
+from edenai_apis.features.ocr.ocr.ocr_dataclass import OcrDataClass
+from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
+    BoundingBox,
+    Line,
+    OcrAsyncDataClass,
+    Page,
+)
+from edenai_apis.features.text.chat.chat_dataclass import ChatDataClass, StreamChat
 from edenai_apis.features.text.embeddings import EmbeddingsDataClass
 from edenai_apis.features.text.generation.generation_dataclass import (
     GenerationDataClass,
 )
+from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.http import async_client
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
-    ResponseType,
     AsyncResponseType,
+    ResponseType,
 )
-from edenai_apis.llmengine.llm_engine import LLMEngine
-from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
 class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
@@ -336,6 +342,38 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
             **kwargs,
         )
         return response
+
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        url = "https://api.mistral.ai/v1/ocr"
+        if file_url:
+            image_data = file_url
+        else:
+            with open(file, "rb") as image_file:
+                base64_image = base64.b64encode(image_file.read()).decode("utf-8")
+                image_data = f"data:image/jpeg;base64,{base64_image}"
+
+        document = {"type": "image_url", "image_url": image_data}
+        payload = {"model": "mistral-ocr-latest", "document": document}
+        response = await async_client.post(url=url, headers=self.headers, json=payload)
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+
+        standardized_response = OcrDataClass(text=response_data["pages"][0]["markdown"])
+
+        return ResponseType[OcrDataClass](
+            original_response=response_data, standardized_response=standardized_response
+        )
 
     def ocr__ocr(
         self, file: str, language: str, file_url: str = "", **kwargs
