@@ -1,5 +1,5 @@
 import os
-from typing import Optional, List
+from typing import List, Optional
 
 
 class FileInfo:
@@ -12,6 +12,7 @@ class FileInfo:
         if args:
             self.file_frame_rate, self.file_channels = args
         self.file_duration = kwargs.get("duration", None)
+        self.metadata = {**kwargs}
 
     file_size: int
     file_media_type: str
