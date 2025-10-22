@@ -14,11 +14,13 @@ from google.cloud.vision_v1.types.image_annotator import (
     EntityAnnotation,
 )
 from google.protobuf.json_format import MessageToDict
-
+from litellm import file_content
+from edenai_apis.apis.affinda import client
 from edenai_apis.apis.google.google_helpers import (
     google_ocr_tables_standardize_response,
     handle_done_response_ocr_async,
     handle_google_call,
+    ahandle_google_call,
     google_financial_parser,
 )
 from edenai_apis.features.ocr import (
@@ -62,6 +64,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
+import anyio
 
 
 class GoogleOcrApi(OcrInterface):
@@ -79,6 +82,62 @@ class GoogleOcrApi(OcrInterface):
         if mimetype.startswith("image"):
             try:
                 with Img.open(file) as img:
+                    width, height = img.size
+            except UnidentifiedImageError as exc:
+                raise ProviderException(
+                    "Image could not be identified. Supported types are: image/* and application/pdf"
+                ) from exc
+        elif mimetype == "application/pdf":
+            width, height = get_pdf_width_height(file)
+        else:
+            raise ProviderException(
+                "File type not supported by Google OCR API. Supported types are: image/* and application/pdf"
+            )
+
+        boxes: Sequence[Bounding_box] = []
+        final_text = ""
+        original_response = MessageToDict(response._pb)
+
+        text_annotations: Sequence[EntityAnnotation] = response.text_annotations
+        if text_annotations and isinstance(text_annotations[0], EntityAnnotation):
+            final_text += text_annotations[0].description.replace("\n", " ")
+        for text in text_annotations[1:]:
+            xleft = float(text.bounding_poly.vertices[0].x)
+            xright = float(text.bounding_poly.vertices[1].x)
+            ytop = float(text.bounding_poly.vertices[0].y)
+            ybottom = float(text.bounding_poly.vertices[2].y)
+            boxes.append(
+                Bounding_box(
+                    text=text.description,
+                    left=float(xleft / width),
+                    top=float(ytop / height),
+                    width=(xright - xleft) / width,
+                    height=(ybottom - ytop) / height,
+                )
+            )
+        standardized = OcrDataClass(
+            text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
+        )
+        return ResponseType[OcrDataClass](
+            original_response=original_response, standardized_response=standardized
+        )
+
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        with open(file, "rb") as file_:
+            file_content = file_.read()
+
+        payload = {"image": vision.Image(content=file_content)}
+        async with vision.ImageAnnotatorAsyncClient(
+            **self.clients_init_payload
+        ) as client:
+            response = await ahandle_google_call(client.text_detection, **payload)
+
+        mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
+        if mimetype.startswith("image"):
+            try:
+                with await anyio.to_thread.run_sync(Img.open, file) as img:
                     width, height = img.size
             except UnidentifiedImageError as exc:
                 raise ProviderException(
