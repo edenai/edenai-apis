@@ -57,7 +57,7 @@ class GoogleApi(
         }
         if self.location:
             os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self.location
-            self.__set_remaining_clients(self.clients_init_payload)
+            self.__set_remaining_clients()
         else:
             if not check_empty_values(self.api_settings, ["genai_api_key"]):
                 credentials = service_account.Credentials.from_service_account_info(
