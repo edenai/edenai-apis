@@ -127,12 +127,20 @@ class GoogleOcrApi(OcrInterface):
     ) -> ResponseType[OcrDataClass]:
         with open(file, "rb") as file_:
             file_content = file_.read()
+        image = vision.Image(content=file_content)
 
-        payload = {"image": vision.Image(content=file_content)}
+        request = vision.AnnotateImageRequest(
+            image=image,
+            features=[vision.Feature(type_=vision.Feature.Type.TEXT_DETECTION)],
+        )
+        payload = {"requests": [request]}
         async with vision.ImageAnnotatorAsyncClient(
             **self.clients_init_payload
         ) as client:
-            response = await ahandle_google_call(client.text_detection, **payload)
+            response = await ahandle_google_call(
+                client.async_batch_annotate_images, **payload
+            )
+            response = response.responses[0]
 
         mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
         if mimetype.startswith("image"):
