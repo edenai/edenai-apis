@@ -10,17 +10,16 @@ from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
-class DashscopeApi(ProviderInterface, LlmInterface):
-    provider_name = "dashscope"
+class DeepinfraApi(ProviderInterface, LlmInterface):
+    provider_name = "deepinfra"
 
     def __init__(self, api_keys: Optional[Dict[str, Any]] = None) -> None:
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
         self.api_key = self.api_settings["api_key"]
-        self.base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"
         self.llm_client = LLMEngine(
-            provider_name="openai",
+            provider_name="deepinfra",
             provider_config={
                 "api_key": self.api_key,
             },
@@ -95,7 +94,7 @@ class DashscopeApi(ProviderInterface, LlmInterface):
             extra_headers=extra_headers,
             functions=functions,
             function_call=function_call,
-            base_url=self.base_url,
+            base_url=base_url,
             api_version=api_version,
             model_list=model_list,
             drop_invalid_params=drop_invalid_params,
@@ -175,7 +174,7 @@ class DashscopeApi(ProviderInterface, LlmInterface):
             extra_headers=extra_headers,
             functions=functions,
             function_call=function_call,
-            base_url=self.base_url,
+            base_url=base_url,
             api_version=api_version,
             model_list=model_list,
             drop_invalid_params=drop_invalid_params,

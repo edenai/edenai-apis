@@ -72,5 +72,6 @@ from .minimax import MinimaxApi
 from .iointelligence import IointelligenceApi
 from .bytedance import BytedanceApi
 from .dashscope import DashscopeApi
+from .deepinfra import DeepinfraApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
