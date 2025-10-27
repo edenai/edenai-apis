@@ -517,3 +517,58 @@ def get_async_job_result(
         raise get_appropriate_error(provider_name, exc)
 
     return subfeature_result
+
+
+async def aget_async_job_result(
+    provider_name: str,
+    feature: str,
+    subfeature: str,
+    async_job_id: str,
+    phase: str = "",
+    fake: bool = False,
+    api_keys=dict(),
+) -> Dict:
+    """(Async) Get async result from job id
+
+    Args:
+        provider_name (str): EdenAI provider name
+        feature (str): EdenAI feature
+        subfeature (str): EdenAI subfeature
+        async_job_id (str): async job id to get result to
+        phase (str): EdenAI phase. Default to empty string ("")
+        fake (bool): Load fake results
+
+    Returns:
+        Dict: Result dict
+    """
+
+    if fake is True:
+        time.sleep(
+            random.uniform(0.5, 1.5)
+        )  # sleep to fake the response time from a provider
+        # Load fake data from edenai_apis' saved output
+        fake_result = load_provider(
+            ProviderDataEnum.OUTPUT,
+            provider_name=provider_name,
+            feature=feature,
+            subfeature=subfeature,
+            phase=phase,
+        )
+        fake_result["provider_job_id"] = async_job_id
+
+        return fake_result
+
+    feature_class = getattr(interface_v2, feature.title())
+    subfeature_method_name = (
+        f'a{subfeature}{f"__{phase}" if phase else ""}__get_job_result'
+    )
+    subfeature_class = getattr(feature_class, subfeature_method_name)
+
+    try:
+        subfeature_result = await subfeature_class(provider_name, api_keys)(
+            async_job_id
+        ).model_dump()
+    except ProviderException as exc:
+        raise get_appropriate_error(provider_name, exc)
+
+    return subfeature_result
