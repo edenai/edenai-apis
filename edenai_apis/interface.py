@@ -305,6 +305,7 @@ async def acompute_output(
     feature: str,
     subfeature: str,
     args: Dict[str, Any],
+    phase: str = "",
     fake: bool = False,
     api_keys: Dict = {},
     **kwargs,
@@ -331,7 +332,9 @@ async def acompute_output(
             "Asynchronous calls with fake data are not supported for streaming responses."
         )
 
-    phase = ""  # TODO: add phase support for async calls
+    is_async = ("_async" in phase) if phase else ("_async" in subfeature)
+    # suffix is used for async
+    suffix = "__launch_job" if is_async else ""
 
     args = validate_all_provider_constraints(
         provider_name, feature, subfeature, phase, args
@@ -340,20 +343,25 @@ async def acompute_output(
     if fake:
         await asyncio.sleep(random.uniform(0.5, 1.5))
 
-        subfeature_result = load_provider(
-            ProviderDataEnum.OUTPUT,
-            provider_name=provider_name,
-            feature=feature,
-            subfeature=subfeature,
-            phase=phase,
-        )
+        if is_async:
+            subfeature_result: Any = AsyncLaunchJobResponseType(
+                provider_job_id=str(uuid4())
+            ).model_dump()
+        else:
+            subfeature_result = load_provider(
+                ProviderDataEnum.OUTPUT,
+                provider_name=provider_name,
+                feature=feature,
+                subfeature=subfeature,
+                phase=phase,
+            )
 
     else:
         ProviderClass = load_provider(
             ProviderDataEnum.CLASS, provider_name=provider_name
         )
         provider_instance = ProviderClass(api_keys)
-        func_name = f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}'
+        func_name = f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}{suffix}'
         try:
             subfeature_func = getattr(provider_instance, func_name)
         except AttributeError:
