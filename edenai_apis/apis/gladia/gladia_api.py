@@ -163,10 +163,10 @@ class GladiaApi(ProviderInterface, AudioInterface):
         language: str,
         speakers: int,
         profanity_filter: bool,
-        vocabulary: Optional[List[str]],
-        audio_attributes: tuple,
+        custom_vocabulary: Optional[List[str]],
         model: Optional[str] = None,
         file_url: str = "",
+        audio_attributes: Optional[tuple] = None,
         provider_params: Optional[dict] = None,
         webhook_config: Optional[dict] = None,
         **kwargs,
@@ -179,10 +179,15 @@ class GladiaApi(ProviderInterface, AudioInterface):
         async with httpx.AsyncClient() as client:
             # Upload file using async file handle
             async with aiofiles.open(file, "rb") as f:
-                files = {"audio": (file, f, f"audio/{extension}")}
-                upload_response = await client.post(
-                    "https://api.gladia.io/v2/upload/", headers=headers, files=files
-                )
+                file_bytes = await f.read()
+
+            files = {"audio": (Path(file).name, file_bytes, f"audio/{extension}")}
+
+            upload_response = await client.post(
+                "https://api.gladia.io/v2/upload/",
+                headers=headers,
+                files=files,
+            )
             if upload_response.status_code != 200:
                 raise ProviderException(
                     message=upload_response.text, code=upload_response.status_code
@@ -204,7 +209,7 @@ class GladiaApi(ProviderInterface, AudioInterface):
                 "enable_code_switching": False,
                 "detect_language": False,
                 "language": language,
-                "custom_vocabulary": vocabulary,
+                "custom_vocabulary": custom_vocabulary,
             }
             if language:
                 data.update({"detect_language": False, "language": language})
