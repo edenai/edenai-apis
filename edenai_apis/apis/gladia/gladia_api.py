@@ -163,12 +163,12 @@ class GladiaApi(ProviderInterface, AudioInterface):
         language: str,
         speakers: int,
         profanity_filter: bool,
-        webhook_url: str,
         vocabulary: Optional[List[str]],
         audio_attributes: tuple,
         model: Optional[str] = None,
         file_url: str = "",
         provider_params: Optional[dict] = None,
+        webhook_config: Optional[dict] = None,
         **kwargs,
     ) -> AsyncLaunchJobResponseType:
         provider_params = provider_params or {}
@@ -208,6 +208,12 @@ class GladiaApi(ProviderInterface, AudioInterface):
             }
             if language:
                 data.update({"detect_language": False, "language": language})
+            if webhook_config:
+                data["callback"] = True
+                data["callback_config"] = {
+                    "url": webhook_config.get("url"),
+                    "method": webhook_config.get("method", "POST"),
+                }
             data.update(provider_params)
 
             # Start transcription job
