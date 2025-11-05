@@ -146,7 +146,7 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
-    async def aimage__embeddings(
+    async def image__aembeddings(
         self,
         file: str,
         representation: Optional[str] = None,
