@@ -514,7 +514,9 @@ class GoogleImageApi(ImageInterface):
             "parameters": {"dimension": embedding_dimension},
         }
 
-        response = requests.post(url, json=payload, headers=headers)
+        async with httpx.AsyncClient(timeout=None) as client:
+            response = await client.post(url, json=payload, headers=headers)
+        # response = requests.post(url, json=payload, headers=headers)
         try:
             original_response = response.json()
         except json.JSONDecodeError as exc:
