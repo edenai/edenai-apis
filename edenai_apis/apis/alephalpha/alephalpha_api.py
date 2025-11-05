@@ -95,6 +95,47 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
             standardized_response=standardized_response,
         )
 
+    def image__aembeddings(
+        self,
+        file: Optional[str],
+        representation: Optional[str] = None,
+        model: Optional[str] = None,
+        file_url: Optional[str] = "",
+        **kwargs,
+    ) -> ResponseType[EmbeddingsDataClass]:
+        if representation == "symmetric":
+            representation_client = SemanticRepresentation.Symmetric
+        elif representation == "document":
+            representation_client = SemanticRepresentation.Document
+        else:
+            representation_client = SemanticRepresentation.Query
+        client = Client(self.api_key)
+
+        file_path = file if file else file_url
+        if not file:
+            image = Image.from_url
+        else:
+            image = Image.from_file
+
+        prompt = Prompt.from_image(image(file_path))
+        request = SemanticEmbeddingRequest(
+            prompt=prompt, representation=representation_client
+        )
+        try:
+            response = client.semantic_embed(request=request, model=model)
+        except Exception as exc:
+            raise ProviderException(message=str(exc)) from exc
+
+        original_response = response.__dict__
+        items: Sequence[EmbeddingDataClass] = [
+            EmbeddingDataClass(embedding=response.embedding)
+        ]
+        standardized_response = EmbeddingsDataClass(items=items)
+        return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
     def image__question_answer(
         self,
         file: str,

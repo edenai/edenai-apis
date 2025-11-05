@@ -55,6 +55,7 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 )
 from edenai_apis.features.image.question_answer import QuestionAnswerDataClass
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.parsing import extract
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.image.embeddings import (
@@ -476,7 +477,7 @@ class GoogleImageApi(ImageInterface):
                 standardized_response=standardized_response,
             )
 
-    async def aimage__embeddings(
+    async def image__aembeddings(
         self,
         file: Optional[str],
         representation: Optional[str] = "image",
@@ -494,50 +495,51 @@ class GoogleImageApi(ImageInterface):
             "Authorization": f"Bearer {token}",
         }
 
-        with open(file, "rb") as file_:
-            content = file_.read()
-            payload = {
-                "instances": [
-                    {
-                        "image": {
-                            "bytesBase64Encoded": base64.b64encode(content).decode(
-                                "utf-8"
-                            )
-                        }
-                    }
-                ],
-                "parameters": {"dimension": embedding_dimension},
-            }
+        # Work with the file
+        file_handler = FileHandler()
 
-            response = await httpx.request(
-                "POST", url, json=payload, headers=headers, timeout=60
+        inputImage = None
+
+        if not file:
+            # try to use the url
+            file_wrapper = await file_handler.download_file(file_url)
+            inputImage = file_wrapper.get_file_b64_content()
+        else:
+            with open(file, "rb") as image_file:
+                image_bytes = image_file.read()
+                inputImage = base64.b64encode(image_bytes).decode("utf-8")
+
+        payload = {
+            "instances": [{"image": {"bytesBase64Encoded": inputImage}}],
+            "parameters": {"dimension": embedding_dimension},
+        }
+
+        response = requests.post(url, json=payload, headers=headers)
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message="Internal Server Error",
+                code=500,
+            ) from exc
+
+        if "error" in original_response:
+            raise ProviderException(
+                message=original_response["error"]["message"], code=400
             )
-            # response = requests.post(url, json=payload, headers=headers)
-            try:
-                original_response = response.json()
-            except json.JSONDecodeError as exc:
-                raise ProviderException(
-                    message="Internal Server Error",
-                    code=500,
-                ) from exc
 
-            if "error" in original_response:
-                raise ProviderException(
-                    message=original_response["error"]["message"], code=400
-                )
+        if not original_response.get("predictions"):
+            raise ProviderException(message="No predictions found", code=400)
 
-            if not original_response.get("predictions"):
-                raise ProviderException(message="No predictions found", code=400)
+        items: Sequence[EmbeddingDataClass] = []
 
-            items: Sequence[EmbeddingDataClass] = []
+        for prediction in original_response["predictions"]:
+            embedding = prediction.get("imageEmbedding") or []
+            items.append(EmbeddingDataClass(embedding=embedding))
 
-            for prediction in original_response["predictions"]:
-                embedding = prediction.get("imageEmbedding") or []
-                items.append(EmbeddingDataClass(embedding=embedding))
+        standardized_response = EmbeddingsDataClass(items=items)
 
-            standardized_response = EmbeddingsDataClass(items=items)
-
-            return ResponseType[EmbeddingsDataClass](
-                original_response=original_response,
-                standardized_response=standardized_response,
-            )
+        return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )

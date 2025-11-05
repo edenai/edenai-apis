@@ -579,9 +579,6 @@ class AmazonImageApi(ImageInterface):
 
         file_handler = FileHandler()
 
-        print(f"=========> endeai_apis-file: {file}", flush=True)
-        print(f"=========> endeai_apis-file_url: {file_url}", flush=True)
-
         inputImage = None
 
         if not file:
@@ -594,7 +591,7 @@ class AmazonImageApi(ImageInterface):
                 inputImage = base64.b64encode(image_bytes).decode("utf-8")
 
         request_body = {
-            "inputImage": inputImage,  # base64.b64encode(image_bytes).decode("utf-8"),
+            "inputImage": inputImage,
             "embeddingConfig": {"outputEmbeddingLength": embedding_dimension},
         }
 
@@ -605,7 +602,7 @@ class AmazonImageApi(ImageInterface):
             "contentType": content_type_header,
         }
 
-        response = await ahandle_amazon_call(
+        response = handle_amazon_call(
             self.clients["bedrock"].invoke_model, **request_params
         )
 
