@@ -1,3 +1,4 @@
+import asyncio
 import base64
 import json
 from typing import Sequence, Optional
@@ -505,16 +506,18 @@ class GoogleImageApi(ImageInterface):
             file_wrapper = await file_handler.download_file(file_url)
             inputImage = file_wrapper.get_file_b64_content()
         else:
-            with open(file, "rb") as image_file:
-                image_bytes = image_file.read()
-                inputImage = base64.b64encode(image_bytes).decode("utf-8")
+            image_bytes = await asyncio.to_thread(self._read_file_sync, file)
+            inputImage = base64.b64encode(image_bytes).decode("utf-8")
+
+            # with open(file, "rb") as image_file:
+            #     image_bytes = image_file.read()
 
         payload = {
             "instances": [{"image": {"bytesBase64Encoded": inputImage}}],
             "parameters": {"dimension": embedding_dimension},
         }
 
-        async with httpx.AsyncClient(timeout=None) as client:
+        async with httpx.AsyncClient(timeout=60) as client:
             response = await client.post(url, json=payload, headers=headers)
         # response = requests.post(url, json=payload, headers=headers)
         try:
