@@ -1,4 +1,5 @@
 import base64
+import tempfile
 from edenai_apis.utils.files import FileInfo, FileWrapper
 from edenai_apis.utils.http import async_client
 
@@ -37,9 +38,14 @@ class FileHandler:
             raise Exception("File size is 0")
         if file_size == -1 or file_size > self.SIZE_THRESHOLD:
             # The file will be downloaded lazily when the b64 content is requested
-            file_wrapper_params["file_path"] = None
+            async with async_client.stream("GET", file_url) as stream:
+                if stream.status_code != 200:
+                    raise Exception("File not found")
+                with tempfile.NamedTemporaryFile(delete=False) as tmp:
+                    async for chunk in stream.aiter_bytes():
+                        tmp.write(chunk)
+                    file_wrapper_params["file_path"] = tmp.name
             file_wrapper_params["file_b64_content"] = None
-
             return FileWrapper(**file_wrapper_params)
 
         # Download the file
