@@ -1,4 +1,5 @@
 import os
+import tempfile
 from typing import List, Optional
 
 
@@ -24,14 +25,33 @@ class FileInfo:
 
 
 class FileWrapper:
-    def __init__(self, file_path, file_url, file_info) -> None:
+    def __init__(
+        self,
+        file_path,
+        file_url,
+        file_info,
+        file_b64_content: str = None,
+    ) -> None:
         self.file_path = file_path
         self.file_url = file_url
         self.file_info = file_info
+        self._file_b64_content = file_b64_content
 
     file_path: Optional[str]
     file_url: Optional[str]
     file_info: FileInfo
+
+    _file_b64_content: Optional[str] = None
+
+    def get_file_b64_content(self):
+        if self._file_b64_content:
+            return self._file_b64_content
+        if self.file_path:
+            with tempfile.NamedTemporaryFile("rb") as f:
+                self._file_b64_content = f.read()
+                f.close()
+                return self._file_b64_content
+        raise Exception("No file found...!")
 
     def get_file_content(self):
         if self.file_url:

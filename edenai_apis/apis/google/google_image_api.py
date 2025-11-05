@@ -4,6 +4,7 @@ from typing import Sequence, Optional
 import numpy as np
 import mimetypes
 import requests
+import httpx
 from PIL import Image as Img, UnidentifiedImageError
 from google.cloud import vision
 from google.cloud.vision_v1.types.image_annotator import AnnotateImageResponse
@@ -446,6 +447,72 @@ class GoogleImageApi(ImageInterface):
             }
 
             response = requests.post(url, json=payload, headers=headers)
+            try:
+                original_response = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException(
+                    message="Internal Server Error",
+                    code=500,
+                ) from exc
+
+            if "error" in original_response:
+                raise ProviderException(
+                    message=original_response["error"]["message"], code=400
+                )
+
+            if not original_response.get("predictions"):
+                raise ProviderException(message="No predictions found", code=400)
+
+            items: Sequence[EmbeddingDataClass] = []
+
+            for prediction in original_response["predictions"]:
+                embedding = prediction.get("imageEmbedding") or []
+                items.append(EmbeddingDataClass(embedding=embedding))
+
+            standardized_response = EmbeddingsDataClass(items=items)
+
+            return ResponseType[EmbeddingsDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+
+    async def aimage__embeddings(
+        self,
+        file: Optional[str],
+        representation: Optional[str] = "image",
+        model: Optional[str] = "multimodalembedding@001",
+        embedding_dimension: int = 1408,
+        file_url: Optional[str] = "",
+        **kwargs,
+    ) -> ResponseType[EmbeddingsDataClass]:
+
+        token = get_access_token(self.location)
+        location = "us-central1"
+        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        }
+
+        with open(file, "rb") as file_:
+            content = file_.read()
+            payload = {
+                "instances": [
+                    {
+                        "image": {
+                            "bytesBase64Encoded": base64.b64encode(content).decode(
+                                "utf-8"
+                            )
+                        }
+                    }
+                ],
+                "parameters": {"dimension": embedding_dimension},
+            }
+
+            response = await httpx.request(
+                "POST", url, json=payload, headers=headers, timeout=60
+            )
+            # response = requests.post(url, json=payload, headers=headers)
             try:
                 original_response = response.json()
             except json.JSONDecodeError as exc:

@@ -146,6 +146,25 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def aimage__embeddings(
+        self,
+        file: str,
+        representation: Optional[str] = None,
+        model: Optional[str] = None,
+        file_url: str = "",
+        **kwargs,
+    ) -> ResponseType[EmbeddingsDataClass]:
+        """
+        Embeds an image
+
+        Args:
+            file (BufferedReader): image to analyze
+            model (str): which ai model to use, default to `None`
+            representation (str): type of embedding representation
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def image__explicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:

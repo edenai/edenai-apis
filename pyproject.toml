@@ -127,6 +127,7 @@ jsonschema = "^4.22"
 litellm = "^1.75.5"
 requests = "^2.32"
 aioboto3 = "^15.1.0"
+httpx = "^0.28.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest-mock = "^3.14.0"
