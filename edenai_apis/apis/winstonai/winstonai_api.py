@@ -227,3 +227,60 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
+
+    async def text__aplagia_detection(
+        self,
+        text: str,
+        title: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
+    ) -> ResponseType[PlagiaDetectionDataClass]:
+        if provider_params is None:
+            provider_params = {}
+        payload = json.dumps(
+            {
+                "text": text,
+                "language": provider_params.get("language", "en"),
+                "version": provider_params.get("version", "2.0"),
+            }
+        )
+        async with httpx.AsyncClient(timeout=60) as client:
+            response = await client.post(
+                f"{self.api_url}/plagiarism", headers=self.headers, data=payload
+            )
+
+        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
+            raise ProviderException("Internal Server Error")
+
+        if response.status_code != 200:
+            raise ProviderException(response.json(), code=response.status_code)
+
+        original_response = response.json()
+        results = original_response.get("results")
+
+        if results is None:
+            raise ProviderException(response.json())
+
+        standardized_response = PlagiaDetectionDataClass(
+            plagia_score=original_response["score"],
+            items=[
+                PlagiaDetectionItem(
+                    text=result["title"],
+                    candidates=[
+                        PlagiaDetectionCandidate(
+                            url=result["url"],
+                            plagia_score=1,
+                            prediction="plagiarized",
+                            plagiarized_text=excerpt,
+                        )
+                        for excerpt in result["excerpts"]
+                    ],
+                )
+                for result in results
+            ],
+        )
+
+        return ResponseType[PlagiaDetectionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )

@@ -92,6 +92,66 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
 
         return result
 
+    async def text__aplagia_detection(
+        self,
+        text: str,
+        title: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
+    ) -> ResponseType[PlagiaDetectionDataClass]:
+        url = f"{self.base_url}/plag"
+        payload = {"content": text, "title": title}
+        headers = {"content-type": "application/json", "X-OAI-API-KEY": self.api_key}
+
+        async with httpx.AsyncClient(timeout=120) as client:
+            response = await client.post(url=url, headers=headers, json=payload)
+
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message="Internal Server Error", code=response.status_code
+            ) from exc
+
+        if response.status_code != HTTPStatus.OK:
+            raise ProviderException(
+                original_response.get("message") or original_response,
+                code=response.status_code,
+            )
+
+        total_score = float(
+            int(original_response["total_text_score"].replace("%", "")) / 100
+        )
+
+        items = []
+        for result in original_response.get("results", []) or []:
+            text = result["phrase"]
+            candidates = []
+            for match in result.get("matches", []) or []:
+                candidates.append(
+                    PlagiaDetectionCandidate(
+                        url=match["website"],
+                        plagia_score=int(match["score"]) / 100,
+                        plagiarized_text=match["pText"],
+                    )
+                )
+            items.append(PlagiaDetectionItem(text=text, candidates=candidates))
+
+        standardized_response = PlagiaDetectionDataClass(
+            plagia_score=total_score, items=items
+        )
+
+        # remove credits information from original response
+        original_response.pop("credits_used")
+        original_response.pop("credits")
+
+        result = ResponseType[PlagiaDetectionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+        return result
+
     def text__ai_detection(
         self, text: str, provider_params: Optional[Dict[str, Any]] = None, **kwargs
     ) -> ResponseType[AiDetectionDataClass]:
