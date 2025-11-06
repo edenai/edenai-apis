@@ -15,6 +15,9 @@
         },
         "plagia_detection": {
             "version": "v2"
+        },
+        "aplagia_detection": {
+            "version": "v2"
         }
     },
     "image": {
