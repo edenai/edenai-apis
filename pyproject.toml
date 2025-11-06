@@ -1,6 +1,6 @@
 [project]
 name = "edenai-apis"
-version = "0.1.2"
+version = "0.1.14"
 description = "Providers connectors"
 dynamic = ["dependencies"]
 requires-python = ">=3.11"
@@ -127,6 +127,7 @@ jsonschema = "^4.22"
 litellm = "^1.75.5"
 requests = "^2.32"
 aioboto3 = "^15.1.0"
+httpx = "^0.28.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest-mock = "^3.14.0"

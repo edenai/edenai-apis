@@ -1,9 +1,11 @@
+import asyncio
 import base64
 import json
 from typing import Sequence, Optional
 import numpy as np
 import mimetypes
 import requests
+import httpx
 from PIL import Image as Img, UnidentifiedImageError
 from google.cloud import vision
 from google.cloud.vision_v1.types.image_annotator import AnnotateImageResponse
@@ -54,6 +56,7 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 )
 from edenai_apis.features.image.question_answer import QuestionAnswerDataClass
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.parsing import extract
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.image.embeddings import (
@@ -474,3 +477,74 @@ class GoogleImageApi(ImageInterface):
                 original_response=original_response,
                 standardized_response=standardized_response,
             )
+
+    async def image__aembeddings(
+        self,
+        file: Optional[str],
+        representation: Optional[str] = "image",
+        model: Optional[str] = "multimodalembedding@001",
+        embedding_dimension: int = 1408,
+        file_url: Optional[str] = "",
+        **kwargs,
+    ) -> ResponseType[EmbeddingsDataClass]:
+
+        token = get_access_token(self.location)
+        location = "us-central1"
+        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        }
+
+        # Work with the file
+        file_handler = FileHandler()
+
+        inputImage = None
+
+        if not file:
+            # try to use the url
+            file_wrapper = await file_handler.download_file(file_url)
+            inputImage = file_wrapper.get_file_b64_content()
+        else:
+            image_bytes = await asyncio.to_thread(self._read_file_sync, file)
+            inputImage = base64.b64encode(image_bytes).decode("utf-8")
+
+            # with open(file, "rb") as image_file:
+            #     image_bytes = image_file.read()
+
+        payload = {
+            "instances": [{"image": {"bytesBase64Encoded": inputImage}}],
+            "parameters": {"dimension": embedding_dimension},
+        }
+
+        async with httpx.AsyncClient(timeout=60) as client:
+            response = await client.post(url, json=payload, headers=headers)
+        # response = requests.post(url, json=payload, headers=headers)
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message="Internal Server Error",
+                code=500,
+            ) from exc
+
+        if "error" in original_response:
+            raise ProviderException(
+                message=original_response["error"]["message"], code=400
+            )
+
+        if not original_response.get("predictions"):
+            raise ProviderException(message="No predictions found", code=400)
+
+        items: Sequence[EmbeddingDataClass] = []
+
+        for prediction in original_response["predictions"]:
+            embedding = prediction.get("imageEmbedding") or []
+            items.append(EmbeddingDataClass(embedding=embedding))
+
+        standardized_response = EmbeddingsDataClass(items=items)
+
+        return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )

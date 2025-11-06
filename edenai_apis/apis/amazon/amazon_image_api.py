@@ -1,9 +1,14 @@
 import json
 import base64
 from io import BytesIO
+import tempfile
 from typing import Literal, Optional, Sequence
 from edenai_apis.llmengine.utils.moderation import moderate
-from edenai_apis.apis.amazon.helpers import handle_amazon_call, get_confidence_if_true
+from edenai_apis.apis.amazon.helpers import (
+    ahandle_amazon_call,
+    handle_amazon_call,
+    get_confidence_if_true,
+)
 from edenai_apis.features.image.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
     EmbeddingDataClass,
@@ -66,6 +71,7 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 )
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
 
@@ -532,6 +538,60 @@ class AmazonImageApi(ImageInterface):
 
         request_body = {
             "inputImage": base64.b64encode(image_bytes).decode("utf-8"),
+            "embeddingConfig": {"outputEmbeddingLength": embedding_dimension},
+        }
+
+        request_params = {
+            "body": json.dumps(request_body).encode("utf-8"),
+            "modelId": f"amazon.{model}",
+            "accept": accept_header,
+            "contentType": content_type_header,
+        }
+
+        response = handle_amazon_call(
+            self.clients["bedrock"].invoke_model, **request_params
+        )
+
+        original_response = json.loads(response.get("body").read())
+
+        embeddings = original_response["embedding"] or []
+        items: Sequence[EmbeddingDataClass] = []
+        items.append(EmbeddingDataClass(embedding=embeddings))
+
+        standardized_response = EmbeddingsDataClass(items=items)
+
+        return ResponseType[EmbeddingsDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    async def image__aembeddings(
+        self,
+        file: str,
+        model: str = "titan-embed-image-v1",
+        embedding_dimension: Optional[int] = 256,
+        representation: Optional[str] = "image",
+        file_url: str = "",
+        **kwargs,
+    ) -> ResponseType[EmbeddingsDataClass]:
+        accept_header = "application/json"
+        content_type_header = "application/json"
+
+        file_handler = FileHandler()
+
+        inputImage = None
+
+        if not file:
+            # try to use the url
+            file_wrapper = await file_handler.download_file(file_url)
+            inputImage = file_wrapper.get_file_b64_content()
+        else:
+            with open(file, "rb") as image_file:
+                image_bytes = image_file.read()
+                inputImage = base64.b64encode(image_bytes).decode("utf-8")
+
+        request_body = {
+            "inputImage": inputImage,
             "embeddingConfig": {"outputEmbeddingLength": embedding_dimension},
         }
 
