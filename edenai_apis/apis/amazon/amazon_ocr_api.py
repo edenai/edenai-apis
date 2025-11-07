@@ -56,7 +56,10 @@ from .helpers import (
     amazon_receipt_parser_formatter,
     amazon_financial_parser_formatter,
     handle_amazon_call,
+    ahandle_amazon_call,
 )
+import aioboto3
+import aiofiles
 
 
 class AmazonOcrApi(OcrInterface):
@@ -74,6 +77,56 @@ class AmazonOcrApi(OcrInterface):
         response = handle_amazon_call(
             self.clients["textract"].detect_document_text, **payload
         )
+
+        final_text = ""
+        output_value = json.dumps(response, ensure_ascii=False)
+        original_response = json.loads(output_value)
+        boxes: Sequence[Bounding_box] = []
+
+        # Get region of text
+        for region in original_response.get("Blocks"):
+            if region.get("BlockType") == "LINE":
+                # Read line by region
+                final_text += " " + region.get("Text")
+
+            if region.get("BlockType") == "WORD":
+                boxes.append(
+                    Bounding_box(
+                        text=region.get("Text"),
+                        left=region["Geometry"]["BoundingBox"]["Left"],
+                        top=region["Geometry"]["BoundingBox"]["Top"],
+                        width=region["Geometry"]["BoundingBox"]["Width"],
+                        height=region["Geometry"]["BoundingBox"]["Height"],
+                    )
+                )
+
+        standardized = OcrDataClass(
+            text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
+        )
+
+        return ResponseType[OcrDataClass](
+            original_response=original_response, standardized_response=standardized
+        )
+
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+
+        payload = {
+            "Document": {
+                "Bytes": file_content,
+                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
+            }
+        }
+        async with aioboto3.Session().client(
+            "textract",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as client:
+            response = await ahandle_amazon_call(client.detect_document_text, **payload)
 
         final_text = ""
         output_value = json.dumps(response, ensure_ascii=False)
