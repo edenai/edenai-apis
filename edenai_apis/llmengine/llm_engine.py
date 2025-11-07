@@ -1,3 +1,4 @@
+import asyncio
 import base64
 import json
 import mimetypes
@@ -65,6 +66,7 @@ from edenai_apis.llmengine.mapping import Mappings
 from edenai_apis.llmengine.prompts import BasePrompt
 from edenai_apis.llmengine.types.response_types import RerankerResponse, ResponseModel
 from edenai_apis.llmengine.utils.moderation import (
+    async_moderate,
     async_moderate_std,
     moderate,
     moderate_std,
@@ -72,7 +74,11 @@ from edenai_apis.llmengine.utils.moderation import (
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3
+from edenai_apis.utils.upload_s3 import (
+    USER_PROCESS,
+    aupload_file_bytes_to_s3,
+    upload_file_bytes_to_s3,
+)
 
 
 class LLMEngine:
@@ -877,6 +883,50 @@ class LLMEngine:
                 )
             )
         standardized_response = GenerationDataClass(items=generations)
+        return ResponseType[GenerationDataClass](
+            original_response=response.to_dict(),
+            standardized_response=standardized_response,
+            usage=response.usage,
+        )
+
+    @async_moderate
+    async def aimage_generation(
+        self, prompt: str, model: str, resolution: str, n: int, **kwargs
+    ):
+        args = {
+            "model": model,
+            "prompt": prompt,
+            "size": resolution,
+            "n": n,
+            "response_format": "b64_json",
+        }
+        args.update(self.provider_config)
+        response = await self.completion_client.aimage_generation(**args, **kwargs)
+
+        # Process images and upload to S3 concurrently
+        async def process_and_upload_image(image_b64):
+            image = image_b64.b64_json
+
+            # Decode base64 in thread pool (CPU-bound operation)
+            def decode_image():
+                base64_bytes = image.encode("ascii")
+                return BytesIO(base64.b64decode(base64_bytes))
+
+            image_bytes = await asyncio.to_thread(decode_image)
+
+            # Upload to S3 asynchronously
+            resource_url = await aupload_file_bytes_to_s3(
+                image_bytes, ".png", USER_PROCESS
+            )
+
+            return GeneratedImageDataClass(image=image, image_resource_url=resource_url)
+
+        # Process and upload all images concurrently
+        generated_images = await asyncio.gather(
+            *[process_and_upload_image(image) for image in response.data]
+        )
+
+        standardized_response = GenerationDataClass(items=list(generated_images))
         return ResponseType[GenerationDataClass](
             original_response=response.to_dict(),
             standardized_response=standardized_response,

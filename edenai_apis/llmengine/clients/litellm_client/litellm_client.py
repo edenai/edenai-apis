@@ -9,6 +9,7 @@ from litellm import (
     completion_cost,
     embedding,
     image_generation,
+    aimage_generation,
     moderation,
     register_model,
     response_cost_calculator,
@@ -482,6 +483,97 @@ class LiteLLMCompletionClient(CompletionClient):
         except Exception as e:
             logging.error(f"There's an unexpected error: {e}")
             raise e
+
+    async def aimage_generation(
+        self,
+        prompt: str,
+        n: Optional[int] = None,
+        model: Optional[str] = None,
+        quality: Optional[str] = None,
+        response_format: Optional[str] = None,
+        size: Optional[str] = None,
+        style: Optional[str] = None,
+        user: Optional[str] = None,
+        timeout=600,  # default to 10 minutes
+        api_key: Optional[str] = None,
+        api_base: Optional[str] = None,
+        api_version: Optional[str] = None,
+        custom_llm_provider=None,
+        drop_invalid_params: Optional[bool] = True,
+        **kwargs,
+    ):
+        call_params = {}
+        call_params["prompt"] = prompt
+        if n is not None:
+            call_params["n"] = n
+        if quality is not None:
+            call_params["quality"] = quality
+        if response_format is not None:
+            call_params["response_format"] = response_format
+        if size is not None:
+            call_params["size"] = size
+        if style is not None:
+            call_params["style"] = style
+        if user is not None:
+            call_params["user"] = user
+        model_name = f"{self.provider_name}/{model}"
+        call_params["model"] = model_name
+        call_params["timeout"] = timeout
+        if api_base is not None:
+            call_params["api_base"] = api_base
+        if api_version is not None:
+            call_params["api_version"] = api_version
+        if api_key is not None:
+            call_params["api_key"] = api_key
+        custom_pricing = {}
+        if kwargs.get("input_cost_per_token", None) and kwargs.get(
+            "output_cost_per_token", None
+        ):
+            custom_pricing["input_cost_per_token"] = kwargs["input_cost_per_token"]
+            custom_pricing["output_cost_per_token"] = kwargs["output_cost_per_token"]
+        try:
+            if drop_invalid_params == True:
+                litellm.drop_params = True
+            kwargs.pop("moderate_content", None)
+            provider_start_time = time.time_ns()
+            response = await aimage_generation(**call_params, **kwargs)
+            response.provider_name = self.provider_name
+            provider_end_time = time.time_ns()
+            cost_calc_params = {
+                "completion_response": response,
+                "call_type": "image_generation",
+                "model": model_name,
+            }
+            if len(custom_pricing.keys()) > 0:
+                cost_calc_params["custom_cost_per_token"] = custom_pricing
+
+            response.provider_time = provider_end_time - provider_start_time
+            response.cost = completion_cost(**cost_calc_params)
+            return response
+        except Exception as exc:
+            if isinstance(
+                exc,
+                (
+                    APIError,
+                    APIConnectionError,
+                    APIResponseValidationError,
+                    AuthenticationError,
+                    BadRequestError,
+                    NotFoundError,
+                    RateLimitError,
+                    ServiceUnavailableError,
+                    ContentPolicyViolationError,
+                    Timeout,
+                    UnprocessableEntityError,
+                    JSONSchemaValidationError,
+                    UnsupportedParamsError,
+                    ContextWindowExceededError,
+                    InternalServerError,
+                ),
+            ):
+                raise handle_litellm_exception(exc) from exc
+            else:
+                raise ProviderException(message=str(exc))
 
     def image_generation(
         self,
