@@ -39,7 +39,15 @@
           "th-TH",
           "tr-TR"
         ],
-        "file_extensions": ["amr", "flac", "wav", "ogg", "mp3", "mp4", "webm"],
+        "file_extensions": [
+          "amr",
+          "flac",
+          "wav",
+          "ogg",
+          "mp3",
+          "mp4",
+          "webm"
+        ],
         "allow_null_language": true
       },
       "version": "boto3 (v1.15.18)"
@@ -75,7 +83,11 @@
           "tr-TR",
           "cy-GB"
         ],
-        "audio_format": ["mp3", "ogg", "pcm"],
+        "audio_format": [
+          "mp3",
+          "ogg",
+          "pcm"
+        ],
         "voice_ids": {
           "MALE": [
             "da-DK_Mads_Standard",
@@ -228,7 +240,11 @@
           "tr-TR",
           "cy-GB"
         ],
-        "audio_format": ["mp3", "ogg", "pcm"],
+        "audio_format": [
+          "mp3",
+          "ogg",
+          "pcm"
+        ],
         "voice_ids": {
           "MALE": [
             "da-DK_Mads_Standard",
@@ -360,7 +376,14 @@
           "application/pdf",
           "image/tiff"
         ],
-        "languages": ["en", "es", "it", "pt", "fr", "de"],
+        "languages": [
+          "en",
+          "es",
+          "it",
+          "pt",
+          "fr",
+          "de"
+        ],
         "allow_null_language": true
       },
       "version": "boto3 (v1.15.18)"
@@ -378,7 +401,10 @@
     },
     "ocr_async": {
       "constraints": {
-        "file_types": ["application/pdf", "image/tiff"]
+        "file_types": [
+          "application/pdf",
+          "image/tiff"
+        ]
       },
       "version": "boto3 (v1.15.18)"
     },
@@ -390,7 +416,14 @@
           "application/pdf",
           "image/tiff"
         ],
-        "languages": ["en", "es", "it", "pt", "fr", "de"],
+        "languages": [
+          "en",
+          "es",
+          "it",
+          "pt",
+          "fr",
+          "de"
+        ],
         "allow_null_language": true
       },
       "version": "boto3 (v1.15.18)"
@@ -404,7 +437,14 @@
           "application/pdf",
           "image/tiff"
         ],
-        "languages": ["en-US", "fr-FR", "es-ES", "de-DE", "it-IT", "pt-PT"]
+        "languages": [
+          "en-US",
+          "fr-FR",
+          "es-ES",
+          "de-DE",
+          "it-IT",
+          "pt-PT"
+        ]
       },
       "version": "boto3 (v1.15.18)"
     },
@@ -416,7 +456,14 @@
           "application/pdf",
           "image/tiff"
         ],
-        "languages": ["en", "es", "it", "pt", "fr", "de"]
+        "languages": [
+          "en",
+          "es",
+          "it",
+          "pt",
+          "fr",
+          "de"
+        ]
       },
       "version": "boto3 1.26.8"
     },
@@ -428,7 +475,14 @@
           "application/pdf",
           "image/tiff"
         ],
-        "languages": ["en", "es", "it", "pt", "fr", "de"]
+        "languages": [
+          "en",
+          "es",
+          "it",
+          "pt",
+          "fr",
+          "de"
+        ]
       },
       "version": "boto3 1.26.8"
     },
@@ -440,7 +494,14 @@
           "application/pdf",
           "image/tiff"
         ],
-        "languages": ["en", "es", "it", "pt", "fr", "de"]
+        "languages": [
+          "en",
+          "es",
+          "it",
+          "pt",
+          "fr",
+          "de"
+        ]
       },
       "version": "boto3 1.26.8"
     },
@@ -452,8 +513,18 @@
           "application/pdf",
           "image/tiff"
         ],
-        "languages": ["en", "es", "it", "pt", "fr", "de"],
-        "documents": ["receipt", "invoice"],
+        "languages": [
+          "en",
+          "es",
+          "it",
+          "pt",
+          "fr",
+          "de"
+        ],
+        "documents": [
+          "receipt",
+          "invoice"
+        ],
         "allow_null_document_type": true
       },
       "version": "boto3 1.26.8"
@@ -462,7 +533,9 @@
   "text": {
     "entity_sentiment": {
       "constraints": {
-        "languages": ["en"]
+        "languages": [
+          "en"
+        ]
       },
       "version": "boto3 1.26.8"
     },
@@ -544,7 +617,9 @@
     },
     "anonymization": {
       "constraints": {
-        "languages": ["en"]
+        "languages": [
+          "en"
+        ]
       },
       "version": "boto3 (v1.15.18)"
     },
@@ -689,7 +764,11 @@
     },
     "generation": {
       "constraints": {
-        "resolutions": ["256x256", "512x512", "1024x1024"],
+        "resolutions": [
+          "256x256",
+          "512x512",
+          "1024x1024"
+        ],
         "models": [
           "titan-image-generator-v1_premium",
           "titan-image-generator-v1_standard"
@@ -700,7 +779,33 @@
     },
     "embeddings": {
       "constraints": {
-        "models": ["titan-embed-image-v1"],
+        "models": [
+          "titan-embed-image-v1"
+        ],
+        "default_model": "titan-embed-image-v1"
+      },
+      "version": "v1"
+    },
+    "ageneration": {
+      "constraints": {
+        "resolutions": [
+          "256x256",
+          "512x512",
+          "1024x1024"
+        ],
+        "models": [
+          "titan-image-generator-v1_premium",
+          "titan-image-generator-v1_standard"
+        ],
+        "default_model": "titan-image-generator-v1_premium"
+      },
+      "version": "boto3 (v1.29.6)"
+    },
+    "aembeddings": {
+      "constraints": {
+        "models": [
+          "titan-embed-image-v1"
+        ],
         "default_model": "titan-embed-image-v1"
       },
       "version": "v1"
@@ -710,31 +815,46 @@
     "label_detection_async": {
       "version": "boto3",
       "constraints": {
-        "file_types": ["video/mp4", "video/quicktime"]
+        "file_types": [
+          "video/mp4",
+          "video/quicktime"
+        ]
       }
     },
     "text_detection_async": {
       "version": "boto3",
       "constraints": {
-        "file_types": ["video/mp4", "video/quicktime"]
+        "file_types": [
+          "video/mp4",
+          "video/quicktime"
+        ]
       }
     },
     "face_detection_async": {
       "version": "boto3",
       "constraints": {
-        "file_types": ["video/mp4", "video/quicktime"]
+        "file_types": [
+          "video/mp4",
+          "video/quicktime"
+        ]
       }
     },
     "person_tracking_async": {
       "version": "boto3",
       "constraints": {
-        "file_types": ["video/mp4", "video/quicktime"]
+        "file_types": [
+          "video/mp4",
+          "video/quicktime"
+        ]
       }
     },
     "explicit_content_detection_async": {
       "version": "boto3",
       "constraints": {
-        "file_types": ["video/mp4", "video/quicktime"]
+        "file_types": [
+          "video/mp4",
+          "video/quicktime"
+        ]
       }
     },
     "generation_async": {
