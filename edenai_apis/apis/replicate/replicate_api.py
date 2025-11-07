@@ -1,3 +1,4 @@
+import asyncio
 import base64
 import http.client
 from datetime import datetime
@@ -23,7 +24,7 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.llmengine import LLMEngine
 from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
-from edenai_apis.llmengine.utils.moderation import moderate
+from edenai_apis.llmengine.utils.moderation import async_moderate, moderate
 from .config import get_model_id_image
 
 
@@ -206,6 +207,66 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface, LlmInterfac
                     image_resource_url=image_url,
                 )
             )
+
+        return ResponseType[GenerationDataClass](
+            original_response=response_dict,
+            standardized_response=GenerationDataClass(items=generated_images),
+        )
+
+    @async_moderate
+    async def image__ageneration(
+        self,
+        text: str,
+        resolution: Literal["256x256", "512x512", "1024x1024"],
+        num_images: int = 1,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[GenerationDataClass]:
+        size = resolution.split("x")
+        payload = {
+            "input": {
+                "prompt": text,
+                "width": int(size[0]),
+                "height": int(size[1]),
+                "num_outputs": num_images,
+            },
+        }
+
+        if model in get_model_id_image:
+            url = f"{self.base_url}/predictions"
+            payload["version"] = get_model_id_image[model]
+        else:
+            url = f"{self.base_url}/models/{model}/predictions"
+
+        async def get_response_async():
+            def get_response():
+                response_dict = ReplicateApi.__get_response(self, url, payload)
+                return response_dict
+
+            response_dict = await asyncio.to_thread(get_response)
+            return response_dict
+
+        response_dict = await get_response_async()
+
+        image_url = response_dict.get("output")
+
+        async def get_and_decode_image(image_url):
+            async with httpx.AsyncClient(timeout=60) as client:
+                response = await client.get(image_url)
+                image = response.content
+            return GeneratedImageDataClass(
+                image=base64.b64encode(image.content),
+                image_resource_url=image_url,
+            )
+
+        generated_images = []
+        if isinstance(image_url, list):
+            generated_images = await asyncio.gather(
+                *[get_and_decode_image(image) for image in image_url]
+            )
+            generated_images = list(generated_images)
+        else:
+            generated_images.append(await get_and_decode_image(image_url))
 
         return ResponseType[GenerationDataClass](
             original_response=response_dict,
