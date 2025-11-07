@@ -164,6 +164,61 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface, LlmInterfac
         self.__calculate_predict_time(response_dict)
         return response_dict
 
+    async def __aget_response(self, url: str, payload: dict) -> dict:
+        # Launch job
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
+            launch_job_response = await client.post(url, headers=self.headers, json=payload)
+
+            try:
+                launch_job_response_dict = launch_job_response.json()
+            except Exception:
+                raise ProviderException(
+                    launch_job_response.text, code=launch_job_response.status_code
+                )
+
+            if launch_job_response.status_code != 201:
+                raise ProviderException(
+                    launch_job_response_dict.get("detail"),
+                    code=launch_job_response.status_code,
+                )
+
+            url_get_response = launch_job_response_dict["urls"]["get"]
+
+            # Get job response
+            response = await client.get(url_get_response, headers=self.headers)
+
+            if response.status_code >= 500:
+                raise ProviderException(
+                    message=http.client.responses[response.status_code],
+                    code=response.status_code,
+                )
+
+            response_dict = response.json()
+            if response.status_code != 200:
+                raise ProviderException(
+                    response_dict.get("detail"), code=response.status_code
+                )
+
+            status = response_dict["status"]
+            while status != "succeeded":
+                await asyncio.sleep(1)  # Poll every second
+                response = await client.get(url_get_response, headers=self.headers)
+
+                try:
+                    response_dict = response.json()
+                except Exception:
+                    raise ProviderException(response.text, code=response.status_code)
+
+                if response.status_code != 200:
+                    raise ProviderException(
+                        response_dict.get("error", response_dict), code=response.status_code
+                    )
+
+                status = response_dict["status"]
+
+            self.__calculate_predict_time(response_dict)
+            return response_dict
+
     @moderate
     def image__generation(
         self,
@@ -238,35 +293,36 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface, LlmInterfac
         else:
             url = f"{self.base_url}/models/{model}/predictions"
 
-        async def get_response_async():
-            def get_response():
-                response_dict = ReplicateApi.__get_response(self, url, payload)
-                return response_dict
-
-            response_dict = await asyncio.to_thread(get_response)
-            return response_dict
-
-        response_dict = await get_response_async()
+        response_dict = await self.__aget_response(url, payload)
 
         image_url = response_dict.get("output")
 
-        async def get_and_decode_image(image_url):
-            async with httpx.AsyncClient(timeout=60) as client:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
+            async def get_and_decode_image(image_url):
                 response = await client.get(image_url)
-                image = response.content
-            return GeneratedImageDataClass(
-                image=base64.b64encode(image.content),
-                image_resource_url=image_url,
-            )
 
-        generated_images = []
-        if isinstance(image_url, list):
-            generated_images = await asyncio.gather(
-                *[get_and_decode_image(image) for image in image_url]
-            )
-            generated_images = list(generated_images)
-        else:
-            generated_images.append(await get_and_decode_image(image_url))
+                if response.is_error:
+                    raise ProviderException(
+                        response.text, code=response.status_code
+                    )
+
+                image = response.content
+                return GeneratedImageDataClass(
+                    image=base64.b64encode(image),
+                    image_resource_url=image_url,
+                )
+
+            generated_images = []
+            if isinstance(image_url, list):
+                generated_images = await asyncio.gather(
+                    *[get_and_decode_image(image) for image in image_url],
+                    return_exceptions=True,
+                )
+                generated_images = [
+                    img for img in generated_images if not isinstance(img, Exception)
+                ]
+            else:
+                generated_images.append(await get_and_decode_image(image_url))
 
         return ResponseType[GenerationDataClass](
             original_response=response_dict,
