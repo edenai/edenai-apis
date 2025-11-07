@@ -1,3 +1,4 @@
+import asyncio
 import base64
 import http.client
 from typing import Dict, Generator, List, Literal, Optional, Union, overload
@@ -14,7 +15,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from .config import get_model_id_image
 from edenai_apis.utils.parsing import extract
-from edenai_apis.llmengine.utils.moderation import moderate
+from edenai_apis.llmengine.utils.moderation import async_moderate, moderate
 
 
 class LeonardoApi(ProviderInterface, ImageInterface):
@@ -122,6 +123,68 @@ class LeonardoApi(ProviderInterface, ImageInterface):
         response_dict = LeonardoApi.__get_response(self, url, payload)
         generation_by_pk = response_dict.get("generations_by_pk", {}) or {}
         generated_images = generation_by_pk.get("generated_images", []) or []
+        image_url = [image.get("url") for image in generated_images]
+
+        generated_images = []
+        if isinstance(image_url, list):
+            for image in image_url:
+                generated_images.append(
+                    GeneratedImageDataClass(
+                        image=base64.b64encode(requests.get(image).content),
+                        image_resource_url=image,
+                    )
+                )
+        else:
+            generated_images.append(
+                GeneratedImageDataClass(
+                    image=base64.b64encode(requests.get(image_url).content),
+                    image_resource_url=image_url,
+                )
+            )
+
+        return ResponseType[GenerationDataClass](
+            original_response=response_dict,
+            standardized_response=GenerationDataClass(items=generated_images),
+        )
+
+    @async_moderate
+    async def image__ageneration(
+        self,
+        text: str,
+        resolution: Literal["256x256", "512x512", "1024x1024"],
+        num_images: int = 1,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[GenerationDataClass]:
+        size = resolution.split("x")
+        payload = {
+            "prompt": text,
+            "width": int(size[0]),
+            "height": int(size[1]),
+            "modelId": get_model_id_image.get(model, model),
+            "num_images": num_images,
+            "ultra": False,  # True == High quality, False == Low quality
+            "alchemy": False,  # True == Quality, False == Speed
+            "contrast": 3.5,  # low contrast : 3, medium contrast : 3.5, high contrast : 4
+            "styleUUID": None,
+        }
+
+        url = f"{self.base_url}/generations"
+
+        async def get_response_async():
+            def get_response():
+                response_dict = LeonardoApi.__get_response(self, url, payload)
+                return response_dict
+
+            response_dict = await asyncio.to_thread(get_response)
+            return response_dict
+        
+
+
+        response_dict = await get_response_async()
+        generation_by_pk = response_dict.get("generations_by_pk", {}) or {}
+        generated_images = generation_by_pk.get("generated_images", []) or []
+
         image_url = [image.get("url") for image in generated_images]
 
         generated_images = []
