@@ -118,49 +118,52 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
             "samples": num_images,
         }
 
-        async with httpx.AsyncClient(timeout=60) as client:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
             response = await client.post(url, json=payload, headers=self.headers)
 
-        try:
-            original_response = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException("Internal Server Error", code=500) from exc
+            try:
+                original_response = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException("Internal Server Error", code=500) from exc
 
-        # Handle error
-        if response.status_code != 200:
-            raise ProviderException(
-                message=original_response.get("message"), code=response.status_code
+            # Handle error
+            if response.is_error:
+                raise ProviderException(
+                    message=original_response.get("message"), code=response.status_code
+                )
+
+            async def process_and_upload_image(image_data: dict):
+                image = image_data.get("base64")
+
+                # Decode base64 in thread pool (CPU-bound operation)
+                def decode_image():
+                    base64_bytes = image.encode()
+                    return BytesIO(base64.b64decode(base64_bytes))
+
+                image_bytes = await asyncio.to_thread(decode_image)
+
+                # Upload to S3 asynchronously
+                resource_url = await aupload_file_bytes_to_s3(
+                    image_bytes, ".png", USER_PROCESS
+                )
+
+                return GeneratedImageDataClass(
+                    image=image, image_resource_url=resource_url
+                )
+
+            # Process and upload all images concurrently
+            generated_images = await asyncio.gather(
+                *[
+                    process_and_upload_image(image)
+                    for image in original_response.get("artifacts", [])
+                ],
+                return_exceptions=True,
             )
 
-        async def process_and_upload_image(image_b64: dict):
-            image = image_b64.get("base64")
-
-            # Decode base64 in thread pool (CPU-bound operation)
-            def decode_image():
-                base64_bytes = image.encode()
-                return BytesIO(base64.b64decode(base64_bytes))
-
-            image_bytes = await asyncio.to_thread(decode_image)
-
-            # Upload to S3 asynchronously
-            resource_url = await aupload_file_bytes_to_s3(
-                image_bytes, ".png", USER_PROCESS
+            return ResponseType[GenerationDataClass](
+                original_response=original_response,
+                standardized_response=GenerationDataClass(items=list(generated_images)),
             )
-
-            return GeneratedImageDataClass(image=image, image_resource_url=resource_url)
-
-        # Process and upload all images concurrently
-        generated_images = await asyncio.gather(
-            *[
-                process_and_upload_image(image)
-                for image in original_response.get("artifacts")
-            ]
-        )
-
-        return ResponseType[GenerationDataClass](
-            original_response=original_response,
-            standardized_response=GenerationDataClass(items=list(generated_images)),
-        )
 
     def image__background_removal(
         self,

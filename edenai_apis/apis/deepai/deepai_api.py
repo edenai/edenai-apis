@@ -93,7 +93,7 @@ class DeepAIApi(ProviderInterface, ImageInterface):
             "height": int(size[1]),
         }
 
-        async with httpx.AsyncClient(timeout=60) as client:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
             response = await client.post(url, data=payload, headers=self.headers)
 
             try:
