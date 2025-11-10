@@ -40,6 +40,19 @@ class OpenaiImageApi(ImageInterface):
         )
         return response
 
+    async def image__ageneration(
+        self,
+        text: str,
+        resolution: Literal["256x256", "512x512", "1024x1024"],
+        num_images: int = 1,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[ImageGenerationDataClass]:
+        response = await self.llm_client.aimage_generation(
+            prompt=text, resolution=resolution, n=num_images, model=model
+        )
+        return response
+
     def image__question_answer(
         self,
         file: str,

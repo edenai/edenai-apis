@@ -2,6 +2,9 @@
     "image": {
         "generation": {
             "version": "v3"
+        },
+        "ageneration": {
+            "version": "v3"
         }
     },
     "video": {

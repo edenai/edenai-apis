@@ -689,3 +689,20 @@ class ImageInterface:
         """
 
         raise NotImplementedError
+
+    @abstractmethod
+    async def image__ageneration(
+        self,
+        text: str,
+        resolution: Literal["256x256", "512x512", "1024x1024"],
+        num_images: int = 1,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[GenerationDataClass]:
+        """
+        Generate an image based on a text prompt.
+
+        Args:
+            text(str): prompt of the image to generate
+        """
+        raise NotImplementedError

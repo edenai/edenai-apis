@@ -1,9 +1,10 @@
+import asyncio
 import json
 import base64
 from io import BytesIO
 import tempfile
 from typing import Literal, Optional, Sequence
-from edenai_apis.llmengine.utils.moderation import moderate
+from edenai_apis.llmengine.utils.moderation import async_moderate, moderate
 from edenai_apis.apis.amazon.helpers import (
     ahandle_amazon_call,
     handle_amazon_call,
@@ -73,7 +74,11 @@ from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
+from edenai_apis.utils.upload_s3 import (
+    USER_PROCESS,
+    upload_file_bytes_to_s3,
+    aupload_file_bytes_to_s3,
+)
 
 
 class AmazonImageApi(ImageInterface):
@@ -519,6 +524,90 @@ class AmazonImageApi(ImageInterface):
         return ResponseType[GenerationDataClass](
             original_response=response_body,
             standardized_response=GenerationDataClass(items=generated_images),
+        )
+
+    @async_moderate
+    async def image__ageneration(
+        self,
+        text: str,
+        resolution: Literal["256x256", "512x512", "1024x1024"],
+        num_images: int = 1,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[GenerationDataClass]:
+        # Headers for the HTTP request
+        accept_header = "application/json"
+        content_type_header = "application/json"
+
+        # Body of the HTTP request
+        height, width = resolution.split("x")
+        model_name, quality = model.split("_")
+        request_body = json.dumps(
+            {
+                "taskType": "TEXT_IMAGE",
+                "textToImageParams": {"text": text},
+                "imageGenerationConfig": {
+                    "numberOfImages": num_images,
+                    "quality": quality,
+                    "height": int(height),
+                    "width": int(width),
+                    # "cfgScale": float,
+                    # "seed": int
+                },
+            }
+        )
+
+        # Parameters for the HTTP request
+        request_params = {
+            "body": request_body,
+            "modelId": f"amazon.{model_name}",
+            "accept": accept_header,
+            "contentType": content_type_header,
+        }
+        # Use asyncio.to_thread for the synchronous boto3 bedrock call
+        response = await asyncio.to_thread(
+            handle_amazon_call, self.clients["bedrock"].invoke_model, **request_params
+        )
+
+        # Use asyncio.to_thread for blocking I/O operation
+        response_body_bytes = await asyncio.to_thread(response.get("body").read)
+        response_body = json.loads(response_body_bytes)
+
+        # Process images and upload to S3 concurrently
+        async def process_and_upload_image(image_b64: str):
+            # Decode base64 in thread pool (CPU-bound operation)
+            def decode_image():
+                base64_bytes = image_b64.encode("ascii")
+                return BytesIO(base64.b64decode(base64_bytes))
+
+            image_bytes = await asyncio.to_thread(decode_image)
+
+            # Upload to S3 asynchronously
+            resource_url = await aupload_file_bytes_to_s3(
+                image_bytes, ".png", USER_PROCESS
+            )
+
+            return GeneratedImageDataClass(
+                image=image_b64, image_resource_url=resource_url
+            )
+
+        # Process and upload all images concurrently
+        generated_images = await asyncio.gather(
+            *[process_and_upload_image(image) for image in response_body["images"]],
+            return_exceptions=True,
+        )
+
+        # Filter out exceptions and log/handle them
+        successful_images = []
+        for img in generated_images:
+            if isinstance(img, Exception):
+                # Log or handle the exception
+                raise ProviderException(f"Failed to process image: {str(img)}")
+            successful_images.append(img)
+
+        return ResponseType[GenerationDataClass](
+            original_response=response_body,
+            standardized_response=GenerationDataClass(items=successful_images),
         )
 
     def image__embeddings(

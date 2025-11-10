@@ -61,6 +61,16 @@ class CompletionClient:
             "Not implemented. Please implement this method in a subclass."
         )
 
+    async def aimage_generation(
+        self,
+        prompt: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ):
+        raise CompletionClientError(
+            "Not implemented. Please implement this method in a subclass."
+        )
+
     def _get_unsupported_params(self, **call_configuration) -> List[str]:
         """
         Checks whether the client is capable of handling the provided configuration.

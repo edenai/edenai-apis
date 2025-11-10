@@ -1,9 +1,11 @@
+import asyncio
 import base64
 import json
 from io import BytesIO
 from json import JSONDecodeError
 from typing import Dict, Literal, Optional, Any, List, Sequence
 
+import httpx
 import requests
 
 from edenai_apis.features import ProviderInterface, ImageInterface
@@ -20,8 +22,12 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
-from edenai_apis.llmengine.utils.moderation import moderate
+from edenai_apis.utils.upload_s3 import (
+    USER_PROCESS,
+    aupload_file_bytes_to_s3,
+    upload_file_bytes_to_s3,
+)
+from edenai_apis.llmengine.utils.moderation import async_moderate, moderate
 
 
 class StabilityAIApi(ProviderInterface, ImageInterface):
@@ -89,6 +95,83 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
             original_response=original_response,
             standardized_response=GenerationDataClass(items=generations),
         )
+
+    @async_moderate
+    async def image__ageneration(
+        self,
+        text: str,
+        resolution: Literal["256x256", "512x512", "1024x1024"],
+        num_images: int = 1,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[GenerationDataClass]:
+        url = f"https://api.stability.ai/v1/generation/{model}/text-to-image"
+        size = resolution.split("x")
+        payload = {
+            "text_prompts": [
+                {
+                    "text": text,
+                }
+            ],
+            "width": int(size[0]),
+            "height": int(size[1]),
+            "samples": num_images,
+        }
+
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
+            response = await client.post(url, json=payload, headers=self.headers)
+
+            try:
+                original_response = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException("Internal Server Error", code=500) from exc
+
+            # Handle error
+            if response.is_error:
+                raise ProviderException(
+                    message=original_response.get("message"), code=response.status_code
+                )
+
+            async def process_and_upload_image(image_data: dict):
+                image = image_data.get("base64")
+
+                # Decode base64 in thread pool (CPU-bound operation)
+                def decode_image():
+                    base64_bytes = image.encode()
+                    return BytesIO(base64.b64decode(base64_bytes))
+
+                image_bytes = await asyncio.to_thread(decode_image)
+
+                # Upload to S3 asynchronously
+                resource_url = await aupload_file_bytes_to_s3(
+                    image_bytes, ".png", USER_PROCESS
+                )
+
+                return GeneratedImageDataClass(
+                    image=image, image_resource_url=resource_url
+                )
+
+            # Process and upload all images concurrently
+            generated_images = await asyncio.gather(
+                *[
+                    process_and_upload_image(image)
+                    for image in original_response.get("artifacts", [])
+                ],
+                return_exceptions=True
+            )
+
+            # Filter out exceptions and log/handle them
+            successful_images = []
+            for img in generated_images:
+                if isinstance(img, Exception):
+                    # Log or handle the exception
+                    raise ProviderException(f"Failed to process image: {str(img)}")
+                successful_images.append(img)
+
+            return ResponseType[GenerationDataClass](
+                original_response=original_response,
+                standardized_response=GenerationDataClass(items=successful_images),
+            )
 
     def image__background_removal(
         self,
