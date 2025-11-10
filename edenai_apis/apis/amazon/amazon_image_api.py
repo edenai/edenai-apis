@@ -568,7 +568,7 @@ class AmazonImageApi(ImageInterface):
         response = await asyncio.to_thread(
             handle_amazon_call, self.clients["bedrock"].invoke_model, **request_params
         )
-        
+
         # Use asyncio.to_thread for blocking I/O operation
         response_body_bytes = await asyncio.to_thread(response.get("body").read)
         response_body = json.loads(response_body_bytes)
@@ -597,9 +597,17 @@ class AmazonImageApi(ImageInterface):
             return_exceptions=True,
         )
 
+        # Filter out exceptions and log/handle them
+        successful_images = []
+        for img in generated_images:
+            if isinstance(img, Exception):
+                # Log or handle the exception
+                raise ProviderException(f"Failed to process image: {str(img)}")
+            successful_images.append(img)
+
         return ResponseType[GenerationDataClass](
             original_response=response_body,
-            standardized_response=GenerationDataClass(items=list(generated_images)),
+            standardized_response=GenerationDataClass(items=successful_images),
         )
 
     def image__embeddings(

@@ -156,12 +156,21 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
                 *[
                     process_and_upload_image(image)
                     for image in original_response.get("artifacts", [])
-                ]
+                ],
+                return_exceptions=True
             )
+
+            # Filter out exceptions and log/handle them
+            successful_images = []
+            for img in generated_images:
+                if isinstance(img, Exception):
+                    # Log or handle the exception
+                    raise ProviderException(f"Failed to process image: {str(img)}")
+                successful_images.append(img)
 
             return ResponseType[GenerationDataClass](
                 original_response=original_response,
-                standardized_response=GenerationDataClass(items=list(generated_images)),
+                standardized_response=GenerationDataClass(items=successful_images),
             )
 
     def image__background_removal(
