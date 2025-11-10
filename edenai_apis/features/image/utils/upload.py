@@ -6,7 +6,9 @@ import uuid
 from edenai_apis.utils.upload_s3 import USER_PROCESS, aupload_file_bytes_to_s3
 
 
-async def aget_resource_url(image_b64: str, image_format: str) -> dict[str, str]:
+async def aget_resource_url(
+    image_b64: str, image_format: str = "png"
+) -> dict[str, str]:
     """
     Upload image to S3 asynchronously.
 
