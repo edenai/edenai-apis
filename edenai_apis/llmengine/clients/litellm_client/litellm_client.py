@@ -248,7 +248,7 @@ class LiteLLMCompletionClient(CompletionClient):
             ):
                 raise handle_litellm_exception(exc) from exc
             else:
-                raise ProviderException(str(exc))
+                raise ProviderException(str(exc)) from exc
 
     def embedding(
         self,
@@ -334,7 +334,7 @@ class LiteLLMCompletionClient(CompletionClient):
             ):
                 raise handle_litellm_exception(exc) from exc
             else:
-                raise ProviderException(message=str(exc))
+                raise ProviderException(message=str(exc)) from exc
 
     async def aembedding(
         self,
@@ -420,7 +420,7 @@ class LiteLLMCompletionClient(CompletionClient):
             ):
                 raise handle_litellm_exception(exc) from exc
             else:
-                raise ProviderException(message=str(exc))
+                raise ProviderException(message=str(exc)) from exc
 
     def moderation(self, input: str, **kwargs):
         call_params = {}
@@ -573,7 +573,7 @@ class LiteLLMCompletionClient(CompletionClient):
             ):
                 raise handle_litellm_exception(exc) from exc
             else:
-                raise ProviderException(message=str(exc))
+                raise ProviderException(message=str(exc)) from exc
 
     def image_generation(
         self,
@@ -664,7 +664,7 @@ class LiteLLMCompletionClient(CompletionClient):
             ):
                 raise handle_litellm_exception(exc) from exc
             else:
-                raise ProviderException(message=str(exc))
+                raise ProviderException(message=str(exc)) from exc
 
     def _process_response_format(self, input_response_format: any) -> any:
         """
@@ -960,4 +960,4 @@ class LiteLLMRerankClient(RerankerClient):
             ):
                 raise handle_litellm_exception(ex) from ex
             else:
-                raise ProviderException(str(ex))
+                raise ProviderException(str(ex)) from exc
