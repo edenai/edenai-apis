@@ -2,6 +2,7 @@ import asyncio
 import base64
 import json
 from typing import Sequence, Optional
+import aiofiles
 import numpy as np
 import mimetypes
 import requests
@@ -506,11 +507,8 @@ class GoogleImageApi(ImageInterface):
             file_wrapper = await file_handler.download_file(file_url)
             inputImage = file_wrapper.get_file_b64_content()
         else:
-            image_bytes = await asyncio.to_thread(self._read_file_sync, file)
+            image_bytes = await self._read_file_async(file)
             inputImage = base64.b64encode(image_bytes).decode("utf-8")
-
-            # with open(file, "rb") as image_file:
-            #     image_bytes = image_file.read()
 
         payload = {
             "instances": [{"image": {"bytesBase64Encoded": inputImage}}],
@@ -519,7 +517,6 @@ class GoogleImageApi(ImageInterface):
 
         async with httpx.AsyncClient(timeout=60) as client:
             response = await client.post(url, json=payload, headers=headers)
-        # response = requests.post(url, json=payload, headers=headers)
         try:
             original_response = response.json()
         except json.JSONDecodeError as exc:
@@ -548,3 +545,7 @@ class GoogleImageApi(ImageInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
+
+    async def _read_file_async(self, file):
+        async with aiofiles.open(file, "rb") as f:
+            return await f.read()
