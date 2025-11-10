@@ -120,49 +120,51 @@ class BytedanceApi(ProviderInterface, ImageInterface, VideoInterface):
 
         async with httpx.AsyncClient(timeout=60) as client:
             response = await client.post(url, json=payload, headers=self.headers)
-        try:
-            original_response = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException("Internal Server Error", code=500) from exc
+            try:
+                original_response = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException("Internal Server Error", code=500) from exc
 
-        # Handle error
-        if response.status_code != 200:
-            raise ProviderException(
-                message=original_response.get("error", {}).get("message"),
-                code=response.status_code,
+            # Handle error
+            if response.status_code != 200:
+                raise ProviderException(
+                    message=original_response.get("error", {}).get("message"),
+                    code=response.status_code,
+                )
+
+            # Process images and upload to S3 concurrently
+            # Bytedance sends a dict with the b64 image in a dict["b64_json"]
+            async def process_and_upload_image(image_b64: dict):
+                image = image_b64.get("b64_json")
+
+                # Decode base64 in thread pool (CPU-bound operation)
+                def decode_image():
+                    base64_bytes = image.encode()
+                    return BytesIO(base64.b64decode(base64_bytes))
+
+                image_bytes = await asyncio.to_thread(decode_image)
+
+                # Upload to S3 asynchronously
+                resource_url = await aupload_file_bytes_to_s3(
+                    image_bytes, ".png", USER_PROCESS
+                )
+
+                return GeneratedImageDataClass(
+                    image=image, image_resource_url=resource_url
+                )
+
+            # Process and upload all images concurrently
+            generated_images = await asyncio.gather(
+                *[
+                    process_and_upload_image(image)
+                    for image in original_response.get("data")
+                ]
             )
 
-        # Process images and upload to S3 concurrently
-        # Bytedance sends a dict with the b64 image in a dict["b64_json"]
-        async def process_and_upload_image(image_b64: dict):
-            image = image_b64.get("b64_json")
-
-            # Decode base64 in thread pool (CPU-bound operation)
-            def decode_image():
-                base64_bytes = image.encode()
-                return BytesIO(base64.b64decode(base64_bytes))
-
-            image_bytes = await asyncio.to_thread(decode_image)
-
-            # Upload to S3 asynchronously
-            resource_url = await aupload_file_bytes_to_s3(
-                image_bytes, ".png", USER_PROCESS
+            return ResponseType[GenerationDataClass](
+                original_response=original_response,
+                standardized_response=GenerationDataClass(items=list(generated_images)),
             )
-
-            return GeneratedImageDataClass(image=image, image_resource_url=resource_url)
-
-        # Process and upload all images concurrently
-        generated_images = await asyncio.gather(
-            *[
-                process_and_upload_image(image)
-                for image in original_response.get("data")
-            ]
-        )
-
-        return ResponseType[GenerationDataClass](
-            original_response=original_response,
-            standardized_response=GenerationDataClass(items=list(generated_images)),
-        )
 
     def video__generation_async__launch_job(
         self,

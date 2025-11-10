@@ -74,7 +74,11 @@ from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3, aupload_file_bytes_to_s3
+from edenai_apis.utils.upload_s3 import (
+    USER_PROCESS,
+    upload_file_bytes_to_s3,
+    aupload_file_bytes_to_s3,
+)
 
 
 class AmazonImageApi(ImageInterface):
@@ -562,11 +566,9 @@ class AmazonImageApi(ImageInterface):
         }
         # Use asyncio.to_thread for the synchronous boto3 bedrock call
         response = await asyncio.to_thread(
-            handle_amazon_call,
-            self.clients["bedrock"].invoke_model,
-            **request_params
+            handle_amazon_call, self.clients["bedrock"].invoke_model, **request_params
         )
-
+        
         # Use asyncio.to_thread for blocking I/O operation
         response_body_bytes = await asyncio.to_thread(response.get("body").read)
         response_body = json.loads(response_body_bytes)
@@ -581,13 +583,18 @@ class AmazonImageApi(ImageInterface):
             image_bytes = await asyncio.to_thread(decode_image)
 
             # Upload to S3 asynchronously
-            resource_url = await aupload_file_bytes_to_s3(image_bytes, ".png", USER_PROCESS)
+            resource_url = await aupload_file_bytes_to_s3(
+                image_bytes, ".png", USER_PROCESS
+            )
 
-            return GeneratedImageDataClass(image=image_b64, image_resource_url=resource_url)
+            return GeneratedImageDataClass(
+                image=image_b64, image_resource_url=resource_url
+            )
 
         # Process and upload all images concurrently
         generated_images = await asyncio.gather(
-            *[process_and_upload_image(image) for image in response_body["images"]]
+            *[process_and_upload_image(image) for image in response_body["images"]],
+            return_exceptions=True,
         )
 
         return ResponseType[GenerationDataClass](

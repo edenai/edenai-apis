@@ -380,45 +380,45 @@ class MinimaxApi(
 
         async with httpx.AsyncClient(timeout=60) as client:
             response = await client.post(url, json=payload, headers=headers)
-        try:
-            original_response = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException("Internal Server Error", code=500) from exc
+            try:
+                original_response = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException("Internal Server Error", code=500) from exc
 
-        base_msg = original_response.get("base_resp")
-        if base_msg["status_msg"] != "success":
-            raise ProviderException(
-                message=base_msg["status_msg"], code=base_msg["status_code"]
+            base_msg = original_response.get("base_resp")
+            if base_msg["status_msg"] != "success":
+                raise ProviderException(
+                    message=base_msg["status_msg"], code=base_msg["status_code"]
+                )
+
+            async def process_and_upload_image(image_b64: str):
+
+                # Decode base64 in thread pool (CPU-bound operation)
+                def decode_image():
+                    base64_bytes = image_b64.encode()
+                    return BytesIO(base64.b64decode(base64_bytes))
+
+                image_bytes = await asyncio.to_thread(decode_image)
+
+                # Upload to S3 asynchronously
+                resource_url = await aupload_file_bytes_to_s3(
+                    image_bytes, ".jpeg", USER_PROCESS
+                )
+
+                return GeneratedImageDataClass(
+                    image=image_b64, image_resource_url=resource_url
+                )
+
+            # Process and upload all images concurrently
+            generated_images = await asyncio.gather(
+                *[
+                    process_and_upload_image(image)
+                    for image in original_response.get("data").get("image_base64")
+                ]
             )
 
-        async def process_and_upload_image(image_b64: str):
-
-            # Decode base64 in thread pool (CPU-bound operation)
-            def decode_image():
-                base64_bytes = image_b64.encode()
-                return BytesIO(base64.b64decode(base64_bytes))
-
-            image_bytes = await asyncio.to_thread(decode_image)
-
-            # Upload to S3 asynchronously
-            resource_url = await aupload_file_bytes_to_s3(
-                image_bytes, ".jpeg", USER_PROCESS
+            standardized_response = GenerationDataClass(items=list(generated_images))
+            return ResponseType[GenerationDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
             )
-
-            return GeneratedImageDataClass(
-                image=image_b64, image_resource_url=resource_url
-            )
-
-        # Process and upload all images concurrently
-        generated_images = await asyncio.gather(
-            *[
-                process_and_upload_image(image)
-                for image in original_response.get("data").get("image_base64")
-            ]
-        )
-
-        standardized_response = GenerationDataClass(items=list(generated_images))
-        return ResponseType[GenerationDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
