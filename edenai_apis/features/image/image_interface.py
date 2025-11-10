@@ -506,6 +506,28 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def image__abackground_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        """
+        Remove background from an image.
+        Each provider has its own parameters
+
+        Args:
+            file (str): Image to analyze
+            file_url (str): Url of the image to analyze
+            provider_params (dict): Provider specific parameters for the request.
+
+        Returns:
+            ResponseType[BackgroundRemovalDataClass]
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def image__automl_classification__create_project(
         self, name: Optional[str] = None, **kwargs
     ) -> ResponseType[AutomlClassificationCreateProjectDataClass]:
