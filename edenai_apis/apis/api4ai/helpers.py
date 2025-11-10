@@ -1,9 +1,12 @@
-from typing import Optional
+from typing import Optional, Union
 
+import httpx
 from requests import Response
 
 
-def get_errors_from_response(response: Response) -> Optional[str]:
+def get_errors_from_response(
+    response: Union[Response, httpx.Response],
+) -> Optional[str]:
     """
     Return formated error from a requests.Response object if it exists,
     else return None
