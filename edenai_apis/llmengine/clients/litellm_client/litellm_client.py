@@ -960,4 +960,4 @@ class LiteLLMRerankClient(RerankerClient):
             ):
                 raise handle_litellm_exception(ex) from ex
             else:
-                raise ProviderException(str(ex)) from exc
+                raise ProviderException(str(ex)) from ex
