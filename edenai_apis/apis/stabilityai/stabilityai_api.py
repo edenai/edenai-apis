@@ -156,8 +156,7 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
                 *[
                     process_and_upload_image(image)
                     for image in original_response.get("artifacts", [])
-                ],
-                return_exceptions=True,
+                ]
             )
 
             return ResponseType[GenerationDataClass](
