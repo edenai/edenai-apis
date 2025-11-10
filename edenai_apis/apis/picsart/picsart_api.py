@@ -9,6 +9,8 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+import aiofiles
+import httpx
 
 
 class PicsartApi(ProviderInterface, ImageInterface):
@@ -84,6 +86,63 @@ class PicsartApi(ProviderInterface, ImageInterface):
                 image_resource_url=image_url,
             ),
         )
+
+    async def image__abackground_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        """
+        Calls the Picsart Remove Background API.
+
+        :param file: The file path of the image you want to remove the background from
+        :param file_url: The file url of the image you want to remove the background from
+        :param provider_params: Other parameters supported by the Picsart Remove Background API.
+        """
+        url = f"{self.base_image_api_url}/removebg"
+
+        if provider_params is None:
+            provider_params = {}
+
+        files = {}
+        image_file = None
+
+        if file_url:
+            provider_params["image_url"] = file_url
+        elif file:
+            async with aiofiles.open(file, "rb") as f:
+                image_file = await f.read()
+                files = {"image": image_file}
+        else:
+            raise ProviderException("No file or file_url provided")
+
+        async with httpx.AsyncClient() as client:
+            bg_image = provider_params.pop("bg_image", None)  # BG removal + set
+            if bg_image:
+                async with aiofiles.open(bg_image, "rb") as f:
+                    bg_image = await f.read()
+                    files["bg_image"] = bg_image
+
+            response = await client.post(
+                url, files=files, data=provider_params, headers=self.headers
+            )
+
+            self._handle_errors(response=response)
+
+            result = response.json()
+            image_url = result["data"]["url"]
+            image_response = await client.get(image_url)
+            image_b64 = base64.b64encode(image_response.content).decode("utf-8")
+
+            return ResponseType[BackgroundRemovalDataClass](
+                original_response=response.text,
+                standardized_response=BackgroundRemovalDataClass(
+                    image_b64=image_b64,
+                    image_resource_url=image_url,
+                ),
+            )
 
     @staticmethod
     def _handle_errors(response: requests.Response):
