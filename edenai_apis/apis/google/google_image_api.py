@@ -178,8 +178,8 @@ class GoogleImageApi(ImageInterface):
 
             items = []
             for object_annotation in response.get("localizedObjectAnnotations", []):
-                x_min, x_max = np.infty, -np.infty
-                y_min, y_max = np.infty, -np.infty
+                x_min, x_max = np.inf, -np.inf
+                y_min, y_max = np.inf, -np.inf
                 # Getting borders
                 for normalize_vertice in object_annotation["boundingPoly"][
                     "normalizedVertices"
