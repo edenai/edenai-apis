@@ -4,6 +4,7 @@ from typing import Dict, Sequence, Optional, Any
 import aiofiles
 import httpx
 import requests
+import asyncio
 from PIL import Image as Img
 
 from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
@@ -154,6 +155,53 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             standardized_response=standardized_response,
         )
         return result
+
+    async def image__aobject_detection(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ObjectDetectionDataClass]:
+
+        async with aiofiles.open(file, "rb") as f:
+            image_file = await f.read()
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                self.base_url + SentisightPreTrainModel.OBJECT_DETECTION.value,
+                headers={
+                    "accept": "*/*",
+                    "X-Auth-token": self.key,
+                    "Content-Type": "application/octet-stream",
+                },
+                content=image_file,
+            )
+            if response.status_code != 200:
+                raise ProviderException(response.text, code=response.status_code)
+
+            image_data = await asyncio.to_thread(Img.open, file)
+            width = image_data.width
+            height = image_data.height
+            image_data.close()
+
+            original_response = response.json()
+            objects: Sequence[ObjectItem] = []
+
+            for obj in original_response:
+                objects.append(
+                    ObjectItem(
+                        label=obj["label"],
+                        confidence=obj["score"] / 100,
+                        x_min=float(obj["x0"]) / width,
+                        x_max=float(obj["x1"]) / width,
+                        y_min=float(obj["y0"] / height),
+                        y_max=float(obj["y1"] / height),
+                    )
+                )
+
+            standardized_response = ObjectDetectionDataClass(items=objects)
+            result = ResponseType[ObjectDetectionDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+            return result
 
     def image__explicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs

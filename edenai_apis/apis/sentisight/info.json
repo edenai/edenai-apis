@@ -4,6 +4,10 @@
             "constraints": {},
             "version": "v3.3.1"
         },
+        "aobject_detection": {
+            "constraints": {},
+            "version": "v3.3.1"
+        },
         "explicit_content": {
             "version": "v3.3.1"
         },

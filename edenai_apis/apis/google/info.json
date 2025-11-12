@@ -1376,6 +1376,10 @@
             "constraints": {},
             "version": "v1"
         },
+        "aobject_detection": {
+            "constraints": {},
+            "version": "v1"
+        },
         "question_answer": {
             "constraints": {
                 "models": [

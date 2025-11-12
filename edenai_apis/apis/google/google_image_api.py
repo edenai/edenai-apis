@@ -16,6 +16,7 @@ from edenai_apis.apis.google.google_helpers import (
     handle_google_call,
     score_to_content,
     get_access_token,
+    ahandle_google_call,
 )
 from edenai_apis.features.image.explicit_content.category import CategoryType
 from edenai_apis.features.image.explicit_content.explicit_content_dataclass import (
@@ -122,6 +123,7 @@ class GoogleImageApi(ImageInterface):
     def image__object_detection(
         self, file: str, model: str = None, file_url: str = "", **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
+
         with open(file, "rb") as file_:
             image = vision.Image(content=file_.read())
 
@@ -160,6 +162,49 @@ class GoogleImageApi(ImageInterface):
             original_response=response,
             standardized_response=ObjectDetectionDataClass(items=items),
         )
+
+    async def image__aobject_detection(
+        self, file: str, model: str = None, file_url: str = "", **kwargs
+    ) -> ResponseType[ObjectDetectionDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+            image = vision.Image(content=file_content)
+            payload = {"image": image}
+            response = await asyncio.to_thread(
+                handle_google_call, self.clients["image"].object_localization, **payload
+            )
+
+            response = MessageToDict(response._pb)
+
+            items = []
+            for object_annotation in response.get("localizedObjectAnnotations", []):
+                x_min, x_max = np.inf, -np.inf
+                y_min, y_max = np.inf, -np.inf
+                # Getting borders
+                for normalize_vertice in object_annotation["boundingPoly"][
+                    "normalizedVertices"
+                ]:
+                    x_min, x_max = min(x_min, normalize_vertice.get("x", 0)), max(
+                        x_max, normalize_vertice.get("x", 0)
+                    )
+                    y_min, y_max = min(y_min, normalize_vertice.get("y", 0)), max(
+                        y_max, normalize_vertice.get("y", 0)
+                    )
+                items.append(
+                    ObjectItem(
+                        label=object_annotation["name"],
+                        confidence=object_annotation["score"],
+                        x_min=x_min,
+                        x_max=x_max,
+                        y_min=y_min,
+                        y_max=y_max,
+                    )
+                )
+
+            return ResponseType[ObjectDetectionDataClass](
+                original_response=response,
+                standardized_response=ObjectDetectionDataClass(items=items),
+            )
 
     def image__face_detection(
         self, file: str, file_url: str = "", **kwargs

@@ -251,6 +251,18 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def image__aobject_detection(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ObjectDetectionDataClass]:
+        """
+        Detect objects in an image
+
+        Args:
+            file (BufferedReader): image to analyze
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def image__question_answer(
         self,
         file: str,

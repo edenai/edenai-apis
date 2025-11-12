@@ -162,6 +162,19 @@
             },
             "version": "8.0.0"
         },
+        "aobject_detection": {
+            "constraints": {
+                "models": [
+                    "hate-symbol-detection",
+                    "weapon-detection",
+                    "people-detection-yolov5",
+                    "apparel-detection",
+                    "general-image-detection"
+                ],
+                "default_model": "general-image-detection"
+            },
+            "version": "8.0.0"
+        },
         "logo_detection": {
             "constraints": {},
             "version": "8.0.0"

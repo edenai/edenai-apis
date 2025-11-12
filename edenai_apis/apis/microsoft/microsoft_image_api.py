@@ -3,6 +3,8 @@ import json
 from typing import List, Sequence, Optional, Any, Dict
 
 import requests
+import httpx
+import aiofiles
 from PIL import Image as Img
 
 from edenai_apis.apis.microsoft.microsoft_helpers import (
@@ -141,6 +143,61 @@ class MicrosoftImageApi(ImageInterface):
                 y_max = 1 - (
                     (height - obj["rectangle"]["y"] - obj["rectangle"]["h"]) / height
                 )
+            items.append(
+                ObjectItem(
+                    label=obj["object"],
+                    confidence=obj["confidence"],
+                    x_min=x_min,
+                    x_max=x_max,
+                    y_min=y_min,
+                    y_max=y_max,
+                )
+            )
+
+        return ResponseType[ObjectDetectionDataClass](
+            original_response=data,
+            standardized_response=ObjectDetectionDataClass(items=items),
+        )
+
+    async def image__aobject_detection(
+        self, file: str, model: str = None, file_url: str = "", **kwargs
+    ) -> ResponseType[ObjectDetectionDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{self.url['vision']}/detect",
+                headers=self.headers["vision"],
+                content=file_content,
+            )
+
+        data = response.json()
+
+        if response.status_code != 200:
+            error = data["error"]
+            err_msg = (
+                error["innererror"]["message"]
+                if "innererror" in error
+                else error["message"]
+            )
+            raise ProviderException(err_msg, code=response.status_code)
+
+        items = []
+        metadata = data.get("metadata", {})
+        width, height = metadata.get("width"), metadata.get("height")
+
+        for obj in data.get("objects", []):
+            if width is None or height is None:
+                x_min, x_max, y_min, y_max = 0, 0, 0, 0
+            else:
+                x_min = obj["rectangle"]["x"] / width
+                x_max = (obj["rectangle"]["x"] + obj["rectangle"]["w"]) / width
+                y_min = 1 - ((height - obj["rectangle"]["y"]) / height)
+                y_max = 1 - (
+                    (height - obj["rectangle"]["y"] - obj["rectangle"]["h"]) / height
+                )
+
             items.append(
                 ObjectItem(
                     label=obj["object"],
