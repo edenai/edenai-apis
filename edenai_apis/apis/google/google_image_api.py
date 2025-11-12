@@ -170,11 +170,15 @@ class GoogleImageApi(ImageInterface):
             file_content = await file_.read()
             image = vision.Image(content=file_content)
 
-            payload = {"image": image}
-            vision.ImageAnnotatorAsyncClient
             async with vision.ImageAnnotatorAsyncClient() as client:
+                features = [
+                    vision.Feature(type_=vision.Feature.Type.OBJECT_LOCALIZATION)
+                ]
+                request = vision.AnnotateImageRequest(image=image, features=features)
+                payload = {"request": [request]}
+
                 response = await ahandle_google_call(
-                    client.object_localization, **payload
+                    client.batch_annotate_images, **payload
                 )
                 response = MessageToDict(response._pb)
 

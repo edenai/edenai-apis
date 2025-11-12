@@ -2,6 +2,7 @@ from collections import defaultdict
 from typing import Dict, Optional, Sequence
 
 import aiofiles
+import asyncio
 
 from PIL import Image as Img, UnidentifiedImageError
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
@@ -357,7 +358,8 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
         async with aiofiles.open(file, "rb") as file_:
             file_content = await file_.read()
 
-        post_model_outputs_response = await stub.PostModelOutputs(
+        post_model_outputs_response = await asyncio.to_thread(
+            stub.PostModelOutputs,
             service_pb2.PostModelOutputsRequest(
                 user_app_id=user_data_object,
                 model_id=model,
