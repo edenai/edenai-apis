@@ -3,6 +3,8 @@ from io import BytesIO
 from json import JSONDecodeError
 from typing import Dict, Sequence, Optional, Any
 
+import aiofiles
+import httpx
 import requests
 
 from edenai_apis.features import ProviderInterface, ImageInterface, OcrInterface
@@ -44,6 +46,7 @@ from edenai_apis.features.image.object_detection import (
     ObjectDetectionDataClass,
     ObjectItem,
 )
+from edenai_apis.features.image.utils.upload import aget_resource_url
 from edenai_apis.features.ocr.ocr.ocr_dataclass import Bounding_box, OcrDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -76,7 +79,7 @@ class Api4aiApi(
             "anonymization": "/img-anonymization/v1/results",
             "nsfw": "/nsfw/v1/results",
             "ocr": "/ocr/v1/results",
-            "bg_removal": "/img-bg-removal/v1/general/results",
+            "bg_removal": "/img-bg-removal/v1/results",
         }
 
         self.urls = {
@@ -425,3 +428,39 @@ class Api4aiApi(
                     image_resource_url=resource_url,
                 ),
             )
+
+    async def image__abackground_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        if provider_params is None or not isinstance(provider_params, dict):
+            api4ai_params = Api4aiBackgroundRemovalParams()
+        else:
+            api4ai_params = Api4aiBackgroundRemovalParams(**provider_params)
+
+        url: str = self.urls["bg_removal"] + f"&mode={api4ai_params.mode}"
+        async with aiofiles.open(file, "rb") as f:
+            file_content = await f.read()
+            async with httpx.AsyncClient(
+                timeout=httpx.Timeout(10.0, read=120.0)
+            ) as client:
+                response = await client.post(url, files={"image": file_content})
+                error = get_errors_from_response(response)
+                if error is not None:
+                    raise ProviderException(error, code=response.status_code)
+
+                original_response = response.json()
+                img_b64 = original_response["results"][0]["entities"][0]["image"]
+                img_fmt = original_response["results"][0]["entities"][0]["format"]
+
+                resource_url_dict = await aget_resource_url(img_b64, img_fmt)
+
+                return ResponseType[BackgroundRemovalDataClass](
+                    original_response=original_response,
+                    standardized_response=BackgroundRemovalDataClass(
+                        **resource_url_dict
+                    ),
+                )

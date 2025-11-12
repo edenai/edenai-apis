@@ -37,6 +37,9 @@
         "background_removal": {
             "version": "v2Beta"
         },
+        "abackground_removal": {
+            "version": "v2Beta"
+        },
         "variation": {
             "constraints": {
                 "resolutions": [

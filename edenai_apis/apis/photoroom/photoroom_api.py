@@ -1,11 +1,15 @@
 from http import HTTPStatus
-from typing import Optional, Dict, Any
+import json
+from typing import Optional, Dict, Any, Union
 
+import aiofiles
+import httpx
 import requests
 
 from edenai_apis.apis.photoroom.types import PhotoroomBackgroundRemovalParams
 from edenai_apis.features import ImageInterface, ProviderInterface
 from edenai_apis.features.image.background_removal import BackgroundRemovalDataClass
+from edenai_apis.features.image.utils.upload import aget_resource_url
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
@@ -28,7 +32,7 @@ class PhotoroomApi(ImageInterface, ProviderInterface):
         self.base_url: str = "https://sdk.photoroom.com/v1/"
 
     @staticmethod
-    def _handle_error(response: requests.Response) -> None:
+    def _handle_error(response: Union[requests.Response, httpx.Response]) -> None:
         if response.status_code == HTTPStatus.OK:
             pass
         elif response.status_code in [
@@ -82,3 +86,42 @@ class PhotoroomApi(ImageInterface, ProviderInterface):
                     image_resource_url=resource_url,
                 ),
             )
+
+    async def image__abackground_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        if provider_params is None or not isinstance(provider_params, dict):
+            photoroom_params = PhotoroomBackgroundRemovalParams()
+        else:
+            photoroom_params = PhotoroomBackgroundRemovalParams(**provider_params)
+
+        async with aiofiles.open(file, "rb") as f:
+            image_file = await f.read()
+            async with httpx.AsyncClient(
+                timeout=httpx.Timeout(10.0, read=120.0)
+            ) as client:
+                response = await client.post(
+                    f"{self.base_url}segment",
+                    files={"image_file": image_file},
+                    headers=self.headers,
+                    data=photoroom_params.model_dump(),
+                )
+                PhotoroomApi._handle_error(response)
+                original_response = response.json()
+
+                image_b64 = original_response["result_b64"]
+
+                resource_url_dict = await aget_resource_url(
+                    image_b64, photoroom_params.format
+                )
+
+                return ResponseType[BackgroundRemovalDataClass](
+                    original_response=original_response,
+                    standardized_response=BackgroundRemovalDataClass(
+                        **resource_url_dict
+                    ),
+                )

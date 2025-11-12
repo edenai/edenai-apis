@@ -49,3 +49,5 @@ class BackgroundRemovalDataClass(BaseModel):
         return s3_module.upload_file_bytes_to_s3(
             file=content, file_name=filename, process_type=s3_module.USER_PROCESS
         )
+    
+    

@@ -5,6 +5,7 @@ from io import BytesIO
 from json import JSONDecodeError
 from typing import Dict, Literal, Optional, Any, List, Sequence
 
+import aiofiles
 import httpx
 import requests
 
@@ -14,6 +15,7 @@ from edenai_apis.features.image.generation import (
     GenerationDataClass,
     GeneratedImageDataClass,
 )
+from edenai_apis.features.image.utils.upload import aget_resource_url
 from edenai_apis.features.image.variation import (
     VariationDataClass,
     VariationImageDataClass,
@@ -42,6 +44,11 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
             "Accept": "application/json",
+        }
+
+        self.image_headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "accept": "image/*",
         }
 
     @moderate
@@ -157,7 +164,7 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
                     process_and_upload_image(image)
                     for image in original_response.get("artifacts", [])
                 ],
-                return_exceptions=True
+                return_exceptions=True,
             )
 
             # Filter out exceptions and log/handle them
@@ -206,6 +213,42 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
                 image_resource_url=resource_url,
             ),
         )
+
+    async def image__abackground_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        url = "https://api.stability.ai/v2beta/stable-image/edit/remove-background"
+
+        async with aiofiles.open(file, "rb") as f:
+            files = {"image": await f.read()}
+
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
+            response = await client.post(
+                url, files=files, headers=self.image_headers
+            )
+
+            if response.status_code != 200:
+                # Error response - parse JSON
+                try:
+                    error_response = response.json()
+                    error_message = error_response.get("message", "Unknown error")
+                except json.JSONDecodeError:
+                    error_message = response.text or "Internal Server Error"
+                raise ProviderException(error_message, code=response.status_code)
+            
+            # Success response - binary image data
+            image_b64 = base64.b64encode(response.content).decode("utf-8")
+            resource_url_dict = await aget_resource_url(image_b64)
+
+            return ResponseType[BackgroundRemovalDataClass](
+                original_response=response.text, 
+                standardized_response=BackgroundRemovalDataClass(**resource_url_dict),
+            )
+
 
     def image__variation(
         self,

@@ -465,7 +465,48 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def image__aface_compare(
+        self,
+        file1: str,
+        file2: str,
+        file1_url: Optional[str] = None,
+        file2_url: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[FaceCompareDataClass]:
+        """
+
+        Args:
+            file1 (str): _description_
+            file2 (str): _description_
+            file1_url (str): _description_
+            file2_url (str): _description_
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def image__background_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        """
+        Remove background from an image.
+        Each provider has its own parameters
+
+        Args:
+            file (str): Image to analyze
+            file_url (str): Url of the image to analyze
+            provider_params (dict): Provider specific parameters for the request.
+
+        Returns:
+            ResponseType[BackgroundRemovalDataClass]
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    async def image__abackground_removal(
         self,
         file: str,
         file_url: str = "",

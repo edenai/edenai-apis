@@ -1,6 +1,8 @@
 import base64
 from typing import Dict, Sequence, Optional, Any
 
+import aiofiles
+import httpx
 import requests
 from PIL import Image as Img
 
@@ -28,6 +30,7 @@ from edenai_apis.features.image.search.upload_image.search_upload_image_dataclas
 from edenai_apis.features.image.search.delete_image.search_delete_image_dataclass import (
     SearchDeleteImageDataClass,
 )
+from edenai_apis.features.image.utils.upload import aget_resource_url
 from edenai_apis.features.ocr import OcrDataClass, Bounding_box
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -52,6 +55,10 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         self.key = self.api_settings["auth-token"]
         self.base_url = "https://platform.sentisight.ai/api/pm-predict/"
         self.headers = {"X-Auth-token": self.key, "Content-Type": "application/json"}
+        self.octet_stream_headers = {  # Just to be consistent
+            "X-Auth-token": self.key,
+            "Content-Type": "application/octet-stream",
+        }
 
     def ocr__ocr(
         self, file: str, language: str, file_url: str = "", **kwargs
@@ -378,4 +385,34 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
                     image_b64=img_b64,
                     image_resource_url=resource_url,
                 ),
+            )
+
+    async def image__abackground_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        async with aiofiles.open(file, "rb") as f:
+            image_file = await f.read()
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                self.base_url + SentisightPreTrainModel.BACKGROUND_REMOVAL.value,
+                headers=self.octet_stream_headers,
+                content=image_file,
+            )
+            if response.status_code != 200:
+                raise ProviderException(response.text, code=response.status_code)
+
+            original_response = response.json()
+
+            image_b64 = original_response[0]["image"]
+
+            resource_url_dict = await aget_resource_url(image_b64)
+
+            return ResponseType[BackgroundRemovalDataClass](
+                original_response=original_response,
+                standardized_response=BackgroundRemovalDataClass(**resource_url_dict),
             )

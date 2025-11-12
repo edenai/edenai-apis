@@ -29,6 +29,9 @@
         },
         "background_removal": {
             "version": "v3.3.1"
+        },
+        "abackground_removal": {
+            "version": "v3.3.1"
         }
     },
     "ocr": {
