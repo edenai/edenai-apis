@@ -1,5 +1,6 @@
 import base64
 import json
+import os
 from typing import Dict, Optional, Any
 
 import requests
@@ -114,16 +115,26 @@ class PicsartApi(ProviderInterface, ImageInterface):
         elif file:
             async with aiofiles.open(file, "rb") as f:
                 image_file = await f.read()
-                files = {"image": image_file}
+                files = {
+                    "image": (
+                        os.path.basename(file),
+                        image_file,
+                        "application/octet-stream",
+                    )
+                }
         else:
             raise ProviderException("No file or file_url provided")
 
-        async with httpx.AsyncClient() as client:
-            bg_image = provider_params.pop("bg_image", None)  # BG removal + set
-            if bg_image:
-                async with aiofiles.open(bg_image, "rb") as f:
-                    bg_image = await f.read()
-                    files["bg_image"] = bg_image
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+            bg_image_path = provider_params.pop("bg_image", None)  # BG removal + set
+            if bg_image_path:
+                async with aiofiles.open(bg_image_path, "rb") as f:
+                    bg_image_bytes = await f.read()
+                    files["bg_image"] = (
+                        os.path.basename(bg_image_path),
+                        bg_image_bytes,
+                        "application/octet-stream",
+                    )
 
             response = await client.post(
                 url, files=files, data=provider_params, headers=self.headers

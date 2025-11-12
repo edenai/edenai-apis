@@ -444,7 +444,9 @@ class Api4aiApi(
         url: str = self.urls["bg_removal"] + f"&mode={api4ai_params.mode}"
         async with aiofiles.open(file, "rb") as f:
             file_content = await f.read()
-            async with httpx.AsyncClient() as client:
+            async with httpx.AsyncClient(
+                timeout=httpx.Timeout(10.0, read=120.0)
+            ) as client:
                 response = await client.post(url, files={"image": file_content})
                 error = get_errors_from_response(response)
                 if error is not None:

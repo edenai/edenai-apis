@@ -101,7 +101,9 @@ class PhotoroomApi(ImageInterface, ProviderInterface):
 
         async with aiofiles.open(file, "rb") as f:
             image_file = await f.read()
-            async with httpx.AsyncClient() as client:
+            async with httpx.AsyncClient(
+                timeout=httpx.Timeout(10.0, read=120.0)
+            ) as client:
                 response = await client.post(
                     f"{self.base_url}segment",
                     files={"image_file": image_file},
