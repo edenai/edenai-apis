@@ -83,7 +83,14 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
         if not file_url and not file:
             raise ProviderException("file or file_url required")
 
-        url = file_url or await aupload_file_bytes_to_s3(file, file)
+        if file and not file_url:
+            from io import BytesIO
+
+            with open(file, "rb") as f:
+                file_bytes = BytesIO(f.read())
+            url = await aupload_file_bytes_to_s3(file_bytes, file)
+        else:
+            url = file_url
 
         payload = json.dumps({"url": url})
 
