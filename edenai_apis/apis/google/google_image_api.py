@@ -169,48 +169,42 @@ class GoogleImageApi(ImageInterface):
         async with aiofiles.open(file, "rb") as file_:
             file_content = await file_.read()
             image = vision.Image(content=file_content)
+            payload = {"image": image}
+            response = await asyncio.to_thread(
+                handle_google_call, self.clients["image"].object_localization, **payload
+            )
 
-            async with vision.ImageAnnotatorAsyncClient() as client:
-                features = [
-                    vision.Feature(type_=vision.Feature.Type.OBJECT_LOCALIZATION)
-                ]
-                request = vision.AnnotateImageRequest(image=image, features=features)
-                payload = {"request": [request]}
+            response = MessageToDict(response._pb)
 
-                response = await ahandle_google_call(
-                    client.batch_annotate_images, **payload
-                )
-                response = MessageToDict(response._pb)
-
-                items = []
-                for object_annotation in response.get("localizedObjectAnnotations", []):
-                    x_min, x_max = np.infty, -np.infty
-                    y_min, y_max = np.infty, -np.infty
-                    # Getting borders
-                    for normalize_vertice in object_annotation["boundingPoly"][
-                        "normalizedVertices"
-                    ]:
-                        x_min, x_max = min(x_min, normalize_vertice.get("x", 0)), max(
-                            x_max, normalize_vertice.get("x", 0)
-                        )
-                        y_min, y_max = min(y_min, normalize_vertice.get("y", 0)), max(
-                            y_max, normalize_vertice.get("y", 0)
-                        )
-                    items.append(
-                        ObjectItem(
-                            label=object_annotation["name"],
-                            confidence=object_annotation["score"],
-                            x_min=x_min,
-                            x_max=x_max,
-                            y_min=y_min,
-                            y_max=y_max,
-                        )
+            items = []
+            for object_annotation in response.get("localizedObjectAnnotations", []):
+                x_min, x_max = np.infty, -np.infty
+                y_min, y_max = np.infty, -np.infty
+                # Getting borders
+                for normalize_vertice in object_annotation["boundingPoly"][
+                    "normalizedVertices"
+                ]:
+                    x_min, x_max = min(x_min, normalize_vertice.get("x", 0)), max(
+                        x_max, normalize_vertice.get("x", 0)
                     )
-
-                return ResponseType[ObjectDetectionDataClass](
-                    original_response=response,
-                    standardized_response=ObjectDetectionDataClass(items=items),
+                    y_min, y_max = min(y_min, normalize_vertice.get("y", 0)), max(
+                        y_max, normalize_vertice.get("y", 0)
+                    )
+                items.append(
+                    ObjectItem(
+                        label=object_annotation["name"],
+                        confidence=object_annotation["score"],
+                        x_min=x_min,
+                        x_max=x_max,
+                        y_min=y_min,
+                        y_max=y_max,
+                    )
                 )
+
+            return ResponseType[ObjectDetectionDataClass](
+                original_response=response,
+                standardized_response=ObjectDetectionDataClass(items=items),
+            )
 
     def image__face_detection(
         self, file: str, file_url: str = "", **kwargs

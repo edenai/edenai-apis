@@ -372,6 +372,7 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
                 ],
             ),
             metadata=metadata,
+            timeout=120,
         )
 
         if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
