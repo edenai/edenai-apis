@@ -128,6 +128,48 @@ class Api4aiApi(
         )
         return result
 
+    async def image__aobject_detection(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ObjectDetectionDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+            files = {"image": file_content}
+            async with httpx.AsyncClient(
+                timeout=httpx.Timeout(10.0, read=120.0)
+            ) as client:
+                response = await client.post(self.urls["object_detection"], files=files)
+                original_response = response.json()
+
+                if "failure" in original_response["results"][0]["status"]["code"]:
+                    raise ProviderException(
+                        original_response["results"][0]["status"]["message"],
+                        code=response.status_code,
+                    )
+
+                items = []
+                for item in original_response["results"][0]["entities"][0]["objects"]:
+                    label = next(iter(item.get("entities", [])[0].get("classes", {})))
+                    confidence = item["entities"][0]["classes"][label]
+                    if confidence > 0.3:
+                        boxes = item.get("box", [])
+                        items.append(
+                            ObjectItem(
+                                label=label,
+                                confidence=confidence,
+                                x_min=boxes[0],
+                                x_max=boxes[2] + boxes[0],
+                                y_min=boxes[1],
+                                y_max=boxes[3] + boxes[1],
+                            )
+                        )
+
+                standardized_response = ObjectDetectionDataClass(items=items)
+                result = ResponseType[ObjectDetectionDataClass](
+                    original_response=original_response,
+                    standardized_response=standardized_response,
+                )
+        return result
+
     def image__face_detection(
         self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[FaceDetectionDataClass]:

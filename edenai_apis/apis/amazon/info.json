@@ -736,6 +736,10 @@
       "constraints": {},
       "version": "boto3 (v1.15.18)"
     },
+    "aobject_detection": {
+      "constraints": {},
+      "version": "boto3 (v1.15.18)"
+    },
     "face_recognition": {
       "create_collection": {
         "version": "boto3 1.26.8"

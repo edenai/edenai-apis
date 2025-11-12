@@ -2,7 +2,10 @@ import asyncio
 import json
 import base64
 from io import BytesIO
-import tempfile
+
+import aiofiles
+import aioboto3
+
 from typing import Literal, Optional, Sequence
 from edenai_apis.llmengine.utils.moderation import async_moderate, moderate
 from edenai_apis.apis.amazon.helpers import (
@@ -119,6 +122,55 @@ class AmazonImageApi(ImageInterface):
                     y_max=y_max,
                 )
             )
+
+        return ResponseType[ObjectDetectionDataClass](
+            original_response=original_response,
+            standardized_response=ObjectDetectionDataClass(items=items),
+        )
+
+    async def image__aobject_detection(
+        self, file: str, model: str = None, file_url: str = "", **kwargs
+    ) -> ResponseType[ObjectDetectionDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+            payload = {"Image": {"Bytes": file_content}, "MinConfidence": 70}
+            session = aioboto3.Session()
+            async with session.client(
+                "rekognition",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as client:
+                original_response = await ahandle_amazon_call(
+                    client.detect_labels, **payload
+                )
+                items = []
+                for object_label in original_response.get("Labels"):
+                    if object_label.get("Instances"):
+                        bounding_box = object_label.get("Instances")[0].get(
+                            "BoundingBox"
+                        )
+                        x_min, x_max = (
+                            bounding_box.get("Left"),
+                            bounding_box.get("Left") + bounding_box.get("Width"),
+                        )
+                        y_min, y_max = (
+                            bounding_box.get("Top"),
+                            bounding_box.get("Top") + bounding_box.get("Height"),
+                        )
+                    else:
+                        x_min, x_max, y_min, y_max = None, None, None, None
+
+                    items.append(
+                        ObjectItem(
+                            label=object_label.get("Name"),
+                            confidence=object_label.get("Confidence") / 100,
+                            x_min=x_min,
+                            x_max=x_max,
+                            y_min=y_min,
+                            y_max=y_max,
+                        )
+                    )
 
         return ResponseType[ObjectDetectionDataClass](
             original_response=original_response,

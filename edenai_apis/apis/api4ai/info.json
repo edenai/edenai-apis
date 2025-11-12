@@ -4,6 +4,10 @@
             "constraints": {},
             "version": "1.9.2"
         },
+        "aobject_detection": {
+            "constraints": {},
+            "version": "1.9.2"
+        },
         "logo_detection": {
             "constraints": {
                 "models": [
