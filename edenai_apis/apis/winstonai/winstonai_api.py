@@ -24,7 +24,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.upload_s3 import upload_file_to_s3
+from edenai_apis.utils.upload_s3 import aupload_file_bytes_to_s3, upload_file_to_s3
 
 
 class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
@@ -76,6 +76,44 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
+
+    async def image__aai_detection(
+        self, file: Optional[str] = None, file_url: Optional[str] = None, **kwargs
+    ) -> ResponseType[ImageAiDetectionDataclass]:
+        if not file_url and not file:
+            raise ProviderException("file or file_url required")
+
+        url = file_url or await aupload_file_bytes_to_s3(file, file)
+
+        payload = json.dumps({"url": url})
+
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+            response = await client.request(
+                "POST",
+                f"{self.api_url}/image-detection",
+                headers=self.headers,
+                data=payload,
+            )
+
+            if response.status_code != 200:
+                raise ProviderException(response.json(), code=response.status_code)
+
+            original_response = response.json()
+
+            score = 1 - original_response.get("score") / 100
+            prediction = ImageAiDetectionDataclass.set_label_based_on_score(score)
+            if score is None:
+                raise ProviderException(response.json())
+
+            standardized_response = ImageAiDetectionDataclass(
+                ai_score=score,
+                prediction=prediction,
+            )
+
+            return ResponseType[ImageAiDetectionDataclass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
 
     def text__ai_detection(
         self, text: str, provider_params: Optional[Dict[str, Any]] = None, **kwargs
