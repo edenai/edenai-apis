@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import List, Optional
 
 import azure.cognitiveservices.speech as speechsdk
+import asyncio
 import requests
 
 from edenai_apis.apis.microsoft.microsoft_helpers import (
@@ -93,6 +94,67 @@ class MicrosoftAudioApi(AudioInterface):
 
         standardized_response = TextToSpeechDataClass(
             audio=audio, voice_type=voice_type, audio_resource_url=resource_url
+        )
+
+        return ResponseType[TextToSpeechDataClass](
+            original_response={}, standardized_response=standardized_response
+        )
+
+    async def audio__atext_to_speech(
+        self,
+        language: str,
+        text: str,
+        option: str,
+        voice_id: str,
+        audio_format: str,
+        speaking_rate: int,
+        speaking_pitch: int,
+        speaking_volume: int,
+        sampling_rate: int,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        speech_config = speechsdk.SpeechConfig(
+            subscription=self.api_settings["speech"]["subscription_key"],
+            region=self.api_settings["speech"]["service_region"],
+        )
+        speech_config.speech_synthesis_voice_name = voice_id
+
+        ext, resolved_audio_format = get_right_audio_support_and_sampling_rate(
+            audio_format, 0, speechsdk.SpeechSynthesisOutputFormat._member_names_
+        )
+
+        speech_config.set_speech_synthesis_output_format(
+            getattr(speechsdk.SpeechSynthesisOutputFormat, resolved_audio_format)
+        )
+
+        ssml_or_text = generate_right_ssml_text(
+            text, voice_id, speaking_rate, speaking_pitch, speaking_volume
+        )
+
+        def _synthesize_blocking() -> bytes:
+            synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
+            response = (
+                synthesizer.speak_text_async(ssml_or_text).get()
+                if not is_ssml(ssml_or_text)
+                else synthesizer.speak_ssml_async(ssml_or_text).get()
+            )
+
+            if response.reason == speechsdk.ResultReason.Canceled:
+                cancellation_details = response.cancellation_details
+                raise ProviderException(str(cancellation_details.error_details))
+
+            return response.audio_data
+
+        audio_bytes: bytes = await asyncio.to_thread(_synthesize_blocking)
+
+        audio_content = BytesIO(audio_bytes)
+        audio_b64 = base64.b64encode(audio_content.read()).decode("utf-8")
+
+        audio_content.seek(0)
+        resource_url = ""
+        voice_type = 1
+        standardized_response = TextToSpeechDataClass(
+            audio=audio_b64, voice_type=voice_type, audio_resource_url=resource_url
         )
 
         return ResponseType[TextToSpeechDataClass](
