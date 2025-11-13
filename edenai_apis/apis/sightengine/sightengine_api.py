@@ -1,7 +1,9 @@
 import json
 from typing import Any, Dict, Optional
 
+import aiofiles
 import requests
+import httpx
 
 from edenai_apis.apis.amazon.helpers import check_webhook_result
 from edenai_apis.features import ImageInterface, ProviderInterface, VideoInterface
@@ -85,6 +87,75 @@ class SightEngineApi(ProviderInterface, ImageInterface, VideoInterface):
             raise ProviderException("Deepfake score not found in response.")
         prediction = ImageDeepfakeDetectionDataclass.set_label_based_on_score(score)
 
+        standardized_response = ImageDeepfakeDetectionDataclass(
+            deepfake_score=score,
+            prediction=prediction,
+        )
+
+        return ResponseType[ImageDeepfakeDetectionDataclass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    async def image__adeepfake_detection(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> ResponseType[ImageDeepfakeDetectionDataclass]:
+        if not file_url and not file:
+            raise ProviderException("file or file_url required")
+
+        payload = {
+            "url": file_url,
+            "models": "deepfake",
+            "api_user": self.api_settings["api_user"],
+            "api_secret": self.api_settings["api_key"],
+        }
+
+        params = {
+            "params": payload,
+            "timeout": 30,
+            "url": f"{self.api_url}/check.json",
+            "method": "GET",
+        }
+
+        if not file_url:
+            async with aiofiles.open(file, "rb") as f:
+                file_content = await f.read()
+
+            files = {"media": file_content}
+            payload.pop("url", None)
+            params.pop("params", None)
+            params["data"] = payload
+            params["files"] = files
+            params["method"] = "POST"
+
+        try:
+            async with httpx.AsyncClient() as client:
+                if params["method"] == "GET":
+                    response = await client.get(
+                        params["url"],
+                        params=params.get("params"),
+                        timeout=params["timeout"],
+                    )
+                else:  # POST
+                    response = await client.post(
+                        params["url"],
+                        data=params.get("data"),
+                        files=params.get("files"),
+                        timeout=params["timeout"],
+                    )
+                response.raise_for_status()
+        except httpx.HTTPStatusError as e:
+            raise ProviderException(f"Request failed: {str(e)}")
+        except httpx.RequestError as e:
+            raise ProviderException(f"Request failed: {str(e)}")
+
+        original_response = response.json()
+        score = extract(original_response, ["type", "deepfake"], None)
+
+        if score is None:
+            raise ProviderException("Deepfake score not found in response.")
+
+        prediction = ImageDeepfakeDetectionDataclass.set_label_based_on_score(score)
         standardized_response = ImageDeepfakeDetectionDataclass(
             deepfake_score=score,
             prediction=prediction,

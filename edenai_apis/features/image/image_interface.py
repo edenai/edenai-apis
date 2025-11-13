@@ -251,6 +251,19 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def image__adeepfake_detection(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> ResponseType[DeepfakeDetectionDataClass]:
+        """
+        Detect altered images via inconsistencies.
+        (eg: popular tourist spots like Eiffel Tower)
+
+        Args:
+            file (BufferedReader): image to analyze
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def image__logo_detection(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[LogoDetectionDataClass]:
