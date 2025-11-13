@@ -1365,6 +1365,9 @@
         "face_detection": {
             "version": "v1"
         },
+        "aface_detection": {
+            "version": "v1"
+        },
         "landmark_detection": {
             "version": "v1"
         },
