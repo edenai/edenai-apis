@@ -146,6 +146,9 @@
         "explicit_content": {
             "version": "8.0.0"
         },
+        "aexplicit_content": {
+            "version": "8.0.0"
+        },
         "face_detection": {
             "version": "8.0.0"
         },

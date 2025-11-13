@@ -4,6 +4,7 @@ import json
 import mimetypes
 import uuid
 from io import BytesIO
+import aiofiles
 from typing import Any, Coroutine, Dict, List, Literal, Optional, Type, Union
 
 import httpx
@@ -437,6 +438,44 @@ class LLMEngine:
             **kwargs,
         )
         return self._execute_completion(
+            params=args, response_class=ExplicitContentDataClass
+        )
+
+    async def image_amoderation(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ):
+        mime_type = mimetypes.guess_type(file)[0]
+
+        async with aiofiles.open(file, "rb") as fstream:
+            file_content = await fstream.read()
+            base64_data = base64.b64encode(file_content).decode("utf-8")
+
+        messages = BasePrompt.compose_prompt(
+            behavior="You are an Explicit Image Detection model.",
+            example_file="image/explicit_content/explicit_content_response.json",
+            dataclass=ExplicitContentDataClass,
+        )
+
+        messages.append(
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:{mime_type};base64,{base64_data}"},
+                    },
+                ],
+            }
+        )
+
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
+
+        return await self._execute_acompletion(
             params=args, response_class=ExplicitContentDataClass
         )
 

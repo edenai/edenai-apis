@@ -42,18 +42,8 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
     ObjectItem,
 )
 from edenai_apis.features.ocr import Bounding_box, OcrDataClass
-from edenai_apis.features.text.generation.generation_dataclass import (
-    GenerationDataClass,
-)
-from edenai_apis.features.text.moderation.category import CategoryType
-from edenai_apis.features.text.moderation.moderation_dataclass import (
-    ModerationDataClass,
-    TextModerationItem,
-)
-from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
-from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.types import ResponseType
 from .clarifai_helpers import explicit_content_likelihood, get_formatted_language
@@ -198,6 +188,74 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
 
         nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
         nsfw_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+        return ResponseType[ExplicitContentDataClass](
+            original_response=original_response,
+            standardized_response=ExplicitContentDataClass(
+                items=items, nsfw_likelihood=nsfw, nsfw_likelihood_score=nsfw_score
+            ),
+        )
+
+    async def image__aexplicit_content(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ExplicitContentDataClass]:
+
+        channel = ClarifaiChannel.get_grpc_channel()
+        stub = service_pb2_grpc.V2Stub(channel)
+
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+
+        user_id = "clarifai"
+        app_id = "main"
+        metadata = (("authorization", self.key),)
+        user_data_object = resources_pb2.UserAppIDSet(user_id=user_id, app_id=app_id)
+
+        post_model_outputs_response = await asyncio.to_thread(
+            stub.PostModelOutputs,
+            service_pb2.PostModelOutputsRequest(
+                user_app_id=user_data_object,
+                model_id=self.explicit_content_code,
+                inputs=[
+                    resources_pb2.Input(
+                        data=resources_pb2.Data(
+                            image=resources_pb2.Image(base64=file_content)
+                        )
+                    )
+                ],
+            ),
+            metadata=metadata,
+        )
+
+        if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
+            raise ProviderException(
+                post_model_outputs_response.status.description,
+                code=post_model_outputs_response.status.code,
+            )
+
+        response = MessageToDict(
+            post_model_outputs_response, preserving_proto_field_name=True
+        )
+
+        original_response = response.get("outputs", [])[0]["data"]
+
+        items = []
+        for concept in original_response["concepts"]:
+            classificator = CategoryTypeExplicitContent.choose_category_subcategory(
+                concept["name"]
+            )
+            items.append(
+                ExplicitItem(
+                    label=concept["name"],
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood=explicit_content_likelihood(concept["value"]),
+                    likelihood_score=concept["value"],
+                )
+            )
+
+        nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+        nsfw_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+
         return ResponseType[ExplicitContentDataClass](
             original_response=original_response,
             standardized_response=ExplicitContentDataClass(
