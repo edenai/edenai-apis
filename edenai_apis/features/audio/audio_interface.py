@@ -92,6 +92,28 @@ class AudioInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def audio__atext_to_speech(
+        self,
+        language: str,
+        text: str,
+        option: str,
+        voice_id: str,
+        audio_format: str,
+        speaking_rate: int,
+        speaking_pitch: int,
+        speaking_volume: int,
+        sampling_rate: int,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        """Convert Text into audio speech
+        Args:
+            language (str): language in ISO format
+            text (str): text to convert
+            option (Literal["MALE", "FEMALE"]):
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def audio__text_to_speech_async__launch_job(
         self,
         language: str,
