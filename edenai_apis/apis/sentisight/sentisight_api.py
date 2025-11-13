@@ -254,6 +254,69 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
         return result
 
+    async def image__aexplicit_content(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ExplicitContentDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    self.base_url + SentisightPreTrainModel.NSFW_CLASSIFICATION.value,
+                    headers={
+                        "accept": "*/*",
+                        "X-Auth-token": self.key,
+                        "Content-Type": "application/octet-stream",
+                    },
+                    content=file_content,
+                )
+
+            if response.status_code != 200:
+                raise ProviderException(response.text, code=response.status_code)
+
+            original_response = response.json()
+
+            items: Sequence[ObjectItem] = []
+            items.append(
+                ExplicitItem(
+                    label="nudity",
+                    likelihood=round(
+                        [x for x in original_response if x["label"] == "unsafe"][0][
+                            "score"
+                        ]
+                        / 20
+                    ),
+                    likelihood_score=[
+                        x for x in original_response if x["label"] == "unsafe"
+                    ][0]["score"]
+                    / 100,
+                    category=CategoryType.choose_category_subcategory("nudity")[
+                        "category"
+                    ],
+                    subcategory=CategoryType.choose_category_subcategory("nudity")[
+                        "subcategory"
+                    ],
+                )
+            )
+
+            nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+            nsfw_likelihood_score = (
+                ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+            )
+
+            standardized_response = ExplicitContentDataClass(
+                items=items,
+                nsfw_likelihood=nsfw_likelihood,
+                nsfw_likelihood_score=nsfw_likelihood_score,
+            )
+
+            result = ResponseType[ExplicitContentDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+
+            return result
+
     def image__search__create_project(self, project_name: str, **kwargs) -> str:
         create_project_url = "https://platform.sentisight.ai/api/project"
 

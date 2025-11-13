@@ -1715,6 +1715,9 @@
     "explicit_content": {
       "version": "v3.2"
     },
+    "aexplicit_content": {
+      "version": "v3.2"
+    },
     "face_detection": {
       "version": "v3.2"
     },

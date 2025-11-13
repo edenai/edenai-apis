@@ -539,6 +539,57 @@ class AmazonImageApi(ImageInterface):
             original_response=response, standardized_response=standardized_response
         )
 
+    async def image__aexplicit_content(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ExplicitContentDataClass]:
+
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+            payload = {"Image": {"Bytes": file_content}, "MinConfidence": 20}
+
+            session = aioboto3.Session()
+            async with session.client(
+                "rekognition",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as client:
+                response = await ahandle_amazon_call(
+                    client.detect_moderation_labels, **payload
+                )
+
+            items = []
+            for label in response.get("ModerationLabels", []):
+                classificator = CategoryType.choose_category_subcategory(
+                    label.get("Name")
+                )
+                items.append(
+                    ExplicitItem(
+                        label=label.get("Name"),
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        likelihood=standardized_confidence_score(
+                            label.get("Confidence") / 100
+                        ),
+                        likelihood_score=label.get("Confidence") / 100,
+                    )
+                )
+
+            nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+            nsfw_likelihood_score = (
+                ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+            )
+
+            standardized_response = ExplicitContentDataClass(
+                items=items,
+                nsfw_likelihood=nsfw_likelihood,
+                nsfw_likelihood_score=nsfw_likelihood_score,
+            )
+
+            return ResponseType[ExplicitContentDataClass](
+                original_response=response, standardized_response=standardized_response
+            )
+
     def image__face_recognition__create_collection(
         self, collection_id: str, **kwargs
     ) -> FaceRecognitionCreateCollectionDataClass:

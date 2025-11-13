@@ -460,6 +460,65 @@ class Api4aiApi(
         )
         return result
 
+    async def image__aexplicit_content(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ExplicitContentDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+            files = {"image": file_content}
+
+            async with httpx.AsyncClient() as client:
+                response = await client.post(self.urls["nsfw"], files=files)
+            try:
+                original_response = response.json()
+            except JSONDecodeError as exp:
+                raise ProviderException(
+                    message="Internal server error", code=response.status_code
+                ) from exp
+
+            if (
+                response.status_code != 200
+                or "failure" in original_response["results"][0]["status"]["code"]
+            ):
+                raise ProviderException(
+                    response.json()["results"][0]["status"]["message"],
+                    code=response.status_code,
+                )
+
+            nsfw_items = []
+            nsfw_response = original_response["results"][0]["entities"][0]["classes"]
+            for classe in nsfw_response:
+                classificator = CategoryType.choose_category_subcategory(classe)
+                nsfw_items.append(
+                    ExplicitItem(
+                        label=classe,
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        likelihood=standardized_confidence_score(nsfw_response[classe]),
+                        likelihood_score=nsfw_response[classe],
+                    )
+                )
+
+            nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(
+                nsfw_items
+            )
+            nsfw_likelihood_score = (
+                ExplicitContentDataClass.calculate_nsfw_likelihood_score(nsfw_items)
+            )
+
+            standardized_response = ExplicitContentDataClass(
+                items=nsfw_items,
+                nsfw_likelihood=nsfw_likelihood,
+                nsfw_likelihood_score=nsfw_likelihood_score,
+            )
+
+            result = ResponseType[ExplicitContentDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+
+            return result
+
     def ocr__ocr(
         self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[OcrDataClass]:

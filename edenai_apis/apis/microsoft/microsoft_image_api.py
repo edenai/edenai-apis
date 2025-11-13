@@ -108,6 +108,62 @@ class MicrosoftImageApi(ImageInterface):
         )
         return res
 
+    async def image__aexplicit_content(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ExplicitContentDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    f"{self.url['vision']}/analyze?visualFeatures=Adult",
+                    headers=self.headers["vision"],
+                    content=file_content,
+                )
+
+            data = response.json()
+            if response.status_code != 200:
+                if response.status_code == 415:
+                    raise ProviderException(
+                        message=data["message"], code=response.status_code
+                    )
+                else:
+                    raise ProviderException(
+                        message=data["error"]["message"], code=response.status_code
+                    )
+            moderation_content = data["adult"]
+            items = []
+            for explicit_type in ["gore", "adult", "racy"]:
+                if moderation_content.get(f"{explicit_type}Score"):
+                    classificator = CategoryType.choose_category_subcategory(
+                        explicit_type.capitalize()
+                    )
+                    items.append(
+                        ExplicitItem(
+                            label=explicit_type.capitalize(),
+                            category=classificator["category"],
+                            subcategory=classificator["subcategory"],
+                            likelihood_score=moderation_content[
+                                f"{explicit_type}Score"
+                            ],
+                            likelihood=standardized_confidence_score(
+                                moderation_content[f"{explicit_type}Score"]
+                            ),
+                        )
+                    )
+
+            nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+            nsfw_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+
+            res = ResponseType[ExplicitContentDataClass](
+                original_response=data,
+                standardized_response=ExplicitContentDataClass(
+                    items=items, nsfw_likelihood=nsfw, nsfw_likelihood_score=nsfw_score
+                ),
+            )
+
+            return res
+
     def image__object_detection(
         self, file: str, model: str = None, file_url: str = "", **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:

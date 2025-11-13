@@ -1362,6 +1362,9 @@
         "explicit_content": {
             "version": "v1"
         },
+        "aexplicit_content": {
+            "version": "v1"
+        },
         "face_detection": {
             "version": "v1"
         },
