@@ -2,6 +2,9 @@
     "image": {
         "deepfake_detection": {
             "version": "v1beta"
+        },
+        "adeepfake_detection": {
+            "version": "v1beta"
         }
     },
     "video": {
