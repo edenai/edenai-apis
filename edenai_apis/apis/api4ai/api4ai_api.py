@@ -234,6 +234,69 @@ class Api4aiApi(
         )
         return result
 
+    async def image__aface_detection(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> ResponseType[FaceDetectionDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+            files = {"image": file_content}
+            async with httpx.AsyncClient(
+                timeout=httpx.Timeout(10.0, read=120.0)
+            ) as client:
+                response = await client.post(self.urls["face_detection"], files=files)
+                original_response = response.json()
+
+                if "failure" in original_response["results"][0]["status"]["code"]:
+                    raise ProviderException(
+                        original_response["results"][0]["status"]["message"],
+                        code=response.status_code,
+                    )
+
+                faces_list = []
+                faces = original_response["results"][0]["entities"][0]["objects"]
+                for face in faces:
+                    bouding_box = FaceBoundingBox(
+                        x_min=face["box"][0],
+                        x_max=face["box"][0],
+                        y_min=face["box"][0],
+                        y_max=face["box"][0],
+                    )
+                    confidence = face["entities"][0]["classes"]["face"]
+
+                    # Landmarks
+                    landmarks_output = face["entities"][1]["namedpoints"]
+                    landmarks = FaceLandmarks(
+                        left_eye=landmarks_output["left-eye"],
+                        right_eye=landmarks_output["right-eye"],
+                        nose_tip=landmarks_output["nose-tip"],
+                        mouth_left=landmarks_output["mouth-left-corner"],
+                        mouth_right=landmarks_output["mouth-right-corner"],
+                    )
+                    faces_list.append(
+                        FaceItem(
+                            confidence=confidence,
+                            bounding_box=bouding_box,
+                            landmarks=landmarks,
+                            emotions=FaceEmotions.default(),
+                            poses=FacePoses.default(),
+                            age=None,
+                            gender=None,
+                            hair=FaceHair.default(),
+                            facial_hair=FaceFacialHair.default(),
+                            quality=FaceQuality.default(),
+                            makeup=FaceMakeup.default(),
+                            occlusions=FaceOcclusions.default(),
+                            accessories=FaceAccessories.default(),
+                            features=FaceFeatures.default(),
+                        )
+                    )
+                standardized_response = FaceDetectionDataClass(items=faces_list)
+                result = ResponseType[FaceDetectionDataClass](
+                    original_response=original_response,
+                    standardized_response=standardized_response,
+                )
+                return result
+
     def image__anonymization(
         self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[AnonymizationDataClass]:

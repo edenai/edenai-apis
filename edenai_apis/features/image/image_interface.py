@@ -201,6 +201,18 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def image__aface_detection(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> ResponseType[FaceDetectionDataClass]:
+        """
+        Detect faces in an image
+
+        Args:
+            file (BufferedReader): image to analyze
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def image__landmark_detection(
         self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[LandmarkDetectionDataClass]:

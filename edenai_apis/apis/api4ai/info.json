@@ -21,6 +21,9 @@
         "face_detection": {
             "version": "v1.0.0"
         },
+        "aface_detection": {
+            "version": "v1.0.0"
+        },
         "anonymization": {
             "version": "v1.0.0"
         },
