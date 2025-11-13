@@ -27,6 +27,9 @@
         "anonymization": {
             "version": "v1.0.0"
         },
+        "aanonymization": {
+            "version": "v1.0.0"
+        },
         "explicit_content": {
             "version": "v1.0.0"
         },
