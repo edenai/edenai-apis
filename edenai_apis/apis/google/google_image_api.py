@@ -125,51 +125,51 @@ class GoogleImageApi(ImageInterface):
 
         async with aiofiles.open(file, "rb") as file_:
             file_content = await file_.read()
-            image = vision.Image(content=file_content)
-            payload = {"image": image}
+        image = vision.Image(content=file_content)
+        payload = {"image": image}
 
-            response = await asyncio.to_thread(
-                handle_google_call,
-                self.clients["image"].safe_search_detection,
-                **payload,
+        response = await asyncio.to_thread(
+            handle_google_call,
+            self.clients["image"].safe_search_detection,
+            **payload,
+        )
+
+        # Convert response to dict
+        data = AnnotateImageResponse.to_dict(response)
+
+        if data.get("error") is not None:
+            raise ProviderException(data["error"])
+
+        original_response = data.get("safe_search_annotation", {})
+
+        items = []
+        for safe_search_annotation, likelihood in original_response.items():
+            classificator = CategoryType.choose_category_subcategory(
+                safe_search_annotation.capitalize()
             )
-
-            # Convert response to dict
-            data = AnnotateImageResponse.to_dict(response)
-
-            if data.get("error") is not None:
-                raise ProviderException(data["error"])
-
-            original_response = data.get("safe_search_annotation", {})
-
-            items = []
-            for safe_search_annotation, likelihood in original_response.items():
-                classificator = CategoryType.choose_category_subcategory(
-                    safe_search_annotation.capitalize()
+            items.append(
+                ExplicitItem(
+                    label=safe_search_annotation.capitalize(),
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood_score=self._convert_likelihood(likelihood),
+                    likelihood=likelihood,
                 )
-                items.append(
-                    ExplicitItem(
-                        label=safe_search_annotation.capitalize(),
-                        category=classificator["category"],
-                        subcategory=classificator["subcategory"],
-                        likelihood_score=self._convert_likelihood(likelihood),
-                        likelihood=likelihood,
-                    )
-                )
-
-            nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
-            nsfw_likelihood_score = (
-                ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
             )
 
-            return ResponseType(
-                original_response=original_response,
-                standardized_response=ExplicitContentDataClass(
-                    items=items,
-                    nsfw_likelihood=nsfw_likelihood,
-                    nsfw_likelihood_score=nsfw_likelihood_score,
-                ),
-            )
+        nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+        nsfw_likelihood_score = (
+            ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+        )
+
+        return ResponseType(
+            original_response=original_response,
+            standardized_response=ExplicitContentDataClass(
+                items=items,
+                nsfw_likelihood=nsfw_likelihood,
+                nsfw_likelihood_score=nsfw_likelihood_score,
+            ),
+        )
 
     def image__object_detection(
         self, file: str, model: str = None, file_url: str = "", **kwargs
