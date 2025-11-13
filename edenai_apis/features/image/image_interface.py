@@ -139,6 +139,18 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def image__aanonymization(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> ResponseType[AnonymizationDataClass]:
+        """
+        Anonymize face, names, car plates etc. from an image
+
+        Args:
+            file (BufferedReader): image to anonymize
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def image__embeddings(
         self,
         file: str,

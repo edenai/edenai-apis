@@ -53,7 +53,11 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
+from edenai_apis.utils.upload_s3 import (
+    upload_file_bytes_to_s3,
+    USER_PROCESS,
+    aupload_file_bytes_to_s3,
+)
 from .helpers import get_errors_from_response
 from .types import Api4aiBackgroundRemovalParams
 
@@ -332,6 +336,54 @@ class Api4aiApi(
         image_data = img_b64.encode()
         image_content = BytesIO(base64.b64decode(image_data))
         resource_url = upload_file_bytes_to_s3(image_content, ".jpeg", USER_PROCESS)
+        standardized_response = AnonymizationDataClass(
+            image=img_b64, items=items, image_resource_url=resource_url
+        )
+        result = ResponseType[AnonymizationDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+        return result
+
+    async def image__aanonymization(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> ResponseType[AnonymizationDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+            files = {"image": file_content}
+
+        async with httpx.AsyncClient(timeout=180) as client:
+            response = await client.post(self.urls["anonymization"], files=files)
+
+        original_response = response.json()
+        if "failure" in original_response["results"][0]["status"]["code"]:
+            raise ProviderException(
+                original_response["results"][0]["status"]["message"],
+                code=response.status_code,
+            )
+
+        img_b64 = original_response["results"][0]["entities"][0]["image"]
+        entities = original_response["results"][0]["entities"][1].get("objects", [])
+        items = []
+        for entity in entities:
+            for key, value in entity["entities"][0]["classes"].items():
+                items.append(
+                    AnonymizationItem(
+                        kind=key,
+                        confidence=value,
+                        bounding_boxes=AnonymizationBoundingBox(
+                            x_min=entity["box"][0],
+                            x_max=entity["box"][1],
+                            y_min=entity["box"][2],
+                            y_max=entity["box"][3],
+                        ),
+                    )
+                )
+        image_data = img_b64.encode()
+        image_content = BytesIO(base64.b64decode(image_data))
+        resource_url = await aupload_file_bytes_to_s3(
+            image_content, ".jpeg", USER_PROCESS
+        )
         standardized_response = AnonymizationDataClass(
             image=img_b64, items=items, image_resource_url=resource_url
         )
