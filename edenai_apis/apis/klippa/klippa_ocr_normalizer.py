@@ -4,6 +4,7 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     InfoCountry,
     InfosIdentityParserDataClass,
     ItemIdentityParserDataClass,
+    aget_info_country,
     format_date,
     get_info_country,
     IdentityParserDataClass,
@@ -348,7 +349,7 @@ def klippa_id_parser(original_response: dict) -> IdentityParserDataClass:
 
     parsed_data = original_response.get("data", {}).get("parsed", {})
 
-    issuing_country = get_info_country(
+    issuing_country = aget_info_country(
         key=InfoCountry.ALPHA3,
         value=(parsed_data.get("issuing_country") or {}).get("value", ""),
     )
