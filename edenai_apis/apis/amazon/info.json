@@ -766,6 +766,9 @@
     "face_compare": {
       "version": "boto3 (v1.15.18)"
     },
+    "aface_compare": {
+      "version": "boto3 (v1.15.18)"
+    },
     "generation": {
       "constraints": {
         "resolutions": [

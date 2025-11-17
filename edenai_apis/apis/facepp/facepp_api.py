@@ -1,6 +1,9 @@
 from typing import List, Optional
 
+import aiofiles
+
 import requests
+import httpx
 
 from edenai_apis.features import ImageInterface, ProviderInterface
 from edenai_apis.features.image.face_compare.face_compare_dataclass import (
@@ -258,6 +261,66 @@ class FaceppApi(ProviderInterface, ImageInterface):
             )
         standardized_response = FaceCompareDataClass(items=faces)
 
+        return ResponseType[FaceCompareDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    async def image__aface_compare(
+        self,
+        file1: str,
+        file2: str,
+        file1_url: Optional[str] = None,
+        file2_url: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[FaceCompareDataClass]:
+        url = self.base_url + "/compare"
+
+        async with httpx.AsyncClient() as client:
+            if file1_url and file2_url:
+                payload = {
+                    **self.api_settings,
+                    "image_url1": file1_url,
+                    "image_url2": file2_url,
+                }
+                response = await client.post(url, data=payload)
+            else:
+                async with (
+                    aiofiles.open(file1, "rb") as f1,
+                    aiofiles.open(file2, "rb") as f2,
+                ):
+                    f1_content = await f1.read()
+                    f2_content = await f2.read()
+
+                    response = await client.post(
+                        url=url,
+                        data=self.api_settings,
+                        files={
+                            "image_file1": (file1, f1_content),
+                            "image_file2": (file2, f2_content),
+                        },
+                    )
+
+        if not response.is_success:
+            raise ProviderException(response.text, code=response.status_code)
+
+        original_response = response.json()
+        faces = []
+        for matching_face in original_response.get("faces2"):
+            confidence = original_response.get("confidence") or 0
+            faces.append(
+                FaceMatch(
+                    confidence=confidence / 100,
+                    bounding_box=FaceCompareBoundingBox(
+                        top=matching_face.get("face_rectangle").get("top"),
+                        left=matching_face.get("face_rectangle").get("left"),
+                        height=matching_face.get("face_rectangle").get("height"),
+                        width=matching_face.get("face_rectangle").get("width"),
+                    ),
+                )
+            )
+
+        standardized_response = FaceCompareDataClass(items=faces)
         return ResponseType[FaceCompareDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
