@@ -757,14 +757,11 @@ class AmazonImageApi(ImageInterface):
             aws_access_key_id=self.api_settings["aws_access_key_id"],
             aws_secret_access_key=self.api_settings["aws_secret_access_key"],
         ) as client:
-            try:
-                response = await ahandle_amazon_call(
-                    client.compare_faces,
-                    SourceImage=image_source,
-                    TargetImage=image_tar,
-                )
-            except Exception as excp:
-                raise ProviderException(str(excp), code=400)
+            response = await ahandle_amazon_call(
+                client.compare_faces,
+                SourceImage=image_source,
+                TargetImage=image_tar,
+            )
 
         face_match_list = []
         for face_match in response.get("FaceMatches", []):
