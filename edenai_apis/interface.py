@@ -305,18 +305,20 @@ async def acompute_output(
     feature: str,
     subfeature: str,
     args: Dict[str, Any],
+    phase: str = "",
     fake: bool = False,
     api_keys: Dict = {},
     **kwargs,
 ) -> Dict:
     """
-    Compute subfeature for provider and subfeature
+    Compute subfeature for provider and subfeature using Python async/await
 
     Args:
         provider_name (str): EdenAI provider name
         feature (str): EdenAI feature name
         subfeature (str): EdenAI subfeature name
         args (Dict): inputs arguments for the feature call
+        phase (str): EdenAI phase. Default to empty string ("")
         fake (bool, optional): take result from sample. Defaults to `False`.
         api_keys (dict, optional): optional user's api_keys for each providers
 
@@ -331,7 +333,9 @@ async def acompute_output(
             "Asynchronous calls with fake data are not supported for streaming responses."
         )
 
-    phase = ""  # TODO: add phase support for async calls
+    # Check if this is an async job (e.g., ocr_async)
+    is_async_job = ("_async" in phase) if phase else ("_async" in subfeature)
+    suffix = "__launch_job" if is_async_job else ""
 
     args = validate_all_provider_constraints(
         provider_name, feature, subfeature, phase, args
@@ -340,20 +344,25 @@ async def acompute_output(
     if fake:
         await asyncio.sleep(random.uniform(0.5, 1.5))
 
-        subfeature_result = load_provider(
-            ProviderDataEnum.OUTPUT,
-            provider_name=provider_name,
-            feature=feature,
-            subfeature=subfeature,
-            phase=phase,
-        )
+        if is_async_job:
+            subfeature_result = AsyncLaunchJobResponseType(
+                provider_job_id=str(uuid4())
+            ).model_dump()
+        else:
+            subfeature_result = load_provider(
+                ProviderDataEnum.OUTPUT,
+                provider_name=provider_name,
+                feature=feature,
+                subfeature=subfeature,
+                phase=phase,
+            )
 
     else:
         ProviderClass = load_provider(
             ProviderDataEnum.CLASS, provider_name=provider_name
         )
         provider_instance = ProviderClass(api_keys)
-        func_name = f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}'
+        func_name = f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}{suffix}'
         try:
             subfeature_func = getattr(provider_instance, func_name)
         except AttributeError:
@@ -505,6 +514,68 @@ def get_async_job_result(
         subfeature_result = subfeature_class(provider_name, api_keys)(
             async_job_id
         ).model_dump()
+    except ProviderException as exc:
+        raise get_appropriate_error(provider_name, exc)
+
+    return subfeature_result
+
+
+async def aget_async_job_result(
+    provider_name: str,
+    feature: str,
+    subfeature: str,
+    async_job_id: str,
+    phase: str = "",
+    fake: bool = False,
+    api_keys: Dict = {},
+) -> Dict:
+    """Get async result from job id using Python async/await
+
+    Args:
+        provider_name (str): EdenAI provider name
+        feature (str): EdenAI feature
+        subfeature (str): EdenAI subfeature
+        async_job_id (str): async job id to get result to
+        phase (str): EdenAI phase. Default to empty string ("")
+        fake (bool): Load fake results
+        api_keys (dict, optional): optional user's api_keys for each providers
+
+    Returns:
+        Dict: Result dict
+    """
+
+    if fake is True:
+        await asyncio.sleep(
+            random.uniform(0.5, 1.5)
+        )  # sleep to fake the response time from a provider
+        # Load fake data from edenai_apis' saved output
+        fake_result = load_provider(
+            ProviderDataEnum.OUTPUT,
+            provider_name=provider_name,
+            feature=feature,
+            subfeature=subfeature,
+            phase=phase,
+        )
+        fake_result["provider_job_id"] = async_job_id
+
+        return fake_result
+
+    ProviderClass = load_provider(
+        ProviderDataEnum.CLASS, provider_name=provider_name
+    )
+    provider_instance = ProviderClass(api_keys)
+    func_name = f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}__get_job_result'
+
+    try:
+        subfeature_func = getattr(provider_instance, func_name)
+    except AttributeError:
+        raise NotImplementedError(
+            f'Async method "{func_name}" is not implemented for provider "{provider_name}".'
+        )
+
+    try:
+        subfeature_result = await subfeature_func(async_job_id)
+        subfeature_result = subfeature_result.model_dump()
     except ProviderException as exc:
         raise get_appropriate_error(provider_name, exc)
 
