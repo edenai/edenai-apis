@@ -327,9 +327,7 @@ async def acompute_output(
             - Otherwise, returns a dictionary containing the full result synchronously.
     """
     if fake and kwargs.get("stream", False):
-        raise ValueError(
-            "Asynchronous calls with fake data are not supported for streaming responses."
-        )
+        raise NotImplementedError("Streaming with fake data is not available yet.")
 
     phase = ""  # TODO: add phase support for async calls
 
