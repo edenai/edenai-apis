@@ -1,6 +1,8 @@
 import json
 import os
+import aiofiles
 import fitz
+import asyncio
 from time import sleep
 
 from edenai_apis.features.ocr import (
@@ -88,6 +90,69 @@ class OpenaiDocParsingApi(OcrInterface):
 
         return original_response, standardized_response
 
+    async def __aassistant_parser(
+        self,
+        name,
+        instruction,
+        message_text,
+        example_file,
+        input_file,
+        dataclass,
+        model,
+    ):
+
+        async with aiofiles.open(
+            os.path.join(os.path.dirname(__file__), example_file), "r"
+        ) as f:
+            content = await f.read()
+            output_response = json.loads(content)["standardized_response"]
+
+        assistant = await self.async_client.beta.assistants.create(
+            response_format={"type": "json_object"},
+            name=name,
+            instructions="{} You return a json output and nothing else than a json output. The json should be shaped like the following with the exact same structure and the exact same keys but change the values to extract the inputed document informations : \n {}  \n\n The json output should follow this pydantic schema \n {} \n\n Your response should directly start with '{{' ".format(
+                instruction, output_response, dataclass.schema()
+            ),
+            model=model,
+        )
+
+        input_file_text = await asyncio.to_thread(extract_text_from_pdf, input_file)
+
+        thread = await self.async_client.beta.threads.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": message_text + input_file_text,
+                }
+            ]
+        )
+
+        run = await self.async_client.beta.threads.runs.create_and_poll(
+            thread_id=thread.id,
+            assistant_id=assistant.id,
+        )
+
+        while run.status != "completed":
+            await asyncio.sleep(1)
+
+        messages = await self.async_client.beta.threads.messages.list(
+            thread_id=thread.id
+        )
+        usage = run.to_dict()["usage"]
+        original_response = messages.to_dict()
+        original_response["usage"] = usage
+
+        try:
+            standardized_response = json.loads(
+                json.loads(messages.data[0].content[0].json())["text"]["value"]
+            )
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+
+        return original_response, standardized_response
+
     def ocr__financial_parser(
         self,
         file: str,
@@ -136,6 +201,25 @@ class OpenaiDocParsingApi(OcrInterface):
     ) -> ResponseType[IdentityParserDataClass]:
 
         original_response, result = self.__assistant_parser(
+            name="ID Parser",
+            instruction="You are an Identy Documents parsing model.",
+            message_text="Analyse this ID Document :",
+            example_file="outputs/ocr/identity_parser_output.json",
+            input_file=file,
+            dataclass=IdentityParserDataClass,
+            model=model,
+        )
+
+        return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standardized_response=result,
+        )
+
+    async def ocr__aidentity_parser(
+        self, file: str, file_url: str = "", model: str = None, **kwargs
+    ) -> ResponseType[IdentityParserDataClass]:
+
+        original_response, result = await self.__aassistant_parser(
             name="ID Parser",
             instruction="You are an Identy Documents parsing model.",
             message_text="Analyse this ID Document :",
