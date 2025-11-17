@@ -220,6 +220,30 @@ class OcrInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def ocr__aocr_async__launch_job(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        """Optical Character Recognition on a file (Python async/await version)
+
+        Args:
+            file (BufferedReader): document to analyze
+            file_url (str, optional): url of file
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    async def ocr__aocr_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrAsyncDataClass]:
+        """
+        Get the result of an asynchronous job by its ID (Python async/await version)
+
+        Args:
+            provider_job_id (str): id of async job
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def ocr__data_extraction(
         self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[DataExtractionDataClass]:
