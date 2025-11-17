@@ -1,3 +1,4 @@
+import asyncio
 from io import BufferedReader, BytesIO
 from json import JSONDecodeError
 from typing import Dict
@@ -131,7 +132,9 @@ class KlippaApi(ProviderInterface, OcrInterface):
                 file_like, endpoint="/identity"
             )
 
-        standardized_response = klippa_id_parser(original_response)
+        standardized_response = await asyncio.to_thread(
+            klippa_id_parser, original_response
+        )
         return ResponseType[IdentityParserDataClass](
             original_response=original_response,
             standardized_response=standardized_response,

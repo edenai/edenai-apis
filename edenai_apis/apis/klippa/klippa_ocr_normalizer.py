@@ -349,7 +349,7 @@ def klippa_id_parser(original_response: dict) -> IdentityParserDataClass:
 
     parsed_data = original_response.get("data", {}).get("parsed", {})
 
-    issuing_country = aget_info_country(
+    issuing_country = get_info_country(
         key=InfoCountry.ALPHA3,
         value=(parsed_data.get("issuing_country") or {}).get("value", ""),
     )

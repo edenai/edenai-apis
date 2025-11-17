@@ -143,9 +143,8 @@ class OpenaiDocParsingApi(OcrInterface):
         original_response["usage"] = usage
 
         try:
-            standardized_response = json.loads(
-                json.loads(messages.data[0].content[0].json())["text"]["value"]
-            )
+            content = json.loads(messages.data[0].content[0].json())
+            standardized_response = json.loads(content["text"]["value"])
         except json.JSONDecodeError as exc:
             raise ProviderException(
                 "An error occurred while parsing the response."

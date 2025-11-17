@@ -2,6 +2,7 @@ import json
 from time import sleep
 from typing import List, Sequence, Dict, Union
 
+import aioboto3
 import aiofiles
 from botocore.exceptions import ClientError
 
@@ -219,9 +220,14 @@ class AmazonOcrApi(OcrInterface):
                 ]
             }
 
-            original_response = await ahandle_amazon_call(
-                self.clients["textract"].analyze_id, **payload
-            )
+        session = aioboto3.Session()
+        async with session.client(
+            "textract",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as client:
+            original_response = await ahandle_amazon_call(client.analyze_id, **payload)
 
         items: Sequence[InfosIdentityParserDataClass] = []
         for document in original_response["IdentityDocuments"]:
