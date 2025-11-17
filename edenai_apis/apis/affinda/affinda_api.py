@@ -128,6 +128,25 @@ class AffindaApi(ProviderInterface, OcrInterface):
             standardized_response=standardizer.standardized_response,
         )
 
+    async def ocr__aidentity_parser(
+        self, file: str, file_url: str = "", model: str = None, **kwargs
+    ) -> ResponseType[IdentityParserDataClass]:
+        self.client.current_workspace = self.api_settings["identity_workspace"]
+        document = await self.client.acreate_document(
+            file=FileParameter(file=file, url=file_url)
+        )
+        original_response = self.client.last_api_response
+
+        standardizer = IdentityStandardizer(document=document)
+        standardizer.std_names_information()
+        standardizer.std_document_information()
+        standardizer.std_location_information()
+
+        return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standardized_response=standardizer.standardized_response,
+        )
+
     def ocr__financial_parser(
         self,
         file: str,
