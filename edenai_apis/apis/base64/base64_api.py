@@ -4,12 +4,13 @@ import mimetypes
 import uuid
 from enum import Enum
 from io import BytesIO
-from typing import Any, Dict, Sequence, Type, TypeVar, Union
+import aiofiles
+from typing import Any, Dict, Sequence, Type, TypeVar
 
 import requests
+import httpx
 
 from edenai_apis.apis.base64.base64_helpers import (
-    extract_item_lignes,
     format_financial_document_data,
     format_invoice_document_data,
     format_receipt_document_data,
@@ -56,9 +57,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.bounding_box import BoundingBox
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
-    AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
-    AsyncPendingResponseType,
     AsyncResponseType,
     ResponseType,
 )
@@ -363,6 +362,61 @@ class Base64Api(ProviderInterface, OcrInterface):
             )
         standardized_response = FaceCompareDataClass(items=faces)
 
+        return ResponseType[FaceCompareDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    async def image__aface_compare(
+        self, file1: str, file2: str, file1_url: str = "", file2_url: str = "", **kwargs
+    ) -> ResponseType[FaceCompareDataClass]:
+        url = "https://base64.ai/api/face"
+        headers = {"Authorization": self.api_key, "Content-Type": "application/json"}
+
+        if file1_url and file2_url:
+            payload = json.dumps({"url": file1_url, "queryUrl": file2_url})
+        else:
+            async with (
+                aiofiles.open(file1, "rb") as file_reference_,
+                aiofiles.open(file2, "rb") as file_query_,
+            ):
+                file1_content = await file_reference_.read()
+                file2_content = await file_query_.read()
+
+                image_reference_as_base64 = (
+                    f"data:{mimetypes.guess_type(file1)[0]};base64,"
+                    + base64.b64encode(file1_content).decode()
+                )
+                image_query_as_base64 = (
+                    f"data:{mimetypes.guess_type(file2)[0]};base64,"
+                    + base64.b64encode(file2_content).decode()
+                )
+                payload = json.dumps(
+                    {
+                        "document": image_reference_as_base64,
+                        "query": image_query_as_base64,
+                    }
+                )
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url, headers=headers, data=payload)
+
+        original_response = self._get_response(response)
+        faces = []
+        for matching_face in original_response.get("matches", []):
+            faces.append(
+                FaceMatch(
+                    confidence=matching_face.get("confidence") or 0,
+                    bounding_box=FaceCompareBoundingBox(
+                        top=matching_face.get("top"),
+                        left=matching_face.get("left"),
+                        height=matching_face.get("height"),
+                        width=matching_face.get("width"),
+                    ),
+                )
+            )
+
+        standardized_response = FaceCompareDataClass(items=faces)
         return ResponseType[FaceCompareDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
