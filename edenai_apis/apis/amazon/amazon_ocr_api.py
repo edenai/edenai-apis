@@ -805,7 +805,7 @@ class AmazonOcrApi(OcrInterface):
         self,
         file: str,
         language: str,
-        document_type: str,
+        document_type: str = "",
         file_url: str = "",
         model: str = None,
         **kwargs,
