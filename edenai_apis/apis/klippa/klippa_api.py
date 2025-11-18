@@ -1,8 +1,10 @@
 from io import BufferedReader
 from json import JSONDecodeError
 from typing import Dict
+import aiofiles
 
 import requests
+import httpx
 
 from edenai_apis.features import OcrInterface, ProviderInterface
 from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
@@ -49,6 +51,25 @@ class KlippaApi(ProviderInterface, OcrInterface):
             url=self.url + endpoint, headers=self.headers, files=files, data=data
         )
 
+        try:
+            original_response = response.json()
+        except JSONDecodeError as exc:
+            raise ProviderException(message="Internal Server Error", code=500) from exc
+
+        if response.status_code != 200:
+            raise ProviderException(message=response.json(), code=response.status_code)
+
+        return original_response
+
+    async def _amake_post_request(self, file: BufferedReader, endpoint: str = ""):
+        files = {
+            "document": file,
+        }
+        data = {"pdf_text_extraction": "full"}
+        async with httpx.AsyncClient(timeout=180) as client:
+            response = client.post(
+                url=self.url + endpoint, headers=self.headers, files=files, data=data
+            )
         try:
             original_response = response.json()
         except JSONDecodeError as exc:
@@ -118,6 +139,25 @@ class KlippaApi(ProviderInterface, OcrInterface):
     ) -> ResponseType[FinancialParserDataClass]:
         with open(file, "rb") as file_:
             original_response = self._make_post_request(file_)
+
+        standardize_response = klippa_financial_parser(original_response)
+
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=standardize_response,
+        )
+
+    async def ocr__afinancial_parser(
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
+        **kwargs,
+    ) -> ResponseType[FinancialParserDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            original_response = await self._amake_post_request(file_)
 
         standardize_response = klippa_financial_parser(original_response)
 
