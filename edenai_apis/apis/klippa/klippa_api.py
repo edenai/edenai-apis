@@ -4,10 +4,8 @@ from json import JSONDecodeError
 from typing import Dict
 import aiofiles
 
-import aiofiles
 import httpx
 import requests
-import httpx
 
 from edenai_apis.features import OcrInterface, ProviderInterface
 from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
