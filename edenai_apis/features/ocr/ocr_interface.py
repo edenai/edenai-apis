@@ -187,6 +187,18 @@ class OcrInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def ocr__aidentity_parser(
+        self, file: str, file_url: str = "", model: str = None, **kwargs
+    ) -> ResponseType[IdentityParserDataClass]:
+        """Parse an identity document and returned structured data
+
+        Args:
+            file (BufferedReader): resume to analyze
+            file_url (str, optional): url of file
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def ocr__custom_document_parsing_async__launch_job(
         self,
         file: str,

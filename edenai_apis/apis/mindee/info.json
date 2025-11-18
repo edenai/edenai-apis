@@ -66,6 +66,19 @@
                 ]
             }
         },
+        "aidentity_parser": {
+            "version": "v2",
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "image/webp",
+                    "application/pdf",
+                    "image/tiff",
+                    "image/heic"
+                ]
+            }
+        },
         "bank_check_parsing": {
             "version": "v1",
             "constraints": {
