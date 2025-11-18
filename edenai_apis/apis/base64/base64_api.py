@@ -120,7 +120,7 @@ class Base64Api(ProviderInterface, OcrInterface):
 
     async def _asend_ocr_document(self, file: str, model_type: str) -> Dict:
         async with aiofiles.open(file, "rb") as file_:
-            file_content = file_.read()
+            file_content = await file_.read()
             image_as_base64 = (
                 f"data:{mimetypes.guess_type(file)[0]};base64,"
                 + base64.b64encode(file_content).decode()
@@ -419,7 +419,9 @@ class Base64Api(ProviderInterface, OcrInterface):
                 items.append(
                     InfosIdentityParserDataClass(
                         document_type=ItemIdentityParserDataClass(
-                            value=document["fields"].get("documentType", {}).get("value"),
+                            value=document["fields"]
+                            .get("documentType", {})
+                            .get("value"),
                             confidence=document["fields"]
                             .get("documentType", {})
                             .get("confidence"),
@@ -441,23 +443,31 @@ class Base64Api(ProviderInterface, OcrInterface):
                         ),
                         country=country or Country.default(),
                         document_id=ItemIdentityParserDataClass(
-                            value=document["fields"].get("documentNumber", {}).get("value"),
+                            value=document["fields"]
+                            .get("documentNumber", {})
+                            .get("value"),
                             confidence=document["fields"]
                             .get("documentNumber", {})
                             .get("confidence"),
                         ),
                         age=ItemIdentityParserDataClass(
                             value=str(document["fields"].get("age", {}).get("value")),
-                            confidence=document["fields"].get("age", {}).get("confidence"),
+                            confidence=document["fields"]
+                            .get("age", {})
+                            .get("confidence"),
                         ),
                         nationality=ItemIdentityParserDataClass(
-                            value=document["fields"].get("nationality", {}).get("value"),
+                            value=document["fields"]
+                            .get("nationality", {})
+                            .get("value"),
                             confidence=document["fields"]
                             .get("nationality", {})
                             .get("confidence"),
                         ),
                         issuing_state=ItemIdentityParserDataClass(
-                            value=document["fields"].get("issuingState", {}).get("value"),
+                            value=document["fields"]
+                            .get("issuingState", {})
+                            .get("value"),
                             confidence=document["fields"]
                             .get("issuingState", {})
                             .get("confidence"),
@@ -466,11 +476,15 @@ class Base64Api(ProviderInterface, OcrInterface):
                         image_signature=image_signature,
                         gender=ItemIdentityParserDataClass(
                             value=document["fields"].get("sex", {}).get("value"),
-                            confidence=document["fields"].get("sex", {}).get("confidence"),
+                            confidence=document["fields"]
+                            .get("sex", {})
+                            .get("confidence"),
                         ),
                         expire_date=ItemIdentityParserDataClass(
                             value=format_date(
-                                document["fields"].get("expirationDate", {}).get("value")
+                                document["fields"]
+                                .get("expirationDate", {})
+                                .get("value")
                             ),
                             confidence=document["fields"]
                             .get("expirationDate", {})
