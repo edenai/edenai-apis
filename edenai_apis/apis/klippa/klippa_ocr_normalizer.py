@@ -4,6 +4,7 @@ from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     InfoCountry,
     InfosIdentityParserDataClass,
     ItemIdentityParserDataClass,
+    aget_info_country,
     format_date,
     get_info_country,
     IdentityParserDataClass,

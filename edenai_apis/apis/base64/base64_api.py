@@ -47,6 +47,7 @@ from edenai_apis.features.ocr.identity_parser import (
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     Country,
+    aget_info_country,
     format_date,
 )
 from edenai_apis.features.ocr.invoice_parser import InvoiceParserDataClass
@@ -316,6 +317,155 @@ class Base64Api(ProviderInterface, OcrInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
+
+    async def ocr__aidentity_parser(
+        self, file: str, file_url: str = "", model: str = None, **kwargs
+    ) -> ResponseType[IdentityParserDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            image_as_base64 = (
+                f"data:{mimetypes.guess_type(file)[0]};base64,"
+                + base64.b64encode(await file_.read()).decode()
+            )
+
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+            payload = json.dumps({"image": image_as_base64})
+
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": self.api_key,
+            }
+
+            response = await client.post(url=self.url, headers=headers, data=payload)
+
+            original_response = self._get_response(response)
+
+            items = []
+
+            for document in original_response:
+                image_id = [
+                    ItemIdentityParserDataClass(
+                        value=doc.get("image", []), confidence=doc.get("confidence")
+                    )
+                    for doc in document["features"].get("faces", {})
+                ]
+                image_signature = [
+                    ItemIdentityParserDataClass(
+                        value=doc.get("image", []), confidence=doc.get("confidence")
+                    )
+                    for doc in document["features"].get("signatures", {})
+                ]
+                given_names_dict = document["fields"].get("givenName", {}) or {}
+                given_names_string = given_names_dict.get("value", "") or ""
+                given_names = (
+                    given_names_string.split(" ") if given_names_string != "" else []
+                )
+                given_names_final = []
+                for given_name in given_names:
+                    given_names_final.append(
+                        ItemIdentityParserDataClass(
+                            value=given_name,
+                            confidence=document["fields"]
+                            .get("givenName", {})
+                            .get("confidence"),
+                        )
+                    )
+
+                country = await aget_info_country(
+                    key=InfoCountry.ALPHA3,
+                    value=document["fields"].get("countryCode", {}).get("value", ""),
+                )
+                if country:
+                    country["confidence"] = (
+                        document["fields"].get("countryCode", {}).get("confidence")
+                    )
+
+                items.append(
+                    InfosIdentityParserDataClass(
+                        document_type=ItemIdentityParserDataClass(
+                            value=document["fields"].get("documentType", {}).get("value"),
+                            confidence=document["fields"]
+                            .get("documentType", {})
+                            .get("confidence"),
+                        ),
+                        last_name=ItemIdentityParserDataClass(
+                            value=document["fields"].get("familyName", {}).get("value"),
+                            confidence=document["fields"]
+                            .get("familyName", {})
+                            .get("confidence"),
+                        ),
+                        given_names=given_names_final,
+                        birth_date=ItemIdentityParserDataClass(
+                            value=format_date(
+                                document["fields"].get("dateOfBirth", {}).get("value")
+                            ),
+                            confidence=document["fields"]
+                            .get("dateOfBirth", {})
+                            .get("confidence"),
+                        ),
+                        country=country or Country.default(),
+                        document_id=ItemIdentityParserDataClass(
+                            value=document["fields"].get("documentNumber", {}).get("value"),
+                            confidence=document["fields"]
+                            .get("documentNumber", {})
+                            .get("confidence"),
+                        ),
+                        age=ItemIdentityParserDataClass(
+                            value=str(document["fields"].get("age", {}).get("value")),
+                            confidence=document["fields"].get("age", {}).get("confidence"),
+                        ),
+                        nationality=ItemIdentityParserDataClass(
+                            value=document["fields"].get("nationality", {}).get("value"),
+                            confidence=document["fields"]
+                            .get("nationality", {})
+                            .get("confidence"),
+                        ),
+                        issuing_state=ItemIdentityParserDataClass(
+                            value=document["fields"].get("issuingState", {}).get("value"),
+                            confidence=document["fields"]
+                            .get("issuingState", {})
+                            .get("confidence"),
+                        ),
+                        image_id=image_id,
+                        image_signature=image_signature,
+                        gender=ItemIdentityParserDataClass(
+                            value=document["fields"].get("sex", {}).get("value"),
+                            confidence=document["fields"].get("sex", {}).get("confidence"),
+                        ),
+                        expire_date=ItemIdentityParserDataClass(
+                            value=format_date(
+                                document["fields"].get("expirationDate", {}).get("value")
+                            ),
+                            confidence=document["fields"]
+                            .get("expirationDate", {})
+                            .get("confidence"),
+                        ),
+                        issuance_date=ItemIdentityParserDataClass(
+                            value=format_date(
+                                document["fields"].get("issueDate", {}).get("value")
+                            ),
+                            confidence=document["fields"]
+                            .get("issueDate", {})
+                            .get("confidence"),
+                        ),
+                        address=ItemIdentityParserDataClass(
+                            value=document["fields"].get("address", {}).get("value"),
+                            confidence=document["fields"]
+                            .get("address", {})
+                            .get("confidence"),
+                        ),
+                        birth_place=ItemIdentityParserDataClass(
+                            value=None, confidence=None
+                        ),
+                        mrz=ItemIdentityParserDataClass(),
+                    )
+                )
+
+            standardized_response = IdentityParserDataClass(extracted_data=items)
+
+            return ResponseType[IdentityParserDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
 
     def image__face_compare(
         self, file1: str, file2: str, file1_url: str = "", file2_url: str = "", **kwargs

@@ -1215,6 +1215,22 @@
         ]
       },
       "version": "v1"
+    },
+    "aidentity_parser": {
+      "constraints": {
+        "file_types": [
+          "application/pdf",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "text/html",
+          "text/markdown",
+          "text/plain",
+          "image/png",
+          "image/jpeg"
+        ]
+      },
+      "version": "v1"
     }
   },
   "video": {
