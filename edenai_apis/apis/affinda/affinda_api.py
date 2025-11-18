@@ -175,3 +175,32 @@ class AffindaApi(ProviderInterface, OcrInterface):
             original_response=original_response,
             standardized_response=standardizer.standardized_response,
         )
+
+    async def ocr__afinancial_parser(
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
+        **kwargs,
+    ) -> ResponseType[FinancialParserDataClass]:
+        workspace_key = (
+            "receipt_workspace"
+            if document_type == FinancialParserType.RECEIPT.value
+            else "invoice_workspace"
+        )
+        self.client.current_workspace = self.api_settings[workspace_key]
+        document = await self.client.acreate_document(
+            file=FileParameter(file=file, url=file_url)
+        )
+        original_response = self.client.last_api_response
+        standardizer = FinancialStandardizer(
+            document=document, original_response=original_response
+        )
+        standardizer.std_response()
+
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=standardizer.standardized_response,
+        )
