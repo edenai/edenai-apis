@@ -176,11 +176,48 @@ class OpenaiDocParsingApi(OcrInterface):
             original_response=original_response, standardized_response=result
         )
 
+    async def ocr__afinancial_parser(
+        self, file: str, file_url: str = "", model: str = None, **kwargs
+    ) -> ResponseType[FinancialParserDataClass]:
+
+        original_response, result = await self.__aassistant_parser(
+            name="Invoice Parse",
+            instruction="You are an invoice parsing model. You take an invoice as an input and extract information from it.",
+            message_text="Analyse this invoice : \n",
+            example_file="outputs/ocr/financial_parser_output.json",
+            input_file=file,
+            dataclass=FinancialParserDataClass,
+            model=model,
+        )
+
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=result,
+        )
+
     def ocr__resume_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[ResumeParserDataClass]:
 
         original_response, result = self.__assistant_parser(
+            name="Resume Parser",
+            instruction="You are an resume parsing model.",
+            message_text="Analyse this resume :",
+            example_file="outputs/ocr/resume_parser_output.json",
+            input_file=file,
+            dataclass=ResumeParserDataClass,
+            model=model,
+        )
+
+        return ResponseType[ResumeParserDataClass](
+            original_response=original_response,
+            standardized_response=result,
+        )
+
+    async def ocr__aresume_parser(
+        self, file: str, file_url: str = "", model: str = None, **kwargs
+    ) -> ResponseType[ResumeParserDataClass]:
+        original_response, result = await self.__aassistant_parser(
             name="Resume Parser",
             instruction="You are an resume parsing model.",
             message_text="Analyse this resume :",

@@ -287,6 +287,64 @@ class ExtractaApi(
             standardized_response=standardized_response,
         )
 
+    async def ocr__aresume_parser(
+        self, file: str, file_url: str = "", model: str = None, **kwargs
+    ) -> ResponseType[ResumeParserDataClass]:
+        isUrl = False
+        if file_url:
+            image_source = file_url
+            isUrl = True
+        else:
+            try:
+                async with aiofiles.open(file, "rb") as f_stream:
+                    content = await f_stream.read()
+                    image_as_base64 = (
+                        f"data:{mimetypes.guess_type(file)[0]};base64,"
+                        + base64.b64encode(content).decode()
+                    )
+                    image_source = image_as_base64
+            except FileNotFoundError:
+                raise ProviderException("Error: The file was not found.")
+            except IOError:
+                raise ProviderException(
+                    "Error: An I/O error occurred while handling the file."
+                )
+
+        # make payload
+        payload = json.dumps(
+            {
+                "extractionDetails": {
+                    "name": "Eden.ai - Extraction",
+                    "language": "English",
+                    "documentId": "resume_parser",
+                },
+                "file": image_source,
+                "isUrl": isUrl,
+            }
+        )
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}",
+        }
+
+        async with httpx.AsyncClient(timeout=10.0) as session:
+            async with session.post(
+                url=self.url + self.processFileRoute, headers=headers, data=payload
+            ) as response:
+                if response.status != 200:
+                    response_text = await response.text()
+                    raise ProviderException(response_text, code=response.status)
+
+                original_response = await response.json()
+
+        standardized_response = extracta_resume_parser(original_response)
+
+        return ResponseType[ResumeParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
     def ocr__bank_check_parsing(
         self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[BankCheckParsingDataClass]:
