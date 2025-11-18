@@ -164,8 +164,9 @@ class KlippaApi(ProviderInterface, OcrInterface):
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
             original_response = await self._amake_post_request(
-                file_, endpoint="/resume"
+                file_content, endpoint="/resume"
             )
 
         standardized_response = klippa_resume_parser(original_response)
