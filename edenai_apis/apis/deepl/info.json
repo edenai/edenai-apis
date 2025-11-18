@@ -83,6 +83,49 @@
                 ]
             },
             "version": "v2"
+        },
+        "adocument_translation": {
+            "constraints": {
+                "languages": [
+                    "bg",
+                    "cs",
+                    "da",
+                    "de",
+                    "el",
+                    "en",
+                    "es",
+                    "et",
+                    "fi",
+                    "fr",
+                    "hu",
+                    "id",
+                    "it",
+                    "ja",
+                    "lt",
+                    "lv",
+                    "nl",
+                    "pl",
+                    "pt",
+                    "ro",
+                    "ru",
+                    "sk",
+                    "sl",
+                    "sv",
+                    "tr",
+                    "uk",
+                    "zh"
+                ],
+                "allow_null_language": true,
+                "file_types": [
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                    "application/pdf",
+                    "text/html",
+                    "text/plain",
+                    "application/xliff+xml"
+                ]
+            },
+            "version": "v2"
         }
     },
     "_metadata": {
