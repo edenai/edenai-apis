@@ -1,4 +1,5 @@
 from typing import Dict
+import asyncio
 
 from edenai_apis.features import OcrInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -8,7 +9,7 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.ocr import ResumeParserDataClass
 
 from .client import Client, Parser
-from .client_async import Client as AsyncClient, Parser as AsyncParser
+from .client_async import AsyncClient
 from .remapping import ResumeMapper
 
 
@@ -25,10 +26,12 @@ class SenseloafApi(ProviderInterface, OcrInterface):
             self.api_settings.get("email", None),
             self.api_settings.get("password", None),
         )
-        self.async_client = AsyncClient(
-            self.api_settings.get("api_key", None),
-            self.api_settings.get("email", None),
-            self.api_settings.get("password", None),
+        self.async_client: AsyncClient = None
+
+    async def _get_async_client(self):
+        self.async_client = await AsyncClient.create(
+            email=self.api_settings.get("email"),
+            password=self.api_settings.get("password"),
         )
 
     def ocr__resume_parser(
@@ -49,8 +52,8 @@ class SenseloafApi(ProviderInterface, OcrInterface):
     async def ocr__aresume_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[ResumeParserDataClass]:
-
-        original_response = await self.async_client.parse_document(
+        await self._get_async_client()
+        original_response = await self.async_client.parse_document_async(
             parse_type=Parser.RESUME, file=file, url=file_url
         )
 

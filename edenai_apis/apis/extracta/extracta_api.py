@@ -310,18 +310,15 @@ class ExtractaApi(
                     "Error: An I/O error occurred while handling the file."
                 )
 
-        # make payload
-        payload = json.dumps(
-            {
-                "extractionDetails": {
-                    "name": "Eden.ai - Extraction",
-                    "language": "English",
-                    "documentId": "resume_parser",
-                },
-                "file": image_source,
-                "isUrl": isUrl,
-            }
-        )
+        payload = {
+            "extractionDetails": {
+                "name": "Eden.ai - Extraction",
+                "language": "English",
+                "documentId": "resume_parser",
+            },
+            "file": image_source,
+            "isUrl": isUrl,
+        }
 
         headers = {
             "Content-Type": "application/json",
@@ -329,14 +326,12 @@ class ExtractaApi(
         }
 
         async with httpx.AsyncClient(timeout=10.0) as session:
-            async with session.post(
-                url=self.url + self.processFileRoute, headers=headers, data=payload
-            ) as response:
-                if response.status != 200:
-                    response_text = await response.text()
-                    raise ProviderException(response_text, code=response.status)
-
-                original_response = await response.json()
+            response = await session.post(
+                url=self.url + self.processFileRoute, headers=headers, json=payload
+            )
+            if response.status_code != 200:
+                raise ProviderException(response.text, code=response.status_code)
+            original_response = response.json()
 
         standardized_response = extracta_resume_parser(original_response)
 
