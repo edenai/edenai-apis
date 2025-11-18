@@ -160,10 +160,21 @@ class OcrInterface:
             document_type (str): type of the document (invoice or receipt) can be auto-detect for some providers
         """
         raise NotImplementedError
-    
 
     @abstractmethod
     def ocr__resume_parser(
+        self, file: str, file_url: str = "", model: str = None, **kwargs
+    ) -> ResponseType[ResumeParserDataClass]:
+        """Parse a resume and returned structured data
+
+        Args:
+            file (BufferedReader): resume to analyze
+            file_url (str, optional): url of file
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    async def ocr__aresume_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[ResumeParserDataClass]:
         """Parse a resume and returned structured data

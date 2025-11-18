@@ -62,6 +62,30 @@ class AffindaApi(ProviderInterface, OcrInterface):
             standardized_response=standardizer.standardized_response,
         )
 
+    async def ocr__aresume_parser(
+        self, file: str, file_url: str = "", model: str = None, **kwargs
+    ) -> ResponseType[ResumeParserDataClass]:
+        self.client.current_workspace = self.api_settings["nextgen_resume_parser"]
+
+        document = await self.client.acreate_document(
+            file=FileParameter(file=file, url=file_url)
+        )
+        original_response = self.client.last_api_response
+
+        standardizer = ResumeStandardizer(document=document)
+        standardizer.std_personnal_information()
+        standardizer.std_education()
+        standardizer.std_work_experience()
+        standardizer.std_skills()
+        standardizer.std_miscellaneous()
+
+        self.client.delete_document(document.meta.identifier)
+
+        return ResponseType[ResumeParserDataClass](
+            original_response=original_response,
+            standardized_response=standardizer.standardized_response,
+        )
+
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
