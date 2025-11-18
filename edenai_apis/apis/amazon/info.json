@@ -548,6 +548,30 @@
         "allow_null_document_type": true
       },
       "version": "boto3 1.26.8"
+    },
+    "afinancial_parser": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "application/pdf",
+          "image/tiff"
+        ],
+        "languages": [
+          "en",
+          "es",
+          "it",
+          "pt",
+          "fr",
+          "de"
+        ],
+        "documents": [
+          "receipt",
+          "invoice"
+        ],
+        "allow_null_document_type": true
+      },
+      "version": "boto3 1.26.8"
     }
   },
   "text": {

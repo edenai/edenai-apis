@@ -2,8 +2,8 @@ import asyncio
 from io import BufferedReader, BytesIO
 from json import JSONDecodeError
 from typing import Dict
-
 import aiofiles
+
 import httpx
 import requests
 
@@ -163,6 +163,26 @@ class KlippaApi(ProviderInterface, OcrInterface):
     ) -> ResponseType[FinancialParserDataClass]:
         with open(file, "rb") as file_:
             original_response = self._make_post_request(file_)
+
+        standardize_response = klippa_financial_parser(original_response)
+
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=standardize_response,
+        )
+
+    async def ocr__afinancial_parser(
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
+        **kwargs,
+    ) -> ResponseType[FinancialParserDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+            original_response = await self._amake_post_request(file_content)
 
         standardize_response = klippa_financial_parser(original_response)
 

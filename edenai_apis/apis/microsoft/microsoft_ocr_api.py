@@ -6,7 +6,9 @@ import aiofiles
 import requests
 from PIL import Image as Img
 from azure.ai.formrecognizer import DocumentAnalysisClient
-from azure.ai.formrecognizer.aio import DocumentAnalysisClient as AsyncDocumentAnalysisClient
+from azure.ai.formrecognizer.aio import (
+    DocumentAnalysisClient as AsyncDocumentAnalysisClient,
+)
 from azure.core.credentials import AzureKeyCredential
 from azure.core.exceptions import AzureError
 
@@ -657,6 +659,52 @@ class MicrosoftOcrApi(OcrInterface):
             except AttributeError:
                 raise ProviderException("Provider return an empty response")
         standardized_response = microsoft_financial_parser_formatter(original_response)
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    async def ocr__afinancial_parser(
+        self,
+        file: str,
+        language: str,
+        document_type: str,
+        file_url: str = "",
+        model: str = None,
+        **kwargs,
+    ) -> ResponseType[FinancialParserDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            content = await file_.read()
+
+        try:
+            async with AsyncDocumentAnalysisClient(
+                endpoint=self.url["documentintelligence"],
+                credential=AzureKeyCredential(
+                    self.api_settings["documentintelligence"]["subscription_key"]
+                ),
+            ) as document_analysis_client:
+                document_type_value = (
+                    "prebuilt-receipt"
+                    if document_type == FinancialParserType.RECEIPT.value
+                    else "prebuilt-invoice"
+                )
+                poller = await document_analysis_client.begin_analyze_document(
+                    document_type_value, content
+                )
+                form_pages = await poller.result()
+        except AzureError as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
+
+        try:
+            if form_pages is None or not hasattr(form_pages, "to_dict"):
+                raise AttributeError
+
+            original_response = form_pages.to_dict()
+        except AttributeError:
+            raise ProviderException("Provider return an empty response")
+
+        standardized_response = microsoft_financial_parser_formatter(original_response)
+
         return ResponseType[FinancialParserDataClass](
             original_response=original_response,
             standardized_response=standardized_response,

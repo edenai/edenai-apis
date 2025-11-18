@@ -37,7 +37,10 @@ from edenai_apis.features.ocr.receipt_parser.receipt_parser_dataclass import (
 from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
     FinancialParserDataClass,
 )
-from edenai_apis.utils.async_to_sync import fibonacci_waiting_call
+from edenai_apis.utils.async_to_sync import (
+    fibonacci_waiting_call,
+    afibonacci_waiting_call,
+)
 from edenai_apis.utils.exception import (
     AsyncJobException,
     AsyncJobExceptionReason,
@@ -797,3 +800,98 @@ class AmazonOcrApi(OcrInterface):
             original_response=pages,
             standardized_response=amazon_financial_parser_formatter(pages),
         )
+
+    async def ocr__afinancial_parser(
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
+        **kwargs,
+    ) -> ResponseType[FinancialParserDataClass]:
+        # Read file asynchronously
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+
+        # Create aioboto3 session
+        session = aioboto3.Session()
+
+        # Upload to S3 asynchronously
+        async with session.resource(
+            "s3",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as s3:
+            bucket = await s3.Bucket(self.api_settings["bucket"])
+            await bucket.put_object(Key=file, Body=file_content)
+
+        # Start expense analysis job
+        payload = {
+            "DocumentLocation": {
+                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
+            }
+        }
+
+        async with session.client(
+            "textract",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as textract_client:
+            launch_job_response = await ahandle_amazon_call(
+                textract_client.start_expense_analysis, **payload
+            )
+
+            # Get job result
+            job_id = launch_job_response.get("JobId")
+            get_response = await ahandle_amazon_call(
+                textract_client.get_expense_analysis, JobId=job_id
+            )
+
+            if get_response["JobStatus"] == "FAILED":
+                error: str = get_response.get(
+                    "StatusMessage", "Amazon returned a job status: FAILED"
+                )
+                raise ProviderException(error)
+
+            # Wait for job completion using fibonacci waiting
+            waiting_args = {"JobId": job_id}
+            get_response = await afibonacci_waiting_call(
+                max_time=60,
+                status="SUCCEEDED",
+                func=textract_client.get_expense_analysis,
+                provider_handel_call=ahandle_amazon_call,
+                **waiting_args,
+            )
+
+            # Check if NextToken exists
+            pagination_token = get_response.get("NextToken")
+            pages = [get_response]
+
+            if not pagination_token:
+                return ResponseType(
+                    original_response=pages,
+                    standardized_response=amazon_financial_parser_formatter(pages),
+                )
+
+            # Handle pagination
+            finished = False
+            while not finished:
+                get_response = await ahandle_amazon_call(
+                    textract_client.get_expense_analysis,
+                    JobId=job_id,
+                    NextToken=pagination_token,
+                )
+                pages.append(get_response)
+
+                if "NextToken" in get_response:
+                    pagination_token = get_response["NextToken"]
+                else:
+                    finished = True
+
+            return ResponseType(
+                original_response=pages,
+                standardized_response=amazon_financial_parser_formatter(pages),
+            )

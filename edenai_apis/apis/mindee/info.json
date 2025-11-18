@@ -128,6 +128,40 @@
             },
             "version": "v1.2"
         },
+        "afinancial_parser": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png",
+                    "image/tiff",
+                    "application/pdf",
+                    "image/heic",
+                    "image/webp"
+                ],
+                "languages": [
+                    "ca-ES",
+                    "de-DE",
+                    "de-CH",
+                    "en-US",
+                    "en-GB",
+                    "es-ES",
+                    "fr-FR",
+                    "fr-CA",
+                    "fr-CH",
+                    "it-IT",
+                    "it-CH",
+                    "nl-NL",
+                    "pt-PT"
+                ],
+                "allow_null_language": true,
+                "documents": [
+                    "receipt",
+                    "invoice"
+                ],
+                "allow_null_document_type": true
+            },
+            "version": "v1.2"
+        },
         "invoice_splitter_async": {
             "version": "v1",
             "constraints": {

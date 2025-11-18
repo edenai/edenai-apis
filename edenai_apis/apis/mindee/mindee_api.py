@@ -1,9 +1,12 @@
 import json
 from collections import defaultdict
-from io import BufferedReader, BytesIO
-from typing import Dict, Optional, Sequence, TypeVar, TypedDict
-
+from io import BufferedReader
+from typing import Dict, Sequence, TypedDict
 import aiofiles
+
+from io import BufferedReader, BytesIO
+from typing import Dict, Sequence, TypedDict
+
 import httpx
 import requests
 
@@ -650,6 +653,45 @@ class MindeeApi(ProviderInterface, OcrInterface):
         standardized_response = mindee_financial_parser(
             original_response=original_response
         )
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    async def ocr__afinancial_parser(
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
+        **kwargs,
+    ) -> ResponseType[FinancialParserDataClass]:
+        headers = {
+            "Authorization": self.api_key,
+        }
+
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+            files = {"document": (file, file_content)}
+
+            async with httpx.AsyncClient(timeout=180) as client:
+                response = await client.post(
+                    self.url_financial, headers=headers, files=files
+                )
+
+        original_response = response.json()
+
+        if "document" not in original_response:
+            raise ProviderException(
+                original_response["api_request"]["error"]["message"],
+                code=response.status_code,
+            )
+
+        standardized_response = mindee_financial_parser(
+            original_response=original_response
+        )
+
         return ResponseType[FinancialParserDataClass](
             original_response=original_response,
             standardized_response=standardized_response,
