@@ -1269,6 +1269,33 @@
         ]
       },
       "version": "rest API 4.0 (2024-02-29-preview)"
+    },
+    "afinancial_parser": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "application/pdf"
+        ],
+        "languages": [
+          "en-US",
+          "es",
+          "de",
+          "fr",
+          "it",
+          "pt",
+          "nl"
+        ],
+        "allow_null_language": true,
+        "documents": [
+          "receipt",
+          "invoice"
+        ]
+      },
+      "version": "rest API 4.0 (2024-02-29-preview)"
     }
   },
   "text": {
