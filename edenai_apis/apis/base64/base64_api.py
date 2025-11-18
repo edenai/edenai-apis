@@ -117,6 +117,24 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         return response.json()
 
+    async def _asend_ocr_document(self, file: str, model_type: str) -> Dict:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = file_.read()
+            image_as_base64 = (
+                f"data:{mimetypes.guess_type(file)[0]};base64,"
+                + base64.b64encode(file_content).decode()
+            )
+        data = {"modelTypes": [model_type], "image": image_as_base64}
+
+        headers = {"Content-type": "application/json", "Authorization": self.api_key}
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url=self.url, headers=headers, json=data)
+
+        if response.status_code != 200:
+            raise ProviderException(response.text, code=response.status_code)
+
+        return response.json()
+
     def _ocr_finance_document(
         self, ocr_file, document_type: SubfeatureParser
     ) -> ResponseType[T]:
@@ -162,6 +180,25 @@ class Base64Api(ProviderInterface, OcrInterface):
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         original_response = self._send_ocr_document(file, "finance/" + document_type)
+
+        standardized_response = format_financial_document_data(original_response)
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    async def ocr__afinancial_parser(
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
+        **kwargs,
+    ) -> ResponseType[FinancialParserDataClass]:
+        original_response = await self._asend_ocr_document(
+            file, "finance/" + document_type
+        )
 
         standardized_response = format_financial_document_data(original_response)
         return ResponseType[FinancialParserDataClass](

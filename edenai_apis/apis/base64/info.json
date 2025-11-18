@@ -64,6 +64,39 @@
       },
       "version": "latest"
     },
+    "afinancial_parser": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "image/webp",
+          "image/heic",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.ms-excel",
+          "application/vnd.ms-powerpoint",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "application/pdf",
+          "application/vnd.oasis.opendocument.spreadsheet",
+          "application/vnd.oasis.opendocument.text",
+          "application/vnd.oasis.opendocument.presentation",
+          "application/zip"
+        ],
+        "languages": [
+          "en-US"
+        ],
+        "allow_null_language": true,
+        "documents": [
+          "receipt",
+          "invoice"
+        ],
+        "allow_null_document_type": true
+      },
+      "version": "latest"
+    },
     "ocr": {
       "constraints": {
         "file_types": [
