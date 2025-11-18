@@ -13,7 +13,7 @@ from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 import openai
-from openai import OpenAI
+from openai import OpenAI, AsyncOpenAI
 
 
 class OpenaiApi(
@@ -48,6 +48,10 @@ class OpenaiApi(
         self.max_tokens = 270
 
         self.client = OpenAI(
+            api_key=self.api_key,
+        )
+
+        self.async_client = AsyncOpenAI(
             api_key=self.api_key,
         )
 

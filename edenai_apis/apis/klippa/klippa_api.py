@@ -1,7 +1,10 @@
-from io import BufferedReader
+import asyncio
+from io import BufferedReader, BytesIO
 from json import JSONDecodeError
 from typing import Dict
 
+import aiofiles
+import httpx
 import requests
 
 from edenai_apis.features import OcrInterface, ProviderInterface
@@ -59,6 +62,30 @@ class KlippaApi(ProviderInterface, OcrInterface):
 
         return original_response
 
+    async def _amake_post_request(self, file: BufferedReader, endpoint: str = ""):
+        files = {
+            "document": file,
+        }
+        data = {"pdf_text_extraction": "full"}
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+            response = await client.post(
+                url=self.url + endpoint, headers=self.headers, files=files, data=data
+            )
+
+            try:
+                original_response = response.json()
+            except JSONDecodeError as exc:
+                raise ProviderException(
+                    message="Internal Server Error", code=500
+                ) from exc
+
+            if response.status_code != 200:
+                raise ProviderException(
+                    message=response.json(), code=response.status_code
+                )
+
+            return original_response
+
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
@@ -90,6 +117,24 @@ class KlippaApi(ProviderInterface, OcrInterface):
             original_response = self._make_post_request(file_, endpoint="/identity")
 
         standardized_response = klippa_id_parser(original_response)
+        return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    async def ocr__aidentity_parser(
+        self, file: str, file_url: str = "", model: str = None, **kwargs
+    ) -> ResponseType[IdentityParserDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            content = await file_.read()
+            file_like = BytesIO(content)
+            original_response = await self._amake_post_request(
+                file_like, endpoint="/identity"
+            )
+
+        standardized_response = await asyncio.to_thread(
+            klippa_id_parser, original_response
+        )
         return ResponseType[IdentityParserDataClass](
             original_response=original_response,
             standardized_response=standardized_response,

@@ -1,10 +1,12 @@
 from enum import Enum
 from http import HTTPStatus
-from io import BufferedReader
+from io import BufferedReader, BytesIO
 from json import JSONDecodeError
 from typing import Any, Dict, List, Literal, Optional
 from warnings import warn
 
+import aiofiles
+import httpx
 import requests
 
 from edenai_apis.utils.exception import ProviderException
@@ -518,3 +520,113 @@ class Client:
             url=f"{self.BASE_URL}/documents/{identifier}",
             headers=self.headers,
         )
+
+    ######### ASYNC #########
+    async def __arequests(
+        self,
+        method: HTTPMethod,
+        url: str,
+        data: Optional[dict] = None,
+        params: Optional[dict] = None,
+        files: Optional[dict] = None,
+        headers: Optional[dict] = None,
+        json: Optional[dict] = None,
+    ) -> dict:
+        """This function are use to simplify the usage of requests module with the affinda api error management
+
+        Args:
+            method (HTTPMethod): method for the new `Request` object: `GET`, `POST`, `PUT`, `PATCH`, or `DELETE`.
+            url (str): URL for the new `Request` object.
+            params (dict, optional): Dictionary to send in the query string for the `Request`.
+            data (dict, optional): Dictionary to send in the body of the `Request`.
+            json (dict, optional): A JSON serializable Python object to send in the body of the `Request`.
+            headers (dict, optional): Dictionary of HTTP Headers to send with the `Request`.
+            files (optional): Dictionary of `'name': file-like-objects` (or `{'name': file-tuple}`) for multipart encoding upload.
+            `file-tuple` can be a 2-tuple `('filename', fileobj)`, 3-tuple `('filename', fileobj, 'content_type')`
+            or a 4-tuple `('filename', fileobj, 'content_type', custom_headers)`, where `'content-type'` is a string
+            defining the content type of the given file and `custom_headers` a dict-like object containing additional headers
+            to add for the file.
+
+        Raises:
+            ProviderException: if HTTPError or JSONDecodeError are raised
+            RequestException: if an error are raised by requests module
+
+        Returns:
+            dict: The response of the request in json format. If status_code is 204, return { 'status_code': 204 }
+        """
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10, read=120.0)) as client:
+            response: httpx.Response = await client.request(
+                method=method.value,
+                url=url,
+                data=data,
+                params=params,
+                files=files,
+                headers=headers,
+                json=json,
+            )
+
+            try:
+                response.raise_for_status()
+
+                if response.status_code == HTTPStatus.NO_CONTENT:
+                    return {"status_code": response.status_code}
+
+                self.__last_api_response = response.json()
+                return self.__last_api_response
+            except requests.exceptions.HTTPError as exc:
+                raise ProviderException(
+                    message=f"{exc}\nError message: {exc.response.text}",
+                    code=response.status_code,
+                ) from exc
+            except JSONDecodeError:
+                raise ProviderException(
+                    message="Internal server error", code=response.status_code
+                )
+
+    async def acreate_document(
+        self,
+        file: FileParameter,
+        parameters: UploadDocumentParams = UploadDocumentParams(),
+    ) -> Document:
+        """Create a new document in the current_collection property.
+        Args:
+            file (FileParameter): The file to upload.
+            parameters (UploadDocumentParams, optional): The parameters of the document. Defaults to UploadDocumentParams().
+        Returns:
+            dict: The new document.
+        """
+        payload: Dict[str, Any] = {
+            **parameters.to_form_data(),
+            **(
+                QueryBuilder()
+                .add_workspace(self.__current_workspace)
+                .add_collection(self.__current_collection)
+                .build()
+            ),
+        }
+
+        files: Optional[Dict[str, BufferedReader]] = None
+
+        if file.type == "file":
+            async with aiofiles.open(file.file, "rb") as f:
+                content = await f.read()
+                file_like = BytesIO(content)
+                files = {"file": file_like}
+                req_content = await self.__arequests(
+                    method=HTTPMethod.POST,
+                    url=f"{self.BASE_URL}/documents",
+                    headers=self.headers,
+                    files=files,
+                    data=payload,
+                )
+                return Document(**req_content)
+        else:
+            payload["url"] = file.file
+            req_content = await self.__arequests(
+                method=HTTPMethod.POST,
+                url=f"{self.BASE_URL}/documents",
+                headers=self.headers,
+                files=None,
+                data=payload,
+            )
+            return Document(**req_content)

@@ -5,6 +5,7 @@ import os
 from enum import Enum
 from typing import Any, List, Optional, Sequence, Union
 
+import aiofiles
 from dateutil import parser
 from pydantic import BaseModel, Field, StrictStr, field_validator, ValidationInfo
 
@@ -53,6 +54,29 @@ def get_info_country(key: InfoCountry, value: StrictStr) -> Optional[Country]:
         f"{feature_path}/identity_parser/countries.json", "r", encoding="utf-8"
     ) as f:
         countries = json.load(f)
+        country_idx = next(
+            (
+                index
+                for (index, country) in enumerate(countries)
+                if country[key.value].lower() == value.lower()
+            ),
+            None,
+        )
+        if country_idx:
+            return countries[country_idx]
+    return None
+
+
+async def aget_info_country(key: InfoCountry, value: StrictStr) -> Optional[Country]:
+    feature_path = os.path.dirname(os.path.dirname(__file__))
+
+    if not value or not key:
+        return None
+    async with aiofiles.open(
+        f"{feature_path}/identity_parser/countries.json", "r", encoding="utf-8"
+    ) as f:
+        content = await f.read()
+        countries = json.loads(content)
         country_idx = next(
             (
                 index
