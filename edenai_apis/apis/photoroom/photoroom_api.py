@@ -106,13 +106,19 @@ class PhotoroomApi(ImageInterface, ProviderInterface):
 
             if not file:
                 # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
                 file_wrapper = await file_handler.download_file(file_url)
                 image_file = await file_wrapper.get_bytes()
             else:
                 async with aiofiles.open(file, "rb") as f:
                     image_file = await f.read()
 
-            async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+            async with httpx.AsyncClient(
+                timeout=httpx.Timeout(10.0, read=120.0)
+            ) as client:
                 response = await client.post(
                     f"{self.base_url}segment",
                     files={"image_file": image_file},
@@ -130,7 +136,9 @@ class PhotoroomApi(ImageInterface, ProviderInterface):
 
                 return ResponseType[BackgroundRemovalDataClass](
                     original_response=original_response,
-                    standardized_response=BackgroundRemovalDataClass(**resource_url_dict),
+                    standardized_response=BackgroundRemovalDataClass(
+                        **resource_url_dict
+                    ),
                 )
         finally:
             # Clean up temp file if it was created

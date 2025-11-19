@@ -664,6 +664,10 @@ class Api4aiApi(
             url: str = self.urls["bg_removal"] + f"&mode={api4ai_params.mode}"
             if not file:
                 # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
                 file_wrapper = await file_handler.download_file(file_url)
                 image_file = await file_wrapper.get_bytes()
             else:

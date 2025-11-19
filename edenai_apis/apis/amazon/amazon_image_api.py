@@ -980,43 +980,51 @@ class AmazonImageApi(ImageInterface):
         content_type_header = "application/json"
 
         file_handler = FileHandler()
+        file_wrapper = None
 
         inputImage = None
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                inputImage = file_wrapper.get_file_b64_content()
+            else:
+                with open(file, "rb") as image_file:
+                    image_bytes = image_file.read()
+                    inputImage = base64.b64encode(image_bytes).decode("utf-8")
 
-        if not file:
-            # try to use the url
-            file_wrapper = await file_handler.download_file(file_url)
-            inputImage = file_wrapper.get_file_b64_content()
-        else:
-            with open(file, "rb") as image_file:
-                image_bytes = image_file.read()
-                inputImage = base64.b64encode(image_bytes).decode("utf-8")
+            request_body = {
+                "inputImage": inputImage,
+                "embeddingConfig": {"outputEmbeddingLength": embedding_dimension},
+            }
 
-        request_body = {
-            "inputImage": inputImage,
-            "embeddingConfig": {"outputEmbeddingLength": embedding_dimension},
-        }
+            request_params = {
+                "body": json.dumps(request_body).encode("utf-8"),
+                "modelId": f"amazon.{model}",
+                "accept": accept_header,
+                "contentType": content_type_header,
+            }
 
-        request_params = {
-            "body": json.dumps(request_body).encode("utf-8"),
-            "modelId": f"amazon.{model}",
-            "accept": accept_header,
-            "contentType": content_type_header,
-        }
+            response = handle_amazon_call(
+                self.clients["bedrock"].invoke_model, **request_params
+            )
 
-        response = handle_amazon_call(
-            self.clients["bedrock"].invoke_model, **request_params
-        )
+            original_response = json.loads(response.get("body").read())
 
-        original_response = json.loads(response.get("body").read())
+            embeddings = original_response["embedding"] or []
+            items: Sequence[EmbeddingDataClass] = []
+            items.append(EmbeddingDataClass(embedding=embeddings))
 
-        embeddings = original_response["embedding"] or []
-        items: Sequence[EmbeddingDataClass] = []
-        items.append(EmbeddingDataClass(embedding=embeddings))
+            standardized_response = EmbeddingsDataClass(items=items)
 
-        standardized_response = EmbeddingsDataClass(items=items)
-
-        return ResponseType[EmbeddingsDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+            return ResponseType[EmbeddingsDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
