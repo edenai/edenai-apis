@@ -28,6 +28,7 @@ from edenai_apis.utils.types import (
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     upload_file_bytes_to_s3,
+    aupload_file_bytes_to_s3,
     upload_file_to_s3,
 )
 
@@ -251,10 +252,13 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         audio_content = BytesIO(response.content)
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
         audio_content.seek(0)
+        resource_url = await aupload_file_bytes_to_s3(
+            audio_content, f".{audio_format}", USER_PROCESS
+        )
 
         return ResponseType[TextToSpeechDataClass](
             original_response=response.content,
             standardized_response=TextToSpeechDataClass(
-                audio=audio, voice_type=1, audio_resource_url=""
+                audio=audio, voice_type=1, audio_resource_url=resource_url
             ),
         )

@@ -40,9 +40,9 @@ from edenai_apis.utils.upload_s3 import (
     URL_LONG_PERIOD,
     USER_PROCESS,
     get_cloud_front_file_url,
-    get_s3_file_url,
     s3_client_load,
     upload_file_bytes_to_s3,
+    aupload_file_bytes_to_s3,
 )
 
 from .config import audio_voices_ids, storage_clients
@@ -151,9 +151,14 @@ class AmazonAudioApi(AudioInterface):
         voice_type = 1
 
         audio_content.seek(0)
+        audio_resource_url = await aupload_file_bytes_to_s3(
+            audio_content, f".{ext}", USER_PROCESS
+        )
 
         standardized_response = TextToSpeechDataClass(
-            audio=audio_file, voice_type=voice_type, audio_resource_url=""
+            audio=audio_file,
+            voice_type=voice_type,
+            audio_resource_url=audio_resource_url,
         )
 
         return ResponseType[TextToSpeechDataClass](

@@ -37,6 +37,7 @@ from edenai_apis.utils.types import (
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     upload_file_bytes_to_s3,
+    aupload_file_bytes_to_s3,
     upload_file_to_s3,
 )
 
@@ -151,7 +152,9 @@ class MicrosoftAudioApi(AudioInterface):
         audio_b64 = base64.b64encode(audio_content.read()).decode("utf-8")
 
         audio_content.seek(0)
-        resource_url = ""
+        resource_url = await aupload_file_bytes_to_s3(
+            audio_content, f".{ext}", USER_PROCESS
+        )
         voice_type = 1
         standardized_response = TextToSpeechDataClass(
             audio=audio_b64, voice_type=voice_type, audio_resource_url=resource_url

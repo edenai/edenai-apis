@@ -18,7 +18,11 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
-from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
+from edenai_apis.utils.upload_s3 import (
+    USER_PROCESS,
+    upload_file_bytes_to_s3,
+    aupload_file_bytes_to_s3,
+)
 
 from .helpers import convert_tts_audio_rate
 
@@ -160,11 +164,11 @@ class OpenaiAudioApi(AudioInterface):
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
         voice_type = 1
         audio_content.seek(0)
-        # resource_url = upload_file_bytes_to_s3(
-        #     audio_content, f".{audio_format}", USER_PROCESS
-        # )
+        resource_url = await aupload_file_bytes_to_s3(
+            audio_content, f".{audio_format}", USER_PROCESS
+        )
         standardized_response = TextToSpeechDataClass(
-            audio=audio, voice_type=voice_type, audio_resource_url=""
+            audio=audio, voice_type=voice_type, audio_resource_url=resource_url
         )
         return ResponseType[TextToSpeechDataClass](
             original_response={}, standardized_response=standardized_response

@@ -14,7 +14,11 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
+from edenai_apis.utils.upload_s3 import (
+    USER_PROCESS,
+    upload_file_bytes_to_s3,
+    aupload_file_bytes_to_s3,
+)
 from .config import voice_ids
 
 
@@ -131,8 +135,6 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         sampling_rate: int,
         **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
-        if not self.own_keys:
-            self.__moderate_content(text=text)
 
         ids = ElevenlabsApi.__get_voice_id(voice_id=voice_id)
         url = f"{self.base_url}text-to-speech/{ids}"
@@ -152,13 +154,13 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
 
         audio_content.seek(0)
-        # resource_url = upload_file_bytes_to_s3(
-        #     audio_content, f".{audio_format}", USER_PROCESS
-        # )
+        resource_url = await aupload_file_bytes_to_s3(
+            audio_content, f".{audio_format}", USER_PROCESS
+        )
 
         return ResponseType[TextToSpeechDataClass](
             original_response=audio,
             standardized_response=TextToSpeechDataClass(
-                audio=audio, voice_type=1, audio_resource_url=""
+                audio=audio, voice_type=1, audio_resource_url=resource_url
             ),
         )
