@@ -1,6 +1,6 @@
 [project]
 name = "edenai-apis"
-version = "0.1.17-beta"
+version = "0.1.18-beta"
 description = "Providers connectors"
 dynamic = ["dependencies"]
 requires-python = ">=3.11"
