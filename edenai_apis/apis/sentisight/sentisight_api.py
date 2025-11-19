@@ -37,6 +37,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import add_query_param_in_url
 from edenai_apis.utils.exception import ProviderException, LanguageException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType, ResponseSuccess
 from .sentisight_helpers import (
     calculate_bounding_box,
@@ -505,25 +506,40 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         provider_params: Optional[Dict[str, Any]] = None,
         **kwargs,
     ) -> ResponseType[BackgroundRemovalDataClass]:
-        async with aiofiles.open(file, "rb") as f:
-            image_file = await f.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
 
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                self.base_url + SentisightPreTrainModel.BACKGROUND_REMOVAL.value,
-                headers=self.octet_stream_headers,
-                content=image_file,
-            )
-            if response.status_code != 200:
-                raise ProviderException(response.text, code=response.status_code)
+        try:
+            if not file:
+                # try to use the url
+                file_wrapper = await file_handler.download_file(file_url)
+                image_file = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as f:
+                    image_file = await f.read()
 
-            original_response = response.json()
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    self.base_url + SentisightPreTrainModel.BACKGROUND_REMOVAL.value,
+                    headers=self.octet_stream_headers,
+                    content=image_file,
+                )
+                if response.status_code != 200:
+                    raise ProviderException(response.text, code=response.status_code)
 
-            image_b64 = original_response[0]["image"]
+                original_response = response.json()
 
-            resource_url_dict = await aget_resource_url(image_b64)
+                image_b64 = original_response[0]["image"]
 
-            return ResponseType[BackgroundRemovalDataClass](
-                original_response=original_response,
-                standardized_response=BackgroundRemovalDataClass(**resource_url_dict),
-            )
+                resource_url_dict = await aget_resource_url(image_b64)
+
+                return ResponseType[BackgroundRemovalDataClass](
+                    original_response=original_response,
+                    standardized_response=BackgroundRemovalDataClass(
+                        **resource_url_dict
+                    ),
+                )
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()

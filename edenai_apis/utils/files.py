@@ -1,6 +1,8 @@
+import asyncio
+import base64
 import os
-import tempfile
 from typing import List, Optional
+import aiofiles
 
 
 class FileInfo:
@@ -43,14 +45,29 @@ class FileWrapper:
 
     _file_b64_content: Optional[str] = None
 
-    def get_file_b64_content(self):
+    async def get_file_b64_content(self):
         if self._file_b64_content:
             return self._file_b64_content
         if self.file_path:
-            with tempfile.NamedTemporaryFile("rb") as f:
-                self._file_b64_content = f.read()
+            async with aiofiles.open(self.file_path, "rb") as f:
+                content = await f.read()
+                self._file_b64_content = base64.encodebytes(content).decode("utf-8")
                 f.close()
                 return self._file_b64_content
+        raise Exception("No file found...!")
+
+    async def get_bytes(self):
+        # If there's a filepath
+        if self.file_path:
+            async with aiofiles.open(self.file_path, "rb") as f:
+                return await f.read()
+        # If there's only the b64 info, decode and return bytes directly
+        if self._file_b64_content:
+            # Offload CPU-bound base64 decoding to thread pool
+            return await asyncio.to_thread(
+                base64.b64decode,
+                self._file_b64_content
+            )
         raise Exception("No file found...!")
 
     def get_file_content(self):

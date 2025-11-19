@@ -52,6 +52,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import (
     upload_file_bytes_to_s3,
@@ -652,18 +653,26 @@ class Api4aiApi(
         provider_params: Optional[Dict[str, Any]] = None,
         **kwargs,
     ) -> ResponseType[BackgroundRemovalDataClass]:
-        if provider_params is None or not isinstance(provider_params, dict):
-            api4ai_params = Api4aiBackgroundRemovalParams()
-        else:
-            api4ai_params = Api4aiBackgroundRemovalParams(**provider_params)
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+        try:
+            if provider_params is None or not isinstance(provider_params, dict):
+                api4ai_params = Api4aiBackgroundRemovalParams()
+            else:
+                api4ai_params = Api4aiBackgroundRemovalParams(**provider_params)
 
-        url: str = self.urls["bg_removal"] + f"&mode={api4ai_params.mode}"
-        async with aiofiles.open(file, "rb") as f:
-            file_content = await f.read()
+            url: str = self.urls["bg_removal"] + f"&mode={api4ai_params.mode}"
+            if not file:
+                # try to use the url
+                file_wrapper = await file_handler.download_file(file_url)
+                image_file = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as f:
+                    image_file = await f.read()
             async with httpx.AsyncClient(
                 timeout=httpx.Timeout(10.0, read=120.0)
             ) as client:
-                response = await client.post(url, files={"image": file_content})
+                response = await client.post(url, files={"image": image_file})
                 error = get_errors_from_response(response)
                 if error is not None:
                     raise ProviderException(error, code=response.status_code)
@@ -680,3 +689,7 @@ class Api4aiApi(
                         **resource_url_dict
                     ),
                 )
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()

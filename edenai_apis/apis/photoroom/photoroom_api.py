@@ -13,6 +13,7 @@ from edenai_apis.features.image.utils.upload import aget_resource_url
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
 
 
@@ -94,16 +95,24 @@ class PhotoroomApi(ImageInterface, ProviderInterface):
         provider_params: Optional[Dict[str, Any]] = None,
         **kwargs,
     ) -> ResponseType[BackgroundRemovalDataClass]:
-        if provider_params is None or not isinstance(provider_params, dict):
-            photoroom_params = PhotoroomBackgroundRemovalParams()
-        else:
-            photoroom_params = PhotoroomBackgroundRemovalParams(**provider_params)
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
 
-        async with aiofiles.open(file, "rb") as f:
-            image_file = await f.read()
-            async with httpx.AsyncClient(
-                timeout=httpx.Timeout(10.0, read=120.0)
-            ) as client:
+        try:
+            if provider_params is None or not isinstance(provider_params, dict):
+                photoroom_params = PhotoroomBackgroundRemovalParams()
+            else:
+                photoroom_params = PhotoroomBackgroundRemovalParams(**provider_params)
+
+            if not file:
+                # try to use the url
+                file_wrapper = await file_handler.download_file(file_url)
+                image_file = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as f:
+                    image_file = await f.read()
+
+            async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
                 response = await client.post(
                     f"{self.base_url}segment",
                     files={"image_file": image_file},
@@ -121,7 +130,9 @@ class PhotoroomApi(ImageInterface, ProviderInterface):
 
                 return ResponseType[BackgroundRemovalDataClass](
                     original_response=original_response,
-                    standardized_response=BackgroundRemovalDataClass(
-                        **resource_url_dict
-                    ),
+                    standardized_response=BackgroundRemovalDataClass(**resource_url_dict),
                 )
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()
