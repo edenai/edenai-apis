@@ -605,6 +605,26 @@
       },
       "version": "boto3 (v1.15.18)"
     },
+    "aidentity_parser": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/webp",
+          "application/pdf",
+          "image/tiff"
+        ],
+        "languages": [
+          "en-US",
+          "fr-FR",
+          "es-ES",
+          "de-DE",
+          "it-IT",
+          "pt-PT"
+        ]
+      },
+      "version": "boto3 (v1.15.18)"
+    },
     "custom_document_parsing_async": {
       "constraints": {
         "file_types": [
@@ -663,6 +683,30 @@
       "version": "boto3 1.26.8"
     },
     "financial_parser": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "application/pdf",
+          "image/tiff"
+        ],
+        "languages": [
+          "en",
+          "es",
+          "it",
+          "pt",
+          "fr",
+          "de"
+        ],
+        "documents": [
+          "receipt",
+          "invoice"
+        ],
+        "allow_null_document_type": true
+      },
+      "version": "boto3 1.26.8"
+    },
+    "afinancial_parser": {
       "constraints": {
         "file_types": [
           "image/jpeg",
@@ -893,6 +937,10 @@
       "constraints": {},
       "version": "boto3 (v1.15.18)"
     },
+    "aobject_detection": {
+      "constraints": {},
+      "version": "boto3 (v1.15.18)"
+    },
     "face_recognition": {
       "create_collection": {
         "version": "boto3 1.26.8"
@@ -917,6 +965,9 @@
       }
     },
     "face_compare": {
+      "version": "boto3 (v1.15.18)"
+    },
+    "aface_compare": {
       "version": "boto3 (v1.15.18)"
     },
     "generation": {

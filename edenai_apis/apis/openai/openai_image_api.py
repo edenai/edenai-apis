@@ -126,6 +126,14 @@ class OpenaiImageApi(ImageInterface):
         )
         return response
 
+    async def image__aexplicit_content(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ExplicitContentDataClass]:
+        response = await self.llm_client.image_amoderation(
+            file=file, file_url=file_url, model=model
+        )
+        return response
+
     def image__logo_detection(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[LogoDetectionDataClass]:

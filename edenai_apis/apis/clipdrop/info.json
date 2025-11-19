@@ -2,6 +2,9 @@
     "image": {
         "background_removal": {
             "version": "v1Beta"
+        },
+        "abackground_removal": {
+            "version": "v1"
         }
     },
     "_metadata": {

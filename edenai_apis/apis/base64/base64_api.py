@@ -4,12 +4,13 @@ import mimetypes
 import uuid
 from enum import Enum
 from io import BytesIO
-from typing import Any, Dict, Sequence, Type, TypeVar, Union
+import aiofiles
+from typing import Any, Dict, Sequence, Type, TypeVar
 
 import requests
+import httpx
 
 from edenai_apis.apis.base64.base64_helpers import (
-    extract_item_lignes,
     format_financial_document_data,
     format_invoice_document_data,
     format_receipt_document_data,
@@ -46,6 +47,7 @@ from edenai_apis.features.ocr.identity_parser import (
 )
 from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
     Country,
+    aget_info_country,
     format_date,
 )
 from edenai_apis.features.ocr.invoice_parser import InvoiceParserDataClass
@@ -56,9 +58,7 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.bounding_box import BoundingBox
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
-    AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
-    AsyncPendingResponseType,
     AsyncResponseType,
     ResponseType,
 )
@@ -118,6 +118,24 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         return response.json()
 
+    async def _asend_ocr_document(self, file: str, model_type: str) -> Dict:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+            image_as_base64 = (
+                f"data:{mimetypes.guess_type(file)[0]};base64,"
+                + base64.b64encode(file_content).decode()
+            )
+        data = {"modelTypes": [model_type], "image": image_as_base64}
+
+        headers = {"Content-type": "application/json", "Authorization": self.api_key}
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url=self.url, headers=headers, json=data)
+
+        if response.status_code != 200:
+            raise ProviderException(response.text, code=response.status_code)
+
+        return response.json()
+
     def _ocr_finance_document(
         self, ocr_file, document_type: SubfeatureParser
     ) -> ResponseType[T]:
@@ -163,6 +181,25 @@ class Base64Api(ProviderInterface, OcrInterface):
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         original_response = self._send_ocr_document(file, "finance/" + document_type)
+
+        standardized_response = format_financial_document_data(original_response)
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    async def ocr__afinancial_parser(
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
+        **kwargs,
+    ) -> ResponseType[FinancialParserDataClass]:
+        original_response = await self._asend_ocr_document(
+            file, "finance/" + document_type
+        )
 
         standardized_response = format_financial_document_data(original_response)
         return ResponseType[FinancialParserDataClass](
@@ -318,6 +355,169 @@ class Base64Api(ProviderInterface, OcrInterface):
             standardized_response=standardized_response,
         )
 
+    async def ocr__aidentity_parser(
+        self, file: str, file_url: str = "", model: str = None, **kwargs
+    ) -> ResponseType[IdentityParserDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            image_as_base64 = (
+                f"data:{mimetypes.guess_type(file)[0]};base64,"
+                + base64.b64encode(await file_.read()).decode()
+            )
+
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+            payload = json.dumps({"image": image_as_base64})
+
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": self.api_key,
+            }
+
+            response = await client.post(url=self.url, headers=headers, data=payload)
+
+            original_response = self._get_response(response)
+
+            items = []
+
+            for document in original_response:
+                image_id = [
+                    ItemIdentityParserDataClass(
+                        value=doc.get("image", []), confidence=doc.get("confidence")
+                    )
+                    for doc in document["features"].get("faces", {})
+                ]
+                image_signature = [
+                    ItemIdentityParserDataClass(
+                        value=doc.get("image", []), confidence=doc.get("confidence")
+                    )
+                    for doc in document["features"].get("signatures", {})
+                ]
+                given_names_dict = document["fields"].get("givenName", {}) or {}
+                given_names_string = given_names_dict.get("value", "") or ""
+                given_names = (
+                    given_names_string.split(" ") if given_names_string != "" else []
+                )
+                given_names_final = []
+                for given_name in given_names:
+                    given_names_final.append(
+                        ItemIdentityParserDataClass(
+                            value=given_name,
+                            confidence=document["fields"]
+                            .get("givenName", {})
+                            .get("confidence"),
+                        )
+                    )
+
+                country = await aget_info_country(
+                    key=InfoCountry.ALPHA3,
+                    value=document["fields"].get("countryCode", {}).get("value", ""),
+                )
+                if country:
+                    country["confidence"] = (
+                        document["fields"].get("countryCode", {}).get("confidence")
+                    )
+
+                items.append(
+                    InfosIdentityParserDataClass(
+                        document_type=ItemIdentityParserDataClass(
+                            value=document["fields"]
+                            .get("documentType", {})
+                            .get("value"),
+                            confidence=document["fields"]
+                            .get("documentType", {})
+                            .get("confidence"),
+                        ),
+                        last_name=ItemIdentityParserDataClass(
+                            value=document["fields"].get("familyName", {}).get("value"),
+                            confidence=document["fields"]
+                            .get("familyName", {})
+                            .get("confidence"),
+                        ),
+                        given_names=given_names_final,
+                        birth_date=ItemIdentityParserDataClass(
+                            value=format_date(
+                                document["fields"].get("dateOfBirth", {}).get("value")
+                            ),
+                            confidence=document["fields"]
+                            .get("dateOfBirth", {})
+                            .get("confidence"),
+                        ),
+                        country=country or Country.default(),
+                        document_id=ItemIdentityParserDataClass(
+                            value=document["fields"]
+                            .get("documentNumber", {})
+                            .get("value"),
+                            confidence=document["fields"]
+                            .get("documentNumber", {})
+                            .get("confidence"),
+                        ),
+                        age=ItemIdentityParserDataClass(
+                            value=str(document["fields"].get("age", {}).get("value")),
+                            confidence=document["fields"]
+                            .get("age", {})
+                            .get("confidence"),
+                        ),
+                        nationality=ItemIdentityParserDataClass(
+                            value=document["fields"]
+                            .get("nationality", {})
+                            .get("value"),
+                            confidence=document["fields"]
+                            .get("nationality", {})
+                            .get("confidence"),
+                        ),
+                        issuing_state=ItemIdentityParserDataClass(
+                            value=document["fields"]
+                            .get("issuingState", {})
+                            .get("value"),
+                            confidence=document["fields"]
+                            .get("issuingState", {})
+                            .get("confidence"),
+                        ),
+                        image_id=image_id,
+                        image_signature=image_signature,
+                        gender=ItemIdentityParserDataClass(
+                            value=document["fields"].get("sex", {}).get("value"),
+                            confidence=document["fields"]
+                            .get("sex", {})
+                            .get("confidence"),
+                        ),
+                        expire_date=ItemIdentityParserDataClass(
+                            value=format_date(
+                                document["fields"]
+                                .get("expirationDate", {})
+                                .get("value")
+                            ),
+                            confidence=document["fields"]
+                            .get("expirationDate", {})
+                            .get("confidence"),
+                        ),
+                        issuance_date=ItemIdentityParserDataClass(
+                            value=format_date(
+                                document["fields"].get("issueDate", {}).get("value")
+                            ),
+                            confidence=document["fields"]
+                            .get("issueDate", {})
+                            .get("confidence"),
+                        ),
+                        address=ItemIdentityParserDataClass(
+                            value=document["fields"].get("address", {}).get("value"),
+                            confidence=document["fields"]
+                            .get("address", {})
+                            .get("confidence"),
+                        ),
+                        birth_place=ItemIdentityParserDataClass(
+                            value=None, confidence=None
+                        ),
+                        mrz=ItemIdentityParserDataClass(),
+                    )
+                )
+
+            standardized_response = IdentityParserDataClass(extracted_data=items)
+
+            return ResponseType[IdentityParserDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+
     def image__face_compare(
         self, file1: str, file2: str, file1_url: str = "", file2_url: str = "", **kwargs
     ) -> ResponseType[FaceCompareDataClass]:
@@ -363,6 +563,61 @@ class Base64Api(ProviderInterface, OcrInterface):
             )
         standardized_response = FaceCompareDataClass(items=faces)
 
+        return ResponseType[FaceCompareDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    async def image__aface_compare(
+        self, file1: str, file2: str, file1_url: str = "", file2_url: str = "", **kwargs
+    ) -> ResponseType[FaceCompareDataClass]:
+        url = "https://base64.ai/api/face"
+        headers = {"Authorization": self.api_key, "Content-Type": "application/json"}
+
+        if file1_url and file2_url:
+            payload = json.dumps({"url": file1_url, "queryUrl": file2_url})
+        else:
+            async with (
+                aiofiles.open(file1, "rb") as file_reference_,
+                aiofiles.open(file2, "rb") as file_query_,
+            ):
+                file1_content = await file_reference_.read()
+                file2_content = await file_query_.read()
+
+                image_reference_as_base64 = (
+                    f"data:{mimetypes.guess_type(file1)[0]};base64,"
+                    + base64.b64encode(file1_content).decode()
+                )
+                image_query_as_base64 = (
+                    f"data:{mimetypes.guess_type(file2)[0]};base64,"
+                    + base64.b64encode(file2_content).decode()
+                )
+                payload = json.dumps(
+                    {
+                        "document": image_reference_as_base64,
+                        "query": image_query_as_base64,
+                    }
+                )
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url, headers=headers, data=payload)
+
+        original_response = self._get_response(response)
+        faces = []
+        for matching_face in original_response.get("matches", []):
+            faces.append(
+                FaceMatch(
+                    confidence=matching_face.get("confidence") or 0,
+                    bounding_box=FaceCompareBoundingBox(
+                        top=matching_face.get("top"),
+                        left=matching_face.get("left"),
+                        height=matching_face.get("height"),
+                        width=matching_face.get("width"),
+                    ),
+                )
+            )
+
+        standardized_response = FaceCompareDataClass(items=faces)
         return ResponseType[FaceCompareDataClass](
             original_response=original_response,
             standardized_response=standardized_response,

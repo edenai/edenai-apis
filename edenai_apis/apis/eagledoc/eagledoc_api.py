@@ -1,8 +1,10 @@
 from io import BufferedReader
 from json import JSONDecodeError
 from typing import Dict
+import aiofiles
 
 import requests
+import httpx
 
 from edenai_apis.apis.eagledoc.eagledoc_ocr_normalizer import (
     eagledoc_financial_parser,
@@ -58,6 +60,31 @@ class EagledocApi(ProviderInterface, OcrInterface):
 
         return original_response
 
+    async def _amake_post_request(
+        self, file_content: bytes, filename: str, endpoint: str = ""
+    ):
+        files = {
+            "file": (filename, file_content),
+        }
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                url=self.url + endpoint,
+                headers=self.headers,
+                files=files,
+                params=self.params,
+            )
+
+        try:
+            original_response = response.json()
+        except JSONDecodeError as exc:
+            raise ProviderException(message="Internal Server Error", code=500) from exc
+
+        if response.status_code != 200:
+            raise ProviderException(message=response.json(), code=response.status_code)
+
+        return original_response
+
     def ocr__financial_parser(
         self,
         file: str,
@@ -75,6 +102,27 @@ class EagledocApi(ProviderInterface, OcrInterface):
 
         standardize_response = eagledoc_financial_parser(original_response)
 
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=standardize_response,
+        )
+
+    async def ocr__afinancial_parser(
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
+        **kwargs,
+    ) -> ResponseType[FinancialParserDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+            original_response = await self._amake_post_request(
+                file_content, filename=file, endpoint="/finance/v1/processing"
+            )
+
+        standardize_response = eagledoc_financial_parser(original_response)
         return ResponseType[FinancialParserDataClass](
             original_response=original_response,
             standardized_response=standardize_response,

@@ -31,6 +31,15 @@
                 ]
             },
             "version": "v3"
+        },
+        "aface_compare": {
+            "constraints": {
+                "file_types": [
+                    "image/jpeg",
+                    "image/png"
+                ]
+            },
+            "version": "v3"
         }
     },
     "_metadata": {

@@ -23,6 +23,9 @@
     "image": {
         "ai_detection": {
             "version": "v1"
+        },
+        "aai_detection": {
+            "version": "v1"
         }
     },
     "_metadata": {

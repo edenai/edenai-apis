@@ -1,7 +1,10 @@
 import base64
 from typing import Dict, Sequence, Optional, Any
 
+import aiofiles
+import httpx
 import requests
+import asyncio
 from PIL import Image as Img
 
 from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
@@ -28,11 +31,13 @@ from edenai_apis.features.image.search.upload_image.search_upload_image_dataclas
 from edenai_apis.features.image.search.delete_image.search_delete_image_dataclass import (
     SearchDeleteImageDataClass,
 )
+from edenai_apis.features.image.utils.upload import aget_resource_url
 from edenai_apis.features.ocr import OcrDataClass, Bounding_box
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import add_query_param_in_url
 from edenai_apis.utils.exception import ProviderException, LanguageException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType, ResponseSuccess
 from .sentisight_helpers import (
     calculate_bounding_box,
@@ -52,6 +57,10 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         self.key = self.api_settings["auth-token"]
         self.base_url = "https://platform.sentisight.ai/api/pm-predict/"
         self.headers = {"X-Auth-token": self.key, "Content-Type": "application/json"}
+        self.octet_stream_headers = {  # Just to be consistent
+            "X-Auth-token": self.key,
+            "Content-Type": "application/octet-stream",
+        }
 
     def ocr__ocr(
         self, file: str, language: str, file_url: str = "", **kwargs
@@ -148,6 +157,53 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
         )
         return result
 
+    async def image__aobject_detection(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ObjectDetectionDataClass]:
+
+        async with aiofiles.open(file, "rb") as f:
+            image_file = await f.read()
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                self.base_url + SentisightPreTrainModel.OBJECT_DETECTION.value,
+                headers={
+                    "accept": "*/*",
+                    "X-Auth-token": self.key,
+                    "Content-Type": "application/octet-stream",
+                },
+                content=image_file,
+            )
+            if response.status_code != 200:
+                raise ProviderException(response.text, code=response.status_code)
+
+            image_data = await asyncio.to_thread(Img.open, file)
+            width = image_data.width
+            height = image_data.height
+            image_data.close()
+
+            original_response = response.json()
+            objects: Sequence[ObjectItem] = []
+
+            for obj in original_response:
+                objects.append(
+                    ObjectItem(
+                        label=obj["label"],
+                        confidence=obj["score"] / 100,
+                        x_min=float(obj["x0"]) / width,
+                        x_max=float(obj["x1"]) / width,
+                        y_min=float(obj["y0"] / height),
+                        y_max=float(obj["y1"] / height),
+                    )
+                )
+
+            standardized_response = ObjectDetectionDataClass(items=objects)
+            result = ResponseType[ObjectDetectionDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+            return result
+
     def image__explicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
@@ -198,6 +254,69 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             standardized_response=standardized_response,
         )
         return result
+
+    async def image__aexplicit_content(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ExplicitContentDataClass]:
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    self.base_url + SentisightPreTrainModel.NSFW_CLASSIFICATION.value,
+                    headers={
+                        "accept": "*/*",
+                        "X-Auth-token": self.key,
+                        "Content-Type": "application/octet-stream",
+                    },
+                    content=file_content,
+                )
+
+            if response.status_code != 200:
+                raise ProviderException(response.text, code=response.status_code)
+
+            original_response = response.json()
+
+            items: Sequence[ObjectItem] = []
+            items.append(
+                ExplicitItem(
+                    label="nudity",
+                    likelihood=round(
+                        [x for x in original_response if x["label"] == "unsafe"][0][
+                            "score"
+                        ]
+                        / 20
+                    ),
+                    likelihood_score=[
+                        x for x in original_response if x["label"] == "unsafe"
+                    ][0]["score"]
+                    / 100,
+                    category=CategoryType.choose_category_subcategory("nudity")[
+                        "category"
+                    ],
+                    subcategory=CategoryType.choose_category_subcategory("nudity")[
+                        "subcategory"
+                    ],
+                )
+            )
+
+            nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+            nsfw_likelihood_score = (
+                ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+            )
+
+            standardized_response = ExplicitContentDataClass(
+                items=items,
+                nsfw_likelihood=nsfw_likelihood,
+                nsfw_likelihood_score=nsfw_likelihood_score,
+            )
+
+            result = ResponseType[ExplicitContentDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+
+            return result
 
     def image__search__create_project(self, project_name: str, **kwargs) -> str:
         create_project_url = "https://platform.sentisight.ai/api/project"
@@ -379,3 +498,52 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
                     image_resource_url=resource_url,
                 ),
             )
+
+    async def image__abackground_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                image_file = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as f:
+                    image_file = await f.read()
+
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    self.base_url + SentisightPreTrainModel.BACKGROUND_REMOVAL.value,
+                    headers=self.octet_stream_headers,
+                    content=image_file,
+                )
+                if response.status_code != 200:
+                    raise ProviderException(response.text, code=response.status_code)
+
+                original_response = response.json()
+
+                image_b64 = original_response[0]["image"]
+
+                resource_url_dict = await aget_resource_url(image_b64)
+
+                return ResponseType[BackgroundRemovalDataClass](
+                    original_response=original_response,
+                    standardized_response=BackgroundRemovalDataClass(
+                        **resource_url_dict
+                    ),
+                )
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()
