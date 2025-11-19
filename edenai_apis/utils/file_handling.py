@@ -39,8 +39,7 @@ class FileHandler:
             file_url (str): url of the file to download
             if False, the file will be downloaded to memory
         """
-        # wrapper = FileWrapper()
-        # Try to determine the ize of the file suing the url, fallback if not possible
+        # Try to determine the size of the file using the url, fallback if not possible
         response = await async_client.head(
             file_url, headers=FileHandler.get_user_agent()
         )
