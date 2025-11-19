@@ -991,10 +991,10 @@ class AmazonImageApi(ImageInterface):
                         "Either file or file_url must be provided", code=400
                     )
                 file_wrapper = await file_handler.download_file(file_url)
-                inputImage = file_wrapper.get_file_b64_content()
+                inputImage = await file_wrapper.get_file_b64_content()
             else:
-                with open(file, "rb") as image_file:
-                    image_bytes = image_file.read()
+                async with aiofiles.open(file, "rb") as image_file:
+                    image_bytes = await image_file.read()
                     inputImage = base64.b64encode(image_bytes).decode("utf-8")
 
             request_body = {
