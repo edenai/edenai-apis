@@ -228,7 +228,7 @@ class OpenaiDocParsingApi(OcrInterface):
                     raise ProviderException(
                         "Either file or file_url must be provided", code=400
                     )
-                file_wrapper = await file_handler.download_file(file_url)
+                file_wrapper = await file_handler.download_file(file_url, True)
                 # Use the temporary file path for processing
                 input_file_path = file_wrapper.file_path
 
@@ -284,7 +284,7 @@ class OpenaiDocParsingApi(OcrInterface):
                     raise ProviderException(
                         "Either file or file_url must be provided", code=400
                     )
-                file_wrapper = await file_handler.download_file(file_url)
+                file_wrapper = await file_handler.download_file(file_url, True)
                 # Use the temporary file path for processing
                 input_file_path = file_wrapper.file_path
 

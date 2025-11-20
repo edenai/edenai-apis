@@ -31,7 +31,7 @@ class FileHandler:
         random_ua = random.choice(USER_AGENTS)
         return {"User-Agent": random_ua}
 
-    async def download_file(self, file_url: str) -> FileWrapper:
+    async def download_file(self, file_url: str, force_file_create: bool = False) -> FileWrapper:
         """
         Download a file from a url and return the file path
 
@@ -57,7 +57,7 @@ class FileHandler:
 
         if file_size == 0:
             raise Exception("File size is 0")
-        if file_size == -1 or file_size > self.SIZE_THRESHOLD:
+        if force_file_create or file_size == -1 or file_size > self.SIZE_THRESHOLD:
             # The file will be downloaded lazily when the b64 content is requested
             async with async_client.stream(
                 "GET", file_url, headers=FileHandler.get_user_agent()
