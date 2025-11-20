@@ -180,17 +180,35 @@ class KlippaApi(ProviderInterface, OcrInterface):
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
             original_response = await self._amake_post_request(
                 file_content, endpoint="/resume"
             )
 
-        standardized_response = klippa_resume_parser(original_response)
-        return ResponseType[ResumeParserDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+            standardized_response = klippa_resume_parser(original_response)
+            return ResponseType[ResumeParserDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__financial_parser(
         self,

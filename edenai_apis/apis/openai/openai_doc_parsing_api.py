@@ -218,20 +218,38 @@ class OpenaiDocParsingApi(OcrInterface):
     async def ocr__aresume_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[ResumeParserDataClass]:
-        original_response, result = await self.__aassistant_parser(
-            name="Resume Parser",
-            instruction="You are an resume parsing model.",
-            message_text="Analyse this resume :",
-            example_file="outputs/ocr/resume_parser_output.json",
-            input_file=file,
-            dataclass=ResumeParserDataClass,
-            model=model,
-        )
+        file_handler = FileHandler()
+        file_wrapper = None
+        input_file_path = file
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                # Use the temporary file path for processing
+                input_file_path = file_wrapper.file_path
 
-        return ResponseType[ResumeParserDataClass](
-            original_response=original_response,
-            standardized_response=result,
-        )
+            original_response, result = await self.__aassistant_parser(
+                name="Resume Parser",
+                instruction="You are an resume parsing model.",
+                message_text="Analyse this resume :",
+                example_file="outputs/ocr/resume_parser_output.json",
+                input_file=input_file_path,
+                dataclass=ResumeParserDataClass,
+                model=model,
+            )
+
+            return ResponseType[ResumeParserDataClass](
+                original_response=original_response,
+                standardized_response=result,
+            )
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__identity_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
