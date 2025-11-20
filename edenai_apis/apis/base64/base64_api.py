@@ -439,9 +439,19 @@ class Base64Api(ProviderInterface, OcrInterface):
                         .get("value", ""),
                     )
                     if country:
-                        country["confidence"] = (
-                            document["fields"].get("countryCode", {}).get("confidence")
-                        )
+                        if isinstance(country, dict):
+                            country["confidence"] = (
+                                document["fields"]
+                                .get("countryCode", {})
+                                .get("confidence")
+                            )
+                        elif isinstance(country, Country):
+                            country.confidence = (
+                                document["fields"]
+                                .get("countryCode", {})
+                                .get("confidence")
+                            )
+                    country = country or Country.default()
 
                     items.append(
                         InfosIdentityParserDataClass(
