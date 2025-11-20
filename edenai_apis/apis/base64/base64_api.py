@@ -128,7 +128,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         data = {"modelTypes": [model_type], "image": image_as_base64}
 
         headers = {"Content-type": "application/json", "Authorization": self.api_key}
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=120) as client:
             response = await client.post(url=self.url, headers=headers, json=data)
 
         if response.status_code != 200:
