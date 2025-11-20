@@ -258,9 +258,21 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
     async def image__aexplicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
 
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
             async with httpx.AsyncClient() as client:
                 response = await client.post(
                     self.base_url + SentisightPreTrainModel.NSFW_CLASSIFICATION.value,
@@ -317,6 +329,9 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             )
 
             return result
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__search__create_project(self, project_name: str, **kwargs) -> str:
         create_project_url = "https://platform.sentisight.ai/api/project"

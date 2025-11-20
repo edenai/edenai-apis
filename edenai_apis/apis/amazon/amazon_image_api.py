@@ -542,9 +542,22 @@ class AmazonImageApi(ImageInterface):
     async def image__aexplicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
 
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+
             payload = {"Image": {"Bytes": file_content}, "MinConfidence": 20}
 
             session = aioboto3.Session()
@@ -589,6 +602,9 @@ class AmazonImageApi(ImageInterface):
             return ResponseType[ExplicitContentDataClass](
                 original_response=response, standardized_response=standardized_response
             )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__face_recognition__create_collection(
         self, collection_id: str, **kwargs

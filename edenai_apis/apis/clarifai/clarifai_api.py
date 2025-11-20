@@ -45,6 +45,7 @@ from edenai_apis.features.ocr import Bounding_box, OcrDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException, LanguageException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
 from .clarifai_helpers import explicit_content_likelihood, get_formatted_language
 
@@ -202,66 +203,84 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
         channel = ClarifaiChannel.get_grpc_channel()
         stub = service_pb2_grpc.V2Stub(channel)
 
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
 
-        user_id = "clarifai"
-        app_id = "main"
-        metadata = (("authorization", self.key),)
-        user_data_object = resources_pb2.UserAppIDSet(user_id=user_id, app_id=app_id)
-
-        post_model_outputs_response = await asyncio.to_thread(
-            stub.PostModelOutputs,
-            service_pb2.PostModelOutputsRequest(
-                user_app_id=user_data_object,
-                model_id=self.explicit_content_code,
-                inputs=[
-                    resources_pb2.Input(
-                        data=resources_pb2.Data(
-                            image=resources_pb2.Image(base64=file_content)
-                        )
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
                     )
-                ],
-            ),
-            metadata=metadata,
-        )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
 
-        if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
-            raise ProviderException(
-                post_model_outputs_response.status.description,
-                code=post_model_outputs_response.status.code,
+            user_id = "clarifai"
+            app_id = "main"
+            metadata = (("authorization", self.key),)
+            user_data_object = resources_pb2.UserAppIDSet(
+                user_id=user_id, app_id=app_id
             )
 
-        response = MessageToDict(
-            post_model_outputs_response, preserving_proto_field_name=True
-        )
-
-        original_response = response.get("outputs", [])[0]["data"]
-
-        items = []
-        for concept in original_response["concepts"]:
-            classificator = CategoryTypeExplicitContent.choose_category_subcategory(
-                concept["name"]
+            post_model_outputs_response = await asyncio.to_thread(
+                stub.PostModelOutputs,
+                service_pb2.PostModelOutputsRequest(
+                    user_app_id=user_data_object,
+                    model_id=self.explicit_content_code,
+                    inputs=[
+                        resources_pb2.Input(
+                            data=resources_pb2.Data(
+                                image=resources_pb2.Image(base64=file_content)
+                            )
+                        )
+                    ],
+                ),
+                metadata=metadata,
             )
-            items.append(
-                ExplicitItem(
-                    label=concept["name"],
-                    category=classificator["category"],
-                    subcategory=classificator["subcategory"],
-                    likelihood=explicit_content_likelihood(concept["value"]),
-                    likelihood_score=concept["value"],
+
+            if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
+                raise ProviderException(
+                    post_model_outputs_response.status.description,
+                    code=post_model_outputs_response.status.code,
                 )
+
+            response = MessageToDict(
+                post_model_outputs_response, preserving_proto_field_name=True
             )
 
-        nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
-        nsfw_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+            original_response = response.get("outputs", [])[0]["data"]
 
-        return ResponseType[ExplicitContentDataClass](
-            original_response=original_response,
-            standardized_response=ExplicitContentDataClass(
-                items=items, nsfw_likelihood=nsfw, nsfw_likelihood_score=nsfw_score
-            ),
-        )
+            items = []
+            for concept in original_response["concepts"]:
+                classificator = CategoryTypeExplicitContent.choose_category_subcategory(
+                    concept["name"]
+                )
+                items.append(
+                    ExplicitItem(
+                        label=concept["name"],
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        likelihood=explicit_content_likelihood(concept["value"]),
+                        likelihood_score=concept["value"],
+                    )
+                )
+
+            nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+            nsfw_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+
+            return ResponseType[ExplicitContentDataClass](
+                original_response=original_response,
+                standardized_response=ExplicitContentDataClass(
+                    items=items, nsfw_likelihood=nsfw, nsfw_likelihood_score=nsfw_score
+                ),
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__face_detection(
         self, file: str, file_url: str = "", **kwargs
