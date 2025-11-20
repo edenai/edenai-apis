@@ -136,8 +136,22 @@ class Api4aiApi(
     async def image__aobject_detection(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+
             files = {"image": file_content}
             async with httpx.AsyncClient(
                 timeout=httpx.Timeout(10.0, read=120.0)
@@ -173,7 +187,10 @@ class Api4aiApi(
                     original_response=original_response,
                     standardized_response=standardized_response,
                 )
-        return result
+            return result
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__face_detection(
         self, file: str, file_url: str = "", **kwargs

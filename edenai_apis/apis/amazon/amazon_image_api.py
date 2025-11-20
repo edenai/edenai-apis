@@ -131,8 +131,20 @@ class AmazonImageApi(ImageInterface):
     async def image__aobject_detection(
         self, file: str, model: str = None, file_url: str = "", **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
             payload = {"Image": {"Bytes": file_content}, "MinConfidence": 70}
             session = aioboto3.Session()
             async with session.client(
@@ -172,10 +184,13 @@ class AmazonImageApi(ImageInterface):
                         )
                     )
 
-        return ResponseType[ObjectDetectionDataClass](
-            original_response=original_response,
-            standardized_response=ObjectDetectionDataClass(items=items),
-        )
+            return ResponseType[ObjectDetectionDataClass](
+                original_response=original_response,
+                standardized_response=ObjectDetectionDataClass(items=items),
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__face_detection(
         self, file: str, file_url: str = "", **kwargs
