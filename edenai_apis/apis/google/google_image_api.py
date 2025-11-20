@@ -1,5 +1,6 @@
 import asyncio
 import base64
+from io import BytesIO
 import json
 from typing import Sequence, Optional
 import aiofiles
@@ -460,7 +461,7 @@ class GoogleImageApi(ImageInterface):
 
             result = []
             try:
-                img_size = Img.open(file).size
+                img_size = Img.open(BytesIO(file_content)).size
             except UnidentifiedImageError:
                 raise ProviderException(message="Can not identify image file", code=400)
             width, height = img_size
