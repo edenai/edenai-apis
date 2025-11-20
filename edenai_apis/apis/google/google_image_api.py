@@ -417,8 +417,22 @@ class GoogleImageApi(ImageInterface):
     async def image__aface_detection(
         self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[FaceDetectionDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+
             image = vision.Image(content=file_content)
             payload = {"image": image, "max_results": 100}
             response = await asyncio.to_thread(
@@ -426,135 +440,146 @@ class GoogleImageApi(ImageInterface):
             )
             original_result = MessageToDict(response._pb)
 
-        result = []
-        try:
-            img_size = Img.open(file).size
-        except UnidentifiedImageError:
-            raise ProviderException(message="Can not identify image file", code=400)
-        width, height = img_size
-        for face in original_result.get("faceAnnotations", []):
-            # emotions
-            emotions = FaceEmotions(
-                joy=score_to_content(face.get("joyLikelihood")),
-                sorrow=score_to_content(face.get("sorrowLikelihood")),
-                anger=score_to_content(face.get("angerLikelihood")),
-                surprise=score_to_content(face.get("surpriseLikelihood")),
-                # Not supported by Google
-                # ------------------------
-                disgust=None,
-                fear=None,
-                confusion=None,
-                calm=None,
-                contempt=None,
-                unknown=None,
-                neutral=None,
-                # ------------------------
-            )
-
-            # quality
-            quality = FaceQuality(
-                exposure=2
-                * score_to_content(face.get("underExposedLikelihood", 0))
-                / 10,
-                blur=2 * score_to_content(face.get("blurredLikelihood", 0)) / 10,
-                noise=None,
-                brightness=None,
-                sharpness=None,
-            )
-
-            # accessories
-            accessories = FaceAccessories.default()
-            accessories.headwear = (
-                2 * score_to_content(face.get("headwearLikelihood", 0)) / 10
-            )
-
-            # landmarks
-            landmark_output = {}
-            for land in face.get("landmarks", []):
-                if "type" in land and "UNKNOWN_LANDMARK" not in land:
-                    landmark_output[land["type"]] = [
-                        land["position"]["x"] / width,
-                        land["position"]["y"] / height,
-                    ]
-            landmarks = FaceLandmarks(
-                left_eye=landmark_output.get("LEFT_EYE", []),
-                left_eye_top=landmark_output.get("LEFT_EYE_TOP_BOUNDARY", []),
-                left_eye_right=landmark_output.get("LEFT_EYE_RIGHT_CORNER", []),
-                left_eye_bottom=landmark_output.get("LEFT_EYE_BOTTOM_BOUNDARY", []),
-                left_eye_left=landmark_output.get("LEFT_EYE_LEFT_CORNER", []),
-                right_eye=landmark_output.get("RIGHT_EYE", []),
-                right_eye_top=landmark_output.get("RIGHT_EYE_TOP_BOUNDARY", []),
-                right_eye_right=landmark_output.get("RIGHT_EYE_RIGHT_CORNER", []),
-                right_eye_bottom=landmark_output.get("RIGHT_EYE_BOTTOM_BOUNDARY", []),
-                right_eye_left=landmark_output.get("RIGHT_EYE_LEFT_CORNER", []),
-                left_eyebrow_left=landmark_output.get("LEFT_OF_LEFT_EYEBROW", []),
-                left_eyebrow_right=landmark_output.get("LEFT_OF_RIGHT_EYEBROW", []),
-                left_eyebrow_top=landmark_output.get("LEFT_EYEBROW_UPPER_MIDPOINT", []),
-                right_eyebrow_left=landmark_output.get("RIGHT_OF_LEFT_EYEBROW", []),
-                right_eyebrow_right=landmark_output.get("RIGHT_OF_RIGHT_EYEBROW", []),
-                nose_tip=landmark_output.get("NOSE_TIP", []),
-                nose_bottom_right=landmark_output.get("NOSE_BOTTOM_RIGHT", []),
-                nose_bottom_left=landmark_output.get("NOSE_BOTTOM_LEFT", []),
-                mouth_left=landmark_output.get("MOUTH_LEFT", []),
-                mouth_right=landmark_output.get("MOUTH_RIGHT", []),
-                right_eyebrow_top=landmark_output.get(
-                    "RIGHT_EYEBROW_UPPER_MIDPOINT", []
-                ),
-                midpoint_between_eyes=landmark_output.get("MIDPOINT_BETWEEN_EYES", []),
-                nose_bottom_center=landmark_output.get("NOSE_BOTTOM_CENTER", []),
-                upper_lip=landmark_output.get("GET_UPPER_LIP", []),
-                under_lip=landmark_output.get("GET_LOWER_LIP", []),
-                mouth_center=landmark_output.get("MOUTH_CENTER", []),
-                left_ear_tragion=landmark_output.get("LEFT_EAR_TRAGION", []),
-                right_ear_tragion=landmark_output.get("RIGHT_EAR_TRAGION", []),
-                forehead_glabella=landmark_output.get("FOREHEAD_GLABELLA", []),
-                chin_gnathion=landmark_output.get("CHIN_GNATHION", []),
-                chin_left_gonion=landmark_output.get("CHIN_LEFT_GONION", []),
-                chin_right_gonion=landmark_output.get("CHIN_RIGHT_GONION", []),
-                left_cheek_center=landmark_output.get("LEFT_CHEEK_CENTER", []),
-                right_cheek_center=landmark_output.get("RIGHT_CHEEK_CENTER", []),
-            )
-
-            # bounding box
-            bounding_poly = face.get("fdBoundingPoly", {}).get("vertices", [])
-
-            result.append(
-                FaceItem(
-                    accessories=accessories,
-                    quality=quality,
-                    emotions=emotions,
-                    landmarks=landmarks,
-                    poses=FacePoses(
-                        roll=face.get("rollAngle"),
-                        pitch=face.get("panAngle"),
-                        yaw=face.get("tiltAngle"),
-                    ),
-                    confidence=face.get("detectionConfidence"),
-                    # indices are this way because array of bounding boxes
-                    # follow this pattern:
-                    # [top-left, top-right, bottom-right, bottom-left]
-                    bounding_box=FaceBoundingBox(
-                        x_min=bounding_poly[0].get("x", 0.0) / width,
-                        x_max=bounding_poly[1].get("x", width) / width,
-                        y_min=bounding_poly[0].get("y", 0.0) / height,
-                        y_max=bounding_poly[3].get("y", height) / height,
-                    ),
-                    # Not supported by Google Cloud Vision
-                    # --------------------
-                    age=None,
-                    gender=None,
-                    hair=FaceHair.default(),
-                    facial_hair=FaceFacialHair.default(),
-                    makeup=FaceMakeup.default(),
-                    occlusions=FaceOcclusions.default(),
-                    features=FaceFeatures.default(),
-                    # --------------------
+            result = []
+            try:
+                img_size = Img.open(file).size
+            except UnidentifiedImageError:
+                raise ProviderException(message="Can not identify image file", code=400)
+            width, height = img_size
+            for face in original_result.get("faceAnnotations", []):
+                # emotions
+                emotions = FaceEmotions(
+                    joy=score_to_content(face.get("joyLikelihood")),
+                    sorrow=score_to_content(face.get("sorrowLikelihood")),
+                    anger=score_to_content(face.get("angerLikelihood")),
+                    surprise=score_to_content(face.get("surpriseLikelihood")),
+                    # Not supported by Google
+                    # ------------------------
+                    disgust=None,
+                    fear=None,
+                    confusion=None,
+                    calm=None,
+                    contempt=None,
+                    unknown=None,
+                    neutral=None,
+                    # ------------------------
                 )
+
+                # quality
+                quality = FaceQuality(
+                    exposure=2
+                    * score_to_content(face.get("underExposedLikelihood", 0))
+                    / 10,
+                    blur=2 * score_to_content(face.get("blurredLikelihood", 0)) / 10,
+                    noise=None,
+                    brightness=None,
+                    sharpness=None,
+                )
+
+                # accessories
+                accessories = FaceAccessories.default()
+                accessories.headwear = (
+                    2 * score_to_content(face.get("headwearLikelihood", 0)) / 10
+                )
+
+                # landmarks
+                landmark_output = {}
+                for land in face.get("landmarks", []):
+                    if "type" in land and "UNKNOWN_LANDMARK" not in land:
+                        landmark_output[land["type"]] = [
+                            land["position"]["x"] / width,
+                            land["position"]["y"] / height,
+                        ]
+                landmarks = FaceLandmarks(
+                    left_eye=landmark_output.get("LEFT_EYE", []),
+                    left_eye_top=landmark_output.get("LEFT_EYE_TOP_BOUNDARY", []),
+                    left_eye_right=landmark_output.get("LEFT_EYE_RIGHT_CORNER", []),
+                    left_eye_bottom=landmark_output.get("LEFT_EYE_BOTTOM_BOUNDARY", []),
+                    left_eye_left=landmark_output.get("LEFT_EYE_LEFT_CORNER", []),
+                    right_eye=landmark_output.get("RIGHT_EYE", []),
+                    right_eye_top=landmark_output.get("RIGHT_EYE_TOP_BOUNDARY", []),
+                    right_eye_right=landmark_output.get("RIGHT_EYE_RIGHT_CORNER", []),
+                    right_eye_bottom=landmark_output.get(
+                        "RIGHT_EYE_BOTTOM_BOUNDARY", []
+                    ),
+                    right_eye_left=landmark_output.get("RIGHT_EYE_LEFT_CORNER", []),
+                    left_eyebrow_left=landmark_output.get("LEFT_OF_LEFT_EYEBROW", []),
+                    left_eyebrow_right=landmark_output.get("LEFT_OF_RIGHT_EYEBROW", []),
+                    left_eyebrow_top=landmark_output.get(
+                        "LEFT_EYEBROW_UPPER_MIDPOINT", []
+                    ),
+                    right_eyebrow_left=landmark_output.get("RIGHT_OF_LEFT_EYEBROW", []),
+                    right_eyebrow_right=landmark_output.get(
+                        "RIGHT_OF_RIGHT_EYEBROW", []
+                    ),
+                    nose_tip=landmark_output.get("NOSE_TIP", []),
+                    nose_bottom_right=landmark_output.get("NOSE_BOTTOM_RIGHT", []),
+                    nose_bottom_left=landmark_output.get("NOSE_BOTTOM_LEFT", []),
+                    mouth_left=landmark_output.get("MOUTH_LEFT", []),
+                    mouth_right=landmark_output.get("MOUTH_RIGHT", []),
+                    right_eyebrow_top=landmark_output.get(
+                        "RIGHT_EYEBROW_UPPER_MIDPOINT", []
+                    ),
+                    midpoint_between_eyes=landmark_output.get(
+                        "MIDPOINT_BETWEEN_EYES", []
+                    ),
+                    nose_bottom_center=landmark_output.get("NOSE_BOTTOM_CENTER", []),
+                    upper_lip=landmark_output.get("GET_UPPER_LIP", []),
+                    under_lip=landmark_output.get("GET_LOWER_LIP", []),
+                    mouth_center=landmark_output.get("MOUTH_CENTER", []),
+                    left_ear_tragion=landmark_output.get("LEFT_EAR_TRAGION", []),
+                    right_ear_tragion=landmark_output.get("RIGHT_EAR_TRAGION", []),
+                    forehead_glabella=landmark_output.get("FOREHEAD_GLABELLA", []),
+                    chin_gnathion=landmark_output.get("CHIN_GNATHION", []),
+                    chin_left_gonion=landmark_output.get("CHIN_LEFT_GONION", []),
+                    chin_right_gonion=landmark_output.get("CHIN_RIGHT_GONION", []),
+                    left_cheek_center=landmark_output.get("LEFT_CHEEK_CENTER", []),
+                    right_cheek_center=landmark_output.get("RIGHT_CHEEK_CENTER", []),
+                )
+
+                # bounding box
+                bounding_poly = face.get("fdBoundingPoly", {}).get("vertices", [])
+
+                result.append(
+                    FaceItem(
+                        accessories=accessories,
+                        quality=quality,
+                        emotions=emotions,
+                        landmarks=landmarks,
+                        poses=FacePoses(
+                            roll=face.get("rollAngle"),
+                            pitch=face.get("panAngle"),
+                            yaw=face.get("tiltAngle"),
+                        ),
+                        confidence=face.get("detectionConfidence"),
+                        # indices are this way because array of bounding boxes
+                        # follow this pattern:
+                        # [top-left, top-right, bottom-right, bottom-left]
+                        bounding_box=FaceBoundingBox(
+                            x_min=bounding_poly[0].get("x", 0.0) / width,
+                            x_max=bounding_poly[1].get("x", width) / width,
+                            y_min=bounding_poly[0].get("y", 0.0) / height,
+                            y_max=bounding_poly[3].get("y", height) / height,
+                        ),
+                        # Not supported by Google Cloud Vision
+                        # --------------------
+                        age=None,
+                        gender=None,
+                        hair=FaceHair.default(),
+                        facial_hair=FaceFacialHair.default(),
+                        makeup=FaceMakeup.default(),
+                        occlusions=FaceOcclusions.default(),
+                        features=FaceFeatures.default(),
+                        # --------------------
+                    )
+                )
+            return ResponseType[FaceDetectionDataClass](
+                original_response=original_result,
+                standardized_response=FaceDetectionDataClass(items=result),
             )
-        return ResponseType[FaceDetectionDataClass](
-            original_response=original_result,
-            standardized_response=FaceDetectionDataClass(items=result),
-        )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__landmark_detection(
         self, file: str, file_url: str = "", **kwargs
