@@ -1,4 +1,5 @@
 import base64
+import httpx
 import json
 from io import BytesIO
 from pathlib import Path
@@ -20,15 +21,14 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
-    AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
-    AsyncPendingResponseType,
     AsyncResponseType,
     ResponseType,
 )
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     upload_file_bytes_to_s3,
+    aupload_file_bytes_to_s3,
     upload_file_to_s3,
 )
 
@@ -199,6 +199,60 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
         audio_content.seek(0)
         resource_url = upload_file_bytes_to_s3(
+            audio_content, f".{audio_format}", USER_PROCESS
+        )
+
+        return ResponseType[TextToSpeechDataClass](
+            original_response=response.content,
+            standardized_response=TextToSpeechDataClass(
+                audio=audio, voice_type=1, audio_resource_url=resource_url
+            ),
+        )
+
+    async def audio__atext_to_speech(
+        self,
+        language: str,
+        text: str,
+        option: str,
+        voice_id: str,
+        audio_format: str,
+        speaking_rate: int,
+        speaking_pitch: int,
+        speaking_volume: int,
+        sampling_rate: int,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        _, model = voice_id.split("_")
+        base_url = f"https://api.deepgram.com/v1/speak?model={model}"
+        if audio_format:
+            base_url += f"&container={audio_format}"
+
+        if sampling_rate:
+            base_url += f"&sample_rate={sampling_rate}"
+
+        headers = {
+            "Authorization": f"Token {self.api_key}",
+            "Content-Type": "application/json",
+        }
+
+        payload = {"text": text}
+        async with httpx.AsyncClient(timeout=60) as client:
+            response = await client.post(base_url, headers=headers, json=payload)
+            if response.status_code != 200:
+                try:
+                    result = response.json()
+                except json.JSONDecodeError as exc:
+                    raise ProviderException(
+                        code=500, message="Internal Server Error"
+                    ) from exc
+
+                raise ProviderException(
+                    code=response.status_code, message=result.get("err_msg")
+                )
+        audio_content = BytesIO(response.content)
+        audio = base64.b64encode(audio_content.read()).decode("utf-8")
+        audio_content.seek(0)
+        resource_url = await aupload_file_bytes_to_s3(
             audio_content, f".{audio_format}", USER_PROCESS
         )
 
