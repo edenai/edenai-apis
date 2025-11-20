@@ -46,6 +46,7 @@ from edenai_apis.utils.exception import (
     AsyncJobExceptionReason,
     ProviderException,
 )
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -210,11 +211,24 @@ class AmazonOcrApi(OcrInterface):
     async def ocr__aidentity_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_ = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as f:
+                    file_ = await f.read()
             payload = {
                 "DocumentPages": [
                     {
-                        "Bytes": await file_.read(),
+                        "Bytes": file_,
                         "S3Object": {
                             "Bucket": self.api_settings["bucket"],
                             "Name": "test",
@@ -222,90 +236,93 @@ class AmazonOcrApi(OcrInterface):
                     }
                 ]
             }
+            session = aioboto3.Session()
+            async with session.client(
+                "textract",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as client:
+                original_response = await ahandle_amazon_call(client.analyze_id, **payload)
 
-        session = aioboto3.Session()
-        async with session.client(
-            "textract",
-            region_name=self.api_settings["region_name"],
-            aws_access_key_id=self.api_settings["aws_access_key_id"],
-            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-        ) as client:
-            original_response = await ahandle_amazon_call(client.analyze_id, **payload)
-
-        items: Sequence[InfosIdentityParserDataClass] = []
-        for document in original_response["IdentityDocuments"]:
-            infos: InfosIdentityParserDataClass = InfosIdentityParserDataClass.default()
-            for field in document["IdentityDocumentFields"]:
-                field_type = field["Type"]["Text"]
-                confidence = round(field["ValueDetection"]["Confidence"] / 100, 2)
-                value = (
-                    field["ValueDetection"]["Text"]
-                    if field["ValueDetection"]["Text"] != ""
-                    else None
-                )
-                if field_type == "LAST_NAME":
-                    infos.last_name = ItemIdentityParserDataClass(
-                        value=value, confidence=confidence
-                    )
-                elif field_type in ("FIRST_NAME", "MIDDLE_NAME") and value:
-                    infos.given_names.append(
-                        ItemIdentityParserDataClass(value=value, confidence=confidence)
-                    )
-                elif field_type == "DOCUMENT_NUMBER":
-                    infos.document_id = ItemIdentityParserDataClass(
-                        value=value, confidence=confidence
-                    )
-                elif field_type == "EXPIRATION_DATE":
+            items: Sequence[InfosIdentityParserDataClass] = []
+            for document in original_response["IdentityDocuments"]:
+                infos: InfosIdentityParserDataClass = InfosIdentityParserDataClass.default()
+                for field in document["IdentityDocumentFields"]:
+                    field_type = field["Type"]["Text"]
+                    confidence = round(field["ValueDetection"]["Confidence"] / 100, 2)
                     value = (
-                        field["ValueDetection"].get("NormalizedValue", {}).get("Value")
+                        field["ValueDetection"]["Text"]
+                        if field["ValueDetection"]["Text"] != ""
+                        else None
                     )
-                    infos.expire_date = ItemIdentityParserDataClass(
-                        value=format_date(value),
-                        confidence=confidence,
-                    )
-                elif field_type == "DATE_OF_BIRTH":
-                    value = (
-                        field["ValueDetection"].get("NormalizedValue", {}).get("Value")
-                    )
-                    infos.birth_date = ItemIdentityParserDataClass(
-                        value=format_date(value),
-                        confidence=confidence,
-                    )
-                elif field_type == "DATE_OF_ISSUE":
-                    value = (
-                        field["ValueDetection"].get("NormalizedValue", {}).get("Value")
-                    )
-                    infos.issuance_date = ItemIdentityParserDataClass(
-                        value=format_date(value),
-                        confidence=confidence,
-                    )
-                elif field_type == "ID_TYPE":
-                    infos.document_type = ItemIdentityParserDataClass(
-                        value=value, confidence=confidence
-                    )
-                elif field_type == "ADDRESS":
-                    infos.address = ItemIdentityParserDataClass(
-                        value=value, confidence=confidence
-                    )
-                elif field_type == "COUNTY" and value:
-                    infos.country = (
-                        await aget_info_country(InfoCountry.NAME, value)
-                        or Country.default()
-                    )
-                    infos.country.confidence = confidence
-                elif field_type == "MRZ_CODE":
-                    infos.mrz = ItemIdentityParserDataClass(
-                        value=value, confidence=confidence
-                    )
+                    if field_type == "LAST_NAME":
+                        infos.last_name = ItemIdentityParserDataClass(
+                            value=value, confidence=confidence
+                        )
+                    elif field_type in ("FIRST_NAME", "MIDDLE_NAME") and value:
+                        infos.given_names.append(
+                            ItemIdentityParserDataClass(value=value, confidence=confidence)
+                        )
+                    elif field_type == "DOCUMENT_NUMBER":
+                        infos.document_id = ItemIdentityParserDataClass(
+                            value=value, confidence=confidence
+                        )
+                    elif field_type == "EXPIRATION_DATE":
+                        value = (
+                            field["ValueDetection"].get("NormalizedValue", {}).get("Value")
+                        )
+                        infos.expire_date = ItemIdentityParserDataClass(
+                            value=format_date(value),
+                            confidence=confidence,
+                        )
+                    elif field_type == "DATE_OF_BIRTH":
+                        value = (
+                            field["ValueDetection"].get("NormalizedValue", {}).get("Value")
+                        )
+                        infos.birth_date = ItemIdentityParserDataClass(
+                            value=format_date(value),
+                            confidence=confidence,
+                        )
+                    elif field_type == "DATE_OF_ISSUE":
+                        value = (
+                            field["ValueDetection"].get("NormalizedValue", {}).get("Value")
+                        )
+                        infos.issuance_date = ItemIdentityParserDataClass(
+                            value=format_date(value),
+                            confidence=confidence,
+                        )
+                    elif field_type == "ID_TYPE":
+                        infos.document_type = ItemIdentityParserDataClass(
+                            value=value, confidence=confidence
+                        )
+                    elif field_type == "ADDRESS":
+                        infos.address = ItemIdentityParserDataClass(
+                            value=value, confidence=confidence
+                        )
+                    elif field_type == "COUNTY" and value:
+                        infos.country = (
+                            await aget_info_country(InfoCountry.NAME, value)
+                            or Country.default()
+                        )
+                        infos.country.confidence = confidence
+                    elif field_type == "MRZ_CODE":
+                        infos.mrz = ItemIdentityParserDataClass(
+                            value=value, confidence=confidence
+                        )
 
-            items.append(infos)
+                items.append(infos)
 
-        standardized_response = IdentityParserDataClass(extracted_data=items)
+            standardized_response = IdentityParserDataClass(extracted_data=items)
 
-        return ResponseType[IdentityParserDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+            return ResponseType[IdentityParserDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+        finally:
+                # Clean up temp file if it was created
+                if file_wrapper:
+                    file_wrapper.close_file()
 
     def ocr__ocr_tables_async__launch_job(
         self, file: str, file_type: str, language: str, file_url: str = "", **kwargs

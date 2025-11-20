@@ -14,6 +14,7 @@ from edenai_apis.features.ocr import (
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features import OcrInterface
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 
 
 def extract_text_from_pdf(pdf_path):
@@ -254,18 +255,36 @@ class OpenaiDocParsingApi(OcrInterface):
     async def ocr__aidentity_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+        input_file_path = file
 
-        original_response, result = await self.__aassistant_parser(
-            name="ID Parser",
-            instruction="You are an Identy Documents parsing model.",
-            message_text="Analyse this ID Document :",
-            example_file="outputs/ocr/identity_parser_output.json",
-            input_file=file,
-            dataclass=IdentityParserDataClass,
-            model=model,
-        )
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                # Use the temporary file path for processing
+                input_file_path = file_wrapper.file_path
 
-        return ResponseType[IdentityParserDataClass](
-            original_response=original_response,
-            standardized_response=result,
-        )
+            original_response, result = await self.__aassistant_parser(
+                name="ID Parser",
+                instruction="You are an Identy Documents parsing model.",
+                message_text="Analyse this ID Document :",
+                example_file="outputs/ocr/identity_parser_output.json",
+                input_file=input_file_path,
+                dataclass=IdentityParserDataClass,
+                model=model,
+            )
+
+            return ResponseType[IdentityParserDataClass](
+                original_response=original_response,
+                standardized_response=result,
+            )
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()
