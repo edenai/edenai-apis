@@ -131,8 +131,20 @@ class AmazonImageApi(ImageInterface):
     async def image__aobject_detection(
         self, file: str, model: str = None, file_url: str = "", **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
             payload = {"Image": {"Bytes": file_content}, "MinConfidence": 70}
             session = aioboto3.Session()
             async with session.client(
@@ -172,10 +184,13 @@ class AmazonImageApi(ImageInterface):
                         )
                     )
 
-        return ResponseType[ObjectDetectionDataClass](
-            original_response=original_response,
-            standardized_response=ObjectDetectionDataClass(items=items),
-        )
+            return ResponseType[ObjectDetectionDataClass](
+                original_response=original_response,
+                standardized_response=ObjectDetectionDataClass(items=items),
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__face_detection(
         self, file: str, file_url: str = "", **kwargs
@@ -336,8 +351,22 @@ class AmazonImageApi(ImageInterface):
     async def image__aface_detection(
         self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[FaceDetectionDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+
             payload = {"Image": {"Bytes": file_content}, "Attributes": ["ALL"]}
             session = aioboto3.Session()
             async with session.client(
@@ -498,6 +527,9 @@ class AmazonImageApi(ImageInterface):
                     original_response=original_response,
                     standardized_response=standardized_response,
                 )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__explicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
@@ -542,9 +574,22 @@ class AmazonImageApi(ImageInterface):
     async def image__aexplicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
 
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+
             payload = {"Image": {"Bytes": file_content}, "MinConfidence": 20}
 
             session = aioboto3.Session()
@@ -589,6 +634,9 @@ class AmazonImageApi(ImageInterface):
             return ResponseType[ExplicitContentDataClass](
                 original_response=response, standardized_response=standardized_response
             )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__face_recognition__create_collection(
         self, collection_id: str, **kwargs
@@ -742,46 +790,75 @@ class AmazonImageApi(ImageInterface):
     async def image__aface_compare(
         self, file1: str, file2: str, file1_url: str = "", file2_url: str = "", **kwargs
     ) -> ResponseType[FaceCompareDataClass]:
-        async with aiofiles.open(file1, "rb") as file1_:
-            file1_content = await file1_.read()
+        file1_handler = FileHandler()
+        file1_wrapper = None  # Track for cleanup
+        file2_handler = FileHandler()
+        file2_wrapper = None  # Track for cleanup
+
+        try:
+            if not file1:
+                # try to use the url
+                if not file1_url:
+                    raise ProviderException(
+                        "Either file1 or file1_url must be provided", code=400
+                    )
+                file1_wrapper = await file1_handler.download_file(file1_url)
+                file1_content = await file1_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file1, "rb") as file_:
+                    file1_content = await file_.read()
             image_source = {"Bytes": file1_content}
 
-        async with aiofiles.open(file2, "rb") as file2_:
-            file2_content = await file2_.read()
+            if not file2:
+                # try to use the url
+                if not file2_url:
+                    raise ProviderException(
+                        "Either file2 or file2_url must be provided", code=400
+                    )
+                file2_wrapper = await file2_handler.download_file(file2_url)
+                file2_content = await file2_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file2, "rb") as file_:
+                    file2_content = await file_.read()
             image_tar = {"Bytes": file2_content}
 
-        session = aioboto3.Session()
-        async with session.client(
-            "rekognition",
-            region_name=self.api_settings["region_name"],
-            aws_access_key_id=self.api_settings["aws_access_key_id"],
-            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-        ) as client:
-            response = await ahandle_amazon_call(
-                client.compare_faces,
-                SourceImage=image_source,
-                TargetImage=image_tar,
-            )
+            session = aioboto3.Session()
+            async with session.client(
+                "rekognition",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as client:
+                response = await ahandle_amazon_call(
+                    client.compare_faces,
+                    SourceImage=image_source,
+                    TargetImage=image_tar,
+                )
 
-        face_match_list = []
-        for face_match in response.get("FaceMatches", []):
-            position = face_match["Face"]["BoundingBox"]
-            similarity = face_match.get("Similarity") or 0
-            bounding_box = FaceCompareBoundingBox(
-                top=position["Top"],
-                left=position["Left"],
-                height=position["Height"],
-                width=position["Width"],
-            )
-            face_match_obj = FaceMatch(
-                confidence=similarity / 100, bounding_box=bounding_box
-            )
-            face_match_list.append(face_match_obj)
+            face_match_list = []
+            for face_match in response.get("FaceMatches", []):
+                position = face_match["Face"]["BoundingBox"]
+                similarity = face_match.get("Similarity") or 0
+                bounding_box = FaceCompareBoundingBox(
+                    top=position["Top"],
+                    left=position["Left"],
+                    height=position["Height"],
+                    width=position["Width"],
+                )
+                face_match_obj = FaceMatch(
+                    confidence=similarity / 100, bounding_box=bounding_box
+                )
+                face_match_list.append(face_match_obj)
 
-        return ResponseType(
-            original_response=response,
-            standardized_response=FaceCompareDataClass(items=face_match_list),
-        )
+            return ResponseType(
+                original_response=response,
+                standardized_response=FaceCompareDataClass(items=face_match_list),
+            )
+        finally:
+            if file1_wrapper:
+                file1_wrapper.close_file()
+            if file2_wrapper:
+                file2_wrapper.close_file()
 
     @moderate
     def image__generation(

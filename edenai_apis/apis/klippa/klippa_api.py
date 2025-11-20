@@ -19,6 +19,7 @@ from edenai_apis.features.ocr.receipt_parser import ReceiptParserDataClass
 from edenai_apis.features.ocr.resume_parser import ResumeParserDataClass
 from edenai_apis.loaders.loaders import ProviderDataEnum, load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.apis.klippa.klippa_ocr_normalizer import (
     klippa_invoice_parser,
@@ -125,20 +126,38 @@ class KlippaApi(ProviderInterface, OcrInterface):
     async def ocr__aidentity_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    content = await file_.read()
+
             file_like = BytesIO(content)
             original_response = await self._amake_post_request(
                 file_like, endpoint="/identity"
             )
 
-        standardized_response = await asyncio.to_thread(
-            klippa_id_parser, original_response
-        )
-        return ResponseType[IdentityParserDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+            standardized_response = await asyncio.to_thread(
+                klippa_id_parser, original_response
+            )
+            return ResponseType[IdentityParserDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__resume_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
@@ -161,17 +180,35 @@ class KlippaApi(ProviderInterface, OcrInterface):
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
             original_response = await self._amake_post_request(
                 file_content, endpoint="/resume"
             )
 
-        standardized_response = klippa_resume_parser(original_response)
-        return ResponseType[ResumeParserDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+            standardized_response = klippa_resume_parser(original_response)
+            return ResponseType[ResumeParserDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__financial_parser(
         self,

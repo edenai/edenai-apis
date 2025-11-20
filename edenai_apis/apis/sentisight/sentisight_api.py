@@ -1,4 +1,5 @@
 import base64
+from io import BytesIO
 from typing import Dict, Sequence, Optional, Any
 
 import aiofiles
@@ -160,49 +161,69 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
     async def image__aobject_detection(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
 
-        async with aiofiles.open(file, "rb") as f:
-            image_file = await f.read()
-
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                self.base_url + SentisightPreTrainModel.OBJECT_DETECTION.value,
-                headers={
-                    "accept": "*/*",
-                    "X-Auth-token": self.key,
-                    "Content-Type": "application/octet-stream",
-                },
-                content=image_file,
-            )
-            if response.status_code != 200:
-                raise ProviderException(response.text, code=response.status_code)
-
-            image_data = await asyncio.to_thread(Img.open, file)
-            width = image_data.width
-            height = image_data.height
-            image_data.close()
-
-            original_response = response.json()
-            objects: Sequence[ObjectItem] = []
-
-            for obj in original_response:
-                objects.append(
-                    ObjectItem(
-                        label=obj["label"],
-                        confidence=obj["score"] / 100,
-                        x_min=float(obj["x0"]) / width,
-                        x_max=float(obj["x1"]) / width,
-                        y_min=float(obj["y0"] / height),
-                        y_max=float(obj["y1"] / height),
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
                     )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    self.base_url + SentisightPreTrainModel.OBJECT_DETECTION.value,
+                    headers={
+                        "accept": "*/*",
+                        "X-Auth-token": self.key,
+                        "Content-Type": "application/octet-stream",
+                    },
+                    content=file_content,
+                )
+                if response.status_code != 200:
+                    raise ProviderException(response.text, code=response.status_code)
+
+                def _get_image_size(data: bytes):
+                    with Img.open(BytesIO(data)) as img:
+                        return img.width, img.height
+
+                width, height = await asyncio.to_thread(
+                    _get_image_size,
+                    file_content,
                 )
 
-            standardized_response = ObjectDetectionDataClass(items=objects)
-            result = ResponseType[ObjectDetectionDataClass](
-                original_response=original_response,
-                standardized_response=standardized_response,
-            )
-            return result
+                original_response = response.json()
+                objects: Sequence[ObjectItem] = []
+
+                for obj in original_response:
+                    objects.append(
+                        ObjectItem(
+                            label=obj["label"],
+                            confidence=obj["score"] / 100,
+                            x_min=float(obj["x0"]) / width,
+                            x_max=float(obj["x1"]) / width,
+                            y_min=float(obj["y0"] / height),
+                            y_max=float(obj["y1"] / height),
+                        )
+                    )
+
+                standardized_response = ObjectDetectionDataClass(items=objects)
+                result = ResponseType[ObjectDetectionDataClass](
+                    original_response=original_response,
+                    standardized_response=standardized_response,
+                )
+                return result
+            #####
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__explicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
@@ -258,9 +279,21 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
     async def image__aexplicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
 
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
             async with httpx.AsyncClient() as client:
                 response = await client.post(
                     self.base_url + SentisightPreTrainModel.NSFW_CLASSIFICATION.value,
@@ -317,6 +350,9 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             )
 
             return result
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__search__create_project(self, project_name: str, **kwargs) -> str:
         create_project_url = "https://platform.sentisight.ai/api/project"

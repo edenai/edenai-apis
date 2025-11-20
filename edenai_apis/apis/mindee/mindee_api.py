@@ -31,7 +31,10 @@ from edenai_apis.features.ocr.bank_check_parsing import (
 from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
     FinancialParserDataClass,
 )
-from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import Country
+from edenai_apis.features.ocr.identity_parser.identity_parser_dataclass import (
+    Country,
+    aget_info_country,
+)
 from edenai_apis.features.ocr.invoice_parser.invoice_parser_dataclass import (
     CustomerInformationInvoice,
     LocaleInvoice,
@@ -57,6 +60,7 @@ from edenai_apis.utils.conversion import (
     convert_string_to_number,
 )
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import (
     ResponseType,
     AsyncLaunchJobResponseType,
@@ -456,84 +460,98 @@ class MindeeApi(ProviderInterface, OcrInterface):
     async def ocr__aidentity_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    content = await file_.read()
+
             # Wrap bytes in BytesIO to create a file-like object
             file_like = BytesIO(content)
             args = self._get_api_attributes(file_like)
 
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
-            response = await client.post(
-                url=self.url_identity, files=args["files"], headers=args["headers"]
-            )
-
-            original_response = response.json()
-            if response.status_code != 201:
-                err_title = original_response["api_request"]["error"]["message"]
-                err_msg = original_response["api_request"]["error"]["details"]
-                raise ProviderException(
-                    message=f"{err_title}: {err_msg}",
-                    code=response.status_code,
+            async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+                response = await client.post(
+                    url=self.url_identity, files=args["files"], headers=args["headers"]
                 )
 
-            identity_data = original_response["document"]["inference"]["prediction"]
-
-            given_names: Sequence[ItemIdentityParserDataClass] = []
-
-            for given_name in identity_data["given_names"]:
-                given_names.append(
-                    ItemIdentityParserDataClass(
-                        value=given_name["value"], confidence=given_name["confidence"]
+                original_response = response.json()
+                if response.status_code != 201:
+                    err_title = original_response["api_request"]["error"]["message"]
+                    err_msg = original_response["api_request"]["error"]["details"]
+                    raise ProviderException(
+                        message=f"{err_title}: {err_msg}",
+                        code=response.status_code,
                     )
+
+                identity_data = original_response["document"]["inference"]["prediction"]
+
+                given_names: Sequence[ItemIdentityParserDataClass] = []
+
+                for given_name in identity_data["given_names"]:
+                    given_names.append(
+                        ItemIdentityParserDataClass(
+                            value=given_name["value"], confidence=given_name["confidence"]
+                        )
+                    )
+
+                last_name = ItemIdentityParserDataClass(
+                    value=identity_data["surname"]["value"],
+                    confidence=identity_data["surname"]["confidence"],
+                )
+                birth_date = ItemIdentityParserDataClass(
+                    value=identity_data["birth_date"]["value"],
+                    confidence=identity_data["birth_date"]["confidence"],
+                )
+                birth_place = ItemIdentityParserDataClass(
+                    value=identity_data["birth_place"]["value"],
+                    confidence=identity_data["birth_place"]["confidence"],
                 )
 
-            last_name = ItemIdentityParserDataClass(
-                value=identity_data["surname"]["value"],
-                confidence=identity_data["surname"]["confidence"],
-            )
-            birth_date = ItemIdentityParserDataClass(
-                value=identity_data["birth_date"]["value"],
-                confidence=identity_data["birth_date"]["confidence"],
-            )
-            birth_place = ItemIdentityParserDataClass(
-                value=identity_data["birth_place"]["value"],
-                confidence=identity_data["birth_place"]["confidence"],
-            )
+                country: Country = await aget_info_country(
+                    key=InfoCountry.ALPHA3, value=identity_data["country"]["value"]
+                )
+                if country:
+                    country["confidence"] = identity_data["country"]["confidence"]
 
-            country: Country = get_info_country(
-                key=InfoCountry.ALPHA3, value=identity_data["country"]["value"]
-            )
-            if country:
-                country["confidence"] = identity_data["country"]["confidence"]
-
-            issuance_date = ItemIdentityParserDataClass(
-                value=identity_data["issuance_date"]["value"],
-                confidence=identity_data["issuance_date"]["confidence"],
-            )
-            expire_date = ItemIdentityParserDataClass(
-                value=identity_data["expiry_date"]["value"],
-                confidence=identity_data["expiry_date"]["confidence"],
-            )
-            document_id = ItemIdentityParserDataClass(
-                value=identity_data["id_number"]["value"],
-                confidence=identity_data["id_number"]["confidence"],
-            )
-            gender = ItemIdentityParserDataClass(
-                value=identity_data["gender"]["value"],
-                confidence=identity_data["gender"]["confidence"],
-            )
-            mrz = ItemIdentityParserDataClass(
-                value=identity_data["mrz1"]["value"],
-                confidence=identity_data["mrz1"]["confidence"],
-            )
-            items: Sequence[InfosIdentityParserDataClass] = []
-            items.append(
-                InfosIdentityParserDataClass(
-                    last_name=last_name,
-                    given_names=given_names,
-                    birth_date=birth_date,
-                    birth_place=birth_place,
-                    country=country or Country.default(),
+                issuance_date = ItemIdentityParserDataClass(
+                    value=identity_data["issuance_date"]["value"],
+                    confidence=identity_data["issuance_date"]["confidence"],
+                )
+                expire_date = ItemIdentityParserDataClass(
+                    value=identity_data["expiry_date"]["value"],
+                    confidence=identity_data["expiry_date"]["confidence"],
+                )
+                document_id = ItemIdentityParserDataClass(
+                    value=identity_data["id_number"]["value"],
+                    confidence=identity_data["id_number"]["confidence"],
+                )
+                gender = ItemIdentityParserDataClass(
+                    value=identity_data["gender"]["value"],
+                    confidence=identity_data["gender"]["confidence"],
+                )
+                mrz = ItemIdentityParserDataClass(
+                    value=identity_data["mrz1"]["value"],
+                    confidence=identity_data["mrz1"]["confidence"],
+                )
+                items: Sequence[InfosIdentityParserDataClass] = []
+                items.append(
+                    InfosIdentityParserDataClass(
+                        last_name=last_name,
+                        given_names=given_names,
+                        birth_date=birth_date,
+                        birth_place=birth_place,
+                        country=country or Country.default(),
                     issuance_date=issuance_date,
                     expire_date=expire_date,
                     document_id=document_id,
@@ -555,6 +573,10 @@ class MindeeApi(ProviderInterface, OcrInterface):
                 original_response=original_response,
                 standardized_response=standardized_response,
             )
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__bank_check_parsing(
         self, file: str, file_url: str = "", **kwargs

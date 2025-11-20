@@ -58,6 +58,7 @@ from edenai_apis.utils.exception import (
     AsyncJobExceptionReason,
     ProviderException,
 )
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -363,115 +364,142 @@ class MicrosoftOcrApi(OcrInterface):
     async def ocr__aidentity_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
 
         try:
-            async with AsyncDocumentAnalysisClient(
-                endpoint=self.url["documentintelligence"],
-                credential=AzureKeyCredential(
-                    self.api_settings["documentintelligence"]["subscription_key"]
-                ),
-            ) as document_analysis_client:
-                poller = await document_analysis_client.begin_analyze_document(
-                    "prebuilt-idDocument", content
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    content = await file_.read()
+
+            try:
+                async with AsyncDocumentAnalysisClient(
+                    endpoint=self.url["documentintelligence"],
+                    credential=AzureKeyCredential(
+                        self.api_settings["documentintelligence"]["subscription_key"]
+                    ),
+                ) as document_analysis_client:
+                    poller = await document_analysis_client.begin_analyze_document(
+                        "prebuilt-idDocument", content
+                    )
+                    response = await poller.result()
+            except AzureError as provider_call_exception:
+                raise ProviderException(str(provider_call_exception))
+
+            if response is None or not hasattr(response, "to_dict"):
+                raise ProviderException("Provider return an empty response")
+            original_response = response.to_dict()
+
+            items = []
+
+            for document in original_response.get("documents", []):
+                fields = document["fields"]
+                country = await aget_info_country(
+                    key=InfoCountry.ALPHA3,
+                    value=fields.get("CountryRegion", {}).get("content"),
                 )
-                response = await poller.result()
-        except AzureError as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
+                if country:
+                    country["confidence"] = fields.get("CountryRegion", {}).get(
+                        "confidence"
+                    )
 
-        if response is None or not hasattr(response, "to_dict"):
-            raise ProviderException("Provider return an empty response")
-        original_response = response.to_dict()
+                given_names = fields.get("FirstName", {}).get("content", "").split(" ")
+                final_given_names = []
+                for given_name in given_names:
+                    final_given_names.append(
+                        ItemIdentityParserDataClass(
+                            value=given_name,
+                            confidence=fields.get("FirstName", {}).get("confidence"),
+                        )
+                    )
 
-        items = []
-
-        for document in original_response.get("documents", []):
-            fields = document["fields"]
-            country = await aget_info_country(
-                key=InfoCountry.ALPHA3,
-                value=fields.get("CountryRegion", {}).get("content"),
-            )
-            if country:
-                country["confidence"] = fields.get("CountryRegion", {}).get(
-                    "confidence"
-                )
-
-            given_names = fields.get("FirstName", {}).get("content", "").split(" ")
-            final_given_names = []
-            for given_name in given_names:
-                final_given_names.append(
-                    ItemIdentityParserDataClass(
-                        value=given_name,
-                        confidence=fields.get("FirstName", {}).get("confidence"),
+                items.append(
+                    InfosIdentityParserDataClass(
+                        document_type=ItemIdentityParserDataClass(
+                            value=document.get("docType"),
+                            confidence=document.get("confidence"),
+                        ),
+                        country=country or Country.default(),
+                        birth_date=ItemIdentityParserDataClass(
+                            value=format_date(
+                                fields.get("DateOfBirth", {}).get("value")
+                            ),
+                            confidence=fields.get("DateOfBirth", {}).get("confidence"),
+                        ),
+                        expire_date=ItemIdentityParserDataClass(
+                            value=format_date(
+                                fields.get("DateOfExpiration", {}).get("value")
+                            ),
+                            confidence=fields.get("DateOfExpiration", {}).get(
+                                "confidence"
+                            ),
+                        ),
+                        issuance_date=ItemIdentityParserDataClass(
+                            value=format_date(
+                                fields.get("DateOfIssue", {}).get("value")
+                            ),
+                            confidence=fields.get("DateOfIssue", {}).get("confidence"),
+                        ),
+                        issuing_state=ItemIdentityParserDataClass(
+                            value=fields.get("IssuingAuthority", {}).get("content"),
+                            confidence=fields.get("IssuingAuthority", {}).get(
+                                "confidence"
+                            ),
+                        ),
+                        document_id=ItemIdentityParserDataClass(
+                            value=fields.get("DocumentNumber", {}).get("content"),
+                            confidence=fields.get("DocumentNumber", {}).get(
+                                "confidence"
+                            ),
+                        ),
+                        last_name=ItemIdentityParserDataClass(
+                            value=fields.get("LastName", {}).get("content"),
+                            confidence=fields.get("LastName", {}).get("confidence"),
+                        ),
+                        given_names=final_given_names,
+                        mrz=ItemIdentityParserDataClass(
+                            value=fields.get("MachineReadableZone", {}).get("content"),
+                            confidence=fields.get("MachineReadableZone", {}).get(
+                                "confidence"
+                            ),
+                        ),
+                        nationality=ItemIdentityParserDataClass(
+                            value=fields.get("Nationality", {}).get("content"),
+                            confidence=fields.get("Nationality", {}).get("confidence"),
+                        ),
+                        birth_place=ItemIdentityParserDataClass(
+                            value=fields.get("PlaceOfBirth", {}).get("content"),
+                            confidence=fields.get("PlaceOfBirth", {}).get("confidence"),
+                        ),
+                        gender=ItemIdentityParserDataClass(
+                            value=fields.get("Sex", {}).get("content"),
+                            confidence=fields.get("Sex", {}).get("confidence"),
+                        ),
+                        address=ItemIdentityParserDataClass(),
+                        age=ItemIdentityParserDataClass(),
+                        image_id=[],
+                        image_signature=[],
                     )
                 )
 
-            items.append(
-                InfosIdentityParserDataClass(
-                    document_type=ItemIdentityParserDataClass(
-                        value=document.get("docType"),
-                        confidence=document.get("confidence"),
-                    ),
-                    country=country or Country.default(),
-                    birth_date=ItemIdentityParserDataClass(
-                        value=format_date(fields.get("DateOfBirth", {}).get("value")),
-                        confidence=fields.get("DateOfBirth", {}).get("confidence"),
-                    ),
-                    expire_date=ItemIdentityParserDataClass(
-                        value=format_date(
-                            fields.get("DateOfExpiration", {}).get("value")
-                        ),
-                        confidence=fields.get("DateOfExpiration", {}).get("confidence"),
-                    ),
-                    issuance_date=ItemIdentityParserDataClass(
-                        value=format_date(fields.get("DateOfIssue", {}).get("value")),
-                        confidence=fields.get("DateOfIssue", {}).get("confidence"),
-                    ),
-                    issuing_state=ItemIdentityParserDataClass(
-                        value=fields.get("IssuingAuthority", {}).get("content"),
-                        confidence=fields.get("IssuingAuthority", {}).get("confidence"),
-                    ),
-                    document_id=ItemIdentityParserDataClass(
-                        value=fields.get("DocumentNumber", {}).get("content"),
-                        confidence=fields.get("DocumentNumber", {}).get("confidence"),
-                    ),
-                    last_name=ItemIdentityParserDataClass(
-                        value=fields.get("LastName", {}).get("content"),
-                        confidence=fields.get("LastName", {}).get("confidence"),
-                    ),
-                    given_names=final_given_names,
-                    mrz=ItemIdentityParserDataClass(
-                        value=fields.get("MachineReadableZone", {}).get("content"),
-                        confidence=fields.get("MachineReadableZone", {}).get(
-                            "confidence"
-                        ),
-                    ),
-                    nationality=ItemIdentityParserDataClass(
-                        value=fields.get("Nationality", {}).get("content"),
-                        confidence=fields.get("Nationality", {}).get("confidence"),
-                    ),
-                    birth_place=ItemIdentityParserDataClass(
-                        value=fields.get("PlaceOfBirth", {}).get("content"),
-                        confidence=fields.get("PlaceOfBirth", {}).get("confidence"),
-                    ),
-                    gender=ItemIdentityParserDataClass(
-                        value=fields.get("Sex", {}).get("content"),
-                        confidence=fields.get("Sex", {}).get("confidence"),
-                    ),
-                    address=ItemIdentityParserDataClass(),
-                    age=ItemIdentityParserDataClass(),
-                    image_id=[],
-                    image_signature=[],
-                )
+            standardized_response = IdentityParserDataClass(extracted_data=items)
+
+            return ResponseType[IdentityParserDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
             )
-
-        standardized_response = IdentityParserDataClass(extracted_data=items)
-
-        return ResponseType[IdentityParserDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__ocr_tables_async__launch_job(
         self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
