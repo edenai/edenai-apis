@@ -800,7 +800,7 @@ class AmazonImageApi(ImageInterface):
                 # try to use the url
                 if not file1_url:
                     raise ProviderException(
-                        "Either file or file1_url must be provided", code=400
+                        "Either file1 or file1_url must be provided", code=400
                     )
                 file1_wrapper = await file1_handler.download_file(file1_url)
                 file1_content = await file1_wrapper.get_bytes()
@@ -813,7 +813,7 @@ class AmazonImageApi(ImageInterface):
                 # try to use the url
                 if not file2_url:
                     raise ProviderException(
-                        "Either file or file1_url must be provided", code=400
+                        "Either file2 or file2_url must be provided", code=400
                     )
                 file2_wrapper = await file2_handler.download_file(file2_url)
                 file2_content = await file2_wrapper.get_bytes()
