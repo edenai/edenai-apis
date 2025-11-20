@@ -1,4 +1,5 @@
 import base64
+from io import BytesIO
 from typing import Dict, Sequence, Optional, Any
 
 import aiofiles
@@ -176,7 +177,6 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
 
-            #####
             async with httpx.AsyncClient() as client:
                 response = await client.post(
                     self.base_url + SentisightPreTrainModel.OBJECT_DETECTION.value,
@@ -190,10 +190,14 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
                 if response.status_code != 200:
                     raise ProviderException(response.text, code=response.status_code)
 
-                image_data = await asyncio.to_thread(Img.open, file)
-                width = image_data.width
-                height = image_data.height
-                image_data.close()
+                def _get_image_size(data: bytes):
+                    with Img.open(BytesIO(data)) as img:
+                        return img.width, img.height
+
+                width, height = await asyncio.to_thread(
+                    _get_image_size,
+                    file_content,
+                )
 
                 original_response = response.json()
                 objects: Sequence[ObjectItem] = []
