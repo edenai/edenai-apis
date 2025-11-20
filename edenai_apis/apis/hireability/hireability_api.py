@@ -245,7 +245,7 @@ class HireabilityApi(ProviderInterface, OcrInterface):
                     )
                 file_wrapper = await file_handler.download_file(file_url)
                 file_content = await file_wrapper.get_bytes()
-                file = file_wrapper.file_path
+                file = file_wrapper.file_path or "downloaded_resume"
             else:
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
@@ -447,4 +447,4 @@ class HireabilityApi(ProviderInterface, OcrInterface):
 
         finally:
             if file_wrapper:
-                file_wrapper.close()
+                file_wrapper.close_file()
