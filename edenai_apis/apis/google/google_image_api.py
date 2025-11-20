@@ -298,7 +298,7 @@ class GoogleImageApi(ImageInterface):
         with open(file, "rb") as file_:
             file_content = file_.read()
         try:
-            img_size = Img.open(file).size
+            img_size = Img.open(BytesIO(file_content)).size
         except UnidentifiedImageError:
             raise ProviderException(message="Can not identify image file", code=400)
         image = vision.Image(content=file_content)
