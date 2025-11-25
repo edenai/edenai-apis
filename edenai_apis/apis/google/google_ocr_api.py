@@ -60,6 +60,7 @@ from edenai_apis.utils.exception import (
 )
 from edenai_apis.utils.pdfs import get_pdf_width_height
 from edenai_apis.utils.types import (
+    AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
     AsyncResponseType,
