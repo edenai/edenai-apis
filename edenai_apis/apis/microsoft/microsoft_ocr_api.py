@@ -3,36 +3,36 @@ from collections import defaultdict
 from typing import Sequence
 
 import aiofiles
+import httpx
 import requests
-from PIL import Image as Img
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.ai.formrecognizer.aio import (
     DocumentAnalysisClient as AsyncDocumentAnalysisClient,
 )
 from azure.core.credentials import AzureKeyCredential
 from azure.core.exceptions import AzureError
+from PIL import Image as Img
 
 from edenai_apis.apis.microsoft.microsoft_helpers import (
-    microsoft_ocr_tables_standardize_response,
-    normalize_invoice_result,
     get_microsoft_urls,
     microsoft_financial_parser_formatter,
     microsoft_ocr_async_standardize_response,
+    microsoft_ocr_tables_standardize_response,
+    normalize_invoice_result,
 )
 from edenai_apis.features.ocr import (
-    Bounding_box,
+    Bounding_box,  # MerchantInformation,
     IdentityParserDataClass,
     InfosIdentityParserDataClass,
     InfosReceiptParserDataClass,
     InvoiceParserDataClass,
     ItemLines,
-    # MerchantInformation,
+    OcrAsyncDataClass,
     OcrDataClass,
     PaymentInformation,
     ReceiptParserDataClass,
     Taxes,
     get_info_country,
-    OcrAsyncDataClass,
 )
 from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
     FinancialParserDataClass,
@@ -621,6 +621,81 @@ class MicrosoftOcrApi(OcrInterface):
             f"analyzeResults/{provider_job_id}?api-version=2024-02-29-preview"
         )
         response = requests.get(url, headers=headers)
+
+        if response.status_code >= 400:
+            error = response.json()["error"]["message"]
+            if "Resource not found" in error:
+                raise AsyncJobException(
+                    reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                    code=response.status_code,
+                )
+            raise ProviderException(error, code=response.status_code)
+
+        data = response.json()
+        if data.get("error"):
+            raise ProviderException(data.get("error"), code=response.status_code)
+        if data["status"] == "succeeded":
+            original_result = data["analyzeResult"]
+            standardized_response = microsoft_ocr_async_standardize_response(
+                original_result
+            )
+            return AsyncResponseType[OcrAsyncDataClass](
+                original_response=data,
+                standardized_response=standardized_response,
+                provider_job_id=provider_job_id,
+            )
+
+        return AsyncPendingResponseType[OcrAsyncDataClass](
+            provider_job_id=provider_job_id
+        )
+
+    async def ocr__aocr_async__launch_job(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        with open(file, "rb") as file_:
+            file_content = file_.read()
+
+        url = (
+            f"{self.url['documentintelligence']}documentintelligence/documentModels/"
+            f"prebuilt-layout:analyze?api-version=2024-02-29-preview"
+        )
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                url,
+                headers={
+                    "Content-Type": "application/octet-stream",
+                    "Ocp-Apim-Subscription-Key": self.api_settings[
+                        "documentintelligence"
+                    ]["subscription_key"],
+                },
+                content=file_content,
+            )
+
+        if response.status_code != 202:
+            error = response.json()["error"]["innererror"]["message"]
+            raise ProviderException(error, code=response.status_code)
+        return AsyncLaunchJobResponseType(
+            provider_job_id=response.headers.get("apim-request-id")
+        )
+
+    async def ocr__aocr_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrDataClass]:
+        headers = {
+            "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
+                "subscription_key"
+            ],
+        }
+
+        url = (
+            self.url["documentintelligence"]
+            + f"documentintelligence/documentModels/prebuilt-layout/"
+            f"analyzeResults/{provider_job_id}?api-version=2024-02-29-preview"
+        )
+
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, headers=headers)
 
         if response.status_code >= 400:
             error = response.json()["error"]["message"]
