@@ -1,10 +1,12 @@
 import json
 import mimetypes
+import re
 import uuid
 from typing import Sequence
 
 import google.auth
 import googleapiclient.discovery
+import httpx
 from PIL import Image as Img, UnidentifiedImageError
 from google.api_core.client_options import ClientOptions
 from google.cloud import documentai_v1beta3 as documentai
@@ -20,6 +22,7 @@ from edenai_apis.apis.google.google_helpers import (
     handle_done_response_ocr_async,
     handle_google_call,
     google_financial_parser,
+    get_access_token,
 )
 from edenai_apis.features.ocr import (
     BankInvoice,
@@ -542,6 +545,204 @@ class GoogleOcrApi(OcrInterface):
             raise ProviderException(res.get("error"))
 
         return AsyncPendingResponseType[OcrTablesAsyncDataClass](provider_job_id=job_id)
+
+    async def ocr__aocr_async__launch_job(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        # Get access token (following existing pattern from google_image_api.py:667)
+        token = get_access_token(self.location)
+
+        # Generate unique IDs
+        call_uuid = uuid.uuid4().hex
+        filename = call_uuid + file.split("/")[-1]
+
+        gcs_output_uri = "gs://ocr-async/outputs-" + call_uuid
+        gcs_input_uri = f"gs://ocr-async/{filename}"
+
+        # Step 1: Upload file to GCS via REST API
+        with open(file, "rb") as file_:
+            file_content = file_.read()
+
+        upload_url = f"https://storage.googleapis.com/upload/storage/v1/b/ocr-async/o?uploadType=media&name={filename}"
+        headers = {"Authorization": f"Bearer {token}"}
+
+        async with httpx.AsyncClient() as client:
+            upload_response = await client.post(
+                upload_url,
+                headers=headers,
+                content=file_content,
+            )
+
+        if upload_response.status_code not in [200, 201]:
+            raise ProviderException(
+                f"Failed to upload file to GCS: {upload_response.text}",
+                code=upload_response.status_code
+            )
+
+        # Step 2: Call Vision API async batch annotate
+        mime_type, _ = mimetypes.guess_type(file)
+
+        vision_payload = {
+            "requests": [{
+                "features": [{"type": "DOCUMENT_TEXT_DETECTION"}],
+                "inputConfig": {
+                    "gcsSource": {"uri": gcs_input_uri},
+                    "mimeType": mime_type
+                },
+                "outputConfig": {
+                    "gcsDestination": {"uri": gcs_output_uri},
+                    "batchSize": 1
+                }
+            }]
+        }
+
+        vision_url = "https://vision.googleapis.com/v1/files:asyncBatchAnnotate"
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json"
+        }
+
+        async with httpx.AsyncClient() as client:
+            vision_response = await client.post(
+                vision_url,
+                headers=headers,
+                json=vision_payload,
+            )
+
+        if vision_response.status_code != 200:
+            raise ProviderException(
+                f"Failed to launch Vision API job: {vision_response.text}",
+                code=vision_response.status_code
+            )
+
+        response_data = vision_response.json()
+        operation_name = response_data.get("name", "")
+        operation_id = operation_name.split("/")[-1]
+
+        return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+
+    async def ocr__aocr_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrAsyncDataClass]:
+        # Get access token
+        token = get_access_token(self.location)
+
+        # Check operation status
+        operation_url = f"https://vision.googleapis.com/v1/projects/{self.project_id}/operations/{provider_job_id}"
+        headers = {"Authorization": f"Bearer {token}"}
+
+        async with httpx.AsyncClient() as client:
+            response = await client.get(operation_url, headers=headers)
+
+        if response.status_code != 200:
+            raise ProviderException(
+                f"Failed to get operation status: {response.text}",
+                code=response.status_code
+            )
+
+        result = response.json()
+
+        if result.get("metadata", {}).get("state") == "FAILED":
+            raise ProviderException(result.get("error", "Operation failed"))
+
+        if result.get("metadata", {}).get("state") == "DONE":
+            # Parse GCS output URI
+            gcs_destination_uri = result["response"]["responses"][0]["outputConfig"]["gcsDestination"]["uri"]
+            match = re.match(r"gs://([^/]+)/(.+)", gcs_destination_uri)
+            bucket_name = match.group(1)
+            prefix = match.group(2)
+
+            # List blobs from GCS
+            list_url = f"https://storage.googleapis.com/storage/v1/b/{bucket_name}/o?prefix={prefix}"
+
+            async with httpx.AsyncClient() as client:
+                list_response = await client.get(list_url, headers=headers)
+
+            if list_response.status_code != 200:
+                raise ProviderException(
+                    f"Failed to list GCS objects: {list_response.text}",
+                    code=list_response.status_code
+                )
+
+            blob_list_data = list_response.json()
+            blob_items = [
+                item for item in blob_list_data.get("items", [])
+                if not item["name"].endswith("/")
+            ]
+
+            # Download and parse each blob
+            from edenai_apis.features.ocr.ocr_async.ocr_async_dataclass import (
+                BoundingBox,
+                Line,
+                Word,
+                Page as OcrAsyncPage,
+            )
+
+            original_response = {"responses": []}
+            pages = []
+
+            async with httpx.AsyncClient() as client:
+                for blob_item in blob_items:
+                    # Download blob content
+                    download_url = f"https://storage.googleapis.com/storage/v1/b/{bucket_name}/o/{blob_item['name']}?alt=media"
+                    download_response = await client.get(download_url, headers=headers)
+
+                    if download_response.status_code != 200:
+                        continue
+
+                    response_json = json.loads(download_response.text)
+
+                    for resp in response_json["responses"]:
+                        original_response["responses"].append(resp["fullTextAnnotation"])
+                        for page in resp["fullTextAnnotation"]["pages"]:
+                            lines = []
+                            for block in page["blocks"]:
+                                words = []
+                                for paragraph in block["paragraphs"]:
+                                    line_boxes = BoundingBox.from_normalized_vertices(
+                                        paragraph["boundingBox"]["normalizedVertices"]
+                                    )
+                                    for word in paragraph["words"]:
+                                        word_boxes = BoundingBox.from_normalized_vertices(
+                                            word["boundingBox"]["normalizedVertices"]
+                                        )
+                                        word_text = ""
+                                        for symbol in word["symbols"]:
+                                            word_text += symbol["text"]
+                                        words.append(
+                                            Word(
+                                                text=word_text,
+                                                bounding_box=word_boxes,
+                                                confidence=word.get("confidence", 1.0),
+                                            )
+                                        )
+                                    paragraph_text = "".join(w.text for w in words)
+                                    lines.append(
+                                        Line(
+                                            text=paragraph_text,
+                                            bounding_box=line_boxes,
+                                            words=words,
+                                            confidence=paragraph.get("confidence", 1.0),
+                                        )
+                                    )
+                            pages.append(OcrAsyncPage(lines=lines))
+
+            # Build raw text
+            raw_text = " ".join(line.text for page in pages for line in page.lines)
+
+            standardized_response = OcrAsyncDataClass(
+                raw_text=raw_text,
+                pages=pages,
+                number_of_pages=len(pages)
+            )
+
+            return AsyncResponseType[OcrAsyncDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+                provider_job_id=provider_job_id,
+            )
+
+        return AsyncPendingResponseType[OcrAsyncDataClass](provider_job_id=provider_job_id)
 
     def ocr__financial_parser(
         self,

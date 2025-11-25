@@ -449,3 +449,92 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
             ),
             provider_job_id=provider_job_id,
         )
+
+    async def ocr__aocr_async__launch_job(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        url = "https://api.mistral.ai/v1/files"
+
+        async with httpx.AsyncClient() as client:
+            with open(file, "rb") as f:
+                files = {"file": f}
+                data = {"purpose": "ocr"}
+                response = await client.post(
+                    url=url, headers=self.headers, files=files, data=data
+                )
+
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+        return AsyncLaunchJobResponseType(provider_job_id=response_data["id"])
+
+    async def ocr__aocr_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrAsyncDataClass]:
+        url = f"https://api.mistral.ai/v1/files/{provider_job_id}/url?expiry=24"
+
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url=url, headers=self.headers)
+
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+        file_url = response_data["url"]
+        payload = {
+            "model": "mistral-ocr-latest",
+            "document": {
+                "type": "document_url",
+                "document_url": file_url,
+            },
+        }
+        url = "https://api.mistral.ai/v1/ocr"
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url=url, headers=self.headers, json=payload)
+
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+        number_of_pages = response_data["usage_info"]["pages_processed"]
+        raw_text = ""
+        pages = []
+        for page in response_data["pages"]:
+            raw_text += page["markdown"]
+            markdown_lines = page["markdown"].split("\n")
+            lines = []
+            for line_text in markdown_lines:
+                line = Line(text=line_text, confidence=100)
+                lines.append(line)
+            pages.append(Page(lines=lines))
+
+        return AsyncResponseType(
+            original_response=response_data,
+            standardized_response=OcrAsyncDataClass(
+                raw_text=raw_text, pages=pages, number_of_pages=number_of_pages
+            ),
+            provider_job_id=provider_job_id,
+        )
