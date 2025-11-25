@@ -394,7 +394,8 @@ class OneaiApi(
             return AsyncPendingResponseType(provider_job_id=provider_job_id)
         elif status == OneAIAsyncStatus.COMPLETED.value:
             standardized_response = OcrAsyncDataClass(
-                raw_text=original_response["result"]["output"][0]["text"]
+                raw_text=original_response["result"]["output"][0]["text"],
+                number_of_pages=None
             )
             return AsyncResponseType(
                 provider_job_id=provider_job_id,
@@ -459,7 +460,8 @@ class OneaiApi(
             return AsyncPendingResponseType(provider_job_id=provider_job_id)
         elif status == OneAIAsyncStatus.COMPLETED.value:
             standardized_response = OcrAsyncDataClass(
-                raw_text=original_response["result"]["output"][0]["text"]
+                raw_text=original_response["result"]["output"][0]["text"],
+                number_of_pages=None
             )
             return AsyncResponseType(
                 provider_job_id=provider_job_id,
