@@ -109,6 +109,52 @@ def handle_google_call(function_to_call, **kwargs):
     return response
 
 
+async def ahandle_google_call(function_to_call, **kwargs):
+    error_encoding_str = "bad encoding"
+    msg_exception_encoding = "Could not decode audio file, bad file encoding"
+
+    wrong_job_id_strs = [
+        "Unrecognized long running operation name",
+        "Operation not found",
+        "Invalid operation id",
+    ]
+
+    try:
+        response = await function_to_call(**kwargs)
+    except GoogleAPIError as exc:
+        try:
+            status_code = exc.code
+            if isinstance(status_code, HTTPStatus):
+                status_code = status_code.value
+            if not isinstance(status_code, int):
+                try:
+                    status_code = int(status_code)
+                except:
+                    status_code = None
+        except:
+            status_code = None
+        try:
+            message = exc.message
+        except:
+            message = str(exc)
+        if error_encoding_str in str(exc):
+            message = msg_exception_encoding
+        if any(str_error in str(exc) for str_error in wrong_job_id_strs):
+            raise AsyncJobException(
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, code=status_code
+            )
+        raise ProviderException(message, code=status_code)
+    except Exception as exc:
+        message = str(exc)
+        if any(str_error in str(exc) for str_error in message):
+            raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
+        if error_encoding_str in message:
+            message = msg_exception_encoding
+        raise ProviderException(message)
+
+    return response
+
+
 def score_to_rate(score):
     return abs(score)
 
@@ -600,9 +646,11 @@ def calculate_usage_tokens(original_response: dict) -> dict:
     Calculates the token usage from the original response.
     """
     original_response["usage"] = {
-        "prompt_tokens": original_response["usageMetadata"]["promptTokenCount"],
-        "completion_tokens": original_response["usageMetadata"]["candidatesTokenCount"],
-        "total_tokens": original_response["usageMetadata"]["totalTokenCount"],
+        "prompt_tokens": original_response["usageMetadata"].get("promptTokenCount", 0),
+        "completion_tokens": original_response["usageMetadata"].get(
+            "candidatesTokenCount", 0
+        ),
+        "total_tokens": original_response["usageMetadata"].get("totalTokenCount", 0),
     }
 
 

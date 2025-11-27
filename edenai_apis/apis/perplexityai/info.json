@@ -1,23 +1,28 @@
 {
-    "text": {
-        "chat": {
-            "version": "v1.0",
-            "constraints": {
-                "models": [
-                    "mistral-7b-instruct",
-                    "mixtral-8x7b-instruct",
-                    "codellama-34b-instruct",
-                    "llama-2-70b-chat",
-                    "pplx-7b-chat",
-                    "pplx-70b-chat",
-                    "pplx-7b-online",
-                    "pplx-70b-online"
-                ],
-                "default_model": "pplx-70b-online"
-            }
-        }
-    },
-    "_metadata": {
-        "privacy_url": "https://www.perplexity.ai/hub/legal/privacy-policy"
+  "text": {
+    "chat": {
+      "version": "v1.0",
+      "constraints": {
+        "models": [
+          "mistral-7b-instruct",
+          "mixtral-8x7b-instruct",
+          "codellama-34b-instruct",
+          "llama-2-70b-chat",
+          "pplx-7b-chat",
+          "pplx-70b-chat",
+          "pplx-7b-online",
+          "pplx-70b-online"
+        ],
+        "default_model": "pplx-70b-online"
+      }
     }
+  },
+  "llm": {
+    "chat": {
+      "version": "llmengine (v2)"
+    }
+  },
+  "_metadata": {
+    "privacy_url": "https://www.perplexity.ai/hub/legal/privacy-policy"
+  }
 }

@@ -5,6 +5,9 @@
         },
         "plagia_detection": {
             "version": "v1"
+        },
+        "aplagia_detection": {
+            "version": "v1"
         }
     },
     "_metadata": {

@@ -28,5 +28,6 @@ def question_answer_async_arguments(provider_name: str) -> Dict:
         "file": file_wrapper,
         "text": "describe this video",
         "temperature": 0.0,
+        "max_tokens": 5959,
         "settings": {"google": "gemini-1.5-flash"},
     }

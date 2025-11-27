@@ -1,6 +1,7 @@
 import json
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 
+import httpx
 import requests
 
 from edenai_apis.features import (
@@ -65,7 +66,12 @@ class OneaiApi(
         self.header = {"api-key": self.api_key}
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None, **kwargs
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[AnonymizationDataClass]:
         data = json.dumps({"input": text, "steps": [{"skill": "anonymize"}]})
 
@@ -125,6 +131,14 @@ class OneaiApi(
         self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         response = self.llm_client.named_entity_recognition(
+            text=text, model=model, **kwargs
+        )
+        return response
+
+    async def text__anamed_entity_recognition(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        response = await self.llm_client.anamed_entity_recognition(
             text=text, model=model, **kwargs
         )
         return response
@@ -380,7 +394,74 @@ class OneaiApi(
             return AsyncPendingResponseType(provider_job_id=provider_job_id)
         elif status == OneAIAsyncStatus.COMPLETED.value:
             standardized_response = OcrAsyncDataClass(
-                raw_text=original_response["result"]["output"][0]["text"]
+                raw_text=original_response["result"]["output"][0]["text"],
+                number_of_pages=None
+            )
+            return AsyncResponseType(
+                provider_job_id=provider_job_id,
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+        elif status == OneAIAsyncStatus.FAILED.value:
+            raise ProviderException(original_response, code=status_code)
+        elif status == OneAIAsyncStatus.NOT_FOUND.value:
+            raise AsyncJobException(
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, code=status_code
+            )
+        else:
+            raise ProviderException(original_response, code=status_code)
+
+    async def ocr__aocr_async__launch_job(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        params = {
+            "input_type": "article",
+            "content_type": "text/pdf",
+            "steps": [{"skill": "pdf-extract-text"}],
+        }
+
+        if file_url:
+            params["input"] = file_url
+            file_param = None
+        else:
+            with open(file, "rb") as _file:
+                file_param = _file.read()
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{self.url}/async/file",
+                params={"pipeline": json.dumps(params)},
+                headers=self.header,
+                content=file_param,
+            )
+
+        if not response.is_success:
+            raise ProviderException(
+                message=response.json()["message"], code=response.status_code
+            )
+
+        data = response.json()
+
+        return AsyncLaunchJobResponseType(provider_job_id=data["task_id"])
+
+    async def ocr__aocr_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrAsyncDataClass]:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                url=f"{self.url}/async/tasks/{provider_job_id}", headers=self.header
+            )
+
+        status_code = response.status_code
+        original_response = response.json()
+        status = original_response["status"]
+
+        if status in (OneAIAsyncStatus.RUNNING.value, OneAIAsyncStatus.QUEUED.value):
+            return AsyncPendingResponseType(provider_job_id=provider_job_id)
+        elif status == OneAIAsyncStatus.COMPLETED.value:
+            standardized_response = OcrAsyncDataClass(
+                raw_text=original_response["result"]["output"][0]["text"],
+                number_of_pages=None
             )
             return AsyncResponseType(
                 provider_job_id=provider_job_id,

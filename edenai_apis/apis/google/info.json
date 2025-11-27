@@ -790,6 +790,39 @@
             },
             "version": "DocumentAI v1 beta3"
         },
+        "afinancial_parser": {
+            "constraints": {
+                "file_types": [
+                    "application/pdf",
+                    "image/gif",
+                    "image/tiff",
+                    "image/jpeg",
+                    "image/png",
+                    "image/bmp",
+                    "image/webp"
+                ],
+                "languages": [
+                    "de",
+                    "en",
+                    "es",
+                    "et",
+                    "fr",
+                    "it",
+                    "lv",
+                    "lt",
+                    "nl",
+                    "pt",
+                    "ro",
+                    "sv"
+                ],
+                "allow_null_language": true,
+                "documents": [
+                    "receipt",
+                    "invoice"
+                ]
+            },
+            "version": "DocumentAI v1 beta3"
+        },
         "ocr_tables_async": {
             "constraints": {
                 "file_types": [
@@ -1237,6 +1270,133 @@
                 ]
             },
             "version": "v3"
+        },
+        "adocument_translation": {
+            "constraints": {
+                "languages": [
+                    "af",
+                    "sq",
+                    "am",
+                    "ar",
+                    "hy",
+                    "az",
+                    "eu",
+                    "be",
+                    "bn",
+                    "bs",
+                    "bg",
+                    "ca",
+                    "ceb",
+                    "zh-CN",
+                    "zh",
+                    "zh-TW",
+                    "co",
+                    "hr",
+                    "cs",
+                    "da",
+                    "nl",
+                    "en",
+                    "eo",
+                    "et",
+                    "fi",
+                    "fr",
+                    "fy",
+                    "gl",
+                    "ka",
+                    "de",
+                    "el",
+                    "gu",
+                    "ht",
+                    "ha",
+                    "haw",
+                    "he",
+                    "hi",
+                    "hmn",
+                    "hu",
+                    "is",
+                    "ig",
+                    "id",
+                    "ga",
+                    "it",
+                    "ja",
+                    "jv",
+                    "kn",
+                    "kk",
+                    "km",
+                    "rw",
+                    "ko",
+                    "ku",
+                    "ky",
+                    "lo",
+                    "la",
+                    "lv",
+                    "lt",
+                    "lb",
+                    "mk",
+                    "mg",
+                    "ms",
+                    "ml",
+                    "mt",
+                    "mi",
+                    "mr",
+                    "mn",
+                    "my",
+                    "ne",
+                    "no",
+                    "ny",
+                    "or",
+                    "ps",
+                    "fa",
+                    "pl",
+                    "pt",
+                    "pa",
+                    "ro",
+                    "ru",
+                    "sm",
+                    "gd",
+                    "sr",
+                    "st",
+                    "sn",
+                    "sd",
+                    "si",
+                    "sk",
+                    "sl",
+                    "so",
+                    "es",
+                    "su",
+                    "sw",
+                    "sv",
+                    "tl",
+                    "tg",
+                    "ta",
+                    "tt",
+                    "te",
+                    "th",
+                    "tr",
+                    "tk",
+                    "uk",
+                    "ur",
+                    "ug",
+                    "uz",
+                    "vi",
+                    "cy",
+                    "xh",
+                    "yi",
+                    "yo",
+                    "zu"
+                ],
+                "allow_null_language": true,
+                "file_types": [
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "application/pdf",
+                    "application/vnd.ms-powerpoint",
+                    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                    "application/vnd.ms-excel",
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                ]
+            },
+            "version": "v3"
         }
     },
     "video": {
@@ -1353,13 +1513,22 @@
                 ]
             },
             "version": "v1Beta"
+        },
+        "generation_async": {
+            "version": "v1Beta"
         }
     },
     "image": {
         "explicit_content": {
             "version": "v1"
         },
+        "aexplicit_content": {
+            "version": "v1"
+        },
         "face_detection": {
+            "version": "v1"
+        },
+        "aface_detection": {
             "version": "v1"
         },
         "landmark_detection": {
@@ -1370,6 +1539,10 @@
             "version": "v1"
         },
         "object_detection": {
+            "constraints": {},
+            "version": "v1"
+        },
+        "aobject_detection": {
             "constraints": {},
             "version": "v1"
         },
@@ -1400,6 +1573,9 @@
     },
     "llm": {
         "chat": {
+            "version": "llmengine (v2)"
+        },
+        "achat": {
             "version": "llmengine (v2)"
         }
     },

@@ -40,6 +40,19 @@ class OpenaiImageApi(ImageInterface):
         )
         return response
 
+    async def image__ageneration(
+        self,
+        text: str,
+        resolution: Literal["256x256", "512x512", "1024x1024"],
+        num_images: int = 1,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[ImageGenerationDataClass]:
+        response = await self.llm_client.aimage_generation(
+            prompt=text, resolution=resolution, n=num_images, model=model
+        )
+        return response
+
     def image__question_answer(
         self,
         file: str,
@@ -109,6 +122,14 @@ class OpenaiImageApi(ImageInterface):
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
         response = self.llm_client.image_moderation(
+            file=file, file_url=file_url, model=model
+        )
+        return response
+
+    async def image__aexplicit_content(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ExplicitContentDataClass]:
+        response = await self.llm_client.image_amoderation(
             file=file, file_url=file_url, model=model
         )
         return response

@@ -32,6 +32,13 @@ class CompletionClient:
             "Not implemented. Please implement this method in a subclass."
         )
 
+    async def acompletion(
+        self, messages: List = [], model: str = None, **kwargs
+    ) -> Union[ResponseModel, CustomStreamWrapperModel]:
+        raise CompletionClientError(
+            "Not implemented. Please implement this method in a subclass."
+        )
+
     def embedding(
         self, text: str, model: str = None, **kwargs
     ) -> EmbeddingResponseModel:
@@ -45,6 +52,16 @@ class CompletionClient:
         )
 
     def image_generation(
+        self,
+        prompt: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ):
+        raise CompletionClientError(
+            "Not implemented. Please implement this method in a subclass."
+        )
+
+    async def aimage_generation(
         self,
         prompt: str,
         model: Optional[str] = None,

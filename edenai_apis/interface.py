@@ -1,21 +1,31 @@
-# pylint: disable=locally-disabled, too-many-branches
-import os
 import random
 import time
 from typing import Any, Dict, List, Literal, Optional, Set, Tuple, Type, Union, overload
 from uuid import uuid4
 
+from dotenv import load_dotenv
+
 from edenai_apis import interface_v2
 from edenai_apis.features.provider.provider_interface import ProviderInterface
-from edenai_apis.loaders.data_loader import FeatureDataEnum, ProviderDataEnum
-from edenai_apis.loaders.loaders import load_feature, load_provider
-from edenai_apis.loaders.data_loader import load_info_file
+from edenai_apis.loaders.data_loader import (
+    ProviderDataEnum,
+    load_info_file,
+)
+from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException, get_appropriate_error
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
 from dotenv import load_dotenv
+import asyncio
+import inspect
+
 
 load_dotenv()
+
+
+def is_async(func):
+    return inspect.iscoroutinefunction(func) or inspect.isasyncgenfunction(func)
+
 
 ProviderDict = Dict[
     str, Dict[str, Dict[str, Union[Dict[str, Literal[True]], Literal[True]]]]
@@ -40,6 +50,23 @@ def list_features(
     subfeature: Optional[str] = None,
     as_dict: Literal[True] = True,
 ) -> ProviderDict: ...
+
+
+def _is_feature_method(cls, method_name: str) -> bool:
+    if method_name.startswith("_"):
+        return False
+    if "__" not in method_name:
+        return False
+
+    method = getattr(cls, method_name)
+
+    if getattr(method, "__isabstractmethod__", False):
+        return False
+
+    if is_async(method):
+        return False
+
+    return True
 
 
 def list_features(
@@ -102,10 +129,7 @@ def list_features(
         ):  # filter for provider_name if provided
             # detect feature,subfeature,phase by looking at methods names
             for method_name in filter(
-                lambda method_name: not method_name.startswith("_")
-                and "__" in method_name
-                and getattr(getattr(cls, method_name), "__isabstractmethod__", False)
-                is False,  # do not include method that are not implemented yet (interfaces abstract methods)
+                lambda m: _is_feature_method(cls, m),  # we skip async methods
                 dir(cls),
             ):
                 feature_i, subfeature_i, *others = method_name.split("__")
@@ -256,7 +280,6 @@ def compute_output(
 
     else:
         # Fake == False : Compute real output
-
         feature_class = getattr(interface_v2, feature.title())
         subfeature_method_name = f'{subfeature}{f"__{phase}" if phase else ""}{suffix}'
         subfeature_class = getattr(feature_class, subfeature_method_name)
@@ -267,6 +290,98 @@ def compute_output(
             ).model_dump()
         except ProviderException as exc:
             raise get_appropriate_error(provider_name, exc)
+
+    final_result: Dict[str, Any] = {
+        "status": STATUS_SUCCESS,
+        "provider": provider_name,
+        **subfeature_result,
+    }
+
+    return final_result
+
+
+async def acompute_output(
+    provider_name: str,
+    feature: str,
+    subfeature: str,
+    args: Dict[str, Any],
+    phase: str = "",
+    fake: bool = False,
+    api_keys: Dict = {},
+    **kwargs,
+) -> Dict:
+    """
+    Compute subfeature for provider and subfeature using Python async/await
+
+    Args:
+        provider_name (str): EdenAI provider name
+        feature (str): EdenAI feature name
+        subfeature (str): EdenAI subfeature name
+        args (Dict): inputs arguments for the feature call
+        phase (str): EdenAI phase. Default to empty string ("")
+        fake (bool, optional): take result from sample. Defaults to `False`.
+        api_keys (dict, optional): optional user's api_keys for each providers
+
+    Returns:
+        Union[Dict,AsyncGenerator]:
+            - If the keyword argument `stream=True` is passed, returns an async generator that yields
+            chunks of the streaming response asynchronously.
+            - Otherwise, returns a dictionary containing the full result synchronously.
+    """
+    if fake and kwargs.get("stream", False):
+        raise NotImplementedError("Streaming with fake data is not available yet.")
+
+    # Check if this is an async job (e.g., ocr_async)
+    is_async_job = ("_async" in phase) if phase else ("_async" in subfeature)
+    suffix = "__launch_job" if is_async_job else ""
+
+    args = validate_all_provider_constraints(
+        provider_name, feature, subfeature, phase, args
+    )
+
+    if fake:
+        await asyncio.sleep(random.uniform(0.5, 1.5))
+
+        if is_async_job:
+            subfeature_result = AsyncLaunchJobResponseType(
+                provider_job_id=str(uuid4())
+            ).model_dump()
+        else:
+            subfeature_result = load_provider(
+                ProviderDataEnum.OUTPUT,
+                provider_name=provider_name,
+                feature=feature,
+                subfeature=subfeature,
+                phase=phase,
+            )
+
+    else:
+        ProviderClass = load_provider(
+            ProviderDataEnum.CLASS, provider_name=provider_name
+        )
+        provider_instance = ProviderClass(api_keys)
+        func_name = f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}{suffix}'
+        try:
+            subfeature_func = getattr(provider_instance, func_name)
+        except AttributeError:
+            raise NotImplementedError(
+                f'Async method "{func_name}" is not implemented for provider "{provider_name}".'
+            )
+
+        try:
+            subfeature_result = await subfeature_func(**args, **kwargs)
+            subfeature_result = subfeature_result.model_dump()
+        except ProviderException as exc:
+            raise get_appropriate_error(provider_name, exc)
+
+    if kwargs.get("stream", False):
+
+        async def generate_chunks():
+            async for chunk in subfeature_result["stream"]:
+                if chunk is not None:
+                    yield chunk.model_dump()
+
+        return generate_chunks()
 
     final_result: Dict[str, Any] = {
         "status": STATUS_SUCCESS,
@@ -397,6 +512,68 @@ def get_async_job_result(
         subfeature_result = subfeature_class(provider_name, api_keys)(
             async_job_id
         ).model_dump()
+    except ProviderException as exc:
+        raise get_appropriate_error(provider_name, exc)
+
+    return subfeature_result
+
+
+async def aget_async_job_result(
+    provider_name: str,
+    feature: str,
+    subfeature: str,
+    async_job_id: str,
+    phase: str = "",
+    fake: bool = False,
+    api_keys: Dict = {},
+) -> Dict:
+    """Get async result from job id using Python async/await
+
+    Args:
+        provider_name (str): EdenAI provider name
+        feature (str): EdenAI feature
+        subfeature (str): EdenAI subfeature
+        async_job_id (str): async job id to get result to
+        phase (str): EdenAI phase. Default to empty string ("")
+        fake (bool): Load fake results
+        api_keys (dict, optional): optional user's api_keys for each providers
+
+    Returns:
+        Dict: Result dict
+    """
+
+    if fake is True:
+        await asyncio.sleep(
+            random.uniform(0.5, 1.5)
+        )  # sleep to fake the response time from a provider
+        # Load fake data from edenai_apis' saved output
+        fake_result = load_provider(
+            ProviderDataEnum.OUTPUT,
+            provider_name=provider_name,
+            feature=feature,
+            subfeature=subfeature,
+            phase=phase,
+        )
+        fake_result["provider_job_id"] = async_job_id
+
+        return fake_result
+
+    ProviderClass = load_provider(
+        ProviderDataEnum.CLASS, provider_name=provider_name
+    )
+    provider_instance = ProviderClass(api_keys)
+    func_name = f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}__get_job_result'
+
+    try:
+        subfeature_func = getattr(provider_instance, func_name)
+    except AttributeError:
+        raise NotImplementedError(
+            f'Async method "{func_name}" is not implemented for provider "{provider_name}".'
+        )
+
+    try:
+        subfeature_result = await subfeature_func(async_job_id)
+        subfeature_result = subfeature_result.model_dump()
     except ProviderException as exc:
         raise get_appropriate_error(provider_name, exc)
 

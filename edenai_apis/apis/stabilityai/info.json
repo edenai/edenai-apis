@@ -17,7 +17,27 @@
             },
             "version": "v1Beta"
         },
+        "ageneration": {
+            "constraints": {
+                "resolutions": [
+                    "512x512",
+                    "1024x1024"
+                ],
+                "models": [
+                    "esrgan-v1-x2plus",
+                    "stable-diffusion-xl-1024-v0-9",
+                    "stable-diffusion-xl-1024-v1-0",
+                    "stable-diffusion-v1-6",
+                    "stable-diffusion-xl-beta-v2-2-2"
+                ],
+                "default_model": "stable-diffusion-xl-1024-v1-0"
+            },
+            "version": "v1Beta"
+        },
         "background_removal": {
+            "version": "v2Beta"
+        },
+        "abackground_removal": {
             "version": "v2Beta"
         },
         "variation": {

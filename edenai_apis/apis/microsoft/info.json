@@ -1208,6 +1208,28 @@
       },
       "version": "rest API 4.0 (2024-02-29-preview)"
     },
+    "aidentity_parser": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "image/webp",
+          "application/pdf"
+        ],
+        "languages": [
+          "en-US",
+          "fr-FR",
+          "es-ES",
+          "de-DE",
+          "it-IT",
+          "pt-PT"
+        ]
+      },
+      "version": "rest API 4.0 (2024-02-29-preview)"
+    },
     "ocr_async": {
       "constraints": {
         "file_types": [
@@ -1222,6 +1244,33 @@
       "version": "rest API 4.0 (2024-02-29-preview)"
     },
     "financial_parser": {
+      "constraints": {
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/x-ms-bmp",
+          "image/tiff",
+          "application/pdf"
+        ],
+        "languages": [
+          "en-US",
+          "es",
+          "de",
+          "fr",
+          "it",
+          "pt",
+          "nl"
+        ],
+        "allow_null_language": true,
+        "documents": [
+          "receipt",
+          "invoice"
+        ]
+      },
+      "version": "rest API 4.0 (2024-02-29-preview)"
+    },
+    "afinancial_parser": {
       "constraints": {
         "file_types": [
           "image/jpeg",
@@ -1715,6 +1764,9 @@
     "explicit_content": {
       "version": "v3.2"
     },
+    "aexplicit_content": {
+      "version": "v3.2"
+    },
     "face_detection": {
       "version": "v3.2"
     },
@@ -1723,6 +1775,10 @@
       "version": "v3.2"
     },
     "object_detection": {
+      "constraints": {},
+      "version": "v3.2"
+    },
+    "aobject_detection": {
       "constraints": {},
       "version": "v3.2"
     },
@@ -1763,6 +1819,14 @@
   },
   "llm": {
     "chat": {
+      "version": "Azure AI Foundry"
+    },
+    "achat": {
+      "version": "llmengine (v2)"
+    }
+  },
+  "video": {
+    "generation_async": {
       "version": "Azure AI Foundry"
     }
   },

@@ -1,51 +1,54 @@
 {
   "status": "succeeded",
-  "provider_job_id": "u84qrz9ectcd",
+  "provider_job_id": "eyJ0ZXh0IjoiZGVzY3JpYmUgdGhpcyB2aWRlbyIsInRlbXBlcmF0dXJlIjowLjAsIm1vZGVsIjoiZ2VtaW5pLTEuNS1mbGFzaCIsIm1heF90b2tlbnMiOjU5NTksInByb2Nlc3NfZmlsZV9pZCI6Imptem9xNDkxZXNoZiJ9",
   "original_response": {
     "candidates": [
       {
         "content": {
           "parts": [
             {
-              "text": "The video is about how to create AI hyperlapse videos. The video shows a man talking about AI hyperlapse videos and how they are becoming popular on YouTube and Instagram. He then shows how to create these videos using a phone. "
+              "text": "Here is a description of the video.\n\nThe video is a tutorial on how to create AI hyperlapses. The video opens with a shot of a phone displaying a short video of a table with a glass of water and a small skull on it. The narrator then explains that AI hyperlapses are currently going viral on YouTube and Instagram. The video then shows several examples of AI hyperlapses, including a statue of a woman and a lion, a church dome, and a statue of a woman and child. The narrator then shows how to create these videos using a phone and computer."
             }
           ],
           "role": "model"
         },
         "finishReason": "STOP",
-        "index": 0,
-        "safetyRatings": [
-          {
-            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-            "probability": "NEGLIGIBLE"
-          },
-          {
-            "category": "HARM_CATEGORY_HATE_SPEECH",
-            "probability": "NEGLIGIBLE"
-          },
-          {
-            "category": "HARM_CATEGORY_HARASSMENT",
-            "probability": "NEGLIGIBLE"
-          },
-          {
-            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-            "probability": "NEGLIGIBLE"
-          }
-        ]
+        "avgLogprobs": -0.2570417173977556
       }
     ],
     "usageMetadata": {
-      "promptTokenCount": 3838,
-      "candidatesTokenCount": 46,
-      "totalTokenCount": 3884
+      "promptTokenCount": 3708,
+      "candidatesTokenCount": 116,
+      "totalTokenCount": 3824,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 3
+        },
+        {
+          "modality": "VIDEO",
+          "tokenCount": 3705
+        }
+      ],
+      "candidatesTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 116
+        }
+      ]
     },
+    "modelVersion": "gemini-1.5-flash",
+    "responseId": "ckNiaJ6OFPCchMIPvpiHwAI",
     "usage": {
-      "prompt_tokens": 3838,
-      "completion_tokens": 46,
-      "total_tokens": 3884
+      "prompt_tokens": 3708,
+      "completion_tokens": 116,
+      "total_tokens": 3824
     }
   },
   "standardized_response": {
-    "answer": "The video is about how to create AI hyperlapse videos. The video shows a man talking about AI hyperlapse videos and how they are becoming popular on YouTube and Instagram. He then shows how to create these videos using a phone. "
-  }
+    "answer": "Here is a description of the video.\n\nThe video is a tutorial on how to create AI hyperlapses. The video opens with a shot of a phone displaying a short video of a table with a glass of water and a small skull on it. The narrator then explains that AI hyperlapses are currently going viral on YouTube and Instagram. The video then shows several examples of AI hyperlapses, including a statue of a woman and a lion, a church dome, and a statue of a woman and child. The narrator then shows how to create these videos using a phone and computer.",
+    "finish_reason": "STOP"
+  },
+  "usage": null,
+  "cost": null
 }

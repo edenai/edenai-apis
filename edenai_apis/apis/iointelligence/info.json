@@ -1,0 +1,15 @@
+{
+  "llm": {
+    "chat": {
+      "version": "v1"
+    },
+    "achat": {
+      "version": "llmengine (v2)"
+    }
+  },
+  "text": {
+    "embeddings": {
+      "version": "v1"
+    }
+  }
+}

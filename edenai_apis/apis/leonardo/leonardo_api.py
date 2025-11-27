@@ -1,6 +1,8 @@
+import asyncio
 import base64
 import http.client
 from typing import Dict, Generator, List, Literal, Optional, Union, overload
+import httpx
 import requests
 
 from edenai_apis.features import ImageInterface
@@ -14,7 +16,7 @@ from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
 from .config import get_model_id_image
 from edenai_apis.utils.parsing import extract
-from edenai_apis.llmengine.utils.moderation import moderate
+from edenai_apis.llmengine.utils.moderation import async_moderate, moderate
 
 
 class LeonardoApi(ProviderInterface, ImageInterface):
@@ -95,6 +97,68 @@ class LeonardoApi(ProviderInterface, ImageInterface):
 
         return response_dict
 
+    async def __aget_response(self, url: str, payload: dict) -> dict:
+        # Launch job
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
+            try:
+                launch_job_response = await client.post(url, headers=self.headers, json=payload)
+            except httpx.RequestError as e:
+                raise ProviderException(str(e))
+
+            try:
+                launch_job_response_dict = launch_job_response.json()
+            except Exception:
+                raise ProviderException(
+                    launch_job_response.text, code=launch_job_response.status_code
+                )
+
+            if launch_job_response.status_code != 200:
+                raise ProviderException(
+                    launch_job_response_dict.get("error", launch_job_response_dict),
+                    code=launch_job_response.status_code,
+                )
+
+            generation_id = launch_job_response_dict["sdGenerationJob"]["generationId"]
+            url_get_response = f"{self.base_url}/generations/{generation_id}"
+
+            # Get job response
+            response = await client.get(url_get_response, headers=self.headers)
+
+            if response.status_code >= 500:
+                raise ProviderException(
+                    message=http.client.responses[response.status_code],
+                    code=response.status_code,
+                )
+
+            try:
+                response_dict = response.json()
+            except Exception:
+                raise ProviderException(f"Invalid JSON response: {response.text}")
+
+            if response.status_code != 200:
+                raise ProviderException(
+                    response_dict.get("detail"), code=response.status_code
+                )
+
+            status = response_dict["generations_by_pk"]["status"]
+            while status != "COMPLETE":
+                await asyncio.sleep(1)  # Poll every second
+                response = await client.get(url_get_response, headers=self.headers)
+
+                try:
+                    response_dict = response.json()
+                except Exception:
+                    raise ProviderException(response.text, code=response.status_code)
+
+                if response.status_code != 200:
+                    raise ProviderException(
+                        response_dict.get("error", response_dict), code=response.status_code
+                    )
+
+                status = response_dict["generations_by_pk"]["status"]
+
+            return response_dict
+
     @moderate
     def image__generation(
         self,
@@ -140,6 +204,58 @@ class LeonardoApi(ProviderInterface, ImageInterface):
                     image_resource_url=image_url,
                 )
             )
+
+        return ResponseType[GenerationDataClass](
+            original_response=response_dict,
+            standardized_response=GenerationDataClass(items=generated_images),
+        )
+
+    @async_moderate
+    async def image__ageneration(
+        self,
+        text: str,
+        resolution: Literal["256x256", "512x512", "1024x1024"],
+        num_images: int = 1,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[GenerationDataClass]:
+        size = resolution.split("x")
+        payload = {
+            "prompt": text,
+            "width": int(size[0]),
+            "height": int(size[1]),
+            "modelId": get_model_id_image.get(model, model),
+            "num_images": num_images,
+            "ultra": False,  # True == High quality, False == Low quality
+            "alchemy": False,  # True == Quality, False == Speed
+            "contrast": 3.5,  # low contrast : 3, medium contrast : 3.5, high contrast : 4
+            "styleUUID": None,
+        }
+
+        url = f"{self.base_url}/generations"
+
+        response_dict = await self.__aget_response(url, payload)
+        generation_by_pk = response_dict.get("generations_by_pk", {}) or {}
+        generated_images = generation_by_pk.get("generated_images", []) or []
+
+        image_url = [image.get("url") for image in generated_images]
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
+            async def get_and_decode_image(image_url):
+                response = await client.get(image_url)
+                image = response.content
+                return GeneratedImageDataClass(
+                    image=base64.b64encode(image),
+                    image_resource_url=image_url,
+                )
+
+            generated_images = []
+            generated_images = await asyncio.gather(
+                *[get_and_decode_image(image) for image in image_url],
+                return_exceptions=True,
+            )
+            generated_images = [
+                img for img in generated_images if not isinstance(img, Exception)
+            ]
 
         return ResponseType[GenerationDataClass](
             original_response=response_dict,

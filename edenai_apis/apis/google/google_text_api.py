@@ -1,3 +1,4 @@
+from http import client
 import json
 from typing import Dict, List, Literal, Optional, Sequence, Union
 
@@ -6,6 +7,7 @@ from edenai_apis.apis.google.google_helpers import (
     get_access_token,
     get_tag_name,
     handle_google_call,
+    ahandle_google_call,
     score_to_sentiment,
     gemini_request,
     palm_request,
@@ -74,6 +76,48 @@ class GoogleTextApi(TextInterface):
         # Getting response of API
         payload = {"document": document, "encoding_type": "UTF8"}
         response = handle_google_call(self.clients["text"].analyze_entities, **payload)
+
+        # Create output response
+        # Convert response to dict
+        response = MessageToDict(response._pb)
+        items: Sequence[InfosNamedEntityRecognitionDataClass] = []
+
+        # Analyse response
+        # Getting name of entity, its category and its score of confidence
+        if response.get("entities") and isinstance(response["entities"], list):
+            for ent in response["entities"]:
+                if ent.get("salience"):
+                    items.append(
+                        InfosNamedEntityRecognitionDataClass(
+                            entity=ent["name"],
+                            importance=ent.get("salience"),
+                            category=ent["type"],
+                            #    url=ent.get("metadata", {}).get("wikipedia_url", None),
+                        )
+                    )
+
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
+
+        return ResponseType[NamedEntityRecognitionDataClass](
+            original_response=response, standardized_response=standardized_response
+        )
+
+    async def text__anamed_entity_recognition(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        """
+        :param language:        String that contains the language code
+        :param text:            String that contains the text to analyse
+        """
+
+        # Create configuration dictionnary
+        document = GoogleDocument(
+            content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
+        )
+        # Getting response of API
+        payload = {"document": document, "encoding_type": "UTF8"}
+        async with language_v1.LanguageServiceAsyncClient() as client:
+            response = await ahandle_google_call(client.analyze_entities, **payload)
 
         # Create output response
         # Convert response to dict
@@ -242,6 +286,42 @@ class GoogleTextApi(TextInterface):
 
         return result
 
+    async def text__atopic_extraction(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[TopicExtractionDataClass]:
+        # Create configuration dictionnary
+        document = GoogleDocument(
+            content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
+        )
+        # Get Api response
+        payload = {
+            "document": document,
+        }
+
+        async with language_v1.LanguageServiceAsyncClient() as client:
+            response = await ahandle_google_call(client.classify_text, **payload)
+
+        # Create output response
+        # Convert response to dict
+        original_response = MessageToDict(response._pb)
+
+        # Standardize the response
+        categories: Sequence[ExtractedTopic] = []
+        for category in original_response.get("categories", []):
+            categories.append(
+                ExtractedTopic(
+                    category=category.get("name"), importance=category.get("confidence")
+                )
+            )
+        standardized_response = TopicExtractionDataClass(items=categories)
+
+        result = ResponseType[TopicExtractionDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+        return result
+
     def text__generation(
         self, text: str, temperature: float, max_tokens: int, model: str, **kwargs
     ) -> ResponseType[GenerationDataClass]:
@@ -332,6 +412,15 @@ class GoogleTextApi(TextInterface):
         )
         return response
 
+    async def text__aembeddings(
+        self, texts: List[str], model: Optional[str] = None, **kwargs
+    ) -> ResponseType[EmbeddingsDataClass]:
+        model = model.split("__")[1] if "__" in model else model
+        response = await self.clients["llm_client"].aembeddings(
+            texts=texts, provider_model_name=f"vertex_ai/{model}", model=model, **kwargs
+        )
+        return response
+
     def text__code_generation(
         self,
         instruction: str,
@@ -413,6 +502,59 @@ class GoogleTextApi(TextInterface):
         # Getting response of API
         payload = {"document": document}
         response = handle_google_call(client.moderate_text, **payload)
+
+        # Convert response to dict
+        original_response = MessageToDict(response._pb)
+
+        # Create output response
+        items: Sequence[TextModerationItem] = []
+        for moderation in original_response.get("moderationCategories", []) or []:
+            classificator = CategoryType.choose_category_subcategory(
+                moderation.get("name")
+            )
+            items.append(
+                TextModerationItem(
+                    label=moderation.get("name"),
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood_score=moderation.get("confidence", 0),
+                    likelihood=standardized_confidence_score(
+                        moderation.get("confidence", 0)
+                    ),
+                )
+            )
+        standardized_response: ModerationDataClass = ModerationDataClass(
+            nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(items),
+            items=items,
+            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(
+                items
+            ),
+        )
+
+        return ResponseType[ModerationDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
+    async def text__amoderation(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ModerationDataClass]:
+        """
+        :param language:        String that contains the language code
+        :param text:            String that contains the text to analyse
+        :return:                Array that contain api response and TextSentimentAnalysis
+        Object that contains the sentiments and their rates
+        """
+
+        # Create configuration dictionnary
+        document = GoogleDocument(
+            content=text, type_=GoogleDocument.Type.PLAIN_TEXT, language=language
+        )
+
+        # Getting response of API
+        async with language_v1.LanguageServiceAsyncClient() as client:
+            payload = {"document": document}
+            response = await ahandle_google_call(client.moderate_text, **payload)
 
         # Convert response to dict
         original_response = MessageToDict(response._pb)

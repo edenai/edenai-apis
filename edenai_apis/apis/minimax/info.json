@@ -1,0 +1,20 @@
+{
+  "llm": {
+    "chat": {
+      "version": "v1"
+    },
+    "achat": {
+      "version": "llmengine (v2)"
+    }
+  },
+  "image": {
+    "generation": {
+      "version": "v1"
+    }
+  },
+  "video": {
+    "generation_async": {
+      "version": "v1"
+    }
+  }
+}

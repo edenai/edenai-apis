@@ -2,19 +2,17 @@ import sys
 from collections import defaultdict
 from http import HTTPStatus
 from time import sleep
-from typing import Dict, List, Sequence, Optional, Literal, Union
+from typing import Any, Dict, List, Literal, Optional, Sequence, Union
 
 import requests
-
+import httpx
 from edenai_apis.features.text import (
     AnonymizationDataClass,
     ChatDataClass,
-    ModerationDataClass,
-)
-from edenai_apis.features.text import (
     InfosKeywordExtractionDataClass,
     InfosNamedEntityRecognitionDataClass,
     KeywordExtractionDataClass,
+    ModerationDataClass,
     NamedEntityRecognitionDataClass,
     SentimentAnalysisDataClass,
     SummarizeDataClass,
@@ -27,10 +25,11 @@ from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass import (
     SegmentSentimentAnalysisDataClass,
 )
-from edenai_apis.features.text.spell_check import SpellCheckItem, SpellCheckDataClass
+from edenai_apis.features.text.spell_check import SpellCheckDataClass, SpellCheckItem
 from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
+
 from .microsoft_helpers import microsoft_text_moderation_personal_infos
 
 
@@ -46,6 +45,38 @@ class MicrosoftTextApi(TextInterface):
                 headers=self.headers["text_moderation"],
                 json={"text": text},
             )
+        except Exception as exc:
+            raise ProviderException(str(exc), code=500)
+
+        data = response.json()
+        if response.status_code != 200:
+            if "Errors" in data:
+                error = data.get("Errors", []) or []
+                if error:
+                    raise ProviderException(
+                        error[0].get("Message", "Provider could not process request"),
+                        code=response.status_code,
+                    )
+            else:
+                raise ProviderException(data)
+        standardized_response = microsoft_text_moderation_personal_infos(data)
+
+        return ResponseType[ModerationDataClass](
+            original_response=data, standardized_response=standardized_response
+        )
+
+    async def text__amoderation(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ModerationDataClass]:
+        if not language:
+            language = ""
+        try:
+            async with httpx.AsyncClient(timeout=120) as client:
+                response = await client.post(
+                    f"{self.url['text_moderation']}&language={language}",
+                    headers=self.headers["text_moderation"],
+                    json={"text": text},
+                )
         except Exception as exc:
             raise ProviderException(str(exc), code=500)
 
@@ -89,6 +120,62 @@ class MicrosoftTextApi(TextInterface):
         )
 
         if not response.ok:
+            try:
+                data = response.json()
+                raise ProviderException(
+                    data["error"]["innererror"]["message"], code=response.status_code
+                )
+            except:
+                raise ProviderException(response.text, code=response.status_code)
+
+        data = response.json()
+        self._check_microsoft_error(data)
+        items: Sequence[InfosNamedEntityRecognitionDataClass] = []
+        documents = data["results"]["documents"]
+        if len(documents) > 0:
+            for ent in data["results"]["documents"][0]["entities"]:
+                entity = ent["text"]
+                importance = ent["confidenceScore"]
+                entity_type = ent["category"].upper()
+                if entity_type == "DATETIME":
+                    entity_type = "DATE"
+                items.append(
+                    InfosNamedEntityRecognitionDataClass(
+                        entity=entity,
+                        importance=importance,
+                        category=entity_type,
+                    )
+                )
+
+        standardized_response = NamedEntityRecognitionDataClass(items=items)
+
+        return ResponseType[NamedEntityRecognitionDataClass](
+            original_response=data, standardized_response=standardized_response
+        )
+
+    async def text__anamed_entity_recognition(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        """
+        :param language:        String that contains the language code
+        :param text:            String that contains the text to analyse
+        :return:                TextNamedEntityRecognition Object that contains
+        the entities and their importances
+        """
+        async with httpx.AsyncClient(timeout=120) as client:
+            response = await client.post(
+                f"{self.url['text']}",
+                headers=self.headers["text"],
+                json={
+                    "kind": "EntityRecognition",
+                    "parameters": {"modelVersion": "latest"},
+                    "analysisInput": {
+                        "documents": [{"id": "1", "language": language, "text": text}]
+                    },
+                },
+            )
+
+        if not response.is_success:
             try:
                 data = response.json()
                 raise ProviderException(
@@ -197,7 +284,12 @@ class MicrosoftTextApi(TextInterface):
         )
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None, **kwargs
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[AnonymizationDataClass]:
         try:
             response = requests.post(
@@ -425,6 +517,57 @@ class MicrosoftTextApi(TextInterface):
             raise ProviderException(
                 orginal_response["errors"]["message"], response.status_code
             )
+
+        items: Sequence[SpellCheckItem] = []
+        for flag_token in orginal_response["flaggedTokens"]:
+            items.append(
+                SpellCheckItem(
+                    offset=flag_token["offset"],
+                    length=len(flag_token["token"]),
+                    type=flag_token["type"],
+                    text=flag_token["token"],
+                    suggestions=flag_token["suggestions"],
+                )
+            )
+
+        standardized_response = SpellCheckDataClass(text=text, items=items)
+
+        return ResponseType[SpellCheckDataClass](
+            original_response=orginal_response,
+            standardized_response=standardized_response,
+        )
+
+    async def text__aspell_check(
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[SpellCheckDataClass]:
+        if len(text) >= 130:
+            raise ProviderException(
+                message="Text is too long for spell check. Max length is 130 characters",
+                code=400,
+            )
+
+        data = {"text": text}
+        params = {"mkt": language, "mode": "spell"}
+
+        async with httpx.AsyncClient(timeout=120) as client:
+            response = await client.post(
+                self.url["spell_check"],
+                headers=self.headers["spell_check"],
+                data=data,
+                params=params,
+            )
+
+        if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
+            raise ProviderException("Internal Server Error", response.status_code)
+
+        orginal_response = response.json()
+        if response.status_code != HTTPStatus.OK:
+            error_message = (
+                orginal_response.get("error", {}).get("message")
+                or orginal_response.get("errors", {}).get("message")
+                or "Provider threw an unknown error"
+            )
+            raise ProviderException(error_message, response.status_code)
 
         items: Sequence[SpellCheckItem] = []
         for flag_token in orginal_response["flaggedTokens"]:

@@ -29,3 +29,13 @@ class CompletionClientError(Exception):
         super().__init__(
             self.message
         )  # TODO polymorph this thing to understand different exceptions and handle them on the logging...
+
+
+class RerankClientError(Exception):
+    def __init__(self, message, input: Optional[dict] = None, status_code: int = 400):
+        self.input = input
+        self.message = message
+        self.status_code = status_code
+        super().__init__(
+            self.message
+        )  # TODO polymorph this thing to understand different exceptions and handle them on the logging...

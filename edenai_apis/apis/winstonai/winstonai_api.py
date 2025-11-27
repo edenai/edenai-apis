@@ -2,8 +2,9 @@ import json
 from http import HTTPStatus
 from typing import Dict, Sequence, Any, Optional
 import requests
+
 from edenai_apis.apis.winstonai.config import WINSTON_AI_API_URL
-from edenai_apis.features import ProviderInterface, TextInterface, ImageInterface
+from edenai_apis.features import ImageInterface, ProviderInterface, TextInterface
 from edenai_apis.features.image.ai_detection.ai_detection_dataclass import (
     AiDetectionDataClass as ImageAiDetectionDataclass,
 )
@@ -78,6 +79,11 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
     ) -> ResponseType[AiDetectionDataClass]:
         if provider_params is None:
             provider_params = {}
+
+        # WinstonAI has a minimum characters limit of 300 characters for his API
+        if len(text) < 300:
+            raise ProviderException("Make sure the text is at least 300 characters long before sending a detection request")
+
         payload = json.dumps(
             {
                 "text": text,

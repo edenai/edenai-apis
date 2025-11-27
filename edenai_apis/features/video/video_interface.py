@@ -219,6 +219,7 @@ class VideoInterface:
         file: str,
         file_url: str = "",
         temperature: float = 0.0,
+        max_tokens: Optional[int] = None,
         model: Optional[str] = None,
         **kwargs,
     ) -> QuestionAnswerDataClass:
@@ -231,6 +232,7 @@ class VideoInterface:
         file: str,
         file_url: str = "",
         temperature: float = 0.0,
+        max_tokens: Optional[int] = None,
         model: Optional[str] = None,
         **kwargs,
     ) -> AsyncLaunchJobResponseType:

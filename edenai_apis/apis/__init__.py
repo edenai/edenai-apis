@@ -68,5 +68,10 @@ from .deepseek import DeepseekApi
 from .together_ai import TogetheraiApi
 from .groq import GroqApi
 from .picsart import PicsartApi
+from .minimax import MinimaxApi
+from .iointelligence import IointelligenceApi
+from .bytedance import BytedanceApi
+from .dashscope import DashscopeApi
+from .deepinfra import DeepinfraApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

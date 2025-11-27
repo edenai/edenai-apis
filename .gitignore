@@ -28,3 +28,4 @@ pyrightconfig.json
 
 *.env*
 .pre-commit-config.yaml
+local_tests.py

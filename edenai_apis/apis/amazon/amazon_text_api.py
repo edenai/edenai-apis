@@ -1,7 +1,8 @@
-from typing import List, Literal, Optional, Sequence, Union, Dict
+from typing import List, Literal, Optional, Sequence, Union, Dict, Any
 import json
+import aioboto3
 
-from edenai_apis.apis.amazon.helpers import handle_amazon_call
+from edenai_apis.apis.amazon.helpers import handle_amazon_call, ahandle_amazon_call
 from edenai_apis.features.text import ChatDataClass, GenerationDataClass
 from edenai_apis.features.text.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
@@ -120,6 +121,38 @@ class AmazonTextApi(TextInterface):
             original_response=response, standardized_response=standardized
         )
 
+    async def text__anamed_entity_recognition(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        # Getting response
+        payload = {"Text": text, "LanguageCode": language}
+        session = aioboto3.Session()
+        async with session.client(
+            "comprehend",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as comprehend_client:
+            response = await ahandle_amazon_call(
+                comprehend_client.detect_entities, **payload
+            )
+
+        items: Sequence[InfosNamedEntityRecognitionDataClass] = []
+        for ent in response["Entities"]:
+            items.append(
+                InfosNamedEntityRecognitionDataClass(
+                    entity=ent["Text"],
+                    importance=ent["Score"],
+                    category=ent["Type"],
+                )
+            )
+
+        standardized = NamedEntityRecognitionDataClass(items=items)
+
+        return ResponseType[NamedEntityRecognitionDataClass](
+            original_response=response, standardized_response=standardized
+        )
+
     def text__syntax_analysis(
         self, language: str, text: str, **kwargs
     ) -> ResponseType[SyntaxAnalysisDataClass]:
@@ -153,7 +186,12 @@ class AmazonTextApi(TextInterface):
         )
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None, **kwargs
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[AnonymizationDataClass]:
         payload = {"Text": text, "LanguageCode": language}
         res = handle_amazon_call(self.clients["text"].detect_pii_entities, **payload)

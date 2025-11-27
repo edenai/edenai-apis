@@ -1,9 +1,18 @@
+import asyncio
 import json
 import base64
 from io import BytesIO
+
+import aiofiles
+import aioboto3
+
 from typing import Literal, Optional, Sequence
-from edenai_apis.llmengine.utils.moderation import moderate
-from edenai_apis.apis.amazon.helpers import handle_amazon_call, get_confidence_if_true
+from edenai_apis.llmengine.utils.moderation import async_moderate, moderate
+from edenai_apis.apis.amazon.helpers import (
+    ahandle_amazon_call,
+    handle_amazon_call,
+    get_confidence_if_true,
+)
 from edenai_apis.features.image.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
     EmbeddingDataClass,
@@ -66,8 +75,13 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 )
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
+from edenai_apis.utils.upload_s3 import (
+    USER_PROCESS,
+    upload_file_bytes_to_s3,
+    aupload_file_bytes_to_s3,
+)
 
 
 class AmazonImageApi(ImageInterface):
@@ -113,6 +127,70 @@ class AmazonImageApi(ImageInterface):
             original_response=original_response,
             standardized_response=ObjectDetectionDataClass(items=items),
         )
+
+    async def image__aobject_detection(
+        self, file: str, model: str = None, file_url: str = "", **kwargs
+    ) -> ResponseType[ObjectDetectionDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            payload = {"Image": {"Bytes": file_content}, "MinConfidence": 70}
+            session = aioboto3.Session()
+            async with session.client(
+                "rekognition",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as client:
+                original_response = await ahandle_amazon_call(
+                    client.detect_labels, **payload
+                )
+                items = []
+                for object_label in original_response.get("Labels"):
+                    if object_label.get("Instances"):
+                        bounding_box = object_label.get("Instances")[0].get(
+                            "BoundingBox"
+                        )
+                        x_min, x_max = (
+                            bounding_box.get("Left"),
+                            bounding_box.get("Left") + bounding_box.get("Width"),
+                        )
+                        y_min, y_max = (
+                            bounding_box.get("Top"),
+                            bounding_box.get("Top") + bounding_box.get("Height"),
+                        )
+                    else:
+                        x_min, x_max, y_min, y_max = None, None, None, None
+
+                    items.append(
+                        ObjectItem(
+                            label=object_label.get("Name"),
+                            confidence=object_label.get("Confidence") / 100,
+                            x_min=x_min,
+                            x_max=x_max,
+                            y_min=y_min,
+                            y_max=y_max,
+                        )
+                    )
+
+            return ResponseType[ObjectDetectionDataClass](
+                original_response=original_response,
+                standardized_response=ObjectDetectionDataClass(items=items),
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__face_detection(
         self, file: str, file_url: str = "", **kwargs
@@ -270,6 +348,189 @@ class AmazonImageApi(ImageInterface):
             standardized_response=standardized_response,
         )
 
+    async def image__aface_detection(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> ResponseType[FaceDetectionDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+
+            payload = {"Image": {"Bytes": file_content}, "Attributes": ["ALL"]}
+            session = aioboto3.Session()
+            async with session.client(
+                "rekognition",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as client:
+                original_response = await ahandle_amazon_call(
+                    client.detect_faces, **payload
+                )
+                faces_list = []
+                for face in original_response.get("FaceDetails", []):
+                    # Age
+                    age_output = None
+                    age_range = face.get("AgeRange")
+                    if age_range:
+                        age_output = (
+                            age_range.get("Low", 0.0) + age_range.get("High", 100)
+                        ) / 2
+
+                    # features
+                    features = FaceFeatures(
+                        eyes_open=get_confidence_if_true(face, "EyeOpen"),
+                        smile=get_confidence_if_true(face, "Smile"),
+                        mouth_open=get_confidence_if_true(face, "MouthOpen"),
+                    )
+
+                    # accessories
+                    accessories = FaceAccessories(
+                        sunglasses=get_confidence_if_true(face, "Sunglasses"),
+                        eyeglasses=get_confidence_if_true(face, "Eyeglasses"),
+                        reading_glasses=None,
+                        swimming_goggles=None,
+                        face_mask=None,
+                        headwear=None,
+                    )
+
+                    # facial hair
+                    facial_hair = FaceFacialHair(
+                        moustache=get_confidence_if_true(face, "Mustache"),
+                        beard=get_confidence_if_true(face, "Beard"),
+                        sideburns=None,
+                    )
+
+                    # quality
+                    quality = FaceQuality(
+                        brightness=face.get("Quality").get("Brightness", 0.0) / 100,
+                        sharpness=face.get("Quality").get("Sharpness", 0.0) / 100,
+                        noise=None,
+                        exposure=None,
+                        blur=None,
+                    )
+
+                    # emotions
+                    emotion_output = {}
+                    for emo in face.get("Emotions", []):
+                        normalized_emo = emo.get("Confidence", 0.0) * 100
+                        if emo.get("Type"):
+                            if emo["Type"].lower() == "happy":  # normalise keywords
+                                emo["Type"] = "happiness"
+                            emotion_output[emo["Type"].lower()] = (
+                                standardized_confidence_score(normalized_emo / 100)
+                            )
+                    emotions = FaceEmotions(
+                        anger=emotion_output.get("angry"),
+                        surprise=emotion_output.get("surprise"),
+                        fear=emotion_output.get("fear"),
+                        sorrow=emotion_output.get("sadness"),
+                        confusion=emotion_output.get("confused"),
+                        calm=emotion_output.get("calm"),
+                        disgust=emotion_output.get("disgsusted"),
+                        joy=emotion_output.get("happiness"),
+                        unknown=None,
+                        neutral=None,
+                        contempt=None,
+                    )
+
+                    # landmarks
+                    landmarks_output = {}
+                    for land in face.get("Landmarks"):
+                        if land.get("Type") and land.get("X") and land.get("Y"):
+                            landmarks_output[land.get("Type")] = [
+                                land.get("X"),
+                                land.get("Y"),
+                            ]
+
+                    landmarks = FaceLandmarks(
+                        left_eye=landmarks_output.get("eye_left", []),
+                        left_eye_top=landmarks_output.get("eye_leftUp", []),
+                        left_eye_right=landmarks_output.get("lefteye_right", []),
+                        left_eye_bottom=landmarks_output.get("leftEyeDown", []),
+                        left_eye_left=landmarks_output.get("leftEyeLeft", []),
+                        right_eye=landmarks_output.get("eye_right", []),
+                        right_eye_top=landmarks_output.get("eye_rightUp", []),
+                        right_eye_right=landmarks_output.get("eye_rightRight", []),
+                        right_eye_bottom=landmarks_output.get("rightEyeDown", []),
+                        right_eye_left=landmarks_output.get("rightEyeLeft", []),
+                        left_eyebrow_left=landmarks_output.get("leftEyeBrowLeft", []),
+                        left_eyebrow_right=landmarks_output.get("leftEyeBrowRight", []),
+                        left_eyebrow_top=landmarks_output.get("leftEyeBrowUp", []),
+                        right_eyebrow_left=landmarks_output.get("rightEyeBrowLeft", []),
+                        right_eyebrow_right=landmarks_output.get(
+                            "rightEyeBrowRight", []
+                        ),
+                        right_eyebrow_top=landmarks_output.get("rightEyeBrowUp", []),
+                        left_pupil=landmarks_output.get("leftPupil", []),
+                        right_pupil=landmarks_output.get("rightPupil", []),
+                        nose_tip=landmarks_output.get("nose", []),
+                        nose_bottom_right=landmarks_output.get("noseRight", []),
+                        nose_bottom_left=landmarks_output.get("noseLeft", []),
+                        mouth_left=landmarks_output.get("mouth_left", []),
+                        mouth_right=landmarks_output.get("mouth_right", []),
+                        mouth_top=landmarks_output.get("mouthUp", []),
+                        mouth_bottom=landmarks_output.get("mouthDown", []),
+                        chin_gnathion=landmarks_output.get("chinBottom", []),
+                        upper_jawline_left=landmarks_output.get("upperJawlineLeft", []),
+                        mid_jawline_left=landmarks_output.get("midJawlineLeft", []),
+                        mid_jawline_right=landmarks_output.get("midJawlineRight", []),
+                        upper_jawline_right=landmarks_output.get(
+                            "upperJawlineRight", []
+                        ),
+                    )
+                    poses = FacePoses(
+                        roll=face.get("Pose", {}).get("Roll"),
+                        yaw=face.get("Pose", {}).get("Yaw"),
+                        pitch=face.get("Pose", {}).get("Pitch"),
+                    )
+
+                    faces_list.append(
+                        FaceItem(
+                            age=age_output,
+                            gender=face.get("Gender", {}).get("Value"),
+                            facial_hair=facial_hair,
+                            features=features,
+                            accessories=accessories,
+                            quality=quality,
+                            emotions=emotions,
+                            landmarks=landmarks,
+                            poses=poses,
+                            confidence=face.get("Confidence", 0.0) / 100,
+                            bounding_box=FaceBoundingBox(
+                                x_min=face.get("BoundingBox", {}).get("Left", 0.0),
+                                x_max=face.get("BoundingBox", {}).get("Left", 0.0)
+                                + face.get("BoundingBox", {}).get("Width", 0.0),
+                                y_min=face.get("BoundingBox", {}).get("Top", 0.0),
+                                y_max=face.get("BoundingBox", {}).get("Top", 0.0)
+                                + face.get("BoundingBox", {}).get("Height", 0.0),
+                            ),
+                            occlusions=FaceOcclusions.default(),
+                            makeup=FaceMakeup.default(),
+                            hair=FaceHair.default(),
+                        )
+                    )
+
+                standardized_response = FaceDetectionDataClass(items=faces_list)
+                return ResponseType[FaceDetectionDataClass](
+                    original_response=original_response,
+                    standardized_response=standardized_response,
+                )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+
     def image__explicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
@@ -309,6 +570,73 @@ class AmazonImageApi(ImageInterface):
         return ResponseType[ExplicitContentDataClass](
             original_response=response, standardized_response=standardized_response
         )
+
+    async def image__aexplicit_content(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ExplicitContentDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+
+            payload = {"Image": {"Bytes": file_content}, "MinConfidence": 20}
+
+            session = aioboto3.Session()
+            async with session.client(
+                "rekognition",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as client:
+                response = await ahandle_amazon_call(
+                    client.detect_moderation_labels, **payload
+                )
+
+            items = []
+            for label in response.get("ModerationLabels", []):
+                classificator = CategoryType.choose_category_subcategory(
+                    label.get("Name")
+                )
+                items.append(
+                    ExplicitItem(
+                        label=label.get("Name"),
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        likelihood=standardized_confidence_score(
+                            label.get("Confidence") / 100
+                        ),
+                        likelihood_score=label.get("Confidence") / 100,
+                    )
+                )
+
+            nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+            nsfw_likelihood_score = (
+                ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+            )
+
+            standardized_response = ExplicitContentDataClass(
+                items=items,
+                nsfw_likelihood=nsfw_likelihood,
+                nsfw_likelihood_score=nsfw_likelihood_score,
+            )
+
+            return ResponseType[ExplicitContentDataClass](
+                original_response=response, standardized_response=standardized_response
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__face_recognition__create_collection(
         self, collection_id: str, **kwargs
@@ -459,6 +787,79 @@ class AmazonImageApi(ImageInterface):
             standardized_response=FaceCompareDataClass(items=face_match_list),
         )
 
+    async def image__aface_compare(
+        self, file1: str, file2: str, file1_url: str = "", file2_url: str = "", **kwargs
+    ) -> ResponseType[FaceCompareDataClass]:
+        file1_handler = FileHandler()
+        file1_wrapper = None  # Track for cleanup
+        file2_handler = FileHandler()
+        file2_wrapper = None  # Track for cleanup
+
+        try:
+            if not file1:
+                # try to use the url
+                if not file1_url:
+                    raise ProviderException(
+                        "Either file1 or file1_url must be provided", code=400
+                    )
+                file1_wrapper = await file1_handler.download_file(file1_url)
+                file1_content = await file1_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file1, "rb") as file_:
+                    file1_content = await file_.read()
+            image_source = {"Bytes": file1_content}
+
+            if not file2:
+                # try to use the url
+                if not file2_url:
+                    raise ProviderException(
+                        "Either file2 or file2_url must be provided", code=400
+                    )
+                file2_wrapper = await file2_handler.download_file(file2_url)
+                file2_content = await file2_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file2, "rb") as file_:
+                    file2_content = await file_.read()
+            image_tar = {"Bytes": file2_content}
+
+            session = aioboto3.Session()
+            async with session.client(
+                "rekognition",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as client:
+                response = await ahandle_amazon_call(
+                    client.compare_faces,
+                    SourceImage=image_source,
+                    TargetImage=image_tar,
+                )
+
+            face_match_list = []
+            for face_match in response.get("FaceMatches", []):
+                position = face_match["Face"]["BoundingBox"]
+                similarity = face_match.get("Similarity") or 0
+                bounding_box = FaceCompareBoundingBox(
+                    top=position["Top"],
+                    left=position["Left"],
+                    height=position["Height"],
+                    width=position["Width"],
+                )
+                face_match_obj = FaceMatch(
+                    confidence=similarity / 100, bounding_box=bounding_box
+                )
+                face_match_list.append(face_match_obj)
+
+            return ResponseType(
+                original_response=response,
+                standardized_response=FaceCompareDataClass(items=face_match_list),
+            )
+        finally:
+            if file1_wrapper:
+                file1_wrapper.close_file()
+            if file2_wrapper:
+                file2_wrapper.close_file()
+
     @moderate
     def image__generation(
         self,
@@ -515,6 +916,90 @@ class AmazonImageApi(ImageInterface):
             standardized_response=GenerationDataClass(items=generated_images),
         )
 
+    @async_moderate
+    async def image__ageneration(
+        self,
+        text: str,
+        resolution: Literal["256x256", "512x512", "1024x1024"],
+        num_images: int = 1,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[GenerationDataClass]:
+        # Headers for the HTTP request
+        accept_header = "application/json"
+        content_type_header = "application/json"
+
+        # Body of the HTTP request
+        height, width = resolution.split("x")
+        model_name, quality = model.split("_")
+        request_body = json.dumps(
+            {
+                "taskType": "TEXT_IMAGE",
+                "textToImageParams": {"text": text},
+                "imageGenerationConfig": {
+                    "numberOfImages": num_images,
+                    "quality": quality,
+                    "height": int(height),
+                    "width": int(width),
+                    # "cfgScale": float,
+                    # "seed": int
+                },
+            }
+        )
+
+        # Parameters for the HTTP request
+        request_params = {
+            "body": request_body,
+            "modelId": f"amazon.{model_name}",
+            "accept": accept_header,
+            "contentType": content_type_header,
+        }
+        # Use asyncio.to_thread for the synchronous boto3 bedrock call
+        response = await asyncio.to_thread(
+            handle_amazon_call, self.clients["bedrock"].invoke_model, **request_params
+        )
+
+        # Use asyncio.to_thread for blocking I/O operation
+        response_body_bytes = await asyncio.to_thread(response.get("body").read)
+        response_body = json.loads(response_body_bytes)
+
+        # Process images and upload to S3 concurrently
+        async def process_and_upload_image(image_b64: str):
+            # Decode base64 in thread pool (CPU-bound operation)
+            def decode_image():
+                base64_bytes = image_b64.encode("ascii")
+                return BytesIO(base64.b64decode(base64_bytes))
+
+            image_bytes = await asyncio.to_thread(decode_image)
+
+            # Upload to S3 asynchronously
+            resource_url = await aupload_file_bytes_to_s3(
+                image_bytes, ".png", USER_PROCESS
+            )
+
+            return GeneratedImageDataClass(
+                image=image_b64, image_resource_url=resource_url
+            )
+
+        # Process and upload all images concurrently
+        generated_images = await asyncio.gather(
+            *[process_and_upload_image(image) for image in response_body["images"]],
+            return_exceptions=True,
+        )
+
+        # Filter out exceptions and log/handle them
+        successful_images = []
+        for img in generated_images:
+            if isinstance(img, Exception):
+                # Log or handle the exception
+                raise ProviderException(f"Failed to process image: {str(img)}")
+            successful_images.append(img)
+
+        return ResponseType[GenerationDataClass](
+            original_response=response_body,
+            standardized_response=GenerationDataClass(items=successful_images),
+        )
+
     def image__embeddings(
         self,
         file: str,
@@ -558,3 +1043,65 @@ class AmazonImageApi(ImageInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
+
+    async def image__aembeddings(
+        self,
+        file: str,
+        model: str = "titan-embed-image-v1",
+        embedding_dimension: Optional[int] = 256,
+        representation: Optional[str] = "image",
+        file_url: str = "",
+        **kwargs,
+    ) -> ResponseType[EmbeddingsDataClass]:
+        accept_header = "application/json"
+        content_type_header = "application/json"
+
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        inputImage = None
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                inputImage = await file_wrapper.get_file_b64_content()
+            else:
+                async with aiofiles.open(file, "rb") as image_file:
+                    image_bytes = await image_file.read()
+                    inputImage = base64.b64encode(image_bytes).decode("utf-8")
+
+            request_body = {
+                "inputImage": inputImage,
+                "embeddingConfig": {"outputEmbeddingLength": embedding_dimension},
+            }
+
+            request_params = {
+                "body": json.dumps(request_body).encode("utf-8"),
+                "modelId": f"amazon.{model}",
+                "accept": accept_header,
+                "contentType": content_type_header,
+            }
+
+            response = handle_amazon_call(
+                self.clients["bedrock"].invoke_model, **request_params
+            )
+
+            original_response = json.loads(response.get("body").read())
+
+            embeddings = original_response["embedding"] or []
+            items: Sequence[EmbeddingDataClass] = []
+            items.append(EmbeddingDataClass(embedding=embeddings))
+
+            standardized_response = EmbeddingsDataClass(items=items)
+
+            return ResponseType[EmbeddingsDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()

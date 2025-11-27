@@ -134,6 +134,17 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
         )
         return response
 
+    async def text__aembeddings(
+        self, texts: List[str], model: Optional[str] = None, **kwargs
+    ) -> ResponseType[EmbeddingsDataClass]:
+        model = model.split("__")[1] if "__" in model else model
+        response = await self.llm_client.aembeddings(
+            texts=texts,
+            model=model,
+            **kwargs,
+        )
+        return response
+
     def multimodal__chat(
         self,
         messages: List[ChatMultimodalMessageDataClass],
@@ -208,6 +219,87 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
         **kwargs,
     ) -> ChatDataClass:
         response = self.llm_client.completion(
+            messages=messages,
+            model=model,
+            timeout=timeout,
+            temperature=temperature,
+            top_p=top_p,
+            n=n,
+            stream=stream,
+            stream_options=stream_options,
+            stop=stop,
+            stop_sequences=stop_sequences,
+            max_tokens=max_tokens,
+            presence_penalty=presence_penalty,
+            frequency_penalty=frequency_penalty,
+            logit_bias=logit_bias,
+            response_format=response_format,
+            seed=seed,
+            tools=tools,
+            tool_choice=tool_choice,
+            logprobs=logprobs,
+            top_logprobs=top_logprobs,
+            parallel_tool_calls=parallel_tool_calls,
+            deployment_id=deployment_id,
+            extra_headers=extra_headers,
+            functions=functions,
+            function_call=function_call,
+            base_url=base_url,
+            api_version=api_version,
+            api_key=api_key,
+            model_list=model_list,
+            drop_invalid_params=drop_invalid_params,
+            user=user,
+            modalities=modalities,
+            audio=audio,
+            **kwargs,
+        )
+        return response
+
+    async def llm__achat(
+        self,
+        messages: List = [],
+        model: Optional[str] = None,
+        # Optional OpenAI params: see https://platform.openai.com/docs/api-reference/chat/create
+        timeout: Optional[Union[float, str, httpx.Timeout]] = None,
+        temperature: Optional[float] = None,
+        top_p: Optional[float] = None,
+        n: Optional[int] = None,
+        stream: Optional[bool] = None,
+        stream_options: Optional[dict] = None,
+        stop: Optional[str] = None,
+        stop_sequences: Optional[any] = None,
+        max_tokens: Optional[int] = None,
+        presence_penalty: Optional[float] = None,
+        frequency_penalty: Optional[float] = None,
+        logit_bias: Optional[dict] = None,
+        modalities: Optional[List[Literal["text", "audio", "image"]]] = None,
+        audio: Optional[Dict] = None,
+        # openai v1.0+ new params
+        response_format: Optional[
+            Union[dict, Type[BaseModel]]
+        ] = None,  # Structured outputs
+        seed: Optional[int] = None,
+        tools: Optional[List] = None,
+        tool_choice: Optional[Union[str, dict]] = None,
+        logprobs: Optional[bool] = None,
+        top_logprobs: Optional[int] = None,
+        parallel_tool_calls: Optional[bool] = None,
+        deployment_id=None,
+        extra_headers: Optional[dict] = None,
+        # soon to be deprecated params by OpenAI -> This should be replaced by tools
+        functions: Optional[List] = None,
+        function_call: Optional[str] = None,
+        base_url: Optional[str] = None,
+        api_version: Optional[str] = None,
+        api_key: Optional[str] = None,
+        model_list: Optional[list] = None,  # pass in a list of api_base,keys, etc.
+        drop_invalid_params: bool = True,  # If true, all the invalid parameters will be ignored (dropped) before sending to the model
+        user: str | None = None,
+        # Optional parameters
+        **kwargs,
+    ) -> ChatDataClass:
+        response = await self.llm_client.acompletion(
             messages=messages,
             model=model,
             timeout=timeout,
@@ -327,6 +419,95 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
         }
         url = "https://api.mistral.ai/v1/ocr"
         response = requests.post(url=url, headers=self.headers, json=payload)
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+        number_of_pages = response_data["usage_info"]["pages_processed"]
+        raw_text = ""
+        pages = []
+        for page in response_data["pages"]:
+            raw_text += page["markdown"]
+            markdown_lines = page["markdown"].split("\n")
+            lines = []
+            for line_text in markdown_lines:
+                line = Line(text=line_text, confidence=100)
+                lines.append(line)
+            pages.append(Page(lines=lines))
+
+        return AsyncResponseType(
+            original_response=response_data,
+            standardized_response=OcrAsyncDataClass(
+                raw_text=raw_text, pages=pages, number_of_pages=number_of_pages
+            ),
+            provider_job_id=provider_job_id,
+        )
+
+    async def ocr__aocr_async__launch_job(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        url = "https://api.mistral.ai/v1/files"
+
+        async with httpx.AsyncClient() as client:
+            with open(file, "rb") as f:
+                files = {"file": f}
+                data = {"purpose": "ocr"}
+                response = await client.post(
+                    url=url, headers=self.headers, files=files, data=data
+                )
+
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+        return AsyncLaunchJobResponseType(provider_job_id=response_data["id"])
+
+    async def ocr__aocr_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrAsyncDataClass]:
+        url = f"https://api.mistral.ai/v1/files/{provider_job_id}/url?expiry=24"
+
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url=url, headers=self.headers)
+
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+        file_url = response_data["url"]
+        payload = {
+            "model": "mistral-ocr-latest",
+            "document": {
+                "type": "document_url",
+                "document_url": file_url,
+            },
+        }
+        url = "https://api.mistral.ai/v1/ocr"
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url=url, headers=self.headers, json=payload)
+
         try:
             response_data = response.json()
         except json.JSONDecodeError as exc:

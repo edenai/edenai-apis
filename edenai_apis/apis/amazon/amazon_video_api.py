@@ -425,6 +425,7 @@ class AmazonVideoApi(VideoInterface):
         file: str,
         file_url: str = "",
         temperature: float = 0,
+        max_tokens: int = None,
         model: str = None,
         **kwargs,
     ) -> QuestionAnswerDataClass:
@@ -469,6 +470,8 @@ class AmazonVideoApi(VideoInterface):
         content_text = model_response["output"]["message"]["content"][0]["text"]
         return ResponseType[QuestionAnswerDataClass](
             original_response=model_response,
-            standardized_response=QuestionAnswerDataClass(answer=content_text),
+            standardized_response=QuestionAnswerDataClass(
+                answer=content_text, finish_reason=None
+            ),
             usage=usage,
         )

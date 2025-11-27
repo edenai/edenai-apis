@@ -82,10 +82,7 @@ class SymblApi(ProviderInterface, AudioInterface):
             "Content-Length": str(number_of_bytes),
         }
 
-        params = {
-            "enableSpeakerDiarization": "true",
-            "diarizationSpeakerCount": speakers,
-        }
+        params = {}
         if language:
             params.update({"languageCode": language})
         if vocabulary:
@@ -148,6 +145,7 @@ class SymblApi(ProviderInterface, AudioInterface):
         if original_response["status"] == "completed":
             url = f"https://api.symbl.ai/v1/conversations/{conversation_id}/messages?sentiment=true&verbose=true"
             response = requests.get(url=url, headers=headers)
+
             if response.status_code != 200:
                 raise ProviderException(response_status.text, code=response.status_code)
 

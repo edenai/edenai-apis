@@ -1,8 +1,10 @@
-from typing import Dict, List, Literal, Optional, Sequence, Union
+from typing import Any, Dict, List, Literal, Optional, Sequence, Union
+
 import requests
+
 from edenai_apis.features import TextInterface
 from edenai_apis.features.text.anonymization import AnonymizationDataClass
-from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatDataClass
+from edenai_apis.features.text.chat.chat_dataclass import ChatDataClass, StreamChat
 from edenai_apis.features.text.code_generation.code_generation_dataclass import (
     CodeGenerationDataClass,
 )
@@ -33,6 +35,7 @@ from edenai_apis.features.text.summarize import SummarizeDataClass
 from edenai_apis.features.text.topic_extraction import TopicExtractionDataClass
 from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
+
 from .helpers import (
     construct_prompt_optimization_instruction,
     get_openapi_response,
@@ -52,6 +55,12 @@ class OpenaiTextApi(TextInterface):
         self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[ModerationDataClass]:
         response = self.llm_client.moderation(text=text, **kwargs)
+        return response
+
+    async def text__amoderation(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ModerationDataClass]:
+        response = await self.llm_client.amoderation(text=text, **kwargs)
         return response
 
     def text__search(
@@ -164,7 +173,12 @@ class OpenaiTextApi(TextInterface):
         return result
 
     def text__anonymization(
-        self, text: str, language: str, model: Optional[str] = None, **kwargs
+        self,
+        text: str,
+        language: str,
+        model: Optional[str] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
     ) -> ResponseType[AnonymizationDataClass]:
         response = self.llm_client.pii(text=text, model=model, **kwargs)
         return response
@@ -185,6 +199,14 @@ class OpenaiTextApi(TextInterface):
         self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[TopicExtractionDataClass]:
         response = self.llm_client.topic_extraction(text=text, model=model, **kwargs)
+        return response
+
+    async def text__atopic_extraction(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[TopicExtractionDataClass]:
+        response = await self.llm_client.atopic_extraction(
+            text=text, model=model, **kwargs
+        )
         return response
 
     def text__code_generation(
@@ -261,10 +283,24 @@ class OpenaiTextApi(TextInterface):
         response = self.llm_client.spell_check(text=text, model=model, **kwargs)
         return response
 
+    async def text__aspell_check(
+        self, text: str, language: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[SpellCheckDataClass]:
+        response = await self.llm_client.aspell_check(text=text, model=model)
+        return response
+
     def text__named_entity_recognition(
         self, language: str, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         response = self.llm_client.named_entity_recognition(
+            text=text, model=model, **kwargs
+        )
+        return response
+
+    async def text__anamed_entity_recognition(
+        self, language: str, text: str, model: Optional[str] = None, **kwargs
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        response = await self.llm_client.anamed_entity_recognition(
             text=text, model=model, **kwargs
         )
         return response
@@ -274,6 +310,13 @@ class OpenaiTextApi(TextInterface):
     ) -> ResponseType[EmbeddingsDataClass]:
         model = model.split("__")[1] if "__" in model else model
         response = self.llm_client.embeddings(texts=texts, model=model, **kwargs)
+        return response
+
+    async def text__aembeddings(
+        self, texts: List[str], model: Optional[str] = None, **kwargs
+    ) -> ResponseType[EmbeddingsDataClass]:
+        model = model.split("__")[1] if "__" in model else model
+        response = await self.llm_client.aembeddings(texts=texts, model=model, **kwargs)
         return response
 
     def text__chat(

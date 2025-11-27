@@ -1,19 +1,28 @@
+import asyncio
 import base64
 import json
 import mimetypes
 import uuid
 from io import BytesIO
-from typing import Dict, List, Literal, Optional, Type, Union
+import aiofiles
+from typing import Any, Coroutine, Dict, List, Literal, Optional, Type, Union
 
 import httpx
-from pydantic import BaseModel
 from litellm.types.llms.openai import ChatCompletionAudioParam
+from pydantic import BaseModel
+
 from edenai_apis.features.image import (
     ExplicitContentDataClass,
     GeneratedImageDataClass,
     GenerationDataClass,
     LogoDetectionDataClass,
     QuestionAnswerDataClass,
+)
+from edenai_apis.features.llm.achat.achat_dataclass import (
+    StreamAchat as StreamAchatCompletion,
+)
+from edenai_apis.features.llm.chat.chat_dataclass import (
+    StreamChat as StreamChatCompletion,
 )
 from edenai_apis.features.multimodal.chat import (
     ChatDataClass as ChatMultimodalDataClass,
@@ -51,19 +60,26 @@ from edenai_apis.features.translation import (
     AutomaticTranslationDataClass,
     LanguageDetectionDataClass,
 )
-from edenai_apis.features.llm.chat.chat_dataclass import (
-    StreamChat as StreamChatCompletion,
-)
-from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS
+from edenai_apis.llmengine.clients import LLM_COMPLETION_CLIENTS, RERANKING_CLIENTS
 from edenai_apis.llmengine.clients.completion import CompletionClient
+from edenai_apis.llmengine.clients.reranker import RerankerClient
 from edenai_apis.llmengine.mapping import Mappings
 from edenai_apis.llmengine.prompts import BasePrompt
-from edenai_apis.llmengine.types.response_types import ResponseModel
-from edenai_apis.llmengine.utils.moderation import moderate, moderate_std
+from edenai_apis.llmengine.types.response_types import RerankerResponse, ResponseModel
+from edenai_apis.llmengine.utils.moderation import (
+    async_moderate,
+    async_moderate_std,
+    moderate,
+    moderate_std,
+)
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3
+from edenai_apis.utils.upload_s3 import (
+    USER_PROCESS,
+    aupload_file_bytes_to_s3,
+    upload_file_bytes_to_s3,
+)
 
 
 class LLMEngine:
@@ -91,6 +107,10 @@ class LLMEngine:
         self.completion_client: CompletionClient = LLM_COMPLETION_CLIENTS[client_name](
             model_name=model, provider_name=self.provider_name
         )
+        reranker_cls = RERANKING_CLIENTS.get(client_name)
+        self.reranker_client: Optional[RerankerClient] = (
+            reranker_cls() if reranker_cls else None
+        )
 
     def _prepare_args(self, model: str, **kwargs) -> Dict:
         params = {
@@ -105,6 +125,27 @@ class LLMEngine:
         try:
             params.pop("moderate_content", None)
             response = self.completion_client.completion(**params, **kwargs)
+            response = ResponseModel.model_validate(response)
+            result = json.loads(response.choices[0].message.content)
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+        except ValueError as exc_v:
+            raise ProviderException(
+                "Provider returned an empty or mal-formatted response"
+            ) from exc_v
+        standardized_response = response_class(**result)
+        return ResponseType[response_class](
+            original_response=response.to_dict(),
+            standardized_response=standardized_response,
+            usage=response.usage,
+        )
+
+    async def _execute_acompletion(self, params: Dict, response_class: Type, **kwargs):
+        try:
+            params.pop("moderate_content", None)
+            response = await self.completion_client.acompletion(**params, **kwargs)
             response = ResponseModel.model_validate(response)
             result = json.loads(response.choices[0].message.content)
         except json.JSONDecodeError as exc:
@@ -400,6 +441,44 @@ class LLMEngine:
             params=args, response_class=ExplicitContentDataClass
         )
 
+    async def image_amoderation(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ):
+        mime_type = mimetypes.guess_type(file)[0]
+
+        async with aiofiles.open(file, "rb") as fstream:
+            file_content = await fstream.read()
+            base64_data = base64.b64encode(file_content).decode("utf-8")
+
+        messages = BasePrompt.compose_prompt(
+            behavior="You are an Explicit Image Detection model.",
+            example_file="image/explicit_content/explicit_content_response.json",
+            dataclass=ExplicitContentDataClass,
+        )
+
+        messages.append(
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:{mime_type};base64,{base64_data}"},
+                    },
+                ],
+            }
+        )
+
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
+
+        return await self._execute_acompletion(
+            params=args, response_class=ExplicitContentDataClass
+        )
+
     def sentiment_analysis(
         self, text: str, model: str, **kwargs
     ) -> ResponseType[SentimentAnalysisDataClass]:
@@ -453,6 +532,23 @@ class LLMEngine:
         )
         return self._execute_completion(params=args, response_class=SpellCheckDataClass)
 
+    async def aspell_check(self, text: str, model: str, **kwargs):
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a Spell Checking model. You analyze a text input and proficiently detect and correct any grammar, syntax, spelling or other types of errors.",
+            example_file="text/spell_check/spell_check_response.json",
+            dataclass=SpellCheckDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
+        return await self._execute_acompletion(
+            params=args, response_class=SpellCheckDataClass
+        )
+
     def topic_extraction(
         self, text: str, model: str, **kwargs
     ) -> ResponseType[TopicExtractionDataClass]:
@@ -472,6 +568,25 @@ class LLMEngine:
             params=args, response_class=TopicExtractionDataClass
         )
 
+    async def atopic_extraction(
+        self, text: str, model: str, **kwargs
+    ) -> ResponseType[TopicExtractionDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a Text Topic Exstraction Model. You extract the main topic of a textual input.",
+            example_file="text/topic_extraction/topic_extraction_response.json",
+            dataclass=TopicExtractionDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
+        return await self._execute_acompletion(
+            params=args, response_class=TopicExtractionDataClass
+        )
+
     def named_entity_recognition(
         self, text: str, model: str, **kwargs
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
@@ -488,6 +603,25 @@ class LLMEngine:
             **kwargs,
         )
         return self._execute_completion(
+            params=args, response_class=NamedEntityRecognitionDataClass
+        )
+
+    async def anamed_entity_recognition(
+        self, text: str, model: str, **kwargs
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior="You are a Named Entity Extraction Model. Given an input text you should extract extract all entities in it.",
+            example_file="text/named_entity_recognition/named_entity_recognition_response.json",
+            dataclass=NamedEntityRecognitionDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
+        return await self._execute_acompletion(
             params=args, response_class=NamedEntityRecognitionDataClass
         )
 
@@ -559,24 +693,47 @@ class LLMEngine:
             cost=response.cost,
         )
 
+    async def aembeddings(
+        self, texts: List[str], model: str, **kwargs
+    ) -> ResponseType[EmbeddingsDataClass]:
+        args = {
+            "model": model,
+            "input": texts,
+            "drop_params": True,
+        }
+        args.update(self.provider_config)
+        response = await self.completion_client.aembedding(**args, **kwargs)
+        # response = EmbeddingResponseModel.model_validate(response)
+        items = []
+        embeddings = response.get("data", [{}])
+        for embedding in embeddings:
+            items.append(EmbeddingDataClass(embedding=embedding["embedding"]))
+        standardized_response = EmbeddingsDataClass(items=items)
+        return ResponseType[EmbeddingsDataClass](
+            original_response=response.to_dict(),
+            standardized_response=standardized_response,
+            usage=response.usage,
+            cost=response.cost,
+        )
+
     def moderation(self, text: str, **kwargs) -> ResponseType[ModerationDataClass]:
         # Only availaible for OpenAI
         args = {"input": text}
         args.update(self.provider_config)
         response = self.completion_client.moderation(**args, **kwargs)
         classification = []
-        result = response.results
+        result = response["results"]
         if result:
-            category_scores = result[0].category_scores
-            for key, value in category_scores.to_dict().items():
+            category_scores = result[0]["category_scores"]
+            for key, value in category_scores.items():
                 classificator = CategoryTypeModeration.choose_category_subcategory(key)
                 classification.append(
                     TextModerationItem(
                         label=key,
                         category=classificator["category"],
                         subcategory=classificator["subcategory"],
-                        likelihood_score=value,
-                        likelihood=standardized_confidence_score(value),
+                        likelihood_score=value or 0,
+                        likelihood=standardized_confidence_score(value or 0),
                     )
                 )
         standardized_response: ModerationDataClass = ModerationDataClass(
@@ -589,7 +746,43 @@ class LLMEngine:
             ),
         )
         return ResponseType[ModerationDataClass](
-            original_response=response.to_dict(),
+            original_response=response,
+            standardized_response=standardized_response,
+        )
+
+    async def amoderation(
+        self, text: str, **kwargs
+    ) -> ResponseType[ModerationDataClass]:
+        # Only availaible for OpenAI
+        args = {"input": text}
+        args.update(self.provider_config)
+        response = await self.completion_client.amoderation(**args, **kwargs)
+        classification = []
+        result = response["results"]
+        if result:
+            category_scores = result[0]["category_scores"]
+            for key, value in category_scores.items():
+                classificator = CategoryTypeModeration.choose_category_subcategory(key)
+                classification.append(
+                    TextModerationItem(
+                        label=key,
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        likelihood_score=value or 0,
+                        likelihood=standardized_confidence_score(value or 0),
+                    )
+                )
+        standardized_response: ModerationDataClass = ModerationDataClass(
+            nsfw_likelihood=ModerationDataClass.calculate_nsfw_likelihood(
+                classification
+            ),
+            items=classification,
+            nsfw_likelihood_score=ModerationDataClass.calculate_nsfw_likelihood_score(
+                classification
+            ),
+        )
+        return ResponseType[ModerationDataClass](
+            original_response=response,
             standardized_response=standardized_response,
         )
 
@@ -735,6 +928,50 @@ class LLMEngine:
             usage=response.usage,
         )
 
+    @async_moderate
+    async def aimage_generation(
+        self, prompt: str, model: str, resolution: str, n: int, **kwargs
+    ):
+        args = {
+            "model": model,
+            "prompt": prompt,
+            "size": resolution,
+            "n": n,
+            "response_format": "b64_json",
+        }
+        args.update(self.provider_config)
+        response = await self.completion_client.aimage_generation(**args, **kwargs)
+
+        # Process images and upload to S3 concurrently
+        async def process_and_upload_image(image_b64):
+            image = image_b64.b64_json
+
+            # Decode base64 in thread pool (CPU-bound operation)
+            def decode_image():
+                base64_bytes = image.encode("ascii")
+                return BytesIO(base64.b64decode(base64_bytes))
+
+            image_bytes = await asyncio.to_thread(decode_image)
+
+            # Upload to S3 asynchronously
+            resource_url = await aupload_file_bytes_to_s3(
+                image_bytes, ".png", USER_PROCESS
+            )
+
+            return GeneratedImageDataClass(image=image, image_resource_url=resource_url)
+
+        # Process and upload all images concurrently
+        generated_images = await asyncio.gather(
+            *[process_and_upload_image(image) for image in response.data]
+        )
+
+        standardized_response = GenerationDataClass(items=list(generated_images))
+        return ResponseType[GenerationDataClass](
+            original_response=response.to_dict(),
+            standardized_response=standardized_response,
+            usage=response.usage,
+        )
+
     @moderate_std
     def completion(
         self,
@@ -843,6 +1080,11 @@ class LLMEngine:
             if user is not None:
                 completion_params["user"] = user
 
+            # Process service tier
+            service_tier = kwargs.pop("service_tier", None)
+            if service_tier is not None:
+                completion_params["service_tier"] = service_tier
+
             completion_params = completion_params
             call_params = self._prepare_args(**completion_params)
             response = self.completion_client.completion(**call_params, **kwargs)
@@ -851,5 +1093,167 @@ class LLMEngine:
             else:
                 response = ResponseModel.model_validate(response)
                 return response
+        except Exception as ex:
+            raise ex
+
+    # async version of the completion method
+
+    @async_moderate_std
+    async def acompletion(
+        self,
+        messages: List = [],
+        model: Optional[str] = None,
+        # Optional OpenAI params: see https://platform.openai.com/docs/api-reference/chat/create
+        timeout: Optional[Union[float, str, httpx.Timeout]] = None,
+        temperature: Optional[float] = None,
+        top_p: Optional[float] = None,
+        modalities: Optional[List[Literal["text", "audio", "image"]]] = None,
+        audio: Optional[ChatCompletionAudioParam] = None,
+        n: Optional[int] = None,
+        stream: Optional[bool] = None,
+        stream_options: Optional[dict] = None,
+        stop: Optional[str] = None,
+        stop_sequences: Optional[any] = None,
+        max_tokens: Optional[int] = None,
+        presence_penalty: Optional[float] = None,
+        frequency_penalty: Optional[float] = None,
+        logit_bias: Optional[dict] = None,
+        # openai v1.0+ new params
+        response_format: Optional[
+            Union[dict, Type[BaseModel]]
+        ] = None,  # Structured outputs
+        seed: Optional[int] = None,
+        tools: Optional[List] = None,
+        tool_choice: Optional[Union[str, dict]] = None,
+        logprobs: Optional[bool] = None,
+        top_logprobs: Optional[int] = None,
+        parallel_tool_calls: Optional[bool] = None,
+        deployment_id=None,
+        extra_headers: Optional[dict] = None,
+        # soon to be deprecated params by OpenAI -> This should be replaced by tools
+        functions: Optional[List] = None,
+        function_call: Optional[str] = None,
+        base_url: Optional[str] = None,
+        api_version: Optional[str] = None,
+        api_key: Optional[str] = None,
+        model_list: Optional[list] = None,  # pass in a list of api_base,keys, etc.
+        drop_invalid_params: bool = True,  # If true, all the invalid parameters will be ignored (dropped) before sending to the model
+        user: str | None = None,
+        # Optional parameters
+        **kwargs,
+    ):
+        kwargs.pop("moderate_content", None)
+        try:
+            completion_params = {"messages": messages, "model": model}
+            if modalities is not None:
+                completion_params["modalities"] = modalities
+            if audio is not None:
+                completion_params["audio"] = audio
+            if timeout is not None:
+                completion_params["timeout"] = timeout
+            if temperature is not None:
+                completion_params["temperature"] = temperature
+            if top_p is not None:
+                completion_params["top_p"] = top_p
+            if n is not None:
+                completion_params["n"] = n
+            if stream is not None:
+                completion_params["stream"] = stream
+            if stream_options is not None:
+                completion_params["stream_options"] = stream_options
+            if stop is not None:
+                completion_params["stop"] = stop
+            if stop_sequences is not None:
+                completion_params["stop"] = stop_sequences
+            if max_tokens is not None:
+                completion_params["max_tokens"] = max_tokens
+            if presence_penalty is not None:
+                completion_params["presence_penalty"] = presence_penalty
+            if frequency_penalty is not None:
+                completion_params["frequency_penalty"] = frequency_penalty
+            if logit_bias is not None:
+                completion_params["logit_bias"] = logit_bias
+            if response_format is not None:
+                completion_params["response_format"] = response_format
+            if seed is not None:
+                completion_params["seed"] = seed
+            if tools is not None:
+                completion_params["tools"] = tools
+            if tool_choice is not None:
+                completion_params["tool_choice"] = tool_choice
+            if logprobs is not None:
+                completion_params["logprobs"] = logprobs
+            if top_logprobs is not None:
+                completion_params["top_logprobs"] = top_logprobs
+            if parallel_tool_calls is not None:
+                completion_params["parallel_tool_calls"] = parallel_tool_calls
+            if deployment_id is not None:
+                completion_params["deployment_id"] = deployment_id
+            if extra_headers is not None:
+                completion_params["extra_headers"] = extra_headers
+            if functions is not None:
+                completion_params["functions"] = functions
+            if function_call is not None:
+                completion_params["function_call"] = function_call
+            if base_url is not None:
+                completion_params["base_url"] = base_url
+            if api_version is not None:
+                completion_params["api_version"] = api_version
+            if model_list is not None:
+                completion_params["model_list"] = model_list
+            if drop_invalid_params is not None:
+                completion_params["drop_invalid_params"] = drop_invalid_params
+            if user is not None:
+                completion_params["user"] = user
+
+            # Process service tier
+            service_tier = kwargs.pop("service_tier", None)
+            if service_tier is not None:
+                completion_params["service_tier"] = service_tier
+
+            completion_params = completion_params
+            call_params = self._prepare_args(**completion_params)
+            response = await self.completion_client.acompletion(**call_params, **kwargs)
+            if stream:
+                return StreamAchatCompletion(stream=response)
+            else:
+                response = ResponseModel.model_validate(response)
+                return response
+        except Exception as ex:
+            raise ex
+
+    async def arerank(
+        self,
+        model: str,
+        query: str,
+        documents: List[Union[str, Dict[str, Any]]],
+        custom_llm_provider: Optional[
+            Literal["cohere", "together_ai", "azure_ai", "infinity", "litellm_proxy"]
+        ] = None,
+        api_key: str = None,
+        top_n: Optional[int] = None,
+        rank_fields: Optional[List[str]] = None,
+        return_documents: Optional[bool] = True,
+        max_chunks_per_doc: Optional[int] = None,
+        max_tokens_per_doc: Optional[int] = None,
+        **kwargs,
+    ) -> Coroutine[Any, Any, RerankerResponse]:
+        call_params = {
+            "model": model,
+            "query": query,
+            "documents": documents,
+            "top_n": top_n,
+            "rank_fields": rank_fields,
+            "return_documents": return_documents,
+            "max_chunks_per_doc": max_chunks_per_doc,
+            "max_tokens_per_doc": max_tokens_per_doc,
+        }
+        if api_key:
+            call_params["api_key"] = api_key
+        try:
+            if self.reranker_client is None:
+                raise Exception("The client has no reranking capabilities")
+            response = await self.reranker_client.arerank(**call_params, **kwargs)
+            return response
         except Exception as ex:
             raise ex

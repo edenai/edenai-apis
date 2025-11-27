@@ -3,6 +3,8 @@ from io import BytesIO
 from json import JSONDecodeError
 from typing import Dict, Sequence, Optional, Any
 
+import aiofiles
+import httpx
 import requests
 
 from edenai_apis.features import ProviderInterface, ImageInterface, OcrInterface
@@ -44,13 +46,19 @@ from edenai_apis.features.image.object_detection import (
     ObjectDetectionDataClass,
     ObjectItem,
 )
+from edenai_apis.features.image.utils.upload import aget_resource_url
 from edenai_apis.features.ocr.ocr.ocr_dataclass import Bounding_box, OcrDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
+from edenai_apis.utils.upload_s3 import (
+    upload_file_bytes_to_s3,
+    USER_PROCESS,
+    aupload_file_bytes_to_s3,
+)
 from .helpers import get_errors_from_response
 from .types import Api4aiBackgroundRemovalParams
 
@@ -76,7 +84,7 @@ class Api4aiApi(
             "anonymization": "/img-anonymization/v1/results",
             "nsfw": "/nsfw/v1/results",
             "ocr": "/ocr/v1/results",
-            "bg_removal": "/img-bg-removal/v1/general/results",
+            "bg_removal": "/img-bg-removal/v1/results",
         }
 
         self.urls = {
@@ -124,6 +132,65 @@ class Api4aiApi(
             standardized_response=standardized_response,
         )
         return result
+
+    async def image__aobject_detection(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ObjectDetectionDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+
+            files = {"image": file_content}
+            async with httpx.AsyncClient(
+                timeout=httpx.Timeout(10.0, read=120.0)
+            ) as client:
+                response = await client.post(self.urls["object_detection"], files=files)
+                original_response = response.json()
+
+                if "failure" in original_response["results"][0]["status"]["code"]:
+                    raise ProviderException(
+                        original_response["results"][0]["status"]["message"],
+                        code=response.status_code,
+                    )
+
+                items = []
+                for item in original_response["results"][0]["entities"][0]["objects"]:
+                    label = next(iter(item.get("entities", [])[0].get("classes", {})))
+                    confidence = item["entities"][0]["classes"][label]
+                    if confidence > 0.3:
+                        boxes = item.get("box", [])
+                        items.append(
+                            ObjectItem(
+                                label=label,
+                                confidence=confidence,
+                                x_min=boxes[0],
+                                x_max=boxes[2] + boxes[0],
+                                y_min=boxes[1],
+                                y_max=boxes[3] + boxes[1],
+                            )
+                        )
+
+                standardized_response = ObjectDetectionDataClass(items=items)
+                result = ResponseType[ObjectDetectionDataClass](
+                    original_response=original_response,
+                    standardized_response=standardized_response,
+                )
+            return result
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__face_detection(
         self, file: str, file_url: str = "", **kwargs
@@ -189,6 +256,86 @@ class Api4aiApi(
         )
         return result
 
+    async def image__aface_detection(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> ResponseType[FaceDetectionDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+
+            files = {"image": file_content}
+            async with httpx.AsyncClient(
+                timeout=httpx.Timeout(10.0, read=120.0)
+            ) as client:
+                response = await client.post(self.urls["face_detection"], files=files)
+                original_response = response.json()
+
+                if "failure" in original_response["results"][0]["status"]["code"]:
+                    raise ProviderException(
+                        original_response["results"][0]["status"]["message"],
+                        code=response.status_code,
+                    )
+
+                faces_list = []
+                faces = original_response["results"][0]["entities"][0]["objects"]
+                for face in faces:
+                    bouding_box = FaceBoundingBox(
+                        x_min=face["box"][0],
+                        x_max=face["box"][0],
+                        y_min=face["box"][0],
+                        y_max=face["box"][0],
+                    )
+                    confidence = face["entities"][0]["classes"]["face"]
+
+                    # Landmarks
+                    landmarks_output = face["entities"][1]["namedpoints"]
+                    landmarks = FaceLandmarks(
+                        left_eye=landmarks_output["left-eye"],
+                        right_eye=landmarks_output["right-eye"],
+                        nose_tip=landmarks_output["nose-tip"],
+                        mouth_left=landmarks_output["mouth-left-corner"],
+                        mouth_right=landmarks_output["mouth-right-corner"],
+                    )
+                    faces_list.append(
+                        FaceItem(
+                            confidence=confidence,
+                            bounding_box=bouding_box,
+                            landmarks=landmarks,
+                            emotions=FaceEmotions.default(),
+                            poses=FacePoses.default(),
+                            age=None,
+                            gender=None,
+                            hair=FaceHair.default(),
+                            facial_hair=FaceFacialHair.default(),
+                            quality=FaceQuality.default(),
+                            makeup=FaceMakeup.default(),
+                            occlusions=FaceOcclusions.default(),
+                            accessories=FaceAccessories.default(),
+                            features=FaceFeatures.default(),
+                        )
+                    )
+                standardized_response = FaceDetectionDataClass(items=faces_list)
+                result = ResponseType[FaceDetectionDataClass](
+                    original_response=original_response,
+                    standardized_response=standardized_response,
+                )
+                return result
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+
     def image__anonymization(
         self, file: str, file_url: str = "", **kwargs
     ) -> ResponseType[AnonymizationDataClass]:
@@ -232,6 +379,71 @@ class Api4aiApi(
             standardized_response=standardized_response,
         )
         return result
+
+    async def image__aanonymization(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> ResponseType[AnonymizationDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            files = {"image": file_content}
+            async with httpx.AsyncClient(timeout=180) as client:
+                response = await client.post(self.urls["anonymization"], files=files)
+
+                original_response = response.json()
+                if "failure" in original_response["results"][0]["status"]["code"]:
+                    raise ProviderException(
+                        original_response["results"][0]["status"]["message"],
+                        code=response.status_code,
+                    )
+
+                img_b64 = original_response["results"][0]["entities"][0]["image"]
+                entities = original_response["results"][0]["entities"][1].get(
+                    "objects", []
+                )
+                items = []
+                for entity in entities:
+                    for key, value in entity["entities"][0]["classes"].items():
+                        items.append(
+                            AnonymizationItem(
+                                kind=key,
+                                confidence=value,
+                                bounding_boxes=AnonymizationBoundingBox(
+                                    x_min=entity["box"][0],
+                                    x_max=entity["box"][1],
+                                    y_min=entity["box"][2],
+                                    y_max=entity["box"][3],
+                                ),
+                            )
+                        )
+                image_data = img_b64.encode()
+                image_content = BytesIO(base64.b64decode(image_data))
+                resource_url = await aupload_file_bytes_to_s3(
+                    image_content, ".jpeg", USER_PROCESS
+                )
+                standardized_response = AnonymizationDataClass(
+                    image=img_b64, items=items, image_resource_url=resource_url
+                )
+                result = ResponseType[AnonymizationDataClass](
+                    original_response=original_response,
+                    standardized_response=standardized_response,
+                )
+                return result
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__logo_detection(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
@@ -352,6 +564,85 @@ class Api4aiApi(
         )
         return result
 
+    async def image__aexplicit_content(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[ExplicitContentDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            files = {"image": file_content}
+
+            async with httpx.AsyncClient() as client:
+                response = await client.post(self.urls["nsfw"], files=files)
+                try:
+                    original_response = response.json()
+                except JSONDecodeError as exp:
+                    raise ProviderException(
+                        message="Internal server error", code=response.status_code
+                    ) from exp
+
+                if (
+                    response.status_code != 200
+                    or "failure" in original_response["results"][0]["status"]["code"]
+                ):
+                    raise ProviderException(
+                        response.json()["results"][0]["status"]["message"],
+                        code=response.status_code,
+                    )
+
+                nsfw_items = []
+                nsfw_response = original_response["results"][0]["entities"][0][
+                    "classes"
+                ]
+                for classe in nsfw_response:
+                    classificator = CategoryType.choose_category_subcategory(classe)
+                    nsfw_items.append(
+                        ExplicitItem(
+                            label=classe,
+                            category=classificator["category"],
+                            subcategory=classificator["subcategory"],
+                            likelihood=standardized_confidence_score(
+                                nsfw_response[classe]
+                            ),
+                            likelihood_score=nsfw_response[classe],
+                        )
+                    )
+
+                nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(
+                    nsfw_items
+                )
+                nsfw_likelihood_score = (
+                    ExplicitContentDataClass.calculate_nsfw_likelihood_score(nsfw_items)
+                )
+
+                standardized_response = ExplicitContentDataClass(
+                    items=nsfw_items,
+                    nsfw_likelihood=nsfw_likelihood,
+                    nsfw_likelihood_score=nsfw_likelihood_score,
+                )
+
+                result = ResponseType[ExplicitContentDataClass](
+                    original_response=original_response,
+                    standardized_response=standardized_response,
+                )
+
+                return result
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+
     def ocr__ocr(
         self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[OcrDataClass]:
@@ -425,3 +716,55 @@ class Api4aiApi(
                     image_resource_url=resource_url,
                 ),
             )
+
+    async def image__abackground_removal(
+        self,
+        file: str,
+        file_url: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
+    ) -> ResponseType[BackgroundRemovalDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+        try:
+            if provider_params is None or not isinstance(provider_params, dict):
+                api4ai_params = Api4aiBackgroundRemovalParams()
+            else:
+                api4ai_params = Api4aiBackgroundRemovalParams(**provider_params)
+
+            url: str = self.urls["bg_removal"] + f"&mode={api4ai_params.mode}"
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                image_file = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as f:
+                    image_file = await f.read()
+            async with httpx.AsyncClient(
+                timeout=httpx.Timeout(10.0, read=120.0)
+            ) as client:
+                response = await client.post(url, files={"image": image_file})
+                error = get_errors_from_response(response)
+                if error is not None:
+                    raise ProviderException(error, code=response.status_code)
+
+                original_response = response.json()
+                img_b64 = original_response["results"][0]["entities"][0]["image"]
+                img_fmt = original_response["results"][0]["entities"][0]["format"]
+
+                resource_url_dict = await aget_resource_url(img_b64, img_fmt)
+
+                return ResponseType[BackgroundRemovalDataClass](
+                    original_response=original_response,
+                    standardized_response=BackgroundRemovalDataClass(
+                        **resource_url_dict
+                    ),
+                )
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()

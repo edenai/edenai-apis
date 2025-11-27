@@ -867,6 +867,32 @@ def handle_amazon_call(func: Callable, **kwargs):
     return response
 
 
+async def ahandle_amazon_call(func: Callable, **kwargs):
+    job_id_strings_errors = [
+        "InvalidJobIdException",
+        "Request has invalid Job Id",
+        "Could not find JobId",
+        "job couldn't be found",
+    ]
+    try:
+        response = await func(**kwargs)
+    except ClientError as exc:
+        response_meta = exc.response.get("ResponseMetadata", {}) or {}
+        status_code = response_meta.get("HTTPStatusCode", None)
+        if any(str_error in str(exc) for str_error in job_id_strings_errors):
+            raise AsyncJobException(
+                reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID, code=status_code
+            )
+        raise ProviderException(str(exc), code=status_code)
+    except ParamValidationError as exc:
+        raise ProviderException(str(exc), code=400) from exc
+    except Exception as exc:
+        if any(str_error in str(exc) for str_error in job_id_strings_errors):
+            raise AsyncJobException(reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID)
+        raise ProviderException(str(exc))
+    return response
+
+
 def amazon_video_person_tracking_parser(response):
     # gather all persons with the same index :
     persons_index = {index["Person"]["Index"] for index in response["Persons"]}

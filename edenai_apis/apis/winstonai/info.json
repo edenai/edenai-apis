@@ -15,10 +15,16 @@
         },
         "plagia_detection": {
             "version": "v2"
+        },
+        "aplagia_detection": {
+            "version": "v2"
         }
     },
     "image": {
         "ai_detection": {
+            "version": "v1"
+        },
+        "aai_detection": {
             "version": "v1"
         }
     },

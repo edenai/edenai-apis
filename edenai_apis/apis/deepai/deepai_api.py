@@ -2,6 +2,7 @@ import base64
 import json
 from typing import Dict, Literal, Optional
 
+import httpx
 import requests
 
 from edenai_apis.features import ImageInterface, ProviderInterface
@@ -13,7 +14,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.llmengine.utils.moderation import moderate
+from edenai_apis.llmengine.utils.moderation import async_moderate, moderate
 
 
 class DeepAIApi(ProviderInterface, ImageInterface):
@@ -73,3 +74,55 @@ class DeepAIApi(ProviderInterface, ImageInterface):
                 ]
             ),
         )
+
+    @async_moderate
+    async def image__ageneration(
+        self,
+        text: str,
+        resolution: Literal["256x256", "512x512", "1024x1024"],
+        num_images: int = 1,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[GenerationDataClass]:
+        url = "https://api.deepai.org/api/text2img"
+        size = resolution.split("x")
+        payload = {
+            "text": text,
+            "grid_size": "1",
+            "width": int(size[0]),
+            "height": int(size[1]),
+        }
+
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
+            response = await client.post(url, data=payload, headers=self.headers)
+
+            try:
+                original_response = response.json()
+            except json.JSONDecodeError:
+                raise ProviderException(response.text, code=response.status_code)
+
+            if response.is_error:
+                err_msg = original_response.get("err") or json.dumps(original_response)
+                raise ProviderException(err_msg, response.status_code)
+
+            image_url = original_response.get("output_url")
+
+            image_response = await client.get(image_url)
+
+            if image_response.is_error:
+                raise ProviderException(
+                    image_response.text, code=image_response.status_code
+                )
+
+            image_bytes = base64.b64encode(image_response.content)
+
+            return ResponseType[GenerationDataClass](
+                original_response=original_response,
+                standardized_response=GenerationDataClass(
+                    items=[
+                        GeneratedImageDataClass(
+                            image=image_bytes, image_resource_url=image_url
+                        )
+                    ]
+                ),
+            )

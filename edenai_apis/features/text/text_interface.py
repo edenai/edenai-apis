@@ -43,6 +43,7 @@ class TextInterface:
         text: str,
         language: str,
         model: Optional[str] = None,
+        provider_params: Optional[Dict[str, Any]] = None,
         **kwargs,
     ) -> ResponseType[AnonymizationDataClass]:
         """
@@ -101,6 +102,24 @@ class TextInterface:
     ) -> ResponseType[NamedEntityRecognitionDataClass]:
         """
         Automatically identifies named entities in a text
+        and classifies them into predefined categories.
+
+        Args:
+            text (str): text to analyze
+            language (str): text's language code in ISO format
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    async def text__anamed_entity_recognition(
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[NamedEntityRecognitionDataClass]:
+        """
+        (Async) Automatically identifies named entities in a text
         and classifies them into predefined categories.
 
         Args:
@@ -223,6 +242,23 @@ class TextInterface:
     ) -> ResponseType[TopicExtractionDataClass]:
         """
         Extract Keywords from a given text
+
+        Args:
+            text (str): text to analyze
+            language (str): text's language code in ISO format
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    async def text__atopic_extraction(
+        self,
+        language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[TopicExtractionDataClass]:
+        """
+        (Async) Extract Keywords from a given text
 
         Args:
             text (str): text to analyze
@@ -424,6 +460,25 @@ class TextInterface:
 
     @abstractmethod
     def text__plagia_detection(
+        self,
+        text: str,
+        title: str = "",
+        provider_params: Optional[Dict[str, Any]] = None,
+        **kwargs,
+    ) -> ResponseType[PlagiaDetectionDataClass]:
+        """
+        Detects plagiarized content within a given text
+
+        Args:
+            text (str): text to analyse
+            title (str, optional): text's title
+            provider_params (dict, optional): parameters for the providers
+        """
+
+        raise NotImplementedError
+
+    @abstractmethod
+    async def text__aplagia_detection(
         self,
         text: str,
         title: str = "",

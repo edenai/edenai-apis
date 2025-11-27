@@ -146,10 +146,29 @@
         "explicit_content": {
             "version": "8.0.0"
         },
+        "aexplicit_content": {
+            "version": "8.0.0"
+        },
         "face_detection": {
             "version": "8.0.0"
         },
+        "aface_detection": {
+            "version": "8.0.0"
+        },
         "object_detection": {
+            "constraints": {
+                "models": [
+                    "hate-symbol-detection",
+                    "weapon-detection",
+                    "people-detection-yolov5",
+                    "apparel-detection",
+                    "general-image-detection"
+                ],
+                "default_model": "general-image-detection"
+            },
+            "version": "8.0.0"
+        },
+        "aobject_detection": {
             "constraints": {
                 "models": [
                     "hate-symbol-detection",

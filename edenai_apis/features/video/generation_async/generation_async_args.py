@@ -24,11 +24,18 @@ def generation_async_arguments(provider_name: str) -> Dict:
     )
     file_wrapper = FileWrapper(image_path, "", file_info)
     return {
-        "text": "Make this image move like the ocean",
-        "duration": 6,
+        "text": "Street of algiers",
+        "duration": 8,
         "fps": 24,
         "seed": 12,
         "dimension": "1280x720",
         "file": file_wrapper,
-        "settings": {"amazon": "amazon.nova-reel-v1:0"},
+        "settings": {
+            "amazon": "amazon.nova-reel-v1:0",
+            "minimax": "MiniMax-Hailuo-02",
+            "bytedance": "seedance-1-0-pro-250528",
+            "google": "veo-3.0-generate-preview",
+            "microsoft": "sora",
+            "openai": "sora-2",
+        },
     }

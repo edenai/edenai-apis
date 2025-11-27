@@ -12,6 +12,7 @@ from pytest_mock import MockerFixture
 from edenai_apis.interface import (
     check_provider_constraints,
     compute_output,
+    acompute_output,
     list_features,
     list_providers,
 )
@@ -38,6 +39,23 @@ class TestComputeOutput:
         )
         final_result = compute_output(
             provider, feature, subfeature, {}, fake=True, phase=phase
+        )
+        assert final_result["provider"] == provider
+        assert final_result["status"] == "success"
+
+    # TODO: async subfeatures (achat, aembedding...) are not returned by global_features so this test is never run
+    @pytest.mark.integration
+    @pytest.mark.asyncio
+    async def test_async_output_fake(
+        self, mocker: MockerFixture, provider, feature, subfeature, phase
+    ):
+        if phase == "create_project":
+            pytest.skip("create_project is not supported in fake mode")
+        mocker.patch(
+            "edenai_apis.interface.validate_all_provider_constraints", return_value={}
+        )
+        final_result = await acompute_output(
+            provider, feature, subfeature, {}, fake=True, phase=phase, D=True
         )
         assert final_result["provider"] == provider
         assert final_result["status"] == "success"

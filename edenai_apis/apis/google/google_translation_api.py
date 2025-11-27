@@ -3,9 +3,14 @@ import mimetypes
 from io import BytesIO
 from typing import Sequence, Optional
 
+import aiofiles
+from google.cloud import translate_v3
 from google.protobuf.json_format import MessageToDict
 
-from edenai_apis.apis.google.google_helpers import handle_google_call
+from edenai_apis.apis.google.google_helpers import (
+    ahandle_google_call,
+    handle_google_call,
+)
 from edenai_apis.features.translation.automatic_translation import (
     AutomaticTranslationDataClass,
 )
@@ -20,7 +25,11 @@ from edenai_apis.features.translation.translation_interface import TranslationIn
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.utils.upload_s3 import upload_file_bytes_to_s3, USER_PROCESS
+from edenai_apis.utils.upload_s3 import (
+    aupload_file_bytes_to_s3,
+    upload_file_bytes_to_s3,
+    USER_PROCESS,
+)
 
 
 class GoogleTranslationApi(TranslationInterface):
@@ -123,6 +132,57 @@ class GoogleTranslationApi(TranslationInterface):
 
         b64_file = base64.b64encode(file_bytes)
         resource_url = upload_file_bytes_to_s3(
+            BytesIO(file_bytes), extension, USER_PROCESS
+        )
+
+        return ResponseType[DocumentTranslationDataClass](
+            original_response=serialized_response,
+            standardized_response=DocumentTranslationDataClass(
+                file=b64_file, document_resource_url=resource_url
+            ),
+        )
+
+    async def translation__adocument_translation(
+        self,
+        file: str,
+        source_language: str,
+        target_language: str,
+        file_type: str,
+        file_url: str = "",
+        **kwargs,
+    ) -> ResponseType[DocumentTranslationDataClass]:
+        mimetype = mimetypes.guess_type(file)[0]
+        extension = mimetypes.guess_extension(mimetype)
+        client = self.clients["translate"]
+        parent = f"projects/{self.project_id}/locations/global"
+
+        async with aiofiles.open(file, "rb") as file_:
+            content = await file_.read()
+            document_input_config = {
+                "content": content,
+                "mime_type": file_type,
+            }
+
+            payload = {
+                "request": {
+                    "parent": parent,
+                    "target_language_code": target_language,
+                    "source_language_code": source_language,
+                    "document_input_config": document_input_config,
+                }
+            }
+
+            async with translate_v3.TranslationServiceAsyncClient() as client:
+                original_response = await ahandle_google_call(
+                    client.translate_document, **payload
+                )
+
+            file_bytes = original_response.document_translation.byte_stream_outputs[0]
+
+        serialized_response = MessageToDict(original_response._pb)
+
+        b64_file = base64.b64encode(file_bytes)
+        resource_url = await aupload_file_bytes_to_s3(
             BytesIO(file_bytes), extension, USER_PROCESS
         )
 

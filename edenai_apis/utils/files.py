@@ -1,5 +1,8 @@
+import asyncio
+import base64
 import os
-from typing import Optional, List
+from typing import List, Optional
+import aiofiles
 
 
 class FileInfo:
@@ -12,6 +15,7 @@ class FileInfo:
         if args:
             self.file_frame_rate, self.file_channels = args
         self.file_duration = kwargs.get("duration", None)
+        self.metadata = {**kwargs}
 
     file_size: int
     file_media_type: str
@@ -23,14 +27,48 @@ class FileInfo:
 
 
 class FileWrapper:
-    def __init__(self, file_path, file_url, file_info) -> None:
+    def __init__(
+        self,
+        file_path,
+        file_url,
+        file_info,
+        file_b64_content: str = None,
+    ) -> None:
         self.file_path = file_path
         self.file_url = file_url
         self.file_info = file_info
+        self._file_b64_content = file_b64_content
 
     file_path: Optional[str]
     file_url: Optional[str]
     file_info: FileInfo
+
+    _file_b64_content: Optional[str] = None
+
+    async def get_file_b64_content(self):
+        if self._file_b64_content:
+            return self._file_b64_content
+        if self.file_path:
+            async with aiofiles.open(self.file_path, "rb") as f:
+                content = await f.read()
+                self._file_b64_content = base64.encodebytes(content).decode("utf-8")
+                f.close()
+                return self._file_b64_content
+        raise Exception("No file found...!")
+
+    async def get_bytes(self):
+        # If there's a filepath
+        if self.file_path:
+            async with aiofiles.open(self.file_path, "rb") as f:
+                return await f.read()
+        # If there's only the b64 info, decode and return bytes directly
+        if self._file_b64_content:
+            # Offload CPU-bound base64 decoding to thread pool
+            return await asyncio.to_thread(
+                base64.b64decode,
+                self._file_b64_content
+            )
+        raise Exception("No file found...!")
 
     def get_file_content(self):
         if self.file_url:

@@ -46,7 +46,7 @@ class Extractor(BaseModel):
     validatable: bool
     category: Optional[str] = Field(default=None)
     is_custom: Optional[bool] = Field(alias="isCustom", default=None)
-    has_custom_data_points: bool = Field(..., alias="hasCustomDataPoints")
+    has_custom_data_points: bool = Field(default=None, alias="hasCustomDataPoints")
 
 
 class Collection(BaseModel):
