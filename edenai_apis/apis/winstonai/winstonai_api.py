@@ -31,11 +31,14 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
     provider_name = "winstonai"
 
     def __init__(self, api_keys: Optional[Dict[str, Any]] = None):
-        self.api_settings = load_provider(
-            ProviderDataEnum.KEY,
-            provider_name=self.provider_name,
-            api_keys=api_keys or {},
-        )
+        if api_keys is not None:
+            self.api_settings = api_keys
+        else:
+            self.api_settings = load_provider(
+                ProviderDataEnum.KEY,
+                provider_name=self.provider_name,
+                api_keys=api_keys or {},
+            )
         self.api_url = WINSTON_AI_API_URL
         self.headers = {
             "Content-Type": "application/json",
@@ -185,7 +188,7 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
 
         async with httpx.AsyncClient(timeout=60) as client:
             response = await client.post(
-                f"{self.api_url}/predict", headers=self.headers, data=payload
+                f"{self.api_url}/predict", headers=self.headers, json=payload
             )
 
         if response.status_code >= HTTPStatus.INTERNAL_SERVER_ERROR:
