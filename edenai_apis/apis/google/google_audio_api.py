@@ -13,6 +13,7 @@ from edenai_apis.apis.google.google_helpers import (
     generate_tts_params,
     get_right_audio_support_and_sampling_rate,
     handle_google_call,
+    ahandle_google_call,
 )
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
@@ -31,7 +32,11 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
-from edenai_apis.utils.upload_s3 import USER_PROCESS, upload_file_bytes_to_s3
+from edenai_apis.utils.upload_s3 import (
+    USER_PROCESS,
+    upload_file_bytes_to_s3,
+    aupload_file_bytes_to_s3,
+)
 
 
 class GoogleAudioApi(AudioInterface):
@@ -92,6 +97,72 @@ class GoogleAudioApi(AudioInterface):
 
         audio_content.seek(0)
         resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
+
+        standardized_response = TextToSpeechDataClass(
+            audio=audio, voice_type=voice_type, audio_resource_url=resource_url
+        )
+        return ResponseType[TextToSpeechDataClass](
+            original_response={},
+            standardized_response=standardized_response,
+        )
+
+    async def audio__atext_to_speech(
+        self,
+        language: str,
+        text: str,
+        option: str,
+        voice_id: str,
+        audio_format: str,
+        speaking_rate: int,
+        speaking_pitch: int,
+        speaking_volume: int,
+        sampling_rate: int,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        voice_type = 1
+
+        if is_ssml(text):
+            input_text = texttospeech.SynthesisInput(ssml=text)
+        else:
+            input_text = texttospeech.SynthesisInput(text=text)
+
+        voice = texttospeech.VoiceSelectionParams(language_code=language, name=voice_id)
+
+        ext, audio_format = get_right_audio_support_and_sampling_rate(
+            audio_format, texttospeech.AudioEncoding._member_names_
+        )
+
+        audio_config_params = generate_tts_params(
+            speaking_rate, speaking_pitch, speaking_volume
+        )
+
+        audio_config_params.update(
+            {"audio_encoding": getattr(texttospeech.AudioEncoding, audio_format)}
+        )
+
+        if sampling_rate:
+            audio_config_params.update({"sample_rate_hertz": sampling_rate})
+
+        audio_config = texttospeech.AudioConfig(**audio_config_params)
+
+        payload = {
+            "request": {
+                "input": input_text,
+                "voice": voice,
+                "audio_config": audio_config,
+            }
+        }
+        async with texttospeech.TextToSpeechAsyncClient() as client:
+            response = await ahandle_google_call(client.synthesize_speech, **payload)
+
+        audio_content = BytesIO(response.audio_content)
+
+        audio = base64.b64encode(audio_content.read()).decode("utf-8")
+
+        audio_content.seek(0)
+        resource_url = await aupload_file_bytes_to_s3(
+            audio_content, f".{ext}", USER_PROCESS
+        )
 
         standardized_response = TextToSpeechDataClass(
             audio=audio, voice_type=voice_type, audio_resource_url=resource_url

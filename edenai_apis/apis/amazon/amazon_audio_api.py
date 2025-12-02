@@ -2,17 +2,19 @@ import base64
 import json
 import urllib
 import uuid
-from io import BufferedReader, BytesIO
+from io import BytesIO
 from pathlib import Path
 from typing import Optional
+import aioboto3
+
 
 import requests
-from botocore.exceptions import BotoCoreError, ClientError
 
 from edenai_apis.apis.amazon.helpers import (
     generate_right_ssml_text,
     get_right_audio_support_and_sampling_rate,
     handle_amazon_call,
+    ahandle_amazon_call,
 )
 from edenai_apis.features.audio import TextToSpeechAsyncDataClass
 from edenai_apis.features.audio.audio_interface import AudioInterface
@@ -24,8 +26,7 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
-from edenai_apis.loaders.data_loader import ProviderDataEnum
-from edenai_apis.loaders.loaders import load_provider
+
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.ssml import is_ssml
 from edenai_apis.utils.types import (
@@ -39,9 +40,9 @@ from edenai_apis.utils.upload_s3 import (
     URL_LONG_PERIOD,
     USER_PROCESS,
     get_cloud_front_file_url,
-    get_s3_file_url,
     s3_client_load,
     upload_file_bytes_to_s3,
+    aupload_file_bytes_to_s3,
 )
 
 from .config import audio_voices_ids, storage_clients
@@ -99,6 +100,67 @@ class AmazonAudioApi(AudioInterface):
         standardized_response = TextToSpeechDataClass(
             audio=audio_file, voice_type=voice_type, audio_resource_url=resource_url
         )
+        return ResponseType[TextToSpeechDataClass](
+            original_response={}, standardized_response=standardized_response
+        )
+
+    async def audio__atext_to_speech(
+        self,
+        language: str,
+        text: str,
+        option: str,
+        voice_id: str,
+        audio_format: str,
+        speaking_rate: int,
+        speaking_pitch: int,
+        speaking_volume: int,
+        sampling_rate: int,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        _, voice_id_name, engine = voice_id.split("_")
+        engine = engine.lower()
+        params = {"Engine": engine, "VoiceId": voice_id_name, "OutputFormat": "mp3"}
+
+        text = generate_right_ssml_text(
+            text, speaking_rate, speaking_pitch, speaking_volume
+        )
+        ext, audio_format, sampling = get_right_audio_support_and_sampling_rate(
+            audio_format, sampling_rate
+        )
+
+        params_update = {"OutputFormat": audio_format, "Text": text}
+        if sampling:
+            params_update["SampleRate"] = str(sampling)
+        params.update({**params_update})
+
+        if is_ssml(text):
+            params["TextType"] = "ssml"
+
+        session = aioboto3.Session()
+        async with session.client(
+            "polly",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as polly_client:
+            response = await ahandle_amazon_call(
+                polly_client.synthesize_speech, **params
+            )
+        audio_content = BytesIO(response["AudioStream"].read())
+        audio_file = base64.b64encode(audio_content.read()).decode("utf-8")
+        voice_type = 1
+
+        audio_content.seek(0)
+        audio_resource_url = await aupload_file_bytes_to_s3(
+            audio_content, f".{ext}", USER_PROCESS
+        )
+
+        standardized_response = TextToSpeechDataClass(
+            audio=audio_file,
+            voice_type=voice_type,
+            audio_resource_url=audio_resource_url,
+        )
+
         return ResponseType[TextToSpeechDataClass](
             original_response={}, standardized_response=standardized_response
         )

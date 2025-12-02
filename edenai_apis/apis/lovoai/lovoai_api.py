@@ -2,8 +2,10 @@ import base64
 import json
 from time import sleep
 from typing import Dict
+import asyncio
 
 import requests
+import httpx
 
 from edenai_apis.features.audio import AudioInterface
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
@@ -123,6 +125,82 @@ class LovoaiApi(ProviderInterface, AudioInterface):
                 audio=audio_content_string, voice_type=1, audio_resource_url=audio_url
             ),
         )
+
+    async def audio__atext_to_speech(
+        self,
+        language: str,
+        text: str,
+        option: str,
+        voice_id: str,
+        audio_format: str,
+        speaking_rate: int,
+        speaking_pitch: int,
+        speaking_volume: int,
+        sampling_rate: int,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        payload = {
+            "text": text,
+            "speaker": voice_ids[voice_id],
+            "speed": self.__adjust_speaking_rate(speaking_rate),
+        }
+
+        async with httpx.AsyncClient(timeout=180) as client:
+            response = await client.post(
+                f"{self.url}v1/tts/sync", headers=self.headers, json=payload
+            )
+            try:
+                original_response = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException("Internal Server Error", code=500) from exc
+
+            if response.status_code != 201:
+                raise ProviderException(
+                    response.json().get("error", "Something went wrong"),
+                    code=response.status_code,
+                )
+
+            if original_response.get("status") == "in_progress":
+                while True:
+                    await asyncio.sleep(1)
+                    response_status = await client.get(
+                        f"{self.url}v1/tts/{original_response['id']}",
+                        headers=self.headers,
+                    )
+                    if response_status.status_code != 200:
+                        raise ProviderException(
+                            response_status.json().get("error", "Something went wrong"),
+                            code=response_status.status_code,
+                        )
+                    try:
+                        original_response = response_status.json()
+                    except json.JSONDecodeError as exc:
+                        raise ProviderException(
+                            "Internal Server Error", code=500
+                        ) from exc
+
+                    if original_response.get("status") == "done":
+                        break
+
+            data = original_response["data"][0]
+            if error := data.get("error"):
+                error_code = error.get("code", 400) or 400
+                error_message = error.get("message", "") or "Call to provider failed!"
+                raise ProviderException(error_message, error_code)
+
+            audio_url = original_response["data"][0]["urls"][0]
+            audio_response = await client.get(audio_url)
+            audio_content = base64.b64encode(audio_response.content)
+            audio_content_string = audio_content.decode("utf-8")
+
+            return ResponseType[TextToSpeechDataClass](
+                original_response={},
+                standardized_response=TextToSpeechDataClass(
+                    audio=audio_content_string,
+                    voice_type=1,
+                    audio_resource_url=audio_url,
+                ),
+            )
 
     def audio__text_to_speech_async__launch_job(
         self,
