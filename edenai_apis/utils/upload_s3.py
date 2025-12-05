@@ -7,6 +7,7 @@ from typing import Callable, Tuple
 from uuid import uuid4
 
 import aioboto3
+import aiofiles
 import boto3
 from botocore.signers import CloudFrontSigner
 from cryptography.hazmat.backends import default_backend
@@ -165,6 +166,7 @@ async def aget_s3_file_url(filename: str, process_time: int) -> str:
 
 async def aget_cloud_front_file_url(filename: str, process_time: int) -> str:
     """Async version: Get CloudFront signed URL"""
+
     # Run the signing operation in a thread pool since it's CPU-bound
     def _sign():
         cloudfront_signer = CloudFrontSigner(CLOUDFRONT_KEY_ID, rsa_signer)
@@ -176,6 +178,25 @@ async def aget_cloud_front_file_url(filename: str, process_time: int) -> str:
         return signed_url
 
     return await asyncio.to_thread(_sign)
+
+
+async def aupload_file_to_s3(
+    file_path: str, file_name: str, process_type=PROVIDER_PROCESS
+):
+    """Upload file to s3"""
+    filename = str(uuid4()) + "_" + str(file_name)
+    if isinstance(file_path, str):
+        async with aiofiles.open(file_path, "rb") as file_:
+            file = await file_.read()
+    else:
+        file = file_path
+    file = BytesIO(file)
+    return await aupload_file_bytes_to_s3(file, filename, process_type)
+
+    # s3_client = s3_client_load()
+    # func_call, process_time, bucket = set_time_and_presigned_url_process(process_type)
+    # s3_client.upload_file(file_path, bucket, filename)
+    # return func_call(filename, process_time)
 
 
 async def aupload_file_bytes_to_s3(

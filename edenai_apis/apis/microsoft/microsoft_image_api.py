@@ -253,7 +253,7 @@ class MicrosoftImageApi(ImageInterface):
             else:
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
-            
+
             async with httpx.AsyncClient() as client:
                 response = await client.post(
                     f"{self.url['vision']}/detect",
@@ -284,7 +284,8 @@ class MicrosoftImageApi(ImageInterface):
                     x_max = (obj["rectangle"]["x"] + obj["rectangle"]["w"]) / width
                     y_min = 1 - ((height - obj["rectangle"]["y"]) / height)
                     y_max = 1 - (
-                        (height - obj["rectangle"]["y"] - obj["rectangle"]["h"]) / height
+                        (height - obj["rectangle"]["y"] - obj["rectangle"]["h"])
+                        / height
                     )
 
                 items.append(
@@ -305,8 +306,6 @@ class MicrosoftImageApi(ImageInterface):
         finally:
             if file_wrapper:
                 file_wrapper.close_file()
-
-
 
     def image__face_detection(
         self, file: str, file_url: str = "", **kwargs
@@ -393,6 +392,67 @@ class MicrosoftImageApi(ImageInterface):
             original_response=data,
             standardized_response=LogoDetectionDataClass(items=items),
         )
+
+    async def image__alogo_detection(
+        self, file: str, file_url: str = "", model: str = None, **kwargs
+    ) -> ResponseType[LogoDetectionDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+
+            async with httpx.AsyncClient(timeout=httpx.Timeout(10, read=120)) as client:
+                response = await client.post(
+                    f"{self.url['vision']}/analyze?visualFeatures=Brands",
+                    headers=self.headers["vision"],
+                    content=file_content,
+                )
+            data = response.json()
+            if response.status_code != 200:
+                # sometimes no "error" key in repsonse
+                # ref: https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-2/operations/56f91f2e778daf14a499f21b
+                error_msg = data.get("message", data.get("error", "message"))
+                raise ProviderException(error_msg, code=response.status_code)
+
+            items: Sequence[LogoItem] = []
+            for key in data.get("brands"):
+                x_cordinate = float(key.get("rectangle").get("x"))
+                y_cordinate = float(key.get("rectangle").get("y"))
+                height = float(key.get("rectangle").get("h"))
+                weidth = float(key.get("rectangle").get("w"))
+                vertices = []
+                vertices.append(LogoVertice(x=x_cordinate, y=y_cordinate))
+                vertices.append(LogoVertice(x=x_cordinate + weidth, y=y_cordinate))
+                vertices.append(
+                    LogoVertice(x=x_cordinate + weidth, y=y_cordinate + height)
+                )
+                vertices.append(LogoVertice(x=x_cordinate, y=y_cordinate + height))
+
+                items.append(
+                    LogoItem(
+                        description=key.get("name"),
+                        score=key.get("confidence"),
+                        bounding_poly=LogoBoundingPoly(vertices=vertices),
+                    )
+                )
+
+            return ResponseType[LogoDetectionDataClass](
+                original_response=data,
+                standardized_response=LogoDetectionDataClass(items=items),
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__landmark_detection(
         self, file: str, file_url: str = "", **kwargs

@@ -74,6 +74,7 @@ from edenai_apis.llmengine.utils.moderation import (
 )
 from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
@@ -366,6 +367,61 @@ class LLMEngine:
         return self._execute_completion(
             params=args, response_class=LogoDetectionDataClass
         )
+
+    async def logo_adetection(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[LogoDetectionDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                mime_type = file_wrapper.file_info.file_media_type
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+
+                    mime_type = mimetypes.guess_type(file_)[0]
+
+            base64_data = base64.b64encode(file_content).decode("utf-8")
+
+            messages = await BasePrompt.acompose_prompt(
+                behavior="You are a Logo Detection model. You get an image input and return logos detected inside it. If no logo is detected the items list should be empty",
+                example_file="image/logo_detection/logo_detection_response.json",
+                dataclass=LogoDetectionDataClass,
+            )
+            messages.append(
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:{mime_type};base64,{base64_data}"
+                            },
+                        },
+                    ],
+                }
+            )
+            args = self._prepare_args(
+                model=model,
+                messages=messages,
+                response_format={"type": "json_object"},
+                **kwargs,
+            )
+            return await self._execute_acompletion(
+                params=args, response_class=LogoDetectionDataClass
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     @moderate
     def image_qa(
