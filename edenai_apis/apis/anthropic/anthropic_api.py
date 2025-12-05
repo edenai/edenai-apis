@@ -130,6 +130,21 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface, LlmInterfac
         )
         return response
 
+    async def image__alogo_detection(
+        self,
+        file: str,
+        file_url: str = "",
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[LogoDetectionDataClass]:
+        response = await self.llm_client.logo_adetection(
+            file=file,
+            file_url=file_url,
+            model=model,
+            **kwargs,
+        )
+        return response
+
     def llm__chat(
         self,
         messages: List = [],

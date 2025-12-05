@@ -1,6 +1,6 @@
 [project]
 name = "edenai-apis"
-version = "0.1.19-beta"
+version = "0.1.20-beta"
 description = "Providers connectors"
 dynamic = ["dependencies"]
 requires-python = ">=3.11"
@@ -64,7 +64,7 @@ documentation = "https://docs.edenai.co/docs"
 
 [tool.poetry]
 name = "edenai-apis"
-version = "0.1.19-beta"
+version = "0.1.20-beta"
 description = "Providers connectors"
 license = "Apache-2.0"
 authors = [

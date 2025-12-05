@@ -288,6 +288,18 @@ class ImageInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def image__alogo_detection(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[LogoDetectionDataClass]:
+        """
+        Detect Logo in an image
+
+        Args:
+            file (BufferedReader): image to analyze
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def image__object_detection(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:

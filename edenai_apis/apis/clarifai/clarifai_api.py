@@ -1,4 +1,5 @@
 from collections import defaultdict
+from io import BytesIO
 from typing import Dict, Optional, Sequence
 
 import aiofiles
@@ -680,3 +681,107 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
                 original_response=original_response,
                 standardized_response=LogoDetectionDataClass(items=items),
             )
+
+    async def image__alogo_detection(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[LogoDetectionDataClass]:
+        channel = ClarifaiChannel.get_grpc_channel()
+        stub = service_pb2_grpc.V2Stub(channel)
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        user_id = "clarifai"
+        app_id = "main"
+        metadata = (("authorization", self.key),)
+        user_data_object = resources_pb2.UserAppIDSet(user_id=user_id, app_id=app_id)
+        model_id = "logo-detection-v2"
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            with Img.open(BytesIO(file_content)) as img:
+                width, height = img.size
+
+            post_model_outputs_response = await asyncio.to_thread(
+                stub.PostModelOutputs,
+                service_pb2.PostModelOutputsRequest(
+                    user_app_id=user_data_object,
+                    model_id=model_id,
+                    inputs=[
+                        resources_pb2.Input(
+                            data=resources_pb2.Data(
+                                image=resources_pb2.Image(base64=file_content)
+                            )
+                        )
+                    ],
+                ),
+                metadata=metadata,
+            )
+
+            if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
+                raise ProviderException(
+                    "Error calling Clarifai API",
+                    code=post_model_outputs_response.status.code,
+                )
+
+            else:
+                response = MessageToDict(
+                    post_model_outputs_response, preserving_proto_field_name=True
+                )
+                original_response = response["outputs"][0]["data"]
+                items: Sequence[LogoItem] = []
+                regions = original_response.get("regions")
+                if regions:
+                    for region in regions:
+                        rect = region["region_info"]["bounding_box"]
+                        vertices = []
+                        vertices.append(
+                            LogoVertice(
+                                x=rect.get("left_col", 0) * width,
+                                y=rect.get("top_row", 0) * height,
+                            )
+                        )
+                        vertices.append(
+                            LogoVertice(
+                                x=rect.get("right_col", 0) * width,
+                                y=rect.get("top_row", 0) * height,
+                            )
+                        )
+                        vertices.append(
+                            LogoVertice(
+                                x=rect.get("right_col", 0) * width,
+                                y=rect.get("bottom_row", 0) * height,
+                            )
+                        )
+                        vertices.append(
+                            LogoVertice(
+                                x=rect.get("left_col", 0) * width,
+                                y=rect.get("bottom_row", 0) * height,
+                            )
+                        )
+                        items.append(
+                            LogoItem(
+                                description=region["data"]["concepts"][0]["name"],
+                                score=region["data"]["concepts"][0]["value"],
+                                bounding_poly=LogoBoundingPoly(vertices=vertices),
+                            )
+                        )
+
+                return ResponseType[LogoDetectionDataClass](
+                    original_response=original_response,
+                    standardized_response=LogoDetectionDataClass(items=items),
+                )
+        except UnidentifiedImageError:
+            raise ProviderException("This image type is not supported.")
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
