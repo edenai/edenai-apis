@@ -500,40 +500,59 @@ class LLMEngine:
     async def image_amoderation(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ):
-        mime_type = mimetypes.guess_type(file)[0]
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
 
-        async with aiofiles.open(file, "rb") as fstream:
-            file_content = await fstream.read()
-            base64_data = base64.b64encode(file_content).decode("utf-8")
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                base64_data = await file_wrapper.get_file_b64_content()
+                mime_type = file_wrapper.file_info.file_media_type
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                base64_data = base64.b64encode(file_content).decode("utf-8")
+                mime_type = mimetypes.guess_type(file)[0]
 
-        messages = BasePrompt.compose_prompt(
-            behavior="You are an Explicit Image Detection model.",
-            example_file="image/explicit_content/explicit_content_response.json",
-            dataclass=ExplicitContentDataClass,
-        )
+            messages = BasePrompt.compose_prompt(
+                behavior="You are an Explicit Image Detection model.",
+                example_file="image/explicit_content/explicit_content_response.json",
+                dataclass=ExplicitContentDataClass,
+            )
 
-        messages.append(
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "image_url",
-                        "image_url": {"url": f"data:{mime_type};base64,{base64_data}"},
-                    },
-                ],
-            }
-        )
+            messages.append(
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:{mime_type};base64,{base64_data}"
+                            },
+                        },
+                    ],
+                }
+            )
 
-        args = self._prepare_args(
-            model=model,
-            messages=messages,
-            response_format={"type": "json_object"},
-            **kwargs,
-        )
+            args = self._prepare_args(
+                model=model,
+                messages=messages,
+                response_format={"type": "json_object"},
+                **kwargs,
+            )
 
-        return await self._execute_acompletion(
-            params=args, response_class=ExplicitContentDataClass
-        )
+            return await self._execute_acompletion(
+                params=args, response_class=ExplicitContentDataClass
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def sentiment_analysis(
         self, text: str, model: str, **kwargs
