@@ -861,7 +861,7 @@ class GoogleImageApi(ImageInterface):
         if not file:
             # try to use the url
             file_wrapper = await file_handler.download_file(file_url)
-            inputImage = file_wrapper.get_file_b64_content()
+            inputImage = await file_wrapper.get_file_b64_content()
         else:
             image_bytes = await self._read_file_async(file)
             inputImage = base64.b64encode(image_bytes).decode("utf-8")
