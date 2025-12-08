@@ -80,6 +80,8 @@ def get_openapi_response_async(response: httpx.Response):
     try:
         original_response = response.json()
         if "error" in original_response or response.status_code >= 400:
+            if response.status_code == 429:
+                return None
             code = original_response["error"]["code"]
             if code == OpenAIErrorCode.RATE_LIMIT_EXCEEDED.value:
                 return None
