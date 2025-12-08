@@ -507,6 +507,95 @@ class Api4aiApi(
         )
         return result
 
+    async def image__alogo_detection(
+        self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
+    ) -> ResponseType[LogoDetectionDataClass]:
+
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            # Get response
+            model = "v2"
+            files = {
+                "image": file_content,
+            }
+            async with httpx.AsyncClient(timeout=httpx.Timeout(10, read=120)) as client:
+                response = await client.post(
+                    self.urls["logo_detection"].format(model=model), files=files
+                )
+            if response.status_code >= 400:
+                error_message = ""
+                try:
+                    error_message = response.json().get("message", "")
+                except:
+                    pass
+                error_message = (
+                    error_message or "Something went wrong when calling the provider"
+                )
+                raise ProviderException(error_message, code=response.status_code)
+
+            original_response = response.json()
+            # Handle errors
+            if "failure" in original_response["results"][0]["status"]["code"]:
+                raise ProviderException(
+                    original_response["results"][0]["status"]["message"],
+                    code=response.status_code,
+                )
+
+            # Get result
+            items: Sequence[LogoItem] = []
+            logos = original_response["results"][0]["entities"][0]
+            if logos.get("strings"):
+                for logo in logos.get("strings"):
+                    items.append(
+                        LogoItem(
+                            description=logo,
+                            bounding_poly=LogoBoundingPoly(),
+                            score=None,
+                        )
+                    )
+
+            if logos.get("objects"):
+                for logo in logos.get("objects"):
+                    brand = logo.get("entities")[0].get("classes")
+                    try:
+                        brand_name, score = list(brand.items())[0]
+                    except IndexError:
+                        continue
+                    vertices = []
+                    vertices.append(LogoVertice(x=logo["box"][0], y=logo["box"][1]))
+                    vertices.append(LogoVertice(x=logo["box"][2], y=logo["box"][1]))
+                    vertices.append(LogoVertice(x=logo["box"][2], y=logo["box"][3]))
+                    vertices.append(LogoVertice(x=logo["box"][0], y=logo["box"][3]))
+                    items.append(
+                        LogoItem(
+                            description=brand_name,
+                            score=score,
+                            bounding_poly=LogoBoundingPoly(vertices=vertices),
+                        )
+                    )
+            standardized = LogoDetectionDataClass(items=items)
+            result = ResponseType[LogoDetectionDataClass](
+                original_response=original_response, standardized_response=standardized
+            )
+            return result
+
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+
     def image__explicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
