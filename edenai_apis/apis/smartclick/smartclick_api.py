@@ -70,7 +70,7 @@ class SmartClickApi(ProviderInterface, ImageInterface):
         return ResponseType[LogoDetectionDataClass](
             original_response=response.json(), standardized_response=standardized
         )
-    
+
     async def image__alogo_detection(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[LogoDetectionDataClass]:
@@ -84,17 +84,21 @@ class SmartClickApi(ProviderInterface, ImageInterface):
         payload = {"url": content_url}
 
         async with httpx.AsyncClient(timeout=httpx.Timeout(10, read=120)) as client:
-            response = await client.request("POST", url, json=payload, headers=self.headers)
+            response = await client.request(
+                "POST", url, json=payload, headers=self.headers
+            )
 
             if response.status_code != 200:
                 # Poorly documented
                 # ref: https://smartclick.ai/api/logo-detection/
-                raise ProviderException(message=response.text, code=response.status_code)
+                raise ProviderException(
+                    message=response.text, code=response.status_code
+                )
 
             # standardized response : description/score/bounding_box
             items: Sequence[LogoItem] = []
             boxes = response.json()
-            for box in boxes.get("bboxes"):
+            for box in boxes.get("bboxes", []):
                 vertices = []
                 vertices.append(LogoVertice(x=box[0], y=box[1]))
                 vertices.append(LogoVertice(x=box[2], y=box[1]))

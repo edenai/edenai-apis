@@ -425,7 +425,7 @@ class MicrosoftImageApi(ImageInterface):
                 raise ProviderException(error_msg, code=response.status_code)
 
             items: Sequence[LogoItem] = []
-            for key in data.get("brands"):
+            for key in data.get("brands", []):
                 x_cordinate = float(key.get("rectangle").get("x"))
                 y_cordinate = float(key.get("rectangle").get("y"))
                 height = float(key.get("rectangle").get("h"))

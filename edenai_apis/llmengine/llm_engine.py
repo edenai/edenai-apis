@@ -388,7 +388,7 @@ class LLMEngine:
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
 
-                    mime_type = mimetypes.guess_type(file_)[0]
+                mime_type = mimetypes.guess_type(file)[0]
 
             base64_data = base64.b64encode(file_content).decode("utf-8")
 

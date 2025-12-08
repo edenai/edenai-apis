@@ -710,8 +710,8 @@ class GoogleImageApi(ImageInterface):
             image = vision.Image(content=file_content)
 
             payload = {"image": image}
-            response = handle_google_call(
-                self.clients["image"].logo_detection, **payload
+            response = await asyncio.to_thread(
+                handle_google_call, self.clients["image"].logo_detection, **payload
             )
 
             response = MessageToDict(response._pb)
@@ -746,43 +746,6 @@ class GoogleImageApi(ImageInterface):
         finally:
             if file_wrapper:
                 file_wrapper.close_file()
-
-        with open(file, "rb") as file_:
-            content = file_.read()
-        # image = vision.Image(content=content)
-
-        # payload = {"image": image}
-        # response = handle_google_call(self.clients["image"].logo_detection, **payload)
-
-        # response = MessageToDict(response._pb)
-
-        # float_or_none = lambda val: float(val) if val else None
-        # # Handle error
-        # if response.get("error", {}).get("message") is not None:
-        #     raise ProviderException(response["error"]["message"])
-
-        # items: Sequence[LogoItem] = []
-        # for key in response.get("logoAnnotations", []):
-        #     vertices = []
-        #     for vertice in key.get("boundingPoly").get("vertices"):
-        #         vertices.append(
-        #             LogoVertice(
-        #                 x=float_or_none(vertice.get("x")),
-        #                 y=float_or_none(vertice.get("y")),
-        #             )
-        #         )
-
-        #     items.append(
-        #         LogoItem(
-        #             description=key.get("description"),
-        #             score=key.get("score"),
-        #             bounding_poly=LogoBoundingPoly(vertices=vertices),
-        #         )
-        #     )
-        # return ResponseType[LogoDetectionDataClass](
-        #     original_response=response,
-        #     standardized_response=LogoDetectionDataClass(items=items),
-        # )
 
     def image__question_answer(
         self,
