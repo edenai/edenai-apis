@@ -14,6 +14,7 @@ def calculate_cost(
         "aembedding",
         "aimage_generation",
         "amoderation",
+        "arerank",
     ] = "completion",
     input_cost_per_token: Optional[float] = None,
     output_cost_per_token: Optional[float] = None,
