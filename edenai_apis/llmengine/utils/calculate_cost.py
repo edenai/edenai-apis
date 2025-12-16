@@ -5,6 +5,7 @@ from litellm.types.utils import ModelResponse
 
 def calculate_cost(
     completion_response: Union[ModelResponse, dict],
+    model: str,
     call_type: Literal[
         "completion",
         "embedding",
@@ -43,4 +44,4 @@ def calculate_cost(
             "output_cost_per_token": output_cost_per_token,
         }
 
-    return completion_cost(**cost_calc_params)
+    return completion_cost(**cost_calc_params, model=model)
