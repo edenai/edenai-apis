@@ -263,7 +263,7 @@ class LiteLLMCompletionClient(CompletionClient):
         api_version: Optional[str] = None,
         api_type: Optional[str] = None,
         caching: bool = False,
-        drop_invalid_params: bool = False,  # If true, all the invalid parameters will be ignored (dropped) before sending to the model
+        drop_invalid_params: bool = True,  # If true, all the invalid parameters will be ignored (dropped) before sending to the model
         encoding_format: Literal["float", "base64"] = "float",
         **kwargs,
     ):
@@ -349,7 +349,7 @@ class LiteLLMCompletionClient(CompletionClient):
         api_version: Optional[str] = None,
         api_type: Optional[str] = None,
         caching: bool = False,
-        drop_invalid_params: bool = False,  # If true, all the invalid parameters will be ignored (dropped) before sending to the model
+        drop_invalid_params: bool = True,  # If true, all the invalid parameters will be ignored (dropped) before sending to the model
         encoding_format: Literal["float", "base64"] = "float",
         **kwargs,
     ):
