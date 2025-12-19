@@ -931,6 +931,8 @@ class AmazonImageApi(ImageInterface):
 
         # Body of the HTTP request
         height, width = resolution.split("x")
+        if not model:
+            raise ProviderException(f"The model, for Amazon provider, cannot be empty.")
         model_name, quality = model.split("_")
         request_body = json.dumps(
             {
