@@ -52,19 +52,28 @@ async def standard_moderation(*args, **kwargs):
     api_key = api_settings.get("api_key")
     headers = {"Authorization": f"Bearer {api_key}"}
 
-    tasks = []
-
     messages = kwargs.get("messages", [])
 
-    for message in messages:
-        if "content" in message:
-            if isinstance(message["content"], list):
-                for content in message["content"]:
-                    tasks.append(moderate_content(headers, [content]))
-            else:
-                tasks.append(moderate_content(headers, message["content"]))
+    # Collect all moderatable content (only "text" and "image_url" are supported)
+    supported_types = {"text", "image_url"}
+    moderatable_content = []
 
-    await asyncio.gather(*tasks)
+    for message in messages:
+        if "content" not in message:
+            continue
+
+        if isinstance(message["content"], str):
+            moderatable_content.append({"type": "text", "text": message["content"]})
+        elif isinstance(message["content"], list):
+            for content in message["content"]:
+                # Skip unsupported content types (e.g., "file", "audio", etc.)
+                if isinstance(content, dict) and content.get("type") in supported_types:
+                    moderatable_content.append(content)
+                elif isinstance(content, str):
+                    moderatable_content.append({"type": "text", "text": content})
+
+    if moderatable_content:
+        await moderate_content(headers, moderatable_content)
 
 
 async def moderate_if_exists(headers, value):
