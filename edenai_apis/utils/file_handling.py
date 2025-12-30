@@ -1,4 +1,5 @@
 import base64
+import mimetypes
 import random
 import tempfile
 
@@ -51,12 +52,15 @@ class FileHandler:
             file_type = response.headers.get("Content-Type", "application/octet-stream")
             file_size = int(response.headers.get("Content-Length", -1))
 
+            file_extension = mimetypes.guess_extension(file_type) or ""
+            file_extension = file_extension.lstrip(".")
+
             file_wrapper_params = {
                 "file_url": file_url,
                 "file_info": FileInfo(
                     file_size=file_size,
                     file_mimetype=file_type,
-                    file_extension=file_type.split("/")[-1],
+                    file_extension=file_extension,
                 ),
             }
 
