@@ -128,7 +128,8 @@ litellm = "^1.75.5"
 requests = "^2.32"
 aioboto3 = "^15.1.0"
 httpx = "^0.28.1"
-curl-cffi = "^0.7"
+curl-cffi = "^0.14.0"
+
 
 [tool.poetry.group.dev.dependencies]
 pytest-mock = "^3.14.0"
