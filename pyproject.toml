@@ -129,7 +129,7 @@ requests = "^2.32"
 aioboto3 = "^15.1.0"
 httpx = "^0.28.1"
 curl-cffi = "^0.14.0"
-aiofiles = "^25.1.0"
+aiofiles = "^24.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
