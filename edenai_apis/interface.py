@@ -328,7 +328,7 @@ async def acompute_output(
             chunks of the streaming response asynchronously.
             - Otherwise, returns a dictionary containing the full result synchronously.
     """
-    if fake and kwargs.get("stream", False):
+    if fake and args.get("stream", False):
         raise NotImplementedError("Streaming with fake data is not available yet.")
 
     # Check if this is an async job (e.g., ocr_async)
@@ -374,7 +374,7 @@ async def acompute_output(
         except ProviderException as exc:
             raise get_appropriate_error(provider_name, exc)
 
-    if kwargs.get("stream", False):
+    if args.get("stream", False):
 
         async def generate_chunks():
             async for chunk in subfeature_result["stream"]:
@@ -558,11 +558,11 @@ async def aget_async_job_result(
 
         return fake_result
 
-    ProviderClass = load_provider(
-        ProviderDataEnum.CLASS, provider_name=provider_name
-    )
+    ProviderClass = load_provider(ProviderDataEnum.CLASS, provider_name=provider_name)
     provider_instance = ProviderClass(api_keys)
-    func_name = f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}__get_job_result'
+    func_name = (
+        f'{feature}__a{subfeature}{f"__{phase}" if phase else ""}__get_job_result'
+    )
 
     try:
         subfeature_func = getattr(provider_instance, func_name)
