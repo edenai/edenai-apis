@@ -146,7 +146,8 @@ class AmazonAudioApi(AudioInterface):
             response = await ahandle_amazon_call(
                 polly_client.synthesize_speech, **params
             )
-        audio_content = BytesIO(response["AudioStream"].read())
+        stream = await response["AudioStream"].read()
+        audio_content = BytesIO(stream)
         audio_file = base64.b64encode(audio_content.read()).decode("utf-8")
         voice_type = 1
 
