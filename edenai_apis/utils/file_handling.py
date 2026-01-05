@@ -2,7 +2,7 @@ import base64
 import mimetypes
 import random
 import tempfile
-from typing import AsyncIterator, Iterator
+from typing import AsyncIterator
 
 import aiofiles
 from curl_cffi.requests import AsyncSession
@@ -31,6 +31,10 @@ BROWSER_IMPERSONATIONS = [
     "edge",
     "safari",
 ]
+
+
+class _ShouldFallbackToCurl(Exception):
+    """Signal to fall back to curl_cffi on 403 (TLS fingerprinting block)."""
 
 
 class FileHandler:
@@ -66,12 +70,6 @@ class FileHandler:
             return int(header_value)
         except (ValueError, TypeError):
             return -1
-
-    @staticmethod
-    async def _async_iter_wrapper(sync_iter: Iterator[bytes]) -> AsyncIterator[bytes]:
-        """Wrap a sync iterator to make it async-compatible."""
-        for chunk in sync_iter:
-            yield chunk
 
     async def _stream_to_file(
         self, chunk_iterator: AsyncIterator[bytes]
@@ -139,7 +137,7 @@ class FileHandler:
         """
         try:
             return await self._download_with_httpx(file_url, force_file_create)
-        except Exception:
+        except _ShouldFallbackToCurl:
             return await self._download_with_curl_cffi(file_url, force_file_create)
 
     async def _download_with_httpx(
@@ -149,6 +147,8 @@ class FileHandler:
         async with async_client.stream(
             "GET", file_url, headers=self.get_user_agent()
         ) as response:
+            if response.status_code == 403:
+                raise _ShouldFallbackToCurl(f"httpx got 403 for {file_url}")
             response.raise_for_status()
             return await self._build_file_wrapper(
                 file_url=file_url,
@@ -166,11 +166,14 @@ class FileHandler:
 
         async with AsyncSession(impersonate=impersonate, timeout=120) as session:
             response = await session.get(file_url, stream=True)
-            response.raise_for_status()
-            return await self._build_file_wrapper(
-                file_url=file_url,
-                file_type=response.headers.get("Content-Type", "application/octet-stream"),
-                file_size=self.parse_content_length(response.headers.get("Content-Length")),
-                chunk_iterator=self._async_iter_wrapper(response.iter_content()),
-                force_file_create=force_file_create,
-            )
+            try:
+                response.raise_for_status()
+                return await self._build_file_wrapper(
+                    file_url=file_url,
+                    file_type=response.headers.get("Content-Type", "application/octet-stream"),
+                    file_size=self.parse_content_length(response.headers.get("Content-Length")),
+                    chunk_iterator=response.aiter_content(),
+                    force_file_create=force_file_create,
+                )
+            finally:
+                await response.aclose()
