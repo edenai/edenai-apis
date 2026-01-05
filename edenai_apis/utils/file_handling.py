@@ -2,6 +2,7 @@ import base64
 import random
 import tempfile
 
+import aiofiles
 from curl_cffi.requests import AsyncSession
 
 from edenai_apis.utils.files import FileInfo, FileWrapper
@@ -88,9 +89,11 @@ class FileHandler:
             ) as stream:
                 stream.raise_for_status()
                 with tempfile.NamedTemporaryFile(delete=False) as tmp:
+                    tmp_path = tmp.name
+                async with aiofiles.open(tmp_path, "wb") as f:
                     async for chunk in stream.aiter_bytes():
-                        tmp.write(chunk)
-                    file_wrapper_params["file_path"] = tmp.name
+                        await f.write(chunk)
+                file_wrapper_params["file_path"] = tmp_path
             file_wrapper_params["file_b64_content"] = None
             return FileWrapper(**file_wrapper_params)
 
@@ -131,9 +134,11 @@ class FileHandler:
                 response.raise_for_status()
 
                 with tempfile.NamedTemporaryFile(delete=False) as tmp:
+                    tmp_path = tmp.name
+                async with aiofiles.open(tmp_path, "wb") as f:
                     for chunk in response.iter_content():
-                        tmp.write(chunk)
-                    file_wrapper_params["file_path"] = tmp.name
+                        await f.write(chunk)
+                file_wrapper_params["file_path"] = tmp_path
 
                 file_wrapper_params["file_b64_content"] = None
                 return FileWrapper(**file_wrapper_params)
