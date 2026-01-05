@@ -14,16 +14,74 @@ class AsyncJobExceptionReason(Enum):
 class ProviderException(Exception):
     """Handle error returned by providers"""
 
-    def __init__(self, message: Optional[str] = None, code=None):
+    def __init__(
+        self,
+        message: Optional[str] = None,
+        code: Optional[int] = None,
+        error_type: Optional[str] = None,
+        error_code: Optional[str] = None,
+        param: Optional[str] = None,
+        llm_provider: Optional[str] = None,
+    ):
         super().__init__(message)
         if code:
             self.code = code
+        self.error_type = error_type
+        self.error_code = error_code
+        self.param = param
+        self.llm_provider = llm_provider
 
     @property
     def status_code(self):
         if not hasattr(self, "code"):
             return None
         return self.code
+
+    def to_openai_format(self) -> dict:
+        """
+        Returns OpenAI-compatible error format.
+
+        Returns:
+            dict: Error response in OpenAI format:
+            {
+                "error": {
+                    "message": "Error description",
+                    "type": "error_type",
+                    "param": null,
+                    "code": "error_code"
+                }
+            }
+        """
+        error_dict = {
+            "message": str(self) or "An error occurred",
+        }
+
+        # Add type if available, otherwise infer from status code
+        if self.error_type:
+            error_dict["type"] = self.error_type
+        elif hasattr(self, "code"):
+            # Fallback type inference based on HTTP status code
+            if self.code == 401:
+                error_dict["type"] = "authentication_error"
+            elif self.code == 429:
+                error_dict["type"] = "rate_limit_error"
+            elif self.code >= 500:
+                error_dict["type"] = "server_error"
+            elif self.code >= 400:
+                error_dict["type"] = "invalid_request_error"
+            else:
+                error_dict["type"] = "api_error"
+        else:
+            error_dict["type"] = "api_error"
+
+        # Add param (typically null)
+        error_dict["param"] = self.param
+
+        # Add error code if available
+        if self.error_code:
+            error_dict["code"] = self.error_code
+
+        return {"error": error_dict}
 
 
 ProviderErrorLists = Dict[Type[ProviderException], List[str]]
