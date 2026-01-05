@@ -70,7 +70,9 @@ class FileHandler:
         except (ValueError, TypeError):
             return -1
 
-    async def download_file(self, file_url: str, force_file_create: bool = False) -> FileWrapper:
+    async def download_file(
+        self, file_url: str, force_file_create: bool = False
+    ) -> FileWrapper:
         """
         Download a file from a url and return the file path
 
@@ -85,60 +87,18 @@ class FileHandler:
             # Fallback to curl_cffi with browser impersonation to bypass TLS fingerprinting
             return await self._download_with_curl_cffi(file_url, force_file_create)
 
-    async def _download_with_httpx(self, file_url: str, force_file_create: bool) -> FileWrapper:
+    async def _download_with_httpx(
+        self, file_url: str, force_file_create: bool
+    ) -> FileWrapper:
         """Primary download method using httpx async_client."""
-        response = await async_client.head(
-            file_url, headers=FileHandler.get_user_agent()
-        )
-        response.raise_for_status()
-        file_type = response.headers.get("Content-Type", "application/octet-stream")
-        file_size = self.parse_content_length(response.headers.get("Content-Length"))
-
-        file_wrapper_params = {
-            "file_url": file_url,
-            "file_info": FileInfo(
-                file_size=file_size,
-                file_mimetype=file_type,
-                file_extension=self.get_file_extension(file_type),
-            ),
-        }
-
-        if file_size == 0:
-            raise Exception("File size is 0")
-
-        if force_file_create or file_size == -1 or file_size > self.SIZE_THRESHOLD:
-            async with async_client.stream(
-                "GET", file_url, headers=FileHandler.get_user_agent()
-            ) as stream:
-                stream.raise_for_status()
-                with tempfile.NamedTemporaryFile(delete=False) as tmp:
-                    tmp_path = tmp.name
-                async with aiofiles.open(tmp_path, "wb") as f:
-                    async for chunk in stream.aiter_bytes():
-                        await f.write(chunk)
-                file_wrapper_params["file_path"] = tmp_path
-            file_wrapper_params["file_b64_content"] = None
-            return FileWrapper(**file_wrapper_params)
-
-        response = await async_client.get(
-            file_url, headers=FileHandler.get_user_agent()
-        )
-        response.raise_for_status()
-
-        b64_content = base64.b64encode(response.content).decode("utf-8")
-        file_wrapper_params["file_path"] = None
-        file_wrapper_params["file_b64_content"] = b64_content
-        return FileWrapper(**file_wrapper_params)
-
-    async def _download_with_curl_cffi(self, file_url: str, force_file_create: bool) -> FileWrapper:
-        """Fallback download method using curl_cffi with browser impersonation."""
-        impersonate = self.get_browser_impersonation()
-
-        async with AsyncSession(impersonate=impersonate, timeout=120) as session:
-            response = await session.head(file_url)
+        async with async_client.stream(
+            "GET", file_url, headers=FileHandler.get_user_agent()
+        ) as response:
             response.raise_for_status()
             file_type = response.headers.get("Content-Type", "application/octet-stream")
-            file_size = self.parse_content_length(response.headers.get("Content-Length"))
+            file_size = self.parse_content_length(
+                response.headers.get("Content-Length")
+            )
 
             file_wrapper_params = {
                 "file_url": file_url,
@@ -153,23 +113,63 @@ class FileHandler:
                 raise Exception("File size is 0")
 
             if force_file_create or file_size == -1 or file_size > self.SIZE_THRESHOLD:
-                response = await session.get(file_url, stream=True)
-                response.raise_for_status()
+                # Stream to temp file for large/unknown size files
+                with tempfile.NamedTemporaryFile(delete=False) as tmp:
+                    tmp_path = tmp.name
+                async with aiofiles.open(tmp_path, "wb") as f:
+                    async for chunk in response.aiter_bytes():
+                        await f.write(chunk)
+                file_wrapper_params["file_path"] = tmp_path
+                file_wrapper_params["file_b64_content"] = None
+            else:
+                # Read to memory for small files
+                content = await response.aread()
+                b64_content = base64.b64encode(content).decode("utf-8")
+                file_wrapper_params["file_path"] = None
+                file_wrapper_params["file_b64_content"] = b64_content
 
+            return FileWrapper(**file_wrapper_params)
+
+    async def _download_with_curl_cffi(
+        self, file_url: str, force_file_create: bool
+    ) -> FileWrapper:
+        """Fallback download method using curl_cffi with browser impersonation."""
+        impersonate = self.get_browser_impersonation()
+
+        async with AsyncSession(impersonate=impersonate, timeout=120) as session:
+            response = await session.get(file_url, stream=True)
+            response.raise_for_status()
+            file_type = response.headers.get("Content-Type", "application/octet-stream")
+            file_size = self.parse_content_length(
+                response.headers.get("Content-Length")
+            )
+
+            file_wrapper_params = {
+                "file_url": file_url,
+                "file_info": FileInfo(
+                    file_size=file_size,
+                    file_mimetype=file_type,
+                    file_extension=self.get_file_extension(file_type),
+                ),
+            }
+
+            if file_size == 0:
+                raise Exception("File size is 0")
+
+            if force_file_create or file_size == -1 or file_size > self.SIZE_THRESHOLD:
+                # Stream to temp file for large/unknown size files
                 with tempfile.NamedTemporaryFile(delete=False) as tmp:
                     tmp_path = tmp.name
                 async with aiofiles.open(tmp_path, "wb") as f:
                     for chunk in response.iter_content():
                         await f.write(chunk)
                 file_wrapper_params["file_path"] = tmp_path
-
                 file_wrapper_params["file_b64_content"] = None
-                return FileWrapper(**file_wrapper_params)
+            else:
+                # Read to memory for small files
+                content = response.content
+                b64_content = base64.b64encode(content).decode("utf-8")
+                file_wrapper_params["file_path"] = None
+                file_wrapper_params["file_b64_content"] = b64_content
 
-            response = await session.get(file_url)
-            response.raise_for_status()
-
-            b64_content = base64.b64encode(response.content).decode("utf-8")
-            file_wrapper_params["file_path"] = None
-            file_wrapper_params["file_b64_content"] = b64_content
             return FileWrapper(**file_wrapper_params)
