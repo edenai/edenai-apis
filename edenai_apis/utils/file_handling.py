@@ -1,4 +1,5 @@
 import base64
+import mimetypes
 import random
 import tempfile
 
@@ -47,6 +48,28 @@ class FileHandler:
     def get_browser_impersonation() -> str:
         return random.choice(BROWSER_IMPERSONATIONS)
 
+    @staticmethod
+    def get_file_extension(mime_type: str) -> str:
+        """Derive file extension from MIME type using mimetypes module."""
+        # Strip any parameters after ';' (e.g., "text/html; charset=utf-8" -> "text/html")
+        clean_mime = mime_type.split(";")[0].strip()
+        # Try to get extension from mimetypes
+        extension = mimetypes.guess_extension(clean_mime)
+        if extension:
+            # Remove leading dot
+            return extension.lstrip(".")
+        # Fallback to subtype part of MIME type or empty string
+        parts = clean_mime.split("/")
+        return parts[-1] if len(parts) > 1 else ""
+
+    @staticmethod
+    def parse_content_length(header_value) -> int:
+        """Defensively parse Content-Length header, returning -1 on failure."""
+        try:
+            return int(header_value)
+        except (ValueError, TypeError):
+            return -1
+
     async def download_file(self, file_url: str, force_file_create: bool = False) -> FileWrapper:
         """
         Download a file from a url and return the file path
@@ -69,14 +92,14 @@ class FileHandler:
         )
         response.raise_for_status()
         file_type = response.headers.get("Content-Type", "application/octet-stream")
-        file_size = int(response.headers.get("Content-Length", -1))
+        file_size = self.parse_content_length(response.headers.get("Content-Length"))
 
         file_wrapper_params = {
             "file_url": file_url,
             "file_info": FileInfo(
                 file_size=file_size,
                 file_mimetype=file_type,
-                file_extension=file_type.split("/")[-1],
+                file_extension=self.get_file_extension(file_type),
             ),
         }
 
@@ -115,14 +138,14 @@ class FileHandler:
             response = await session.head(file_url)
             response.raise_for_status()
             file_type = response.headers.get("Content-Type", "application/octet-stream")
-            file_size = int(response.headers.get("Content-Length", -1))
+            file_size = self.parse_content_length(response.headers.get("Content-Length"))
 
             file_wrapper_params = {
                 "file_url": file_url,
                 "file_info": FileInfo(
                     file_size=file_size,
                     file_mimetype=file_type,
-                    file_extension=file_type.split("/")[-1],
+                    file_extension=self.get_file_extension(file_type),
                 ),
             }
 
