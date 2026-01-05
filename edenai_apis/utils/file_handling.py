@@ -166,8 +166,11 @@ class FileHandler:
                 file_wrapper_params["file_path"] = tmp_path
                 file_wrapper_params["file_b64_content"] = None
             else:
-                # Read to memory for small files
-                content = response.content
+                # Read to memory for small files - must consume stream explicitly
+                chunks = []
+                for chunk in response.iter_content():
+                    chunks.append(chunk)
+                content = b"".join(chunks)
                 b64_content = base64.b64encode(content).decode("utf-8")
                 file_wrapper_params["file_path"] = None
                 file_wrapper_params["file_b64_content"] = b64_content
