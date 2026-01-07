@@ -945,88 +945,108 @@ class AmazonOcrApi(OcrInterface):
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        # Read file asynchronously
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
 
-        # Create aioboto3 session
-        session = aioboto3.Session()
+        try:
+            # Read file asynchronously
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                s3_key = f"temp_{uuid.uuid4()}"
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                s3_key = file
 
-        # Upload to S3 asynchronously
-        async with session.resource(
-            "s3",
-            region_name=self.api_settings["region_name"],
-            aws_access_key_id=self.api_settings["aws_access_key_id"],
-            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-        ) as s3:
-            bucket = await s3.Bucket(self.api_settings["bucket"])
-            await bucket.put_object(Key=file, Body=file_content)
+            # Create aioboto3 session
+            session = aioboto3.Session()
 
-        # Start expense analysis job
-        payload = {
-            "DocumentLocation": {
-                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
+            # Upload to S3 asynchronously
+            async with session.resource(
+                "s3",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as s3:
+                bucket = await s3.Bucket(self.api_settings["bucket"])
+                await bucket.put_object(Key=s3_key, Body=file_content)
+
+            # Start expense analysis job
+            payload = {
+                "DocumentLocation": {
+                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": s3_key},
+                }
             }
-        }
 
-        async with session.client(
-            "textract",
-            region_name=self.api_settings["region_name"],
-            aws_access_key_id=self.api_settings["aws_access_key_id"],
-            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-        ) as textract_client:
-            launch_job_response = await ahandle_amazon_call(
-                textract_client.start_expense_analysis, **payload
-            )
-
-            # Get job result
-            job_id = launch_job_response.get("JobId")
-            get_response = await ahandle_amazon_call(
-                textract_client.get_expense_analysis, JobId=job_id
-            )
-
-            if get_response["JobStatus"] == "FAILED":
-                error: str = get_response.get(
-                    "StatusMessage", "Amazon returned a job status: FAILED"
+            async with session.client(
+                "textract",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as textract_client:
+                launch_job_response = await ahandle_amazon_call(
+                    textract_client.start_expense_analysis, **payload
                 )
-                raise ProviderException(error)
 
-            # Wait for job completion using fibonacci waiting
-            waiting_args = {"JobId": job_id}
-            get_response = await afibonacci_waiting_call(
-                max_time=60,
-                status="SUCCEEDED",
-                func=textract_client.get_expense_analysis,
-                provider_handel_call=ahandle_amazon_call,
-                **waiting_args,
-            )
+                # Get job result
+                job_id = launch_job_response.get("JobId")
+                get_response = await ahandle_amazon_call(
+                    textract_client.get_expense_analysis, JobId=job_id
+                )
 
-            # Check if NextToken exists
-            pagination_token = get_response.get("NextToken")
-            pages = [get_response]
+                if get_response["JobStatus"] == "FAILED":
+                    error: str = get_response.get(
+                        "StatusMessage", "Amazon returned a job status: FAILED"
+                    )
+                    raise ProviderException(error)
 
-            if not pagination_token:
+                # Wait for job completion using fibonacci waiting
+                waiting_args = {"JobId": job_id}
+                get_response = await afibonacci_waiting_call(
+                    max_time=60,
+                    status="SUCCEEDED",
+                    func=textract_client.get_expense_analysis,
+                    provider_handel_call=ahandle_amazon_call,
+                    **waiting_args,
+                )
+
+                # Check if NextToken exists
+                pagination_token = get_response.get("NextToken")
+                pages = [get_response]
+
+                if not pagination_token:
+                    return ResponseType(
+                        original_response=pages,
+                        standardized_response=amazon_financial_parser_formatter(pages),
+                    )
+
+                # Handle pagination
+                finished = False
+                while not finished:
+                    get_response = await ahandle_amazon_call(
+                        textract_client.get_expense_analysis,
+                        JobId=job_id,
+                        NextToken=pagination_token,
+                    )
+                    pages.append(get_response)
+
+                    if "NextToken" in get_response:
+                        pagination_token = get_response["NextToken"]
+                    else:
+                        finished = True
+
                 return ResponseType(
                     original_response=pages,
                     standardized_response=amazon_financial_parser_formatter(pages),
                 )
 
-            # Handle pagination
-            finished = False
-            while not finished:
-                get_response = await ahandle_amazon_call(
-                    textract_client.get_expense_analysis,
-                    JobId=job_id,
-                    NextToken=pagination_token,
-                )
-                pages.append(get_response)
-
-                if "NextToken" in get_response:
-                    pagination_token = get_response["NextToken"]
-                else:
-                    finished = True
-
-            return ResponseType(
-                original_response=pages,
-                standardized_response=amazon_financial_parser_formatter(pages),
-            )
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()

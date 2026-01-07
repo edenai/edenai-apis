@@ -689,35 +689,56 @@ class MindeeApi(ProviderInterface, OcrInterface):
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        headers = {
-            "Authorization": self.api_key,
-        }
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
 
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
-            files = {"document": (file, file_content)}
+        try:
+            headers = {
+                "Authorization": self.api_key,
+            }
+
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                filename = file_url
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                filename = file
+
+            files = {"document": (filename, file_content)}
 
             async with httpx.AsyncClient(timeout=180) as client:
                 response = await client.post(
                     self.url_financial, headers=headers, files=files
                 )
 
-        original_response = response.json()
+            original_response = response.json()
 
-        if "document" not in original_response:
-            raise ProviderException(
-                original_response["api_request"]["error"]["message"],
-                code=response.status_code,
+            if "document" not in original_response:
+                raise ProviderException(
+                    original_response["api_request"]["error"]["message"],
+                    code=response.status_code,
+                )
+
+            standardized_response = mindee_financial_parser(
+                original_response=original_response
             )
 
-        standardized_response = mindee_financial_parser(
-            original_response=original_response
-        )
+            return ResponseType[FinancialParserDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
 
-        return ResponseType[FinancialParserDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__invoice_splitter_async__launch_job(
         self, file: str, file_url: str = "", **kwargs

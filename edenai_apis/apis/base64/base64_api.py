@@ -119,23 +119,47 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         return response.json()
 
-    async def _asend_ocr_document(self, file: str, model_type: str) -> Dict:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+    async def _asend_ocr_document(self, file: str, model_type: str, file_url: str = "") -> Dict:
+        from edenai_apis.utils.file_handling import FileHandler
+
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
+
+        try:
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                mime_type = mimetypes.guess_type(file_url)[0]
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                mime_type = mimetypes.guess_type(file)[0]
+
             image_as_base64 = (
-                f"data:{mimetypes.guess_type(file)[0]};base64,"
+                f"data:{mime_type};base64,"
                 + base64.b64encode(file_content).decode()
             )
-        data = {"modelTypes": [model_type], "image": image_as_base64}
 
-        headers = {"Content-type": "application/json", "Authorization": self.api_key}
-        async with httpx.AsyncClient(timeout=120) as client:
-            response = await client.post(url=self.url, headers=headers, json=data)
+            data = {"modelTypes": [model_type], "image": image_as_base64}
 
-        if response.status_code != 200:
-            raise ProviderException(response.text, code=response.status_code)
+            headers = {"Content-type": "application/json", "Authorization": self.api_key}
+            async with httpx.AsyncClient(timeout=120) as client:
+                response = await client.post(url=self.url, headers=headers, json=data)
 
-        return response.json()
+            if response.status_code != 200:
+                raise ProviderException(response.text, code=response.status_code)
+
+            return response.json()
+
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def _ocr_finance_document(
         self, ocr_file, document_type: SubfeatureParser
@@ -199,7 +223,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         original_response = await self._asend_ocr_document(
-            file, "finance/" + document_type
+            file, "finance/" + document_type, file_url=file_url
         )
 
         standardized_response = format_financial_document_data(original_response)

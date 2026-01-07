@@ -776,39 +776,57 @@ class MicrosoftOcrApi(OcrInterface):
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None  # Track for cleanup
 
         try:
-            async with AsyncDocumentAnalysisClient(
-                endpoint=self.url["documentintelligence"],
-                credential=AzureKeyCredential(
-                    self.api_settings["documentintelligence"]["subscription_key"]
-                ),
-            ) as document_analysis_client:
-                document_type_value = (
-                    "prebuilt-receipt"
-                    if document_type == FinancialParserType.RECEIPT.value
-                    else "prebuilt-invoice"
-                )
-                poller = await document_analysis_client.begin_analyze_document(
-                    document_type_value, content
-                )
-                form_pages = await poller.result()
-        except AzureError as provider_call_exception:
-            raise ProviderException(str(provider_call_exception))
+            if not file:
+                # try to use the url
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    content = await file_.read()
 
-        try:
-            if form_pages is None or not hasattr(form_pages, "to_dict"):
-                raise AttributeError
+            try:
+                async with AsyncDocumentAnalysisClient(
+                    endpoint=self.url["documentintelligence"],
+                    credential=AzureKeyCredential(
+                        self.api_settings["documentintelligence"]["subscription_key"]
+                    ),
+                ) as document_analysis_client:
+                    document_type_value = (
+                        "prebuilt-receipt"
+                        if document_type == FinancialParserType.RECEIPT.value
+                        else "prebuilt-invoice"
+                    )
+                    poller = await document_analysis_client.begin_analyze_document(
+                        document_type_value, content
+                    )
+                    form_pages = await poller.result()
+            except AzureError as provider_call_exception:
+                raise ProviderException(str(provider_call_exception))
 
-            original_response = form_pages.to_dict()
-        except AttributeError:
-            raise ProviderException("Provider return an empty response")
+            try:
+                if form_pages is None or not hasattr(form_pages, "to_dict"):
+                    raise AttributeError
 
-        standardized_response = microsoft_financial_parser_formatter(original_response)
+                original_response = form_pages.to_dict()
+            except AttributeError:
+                raise ProviderException("Provider return an empty response")
 
-        return ResponseType[FinancialParserDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+            standardized_response = microsoft_financial_parser_formatter(original_response)
+
+            return ResponseType[FinancialParserDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+
+        finally:
+            # Clean up temp file if it was created
+            if file_wrapper:
+                file_wrapper.close_file()
