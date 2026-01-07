@@ -4,7 +4,10 @@ import uuid
 from http import HTTPStatus
 from typing import Dict, Literal
 
+import aiofiles
+import aioboto3
 import boto3
+import httpx
 import requests
 from requests.exceptions import JSONDecodeError
 
@@ -130,6 +133,83 @@ class VeryfiApi(ProviderInterface, OcrInterface):
                 files=files,
             )
 
+    async def _aprocess_document(
+        self, file: str, document_type: Literal["documents", "checks"] = "documents"
+    ):
+        is_partner = all(
+            [
+                self.partner_iam_api_key_id,
+                self.partner_iam_api_key_secret,
+                self.partner_bucket_name,
+                self.partner_upload_folder,
+            ]
+        )
+        if is_partner:
+            response = await self._aprocess_document_through_bucket(file, document_type)
+        else:
+            response = await self._aprocess_document_directly(file, document_type)
+
+        try:
+            original_response = response.json()
+        except JSONDecodeError:
+            raise ProviderException(message="Internal Server Error", code=500)
+
+        if response.status_code != HTTPStatus.CREATED:
+            error_message = original_response.get("message") or original_response.get(
+                "error"
+            )
+            raise ProviderException(message=error_message, code=response.status_code)
+
+        return original_response
+
+    async def _aprocess_document_through_bucket(self, filename: str, document_type: str):
+        """Upload file to veryfi bucket then process it (async)"""
+        session = aioboto3.Session()
+        async with session.client(
+            "s3",
+            aws_access_key_id=self.partner_iam_api_key_id,
+            aws_secret_access_key=self.partner_iam_api_key_secret,
+        ) as client:
+            random_filename = (
+                f"{document_type}_{uuid.uuid4()}{pathlib.Path(filename).suffix}"
+            )
+
+            await client.upload_file(
+                filename,
+                self.partner_bucket_name,
+                f"{self.partner_upload_folder}/{random_filename}",
+            )
+
+        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as http_client:
+            response = await http_client.post(
+                url=f"{self.url}/{document_type}",
+                headers=self.headers,
+                json={
+                    "bucket": self.partner_bucket_name,
+                    "package_path": f"{self.partner_upload_folder}/{random_filename}",
+                },
+            )
+
+        return response
+
+    async def _aprocess_document_directly(self, file: str, document_type: str):
+        """Send file directly to veryfi for processing (async)"""
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+            payload = {"file_name": f"test-{uuid.uuid4()}"}
+
+            files = {"file": ("file", file_content, mimetypes.guess_type(file)[0])}
+
+            async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+                response = await client.post(
+                    url=f"{self.url}/{document_type}",
+                    headers=self.headers,
+                    data=payload,
+                    files=files,
+                )
+
+        return response
+
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
@@ -191,5 +271,12 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         file_url: str = "",
         model: str = None,
         **kwargs,
-    ):
-        pass
+    ) -> ResponseType[FinancialParserDataClass]:
+        original_response = await self._aprocess_document(file)
+
+        standardized_response = veryfi_financial_parser(original_response)
+
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
