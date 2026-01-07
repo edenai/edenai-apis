@@ -144,12 +144,17 @@ class AsyncClient:
         return await self._parse_and_handle_response(response)
 
     async def _parse_resume_from_url_async(self, url: str) -> ResponseData:
+        import json
+
         parser_url = f"{self.BASE_URL}/api/v2/parse-resume-url"
-        json_payload = {"resumeUrl": url}
-        headers = {"Authorization": f"Bearer {self._api_key}"}
+        data = json.dumps({"resumeUrl": url})
+        headers = {
+            "Authorization": f"Bearer {self._api_key}",
+            "Content-Type": "application/json"
+        }
 
         response = await self._request_async(
-            "POST", parser_url, headers=headers, json_field=json_payload
+            "POST", parser_url, headers=headers, data=data
         )
         return await self._parse_and_handle_response(response)
 
