@@ -294,7 +294,7 @@ class ExtractaApi(
         if file_url:
             image_source = file_url
             isUrl = True
-        else:
+        elif file:
             try:
                 async with aiofiles.open(file, "rb") as f_stream:
                     content = await f_stream.read()
@@ -309,6 +309,10 @@ class ExtractaApi(
                 raise ProviderException(
                     "Error: An I/O error occurred while handling the file."
                 )
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
+            )
 
         payload = {
             "extractionDetails": {
@@ -485,7 +489,7 @@ class ExtractaApi(
         if file_url:
             image_source = file_url
             isUrl = True
-        else:
+        elif file:
             try:
                 async with aiofiles.open(file, "rb") as f_stream:
                     file_content = await f_stream.read()
@@ -500,6 +504,10 @@ class ExtractaApi(
                 raise ProviderException(
                     "Error: An I/O error occurred while handling the file."
                 )
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
+            )
 
         payload = json.dumps(
             {
