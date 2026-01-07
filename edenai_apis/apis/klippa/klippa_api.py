@@ -2,11 +2,18 @@ import asyncio
 from io import BufferedReader, BytesIO
 from json import JSONDecodeError
 from typing import Dict
-import aiofiles
 
+import aiofiles
 import httpx
 import requests
 
+from edenai_apis.apis.klippa.klippa_ocr_normalizer import (
+    klippa_financial_parser,
+    klippa_id_parser,
+    klippa_invoice_parser,
+    klippa_receipt_parser,
+    klippa_resume_parser,
+)
 from edenai_apis.features import OcrInterface, ProviderInterface
 from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
     FinancialParserDataClass,
@@ -21,13 +28,6 @@ from edenai_apis.loaders.loaders import ProviderDataEnum, load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
-from edenai_apis.apis.klippa.klippa_ocr_normalizer import (
-    klippa_invoice_parser,
-    klippa_financial_parser,
-    klippa_id_parser,
-    klippa_receipt_parser,
-    klippa_resume_parser,
-)
 
 
 class KlippaApi(ProviderInterface, OcrInterface):
@@ -172,14 +172,8 @@ class KlippaApi(ProviderInterface, OcrInterface):
         )
 
     async def ocr__aresume_parser(
-        self,
-        file: str,
-        language: str,
-        document_type: str = "",
-        file_url: str = "",
-        model: str = None,
-        **kwargs,
-    ) -> ResponseType[FinancialParserDataClass]:
+        self, file: str, file_url: str = "", model: str = None, **kwargs
+    ) -> ResponseType[ResumeParserDataClass]:
         file_handler = FileHandler()
         file_wrapper = None  # Track for cleanup
 
