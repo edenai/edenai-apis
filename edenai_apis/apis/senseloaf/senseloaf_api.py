@@ -1,3 +1,4 @@
+import mimetypes
 from typing import Dict
 
 import aiofiles
@@ -59,17 +60,23 @@ class SenseloafApi(ProviderInterface, OcrInterface):
                     )
                 file_wrapper = await file_handler.download_file(file_url)
                 file_content = await file_wrapper.get_bytes()
-                file = file_wrapper.file_path or "downloaded_resume"
+                mime_type = file_wrapper.file_info.file_media_type
+                extension = file_wrapper.file_info.file_extension
+                file = f"resume.{extension}"
             else:
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
+                mime_type = mimetypes.guess_type(file)[0]
 
             async with await AsyncClient.create(
                 email=self.api_settings.get("email"),
                 password=self.api_settings.get("password"),
             ) as async_client:
                 original_response = await async_client.parse_document_async(
-                    parse_type=Parser.RESUME, file=file, file_content=file_content
+                    parse_type=Parser.RESUME,
+                    file=file,
+                    file_content=file_content,
+                    mime_type=mime_type,
                 )
 
             mapper = ResumeMapper(original_response)

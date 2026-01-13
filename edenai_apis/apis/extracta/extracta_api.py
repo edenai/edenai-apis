@@ -302,13 +302,14 @@ class ExtractaApi(
                     )
                 file_wrapper = await file_handler.download_file(file_url)
                 file_content = await file_wrapper.get_bytes()
-                file = file_wrapper.file_path or "downloaded_resume"
+                mime_type = file_wrapper.file_info.file_media_type
             else:
                 async with aiofiles.open(file, "rb") as f_stream:
                     file_content = await f_stream.read()
+                mime_type = mimetypes.guess_type(file)[0]
 
             image_as_base64 = (
-                f"data:{mimetypes.guess_type(file)[0]};base64,"
+                f"data:{mime_type};base64,"
                 + base64.b64encode(file_content).decode()
             )
 
@@ -497,13 +498,14 @@ class ExtractaApi(
                     )
                 file_wrapper = await file_handler.download_file(file_url)
                 file_content = await file_wrapper.get_bytes()
-                file = file_wrapper.file_path or "downloaded_document"
+                mime_type = file_wrapper.file_info.file_media_type
             else:
                 async with aiofiles.open(file, "rb") as f_stream:
                     file_content = await f_stream.read()
+                mime_type = mimetypes.guess_type(file)[0]
 
             image_as_base64 = (
-                f"data:{mimetypes.guess_type(file)[0]};base64,"
+                f"data:{mime_type};base64,"
                 + base64.b64encode(file_content).decode()
             )
 

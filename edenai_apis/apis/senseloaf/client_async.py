@@ -130,7 +130,10 @@ class AsyncClient:
         )
 
     async def _parse_resume_from_file_async(
-        self, file: str, file_content: Optional[bytes] = None
+        self,
+        file: str,
+        file_content: Optional[bytes] = None,
+        mime_type: Optional[str] = None,
     ) -> ResponseData:
         url = f"{self.BASE_URL}/api/v2/parse-resume"
 
@@ -139,7 +142,8 @@ class AsyncClient:
                 file_content = await f.read()
 
         filename = os.path.basename(file)
-        mime_type = mimetypes.guess_type(file)[0] or "application/octet-stream"
+        if mime_type is None:
+            mime_type = mimetypes.guess_type(file)[0] or "application/octet-stream"
 
         files = {"files": (filename, file_content, mime_type)}
         headers = {"Authorization": f"Bearer {self._api_key}"}
@@ -166,12 +170,13 @@ class AsyncClient:
         parse_type: Parser,
         file: Optional[str] = "",
         file_content: Optional[bytes] = None,
+        mime_type: Optional[str] = None,
     ) -> ResponseData:
         if not file and not file_content:
             raise ProviderException("Please provide either a file path or file content.")
 
         if parse_type.value == "resume":
-            return await self._parse_resume_from_file_async(file, file_content)
+            return await self._parse_resume_from_file_async(file, file_content, mime_type)
 
         if parse_type == Parser.JD:
             if file:
