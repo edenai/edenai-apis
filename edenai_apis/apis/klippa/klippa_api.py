@@ -174,7 +174,6 @@ class KlippaApi(ProviderInterface, OcrInterface):
     async def ocr__aresume_parser(
         self,
         file: str,
-        language: str,
         document_type: str = "",
         file_url: str = "",
         model: str = None,
