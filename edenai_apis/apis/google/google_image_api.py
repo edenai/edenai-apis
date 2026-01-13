@@ -7,7 +7,6 @@ import aiofiles
 import numpy as np
 import mimetypes
 import requests
-import httpx
 from PIL import Image as Img, UnidentifiedImageError
 from google.cloud import vision
 from google.cloud.vision_v1.types.image_annotator import AnnotateImageResponse
@@ -60,6 +59,7 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 from edenai_apis.features.image.question_answer import QuestionAnswerDataClass
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.file_handling import FileHandler
+from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.image.embeddings import (
     EmbeddingsDataClass,
@@ -871,7 +871,7 @@ class GoogleImageApi(ImageInterface):
             "parameters": {"dimension": embedding_dimension},
         }
 
-        async with httpx.AsyncClient(timeout=60) as client:
+        async with async_client(IMAGE_TIMEOUT) as client:
             response = await client.post(url, json=payload, headers=headers)
         try:
             original_response = response.json()

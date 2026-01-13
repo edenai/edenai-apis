@@ -8,6 +8,7 @@ import httpx
 import aiofiles
 
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.http_client import OCR_TIMEOUT
 from .models import ResponseData
 
 
@@ -39,7 +40,7 @@ class AsyncClient:
         email: Optional[str] = None,
         password: Optional[str] = None,
     ) -> "AsyncClient":
-        client = httpx.AsyncClient(timeout=30.0)
+        client = httpx.AsyncClient(timeout=OCR_TIMEOUT)
         api_key = await cls._login_async(email, password, client)
         return cls(api_key, client)
 

@@ -20,6 +20,7 @@ from edenai_apis.features.text import (
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat, ChatStreamResponse
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.llmengine import LLMEngine
 from edenai_apis.features.llm.llm_interface import LlmInterface
@@ -166,7 +167,7 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface, LlmInterfac
 
     async def __aget_response(self, url: str, payload: dict) -> dict:
         # Launch job
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
+        async with async_client(IMAGE_TIMEOUT) as client:
             launch_job_response = await client.post(url, headers=self.headers, json=payload)
 
             try:
@@ -297,7 +298,7 @@ class ReplicateApi(ProviderInterface, ImageInterface, TextInterface, LlmInterfac
 
         image_url = response_dict.get("output")
 
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
+        async with async_client(IMAGE_TIMEOUT) as client:
             async def get_and_decode_image(image_url):
                 response = await client.get(image_url)
 

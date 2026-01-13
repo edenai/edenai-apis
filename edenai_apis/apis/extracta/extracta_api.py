@@ -5,7 +5,8 @@ from typing import List, Dict, Union
 import aiofiles
 
 import requests
-import httpx
+
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
 
 from edenai_apis.apis.extracta.extracta_ocr_normalizer import (
     extracta_resume_parser,
@@ -328,7 +329,7 @@ class ExtractaApi(
                 "Authorization": f"Bearer {self.api_key}",
             }
 
-            async with httpx.AsyncClient(timeout=10.0) as session:
+            async with async_client(OCR_TIMEOUT) as session:
                 response = await session.post(
                     url=self.url + self.processFileRoute, headers=headers, json=payload
                 )
@@ -528,7 +529,7 @@ class ExtractaApi(
                 "Authorization": f"Bearer {self.api_key}",
             }
 
-            async with httpx.AsyncClient() as client:
+            async with async_client(OCR_TIMEOUT) as client:
                 response = await client.post(
                     url=self.url + self.processFileRoute, headers=headers, content=payload
                 )

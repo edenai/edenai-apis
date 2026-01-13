@@ -3,10 +3,10 @@ from collections import defaultdict
 from http import HTTPStatus
 from typing import Any, Dict, Optional
 
-import httpx
 import requests
 
 from edenai_apis.features import TextInterface
+from edenai_apis.utils.http_client import DEFAULT_TIMEOUT, async_client
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.features.text.ai_detection.ai_detection_dataclass import (
     AiDetectionDataClass,
@@ -103,7 +103,7 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
         payload = {"content": text, "title": title}
         headers = {"content-type": "application/json", "X-OAI-API-KEY": self.api_key}
 
-        async with httpx.AsyncClient(timeout=120) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             response = await client.post(url=url, headers=headers, json=payload)
 
         try:
@@ -218,7 +218,7 @@ class OriginalityaiApi(ProviderInterface, TextInterface):
             "content-type": "application/json",
             "X-OAI-API-KEY": self.api_key,
         }
-        async with httpx.AsyncClient(timeout=120) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             response = await client.post(url=url, headers=headers, json=payload)
 
         try:

@@ -10,6 +10,7 @@ import httpx
 import requests
 
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
 from edenai_apis.utils.http import HTTPMethod
 from .document import DocumentState, FileParameter, QueryBuilder, UploadDocumentParams
 from .models import Document, Organization, Workspace, Collection
@@ -554,7 +555,7 @@ class Client:
         Returns:
             dict: The response of the request in json format. If status_code is 204, return { 'status_code': 204 }
         """
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10, read=120.0)) as client:
+        async with async_client(OCR_TIMEOUT) as client:
             response: httpx.Response = await client.request(
                 method=method.value,
                 url=url,

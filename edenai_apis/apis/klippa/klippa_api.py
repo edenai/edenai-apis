@@ -4,10 +4,10 @@ from json import JSONDecodeError
 from typing import Dict
 import aiofiles
 
-import httpx
 import requests
 
 from edenai_apis.features import OcrInterface, ProviderInterface
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
 from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
     FinancialParserDataClass,
 )
@@ -68,7 +68,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
             "document": file,
         }
         data = {"pdf_text_extraction": "full"}
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+        async with async_client(OCR_TIMEOUT) as client:
             response = await client.post(
                 url=self.url + endpoint, headers=self.headers, files=files, data=data
             )

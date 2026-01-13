@@ -6,7 +6,6 @@ from json import JSONDecodeError
 from typing import Dict, Literal, Optional, Any, List, Sequence
 
 import aiofiles
-import httpx
 import requests
 
 from edenai_apis.features import ProviderInterface, ImageInterface
@@ -24,6 +23,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.file_handling import FileHandler
+from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
@@ -126,7 +126,7 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
             "samples": num_images,
         }
 
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
+        async with async_client(IMAGE_TIMEOUT) as client:
             response = await client.post(url, json=payload, headers=self.headers)
 
             try:
@@ -241,9 +241,7 @@ class StabilityAIApi(ProviderInterface, ImageInterface):
 
             files = {"image": image_file}
 
-            async with httpx.AsyncClient(
-                timeout=httpx.Timeout(10.0, read=120)
-            ) as client:
+            async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(
                     url, files=files, headers=self.image_headers
                 )

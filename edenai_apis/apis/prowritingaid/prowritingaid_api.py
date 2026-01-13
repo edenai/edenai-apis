@@ -1,10 +1,10 @@
 from http import HTTPStatus
 from typing import Any, Dict, List, Optional
 
-import httpx
 import requests
 
 from edenai_apis.features.provider.provider_interface import ProviderInterface
+from edenai_apis.utils.http_client import DEFAULT_TIMEOUT, async_client
 from edenai_apis.features.text.spell_check.spell_check_dataclass import (
     SpellCheckDataClass,
     SpellCheckItem,
@@ -100,7 +100,7 @@ class ProWritingAidApi(ProviderInterface, TextInterface):
             "documentType": 0,
         }
 
-        async with httpx.AsyncClient(timeout=120) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             response = await client.post(
                 url=f"{self.api_url}/text", headers=self.headers, json=payload
             )

@@ -1,11 +1,12 @@
 from typing import List, Optional
 
-import requests
 import httpx
+import requests
 
 from edenai_apis.features.text.keyword_extraction.keyword_extraction_dataclass import (
     KeywordExtractionDataClass,
 )
+from edenai_apis.utils.http_client import DEFAULT_TIMEOUT, async_client
 from edenai_apis.features.text.named_entity_recognition.named_entity_recognition_dataclass import (
     NamedEntityRecognitionDataClass,
 )
@@ -171,7 +172,7 @@ class TenstorrentTextApi(TextInterface):
         payload = {
             "text": text,
         }
-        async with httpx.AsyncClient(timeout=120) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             try:
                 original_response = await client.post(
                     url, json=payload, headers=self.headers
@@ -236,7 +237,7 @@ class TenstorrentTextApi(TextInterface):
         payload = {
             "text": text,
         }
-        async with httpx.AsyncClient(timeout=120) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             try:
                 original_response = await client.post(
                     url, json=payload, headers=self.headers

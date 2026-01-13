@@ -3,7 +3,6 @@ import json
 from typing import List, Sequence, Optional, Any, Dict
 
 import requests
-import httpx
 import aiofiles
 from PIL import Image as Img
 
@@ -53,6 +52,7 @@ from edenai_apis.utils.conversion import standardized_confidence_score
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
+from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT
 
 
 class MicrosoftImageApi(ImageInterface):
@@ -127,7 +127,7 @@ class MicrosoftImageApi(ImageInterface):
             else:
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
-            async with httpx.AsyncClient() as client:
+            async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(
                     f"{self.url['vision']}/analyze?visualFeatures=Adult",
                     headers=self.headers["vision"],
@@ -254,7 +254,7 @@ class MicrosoftImageApi(ImageInterface):
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
 
-            async with httpx.AsyncClient() as client:
+            async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(
                     f"{self.url['vision']}/detect",
                     headers=self.headers["vision"],
@@ -411,7 +411,7 @@ class MicrosoftImageApi(ImageInterface):
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
 
-            async with httpx.AsyncClient(timeout=httpx.Timeout(10, read=120)) as client:
+            async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(
                     f"{self.url['vision']}/analyze?visualFeatures=Brands",
                     headers=self.headers["vision"],

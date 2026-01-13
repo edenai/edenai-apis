@@ -14,6 +14,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.file_handling import FileHandler
+from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT
 from edenai_apis.utils.types import ResponseType
 
 
@@ -116,9 +117,7 @@ class PhotoroomApi(ImageInterface, ProviderInterface):
                 async with aiofiles.open(file, "rb") as f:
                     image_file = await f.read()
 
-            async with httpx.AsyncClient(
-                timeout=httpx.Timeout(10.0, read=120.0)
-            ) as client:
+            async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(
                     f"{self.base_url}segment",
                     files={"image_file": image_file},

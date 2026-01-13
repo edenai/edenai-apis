@@ -8,10 +8,10 @@ from time import sleep
 from typing import Dict, Optional
 
 import aiofiles
-import httpx
 import requests
 
 from edenai_apis.features.provider.provider_interface import ProviderInterface
+from edenai_apis.utils.http_client import async_client, DEFAULT_TIMEOUT
 from edenai_apis.features.translation.automatic_translation import (
     AutomaticTranslationDataClass,
 )
@@ -186,7 +186,7 @@ class DeeplApi(ProviderInterface, TranslationInterface):
         files = {"file": (filename, BytesIO(content), mimetype)}
         data = {"target_lang": target_language, "source_lang": source_language}
 
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             try:
                 response = await client.post(
                     f"{self.url}document",
