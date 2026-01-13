@@ -1,5 +1,6 @@
 from typing import Dict
-import asyncio
+
+import aiofiles
 
 from edenai_apis.features import OcrInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
@@ -7,6 +8,8 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.ocr import ResumeParserDataClass
+from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 
 from .client import Client, Parser
 from .client_async import AsyncClient
@@ -25,13 +28,6 @@ class SenseloafApi(ProviderInterface, OcrInterface):
             self.api_settings.get("api_key", None),
             self.api_settings.get("email", None),
             self.api_settings.get("password", None),
-        )
-        self.async_client: AsyncClient = None
-
-    async def _get_async_client(self):
-        self.async_client = await AsyncClient.create(
-            email=self.api_settings.get("email"),
-            password=self.api_settings.get("password"),
         )
 
     def ocr__resume_parser(
@@ -52,14 +48,36 @@ class SenseloafApi(ProviderInterface, OcrInterface):
     async def ocr__aresume_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[ResumeParserDataClass]:
-        await self._get_async_client()
-        original_response = await self.async_client.parse_document_async(
-            parse_type=Parser.RESUME, file=file, url=file_url
-        )
+        file_handler = FileHandler()
+        file_wrapper = None
 
-        mapper = ResumeMapper(original_response)
+        try:
+            if not file:
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                file = file_wrapper.file_path or "downloaded_resume"
+            else:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
 
-        return ResponseType[ResumeParserDataClass](
-            original_response=mapper.original_response(),
-            standardized_response=mapper.standard_response(),
-        )
+            async with await AsyncClient.create(
+                email=self.api_settings.get("email"),
+                password=self.api_settings.get("password"),
+            ) as async_client:
+                original_response = await async_client.parse_document_async(
+                    parse_type=Parser.RESUME, file=file, file_content=file_content
+                )
+
+            mapper = ResumeMapper(original_response)
+
+            return ResponseType[ResumeParserDataClass](
+                original_response=mapper.original_response(),
+                standardized_response=mapper.standard_response(),
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()

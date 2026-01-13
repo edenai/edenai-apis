@@ -129,10 +129,14 @@ class AsyncClient:
             response_type=return_type,
         )
 
-    async def _parse_resume_from_file_async(self, file: str) -> ResponseData:
+    async def _parse_resume_from_file_async(
+        self, file: str, file_content: Optional[bytes] = None
+    ) -> ResponseData:
         url = f"{self.BASE_URL}/api/v2/parse-resume"
-        async with aiofiles.open(file, "rb") as f:
-            file_content = await f.read()
+
+        if file_content is None:
+            async with aiofiles.open(file, "rb") as f:
+                file_content = await f.read()
 
         filename = os.path.basename(file)
         mime_type = mimetypes.guess_type(file)[0] or "application/octet-stream"
@@ -141,16 +145,6 @@ class AsyncClient:
         headers = {"Authorization": f"Bearer {self._api_key}"}
 
         response = await self._request_async("POST", url, headers=headers, files=files)
-        return await self._parse_and_handle_response(response)
-
-    async def _parse_resume_from_url_async(self, url: str) -> ResponseData:
-        parser_url = f"{self.BASE_URL}/api/v2/parse-resume-url"
-        json_payload = {"resumeUrl": url}
-        headers = {"Authorization": f"Bearer {self._api_key}"}
-
-        response = await self._request_async(
-            "POST", parser_url, headers=headers, json_field=json_payload
-        )
         return await self._parse_and_handle_response(response)
 
     async def _parse_jd_from_file_async(self, file: str) -> ResponseData:
@@ -168,21 +162,22 @@ class AsyncClient:
         return await self._parse_and_handle_response(response)
 
     async def parse_document_async(
-        self, parse_type: Parser, file: Optional[str] = "", url: Optional[str] = ""
+        self,
+        parse_type: Parser,
+        file: Optional[str] = "",
+        file_content: Optional[bytes] = None,
     ) -> ResponseData:
-        if not file and not url:
-            raise ProviderException("Please provide either a file path or a URL.")
+        if not file and not file_content:
+            raise ProviderException("Please provide either a file path or file content.")
 
         if parse_type.value == "resume":
-            if file:
-                return await self._parse_resume_from_file_async(file)
-            return await self._parse_resume_from_url_async(url)
+            return await self._parse_resume_from_file_async(file, file_content)
 
         if parse_type == Parser.JD:
             if file:
                 return await self._parse_jd_from_file_async(file)
-            raise NotImplementedError(
-                "Parsing a Job Description from a URL is not yet implemented."
+            raise ProviderException(
+                "Please provide a file path for Job Description parsing."
             )
 
         # Handle other parser types
