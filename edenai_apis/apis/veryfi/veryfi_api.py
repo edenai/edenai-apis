@@ -4,9 +4,12 @@ import uuid
 from http import HTTPStatus
 from typing import Dict, Literal
 
+import aiofiles
 import boto3
 import requests
 from requests.exceptions import JSONDecodeError
+
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
 
 from edenai_apis.apis.veryfi.veryfi_ocr_normalizer import (
     veryfi_bank_check_parser,
@@ -191,5 +194,46 @@ class VeryfiApi(ProviderInterface, OcrInterface):
         file_url: str = "",
         model: str = None,
         **kwargs,
-    ):
-        pass
+    ) -> ResponseType[FinancialParserDataClass]:
+        if file:
+            async with aiofiles.open(file, "rb") as file_:
+                file_content = await file_.read()
+            mime_type = mimetypes.guess_type(file)[0] or "application/octet-stream"
+            files = {"file": ("file", file_content, mime_type)}
+            payload = {"file_name": f"test-{uuid.uuid4()}"}
+            async with async_client(OCR_TIMEOUT) as client:
+                response = await client.post(
+                    f"{self.url}/documents",
+                    headers=self.headers,
+                    data=payload,
+                    files=files,
+                )
+        elif file_url:
+            async with async_client(OCR_TIMEOUT) as client:
+                response = await client.post(
+                    f"{self.url}/documents",
+                    headers=self.headers,
+                    json={"file_url": file_url},
+                )
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
+            )
+
+        try:
+            original_response = response.json()
+        except Exception:
+            raise ProviderException(message="Internal Server Error", code=500)
+
+        if response.status_code != HTTPStatus.CREATED:
+            error_message = original_response.get("message") or original_response.get(
+                "error"
+            )
+            raise ProviderException(message=error_message, code=response.status_code)
+
+        standardized_response = veryfi_financial_parser(original_response)
+
+        return ResponseType[FinancialParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )

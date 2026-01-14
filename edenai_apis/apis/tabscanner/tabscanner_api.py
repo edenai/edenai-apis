@@ -1,8 +1,13 @@
+import asyncio
 from io import BufferedReader
 from time import sleep
 from typing import Any, Dict, Sequence
 
+import aiofiles
 import requests
+
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
+from edenai_apis.utils.file_handling import FileHandler
 
 from edenai_apis.features import ProviderInterface, OcrInterface
 from edenai_apis.features.ocr import (
@@ -241,3 +246,136 @@ class TabscannerApi(ProviderInterface, OcrInterface):
             original_response=original_response,
             standardized_response=standardized_response,
         )
+
+    async def _aprocess(self, file_content: bytes, document_type: str) -> str:
+        """Async version of _process - submit file for processing"""
+        payload = {"documentType": document_type}
+        headers = {"apikey": self.api_key}
+        async with async_client(OCR_TIMEOUT) as client:
+            response = await client.post(
+                self.url + "2/process",
+                files={"file": ("file", file_content)},
+                data=payload,
+                headers=headers,
+            )
+        response_json = response.json()
+        if response_json.get("success") == False:
+            raise ProviderException(
+                response_json.get("message"), code=response.status_code
+            )
+        return response_json["token"]
+
+    async def _aget_response(self, token: str, retry: int = 0) -> Any:
+        """Async version of _get_response - poll for result"""
+        headers = {"apikey": self.api_key}
+        async with async_client(OCR_TIMEOUT) as client:
+            response = await client.get(self.url + "result/" + token, headers=headers)
+        response_json = response.json()
+        if response_json["status"] == "pending" and retry <= 5:
+            await asyncio.sleep(1)
+            return await self._aget_response(token, retry + 1)
+        return response_json, response.status_code
+
+    async def ocr__afinancial_parser(
+        self,
+        file: str,
+        language: str,
+        document_type: str = "",
+        file_url: str = "",
+        model: str = None,
+        **kwargs,
+    ) -> ResponseType[FinancialParserDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            token = await self._aprocess(file_content, document_type or "auto")
+            await asyncio.sleep(1)
+            original_response, status_code = await self._aget_response(token)
+
+            if "result" not in original_response:
+                raise ProviderException(original_response["message"], code=status_code)
+
+            financial_document = original_response.get("result")
+
+            merchant_information = FinancialMerchantInformation(
+                name=financial_document.get("establishment"),
+                address=financial_document.get("address"),
+                phone=financial_document.get("phoneNumber"),
+                id_reference=financial_document.get("customFields", {}).get("StoreID"),
+                website=financial_document.get("url"),
+                city=financial_document.get("addressNorm", {}).get("city"),
+                house_number=financial_document.get("addressNorm", {}).get("number"),
+                province=financial_document.get("addressNorm", {}).get("state"),
+                country=financial_document.get("addressNorm", {}).get("country"),
+                street_name=financial_document.get("addressNorm", {}).get("street"),
+                zip_code=financial_document.get("addressNorm", {}).get("postcode"),
+            )
+            payment_information = FinancialPaymentInformation(
+                amount_due=financial_document.get("total"),
+                amount_tip=financial_document.get("tip"),
+                total=financial_document.get("total"),
+                total_tax=financial_document.get("tax"),
+                amount_change=financial_document.get("change"),
+                discount=financial_document.get("discount"),
+                payment_method=financial_document.get("paymentMethod"),
+                subtotal=financial_document.get("subTotal"),
+                barcodes=[
+                    FinancialBarcode(type=code_type, value=code_value)
+                    for code_value, code_type in financial_document.get("barcodes", [])
+                ],
+            )
+            financial_document_information = FinancialDocumentInformation(
+                date=financial_document.get("date")
+            )
+
+            local = FinancialLocalInformation(currecy=financial_document.get("currency"))
+
+            list_items = [
+                FinancialLineItem(
+                    description=json_element.get("descClean"),
+                    amount_line=convert_string_to_number(
+                        json_element.get("lineTotal"), float
+                    ),
+                    unit_price=convert_string_to_number(json_element.get("unit"), float),
+                    quantity=json_element["qty"],
+                    product_code=json_element.get("productCode"),
+                    discount_amount=json_element.get("discount"),
+                )
+                for json_element in financial_document["lineItems"]
+            ]
+
+            standardized_response = FinancialParserDataClass(
+                extracted_data=[
+                    FinancialParserObjectDataClass(
+                        customer_information=FinancialCustomerInformation(),
+                        merchant_information=merchant_information,
+                        payment_information=payment_information,
+                        financial_document_information=financial_document_information,
+                        local=local,
+                        bank=FinancialBankInformation(),
+                        item_lines=list_items,
+                        document_metadata=FinancialDocumentMetadata(
+                            document_type=financial_document.get("documentType")
+                        ),
+                    )
+                ]
+            )
+            return ResponseType[FinancialParserDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
