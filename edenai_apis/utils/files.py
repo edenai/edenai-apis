@@ -51,7 +51,7 @@ class FileWrapper:
         if self.file_path:
             async with aiofiles.open(self.file_path, "rb") as f:
                 content = await f.read()
-                self._file_b64_content = base64.encodebytes(content).decode("utf-8")
+                self._file_b64_content = base64.b64encode(content).decode("utf-8")
                 f.close()
                 return self._file_b64_content
         raise Exception("No file found...!")
