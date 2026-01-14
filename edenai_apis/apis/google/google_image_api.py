@@ -844,63 +844,67 @@ class GoogleImageApi(ImageInterface):
         file_url: Optional[str] = "",
         **kwargs,
     ) -> ResponseType[EmbeddingsDataClass]:
-
-        token = get_access_token(self.location)
-        location = "us-central1"
-        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {token}",
-        }
-
-        # Work with the file
         file_handler = FileHandler()
+        file_wrapper = None
 
-        inputImage = None
-
-        if not file:
-            # try to use the url
-            file_wrapper = await file_handler.download_file(file_url)
-            inputImage = await file_wrapper.get_file_b64_content()
-        else:
-            image_bytes = await self._read_file_async(file)
-            inputImage = base64.b64encode(image_bytes).decode("utf-8")
-
-        payload = {
-            "instances": [{"image": {"bytesBase64Encoded": inputImage}}],
-            "parameters": {"dimension": embedding_dimension},
-        }
-
-        async with async_client(IMAGE_TIMEOUT) as client:
-            response = await client.post(url, json=payload, headers=headers)
         try:
-            original_response = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                message="Internal Server Error",
-                code=500,
-            ) from exc
+            token = get_access_token(self.location)
+            location = "us-central1"
+            url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {token}",
+            }
 
-        if "error" in original_response:
-            raise ProviderException(
-                message=original_response["error"]["message"], code=400
+            if file:
+                image_bytes = await self._read_file_async(file)
+                inputImage = base64.b64encode(image_bytes).decode("utf-8")
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                inputImage = await file_wrapper.get_file_b64_content()
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            payload = {
+                "instances": [{"image": {"bytesBase64Encoded": inputImage}}],
+                "parameters": {"dimension": embedding_dimension},
+            }
+
+            async with async_client(IMAGE_TIMEOUT) as client:
+                response = await client.post(url, json=payload, headers=headers)
+            try:
+                original_response = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException(
+                    message="Internal Server Error",
+                    code=500,
+                ) from exc
+
+            if "error" in original_response:
+                raise ProviderException(
+                    message=original_response["error"]["message"], code=400
+                )
+
+            if not original_response.get("predictions"):
+                raise ProviderException(message="No predictions found", code=400)
+
+            items: Sequence[EmbeddingDataClass] = []
+
+            for prediction in original_response["predictions"]:
+                embedding = prediction.get("imageEmbedding") or []
+                items.append(EmbeddingDataClass(embedding=embedding))
+
+            standardized_response = EmbeddingsDataClass(items=items)
+
+            return ResponseType[EmbeddingsDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
             )
-
-        if not original_response.get("predictions"):
-            raise ProviderException(message="No predictions found", code=400)
-
-        items: Sequence[EmbeddingDataClass] = []
-
-        for prediction in original_response["predictions"]:
-            embedding = prediction.get("imageEmbedding") or []
-            items.append(EmbeddingDataClass(embedding=embedding))
-
-        standardized_response = EmbeddingsDataClass(items=items)
-
-        return ResponseType[EmbeddingsDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     async def _read_file_async(self, file):
         async with aiofiles.open(file, "rb") as f:

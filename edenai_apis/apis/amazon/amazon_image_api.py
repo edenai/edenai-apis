@@ -1061,38 +1061,42 @@ class AmazonImageApi(ImageInterface):
         file_handler = FileHandler()
         file_wrapper = None
 
-        inputImage = None
         try:
-            if not file:
-                # try to use the url
-                if not file_url:
-                    raise ProviderException(
-                        "Either file or file_url must be provided", code=400
-                    )
-                file_wrapper = await file_handler.download_file(file_url)
-                inputImage = await file_wrapper.get_file_b64_content()
-            else:
+            if file:
                 async with aiofiles.open(file, "rb") as image_file:
                     image_bytes = await image_file.read()
                     inputImage = base64.b64encode(image_bytes).decode("utf-8")
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                inputImage = await file_wrapper.get_file_b64_content()
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
 
             request_body = {
                 "inputImage": inputImage,
                 "embeddingConfig": {"outputEmbeddingLength": embedding_dimension},
             }
 
-            request_params = {
-                "body": json.dumps(request_body).encode("utf-8"),
-                "modelId": f"amazon.{model}",
-                "accept": accept_header,
-                "contentType": content_type_header,
-            }
+            session = aioboto3.Session()
 
-            response = handle_amazon_call(
-                self.clients["bedrock"].invoke_model, **request_params
-            )
+            async with session.client(
+                "bedrock-runtime",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as bedrock_client:
+                response = await ahandle_amazon_call(
+                    bedrock_client.invoke_model,
+                    body=json.dumps(request_body).encode("utf-8"),
+                    modelId=f"amazon.{model}",
+                    accept=accept_header,
+                    contentType=content_type_header,
+                )
 
-            original_response = json.loads(response.get("body").read())
+            response_body = await response.get("body").read()
+            original_response = json.loads(response_body)
 
             embeddings = original_response["embedding"] or []
             items: Sequence[EmbeddingDataClass] = []
