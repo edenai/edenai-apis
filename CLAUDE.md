@@ -59,7 +59,7 @@ Example: `image__search__upload_image`, `audio__speech_to_text_async__launch_job
 
 ### Core Package Structure
 
-```
+```text
 edenai_apis/
 ├── apis/                    # Provider implementations (one folder per provider)
 │   └── <provider>/
