@@ -244,10 +244,9 @@ def retreive_voice_id(
         str: the voice id selected
     """
     # Extract base provider name and model type if variant is included (e.g., "google/Standard" -> "google", "Standard")
-    if "/" in provider_name:
-        base_provider, model_type = provider_name.split("/", 1)
-    else:
-        base_provider, model_type = provider_name, ""
+    base_provider = (
+        provider_name.split("/")[0] if "/" in provider_name else provider_name
+    )
 
     constrains = __get_provider_tts_constraints(base_provider, subfeature)
     language = confirm_appropriate_language(language, base_provider, subfeature)
@@ -257,14 +256,12 @@ def retreive_voice_id(
         selected_voice = settings[base_provider]
         if constrains and __has_voice_in_contrains(constrains, selected_voice):
             return selected_voice
+        print("VOICE EXCEPTION RAISED")
+        print(base_provider, selected_voice, constrains, settings)
         raise ProviderException(VOICE_EXCEPTION_MESSAGE)
     if not language:
         raise ProviderException(f"Language '{language}' not supported")
     suited_voices = __get_voices_from_constrains(constrains, language, option)
-
-    # Filter by model type if specified (e.g., "Standard", "Neural", "Wavenet")
-    if model_type and suited_voices:
-        suited_voices = [v for v in suited_voices if model_type.lower() in v.lower()]
 
     if not suited_voices:
         option_supported = "MALE" if option.upper() == "FEMALE" else "FEMALE"
