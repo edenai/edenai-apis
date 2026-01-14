@@ -3,6 +3,7 @@ import json
 import mimetypes
 import re
 import uuid
+from io import BytesIO
 from typing import Sequence
 
 import aiofiles
@@ -138,13 +139,14 @@ class GoogleOcrApi(OcrInterface):
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
                 image = vision.Image(content=file_content)
-                file_path = file
+                mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
             elif file_url:
                 # Google Vision supports URL directly
                 image = vision.Image()
                 image.source.image_uri = file_url
                 file_wrapper = await file_handler.download_file(file_url)
-                file_path = file_wrapper.file_path
+                file_content = await file_wrapper.get_bytes()
+                mimetype = file_wrapper.file_info.file_media_type or "unrecognized"
             else:
                 raise ProviderException(
                     "Either file or file_url must be provided", code=400
@@ -155,20 +157,20 @@ class GoogleOcrApi(OcrInterface):
                 handle_google_call, self.clients["image"].text_detection, **payload
             )
 
-            import mimetypes as mt
-            mimetype = mt.guess_type(file_path)[0] or "unrecognized"
             if mimetype.startswith("image"):
                 try:
-                    def _get_image_size(path):
-                        with Img.open(path) as img:
+                    def _get_image_size(content):
+                        with Img.open(BytesIO(content)) as img:
                             return img.size
-                    width, height = await asyncio.to_thread(_get_image_size, file_path)
+                    width, height = await asyncio.to_thread(_get_image_size, file_content)
                 except UnidentifiedImageError as exc:
                     raise ProviderException(
                         "Image could not be identified. Supported types are: image/* and application/pdf"
                     ) from exc
             elif mimetype == "application/pdf":
-                width, height = await asyncio.to_thread(get_pdf_width_height, file_path)
+                def _get_pdf_size(content):
+                    return get_pdf_width_height(BytesIO(content))
+                width, height = await asyncio.to_thread(_get_pdf_size, file_content)
             else:
                 raise ProviderException(
                     "File type not supported by Google OCR API. Supported types are: image/* and application/pdf"
