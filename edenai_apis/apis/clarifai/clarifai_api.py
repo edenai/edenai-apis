@@ -184,8 +184,9 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
                 )
 
                 if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
+                    error_detail = post_model_outputs_response.status.description or "Unknown error"
                     raise ProviderException(
-                        "Error calling Clarifai API",
+                        f"Error calling Clarifai API: {error_detail}",
                         code=post_model_outputs_response.status.code,
                     )
 
