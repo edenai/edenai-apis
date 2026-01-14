@@ -4,7 +4,6 @@ from typing import Dict, Optional, Sequence
 
 import aiofiles
 import asyncio
-import grpc
 
 from PIL import Image as Img, UnidentifiedImageError
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
@@ -157,30 +156,32 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
                         "Either file or file_url must be provided", code=400
                     )
 
-                # Use native async gRPC channel
-                async with grpc.aio.secure_channel(
-                    "api.clarifai.com:443", grpc.ssl_channel_credentials()
-                ) as channel:
+                def _sync_call(content, lang, key):
+                    channel = ClarifaiChannel.get_grpc_channel()
                     stub = service_pb2_grpc.V2Stub(channel)
-                    metadata = (("authorization", self.key),)
+                    metadata = (("authorization", key),)
                     user_data_object = resources_pb2.UserAppIDSet(
                         user_id="clarifai", app_id="main"
                     )
 
-                    post_model_outputs_response = await stub.PostModelOutputs(
+                    return stub.PostModelOutputs(
                         service_pb2.PostModelOutputsRequest(
                             user_app_id=user_data_object,
-                            model_id=get_formatted_language(language),
+                            model_id=get_formatted_language(lang),
                             inputs=[
                                 resources_pb2.Input(
                                     data=resources_pb2.Data(
-                                        image=resources_pb2.Image(base64=file_content)
+                                        image=resources_pb2.Image(base64=content)
                                     )
                                 )
                             ],
                         ),
                         metadata=metadata,
                     )
+
+                post_model_outputs_response = await asyncio.to_thread(
+                    _sync_call, file_content, language, self.key
+                )
 
                 if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
                     raise ProviderException(
