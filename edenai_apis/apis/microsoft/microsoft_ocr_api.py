@@ -132,15 +132,16 @@ class MicrosoftOcrApi(OcrInterface):
             if file:
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
-                headers = self.headers["vision"]
+                headers = {**self.headers["vision"], "Content-Type": "application/octet-stream"}
                 async with httpx.AsyncClient() as client:
                     request = await client.post(
                         url=url_with_lang,
                         headers=headers,
                         content=file_content,
                     )
-                file_path = file
             elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
                 headers = {**self.headers["vision"], "Content-Type": "application/json"}
                 async with httpx.AsyncClient() as client:
                     request = await client.post(
@@ -148,8 +149,6 @@ class MicrosoftOcrApi(OcrInterface):
                         headers=headers,
                         json={"url": file_url},
                     )
-                file_wrapper = await file_handler.download_file(file_url)
-                file_path = file_wrapper.file_path
             else:
                 raise ProviderException(
                     "Either file or file_url must be provided", code=400
@@ -160,11 +159,11 @@ class MicrosoftOcrApi(OcrInterface):
             if "error" in response:
                 raise ProviderException(response["error"]["message"], request.status_code)
 
-            def _get_image_size(path):
-                with Img.open(path) as img:
+            def _get_image_size(content):
+                with Img.open(BytesIO(content)) as img:
                     return img.size
 
-            width, height = _get_image_size(file_path)
+            width, height = _get_image_size(file_content)
             boxes: Sequence[Bounding_box] = []
             final_text = ""
 

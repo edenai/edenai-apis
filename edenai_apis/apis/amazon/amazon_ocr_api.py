@@ -133,16 +133,18 @@ class AmazonOcrApi(OcrInterface):
                     "Either file or file_url must be provided", code=400
                 )
 
-            payload = {
-                "Document": {
-                    "Bytes": file_content,
-                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file or "document"},
-                }
-            }
+            session = aioboto3.Session()
 
-            response = await ahandle_amazon_call(
-                self.clients["textract"].detect_document_text, **payload
-            )
+            async with session.client(
+                "textract",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as textract_client:
+                payload = {"Document": {"Bytes": file_content}}
+                response = await ahandle_amazon_call(
+                    textract_client.detect_document_text, **payload
+                )
 
             final_text = ""
             output_value = json.dumps(response, ensure_ascii=False)

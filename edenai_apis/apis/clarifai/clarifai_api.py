@@ -4,6 +4,7 @@ from typing import Dict, Optional, Sequence
 
 import aiofiles
 import asyncio
+import grpc
 
 from PIL import Image as Img, UnidentifiedImageError
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
@@ -154,13 +155,17 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
                     "Either file or file_url must be provided", code=400
                 )
 
-            def _sync_call():
-                channel = ClarifaiChannel.get_grpc_channel()
+            # Use native async gRPC channel
+            async with grpc.aio.secure_channel(
+                "api.clarifai.com:443", grpc.ssl_channel_credentials()
+            ) as channel:
                 stub = service_pb2_grpc.V2Stub(channel)
                 metadata = (("authorization", self.key),)
-                user_data_object = resources_pb2.UserAppIDSet(user_id="clarifai", app_id="main")
+                user_data_object = resources_pb2.UserAppIDSet(
+                    user_id="clarifai", app_id="main"
+                )
 
-                return stub.PostModelOutputs(
+                post_model_outputs_response = await stub.PostModelOutputs(
                     service_pb2.PostModelOutputsRequest(
                         user_app_id=user_data_object,
                         model_id=get_formatted_language(language),
@@ -174,8 +179,6 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
                     ),
                     metadata=metadata,
                 )
-
-            post_model_outputs_response = await asyncio.to_thread(_sync_call)
 
             if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
                 raise ProviderException(

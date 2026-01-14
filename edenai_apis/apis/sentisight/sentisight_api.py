@@ -131,11 +131,9 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             if file:
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
-                file_path = file
             elif file_url:
                 file_wrapper = await file_handler.download_file(file_url)
                 file_content = await file_wrapper.get_bytes()
-                file_path = file_wrapper.file_path
             else:
                 raise ProviderException(
                     "Either file or file_url must be provided", code=400
@@ -160,11 +158,11 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
                 raise ProviderException(response.text, code=response.status_code)
             response_json = response.json()
 
-            def _get_image_size(path):
-                with Img.open(path) as img:
+            def _get_image_size(content):
+                with Img.open(BytesIO(content)) as img:
                     return img.size
 
-            width, height = await asyncio.to_thread(_get_image_size, file_path)
+            width, height = await asyncio.to_thread(_get_image_size, file_content)
 
             bounding_boxes: Sequence[Bounding_box] = []
             text = ""
