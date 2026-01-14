@@ -1,3 +1,4 @@
+import asyncio
 import json
 import mimetypes
 import re
@@ -125,6 +126,84 @@ class GoogleOcrApi(OcrInterface):
         return ResponseType[OcrDataClass](
             original_response=original_response, standardized_response=standardized
         )
+
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                image = vision.Image(content=file_content)
+                file_path = file
+            elif file_url:
+                # Google Vision supports URL directly
+                image = vision.Image()
+                image.source.image_uri = file_url
+                file_wrapper = await file_handler.download_file(file_url)
+                file_path = file_wrapper.file_path
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            payload = {"image": image}
+            response = await asyncio.to_thread(
+                handle_google_call, self.clients["image"].text_detection, **payload
+            )
+
+            import mimetypes as mt
+            mimetype = mt.guess_type(file_path)[0] or "unrecognized"
+            if mimetype.startswith("image"):
+                try:
+                    def _get_image_size(path):
+                        with Img.open(path) as img:
+                            return img.size
+                    width, height = await asyncio.to_thread(_get_image_size, file_path)
+                except UnidentifiedImageError as exc:
+                    raise ProviderException(
+                        "Image could not be identified. Supported types are: image/* and application/pdf"
+                    ) from exc
+            elif mimetype == "application/pdf":
+                width, height = await asyncio.to_thread(get_pdf_width_height, file_path)
+            else:
+                raise ProviderException(
+                    "File type not supported by Google OCR API. Supported types are: image/* and application/pdf"
+                )
+
+            boxes: Sequence[Bounding_box] = []
+            final_text = ""
+            original_response = MessageToDict(response._pb)
+
+            text_annotations: Sequence[EntityAnnotation] = response.text_annotations
+            if text_annotations and isinstance(text_annotations[0], EntityAnnotation):
+                final_text += text_annotations[0].description.replace("\n", " ")
+            for text in text_annotations[1:]:
+                xleft = float(text.bounding_poly.vertices[0].x)
+                xright = float(text.bounding_poly.vertices[1].x)
+                ytop = float(text.bounding_poly.vertices[0].y)
+                ybottom = float(text.bounding_poly.vertices[2].y)
+                boxes.append(
+                    Bounding_box(
+                        text=text.description,
+                        left=float(xleft / width),
+                        top=float(ytop / height),
+                        width=(xright - xleft) / width,
+                        height=(ybottom - ytop) / height,
+                    )
+                )
+            standardized = OcrDataClass(
+                text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
+            )
+            return ResponseType[OcrDataClass](
+                original_response=original_response, standardized_response=standardized
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__receipt_parser(
         self, file: str, language: str, file_url: str = "", **kwargs

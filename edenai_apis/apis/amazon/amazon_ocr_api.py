@@ -115,6 +115,66 @@ class AmazonOcrApi(OcrInterface):
             original_response=original_response, standardized_response=standardized
         )
 
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            payload = {
+                "Document": {
+                    "Bytes": file_content,
+                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file or "document"},
+                }
+            }
+
+            response = await ahandle_amazon_call(
+                self.clients["textract"].detect_document_text, **payload
+            )
+
+            final_text = ""
+            output_value = json.dumps(response, ensure_ascii=False)
+            original_response = json.loads(output_value)
+            boxes: Sequence[Bounding_box] = []
+
+            for region in original_response.get("Blocks"):
+                if region.get("BlockType") == "LINE":
+                    final_text += " " + region.get("Text")
+
+                if region.get("BlockType") == "WORD":
+                    boxes.append(
+                        Bounding_box(
+                            text=region.get("Text"),
+                            left=region["Geometry"]["BoundingBox"]["Left"],
+                            top=region["Geometry"]["BoundingBox"]["Top"],
+                            width=region["Geometry"]["BoundingBox"]["Width"],
+                            height=region["Geometry"]["BoundingBox"]["Height"],
+                        )
+                    )
+
+            standardized = OcrDataClass(
+                text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
+            )
+
+            return ResponseType[OcrDataClass](
+                original_response=original_response, standardized_response=standardized
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+
     def ocr__identity_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:

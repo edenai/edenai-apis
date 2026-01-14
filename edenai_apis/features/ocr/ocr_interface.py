@@ -57,6 +57,19 @@ class OcrInterface:
         """
         raise NotImplementedError
 
+    @abstractmethod
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        """Optical Character Recognition on a file (Python async/await version)
+
+        Args:
+            file (BufferedReader): document to analyze
+            file_url (str, optional): url of file
+            language (str): language code in ISO format
+        """
+        raise NotImplementedError
+
     # DEPRECATED
     @abstractmethod
     def ocr__invoice_parser(

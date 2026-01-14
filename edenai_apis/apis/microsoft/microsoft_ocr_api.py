@@ -117,6 +117,82 @@ class MicrosoftOcrApi(OcrInterface):
             original_response=response, standardized_response=standardized
         )
 
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        from io import BytesIO
+
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            url = f"{self.api_settings['vision']['url']}/ocr?detectOrientation=true"
+            url_with_lang = add_query_param_in_url(url, {"language": language})
+
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                headers = self.headers["vision"]
+                async with httpx.AsyncClient() as client:
+                    request = await client.post(
+                        url=url_with_lang,
+                        headers=headers,
+                        content=file_content,
+                    )
+                file_path = file
+            elif file_url:
+                headers = {**self.headers["vision"], "Content-Type": "application/json"}
+                async with httpx.AsyncClient() as client:
+                    request = await client.post(
+                        url=url_with_lang,
+                        headers=headers,
+                        json={"url": file_url},
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_path = file_wrapper.file_path
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            response = request.json()
+
+            if "error" in response:
+                raise ProviderException(response["error"]["message"], request.status_code)
+
+            def _get_image_size(path):
+                with Img.open(path) as img:
+                    return img.size
+
+            width, height = _get_image_size(file_path)
+            boxes: Sequence[Bounding_box] = []
+            final_text = ""
+
+            for region in response.get("regions", []):
+                for line in region["lines"]:
+                    for word in line["words"]:
+                        final_text += " " + word["text"]
+                        boxes.append(
+                            Bounding_box(
+                                text=word["text"],
+                                left=float(word["boundingBox"].split(",")[0]) / width,
+                                top=float(word["boundingBox"].split(",")[1]) / height,
+                                width=float(word["boundingBox"].split(",")[2]) / width,
+                                height=float(word["boundingBox"].split(",")[3]) / height,
+                            )
+                        )
+
+            standardized = OcrDataClass(
+                text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
+            )
+
+            return ResponseType[OcrDataClass](
+                original_response=response, standardized_response=standardized
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[InvoiceParserDataClass]:
