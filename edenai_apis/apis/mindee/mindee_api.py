@@ -693,13 +693,22 @@ class MindeeApi(ProviderInterface, OcrInterface):
             "Authorization": self.api_key,
         }
 
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
-            files = {"document": (file, file_content)}
-
-            async with async_client(OCR_TIMEOUT) as client:
+        async with async_client(OCR_TIMEOUT) as client:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                    files = {"document": (file, file_content)}
                 response = await client.post(
                     self.url_financial, headers=headers, files=files
+                )
+            elif file_url:
+                headers["Content-Type"] = "application/json"
+                response = await client.post(
+                    self.url_financial, headers=headers, json={"document": file_url}
+                )
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
                 )
 
         original_response = response.json()

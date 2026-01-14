@@ -119,14 +119,23 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         return response.json()
 
-    async def _asend_ocr_document(self, file: str, model_type: str) -> Dict:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
-            image_as_base64 = (
-                f"data:{mimetypes.guess_type(file)[0]};base64,"
-                + base64.b64encode(file_content).decode()
+    async def _asend_ocr_document(
+        self, model_type: str, file: str = None, file_url: str = None
+    ) -> Dict:
+        if file:
+            async with aiofiles.open(file, "rb") as file_:
+                file_content = await file_.read()
+                image_as_base64 = (
+                    f"data:{mimetypes.guess_type(file)[0]};base64,"
+                    + base64.b64encode(file_content).decode()
+                )
+            data = {"modelTypes": [model_type], "image": image_as_base64}
+        elif file_url:
+            data = {"modelTypes": [model_type], "url": file_url}
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
             )
-        data = {"modelTypes": [model_type], "image": image_as_base64}
 
         headers = {"Content-type": "application/json", "Authorization": self.api_key}
         async with async_client(OCR_TIMEOUT) as client:
@@ -199,7 +208,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         original_response = await self._asend_ocr_document(
-            file, "finance/" + document_type
+            model_type="finance/" + document_type, file=file, file_url=file_url
         )
 
         standardized_response = format_financial_document_data(original_response)

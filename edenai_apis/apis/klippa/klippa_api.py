@@ -237,13 +237,29 @@ class KlippaApi(ProviderInterface, OcrInterface):
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
             original_response = await self._amake_post_request(file_content)
 
-        standardize_response = klippa_financial_parser(original_response)
+            standardize_response = klippa_financial_parser(original_response)
 
-        return ResponseType[FinancialParserDataClass](
-            original_response=original_response,
-            standardized_response=standardize_response,
-        )
+            return ResponseType[FinancialParserDataClass](
+                original_response=original_response,
+                standardized_response=standardize_response,
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()

@@ -776,9 +776,6 @@ class MicrosoftOcrApi(OcrInterface):
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            content = await file_.read()
-
         try:
             async with AsyncDocumentAnalysisClient(
                 endpoint=self.url["documentintelligence"],
@@ -791,9 +788,20 @@ class MicrosoftOcrApi(OcrInterface):
                     if document_type == FinancialParserType.RECEIPT.value
                     else "prebuilt-invoice"
                 )
-                poller = await document_analysis_client.begin_analyze_document(
-                    document_type_value, content
-                )
+                if file:
+                    async with aiofiles.open(file, "rb") as file_:
+                        content = await file_.read()
+                    poller = await document_analysis_client.begin_analyze_document(
+                        document_type_value, content
+                    )
+                elif file_url:
+                    poller = await document_analysis_client.begin_analyze_document_from_url(
+                        document_type_value, file_url
+                    )
+                else:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
                 form_pages = await poller.result()
         except AzureError as provider_call_exception:
             raise ProviderException(str(provider_call_exception))
