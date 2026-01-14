@@ -170,9 +170,9 @@ class DeeplApi(ProviderInterface, TranslationInterface):
     async def translation__adocument_translation(
         self,
         file: str,
-        file_type: str,
         source_language: str,
         target_language: str,
+        file_type: str = "",
         file_url: str = "",
         **kwargs,
     ) -> ResponseType[DocumentTranslationDataClass]:

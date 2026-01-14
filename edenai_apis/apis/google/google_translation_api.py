@@ -148,7 +148,7 @@ class GoogleTranslationApi(TranslationInterface):
         file: str,
         source_language: str,
         target_language: str,
-        file_type: str,
+        file_type: str = "",
         file_url: str = "",
         **kwargs,
     ) -> ResponseType[DocumentTranslationDataClass]:
@@ -174,7 +174,7 @@ class GoogleTranslationApi(TranslationInterface):
 
             document_input_config = {
                 "content": content,
-                "mime_type": file_type,
+                "mime_type": mimetype,
             }
 
             payload = {
