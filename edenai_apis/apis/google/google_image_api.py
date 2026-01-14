@@ -844,8 +844,6 @@ class GoogleImageApi(ImageInterface):
         file_url: Optional[str] = "",
         **kwargs,
     ) -> ResponseType[EmbeddingsDataClass]:
-        import traceback
-
         file_handler = FileHandler()
         file_wrapper = None
 
@@ -904,9 +902,6 @@ class GoogleImageApi(ImageInterface):
                 original_response=original_response,
                 standardized_response=standardized_response,
             )
-        except Exception as e:
-            traceback.print_exc()
-            raise
         finally:
             if file_wrapper:
                 file_wrapper.close_file()
