@@ -848,7 +848,7 @@ class GoogleImageApi(ImageInterface):
         file_wrapper = None
 
         try:
-            token = get_access_token(self.location)
+            token = await asyncio.to_thread(get_access_token, self.location)
             location = "us-central1"
             url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
             headers = {
