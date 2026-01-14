@@ -4,6 +4,7 @@ import re
 import uuid
 from typing import Sequence
 
+import aiofiles
 import google.auth
 import googleapiclient.discovery
 import httpx
@@ -59,6 +60,7 @@ from edenai_apis.utils.conversion import convert_string_to_number
 from edenai_apis.utils.exception import (
     ProviderException,
 )
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.pdfs import get_pdf_width_height
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -803,42 +805,60 @@ class GoogleOcrApi(OcrInterface):
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
-        financial_project_id = self.api_settings["documentai"]["project_id"]
-        document_type_key = (
-            "process_invoice_id"
-            if document_type == FinancialParserType.INVOICE.value
-            else "process_receipt_id"
-        )
-        financial_parser_process_id = self.api_settings["documentai"][document_type_key]
+        file_handler = FileHandler()
+        file_wrapper = None
 
-        opts = ClientOptions(api_endpoint=f"eu-documentai.googleapis.com")
-
-        async with documentai.DocumentProcessorServiceAsyncClient(
-            client_options=opts
-        ) as financial_parser_client:
-            name = financial_parser_client.processor_path(
-                financial_project_id, "eu", financial_parser_process_id
-            )
-
-            with open(file, "rb") as file_:
-                raw_document = documentai.RawDocument(
-                    content=file_.read(), mime_type=mimetype
+        try:
+            if file:
+                mimetype = mimetypes.guess_type(file)[0] or "application/octet-stream"
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                mimetype = file_wrapper.file_info.file_media_type or "application/octet-stream"
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
                 )
 
-            payload_request = {"name": name, "raw_document": raw_document}
-            request = handle_google_call(documentai.ProcessRequest, **payload_request)
-
-            payload_result = {"request": request}
-
-            result = await ahandle_google_call(
-                financial_parser_client.process_document, **payload_result
+            financial_project_id = self.api_settings["documentai"]["project_id"]
+            document_type_key = (
+                "process_invoice_id"
+                if document_type == FinancialParserType.INVOICE.value
+                else "process_receipt_id"
             )
+            financial_parser_process_id = self.api_settings["documentai"][document_type_key]
 
-            document = result.document
-            standardized_response = google_financial_parser(document)
+            opts = ClientOptions(api_endpoint=f"eu-documentai.googleapis.com")
 
-            return ResponseType[FinancialParserDataClass](
-                original_response=Document.to_dict(document),
-                standardized_response=standardized_response,
-            )
+            async with documentai.DocumentProcessorServiceAsyncClient(
+                client_options=opts
+            ) as financial_parser_client:
+                name = financial_parser_client.processor_path(
+                    financial_project_id, "eu", financial_parser_process_id
+                )
+
+                raw_document = documentai.RawDocument(
+                    content=file_content, mime_type=mimetype
+                )
+
+                payload_request = {"name": name, "raw_document": raw_document}
+                request = handle_google_call(documentai.ProcessRequest, **payload_request)
+
+                payload_result = {"request": request}
+
+                result = await ahandle_google_call(
+                    financial_parser_client.process_document, **payload_result
+                )
+
+                document = result.document
+                standardized_response = google_financial_parser(document)
+
+                return ResponseType[FinancialParserDataClass](
+                    original_response=Document.to_dict(document),
+                    standardized_response=standardized_response,
+                )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
