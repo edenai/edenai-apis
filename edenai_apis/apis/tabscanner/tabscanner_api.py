@@ -1,4 +1,5 @@
 import asyncio
+import os
 from io import BufferedReader
 from time import sleep
 from typing import Any, Dict, Sequence
@@ -247,14 +248,14 @@ class TabscannerApi(ProviderInterface, OcrInterface):
             standardized_response=standardized_response,
         )
 
-    async def _aprocess(self, file_content: bytes, document_type: str) -> str:
+    async def _aprocess(self, file_content: bytes, document_type: str, filename: str) -> str:
         """Async version of _process - submit file for processing"""
         payload = {"documentType": document_type}
         headers = {"apikey": self.api_key}
         async with async_client(OCR_TIMEOUT) as client:
             response = await client.post(
                 self.url + "2/process",
-                files={"file": ("file", file_content)},
+                files={"file": (filename, file_content)},
                 data=payload,
                 headers=headers,
             )
@@ -292,15 +293,18 @@ class TabscannerApi(ProviderInterface, OcrInterface):
             if file:
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
+                filename = os.path.basename(file)
             elif file_url:
                 file_wrapper = await file_handler.download_file(file_url)
                 file_content = await file_wrapper.get_bytes()
+                extension = file_wrapper.file_info.file_extension or "pdf"
+                filename = f"document.{extension}"
             else:
                 raise ProviderException(
                     "Either file or file_url must be provided", code=400
                 )
 
-            token = await self._aprocess(file_content, document_type or "auto")
+            token = await self._aprocess(file_content, document_type or "auto", filename)
             await asyncio.sleep(1)
             original_response, status_code = await self._aget_response(token)
 
