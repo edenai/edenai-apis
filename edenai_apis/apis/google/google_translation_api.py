@@ -23,6 +23,7 @@ from edenai_apis.features.translation.language_detection import (
 )
 from edenai_apis.features.translation.translation_interface import TranslationInterface
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import (
@@ -151,13 +152,26 @@ class GoogleTranslationApi(TranslationInterface):
         file_url: str = "",
         **kwargs,
     ) -> ResponseType[DocumentTranslationDataClass]:
-        mimetype = mimetypes.guess_type(file)[0]
-        extension = mimetypes.guess_extension(mimetype)
-        client = self.clients["translate"]
+        file_handler = FileHandler()
+        file_wrapper = None
         parent = f"projects/{self.project_id}/locations/global"
 
-        async with aiofiles.open(file, "rb") as file_:
-            content = await file_.read()
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    content = await file_.read()
+                mimetype = mimetypes.guess_type(file)[0]
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                content = await file_wrapper.get_bytes()
+                mimetype = file_wrapper.file_info.file_media_type
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            extension = mimetypes.guess_extension(mimetype)
+
             document_input_config = {
                 "content": content,
                 "mime_type": file_type,
@@ -179,16 +193,19 @@ class GoogleTranslationApi(TranslationInterface):
 
             file_bytes = original_response.document_translation.byte_stream_outputs[0]
 
-        serialized_response = MessageToDict(original_response._pb)
+            serialized_response = MessageToDict(original_response._pb)
 
-        b64_file = base64.b64encode(file_bytes)
-        resource_url = await aupload_file_bytes_to_s3(
-            BytesIO(file_bytes), extension, USER_PROCESS
-        )
+            b64_file = base64.b64encode(file_bytes)
+            resource_url = await aupload_file_bytes_to_s3(
+                BytesIO(file_bytes), extension, USER_PROCESS
+            )
 
-        return ResponseType[DocumentTranslationDataClass](
-            original_response=serialized_response,
-            standardized_response=DocumentTranslationDataClass(
-                file=b64_file, document_resource_url=resource_url
-            ),
-        )
+            return ResponseType[DocumentTranslationDataClass](
+                original_response=serialized_response,
+                standardized_response=DocumentTranslationDataClass(
+                    file=b64_file, document_resource_url=resource_url
+                ),
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
