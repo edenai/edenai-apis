@@ -50,6 +50,7 @@ from edenai_apis.utils.exception import ProviderException, LanguageException
 from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
 from .clarifai_helpers import explicit_content_likelihood, get_formatted_language
+import traceback
 
 
 class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
@@ -222,6 +223,7 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
                 if file_wrapper:
                     file_wrapper.close_file()
         except Exception as e:
+            print(traceback.format_exc())
             print(f"An error occurred in clarifai aocr: {e}")
             raise e
 
