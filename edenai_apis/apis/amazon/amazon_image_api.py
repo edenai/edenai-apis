@@ -1095,9 +1095,8 @@ class AmazonImageApi(ImageInterface):
                     accept=accept_header,
                     contentType=content_type_header,
                 )
-
-            response_body = await response.get("body").read()
-            original_response = json.loads(response_body)
+                response_body = await response.get("body").read()
+                original_response = json.loads(response_body)
 
             embeddings = original_response["embedding"] or []
             items: Sequence[EmbeddingDataClass] = []
