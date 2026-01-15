@@ -949,21 +949,22 @@ class AmazonImageApi(ImageInterface):
             }
         )
 
-        # Parameters for the HTTP request
-        request_params = {
-            "body": request_body,
-            "modelId": f"amazon.{model_name}",
-            "accept": accept_header,
-            "contentType": content_type_header,
-        }
-        # Use asyncio.to_thread for the synchronous boto3 bedrock call
-        response = await asyncio.to_thread(
-            handle_amazon_call, self.clients["bedrock"].invoke_model, **request_params
-        )
-
-        # Use asyncio.to_thread for blocking I/O operation
-        response_body_bytes = await asyncio.to_thread(response.get("body").read)
-        response_body = json.loads(response_body_bytes)
+        session = aioboto3.Session()
+        async with session.client(
+            "bedrock-runtime",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as bedrock_client:
+            response = await ahandle_amazon_call(
+                bedrock_client.invoke_model,
+                body=request_body,
+                modelId=f"amazon.{model_name}",
+                accept=accept_header,
+                contentType=content_type_header,
+            )
+            response_body_bytes = await response.get("body").read()
+            response_body = json.loads(response_body_bytes)
 
         # Process images and upload to S3 concurrently
         async def process_and_upload_image(image_b64: str):

@@ -112,77 +112,71 @@ class MicrosoftImageApi(ImageInterface):
     async def image__aexplicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
-        file_handler = FileHandler()
-        file_wrapper = None  # Track for cleanup
+        url = f"{self.url['vision']}/analyze?visualFeatures=Adult"
 
-        try:
-            if not file:
-                # try to use the url
-                if not file_url:
-                    raise ProviderException(
-                        "Either file or file_url must be provided", code=400
-                    )
-                file_wrapper = await file_handler.download_file(file_url)
-                file_content = await file_wrapper.get_bytes()
-            else:
-                async with aiofiles.open(file, "rb") as file_:
-                    file_content = await file_.read()
+        if file:
+            async with aiofiles.open(file, "rb") as file_:
+                file_content = await file_.read()
             async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(
-                    f"{self.url['vision']}/analyze?visualFeatures=Adult",
+                    url,
                     headers=self.headers["vision"],
                     content=file_content,
                 )
+        elif file_url:
+            async with async_client(IMAGE_TIMEOUT) as client:
+                response = await client.post(
+                    url,
+                    headers={**self.headers["vision"], "Content-Type": "application/json"},
+                    json={"url": file_url},
+                )
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
+            )
 
-                data = response.json()
-                if response.status_code != 200:
-                    if response.status_code == 415:
-                        raise ProviderException(
-                            message=data["message"], code=response.status_code
-                        )
-                    else:
-                        raise ProviderException(
-                            message=data["error"]["message"], code=response.status_code
-                        )
-                moderation_content = data["adult"]
-                items = []
-                for explicit_type in ["gore", "adult", "racy"]:
-                    if moderation_content.get(f"{explicit_type}Score"):
-                        classificator = CategoryType.choose_category_subcategory(
-                            explicit_type.capitalize()
-                        )
-                        items.append(
-                            ExplicitItem(
-                                label=explicit_type.capitalize(),
-                                category=classificator["category"],
-                                subcategory=classificator["subcategory"],
-                                likelihood_score=moderation_content[
-                                    f"{explicit_type}Score"
-                                ],
-                                likelihood=standardized_confidence_score(
-                                    moderation_content[f"{explicit_type}Score"]
-                                ),
-                            )
-                        )
-
-                nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
-                nsfw_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(
-                    items
+        data = response.json()
+        if response.status_code != 200:
+            if response.status_code == 415:
+                raise ProviderException(
+                    message=data["message"], code=response.status_code
+                )
+            else:
+                raise ProviderException(
+                    message=data["error"]["message"], code=response.status_code
+                )
+        moderation_content = data["adult"]
+        items = []
+        for explicit_type in ["gore", "adult", "racy"]:
+            if moderation_content.get(f"{explicit_type}Score"):
+                classificator = CategoryType.choose_category_subcategory(
+                    explicit_type.capitalize()
+                )
+                items.append(
+                    ExplicitItem(
+                        label=explicit_type.capitalize(),
+                        category=classificator["category"],
+                        subcategory=classificator["subcategory"],
+                        likelihood_score=moderation_content[
+                            f"{explicit_type}Score"
+                        ],
+                        likelihood=standardized_confidence_score(
+                            moderation_content[f"{explicit_type}Score"]
+                        ),
+                    )
                 )
 
-                res = ResponseType[ExplicitContentDataClass](
-                    original_response=data,
-                    standardized_response=ExplicitContentDataClass(
-                        items=items,
-                        nsfw_likelihood=nsfw,
-                        nsfw_likelihood_score=nsfw_score,
-                    ),
-                )
+        nsfw = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+        nsfw_score = ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
 
-                return res
-        finally:
-            if file_wrapper:
-                file_wrapper.close_file()
+        return ResponseType[ExplicitContentDataClass](
+            original_response=data,
+            standardized_response=ExplicitContentDataClass(
+                items=items,
+                nsfw_likelihood=nsfw,
+                nsfw_likelihood_score=nsfw_score,
+            ),
+        )
 
     def image__object_detection(
         self, file: str, model: str = None, file_url: str = "", **kwargs
@@ -238,74 +232,71 @@ class MicrosoftImageApi(ImageInterface):
     async def image__aobject_detection(
         self, file: str, model: str = None, file_url: str = "", **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
-        file_handler = FileHandler()
-        file_wrapper = None  # Track for cleanup
+        url = f"{self.url['vision']}/detect"
 
-        try:
-            if not file:
-                # try to use the url
-                if not file_url:
-                    raise ProviderException(
-                        "Either file or file_url must be provided", code=400
-                    )
-                file_wrapper = await file_handler.download_file(file_url)
-                file_content = await file_wrapper.get_bytes()
-            else:
-                async with aiofiles.open(file, "rb") as file_:
-                    file_content = await file_.read()
-
+        if file:
+            async with aiofiles.open(file, "rb") as file_:
+                file_content = await file_.read()
             async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(
-                    f"{self.url['vision']}/detect",
+                    url,
                     headers=self.headers["vision"],
                     content=file_content,
                 )
-
-            data = response.json()
-
-            if response.status_code != 200:
-                error = data["error"]
-                err_msg = (
-                    error["innererror"]["message"]
-                    if "innererror" in error
-                    else error["message"]
+        elif file_url:
+            async with async_client(IMAGE_TIMEOUT) as client:
+                response = await client.post(
+                    url,
+                    headers={**self.headers["vision"], "Content-Type": "application/json"},
+                    json={"url": file_url},
                 )
-                raise ProviderException(err_msg, code=response.status_code)
-
-            items = []
-            metadata = data.get("metadata", {})
-            width, height = metadata.get("width"), metadata.get("height")
-
-            for obj in data.get("objects", []):
-                if width is None or height is None:
-                    x_min, x_max, y_min, y_max = 0, 0, 0, 0
-                else:
-                    x_min = obj["rectangle"]["x"] / width
-                    x_max = (obj["rectangle"]["x"] + obj["rectangle"]["w"]) / width
-                    y_min = 1 - ((height - obj["rectangle"]["y"]) / height)
-                    y_max = 1 - (
-                        (height - obj["rectangle"]["y"] - obj["rectangle"]["h"])
-                        / height
-                    )
-
-                items.append(
-                    ObjectItem(
-                        label=obj["object"],
-                        confidence=obj["confidence"],
-                        x_min=x_min,
-                        x_max=x_max,
-                        y_min=y_min,
-                        y_max=y_max,
-                    )
-                )
-
-            return ResponseType[ObjectDetectionDataClass](
-                original_response=data,
-                standardized_response=ObjectDetectionDataClass(items=items),
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
             )
-        finally:
-            if file_wrapper:
-                file_wrapper.close_file()
+
+        data = response.json()
+
+        if response.status_code != 200:
+            error = data["error"]
+            err_msg = (
+                error["innererror"]["message"]
+                if "innererror" in error
+                else error["message"]
+            )
+            raise ProviderException(err_msg, code=response.status_code)
+
+        items = []
+        metadata = data.get("metadata", {})
+        width, height = metadata.get("width"), metadata.get("height")
+
+        for obj in data.get("objects", []):
+            if width is None or height is None:
+                x_min, x_max, y_min, y_max = 0, 0, 0, 0
+            else:
+                x_min = obj["rectangle"]["x"] / width
+                x_max = (obj["rectangle"]["x"] + obj["rectangle"]["w"]) / width
+                y_min = 1 - ((height - obj["rectangle"]["y"]) / height)
+                y_max = 1 - (
+                    (height - obj["rectangle"]["y"] - obj["rectangle"]["h"])
+                    / height
+                )
+
+            items.append(
+                ObjectItem(
+                    label=obj["object"],
+                    confidence=obj["confidence"],
+                    x_min=x_min,
+                    x_max=x_max,
+                    y_min=y_min,
+                    y_max=y_max,
+                )
+            )
+
+        return ResponseType[ObjectDetectionDataClass](
+            original_response=data,
+            standardized_response=ObjectDetectionDataClass(items=items),
+        )
 
     def image__face_detection(
         self, file: str, file_url: str = "", **kwargs
@@ -396,63 +387,62 @@ class MicrosoftImageApi(ImageInterface):
     async def image__alogo_detection(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[LogoDetectionDataClass]:
-        file_handler = FileHandler()
-        file_wrapper = None  # Track for cleanup
-        try:
-            if not file:
-                # try to use the url
-                if not file_url:
-                    raise ProviderException(
-                        "Either file or file_url must be provided", code=400
-                    )
-                file_wrapper = await file_handler.download_file(file_url)
-                file_content = await file_wrapper.get_bytes()
-            else:
-                async with aiofiles.open(file, "rb") as file_:
-                    file_content = await file_.read()
+        url = f"{self.url['vision']}/analyze?visualFeatures=Brands"
 
+        if file:
+            async with aiofiles.open(file, "rb") as file_:
+                file_content = await file_.read()
             async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(
-                    f"{self.url['vision']}/analyze?visualFeatures=Brands",
+                    url,
                     headers=self.headers["vision"],
                     content=file_content,
                 )
-            data = response.json()
-            if response.status_code != 200:
-                # sometimes no "error" key in repsonse
-                # ref: https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-2/operations/56f91f2e778daf14a499f21b
-                error_msg = data.get("message", data.get("error", "message"))
-                raise ProviderException(error_msg, code=response.status_code)
-
-            items: Sequence[LogoItem] = []
-            for key in data.get("brands", []):
-                x_cordinate = float(key.get("rectangle").get("x"))
-                y_cordinate = float(key.get("rectangle").get("y"))
-                height = float(key.get("rectangle").get("h"))
-                weidth = float(key.get("rectangle").get("w"))
-                vertices = []
-                vertices.append(LogoVertice(x=x_cordinate, y=y_cordinate))
-                vertices.append(LogoVertice(x=x_cordinate + weidth, y=y_cordinate))
-                vertices.append(
-                    LogoVertice(x=x_cordinate + weidth, y=y_cordinate + height)
+        elif file_url:
+            async with async_client(IMAGE_TIMEOUT) as client:
+                response = await client.post(
+                    url,
+                    headers={**self.headers["vision"], "Content-Type": "application/json"},
+                    json={"url": file_url},
                 )
-                vertices.append(LogoVertice(x=x_cordinate, y=y_cordinate + height))
-
-                items.append(
-                    LogoItem(
-                        description=key.get("name"),
-                        score=key.get("confidence"),
-                        bounding_poly=LogoBoundingPoly(vertices=vertices),
-                    )
-                )
-
-            return ResponseType[LogoDetectionDataClass](
-                original_response=data,
-                standardized_response=LogoDetectionDataClass(items=items),
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
             )
-        finally:
-            if file_wrapper:
-                file_wrapper.close_file()
+
+        data = response.json()
+        if response.status_code != 200:
+            # sometimes no "error" key in repsonse
+            # ref: https://westcentralus.dev.cognitive.microsoft.com/docs/services/computer-vision-v3-2/operations/56f91f2e778daf14a499f21b
+            error_msg = data.get("message", data.get("error", "message"))
+            raise ProviderException(error_msg, code=response.status_code)
+
+        items: Sequence[LogoItem] = []
+        for key in data.get("brands", []):
+            x_cordinate = float(key.get("rectangle").get("x"))
+            y_cordinate = float(key.get("rectangle").get("y"))
+            height = float(key.get("rectangle").get("h"))
+            weidth = float(key.get("rectangle").get("w"))
+            vertices = []
+            vertices.append(LogoVertice(x=x_cordinate, y=y_cordinate))
+            vertices.append(LogoVertice(x=x_cordinate + weidth, y=y_cordinate))
+            vertices.append(
+                LogoVertice(x=x_cordinate + weidth, y=y_cordinate + height)
+            )
+            vertices.append(LogoVertice(x=x_cordinate, y=y_cordinate + height))
+
+            items.append(
+                LogoItem(
+                    description=key.get("name"),
+                    score=key.get("confidence"),
+                    bounding_poly=LogoBoundingPoly(vertices=vertices),
+                )
+            )
+
+        return ResponseType[LogoDetectionDataClass](
+            original_response=data,
+            standardized_response=LogoDetectionDataClass(items=items),
+        )
 
     def image__landmark_detection(
         self, file: str, file_url: str = "", **kwargs
