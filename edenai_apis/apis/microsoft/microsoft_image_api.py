@@ -1,5 +1,6 @@
 import base64
 import json
+from io import BytesIO
 from typing import List, Sequence, Optional, Any, Dict
 
 import requests
@@ -341,6 +342,67 @@ class MicrosoftImageApi(ImageInterface):
             original_response=response,
             standardized_response=FaceDetectionDataClass(items=faces_list),
         )
+
+    async def image__aface_detection(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> ResponseType[FaceDetectionDataClass]:
+        url = f"{self.url['face']}/detect"
+        params = {
+            "recognitionModel": "recognition_04",
+            "returnFaceId": "true",
+            "returnFaceLandmarks": "true",
+            "returnFaceAttributes": (
+                "age,gender,headPose,smile,facialHair,glasses,emotion,"
+                "hair,makeup,occlusion,accessories,blur,exposure,noise"
+            ),
+        }
+
+        file_wrapper = None
+        file_handler = FileHandler()
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                with Img.open(file) as img:
+                    img_size = img.size
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                with Img.open(BytesIO(file_content)) as img:
+                    img_size = img.size
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            async with async_client(IMAGE_TIMEOUT) as client:
+                response = await client.post(
+                    url,
+                    params=params,
+                    headers=self.headers["face"],
+                    content=file_content,
+                )
+
+            data = response.json()
+
+            if not isinstance(data, list) and data.get("error") is not None:
+                raise ProviderException(
+                    f'Error calling Microsoft Api: {data["error"].get("message", "error 500")}',
+                    code=response.status_code,
+                )
+
+            faces_list: List = miscrosoft_normalize_face_detection_response(
+                data, img_size
+            )
+
+            return ResponseType[FaceDetectionDataClass](
+                original_response=data,
+                standardized_response=FaceDetectionDataClass(items=faces_list),
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__logo_detection(
         self, file: str, file_url: str = "", model: str = None, **kwargs
