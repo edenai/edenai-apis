@@ -243,17 +243,13 @@ def retreive_voice_id(
     Returns:
         str: the voice id selected
     """
-    # Extract base provider name and model type if variant is included (e.g., "google/Standard" -> "google", "Standard")
-    base_provider = (
-        provider_name.split("/")[0] if "/" in provider_name else provider_name
-    )
 
-    constrains = __get_provider_tts_constraints(base_provider, subfeature)
-    language = confirm_appropriate_language(language, base_provider, subfeature)
+    constrains = __get_provider_tts_constraints(provider_name, subfeature)
+    language = confirm_appropriate_language(language, provider_name, subfeature)
     if isinstance(language, list):
         language = None
-    if settings and base_provider in settings:
-        selected_voice = settings[base_provider]
+    if settings and provider_name in settings:
+        selected_voice = settings[provider_name]
         # Check if it's an actual voice ID
         if constrains and __has_voice_in_contrains(constrains, selected_voice):
             return selected_voice
