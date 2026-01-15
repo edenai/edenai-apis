@@ -254,10 +254,20 @@ def retreive_voice_id(
         language = None
     if settings and base_provider in settings:
         selected_voice = settings[base_provider]
+        # Check if it's an actual voice ID
         if constrains and __has_voice_in_contrains(constrains, selected_voice):
             return selected_voice
-        print("VOICE EXCEPTION RAISED")
-        print(base_provider, selected_voice, constrains, settings)
+        # Check if it's a model type filter (e.g., "Neural", "Standard", "Wavenet")
+        # If so, use it to filter voices by language and gender, then filter by model type
+        if not language:
+            raise ProviderException(f"Language '{language}' not supported")
+        suited_voices = __get_voices_from_constrains(constrains, language, option)
+        # Filter by model type (selected_voice contains model type like "Neural")
+        model_filtered_voices = [v for v in suited_voices if selected_voice in v]
+        if model_filtered_voices:
+            model_filtered_voices.sort()
+            return model_filtered_voices[0]
+        # If no voices match the model type filter, raise exception
         raise ProviderException(VOICE_EXCEPTION_MESSAGE)
     if not language:
         raise ProviderException(f"Language '{language}' not supported")
