@@ -134,11 +134,11 @@ class GoogleImageApi(ImageInterface):
                 "Either file or file_url must be provided", code=400
             )
 
-        response = await asyncio.to_thread(
-            handle_google_call,
-            self.clients["image"].safe_search_detection,
-            image=image,
-        )
+        async with vision.ImageAnnotatorAsyncClient() as client:
+            response = await ahandle_google_call(
+                client.safe_search_detection,
+                image=image,
+            )
 
         # Convert response to dict
         data = AnnotateImageResponse.to_dict(response)
@@ -234,9 +234,10 @@ class GoogleImageApi(ImageInterface):
                 "Either file or file_url must be provided", code=400
             )
 
-        response = await asyncio.to_thread(
-            handle_google_call, self.clients["image"].object_localization, image=image
-        )
+        async with vision.ImageAnnotatorAsyncClient() as client:
+            response = await ahandle_google_call(
+                client.object_localization, image=image
+            )
 
         response = MessageToDict(response._pb)
 
@@ -432,9 +433,10 @@ class GoogleImageApi(ImageInterface):
 
             image = vision.Image(content=file_content)
             payload = {"image": image, "max_results": 100}
-            response = await asyncio.to_thread(
-                handle_google_call, self.clients["image"].face_detection, **payload
-            )
+            async with vision.ImageAnnotatorAsyncClient() as client:
+                response = await ahandle_google_call(
+                    client.face_detection, **payload
+                )
             original_result = MessageToDict(response._pb)
 
             result = []
@@ -688,9 +690,10 @@ class GoogleImageApi(ImageInterface):
             image = vision.Image(content=file_content)
 
             payload = {"image": image}
-            response = await asyncio.to_thread(
-                handle_google_call, self.clients["image"].logo_detection, **payload
-            )
+            async with vision.ImageAnnotatorAsyncClient() as client:
+                response = await ahandle_google_call(
+                    client.logo_detection, **payload
+                )
 
             response = MessageToDict(response._pb)
 

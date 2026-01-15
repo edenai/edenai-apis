@@ -153,9 +153,10 @@ class GoogleOcrApi(OcrInterface):
                 )
 
             payload = {"image": image}
-            response = await asyncio.to_thread(
-                handle_google_call, self.clients["image"].text_detection, **payload
-            )
+            async with vision.ImageAnnotatorAsyncClient() as client:
+                response = await ahandle_google_call(
+                    client.text_detection, **payload
+                )
 
             if mimetype.startswith("image"):
                 try:
