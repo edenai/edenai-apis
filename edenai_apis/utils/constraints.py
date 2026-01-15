@@ -391,9 +391,9 @@ def validate_all_provider_constraints(
         validated_args = validate_audio_format(provider_constraints, validated_args)
 
         #  Validate models
-        validated_args = validate_models(
-            provider, subfeature, provider_constraints, validated_args
-        )
+        # validated_args = validate_models(
+        #     provider, subfeature, provider_constraints, validated_args
+        # )
 
         # Validate document_type
         validated_args = validate_document_type(
