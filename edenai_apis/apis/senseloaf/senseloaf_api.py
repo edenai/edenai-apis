@@ -53,20 +53,20 @@ class SenseloafApi(ProviderInterface, OcrInterface):
         file_wrapper = None
 
         try:
-            if not file:
-                if not file_url:
-                    raise ProviderException(
-                        "Either file or file_url must be provided", code=400
-                    )
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                mime_type = mimetypes.guess_type(file)[0]
+            elif file_url:
                 file_wrapper = await file_handler.download_file(file_url)
                 file_content = await file_wrapper.get_bytes()
                 mime_type = file_wrapper.file_info.file_media_type
                 extension = file_wrapper.file_info.file_extension
                 file = f"resume.{extension}"
             else:
-                async with aiofiles.open(file, "rb") as file_:
-                    file_content = await file_.read()
-                mime_type = mimetypes.guess_type(file)[0]
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
 
             async with await AsyncClient.create(
                 email=self.api_settings.get("email"),
