@@ -58,11 +58,16 @@ class TabscannerApi(ProviderInterface, OcrInterface):
             self.url + "2/process", files=files, data=payload, headers=headers
         )
         response_json = response.json()
-        if response_json.get("success") == False:
+        if not response_json.get("success"):
             raise ProviderException(
                 response_json.get("message"), code=response.status_code
             )
-        return response_json["token"]
+        token = response_json.get("token")
+        if not token:
+            raise ProviderException(
+                "Missing token in response", code=response.status_code
+            )
+        return token
 
     def _get_response(self, token: str, retry=0) -> Any:
         headers = {"apikey": self.api_key}
@@ -260,11 +265,16 @@ class TabscannerApi(ProviderInterface, OcrInterface):
                 headers=headers,
             )
         response_json = response.json()
-        if response_json.get("success") == False:
+        if not response_json.get("success"):
             raise ProviderException(
                 response_json.get("message"), code=response.status_code
             )
-        return response_json["token"]
+        token = response_json.get("token")
+        if not token:
+            raise ProviderException(
+                "Missing token in response", code=response.status_code
+            )
+        return token
 
     async def _aget_response(self, token: str, retry: int = 0) -> Any:
         """Async version of _get_response - poll for result"""
