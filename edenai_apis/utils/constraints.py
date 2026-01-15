@@ -11,6 +11,7 @@ from edenai_apis.utils.languages import (
     load_standardized_language,
 )
 from edenai_apis.utils.resolutions import provider_appropriate_resolution
+import traceback
 
 
 def validate_input_file_extension(constraints: dict, args: dict) -> dict:
@@ -247,9 +248,17 @@ def validate_models(
 
     if "text_to_speech" in subfeature and voice_ids:
         if any(option in voice_ids for option in ["MALE", "FEMALE"]):
-            voice_id = retreive_voice_id(
-                provider, subfeature, args["language"], args["option"], settings
-            )
+            try:
+                voice_id = retreive_voice_id(
+                    provider, subfeature, args["language"], args["option"], settings
+                )
+            except Exception as exc:
+                print(traceback.format_exc())
+                print(exc)
+                raise ProviderException(
+                    "Voice ID could not be retrieved based on the provided parameters."
+                )
+        else:
             args["voice_id"] = voice_id
     else:
         if settings and provider in settings:
