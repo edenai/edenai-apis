@@ -134,19 +134,14 @@ class GoogleImageApi(ImageInterface):
                 "Either file or file_url must be provided", code=400
             )
 
-        async with vision.ImageAnnotatorAsyncClient() as client:
-            annotate_request = vision.AnnotateImageRequest(
-                image=image,
-                features=[vision.Feature(type_=vision.Feature.Type.SAFE_SEARCH_DETECTION)],
-            )
-            batch_request = vision.BatchAnnotateImagesRequest(requests=[annotate_request])
-            response = await ahandle_google_call(
-                client.batch_annotate_images,
-                request=batch_request,
-            )
+        response = await asyncio.to_thread(
+            handle_google_call,
+            self.clients["image"].safe_search_detection,
+            image=image,
+        )
 
         # Convert response to dict
-        data = AnnotateImageResponse.to_dict(response.responses[0])
+        data = AnnotateImageResponse.to_dict(response)
 
         if data.get("error") is not None:
             raise ProviderException(data["error"])
@@ -239,18 +234,11 @@ class GoogleImageApi(ImageInterface):
                 "Either file or file_url must be provided", code=400
             )
 
-        async with vision.ImageAnnotatorAsyncClient() as client:
-            annotate_request = vision.AnnotateImageRequest(
-                image=image,
-                features=[vision.Feature(type_=vision.Feature.Type.OBJECT_LOCALIZATION)],
-            )
-            batch_request = vision.BatchAnnotateImagesRequest(requests=[annotate_request])
-            response = await ahandle_google_call(
-                client.batch_annotate_images,
-                request=batch_request,
-            )
+        response = await asyncio.to_thread(
+            handle_google_call, self.clients["image"].object_localization, image=image
+        )
 
-        response = MessageToDict(response.responses[0]._pb)
+        response = MessageToDict(response._pb)
 
         items = []
         for object_annotation in response.get("localizedObjectAnnotations", []):
@@ -443,17 +431,11 @@ class GoogleImageApi(ImageInterface):
                     file_content = await file_.read()
 
             image = vision.Image(content=file_content)
-            async with vision.ImageAnnotatorAsyncClient() as client:
-                annotate_request = vision.AnnotateImageRequest(
-                    image=image,
-                    features=[vision.Feature(type_=vision.Feature.Type.FACE_DETECTION, max_results=100)],
-                )
-                batch_request = vision.BatchAnnotateImagesRequest(requests=[annotate_request])
-                response = await ahandle_google_call(
-                    client.batch_annotate_images,
-                    request=batch_request,
-                )
-            original_result = MessageToDict(response.responses[0]._pb)
+            payload = {"image": image, "max_results": 100}
+            response = await asyncio.to_thread(
+                handle_google_call, self.clients["image"].face_detection, **payload
+            )
+            original_result = MessageToDict(response._pb)
 
             result = []
             try:
@@ -705,18 +687,12 @@ class GoogleImageApi(ImageInterface):
                     file_content = await file_.read()
             image = vision.Image(content=file_content)
 
-            async with vision.ImageAnnotatorAsyncClient() as client:
-                annotate_request = vision.AnnotateImageRequest(
-                    image=image,
-                    features=[vision.Feature(type_=vision.Feature.Type.LOGO_DETECTION)],
-                )
-                batch_request = vision.BatchAnnotateImagesRequest(requests=[annotate_request])
-                response = await ahandle_google_call(
-                    client.batch_annotate_images,
-                    request=batch_request,
-                )
+            payload = {"image": image}
+            response = await asyncio.to_thread(
+                handle_google_call, self.clients["image"].logo_detection, **payload
+            )
 
-            response = MessageToDict(response.responses[0]._pb)
+            response = MessageToDict(response._pb)
 
             float_or_none = lambda val: float(val) if val else None
             # Handle error
