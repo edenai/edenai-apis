@@ -861,7 +861,8 @@ class GoogleImageApi(ImageInterface):
                 inputImage = base64.b64encode(image_bytes).decode("utf-8")
             elif file_url:
                 file_wrapper = await file_handler.download_file(file_url)
-                inputImage = await file_wrapper.get_file_b64_content()
+                image_bytes = await file_wrapper.get_bytes()
+                inputImage = base64.b64encode(image_bytes).decode("utf-8")
             else:
                 raise ProviderException(
                     "Either file or file_url must be provided", code=400
