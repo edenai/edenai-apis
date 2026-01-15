@@ -152,11 +152,16 @@ class GoogleOcrApi(OcrInterface):
                     "Either file or file_url must be provided", code=400
                 )
 
-            payload = {"image": image}
             async with vision.ImageAnnotatorAsyncClient() as client:
-                response = await ahandle_google_call(
-                    client.text_detection, **payload
+                request = vision.AnnotateImageRequest(
+                    image=image,
+                    features=[vision.Feature(type_=vision.Feature.Type.TEXT_DETECTION)],
                 )
+                response = await ahandle_google_call(
+                    client.batch_annotate_images,
+                    requests=[request],
+                )
+            result = response.responses[0]
 
             if mimetype.startswith("image"):
                 try:
@@ -179,9 +184,9 @@ class GoogleOcrApi(OcrInterface):
 
             boxes: Sequence[Bounding_box] = []
             final_text = ""
-            original_response = MessageToDict(response._pb)
+            original_response = MessageToDict(result._pb)
 
-            text_annotations: Sequence[EntityAnnotation] = response.text_annotations
+            text_annotations: Sequence[EntityAnnotation] = result.text_annotations
             if text_annotations and isinstance(text_annotations[0], EntityAnnotation):
                 final_text += text_annotations[0].description.replace("\n", " ")
             for text in text_annotations[1:]:

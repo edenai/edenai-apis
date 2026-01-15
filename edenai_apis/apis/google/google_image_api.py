@@ -135,13 +135,17 @@ class GoogleImageApi(ImageInterface):
             )
 
         async with vision.ImageAnnotatorAsyncClient() as client:
-            response = await ahandle_google_call(
-                client.safe_search_detection,
+            request = vision.AnnotateImageRequest(
                 image=image,
+                features=[vision.Feature(type_=vision.Feature.Type.SAFE_SEARCH_DETECTION)],
+            )
+            response = await ahandle_google_call(
+                client.batch_annotate_images,
+                requests=[request],
             )
 
         # Convert response to dict
-        data = AnnotateImageResponse.to_dict(response)
+        data = AnnotateImageResponse.to_dict(response.responses[0])
 
         if data.get("error") is not None:
             raise ProviderException(data["error"])
@@ -235,11 +239,16 @@ class GoogleImageApi(ImageInterface):
             )
 
         async with vision.ImageAnnotatorAsyncClient() as client:
+            request = vision.AnnotateImageRequest(
+                image=image,
+                features=[vision.Feature(type_=vision.Feature.Type.OBJECT_LOCALIZATION)],
+            )
             response = await ahandle_google_call(
-                client.object_localization, image=image
+                client.batch_annotate_images,
+                requests=[request],
             )
 
-        response = MessageToDict(response._pb)
+        response = MessageToDict(response.responses[0]._pb)
 
         items = []
         for object_annotation in response.get("localizedObjectAnnotations", []):
@@ -432,12 +441,16 @@ class GoogleImageApi(ImageInterface):
                     file_content = await file_.read()
 
             image = vision.Image(content=file_content)
-            payload = {"image": image, "max_results": 100}
             async with vision.ImageAnnotatorAsyncClient() as client:
-                response = await ahandle_google_call(
-                    client.face_detection, **payload
+                request = vision.AnnotateImageRequest(
+                    image=image,
+                    features=[vision.Feature(type_=vision.Feature.Type.FACE_DETECTION, max_results=100)],
                 )
-            original_result = MessageToDict(response._pb)
+                response = await ahandle_google_call(
+                    client.batch_annotate_images,
+                    requests=[request],
+                )
+            original_result = MessageToDict(response.responses[0]._pb)
 
             result = []
             try:
@@ -689,13 +702,17 @@ class GoogleImageApi(ImageInterface):
                     file_content = await file_.read()
             image = vision.Image(content=file_content)
 
-            payload = {"image": image}
             async with vision.ImageAnnotatorAsyncClient() as client:
+                request = vision.AnnotateImageRequest(
+                    image=image,
+                    features=[vision.Feature(type_=vision.Feature.Type.LOGO_DETECTION)],
+                )
                 response = await ahandle_google_call(
-                    client.logo_detection, **payload
+                    client.batch_annotate_images,
+                    requests=[request],
                 )
 
-            response = MessageToDict(response._pb)
+            response = MessageToDict(response.responses[0]._pb)
 
             float_or_none = lambda val: float(val) if val else None
             # Handle error
