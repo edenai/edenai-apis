@@ -8,6 +8,8 @@ import requests
 import asyncio
 from PIL import Image as Img
 
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
+
 from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
 from edenai_apis.features.image import (
     SearchDataClass,
@@ -141,7 +143,7 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
 
             url = f"{self.base_url}{SentisightPreTrainModel.TEXT_RECOGNITION.value}"
 
-            async with httpx.AsyncClient() as client:
+            async with async_client(OCR_TIMEOUT) as client:
                 response = await client.post(
                     url=add_query_param_in_url(
                         url, {"lang": get_formatted_language(language)}

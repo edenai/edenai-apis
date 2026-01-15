@@ -2,9 +2,11 @@ import json
 from collections import defaultdict
 from typing import Sequence
 
+from io import BytesIO
 import aiofiles
 import httpx
 import requests
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.ai.formrecognizer.aio import (
     DocumentAnalysisClient as AsyncDocumentAnalysisClient,
@@ -14,7 +16,6 @@ from azure.core.exceptions import AzureError
 from PIL import Image as Img
 
 from edenai_apis.apis.microsoft.microsoft_helpers import (
-    get_microsoft_urls,
     microsoft_financial_parser_formatter,
     microsoft_ocr_async_standardize_response,
     microsoft_ocr_tables_standardize_response,
@@ -120,10 +121,10 @@ class MicrosoftOcrApi(OcrInterface):
     async def ocr__aocr(
         self, file: str, language: str, file_url: str = "", **kwargs
     ) -> ResponseType[OcrDataClass]:
-        from io import BytesIO
 
         file_handler = FileHandler()
         file_wrapper = None
+        file_content = None
 
         try:
             url = f"{self.api_settings['vision']['url']}/ocr?detectOrientation=true"
@@ -132,18 +133,19 @@ class MicrosoftOcrApi(OcrInterface):
             if file:
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
-                headers = {**self.headers["vision"], "Content-Type": "application/octet-stream"}
-                async with httpx.AsyncClient() as client:
+                headers = {
+                    **self.headers["vision"],
+                    "Content-Type": "application/octet-stream",
+                }
+                async with async_client(OCR_TIMEOUT) as client:
                     request = await client.post(
                         url=url_with_lang,
                         headers=headers,
                         content=file_content,
                     )
             elif file_url:
-                file_wrapper = await file_handler.download_file(file_url)
-                file_content = await file_wrapper.get_bytes()
                 headers = {**self.headers["vision"], "Content-Type": "application/json"}
-                async with httpx.AsyncClient() as client:
+                async with async_client(OCR_TIMEOUT) as client:
                     request = await client.post(
                         url=url_with_lang,
                         headers=headers,
@@ -157,29 +159,43 @@ class MicrosoftOcrApi(OcrInterface):
             response = request.json()
 
             if "error" in response:
-                raise ProviderException(response["error"]["message"], request.status_code)
+                raise ProviderException(
+                    response["error"]["message"], request.status_code
+                )
 
             def _get_image_size(content):
                 with Img.open(BytesIO(content)) as img:
                     return img.size
 
-            width, height = _get_image_size(file_content)
             boxes: Sequence[Bounding_box] = []
             final_text = ""
 
-            for region in response.get("regions", []):
-                for line in region["lines"]:
-                    for word in line["words"]:
-                        final_text += " " + word["text"]
-                        boxes.append(
-                            Bounding_box(
-                                text=word["text"],
-                                left=float(word["boundingBox"].split(",")[0]) / width,
-                                top=float(word["boundingBox"].split(",")[1]) / height,
-                                width=float(word["boundingBox"].split(",")[2]) / width,
-                                height=float(word["boundingBox"].split(",")[3]) / height,
+            regions = response.get("regions", [])
+            if regions:
+                # Download image only if needed for bounding box normalization
+                if file_content is None:
+                    file_wrapper = await file_handler.download_file(file_url)
+                    file_content = await file_wrapper.get_bytes()
+
+                width, height = _get_image_size(file_content)
+
+                for region in regions:
+                    for line in region["lines"]:
+                        for word in line["words"]:
+                            final_text += " " + word["text"]
+                            boxes.append(
+                                Bounding_box(
+                                    text=word["text"],
+                                    left=float(word["boundingBox"].split(",")[0])
+                                    / width,
+                                    top=float(word["boundingBox"].split(",")[1])
+                                    / height,
+                                    width=float(word["boundingBox"].split(",")[2])
+                                    / width,
+                                    height=float(word["boundingBox"].split(",")[3])
+                                    / height,
+                                )
                             )
-                        )
 
             standardized = OcrDataClass(
                 text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
@@ -870,8 +886,10 @@ class MicrosoftOcrApi(OcrInterface):
                         document_type_value, content
                     )
                 elif file_url:
-                    poller = await document_analysis_client.begin_analyze_document_from_url(
-                        document_type_value, file_url
+                    poller = (
+                        await document_analysis_client.begin_analyze_document_from_url(
+                            document_type_value, file_url
+                        )
                     )
                 else:
                     raise ProviderException(

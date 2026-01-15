@@ -911,7 +911,7 @@ class GoogleOcrApi(OcrInterface):
             )
             financial_parser_process_id = self.api_settings["documentai"][document_type_key]
 
-            opts = ClientOptions(api_endpoint=f"eu-documentai.googleapis.com")
+            opts = ClientOptions(api_endpoint="eu-documentai.googleapis.com")
 
             async with documentai.DocumentProcessorServiceAsyncClient(
                 client_options=opts

@@ -527,7 +527,7 @@ class Api4aiApi(
             files = {
                 "image": file_content,
             }
-            async with async_client(OCR_TIMEOUT) as client:
+            async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(
                     self.urls["logo_detection"].format(model=model), files=files
                 )

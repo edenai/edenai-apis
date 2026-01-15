@@ -1,3 +1,4 @@
+import os
 from io import BufferedReader
 from json import JSONDecodeError
 from typing import Dict
@@ -124,7 +125,7 @@ class EagledocApi(ProviderInterface, OcrInterface):
             if file:
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
-                filename = file
+                filename = os.path.basename(file)
             elif file_url:
                 file_wrapper = await file_handler.download_file(file_url)
                 file_content = await file_wrapper.get_bytes()

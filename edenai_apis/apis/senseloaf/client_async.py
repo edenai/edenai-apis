@@ -3,6 +3,7 @@ import os
 from enum import Enum
 from json import JSONDecodeError
 from typing import Optional, Dict
+from uuid import uuid4
 
 import httpx
 import aiofiles
@@ -142,9 +143,17 @@ class AsyncClient:
             async with aiofiles.open(file, "rb") as f:
                 file_content = await f.read()
 
-        filename = os.path.basename(file)
+        filename = os.path.basename(file) if file else ""
+        if not filename:
+            # Generate fallback filename when file path is not provided
+            if mime_type:
+                ext = mimetypes.guess_extension(mime_type) or ".bin"
+            else:
+                ext = ".bin"
+            filename = f"{uuid4()}{ext}"
+
         if mime_type is None:
-            mime_type = mimetypes.guess_type(file)[0] or "application/octet-stream"
+            mime_type = mimetypes.guess_type(filename)[0] or "application/octet-stream"
 
         files = {"files": (filename, file_content, mime_type)}
         headers = {"Authorization": f"Bearer {self._api_key}"}

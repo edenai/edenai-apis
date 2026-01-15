@@ -1,3 +1,4 @@
+import json
 import mimetypes
 import pathlib
 import uuid
@@ -222,8 +223,11 @@ class VeryfiApi(ProviderInterface, OcrInterface):
 
         try:
             original_response = response.json()
-        except Exception:
-            raise ProviderException(message="Internal Server Error", code=500)
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message="Parsing JSON from provider response failed",
+                code=500,
+            ) from exc
 
         if response.status_code != HTTPStatus.CREATED:
             error_message = original_response.get("message") or original_response.get(
