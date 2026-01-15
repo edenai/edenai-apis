@@ -153,13 +153,14 @@ class GoogleOcrApi(OcrInterface):
                 )
 
             async with vision.ImageAnnotatorAsyncClient() as client:
-                request = vision.AnnotateImageRequest(
+                annotate_request = vision.AnnotateImageRequest(
                     image=image,
                     features=[vision.Feature(type_=vision.Feature.Type.TEXT_DETECTION)],
                 )
+                batch_request = vision.BatchAnnotateImagesRequest(requests=[annotate_request])
                 response = await ahandle_google_call(
                     client.batch_annotate_images,
-                    requests=[request],
+                    request=batch_request,
                 )
             result = response.responses[0]
 

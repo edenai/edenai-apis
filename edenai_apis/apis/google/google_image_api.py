@@ -135,13 +135,14 @@ class GoogleImageApi(ImageInterface):
             )
 
         async with vision.ImageAnnotatorAsyncClient() as client:
-            request = vision.AnnotateImageRequest(
+            annotate_request = vision.AnnotateImageRequest(
                 image=image,
                 features=[vision.Feature(type_=vision.Feature.Type.SAFE_SEARCH_DETECTION)],
             )
+            batch_request = vision.BatchAnnotateImagesRequest(requests=[annotate_request])
             response = await ahandle_google_call(
                 client.batch_annotate_images,
-                requests=[request],
+                request=batch_request,
             )
 
         # Convert response to dict
@@ -239,13 +240,14 @@ class GoogleImageApi(ImageInterface):
             )
 
         async with vision.ImageAnnotatorAsyncClient() as client:
-            request = vision.AnnotateImageRequest(
+            annotate_request = vision.AnnotateImageRequest(
                 image=image,
                 features=[vision.Feature(type_=vision.Feature.Type.OBJECT_LOCALIZATION)],
             )
+            batch_request = vision.BatchAnnotateImagesRequest(requests=[annotate_request])
             response = await ahandle_google_call(
                 client.batch_annotate_images,
-                requests=[request],
+                request=batch_request,
             )
 
         response = MessageToDict(response.responses[0]._pb)
@@ -442,13 +444,14 @@ class GoogleImageApi(ImageInterface):
 
             image = vision.Image(content=file_content)
             async with vision.ImageAnnotatorAsyncClient() as client:
-                request = vision.AnnotateImageRequest(
+                annotate_request = vision.AnnotateImageRequest(
                     image=image,
                     features=[vision.Feature(type_=vision.Feature.Type.FACE_DETECTION, max_results=100)],
                 )
+                batch_request = vision.BatchAnnotateImagesRequest(requests=[annotate_request])
                 response = await ahandle_google_call(
                     client.batch_annotate_images,
-                    requests=[request],
+                    request=batch_request,
                 )
             original_result = MessageToDict(response.responses[0]._pb)
 
@@ -703,13 +706,14 @@ class GoogleImageApi(ImageInterface):
             image = vision.Image(content=file_content)
 
             async with vision.ImageAnnotatorAsyncClient() as client:
-                request = vision.AnnotateImageRequest(
+                annotate_request = vision.AnnotateImageRequest(
                     image=image,
                     features=[vision.Feature(type_=vision.Feature.Type.LOGO_DETECTION)],
                 )
+                batch_request = vision.BatchAnnotateImagesRequest(requests=[annotate_request])
                 response = await ahandle_google_call(
                     client.batch_annotate_images,
-                    requests=[request],
+                    request=batch_request,
                 )
 
             response = MessageToDict(response.responses[0]._pb)
