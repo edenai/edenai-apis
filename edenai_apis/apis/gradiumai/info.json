@@ -15,7 +15,7 @@
                     "Alice", "Theo", "Leonardo", "Bruno", "Rafael", "Gabriel", "Lucas"
                 ],
                 "default_voice": "Emma",
-                "audio_format": ["mp3", "wav", "pcm", "opus"],
+                "audio_format": ["wav", "pcm", "opus"],
                 "languages": ["en", "en-US", "en-GB", "en-AU", "en-IN", "fr", "de", "es", "pt", "pt-BR"]
             },
             "version": "v1"
