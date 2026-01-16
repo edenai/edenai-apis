@@ -23,6 +23,7 @@ from edenai_apis.utils.upload_s3 import (
 from .config import (
     voice_ids,
     DEFAULT_FORMAT,
+    SUPPORTED_FORMATS,
     REGIONS,
     DEFAULT_REGION,
     DEFAULT_VOICE_NAME,
@@ -41,7 +42,9 @@ class GradiumaiApi(ProviderInterface, AudioInterface):
         )
         self.api_key = self.api_settings.get("api_key", "")
         self.region = self.api_settings.get("region", DEFAULT_REGION)
-        self.ws_url = f"wss://{REGIONS.get(self.region, REGIONS[DEFAULT_REGION])}/api/speech/tts"
+        self.ws_url = (
+            f"wss://{REGIONS.get(self.region, REGIONS[DEFAULT_REGION])}/api/speech/tts"
+        )
 
     async def audio__atts(
         self,
@@ -78,7 +81,9 @@ class GradiumaiApi(ProviderInterface, AudioInterface):
             voice_id = resolved_voice
 
         # Gradium supports pcm, wav, opus for streaming
-        resolved_format = audio_format if audio_format in ["pcm", "wav", "opus"] else "wav"
+        resolved_format = (
+            audio_format if audio_format in SUPPORTED_FORMATS else DEFAULT_FORMAT
+        )
 
         headers = {
             "x-api-key": self.api_key,
@@ -88,7 +93,9 @@ class GradiumaiApi(ProviderInterface, AudioInterface):
         audio_chunks = []
 
         try:
-            async with websockets.connect(self.ws_url, additional_headers=headers) as ws:
+            async with websockets.connect(
+                self.ws_url, additional_headers=headers
+            ) as ws:
                 # Send setup message
                 setup_msg = {
                     "type": "setup",
@@ -102,8 +109,7 @@ class GradiumaiApi(ProviderInterface, AudioInterface):
                 ready_data = json.loads(ready_response)
                 if ready_data.get("type") == "error":
                     raise ProviderException(
-                        ready_data.get("message", "Setup failed"),
-                        code=400
+                        ready_data.get("message", "Setup failed"), code=400
                     )
 
                 # Send text message
@@ -142,8 +148,7 @@ class GradiumaiApi(ProviderInterface, AudioInterface):
                         break
                     elif msg_type == "error":
                         raise ProviderException(
-                            data.get("message", "TTS generation failed"),
-                            code=400
+                            data.get("message", "TTS generation failed"), code=400
                         )
                     # Skip other message types (ready, text, etc.)
 
