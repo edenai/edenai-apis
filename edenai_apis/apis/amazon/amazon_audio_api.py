@@ -45,7 +45,7 @@ from edenai_apis.utils.upload_s3 import (
     aupload_file_bytes_to_s3,
 )
 
-from .config import audio_voices_ids, storage_clients
+from .config import DEFAULT_MODEL, POLLY_VOICES_LOWER, DEFAULT_VOICE_NAME
 
 
 class AmazonAudioApi(AudioInterface):
@@ -181,7 +181,7 @@ class AmazonAudioApi(AudioInterface):
         Args:
             text: The text to convert to speech
             model: The Polly engine ("standard", "neural", "generative").
-                   Defaults to "neural"
+                   Defaults to DEFAULT_MODEL
             voice: The voice ID (e.g., "Joanna", "Matthew"). Defaults to "Joanna"
             audio_format: Audio format (mp3, ogg_vorbis, pcm). Defaults to "mp3"
             speed: Speech speed (0.5 to 2.0). Defaults to 1.0
@@ -192,8 +192,16 @@ class AmazonAudioApi(AudioInterface):
         provider_params = provider_params or {}
 
         # Set defaults
-        resolved_engine = model or "neural"
-        resolved_voice = voice or "Joanna"
+        resolved_engine = model or DEFAULT_MODEL
+
+        # Resolve voice (case-insensitive lookup)
+        voice_input = voice or DEFAULT_VOICE_NAME
+        voice_lower = voice_input.lower()
+        if voice_lower in POLLY_VOICES_LOWER:
+            resolved_voice = POLLY_VOICES_LOWER[voice_lower]
+        else:
+            # Use as-is (will fail at API level if invalid)
+            resolved_voice = voice_input
 
         # Build SSML for prosody control if speed or provider_params are set
         speaking_rate = 0
@@ -210,8 +218,8 @@ class AmazonAudioApi(AudioInterface):
         )
 
         # Get audio format settings
-        ext, resolved_audio_format, sampling = get_right_audio_support_and_sampling_rate(
-            audio_format, 0
+        ext, resolved_audio_format, sampling = (
+            get_right_audio_support_and_sampling_rate(audio_format, 0)
         )
 
         params = {
