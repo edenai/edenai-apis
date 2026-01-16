@@ -211,6 +211,13 @@ class GoogleAudioApi(AudioInterface):
         else:
             language_code = "en-US"
 
+        # If model is specified, override the model type in the voice name
+        # e.g., model="Wavenet" + voice="en-US-Standard-A" -> "en-US-Wavenet-A"
+        if model and len(parts) >= 4:
+            model_normalized = model.capitalize()
+            parts[2] = model_normalized
+            resolved_voice = "-".join(parts)
+
         # Build input (support SSML if text starts with <speak>)
         if is_ssml(text):
             input_text = texttospeech.SynthesisInput(ssml=text)
@@ -256,6 +263,8 @@ class GoogleAudioApi(AudioInterface):
                 "audio_config": audio_config,
             }
         }
+
+        print("Payload for Google TTS:", payload)
 
         async with texttospeech.TextToSpeechAsyncClient() as client:
             response = await ahandle_google_call(client.synthesize_speech, **payload)
