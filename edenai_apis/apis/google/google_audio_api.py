@@ -15,6 +15,7 @@ from edenai_apis.apis.google.google_helpers import (
     handle_google_call,
     ahandle_google_call,
 )
+from edenai_apis.utils.conversion import convert_pitch_from_percentage_to_semitones
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechDiarization,
@@ -157,6 +158,109 @@ class GoogleAudioApi(AudioInterface):
 
         audio_content = BytesIO(response.audio_content)
 
+        audio = base64.b64encode(audio_content.read()).decode("utf-8")
+
+        audio_content.seek(0)
+        resource_url = await aupload_file_bytes_to_s3(
+            audio_content, f".{ext}", USER_PROCESS
+        )
+
+        standardized_response = TextToSpeechDataClass(
+            audio=audio, voice_type=voice_type, audio_resource_url=resource_url
+        )
+        return ResponseType[TextToSpeechDataClass](
+            original_response={},
+            standardized_response=standardized_response,
+        )
+
+    async def audio__atts(
+        self,
+        text: str,
+        model: Optional[str] = None,
+        voice: Optional[str] = None,
+        audio_format: str = "mp3",
+        speed: Optional[float] = None,
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        """Convert text to speech using Google Cloud TTS API.
+
+        Args:
+            text: The text to convert to speech
+            model: The TTS model type (e.g., "Standard", "Wavenet", "Neural2").
+                   Defaults to "Standard"
+            voice: The voice ID (e.g., "en-US-Standard-A", "en-US-Wavenet-D").
+                   Defaults to "en-US-Standard-A"
+            audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
+            speed: Speech speed (0.5 to 2.0). Defaults to 1.0
+            provider_params: Provider-specific settings:
+                - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
+                - speaking_volume: Volume adjustment (-100 to 100, default 0)
+                - sampling_rate: Audio sampling rate in Hz
+        """
+        provider_params = provider_params or {}
+        voice_type = 1
+
+        # Set defaults
+        resolved_voice = voice or "en-US-Standard-A"
+
+        # Extract language code from voice ID (e.g., "en-US-Wavenet-D" -> "en-US")
+        parts = resolved_voice.split("-")
+        if len(parts) >= 2:
+            language_code = f"{parts[0]}-{parts[1]}"
+        else:
+            language_code = "en-US"
+
+        # Build input (support SSML if text starts with <speak>)
+        if is_ssml(text):
+            input_text = texttospeech.SynthesisInput(ssml=text)
+        else:
+            input_text = texttospeech.SynthesisInput(text=text)
+
+        voice_params = texttospeech.VoiceSelectionParams(
+            language_code=language_code, name=resolved_voice
+        )
+
+        # Get audio format mapping
+        ext, resolved_audio_format = get_right_audio_support_and_sampling_rate(
+            audio_format, texttospeech.AudioEncoding._member_names_
+        )
+
+        # Build audio config
+        audio_config_params = {
+            "audio_encoding": getattr(texttospeech.AudioEncoding, resolved_audio_format)
+        }
+
+        # Apply speed (speaking_rate: 0.25 to 4.0, where 1.0 is normal)
+        if speed is not None:
+            audio_config_params["speaking_rate"] = max(0.25, min(4.0, speed))
+
+        # Apply provider params
+        if provider_params.get("speaking_pitch") is not None:
+            audio_config_params["pitch"] = convert_pitch_from_percentage_to_semitones(
+                provider_params["speaking_pitch"]
+            )
+        if provider_params.get("speaking_volume") is not None:
+            # Volume gain in dB (-96 to 16)
+            volume = provider_params["speaking_volume"]
+            audio_config_params["volume_gain_db"] = max(-96, min(16, volume * 6 / 100))
+        if provider_params.get("sampling_rate") is not None:
+            audio_config_params["sample_rate_hertz"] = provider_params["sampling_rate"]
+
+        audio_config = texttospeech.AudioConfig(**audio_config_params)
+
+        payload = {
+            "request": {
+                "input": input_text,
+                "voice": voice_params,
+                "audio_config": audio_config,
+            }
+        }
+
+        async with texttospeech.TextToSpeechAsyncClient() as client:
+            response = await ahandle_google_call(client.synthesize_speech, **payload)
+
+        audio_content = BytesIO(response.audio_content)
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
 
         audio_content.seek(0)

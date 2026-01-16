@@ -3136,6 +3136,16 @@
                 }
             },
             "version": "v1"
+        },
+        "tts": {
+            "constraints": {
+                "models": ["eleven_monolingual_v1", "eleven_multilingual_v2"],
+                "default_model": "eleven_monolingual_v1",
+                "voices": ["Rachel", "Drew", "Clyde", "Paul", "Dave", "Fin", "Sarah", "Bella", "Antoni", "Thomas"],
+                "default_voice": "Rachel",
+                "audio_format": ["mp3"]
+            },
+            "version": "v1"
         }
     }
 }

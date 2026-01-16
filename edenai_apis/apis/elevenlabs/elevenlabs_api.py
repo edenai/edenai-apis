@@ -1,7 +1,8 @@
 import base64
 from io import BytesIO
-from typing import Dict
+from typing import Dict, Optional
 
+import httpx
 import requests
 
 from edenai_apis.features import AudioInterface
@@ -164,3 +165,77 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
                 audio=audio, voice_type=1, audio_resource_url=resource_url
             ),
         )
+
+    async def audio__atts(
+        self,
+        text: str,
+        model: Optional[str] = None,
+        voice: Optional[str] = None,
+        audio_format: str = "mp3",
+        speed: Optional[float] = None,
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        """Convert text to speech using ElevenLabs API.
+
+        Args:
+            text: The text to convert to speech
+            model: The model to use ("eleven_monolingual_v1", "eleven_multilingual_v2").
+                   Defaults to "eleven_monolingual_v1"
+            voice: The voice ID or name (e.g., "Rachel", "21m00Tcm4TlvDq8ikWAM").
+                   Defaults to "Rachel"
+            audio_format: Audio format. Defaults to "mp3"
+            speed: Not supported by ElevenLabs (ignored)
+            provider_params: Provider-specific settings:
+                - stability: Voice stability (0.0 to 1.0, default 0.5)
+                - similarity_boost: Voice similarity (0.0 to 1.0, default 0.5)
+        """
+        provider_params = provider_params or {}
+
+        # Set defaults
+        resolved_model = model or "eleven_monolingual_v1"
+        resolved_voice = voice or "Rachel"
+
+        # Resolve voice name to voice ID if it's a name
+        if resolved_voice in voice_ids:
+            voice_id = voice_ids[resolved_voice]
+        else:
+            # Assume it's already a voice ID
+            voice_id = resolved_voice
+
+        url = f"{self.base_url}text-to-speech/{voice_id}"
+
+        # Voice settings
+        stability = provider_params.get("stability", 0.5)
+        similarity_boost = provider_params.get("similarity_boost", 0.5)
+
+        data = {
+            "text": text,
+            "model_id": resolved_model,
+            "voice_settings": {
+                "stability": stability,
+                "similarity_boost": similarity_boost,
+            },
+        }
+
+        try:
+            async with async_client(AUDIO_TIMEOUT) as client:
+                response = await client.post(url, json=data, headers=self.headers)
+                response.raise_for_status()
+
+            audio_content = BytesIO(response.content)
+            audio = base64.b64encode(audio_content.read()).decode("utf-8")
+
+            audio_content.seek(0)
+            resource_url = await aupload_file_bytes_to_s3(
+                audio_content, f".{audio_format}", USER_PROCESS
+            )
+
+            return ResponseType[TextToSpeechDataClass](
+                original_response=audio,
+                standardized_response=TextToSpeechDataClass(
+                    audio=audio, voice_type=1, audio_resource_url=resource_url
+                ),
+            )
+        except httpx.HTTPStatusError as exc:
+            raise ProviderException(exc.response.text, code=exc.response.status_code)

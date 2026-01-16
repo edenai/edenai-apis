@@ -5,9 +5,13 @@ from pathlib import Path
 from time import time
 from typing import Dict, List, Optional
 
+import httpx
 import requests
 
 from edenai_apis.features import AudioInterface, ProviderInterface
+from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
+    TextToSpeechDataClass,
+)
 from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 from edenai_apis.features.audio import (
     SpeechDiarization,
@@ -188,7 +192,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
                 result = response.json()
             except json.JSONDecodeError as exc:
                 raise ProviderException(
-                    code=500, message="Internal Server Error"
+                    code=response.status_code, message=response.text
                 ) from exc
 
             raise ProviderException(
@@ -262,3 +266,66 @@ class DeepgramApi(ProviderInterface, AudioInterface):
                 audio=audio, voice_type=1, audio_resource_url=resource_url
             ),
         )
+
+    async def audio__atts(
+        self,
+        text: str,
+        model: Optional[str] = None,
+        voice: Optional[str] = None,
+        audio_format: str = "mp3",
+        speed: Optional[float] = None,
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        """Convert text to speech using Deepgram Aura API.
+
+        Args:
+            text: The text to convert to speech
+            model: The Aura model voice (e.g., "aura-asteria-en", "aura-luna-en").
+                   Defaults to "aura-asteria-en"
+            voice: Alternative to model parameter (same functionality)
+            audio_format: Audio format (mp3, wav). Defaults to "mp3"
+            speed: Not supported by Deepgram (ignored)
+            provider_params: Provider-specific settings:
+                - sample_rate: Audio sample rate in Hz
+        """
+        provider_params = provider_params or {}
+
+        # Set defaults - Deepgram uses model as voice identifier
+        resolved_model = voice or model or "aura-asteria-en"
+
+        base_url = f"https://api.deepgram.com/v1/speak?model={resolved_model}"
+
+        if audio_format:
+            base_url += f"&container={audio_format}"
+
+        if provider_params.get("sample_rate"):
+            base_url += f"&sample_rate={provider_params['sample_rate']}"
+
+        headers = {
+            "Authorization": f"Token {self.api_key}",
+            "Content-Type": "application/json",
+        }
+
+        payload = {"text": text}
+
+        try:
+            async with async_client(AUDIO_TIMEOUT) as client:
+                response = await client.post(base_url, headers=headers, json=payload)
+                response.raise_for_status()
+
+                audio_content = BytesIO(response.content)
+                audio = base64.b64encode(audio_content.read()).decode("utf-8")
+                audio_content.seek(0)
+                resource_url = await aupload_file_bytes_to_s3(
+                    audio_content, f".{audio_format}", USER_PROCESS
+                )
+
+                return ResponseType[TextToSpeechDataClass](
+                    original_response=response.content,
+                    standardized_response=TextToSpeechDataClass(
+                        audio=audio, voice_type=1, audio_resource_url=resource_url
+                    ),
+                )
+        except httpx.HTTPStatusError as exc:
+            raise ProviderException(exc.response.text, code=exc.response.status_code)

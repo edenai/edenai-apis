@@ -166,6 +166,98 @@ class AmazonAudioApi(AudioInterface):
             original_response={}, standardized_response=standardized_response
         )
 
+    async def audio__atts(
+        self,
+        text: str,
+        model: Optional[str] = None,
+        voice: Optional[str] = None,
+        audio_format: str = "mp3",
+        speed: Optional[float] = None,
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        """Convert text to speech using Amazon Polly API.
+
+        Args:
+            text: The text to convert to speech
+            model: The Polly engine ("standard", "neural", "generative").
+                   Defaults to "neural"
+            voice: The voice ID (e.g., "Joanna", "Matthew"). Defaults to "Joanna"
+            audio_format: Audio format (mp3, ogg_vorbis, pcm). Defaults to "mp3"
+            speed: Speech speed (0.5 to 2.0). Defaults to 1.0
+            provider_params: Provider-specific settings:
+                - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
+                - speaking_volume: Volume adjustment (-100 to 100, default 0)
+        """
+        provider_params = provider_params or {}
+
+        # Set defaults
+        resolved_engine = model or "neural"
+        resolved_voice = voice or "Joanna"
+
+        # Build SSML for prosody control if speed or provider_params are set
+        speaking_rate = 0
+        if speed is not None:
+            # Convert speed (0.5-2.0) to rate percentage (-100 to 100)
+            # 0.5 -> -100, 1.0 -> 0, 2.0 -> 100
+            speaking_rate = int((speed - 1.0) * 200)
+
+        speaking_pitch = provider_params.get("speaking_pitch", 0)
+        speaking_volume = provider_params.get("speaking_volume", 0)
+
+        ssml_text = generate_right_ssml_text(
+            text, speaking_rate, speaking_pitch, speaking_volume
+        )
+
+        # Get audio format settings
+        ext, resolved_audio_format, sampling = get_right_audio_support_and_sampling_rate(
+            audio_format, 0
+        )
+
+        params = {
+            "Engine": resolved_engine,
+            "VoiceId": resolved_voice,
+            "OutputFormat": resolved_audio_format,
+            "Text": ssml_text,
+        }
+
+        if sampling:
+            params["SampleRate"] = str(sampling)
+
+        if is_ssml(ssml_text):
+            params["TextType"] = "ssml"
+
+        session = aioboto3.Session()
+        async with session.client(
+            "polly",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as polly_client:
+            response = await ahandle_amazon_call(
+                polly_client.synthesize_speech, **params
+            )
+            stream = await response["AudioStream"].read()
+
+        audio_content = BytesIO(stream)
+        audio_file = base64.b64encode(audio_content.read()).decode("utf-8")
+        voice_type = 1
+
+        audio_content.seek(0)
+        audio_resource_url = await aupload_file_bytes_to_s3(
+            audio_content, f".{ext}", USER_PROCESS
+        )
+
+        standardized_response = TextToSpeechDataClass(
+            audio=audio_file,
+            voice_type=voice_type,
+            audio_resource_url=audio_resource_url,
+        )
+
+        return ResponseType[TextToSpeechDataClass](
+            original_response={}, standardized_response=standardized_response
+        )
+
     # Speech to text async
     def _upload_audio_file_to_amazon_server(
         self, file_path: str, file_name: str

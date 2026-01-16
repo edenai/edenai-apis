@@ -125,6 +125,16 @@
                 }
             },
             "version": "v1"
+        },
+        "tts": {
+            "constraints": {
+                "models": ["aura"],
+                "default_model": "aura",
+                "voices": ["aura-asteria-en", "aura-luna-en", "aura-stella-en", "aura-athena-en", "aura-hera-en", "aura-orion-en", "aura-arcas-en", "aura-perseus-en"],
+                "default_voice": "aura-asteria-en",
+                "audio_format": ["mp3", "wav"]
+            },
+            "version": "v1"
         }
     }
 }

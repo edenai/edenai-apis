@@ -164,6 +164,91 @@ class MicrosoftAudioApi(AudioInterface):
             original_response={}, standardized_response=standardized_response
         )
 
+    async def audio__atts(
+        self,
+        text: str,
+        model: Optional[str] = None,
+        voice: Optional[str] = None,
+        audio_format: str = "mp3",
+        speed: Optional[float] = None,
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        """Convert text to speech using Microsoft Azure Speech API.
+
+        Args:
+            text: The text to convert to speech
+            model: Not used for Microsoft (voice determines model)
+            voice: The voice ID (e.g., "en-US-JennyNeural"). Defaults to "en-US-JennyNeural"
+            audio_format: Audio format (mp3, wav, pcm). Defaults to "mp3"
+            speed: Speech speed (0.5 to 2.0). Defaults to 1.0
+            provider_params: Provider-specific settings:
+                - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
+                - speaking_volume: Volume adjustment (-100 to 100, default 0)
+        """
+        provider_params = provider_params or {}
+
+        # Set defaults
+        resolved_voice = voice or "en-US-JennyNeural"
+
+        speech_config = speechsdk.SpeechConfig(
+            subscription=self.api_settings["speech"]["subscription_key"],
+            region=self.api_settings["speech"]["service_region"],
+        )
+        speech_config.speech_synthesis_voice_name = resolved_voice
+
+        ext, resolved_audio_format = get_right_audio_support_and_sampling_rate(
+            audio_format, 0, speechsdk.SpeechSynthesisOutputFormat._member_names_
+        )
+
+        speech_config.set_speech_synthesis_output_format(
+            getattr(speechsdk.SpeechSynthesisOutputFormat, resolved_audio_format)
+        )
+
+        # Convert speed to percentage (-100 to 100)
+        speaking_rate = 0
+        if speed is not None:
+            speaking_rate = int((speed - 1.0) * 100)
+
+        speaking_pitch = provider_params.get("speaking_pitch", 0)
+        speaking_volume = provider_params.get("speaking_volume", 0)
+
+        ssml_or_text = generate_right_ssml_text(
+            text, resolved_voice, speaking_rate, speaking_pitch, speaking_volume
+        )
+
+        def _synthesize_blocking() -> bytes:
+            synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
+            response = (
+                synthesizer.speak_text_async(ssml_or_text).get()
+                if not is_ssml(ssml_or_text)
+                else synthesizer.speak_ssml_async(ssml_or_text).get()
+            )
+
+            if response.reason == speechsdk.ResultReason.Canceled:
+                cancellation_details = response.cancellation_details
+                raise ProviderException(str(cancellation_details.error_details))
+
+            return response.audio_data
+
+        audio_bytes: bytes = await asyncio.to_thread(_synthesize_blocking)
+
+        audio_content = BytesIO(audio_bytes)
+        audio_b64 = base64.b64encode(audio_content.read()).decode("utf-8")
+
+        audio_content.seek(0)
+        resource_url = await aupload_file_bytes_to_s3(
+            audio_content, f".{ext}", USER_PROCESS
+        )
+        voice_type = 1
+        standardized_response = TextToSpeechDataClass(
+            audio=audio_b64, voice_type=voice_type, audio_resource_url=resource_url
+        )
+
+        return ResponseType[TextToSpeechDataClass](
+            original_response={}, standardized_response=standardized_response
+        )
+
     def audio__speech_to_text_async__launch_job(
         self,
         file: str,

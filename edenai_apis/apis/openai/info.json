@@ -1340,6 +1340,16 @@
         }
       },
       "version": "v1.0"
+    },
+    "tts": {
+      "constraints": {
+        "models": ["tts-1", "tts-1-hd"],
+        "default_model": "tts-1",
+        "voices": ["alloy", "echo", "fable", "onyx", "nova", "shimmer"],
+        "default_voice": "alloy",
+        "audio_format": ["mp3", "opus", "aac", "flac", "wav", "pcm"]
+      },
+      "version": "v1.0"
     }
   },
   "multimodal": {

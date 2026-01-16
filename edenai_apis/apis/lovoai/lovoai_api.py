@@ -1,9 +1,10 @@
 import base64
 import json
 from time import sleep
-from typing import Dict
+from typing import Dict, Optional
 import asyncio
 
+import httpx
 import requests
 
 from edenai_apis.features.audio import AudioInterface
@@ -28,6 +29,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     AsyncPendingResponseType,
 )
+from edenai_apis.utils.tts import normalize_speed_for_lovoai
 from .config import voice_ids
 
 
@@ -289,3 +291,89 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             ),
             provider_job_id=provider_job_id,
         )
+
+    async def audio__atts(
+        self,
+        text: str,
+        model: Optional[str] = None,
+        voice: Optional[str] = None,
+        audio_format: str = "mp3",
+        speed: Optional[float] = None,
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        """Convert text to speech using LovoAI API.
+
+        Args:
+            text: The text to convert to speech
+            model: Not used for LovoAI (single model)
+            voice: The voice ID (e.g., "en-US_Alysha Imani"). Defaults to "en-US_Alysha Imani"
+            audio_format: Audio format. Defaults to "mp3"
+            speed: Speech speed (0.5 to 1.5). Defaults to 1.0
+            provider_params: Provider-specific settings (none currently)
+        """
+        provider_params = provider_params or {}
+
+        # Set defaults
+        resolved_voice = voice or "en-US_Alysha Imani"
+
+        # Resolve voice ID
+        if resolved_voice in voice_ids:
+            speaker_id = voice_ids[resolved_voice]
+        else:
+            # Assume it's already a speaker ID
+            speaker_id = resolved_voice
+
+        # Apply speed (LovoAI supports 0.5-1.5)
+        resolved_speed = normalize_speed_for_lovoai(speed)
+
+        payload = {
+            "text": text,
+            "speaker": speaker_id,
+            "speed": resolved_speed,
+        }
+
+        try:
+            async with async_client(AUDIO_TIMEOUT) as client:
+                response = await client.post(
+                    f"{self.url}v1/tts/sync", headers=self.headers, json=payload
+                )
+                response.raise_for_status()
+                original_response = response.json()
+
+                # Poll for completion if in progress
+                if original_response.get("status") == "in_progress":
+                    while True:
+                        await asyncio.sleep(1)
+                        response_status = await client.get(
+                            f"{self.url}v1/tts/{original_response['id']}",
+                            headers=self.headers,
+                        )
+                        response_status.raise_for_status()
+                        original_response = response_status.json()
+
+                        if original_response.get("status") == "done":
+                            break
+
+                data = original_response["data"][0]
+                if error := data.get("error"):
+                    error_code = error.get("code", 400) or 400
+                    error_message = error.get("message", "") or "Call to provider failed!"
+                    raise ProviderException(error_message, error_code)
+
+                audio_url = original_response["data"][0]["urls"][0]
+                audio_response = await client.get(audio_url)
+                audio_response.raise_for_status()
+                audio_content = base64.b64encode(audio_response.content)
+                audio_content_string = audio_content.decode("utf-8")
+
+                return ResponseType[TextToSpeechDataClass](
+                    original_response={},
+                    standardized_response=TextToSpeechDataClass(
+                        audio=audio_content_string,
+                        voice_type=1,
+                        audio_resource_url=audio_url,
+                    ),
+                )
+        except httpx.HTTPStatusError as exc:
+            raise ProviderException(exc.response.text, code=exc.response.status_code)
