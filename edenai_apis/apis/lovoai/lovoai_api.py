@@ -32,6 +32,9 @@ from edenai_apis.utils.types import (
 from edenai_apis.utils.tts import normalize_speed_for_lovoai
 from .config import voice_ids
 
+# Create lowercase lookup for case-insensitive voice matching
+_voice_ids_lower = {k.lower(): v for k, v in voice_ids.items()}
+
 
 class LovoaiApi(ProviderInterface, AudioInterface):
     provider_name = "lovoai"
@@ -317,9 +320,10 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         # Set defaults
         resolved_voice = voice or "en-US_Alysha Imani"
 
-        # Resolve voice ID
-        if resolved_voice in voice_ids:
-            speaker_id = voice_ids[resolved_voice]
+        # Resolve voice ID (case-insensitive lookup using lowercase)
+        voice_lower = resolved_voice.lower()
+        if voice_lower in _voice_ids_lower:
+            speaker_id = _voice_ids_lower[voice_lower]
         else:
             # Assume it's already a speaker ID
             speaker_id = resolved_voice

@@ -22,6 +22,9 @@ from edenai_apis.utils.upload_s3 import (
 )
 from .config import voice_ids
 
+# Create lowercase lookup for case-insensitive voice matching
+_voice_ids_lower = {k.lower(): v for k, v in voice_ids.items()}
+
 
 class ElevenlabsApi(ProviderInterface, AudioInterface):
     provider_name = "elevenlabs"
@@ -196,9 +199,10 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         resolved_model = model or "eleven_monolingual_v1"
         resolved_voice = voice or "Rachel"
 
-        # Resolve voice name to voice ID if it's a name
-        if resolved_voice in voice_ids:
-            voice_id = voice_ids[resolved_voice]
+        # Resolve voice name to voice ID (case-insensitive lookup using lowercase)
+        voice_lower = resolved_voice.lower()
+        if voice_lower in _voice_ids_lower:
+            voice_id = _voice_ids_lower[voice_lower]
         else:
             # Assume it's already a voice ID
             voice_id = resolved_voice

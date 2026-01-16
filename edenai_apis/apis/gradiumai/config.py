@@ -258,11 +258,11 @@ voice_ids = {
 # Default voice
 DEFAULT_VOICE_NAME = "Emma"  # Default voice name (English - US)
 
-# Supported output formats
-SUPPORTED_FORMATS = ["pcm", "wav", "opus", "mp3"]
+# Supported output formats (Gradium WebSocket API)
+SUPPORTED_FORMATS = ["pcm", "wav", "opus"]
 
 # Default format
-DEFAULT_FORMAT = "mp3"
+DEFAULT_FORMAT = "wav"
 
 # API regions
 REGIONS = {
