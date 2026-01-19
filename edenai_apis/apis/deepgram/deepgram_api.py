@@ -372,18 +372,20 @@ class DeepgramApi(ProviderInterface, AudioInterface):
 
         payload = {"text": text}
 
-        response = requests.post(base_url, headers=headers, json=payload)
-        if response.status_code != 200:
+        try:
+            response = requests.post(base_url, headers=headers, json=payload)
+            response.raise_for_status()
+        except requests.exceptions.Timeout as exc:
+            raise ProviderException(message="Request timed out", code=408) from exc
+        except requests.exceptions.HTTPError as exc:
             try:
                 result = response.json()
-            except json.JSONDecodeError as exc:
-                raise ProviderException(
-                    code=response.status_code, message=response.text
-                ) from exc
-
-            raise ProviderException(
-                code=response.status_code, message=result.get("err_msg")
-            )
+                message = result.get("err_msg", response.text)
+            except json.JSONDecodeError:
+                message = response.text
+            raise ProviderException(code=response.status_code, message=message) from exc
+        except requests.exceptions.RequestException as exc:
+            raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
         audio_content = BytesIO(response.content)
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
