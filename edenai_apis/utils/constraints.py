@@ -371,10 +371,9 @@ def validate_all_provider_constraints(
         ## Validate here
 
         # file types
-        # THIS VALIDATION IS DISABLED FOR NOW AS IT CAUSES ISSUES WITH SOME PROVIDERS
-        # validated_args = validate_input_file_type(
-        #     provider_constraints, provider, validated_args
-        # )
+        validated_args = validate_input_file_type(
+            provider_constraints, provider, validated_args
+        )
 
         # languages
         validated_args = validate_all_input_languages(
