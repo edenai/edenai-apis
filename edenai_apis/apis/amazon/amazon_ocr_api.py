@@ -1,4 +1,5 @@
 import json
+import uuid
 from time import sleep
 from typing import Dict, List, Sequence, Union
 
@@ -114,6 +115,68 @@ class AmazonOcrApi(OcrInterface):
             original_response=original_response, standardized_response=standardized
         )
 
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            session = aioboto3.Session()
+
+            async with session.client(
+                "textract",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as textract_client:
+                payload = {"Document": {"Bytes": file_content}}
+                response = await ahandle_amazon_call(
+                    textract_client.detect_document_text, **payload
+                )
+
+            final_text = ""
+            output_value = json.dumps(response, ensure_ascii=False)
+            original_response = json.loads(output_value)
+            boxes: Sequence[Bounding_box] = []
+
+            for region in original_response.get("Blocks"):
+                if region.get("BlockType") == "LINE":
+                    final_text += " " + region.get("Text")
+
+                if region.get("BlockType") == "WORD":
+                    boxes.append(
+                        Bounding_box(
+                            text=region.get("Text"),
+                            left=region["Geometry"]["BoundingBox"]["Left"],
+                            top=region["Geometry"]["BoundingBox"]["Top"],
+                            width=region["Geometry"]["BoundingBox"]["Width"],
+                            height=region["Geometry"]["BoundingBox"]["Height"],
+                        )
+                    )
+
+            standardized = OcrDataClass(
+                text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
+            )
+
+            return ResponseType[OcrDataClass](
+                original_response=original_response, standardized_response=standardized
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+
     def ocr__identity_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
@@ -213,19 +276,19 @@ class AmazonOcrApi(OcrInterface):
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
         file_handler = FileHandler()
-        file_wrapper = None  # Track for cleanup
+        file_wrapper = None
+
         try:
-            if not file:
-                # try to use the url
-                if not file_url:
-                    raise ProviderException(
-                        "Either file or file_url must be provided", code=400
-                    )
+            if file:
+                async with aiofiles.open(file, "rb") as f:
+                    file_ = await f.read()
+            elif file_url:
                 file_wrapper = await file_handler.download_file(file_url)
                 file_ = await file_wrapper.get_bytes()
             else:
-                async with aiofiles.open(file, "rb") as f:
-                    file_ = await f.read()
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
             payload = {
                 "DocumentPages": [
                     {
@@ -699,43 +762,59 @@ class AmazonOcrApi(OcrInterface):
     async def ocr__aocr_async__launch_job(
         self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
-        session = aioboto3.Session()
+        file_handler = FileHandler()
+        file_wrapper = None
+        s3_key = file
 
-        async with session.resource(
-            "s3",
-            region_name=self.api_settings["region_name"],
-            aws_access_key_id=self.api_settings["aws_access_key_id"],
-            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-        ) as s3:
-            # Upload file to S3
-            with open(file, "rb") as file_:
-                file_content = file_.read()
-
-            bucket = await s3.Bucket(self.api_settings["bucket"])
-            await bucket.put_object(Key=file, Body=file_content)
-
-        async with session.client(
-            "textract",
-            region_name=self.api_settings["region_name"],
-            aws_access_key_id=self.api_settings["aws_access_key_id"],
-            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-        ) as textract_client:
-            payload = {
-                "DocumentLocation": {
-                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file}
-                }
-            }
-            try:
-                launch_job_response = (
-                    await textract_client.start_document_text_detection(**payload)
-                )
-            except ClientError as exc:
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as f:
+                    file_content = await f.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                s3_key = f"upload_{file_url.split('/')[-1]}"
+            else:
                 raise ProviderException(
-                    str(exc),
-                    exc.response.get("ResponseMetadata", {}).get("HTTPStatusCode"),
+                    "Either file or file_url must be provided", code=400
                 )
 
-        return AsyncLaunchJobResponseType(provider_job_id=launch_job_response["JobId"])
+            session = aioboto3.Session()
+
+            async with session.resource(
+                "s3",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as s3:
+                bucket = await s3.Bucket(self.api_settings["bucket"])
+                await bucket.put_object(Key=s3_key, Body=file_content)
+
+            async with session.client(
+                "textract",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as textract_client:
+                payload = {
+                    "DocumentLocation": {
+                        "S3Object": {"Bucket": self.api_settings["bucket"], "Name": s3_key}
+                    }
+                }
+                try:
+                    launch_job_response = (
+                        await textract_client.start_document_text_detection(**payload)
+                    )
+                except ClientError as exc:
+                    raise ProviderException(
+                        str(exc),
+                        exc.response.get("ResponseMetadata", {}).get("HTTPStatusCode"),
+                    )
+
+            return AsyncLaunchJobResponseType(provider_job_id=launch_job_response["JobId"])
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     async def ocr__aocr_async__get_job_result(
         self, provider_job_id: str
@@ -945,88 +1024,106 @@ class AmazonOcrApi(OcrInterface):
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        # Read file asynchronously
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None
 
-        # Create aioboto3 session
-        session = aioboto3.Session()
-
-        # Upload to S3 asynchronously
-        async with session.resource(
-            "s3",
-            region_name=self.api_settings["region_name"],
-            aws_access_key_id=self.api_settings["aws_access_key_id"],
-            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-        ) as s3:
-            bucket = await s3.Bucket(self.api_settings["bucket"])
-            await bucket.put_object(Key=file, Body=file_content)
-
-        # Start expense analysis job
-        payload = {
-            "DocumentLocation": {
-                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file},
-            }
-        }
-
-        async with session.client(
-            "textract",
-            region_name=self.api_settings["region_name"],
-            aws_access_key_id=self.api_settings["aws_access_key_id"],
-            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-        ) as textract_client:
-            launch_job_response = await ahandle_amazon_call(
-                textract_client.start_expense_analysis, **payload
-            )
-
-            # Get job result
-            job_id = launch_job_response.get("JobId")
-            get_response = await ahandle_amazon_call(
-                textract_client.get_expense_analysis, JobId=job_id
-            )
-
-            if get_response["JobStatus"] == "FAILED":
-                error: str = get_response.get(
-                    "StatusMessage", "Amazon returned a job status: FAILED"
+        try:
+            # Get file content
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                s3_key = file
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                extension = file_wrapper.file_info.file_extension or "pdf"
+                s3_key = f"financial_parser/{uuid.uuid4()}.{extension}"
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
                 )
-                raise ProviderException(error)
 
-            # Wait for job completion using fibonacci waiting
-            waiting_args = {"JobId": job_id}
-            get_response = await afibonacci_waiting_call(
-                max_time=60,
-                status="SUCCEEDED",
-                func=textract_client.get_expense_analysis,
-                provider_handel_call=ahandle_amazon_call,
-                **waiting_args,
-            )
+            # Create aioboto3 session
+            session = aioboto3.Session()
 
-            # Check if NextToken exists
-            pagination_token = get_response.get("NextToken")
-            pages = [get_response]
+            # Upload to S3 asynchronously
+            async with session.resource(
+                "s3",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as s3:
+                bucket = await s3.Bucket(self.api_settings["bucket"])
+                await bucket.put_object(Key=s3_key, Body=file_content)
 
-            if not pagination_token:
+            # Start expense analysis job
+            payload = {
+                "DocumentLocation": {
+                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": s3_key},
+                }
+            }
+
+            async with session.client(
+                "textract",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as textract_client:
+                launch_job_response = await ahandle_amazon_call(
+                    textract_client.start_expense_analysis, **payload
+                )
+
+                # Get job result
+                job_id = launch_job_response.get("JobId")
+                get_response = await ahandle_amazon_call(
+                    textract_client.get_expense_analysis, JobId=job_id
+                )
+
+                if get_response["JobStatus"] == "FAILED":
+                    error: str = get_response.get(
+                        "StatusMessage", "Amazon returned a job status: FAILED"
+                    )
+                    raise ProviderException(error)
+
+                # Wait for job completion using fibonacci waiting
+                waiting_args = {"JobId": job_id}
+                get_response = await afibonacci_waiting_call(
+                    max_time=60,
+                    status="SUCCEEDED",
+                    func=textract_client.get_expense_analysis,
+                    provider_handel_call=ahandle_amazon_call,
+                    **waiting_args,
+                )
+
+                # Check if NextToken exists
+                pagination_token = get_response.get("NextToken")
+                pages = [get_response]
+
+                if not pagination_token:
+                    return ResponseType(
+                        original_response=pages,
+                        standardized_response=amazon_financial_parser_formatter(pages),
+                    )
+
+                # Handle pagination
+                finished = False
+                while not finished:
+                    get_response = await ahandle_amazon_call(
+                        textract_client.get_expense_analysis,
+                        JobId=job_id,
+                        NextToken=pagination_token,
+                    )
+                    pages.append(get_response)
+
+                    if "NextToken" in get_response:
+                        pagination_token = get_response["NextToken"]
+                    else:
+                        finished = True
+
                 return ResponseType(
                     original_response=pages,
                     standardized_response=amazon_financial_parser_formatter(pages),
                 )
-
-            # Handle pagination
-            finished = False
-            while not finished:
-                get_response = await ahandle_amazon_call(
-                    textract_client.get_expense_analysis,
-                    JobId=job_id,
-                    NextToken=pagination_token,
-                )
-                pages.append(get_response)
-
-                if "NextToken" in get_response:
-                    pagination_token = get_response["NextToken"]
-                else:
-                    finished = True
-
-            return ResponseType(
-                original_response=pages,
-                standardized_response=amazon_financial_parser_formatter(pages),
-            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()

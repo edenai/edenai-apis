@@ -5,7 +5,8 @@ from typing import List, Dict, Union
 import aiofiles
 
 import requests
-import httpx
+
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
 
 from edenai_apis.apis.extracta.extracta_ocr_normalizer import (
     extracta_resume_parser,
@@ -29,6 +30,7 @@ from edenai_apis.utils.exception import (
     AsyncJobExceptionReason,
     ProviderException,
 )
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -290,55 +292,60 @@ class ExtractaApi(
     async def ocr__aresume_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[ResumeParserDataClass]:
-        isUrl = False
-        if file_url:
-            image_source = file_url
-            isUrl = True
-        else:
-            try:
-                async with aiofiles.open(file, "rb") as f_stream:
-                    content = await f_stream.read()
-                    image_as_base64 = (
-                        f"data:{mimetypes.guess_type(file)[0]};base64,"
-                        + base64.b64encode(content).decode()
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if not file:
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
                     )
-                    image_source = image_as_base64
-            except FileNotFoundError:
-                raise ProviderException("Error: The file was not found.")
-            except IOError:
-                raise ProviderException(
-                    "Error: An I/O error occurred while handling the file."
-                )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                mime_type = file_wrapper.file_info.file_media_type
+            else:
+                async with aiofiles.open(file, "rb") as f_stream:
+                    file_content = await f_stream.read()
+                mime_type = mimetypes.guess_type(file)[0]
 
-        payload = {
-            "extractionDetails": {
-                "name": "Eden.ai - Extraction",
-                "language": "English",
-                "documentId": "resume_parser",
-            },
-            "file": image_source,
-            "isUrl": isUrl,
-        }
-
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.api_key}",
-        }
-
-        async with httpx.AsyncClient(timeout=10.0) as session:
-            response = await session.post(
-                url=self.url + self.processFileRoute, headers=headers, json=payload
+            image_as_base64 = (
+                f"data:{mime_type};base64,"
+                + base64.b64encode(file_content).decode()
             )
-            if response.status_code != 200:
-                raise ProviderException(response.text, code=response.status_code)
-            original_response = response.json()
 
-        standardized_response = extracta_resume_parser(original_response)
+            payload = {
+                "extractionDetails": {
+                    "name": "Eden.ai - Extraction",
+                    "language": "English",
+                    "documentId": "resume_parser",
+                },
+                "file": image_as_base64,
+                "isUrl": False,
+            }
 
-        return ResponseType[ResumeParserDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {self.api_key}",
+            }
+
+            async with async_client(OCR_TIMEOUT) as session:
+                response = await session.post(
+                    url=self.url + self.processFileRoute, headers=headers, json=payload
+                )
+                if response.status_code != 200:
+                    raise ProviderException(response.text, code=response.status_code)
+                original_response = response.json()
+
+            standardized_response = extracta_resume_parser(original_response)
+
+            return ResponseType[ResumeParserDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__bank_check_parsing(
         self, file: str, file_url: str = "", **kwargs
@@ -481,57 +488,62 @@ class ExtractaApi(
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        isUrl = False
-        if file_url:
-            image_source = file_url
-            isUrl = True
-        else:
-            try:
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if not file:
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                mime_type = file_wrapper.file_info.file_media_type
+            else:
                 async with aiofiles.open(file, "rb") as f_stream:
                     file_content = await f_stream.read()
-                    image_as_base64 = (
-                        f"data:{mimetypes.guess_type(file)[0]};base64,"
-                        + base64.b64encode(file_content).decode()
-                    )
-                    image_source = image_as_base64
-            except FileNotFoundError:
-                raise ProviderException("Error: The file was not found.")
-            except IOError:
-                raise ProviderException(
-                    "Error: An I/O error occurred while handling the file."
-                )
+                mime_type = mimetypes.guess_type(file)[0]
 
-        payload = json.dumps(
-            {
-                "extractionDetails": {
-                    "name": "Eden.ai - Extraction",
-                    "language": "English",
-                    "documentId": "financial_parser",
-                    "documentType": document_type,
-                    "documentLanguage": language,
-                },
-                "file": image_source,
-                "isUrl": isUrl,
-            }
-        )
-
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.api_key}",
-        }
-
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                url=self.url + self.processFileRoute, headers=headers, content=payload
+            image_as_base64 = (
+                f"data:{mime_type};base64,"
+                + base64.b64encode(file_content).decode()
             )
 
-        if response.status_code != 200:
-            raise ProviderException(response.text, code=response.status_code)
+            payload = json.dumps(
+                {
+                    "extractionDetails": {
+                        "name": "Eden.ai - Extraction",
+                        "language": "English",
+                        "documentId": "financial_parser",
+                        "documentType": document_type,
+                        "documentLanguage": language,
+                    },
+                    "file": image_as_base64,
+                    "isUrl": False,
+                }
+            )
 
-        original_response = response.json()
-        standardized_response = extracta_financial_parser(original_response)
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {self.api_key}",
+            }
 
-        return ResponseType[FinancialParserDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+            async with async_client(OCR_TIMEOUT) as client:
+                response = await client.post(
+                    url=self.url + self.processFileRoute, headers=headers, content=payload
+                )
+
+            if response.status_code != 200:
+                raise ProviderException(response.text, code=response.status_code)
+
+            original_response = response.json()
+            standardized_response = extracta_financial_parser(original_response)
+
+            return ResponseType[FinancialParserDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()

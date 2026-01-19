@@ -3,9 +3,9 @@ from typing import Dict, List
 import aiofiles
 
 import requests
-import httpx
 
 from edenai_apis.features import OcrInterface
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
 from edenai_apis.features.ocr import (
     ResumeEducationEntry,
     ResumeExtractedData,
@@ -251,7 +251,7 @@ class HireabilityApi(ProviderInterface, OcrInterface):
                     file_content = await file_.read()
             files = {"document": (file, file_content)}
 
-            async with httpx.AsyncClient(timeout=10.0) as client:
+            async with async_client(OCR_TIMEOUT) as client:
                 response = await client.post(
                     self.url,
                     data={

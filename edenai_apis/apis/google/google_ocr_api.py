@@ -1,9 +1,12 @@
+import asyncio
 import json
 import mimetypes
 import re
 import uuid
+from io import BytesIO
 from typing import Sequence
 
+import aiofiles
 import google.auth
 import googleapiclient.discovery
 import httpx
@@ -59,6 +62,7 @@ from edenai_apis.utils.conversion import convert_string_to_number
 from edenai_apis.utils.exception import (
     ProviderException,
 )
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.pdfs import get_pdf_width_height
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -123,6 +127,85 @@ class GoogleOcrApi(OcrInterface):
         return ResponseType[OcrDataClass](
             original_response=original_response, standardized_response=standardized
         )
+
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                image = vision.Image(content=file_content)
+                mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
+            elif file_url:
+                # Google Vision supports URL directly
+                image = vision.Image()
+                image.source.image_uri = file_url
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                mimetype = file_wrapper.file_info.file_media_type or "unrecognized"
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            payload = {"image": image}
+            response = await asyncio.to_thread(
+                handle_google_call, self.clients["image"].text_detection, **payload
+            )
+
+            if mimetype.startswith("image"):
+                try:
+                    def _get_image_size(content):
+                        with Img.open(BytesIO(content)) as img:
+                            return img.size
+                    width, height = await asyncio.to_thread(_get_image_size, file_content)
+                except UnidentifiedImageError as exc:
+                    raise ProviderException(
+                        "Image could not be identified. Supported types are: image/* and application/pdf"
+                    ) from exc
+            elif mimetype == "application/pdf":
+                def _get_pdf_size(content):
+                    return get_pdf_width_height(BytesIO(content))
+                width, height = await asyncio.to_thread(_get_pdf_size, file_content)
+            else:
+                raise ProviderException(
+                    "File type not supported by Google OCR API. Supported types are: image/* and application/pdf"
+                )
+
+            boxes: Sequence[Bounding_box] = []
+            final_text = ""
+            original_response = MessageToDict(response._pb)
+
+            text_annotations: Sequence[EntityAnnotation] = response.text_annotations
+            if text_annotations and isinstance(text_annotations[0], EntityAnnotation):
+                final_text += text_annotations[0].description.replace("\n", " ")
+            for text in text_annotations[1:]:
+                xleft = float(text.bounding_poly.vertices[0].x)
+                xright = float(text.bounding_poly.vertices[1].x)
+                ytop = float(text.bounding_poly.vertices[0].y)
+                ybottom = float(text.bounding_poly.vertices[2].y)
+                boxes.append(
+                    Bounding_box(
+                        text=text.description,
+                        left=float(xleft / width),
+                        top=float(ytop / height),
+                        width=(xright - xleft) / width,
+                        height=(ybottom - ytop) / height,
+                    )
+                )
+            standardized = OcrDataClass(
+                text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
+            )
+            return ResponseType[OcrDataClass](
+                original_response=original_response, standardized_response=standardized
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__receipt_parser(
         self, file: str, language: str, file_url: str = "", **kwargs
@@ -803,42 +886,60 @@ class GoogleOcrApi(OcrInterface):
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        mimetype = mimetypes.guess_type(file)[0] or "unrecognized"
-        financial_project_id = self.api_settings["documentai"]["project_id"]
-        document_type_key = (
-            "process_invoice_id"
-            if document_type == FinancialParserType.INVOICE.value
-            else "process_receipt_id"
-        )
-        financial_parser_process_id = self.api_settings["documentai"][document_type_key]
+        file_handler = FileHandler()
+        file_wrapper = None
 
-        opts = ClientOptions(api_endpoint=f"eu-documentai.googleapis.com")
-
-        async with documentai.DocumentProcessorServiceAsyncClient(
-            client_options=opts
-        ) as financial_parser_client:
-            name = financial_parser_client.processor_path(
-                financial_project_id, "eu", financial_parser_process_id
-            )
-
-            with open(file, "rb") as file_:
-                raw_document = documentai.RawDocument(
-                    content=file_.read(), mime_type=mimetype
+        try:
+            if file:
+                mimetype = mimetypes.guess_type(file)[0] or "application/octet-stream"
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                mimetype = file_wrapper.file_info.file_media_type or "application/octet-stream"
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
                 )
 
-            payload_request = {"name": name, "raw_document": raw_document}
-            request = handle_google_call(documentai.ProcessRequest, **payload_request)
-
-            payload_result = {"request": request}
-
-            result = await ahandle_google_call(
-                financial_parser_client.process_document, **payload_result
+            financial_project_id = self.api_settings["documentai"]["project_id"]
+            document_type_key = (
+                "process_invoice_id"
+                if document_type == FinancialParserType.INVOICE.value
+                else "process_receipt_id"
             )
+            financial_parser_process_id = self.api_settings["documentai"][document_type_key]
 
-            document = result.document
-            standardized_response = google_financial_parser(document)
+            opts = ClientOptions(api_endpoint="eu-documentai.googleapis.com")
 
-            return ResponseType[FinancialParserDataClass](
-                original_response=Document.to_dict(document),
-                standardized_response=standardized_response,
-            )
+            async with documentai.DocumentProcessorServiceAsyncClient(
+                client_options=opts
+            ) as financial_parser_client:
+                name = financial_parser_client.processor_path(
+                    financial_project_id, "eu", financial_parser_process_id
+                )
+
+                raw_document = documentai.RawDocument(
+                    content=file_content, mime_type=mimetype
+                )
+
+                payload_request = {"name": name, "raw_document": raw_document}
+                request = handle_google_call(documentai.ProcessRequest, **payload_request)
+
+                payload_result = {"request": request}
+
+                result = await ahandle_google_call(
+                    financial_parser_client.process_document, **payload_result
+                )
+
+                document = result.document
+                standardized_response = google_financial_parser(document)
+
+                return ResponseType[FinancialParserDataClass](
+                    original_response=Document.to_dict(document),
+                    standardized_response=standardized_response,
+                )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()

@@ -3,11 +3,13 @@ import os
 from enum import Enum
 from json import JSONDecodeError
 from typing import Optional, Dict
+from uuid import uuid4
 
 import httpx
 import aiofiles
 
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.http_client import OCR_TIMEOUT
 from .models import ResponseData
 
 
@@ -39,7 +41,7 @@ class AsyncClient:
         email: Optional[str] = None,
         password: Optional[str] = None,
     ) -> "AsyncClient":
-        client = httpx.AsyncClient(timeout=30.0)
+        client = httpx.AsyncClient(timeout=OCR_TIMEOUT)
         api_key = await cls._login_async(email, password, client)
         return cls(api_key, client)
 
@@ -129,28 +131,34 @@ class AsyncClient:
             response_type=return_type,
         )
 
-    async def _parse_resume_from_file_async(self, file: str) -> ResponseData:
+    async def _parse_resume_from_file_async(
+        self,
+        file: str,
+        file_content: Optional[bytes] = None,
+        mime_type: Optional[str] = None,
+    ) -> ResponseData:
         url = f"{self.BASE_URL}/api/v2/parse-resume"
-        async with aiofiles.open(file, "rb") as f:
-            file_content = await f.read()
 
-        filename = os.path.basename(file)
-        mime_type = mimetypes.guess_type(file)[0] or "application/octet-stream"
+        if file_content is None:
+            async with aiofiles.open(file, "rb") as f:
+                file_content = await f.read()
+
+        filename = os.path.basename(file) if file else ""
+        if not filename:
+            # Generate fallback filename when file path is not provided
+            if mime_type:
+                ext = mimetypes.guess_extension(mime_type) or ".bin"
+            else:
+                ext = ".bin"
+            filename = f"{uuid4()}{ext}"
+
+        if mime_type is None:
+            mime_type = mimetypes.guess_type(filename)[0] or "application/octet-stream"
 
         files = {"files": (filename, file_content, mime_type)}
         headers = {"Authorization": f"Bearer {self._api_key}"}
 
         response = await self._request_async("POST", url, headers=headers, files=files)
-        return await self._parse_and_handle_response(response)
-
-    async def _parse_resume_from_url_async(self, url: str) -> ResponseData:
-        parser_url = f"{self.BASE_URL}/api/v2/parse-resume-url"
-        json_payload = {"resumeUrl": url}
-        headers = {"Authorization": f"Bearer {self._api_key}"}
-
-        response = await self._request_async(
-            "POST", parser_url, headers=headers, json_field=json_payload
-        )
         return await self._parse_and_handle_response(response)
 
     async def _parse_jd_from_file_async(self, file: str) -> ResponseData:
@@ -168,21 +176,23 @@ class AsyncClient:
         return await self._parse_and_handle_response(response)
 
     async def parse_document_async(
-        self, parse_type: Parser, file: Optional[str] = "", url: Optional[str] = ""
+        self,
+        parse_type: Parser,
+        file: Optional[str] = "",
+        file_content: Optional[bytes] = None,
+        mime_type: Optional[str] = None,
     ) -> ResponseData:
-        if not file and not url:
-            raise ProviderException("Please provide either a file path or a URL.")
+        if not file and not file_content:
+            raise ProviderException("Please provide either a file path or file content.")
 
         if parse_type.value == "resume":
-            if file:
-                return await self._parse_resume_from_file_async(file)
-            return await self._parse_resume_from_url_async(url)
+            return await self._parse_resume_from_file_async(file, file_content, mime_type)
 
         if parse_type == Parser.JD:
             if file:
                 return await self._parse_jd_from_file_async(file)
-            raise NotImplementedError(
-                "Parsing a Job Description from a URL is not yet implemented."
+            raise ProviderException(
+                "Please provide a file path for Job Description parsing."
             )
 
         # Handle other parser types

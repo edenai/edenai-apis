@@ -2,9 +2,11 @@ import json
 from collections import defaultdict
 from typing import Sequence
 
+from io import BytesIO
 import aiofiles
 import httpx
 import requests
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.ai.formrecognizer.aio import (
     DocumentAnalysisClient as AsyncDocumentAnalysisClient,
@@ -14,7 +16,6 @@ from azure.core.exceptions import AzureError
 from PIL import Image as Img
 
 from edenai_apis.apis.microsoft.microsoft_helpers import (
-    get_microsoft_urls,
     microsoft_financial_parser_formatter,
     microsoft_ocr_async_standardize_response,
     microsoft_ocr_tables_standardize_response,
@@ -116,6 +117,96 @@ class MicrosoftOcrApi(OcrInterface):
         return ResponseType[OcrDataClass](
             original_response=response, standardized_response=standardized
         )
+
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+
+        file_handler = FileHandler()
+        file_wrapper = None
+        file_content = None
+
+        try:
+            url = f"{self.api_settings['vision']['url']}/ocr?detectOrientation=true"
+            url_with_lang = add_query_param_in_url(url, {"language": language})
+
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                headers = {
+                    **self.headers["vision"],
+                    "Content-Type": "application/octet-stream",
+                }
+                async with async_client(OCR_TIMEOUT) as client:
+                    request = await client.post(
+                        url=url_with_lang,
+                        headers=headers,
+                        content=file_content,
+                    )
+            elif file_url:
+                headers = {**self.headers["vision"], "Content-Type": "application/json"}
+                async with async_client(OCR_TIMEOUT) as client:
+                    request = await client.post(
+                        url=url_with_lang,
+                        headers=headers,
+                        json={"url": file_url},
+                    )
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            response = request.json()
+
+            if "error" in response:
+                raise ProviderException(
+                    response["error"]["message"], request.status_code
+                )
+
+            def _get_image_size(content):
+                with Img.open(BytesIO(content)) as img:
+                    return img.size
+
+            boxes: Sequence[Bounding_box] = []
+            final_text = ""
+
+            regions = response.get("regions", [])
+            if regions:
+                # Download image only if needed for bounding box normalization
+                if file_content is None:
+                    file_wrapper = await file_handler.download_file(file_url)
+                    file_content = await file_wrapper.get_bytes()
+
+                width, height = _get_image_size(file_content)
+
+                for region in regions:
+                    for line in region["lines"]:
+                        for word in line["words"]:
+                            final_text += " " + word["text"]
+                            boxes.append(
+                                Bounding_box(
+                                    text=word["text"],
+                                    left=float(word["boundingBox"].split(",")[0])
+                                    / width,
+                                    top=float(word["boundingBox"].split(",")[1])
+                                    / height,
+                                    width=float(word["boundingBox"].split(",")[2])
+                                    / width,
+                                    height=float(word["boundingBox"].split(",")[3])
+                                    / height,
+                                )
+                            )
+
+            standardized = OcrDataClass(
+                text=final_text.replace("\n", " ").strip(), bounding_boxes=boxes
+            )
+
+            return ResponseType[OcrDataClass](
+                original_response=response, standardized_response=standardized
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = "", **kwargs
@@ -364,142 +455,133 @@ class MicrosoftOcrApi(OcrInterface):
     async def ocr__aidentity_parser(
         self, file: str, file_url: str = "", model: str = None, **kwargs
     ) -> ResponseType[IdentityParserDataClass]:
-        file_handler = FileHandler()
-        file_wrapper = None  # Track for cleanup
-
         try:
-            if not file:
-                # try to use the url
-                if not file_url:
-                    raise ProviderException(
-                        "Either file or file_url must be provided", code=400
-                    )
-                file_wrapper = await file_handler.download_file(file_url)
-                content = await file_wrapper.get_bytes()
-            else:
-                async with aiofiles.open(file, "rb") as file_:
-                    content = await file_.read()
-
-            try:
-                async with AsyncDocumentAnalysisClient(
-                    endpoint=self.url["documentintelligence"],
-                    credential=AzureKeyCredential(
-                        self.api_settings["documentintelligence"]["subscription_key"]
-                    ),
-                ) as document_analysis_client:
+            async with AsyncDocumentAnalysisClient(
+                endpoint=self.url["documentintelligence"],
+                credential=AzureKeyCredential(
+                    self.api_settings["documentintelligence"]["subscription_key"]
+                ),
+            ) as document_analysis_client:
+                if file:
+                    async with aiofiles.open(file, "rb") as file_:
+                        content = await file_.read()
                     poller = await document_analysis_client.begin_analyze_document(
                         "prebuilt-idDocument", content
                     )
-                    response = await poller.result()
-            except AzureError as provider_call_exception:
-                raise ProviderException(str(provider_call_exception))
-
-            if response is None or not hasattr(response, "to_dict"):
-                raise ProviderException("Provider return an empty response")
-            original_response = response.to_dict()
-
-            items = []
-
-            for document in original_response.get("documents", []):
-                fields = document["fields"]
-                country = await aget_info_country(
-                    key=InfoCountry.ALPHA3,
-                    value=fields.get("CountryRegion", {}).get("content"),
-                )
-                if country:
-                    country["confidence"] = fields.get("CountryRegion", {}).get(
-                        "confidence"
+                elif file_url:
+                    poller = await document_analysis_client.begin_analyze_document_from_url(
+                        "prebuilt-idDocument", file_url
                     )
-
-                given_names = fields.get("FirstName", {}).get("content", "").split(" ")
-                final_given_names = []
-                for given_name in given_names:
-                    final_given_names.append(
-                        ItemIdentityParserDataClass(
-                            value=given_name,
-                            confidence=fields.get("FirstName", {}).get("confidence"),
-                        )
+                else:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
                     )
+                response = await poller.result()
+        except AzureError as provider_call_exception:
+            raise ProviderException(str(provider_call_exception))
 
-                items.append(
-                    InfosIdentityParserDataClass(
-                        document_type=ItemIdentityParserDataClass(
-                            value=document.get("docType"),
-                            confidence=document.get("confidence"),
-                        ),
-                        country=country or Country.default(),
-                        birth_date=ItemIdentityParserDataClass(
-                            value=format_date(
-                                fields.get("DateOfBirth", {}).get("value")
-                            ),
-                            confidence=fields.get("DateOfBirth", {}).get("confidence"),
-                        ),
-                        expire_date=ItemIdentityParserDataClass(
-                            value=format_date(
-                                fields.get("DateOfExpiration", {}).get("value")
-                            ),
-                            confidence=fields.get("DateOfExpiration", {}).get(
-                                "confidence"
-                            ),
-                        ),
-                        issuance_date=ItemIdentityParserDataClass(
-                            value=format_date(
-                                fields.get("DateOfIssue", {}).get("value")
-                            ),
-                            confidence=fields.get("DateOfIssue", {}).get("confidence"),
-                        ),
-                        issuing_state=ItemIdentityParserDataClass(
-                            value=fields.get("IssuingAuthority", {}).get("content"),
-                            confidence=fields.get("IssuingAuthority", {}).get(
-                                "confidence"
-                            ),
-                        ),
-                        document_id=ItemIdentityParserDataClass(
-                            value=fields.get("DocumentNumber", {}).get("content"),
-                            confidence=fields.get("DocumentNumber", {}).get(
-                                "confidence"
-                            ),
-                        ),
-                        last_name=ItemIdentityParserDataClass(
-                            value=fields.get("LastName", {}).get("content"),
-                            confidence=fields.get("LastName", {}).get("confidence"),
-                        ),
-                        given_names=final_given_names,
-                        mrz=ItemIdentityParserDataClass(
-                            value=fields.get("MachineReadableZone", {}).get("content"),
-                            confidence=fields.get("MachineReadableZone", {}).get(
-                                "confidence"
-                            ),
-                        ),
-                        nationality=ItemIdentityParserDataClass(
-                            value=fields.get("Nationality", {}).get("content"),
-                            confidence=fields.get("Nationality", {}).get("confidence"),
-                        ),
-                        birth_place=ItemIdentityParserDataClass(
-                            value=fields.get("PlaceOfBirth", {}).get("content"),
-                            confidence=fields.get("PlaceOfBirth", {}).get("confidence"),
-                        ),
-                        gender=ItemIdentityParserDataClass(
-                            value=fields.get("Sex", {}).get("content"),
-                            confidence=fields.get("Sex", {}).get("confidence"),
-                        ),
-                        address=ItemIdentityParserDataClass(),
-                        age=ItemIdentityParserDataClass(),
-                        image_id=[],
-                        image_signature=[],
-                    )
-                )
+        if response is None or not hasattr(response, "to_dict"):
+            raise ProviderException("Provider return an empty response")
+        original_response = response.to_dict()
 
-            standardized_response = IdentityParserDataClass(extracted_data=items)
+        items = []
 
-            return ResponseType[IdentityParserDataClass](
-                original_response=original_response,
-                standardized_response=standardized_response,
+        for document in original_response.get("documents", []):
+            fields = document["fields"]
+            country = await aget_info_country(
+                key=InfoCountry.ALPHA3,
+                value=fields.get("CountryRegion", {}).get("content"),
             )
-        finally:
-            # Clean up temp file if it was created
-            if file_wrapper:
-                file_wrapper.close_file()
+            if country:
+                country["confidence"] = fields.get("CountryRegion", {}).get(
+                    "confidence"
+                )
+
+            given_names = fields.get("FirstName", {}).get("content", "").split(" ")
+            final_given_names = []
+            for given_name in given_names:
+                final_given_names.append(
+                    ItemIdentityParserDataClass(
+                        value=given_name,
+                        confidence=fields.get("FirstName", {}).get("confidence"),
+                    )
+                )
+
+            items.append(
+                InfosIdentityParserDataClass(
+                    document_type=ItemIdentityParserDataClass(
+                        value=document.get("docType"),
+                        confidence=document.get("confidence"),
+                    ),
+                    country=country or Country.default(),
+                    birth_date=ItemIdentityParserDataClass(
+                        value=format_date(
+                            fields.get("DateOfBirth", {}).get("value")
+                        ),
+                        confidence=fields.get("DateOfBirth", {}).get("confidence"),
+                    ),
+                    expire_date=ItemIdentityParserDataClass(
+                        value=format_date(
+                            fields.get("DateOfExpiration", {}).get("value")
+                        ),
+                        confidence=fields.get("DateOfExpiration", {}).get(
+                            "confidence"
+                        ),
+                    ),
+                    issuance_date=ItemIdentityParserDataClass(
+                        value=format_date(
+                            fields.get("DateOfIssue", {}).get("value")
+                        ),
+                        confidence=fields.get("DateOfIssue", {}).get("confidence"),
+                    ),
+                    issuing_state=ItemIdentityParserDataClass(
+                        value=fields.get("IssuingAuthority", {}).get("content"),
+                        confidence=fields.get("IssuingAuthority", {}).get(
+                            "confidence"
+                        ),
+                    ),
+                    document_id=ItemIdentityParserDataClass(
+                        value=fields.get("DocumentNumber", {}).get("content"),
+                        confidence=fields.get("DocumentNumber", {}).get(
+                            "confidence"
+                        ),
+                    ),
+                    last_name=ItemIdentityParserDataClass(
+                        value=fields.get("LastName", {}).get("content"),
+                        confidence=fields.get("LastName", {}).get("confidence"),
+                    ),
+                    given_names=final_given_names,
+                    mrz=ItemIdentityParserDataClass(
+                        value=fields.get("MachineReadableZone", {}).get("content"),
+                        confidence=fields.get("MachineReadableZone", {}).get(
+                            "confidence"
+                        ),
+                    ),
+                    nationality=ItemIdentityParserDataClass(
+                        value=fields.get("Nationality", {}).get("content"),
+                        confidence=fields.get("Nationality", {}).get("confidence"),
+                    ),
+                    birth_place=ItemIdentityParserDataClass(
+                        value=fields.get("PlaceOfBirth", {}).get("content"),
+                        confidence=fields.get("PlaceOfBirth", {}).get("confidence"),
+                    ),
+                    gender=ItemIdentityParserDataClass(
+                        value=fields.get("Sex", {}).get("content"),
+                        confidence=fields.get("Sex", {}).get("confidence"),
+                    ),
+                    address=ItemIdentityParserDataClass(),
+                    age=ItemIdentityParserDataClass(),
+                    image_id=[],
+                    image_signature=[],
+                )
+            )
+
+        standardized_response = IdentityParserDataClass(extracted_data=items)
+
+        return ResponseType[IdentityParserDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
 
     def ocr__ocr_tables_async__launch_job(
         self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
@@ -776,9 +858,6 @@ class MicrosoftOcrApi(OcrInterface):
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            content = await file_.read()
-
         try:
             async with AsyncDocumentAnalysisClient(
                 endpoint=self.url["documentintelligence"],
@@ -791,9 +870,22 @@ class MicrosoftOcrApi(OcrInterface):
                     if document_type == FinancialParserType.RECEIPT.value
                     else "prebuilt-invoice"
                 )
-                poller = await document_analysis_client.begin_analyze_document(
-                    document_type_value, content
-                )
+                if file:
+                    async with aiofiles.open(file, "rb") as file_:
+                        content = await file_.read()
+                    poller = await document_analysis_client.begin_analyze_document(
+                        document_type_value, content
+                    )
+                elif file_url:
+                    poller = (
+                        await document_analysis_client.begin_analyze_document_from_url(
+                            document_type_value, file_url
+                        )
+                    )
+                else:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
                 form_pages = await poller.result()
         except AzureError as provider_call_exception:
             raise ProviderException(str(provider_call_exception))

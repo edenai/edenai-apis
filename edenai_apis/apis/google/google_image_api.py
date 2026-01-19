@@ -7,7 +7,6 @@ import aiofiles
 import numpy as np
 import mimetypes
 import requests
-import httpx
 from PIL import Image as Img, UnidentifiedImageError
 from google.cloud import vision
 from google.cloud.vision_v1.types.image_annotator import AnnotateImageResponse
@@ -60,6 +59,7 @@ from edenai_apis.features.image.object_detection.object_detection_dataclass impo
 from edenai_apis.features.image.question_answer import QuestionAnswerDataClass
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.file_handling import FileHandler
+from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.image.embeddings import (
     EmbeddingsDataClass,
@@ -123,70 +123,59 @@ class GoogleImageApi(ImageInterface):
     async def image__aexplicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:
-        file_handler = FileHandler()
-        file_wrapper = None  # Track for cleanup
-
-        try:
-            if not file:
-                # try to use the url
-                if not file_url:
-                    raise ProviderException(
-                        "Either file or file_url must be provided", code=400
-                    )
-                file_wrapper = await file_handler.download_file(file_url)
-                file_content = await file_wrapper.get_bytes()
-            else:
-                async with aiofiles.open(file, "rb") as file_:
-                    file_content = await file_.read()
+        if file:
+            async with aiofiles.open(file, "rb") as file_:
+                file_content = await file_.read()
             image = vision.Image(content=file_content)
-            payload = {"image": image}
-
-            response = await asyncio.to_thread(
-                handle_google_call,
-                self.clients["image"].safe_search_detection,
-                **payload,
+        elif file_url:
+            image = vision.Image(source=vision.ImageSource(image_uri=file_url))
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
             )
 
-            # Convert response to dict
-            data = AnnotateImageResponse.to_dict(response)
+        response = await asyncio.to_thread(
+            handle_google_call,
+            self.clients["image"].safe_search_detection,
+            image=image,
+        )
 
-            if data.get("error") is not None:
-                raise ProviderException(data["error"])
+        # Convert response to dict
+        data = AnnotateImageResponse.to_dict(response)
 
-            original_response = data.get("safe_search_annotation", {})
+        if data.get("error") is not None:
+            raise ProviderException(data["error"])
 
-            items = []
-            for safe_search_annotation, likelihood in original_response.items():
-                classificator = CategoryType.choose_category_subcategory(
-                    safe_search_annotation.capitalize()
+        original_response = data.get("safe_search_annotation", {})
+
+        items = []
+        for safe_search_annotation, likelihood in original_response.items():
+            classificator = CategoryType.choose_category_subcategory(
+                safe_search_annotation.capitalize()
+            )
+            items.append(
+                ExplicitItem(
+                    label=safe_search_annotation.capitalize(),
+                    category=classificator["category"],
+                    subcategory=classificator["subcategory"],
+                    likelihood_score=self._convert_likelihood(likelihood),
+                    likelihood=likelihood,
                 )
-                items.append(
-                    ExplicitItem(
-                        label=safe_search_annotation.capitalize(),
-                        category=classificator["category"],
-                        subcategory=classificator["subcategory"],
-                        likelihood_score=self._convert_likelihood(likelihood),
-                        likelihood=likelihood,
-                    )
-                )
-
-            nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
-            nsfw_likelihood_score = (
-                ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
             )
 
-            return ResponseType(
-                original_response=original_response,
-                standardized_response=ExplicitContentDataClass(
-                    items=items,
-                    nsfw_likelihood=nsfw_likelihood,
-                    nsfw_likelihood_score=nsfw_likelihood_score,
-                ),
-            )
-            #####
-        finally:
-            if file_wrapper:
-                file_wrapper.close_file()
+        nsfw_likelihood = ExplicitContentDataClass.calculate_nsfw_likelihood(items)
+        nsfw_likelihood_score = (
+            ExplicitContentDataClass.calculate_nsfw_likelihood_score(items)
+        )
+
+        return ResponseType(
+            original_response=original_response,
+            standardized_response=ExplicitContentDataClass(
+                items=items,
+                nsfw_likelihood=nsfw_likelihood,
+                nsfw_likelihood_score=nsfw_likelihood_score,
+            ),
+        )
 
     def image__object_detection(
         self, file: str, model: str = None, file_url: str = "", **kwargs
@@ -234,63 +223,52 @@ class GoogleImageApi(ImageInterface):
     async def image__aobject_detection(
         self, file: str, model: str = None, file_url: str = "", **kwargs
     ) -> ResponseType[ObjectDetectionDataClass]:
-        file_handler = FileHandler()
-        file_wrapper = None  # Track for cleanup
-
-        try:
-            if not file:
-                # try to use the url
-                if not file_url:
-                    raise ProviderException(
-                        "Either file or file_url must be provided", code=400
-                    )
-                file_wrapper = await file_handler.download_file(file_url)
-                file_content = await file_wrapper.get_bytes()
-            else:
-                async with aiofiles.open(file, "rb") as file_:
-                    file_content = await file_.read()
-
+        if file:
+            async with aiofiles.open(file, "rb") as file_:
+                file_content = await file_.read()
             image = vision.Image(content=file_content)
-            payload = {"image": image}
-            response = await asyncio.to_thread(
-                handle_google_call, self.clients["image"].object_localization, **payload
+        elif file_url:
+            image = vision.Image(source=vision.ImageSource(image_uri=file_url))
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
             )
 
-            response = MessageToDict(response._pb)
+        response = await asyncio.to_thread(
+            handle_google_call, self.clients["image"].object_localization, image=image
+        )
 
-            items = []
-            for object_annotation in response.get("localizedObjectAnnotations", []):
-                x_min, x_max = np.inf, -np.inf
-                y_min, y_max = np.inf, -np.inf
-                # Getting borders
-                for normalize_vertice in object_annotation["boundingPoly"][
-                    "normalizedVertices"
-                ]:
-                    x_min, x_max = min(x_min, normalize_vertice.get("x", 0)), max(
-                        x_max, normalize_vertice.get("x", 0)
-                    )
-                    y_min, y_max = min(y_min, normalize_vertice.get("y", 0)), max(
-                        y_max, normalize_vertice.get("y", 0)
-                    )
-                items.append(
-                    ObjectItem(
-                        label=object_annotation["name"],
-                        confidence=object_annotation["score"],
-                        x_min=x_min,
-                        x_max=x_max,
-                        y_min=y_min,
-                        y_max=y_max,
-                    )
+        response = MessageToDict(response._pb)
+
+        items = []
+        for object_annotation in response.get("localizedObjectAnnotations", []):
+            x_min, x_max = np.inf, -np.inf
+            y_min, y_max = np.inf, -np.inf
+            # Getting borders
+            for normalize_vertice in object_annotation["boundingPoly"][
+                "normalizedVertices"
+            ]:
+                x_min, x_max = min(x_min, normalize_vertice.get("x", 0)), max(
+                    x_max, normalize_vertice.get("x", 0)
                 )
-
-            return ResponseType[ObjectDetectionDataClass](
-                original_response=response,
-                standardized_response=ObjectDetectionDataClass(items=items),
+                y_min, y_max = min(y_min, normalize_vertice.get("y", 0)), max(
+                    y_max, normalize_vertice.get("y", 0)
+                )
+            items.append(
+                ObjectItem(
+                    label=object_annotation["name"],
+                    confidence=object_annotation["score"],
+                    x_min=x_min,
+                    x_max=x_max,
+                    y_min=y_min,
+                    y_max=y_max,
+                )
             )
 
-        finally:
-            if file_wrapper:
-                file_wrapper.close_file()
+        return ResponseType[ObjectDetectionDataClass](
+            original_response=response,
+            standardized_response=ObjectDetectionDataClass(items=items),
+        )
 
     def image__face_detection(
         self, file: str, file_url: str = "", **kwargs
@@ -844,63 +822,68 @@ class GoogleImageApi(ImageInterface):
         file_url: Optional[str] = "",
         **kwargs,
     ) -> ResponseType[EmbeddingsDataClass]:
-
-        token = get_access_token(self.location)
-        location = "us-central1"
-        url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {token}",
-        }
-
-        # Work with the file
         file_handler = FileHandler()
+        file_wrapper = None
 
-        inputImage = None
-
-        if not file:
-            # try to use the url
-            file_wrapper = await file_handler.download_file(file_url)
-            inputImage = await file_wrapper.get_file_b64_content()
-        else:
-            image_bytes = await self._read_file_async(file)
-            inputImage = base64.b64encode(image_bytes).decode("utf-8")
-
-        payload = {
-            "instances": [{"image": {"bytesBase64Encoded": inputImage}}],
-            "parameters": {"dimension": embedding_dimension},
-        }
-
-        async with httpx.AsyncClient(timeout=60) as client:
-            response = await client.post(url, json=payload, headers=headers)
         try:
-            original_response = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                message="Internal Server Error",
-                code=500,
-            ) from exc
+            token = await asyncio.to_thread(get_access_token, self.location)
+            location = "us-central1"
+            url = f"https://{location}-aiplatform.googleapis.com/v1/projects/{self.project_id}/locations/{location}/publishers/google/models/{model}:predict"
+            headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {token}",
+            }
 
-        if "error" in original_response:
-            raise ProviderException(
-                message=original_response["error"]["message"], code=400
+            if file:
+                image_bytes = await self._read_file_async(file)
+                inputImage = base64.b64encode(image_bytes).decode("utf-8")
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                image_bytes = await file_wrapper.get_bytes()
+                inputImage = base64.b64encode(image_bytes).decode("utf-8")
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            payload = {
+                "instances": [{"image": {"bytesBase64Encoded": inputImage}}],
+                "parameters": {"dimension": embedding_dimension},
+            }
+
+            async with async_client(IMAGE_TIMEOUT) as client:
+                response = await client.post(url, json=payload, headers=headers)
+            try:
+                original_response = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException(
+                    message="Internal Server Error",
+                    code=500,
+                ) from exc
+
+            if "error" in original_response:
+                raise ProviderException(
+                    message=original_response["error"]["message"], code=400
+                )
+
+            if not original_response.get("predictions"):
+                raise ProviderException(message="No predictions found", code=400)
+
+            items: Sequence[EmbeddingDataClass] = []
+
+            for prediction in original_response["predictions"]:
+                embedding = prediction.get("imageEmbedding") or []
+                items.append(EmbeddingDataClass(embedding=embedding))
+
+            standardized_response = EmbeddingsDataClass(items=items)
+
+            return ResponseType[EmbeddingsDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
             )
-
-        if not original_response.get("predictions"):
-            raise ProviderException(message="No predictions found", code=400)
-
-        items: Sequence[EmbeddingDataClass] = []
-
-        for prediction in original_response["predictions"]:
-            embedding = prediction.get("imageEmbedding") or []
-            items.append(EmbeddingDataClass(embedding=embedding))
-
-        standardized_response = EmbeddingsDataClass(items=items)
-
-        return ResponseType[EmbeddingsDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-        )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     async def _read_file_async(self, file):
         async with aiofiles.open(file, "rb") as f:

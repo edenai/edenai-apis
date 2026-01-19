@@ -4,10 +4,10 @@ from json import JSONDecodeError
 from typing import Dict
 import aiofiles
 
-import httpx
 import requests
 
 from edenai_apis.features import OcrInterface, ProviderInterface
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
 from edenai_apis.features.ocr.financial_parser.financial_parser_dataclass import (
     FinancialParserDataClass,
 )
@@ -68,7 +68,7 @@ class KlippaApi(ProviderInterface, OcrInterface):
             "document": file,
         }
         data = {"pdf_text_extraction": "full"}
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+        async with async_client(OCR_TIMEOUT) as client:
             response = await client.post(
                 url=self.url + endpoint, headers=self.headers, files=files, data=data
             )
@@ -174,7 +174,6 @@ class KlippaApi(ProviderInterface, OcrInterface):
     async def ocr__aresume_parser(
         self,
         file: str,
-        language: str,
         document_type: str = "",
         file_url: str = "",
         model: str = None,
@@ -238,13 +237,29 @@ class KlippaApi(ProviderInterface, OcrInterface):
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
             original_response = await self._amake_post_request(file_content)
 
-        standardize_response = klippa_financial_parser(original_response)
+            standardize_response = klippa_financial_parser(original_response)
 
-        return ResponseType[FinancialParserDataClass](
-            original_response=original_response,
-            standardized_response=standardize_response,
-        )
+            return ResponseType[FinancialParserDataClass](
+                original_response=original_response,
+                standardized_response=standardize_response,
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()

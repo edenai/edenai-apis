@@ -2,7 +2,6 @@ import base64
 import json
 from typing import Dict, Literal, Optional
 
-import httpx
 import requests
 
 from edenai_apis.features import ImageInterface, ProviderInterface
@@ -13,6 +12,7 @@ from edenai_apis.features.image.generation import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.llmengine.utils.moderation import async_moderate, moderate
 
@@ -93,7 +93,7 @@ class DeepAIApi(ProviderInterface, ImageInterface):
             "height": int(size[1]),
         }
 
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
+        async with async_client(IMAGE_TIMEOUT) as client:
             response = await client.post(url, data=payload, headers=self.headers)
 
             try:

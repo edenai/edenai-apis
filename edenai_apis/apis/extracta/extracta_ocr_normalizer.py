@@ -301,8 +301,7 @@ def convert_string_to_number(
             re.sub(r"[^\d\.\,]", "", string_number)
         )
         return val_type(float(string_formatted)) * number_nature
-    except Exception as exc:
-        print(exc)
+    except Exception:
         return None
 
 

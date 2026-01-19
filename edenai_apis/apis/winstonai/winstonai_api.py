@@ -3,10 +3,10 @@ from http import HTTPStatus
 from typing import Any, Dict, Optional, Sequence
 from uuid import uuid4
 
-import httpx
 import requests
 
 from edenai_apis.apis.winstonai.config import WINSTON_AI_API_URL
+from edenai_apis.utils.http_client import DEFAULT_TIMEOUT, async_client
 from edenai_apis.features import ImageInterface, ProviderInterface, TextInterface
 from edenai_apis.features.image.ai_detection.ai_detection_dataclass import (
     AiDetectionDataClass as ImageAiDetectionDataclass,
@@ -97,7 +97,7 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
 
         payload = json.dumps({"url": url})
 
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             response = await client.request(
                 "POST",
                 f"{self.api_url}/image-detection",
@@ -186,7 +186,7 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
             "version": provider_params.get("version", "2.0"),
         }
 
-        async with httpx.AsyncClient(timeout=60) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             response = await client.post(
                 f"{self.api_url}/predict", headers=self.headers, json=payload
             )
@@ -292,7 +292,7 @@ class WinstonaiApi(ProviderInterface, TextInterface, ImageInterface):
                 "version": provider_params.get("version", "2.0"),
             }
         )
-        async with httpx.AsyncClient(timeout=60) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             response = await client.post(
                 f"{self.api_url}/plagiarism", headers=self.headers, data=payload
             )

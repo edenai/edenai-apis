@@ -8,7 +8,6 @@ import aiofiles
 from typing import Any, Dict, Sequence, Type, TypeVar
 
 import requests
-import httpx
 
 from edenai_apis.apis.base64.base64_helpers import (
     format_financial_document_data,
@@ -16,6 +15,7 @@ from edenai_apis.apis.base64.base64_helpers import (
     format_receipt_document_data,
 )
 from edenai_apis.features import OcrInterface, ProviderInterface
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
 from edenai_apis.features.image.face_compare import (
     FaceCompareBoundingBox,
     FaceCompareDataClass,
@@ -119,17 +119,26 @@ class Base64Api(ProviderInterface, OcrInterface):
 
         return response.json()
 
-    async def _asend_ocr_document(self, file: str, model_type: str) -> Dict:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
-            image_as_base64 = (
-                f"data:{mimetypes.guess_type(file)[0]};base64,"
-                + base64.b64encode(file_content).decode()
+    async def _asend_ocr_document(
+        self, model_type: str, file: str = None, file_url: str = None
+    ) -> Dict:
+        if file:
+            async with aiofiles.open(file, "rb") as file_:
+                file_content = await file_.read()
+                image_as_base64 = (
+                    f"data:{mimetypes.guess_type(file)[0]};base64,"
+                    + base64.b64encode(file_content).decode()
+                )
+            data = {"modelTypes": [model_type], "image": image_as_base64}
+        elif file_url:
+            data = {"modelTypes": [model_type], "url": file_url}
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
             )
-        data = {"modelTypes": [model_type], "image": image_as_base64}
 
         headers = {"Content-type": "application/json", "Authorization": self.api_key}
-        async with httpx.AsyncClient(timeout=120) as client:
+        async with async_client(OCR_TIMEOUT) as client:
             response = await client.post(url=self.url, headers=headers, json=data)
 
         if response.status_code != 200:
@@ -199,7 +208,7 @@ class Base64Api(ProviderInterface, OcrInterface):
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
         original_response = await self._asend_ocr_document(
-            file, "finance/" + document_type
+            model_type="finance/" + document_type, file=file, file_url=file_url
         )
 
         standardized_response = format_financial_document_data(original_response)
@@ -383,9 +392,7 @@ class Base64Api(ProviderInterface, OcrInterface):
                 f"data:{mime_type};base64," + base64.b64encode(file_content).decode()
             )
 
-            async with httpx.AsyncClient(
-                timeout=httpx.Timeout(10.0, read=120.0)
-            ) as client:
+            async with async_client(OCR_TIMEOUT) as client:
                 payload = json.dumps({"image": image_as_base64})
 
                 headers = {
@@ -648,7 +655,7 @@ class Base64Api(ProviderInterface, OcrInterface):
                     }
                 )
 
-        async with httpx.AsyncClient() as client:
+        async with async_client(OCR_TIMEOUT) as client:
             response = await client.post(url, headers=headers, data=payload)
 
         original_response = self._get_response(response)

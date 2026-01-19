@@ -5,9 +5,9 @@ from typing import Dict
 import asyncio
 
 import requests
-import httpx
 
 from edenai_apis.features.audio import AudioInterface
+from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
@@ -145,7 +145,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             "speed": self.__adjust_speaking_rate(speaking_rate),
         }
 
-        async with httpx.AsyncClient(timeout=180) as client:
+        async with async_client(AUDIO_TIMEOUT) as client:
             response = await client.post(
                 f"{self.url}v1/tts/sync", headers=self.headers, json=payload
             )

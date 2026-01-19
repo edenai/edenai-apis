@@ -4,9 +4,9 @@ from io import BytesIO
 from typing import List, Optional
 
 import requests
-import httpx
 
 from edenai_apis.features import AudioInterface
+from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 from edenai_apis.features.audio import TextToSpeechDataClass
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechDiarization,
@@ -157,7 +157,7 @@ class OpenaiAudioApi(AudioInterface):
             "speed": speed,
             "response_format": audio_format,
         }
-        async with httpx.AsyncClient(timeout=180) as client:
+        async with async_client(AUDIO_TIMEOUT) as client:
             response = await client.post(url, json=payload, headers=self.headers)
 
         audio_content = BytesIO(response.content)

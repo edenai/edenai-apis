@@ -7,10 +7,10 @@ import aiofiles
 from io import BufferedReader, BytesIO
 from typing import Dict, Sequence, TypedDict
 
-import httpx
 import requests
 
 from edenai_apis.apis.mindee.mindee_ocr_normalizer import mindee_financial_parser
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
 from edenai_apis.features import ProviderInterface, OcrInterface
 from edenai_apis.features.ocr import (
     ReceiptParserDataClass,
@@ -480,7 +480,7 @@ class MindeeApi(ProviderInterface, OcrInterface):
             file_like = BytesIO(content)
             args = self._get_api_attributes(file_like)
 
-            async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+            async with async_client(OCR_TIMEOUT) as client:
                 response = await client.post(
                     url=self.url_identity, files=args["files"], headers=args["headers"]
                 )
@@ -693,13 +693,22 @@ class MindeeApi(ProviderInterface, OcrInterface):
             "Authorization": self.api_key,
         }
 
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
-            files = {"document": (file, file_content)}
-
-            async with httpx.AsyncClient(timeout=180) as client:
+        async with async_client(OCR_TIMEOUT) as client:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                    files = {"document": (file, file_content)}
                 response = await client.post(
                     self.url_financial, headers=headers, files=files
+                )
+            elif file_url:
+                headers["Content-Type"] = "application/json"
+                response = await client.post(
+                    self.url_financial, headers=headers, json={"document": file_url}
+                )
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
                 )
 
         original_response = response.json()

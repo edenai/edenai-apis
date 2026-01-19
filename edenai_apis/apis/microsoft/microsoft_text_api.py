@@ -5,7 +5,7 @@ from time import sleep
 from typing import Any, Dict, List, Literal, Optional, Sequence, Union
 
 import requests
-import httpx
+
 from edenai_apis.features.text import (
     AnonymizationDataClass,
     ChatDataClass,
@@ -28,6 +28,7 @@ from edenai_apis.features.text.sentiment_analysis.sentiment_analysis_dataclass i
 from edenai_apis.features.text.spell_check import SpellCheckDataClass, SpellCheckItem
 from edenai_apis.features.text.text_interface import TextInterface
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.http_client import DEFAULT_TIMEOUT, async_client
 from edenai_apis.utils.types import ResponseType
 
 from .microsoft_helpers import microsoft_text_moderation_personal_infos
@@ -71,7 +72,7 @@ class MicrosoftTextApi(TextInterface):
         if not language:
             language = ""
         try:
-            async with httpx.AsyncClient(timeout=120) as client:
+            async with async_client(DEFAULT_TIMEOUT) as client:
                 response = await client.post(
                     f"{self.url['text_moderation']}&language={language}",
                     headers=self.headers["text_moderation"],
@@ -162,7 +163,7 @@ class MicrosoftTextApi(TextInterface):
         :return:                TextNamedEntityRecognition Object that contains
         the entities and their importances
         """
-        async with httpx.AsyncClient(timeout=120) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             response = await client.post(
                 f"{self.url['text']}",
                 headers=self.headers["text"],
@@ -549,7 +550,7 @@ class MicrosoftTextApi(TextInterface):
         data = {"text": text}
         params = {"mkt": language, "mode": "spell"}
 
-        async with httpx.AsyncClient(timeout=120) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             response = await client.post(
                 self.url["spell_check"],
                 headers=self.headers["spell_check"],

@@ -7,6 +7,7 @@ import httpx
 import requests
 
 from edenai_apis.features import ProviderInterface, TextInterface
+from edenai_apis.utils.http_client import DEFAULT_TIMEOUT, async_client
 from edenai_apis.features.text import ChatDataClass
 from edenai_apis.features.text.ai_detection.ai_detection_dataclass import (
     AiDetectionDataClass,
@@ -116,7 +117,7 @@ class SaplingApi(ProviderInterface, TextInterface):
         if language is not None:
             payload["lang"] = language
 
-        async with httpx.AsyncClient(timeout=120) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             response = await client.post(f"{self.url}spellcheck", json=payload)
         SaplingApi._check_error(response)
         original_response = response.json()
@@ -255,7 +256,7 @@ class SaplingApi(ProviderInterface, TextInterface):
             "text": text,
         }
 
-        async with httpx.AsyncClient(timeout=60) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             try:
                 response = await client.post(f"{self.url}aidetect", json=payload)
             except Exception as excp:

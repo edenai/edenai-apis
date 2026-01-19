@@ -2,10 +2,10 @@ import base64
 from io import BytesIO
 from typing import Dict
 
-import httpx
 import requests
 
 from edenai_apis.features import AudioInterface
+from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
@@ -144,7 +144,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
             "model_id": model,
             "voice_settings": {"stability": 0.5, "similarity_boost": 0.5},
         }
-        async with httpx.AsyncClient(timeout=320) as client:
+        async with async_client(AUDIO_TIMEOUT) as client:
             response = await client.post(url, json=data, headers=self.headers)
 
             if response.status_code != 200:

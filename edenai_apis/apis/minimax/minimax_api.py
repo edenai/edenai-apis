@@ -20,6 +20,7 @@ from edenai_apis.features import (
     AudioInterface,
 )
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
+from edenai_apis.utils.http_client import async_client, DEFAULT_TIMEOUT
 from edenai_apis.features.video import GenerationAsyncDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -378,7 +379,7 @@ class MinimaxApi(
         url = f"{self.base_url}/image_generation"
         headers = {"Authorization": f"Bearer {self.api_key}"}
 
-        async with httpx.AsyncClient(timeout=60) as client:
+        async with async_client(DEFAULT_TIMEOUT) as client:
             response = await client.post(url, json=payload, headers=headers)
             try:
                 original_response = response.json()

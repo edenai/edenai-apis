@@ -1,5 +1,4 @@
 import base64
-import httpx
 import json
 from io import BytesIO
 from pathlib import Path
@@ -9,6 +8,7 @@ from typing import Dict, List, Optional
 import requests
 
 from edenai_apis.features import AudioInterface, ProviderInterface
+from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 from edenai_apis.features.audio import (
     SpeechDiarization,
     SpeechDiarizationEntry,
@@ -236,7 +236,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         }
 
         payload = {"text": text}
-        async with httpx.AsyncClient(timeout=60) as client:
+        async with async_client(AUDIO_TIMEOUT) as client:
             response = await client.post(base_url, headers=headers, json=payload)
             if response.status_code != 200:
                 try:

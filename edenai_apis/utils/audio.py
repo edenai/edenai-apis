@@ -243,19 +243,32 @@ def retreive_voice_id(
     Returns:
         str: the voice id selected
     """
-    # provider_name = getattr(object_instance, "provider_name")
+
     constrains = __get_provider_tts_constraints(provider_name, subfeature)
     language = confirm_appropriate_language(language, provider_name, subfeature)
     if isinstance(language, list):
         language = None
     if settings and provider_name in settings:
         selected_voice = settings[provider_name]
+        # Check if it's an actual voice ID
         if constrains and __has_voice_in_contrains(constrains, selected_voice):
             return selected_voice
+        # Check if it's a model type filter (e.g., "Neural", "Standard", "Wavenet")
+        # If so, use it to filter voices by language and gender, then filter by model type
+        if not language:
+            raise ProviderException(f"Language '{language}' not supported")
+        suited_voices = __get_voices_from_constrains(constrains, language, option)
+        # Filter by model type (selected_voice contains model type like "Neural")
+        model_filtered_voices = [v for v in suited_voices if selected_voice in v]
+        if model_filtered_voices:
+            model_filtered_voices.sort()
+            return model_filtered_voices[0]
+        # If no voices match the model type filter, raise exception
         raise ProviderException(VOICE_EXCEPTION_MESSAGE)
     if not language:
         raise ProviderException(f"Language '{language}' not supported")
     suited_voices = __get_voices_from_constrains(constrains, language, option)
+
     if not suited_voices:
         option_supported = "MALE" if option.upper() == "FEMALE" else "FEMALE"
         raise ProviderException(

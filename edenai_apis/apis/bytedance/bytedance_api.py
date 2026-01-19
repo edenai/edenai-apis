@@ -9,6 +9,7 @@ import httpx
 import requests
 
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
+from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT
 from edenai_apis.features import ProviderInterface, ImageInterface, VideoInterface
 from edenai_apis.features.image.generation import (
     GenerationDataClass,
@@ -118,7 +119,7 @@ class BytedanceApi(ProviderInterface, ImageInterface, VideoInterface):
             "response_format": "b64_json",
         }
 
-        async with httpx.AsyncClient(timeout=60) as client:
+        async with async_client(IMAGE_TIMEOUT) as client:
             response = await client.post(url, json=payload, headers=self.headers)
             try:
                 original_response = response.json()

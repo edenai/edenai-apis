@@ -1,9 +1,9 @@
 from typing import Dict, Optional, Sequence
 
-import httpx
 import requests
 
 from edenai_apis.features import ProviderInterface, ImageInterface
+from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT
 from edenai_apis.features.image import (
     LogoDetectionDataClass,
     LogoBoundingPoly,
@@ -83,7 +83,7 @@ class SmartClickApi(ProviderInterface, ImageInterface):
 
         payload = {"url": content_url}
 
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10, read=120)) as client:
+        async with async_client(IMAGE_TIMEOUT) as client:
             response = await client.request(
                 "POST", url, json=payload, headers=self.headers
             )

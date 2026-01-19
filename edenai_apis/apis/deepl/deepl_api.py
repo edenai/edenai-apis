@@ -3,15 +3,16 @@ import base64
 import http.client
 import json
 import mimetypes
+import os
 from io import BytesIO
 from time import sleep
 from typing import Dict, Optional
 
 import aiofiles
-import httpx
 import requests
 
 from edenai_apis.features.provider.provider_interface import ProviderInterface
+from edenai_apis.utils.http_client import async_client, DEFAULT_TIMEOUT
 from edenai_apis.features.translation.automatic_translation import (
     AutomaticTranslationDataClass,
 )
@@ -22,6 +23,7 @@ from edenai_apis.features.translation.translation_interface import TranslationIn
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import (
     aupload_file_bytes_to_s3,
@@ -168,90 +170,106 @@ class DeeplApi(ProviderInterface, TranslationInterface):
     async def translation__adocument_translation(
         self,
         file: str,
-        file_type: str,
         source_language: str,
         target_language: str,
+        file_type: str = "",
         file_url: str = "",
         **kwargs,
     ) -> ResponseType[DocumentTranslationDataClass]:
-        import os
+        file_handler = FileHandler()
+        file_wrapper = None
 
-        mimetype = mimetypes.guess_type(file)[0]
-        extension = mimetypes.guess_extension(mimetype)
-        filename = os.path.basename(file)
-
-        async with aiofiles.open(file, "rb") as file_:
-            content = await file_.read()
-
-        files = {"file": (filename, BytesIO(content), mimetype)}
-        data = {"target_lang": target_language, "source_lang": source_language}
-
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
-            try:
-                response = await client.post(
-                    f"{self.url}document",
-                    headers=self.header,
-                    data=data,
-                    files=files,
-                )
-            except:
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    content = await file_.read()
+                mimetype = mimetypes.guess_type(file)[0]
+                filename = os.path.basename(file)
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                content = await file_wrapper.get_bytes()
+                mimetype = file_wrapper.file_info.file_media_type
+                extension = file_wrapper.file_info.file_extension or "pdf"
+                filename = f"document.{extension}"
+            else:
                 raise ProviderException(
-                    "Something went wrong when performing document translation!!",
-                    500,
-                )
-            if response.status_code >= 400:
-                raise ProviderException(
-                    message=http.client.responses[response.status_code],
-                    code=response.status_code,
-                )
-            try:
-                original_response = response.json()
-            except json.JSONDecodeError:
-                raise ProviderException("Internal server error", 500)
-
-            if response.status_code != 200:
-                raise ProviderException(
-                    message=original_response["message"], code=response.status_code
+                    "Either file or file_url must be provided", code=400
                 )
 
-            document_id, document_key = response.json().values()
+            extension = mimetypes.guess_extension(mimetype)
 
-            doc_key = {"document_key": document_key}
+            files = {"file": (filename, BytesIO(content), mimetype)}
+            data = {"target_lang": target_language, "source_lang": source_language}
 
-            response_status = await client.post(
-                f"{self.url}document/{document_id}",
-                headers=self.header,
-                data=doc_key,
-            )
-            response_status = response_status.json()
-            try:
-                while response_status["status"] != "done":
-                    response_status = await client.post(
-                        f"{self.url}document/{document_id}",
+            async with async_client(DEFAULT_TIMEOUT) as client:
+                try:
+                    response = await client.post(
+                        f"{self.url}document",
                         headers=self.header,
-                        data=doc_key,
+                        data=data,
+                        files=files,
                     )
-                    response_status = response_status.json()
-                    if response_status["status"] == "error":
-                        raise ProviderException(response_status["error_message"])
-                    await asyncio.sleep(0.5)
-            except KeyError as exc:
-                raise ProviderException("Internal server error", 500) from exc
+                except:
+                    raise ProviderException(
+                        "Something went wrong when performing document translation!!",
+                        500,
+                    )
+                if response.status_code >= 400:
+                    raise ProviderException(
+                        message=http.client.responses[response.status_code],
+                        code=response.status_code,
+                    )
+                try:
+                    original_response = response.json()
+                except json.JSONDecodeError:
+                    raise ProviderException("Internal server error", 500)
 
-            response = await client.post(
-                f"{self.url}document/{document_id}/result",
-                headers=self.header,
-                data=doc_key,
-            )
+                if response.status_code != 200:
+                    raise ProviderException(
+                        message=original_response["message"], code=response.status_code
+                    )
 
-            b64_file = base64.b64encode(response.content)
-            resource_url = await aupload_file_bytes_to_s3(
-                BytesIO(response.content), extension, USER_PROCESS
-            )
+                document_id, document_key = response.json().values()
 
-            std_resp = DocumentTranslationDataClass(
-                file=b64_file, document_resource_url=resource_url
-            )
-            return ResponseType[DocumentTranslationDataClass](
-                original_response=response.content, standardized_response=std_resp
-            )
+                doc_key = {"document_key": document_key}
+
+                response_status = await client.post(
+                    f"{self.url}document/{document_id}",
+                    headers=self.header,
+                    data=doc_key,
+                )
+                response_status = response_status.json()
+                try:
+                    while response_status["status"] != "done":
+                        response_status = await client.post(
+                            f"{self.url}document/{document_id}",
+                            headers=self.header,
+                            data=doc_key,
+                        )
+                        response_status = response_status.json()
+                        if response_status["status"] == "error":
+                            raise ProviderException(response_status["error_message"])
+                        await asyncio.sleep(0.5)
+                except KeyError as exc:
+                    raise ProviderException("Internal server error", 500) from exc
+
+                response = await client.post(
+                    f"{self.url}document/{document_id}/result",
+                    headers=self.header,
+                    data=doc_key,
+                )
+
+                b64_file = base64.b64encode(response.content)
+                resource_url = await aupload_file_bytes_to_s3(
+                    BytesIO(response.content), extension, USER_PROCESS
+                )
+
+                std_resp = DocumentTranslationDataClass(
+                    file=b64_file, document_resource_url=resource_url
+                )
+                return ResponseType[DocumentTranslationDataClass](
+                    original_response=response.content, standardized_response=std_resp
+                )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()

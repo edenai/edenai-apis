@@ -1,9 +1,13 @@
 import base64
 import json
 from typing import Dict, List, Literal, Optional, Type, Union
+
+import aiofiles
 import httpx
 from openai import BaseModel
 import requests
+
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
 
 from edenai_apis.features import ProviderInterface, TextInterface, OcrInterface
 from edenai_apis.features.ocr.ocr.ocr_dataclass import OcrDataClass
@@ -351,6 +355,46 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
         document = {"type": "image_url", "image_url": image_data}
         payload = {"model": "mistral-ocr-latest", "document": document}
         response = requests.post(url=url, headers=self.headers, json=payload)
+        try:
+            response_data = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+        if response.status_code != 200:
+            raise ProviderException(
+                message=response_data.get("message", response.text),
+                code=response.status_code,
+            )
+
+        standardized_response = OcrDataClass(text=response_data["pages"][0]["markdown"])
+
+        return ResponseType[OcrDataClass](
+            original_response=response_data, standardized_response=standardized_response
+        )
+
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        url = "https://api.mistral.ai/v1/ocr"
+        if file_url:
+            image_data = file_url
+        elif file:
+            async with aiofiles.open(file, "rb") as image_file:
+                file_content = await image_file.read()
+                base64_image = base64.b64encode(file_content).decode("utf-8")
+                image_data = f"data:image/jpeg;base64,{base64_image}"
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
+            )
+
+        document = {"type": "image_url", "image_url": image_data}
+        payload = {"model": "mistral-ocr-latest", "document": document}
+
+        async with async_client(OCR_TIMEOUT) as client:
+            response = await client.post(url=url, headers=self.headers, json=payload)
+
         try:
             response_data = response.json()
         except json.JSONDecodeError as exc:

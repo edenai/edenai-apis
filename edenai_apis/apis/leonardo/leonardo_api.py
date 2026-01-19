@@ -13,6 +13,7 @@ from edenai_apis.features.image.generation.generation_dataclass import (
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT
 from edenai_apis.utils.types import ResponseType
 from .config import get_model_id_image
 from edenai_apis.utils.parsing import extract
@@ -99,7 +100,7 @@ class LeonardoApi(ProviderInterface, ImageInterface):
 
     async def __aget_response(self, url: str, payload: dict) -> dict:
         # Launch job
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
+        async with async_client(IMAGE_TIMEOUT) as client:
             try:
                 launch_job_response = await client.post(url, headers=self.headers, json=payload)
             except httpx.RequestError as e:
@@ -239,7 +240,7 @@ class LeonardoApi(ProviderInterface, ImageInterface):
         generated_images = generation_by_pk.get("generated_images", []) or []
 
         image_url = [image.get("url") for image in generated_images]
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120)) as client:
+        async with async_client(IMAGE_TIMEOUT) as client:
             async def get_and_decode_image(image_url):
                 response = await client.get(image_url)
                 image = response.content

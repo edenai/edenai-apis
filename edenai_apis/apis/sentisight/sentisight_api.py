@@ -8,6 +8,8 @@ import requests
 import asyncio
 from PIL import Image as Img
 
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
+
 from edenai_apis.features import ProviderInterface, OcrInterface, ImageInterface
 from edenai_apis.features.image import (
     SearchDataClass,
@@ -117,6 +119,81 @@ class SentiSightApi(ProviderInterface, OcrInterface, ImageInterface):
             standardized_response=standardized_response,
         )
         return result
+
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        if not language:
+            raise LanguageException("Language not provided")
+
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            url = f"{self.base_url}{SentisightPreTrainModel.TEXT_RECOGNITION.value}"
+
+            async with async_client(OCR_TIMEOUT) as client:
+                response = await client.post(
+                    url=add_query_param_in_url(
+                        url, {"lang": get_formatted_language(language)}
+                    ),
+                    headers={
+                        "accept": "*/*",
+                        "X-Auth-token": self.key,
+                        "Content-Type": "application/octet-stream",
+                    },
+                    content=file_content,
+                )
+
+            if response.status_code != 200:
+                raise ProviderException(response.text, code=response.status_code)
+            response_json = response.json()
+
+            def _get_image_size(content):
+                with Img.open(BytesIO(content)) as img:
+                    return img.size
+
+            width, height = await asyncio.to_thread(_get_image_size, file_content)
+
+            bounding_boxes: Sequence[Bounding_box] = []
+            text = ""
+            for item in response_json:
+                if text == "":
+                    text = item["label"]
+                else:
+                    text = text + " " + item["label"]
+                bounding_box = calculate_bounding_box(item["points"], width, height)
+                bounding_boxes.append(
+                    Bounding_box(
+                        text=item["label"],
+                        left=float(bounding_box["x"]),
+                        top=float(bounding_box["y"]),
+                        width=float(bounding_box["width"]),
+                        height=float(bounding_box["height"]),
+                    )
+                )
+
+            standardized_response = OcrDataClass(
+                text=text.replace("\n", " ").strip(), bounding_boxes=bounding_boxes
+            )
+            return ResponseType[OcrDataClass](
+                original_response=response_json,
+                standardized_response=standardized_response,
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def image__object_detection(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs

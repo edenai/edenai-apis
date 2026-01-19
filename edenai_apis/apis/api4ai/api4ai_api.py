@@ -4,10 +4,10 @@ from json import JSONDecodeError
 from typing import Dict, Sequence, Optional, Any
 
 import aiofiles
-import httpx
 import requests
 
 from edenai_apis.features import ProviderInterface, ImageInterface, OcrInterface
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT, IMAGE_TIMEOUT
 from edenai_apis.features.image.anonymization.anonymization_dataclass import (
     AnonymizationDataClass,
     AnonymizationItem,
@@ -153,9 +153,7 @@ class Api4aiApi(
                     file_content = await file_.read()
 
             files = {"image": file_content}
-            async with httpx.AsyncClient(
-                timeout=httpx.Timeout(10.0, read=120.0)
-            ) as client:
+            async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(self.urls["object_detection"], files=files)
                 original_response = response.json()
 
@@ -276,9 +274,7 @@ class Api4aiApi(
                     file_content = await file_.read()
 
             files = {"image": file_content}
-            async with httpx.AsyncClient(
-                timeout=httpx.Timeout(10.0, read=120.0)
-            ) as client:
+            async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(self.urls["face_detection"], files=files)
                 original_response = response.json()
 
@@ -399,7 +395,7 @@ class Api4aiApi(
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()
             files = {"image": file_content}
-            async with httpx.AsyncClient(timeout=180) as client:
+            async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(self.urls["anonymization"], files=files)
 
                 original_response = response.json()
@@ -531,7 +527,7 @@ class Api4aiApi(
             files = {
                 "image": file_content,
             }
-            async with httpx.AsyncClient(timeout=httpx.Timeout(10, read=120)) as client:
+            async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(
                     self.urls["logo_detection"].format(model=model), files=files
                 )
@@ -673,7 +669,7 @@ class Api4aiApi(
                     file_content = await file_.read()
             files = {"image": file_content}
 
-            async with httpx.AsyncClient() as client:
+            async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(self.urls["nsfw"], files=files)
                 try:
                     original_response = response.json()
@@ -769,6 +765,60 @@ class Api4aiApi(
         )
         return result
 
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            async with async_client(OCR_TIMEOUT) as client:
+                response = await client.post(
+                    self.urls["ocr"],
+                    files={"image": ("image", file_content)},
+                )
+
+            error = get_errors_from_response(response)
+            if error is not None:
+                raise ProviderException(error, code=response.status_code)
+
+            data = response.json()
+
+            boxes: Sequence[Bounding_box] = []
+
+            entities = data["results"][0]["entities"][0]["objects"]
+            full_text = ""
+            for text in entities:
+                box = Bounding_box(
+                    text=text["entities"][0]["text"],
+                    top=text["box"][0],
+                    left=text["box"][1],
+                    width=text["box"][2],
+                    height=text["box"][3],
+                )
+                full_text += text["entities"][0]["text"]
+                boxes.append(box)
+
+            standardized_response = OcrDataClass(text=full_text, bounding_boxes=boxes)
+            return ResponseType[OcrDataClass](
+                original_response=data,
+                standardized_response=standardized_response,
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+
     def image__background_removal(
         self,
         file: str,
@@ -833,9 +883,7 @@ class Api4aiApi(
             else:
                 async with aiofiles.open(file, "rb") as f:
                     image_file = await f.read()
-            async with httpx.AsyncClient(
-                timeout=httpx.Timeout(10.0, read=120.0)
-            ) as client:
+            async with async_client(IMAGE_TIMEOUT) as client:
                 response = await client.post(url, files={"image": image_file})
                 error = get_errors_from_response(response)
                 if error is not None:

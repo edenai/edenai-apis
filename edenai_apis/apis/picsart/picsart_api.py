@@ -9,9 +9,9 @@ from edenai_apis.features.image import BackgroundRemovalDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT
 from edenai_apis.utils.types import ResponseType
 import aiofiles
-import httpx
 
 
 class PicsartApi(ProviderInterface, ImageInterface):
@@ -125,7 +125,7 @@ class PicsartApi(ProviderInterface, ImageInterface):
         else:
             raise ProviderException("No file or file_url provided")
 
-        async with httpx.AsyncClient(timeout=httpx.Timeout(10.0, read=120.0)) as client:
+        async with async_client(IMAGE_TIMEOUT) as client:
             bg_image_path = provider_params.pop("bg_image", None)  # BG removal + set
             if bg_image_path:
                 async with aiofiles.open(bg_image_path, "rb") as f:

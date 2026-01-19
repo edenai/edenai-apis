@@ -133,6 +133,98 @@ class ClarifaiApi(ProviderInterface, OcrInterface, ImageInterface):
         )
         return result
 
+    async def ocr__aocr(
+        self, file: str, language: str, file_url: str = "", **kwargs
+    ) -> ResponseType[OcrDataClass]:
+        if not language:
+            raise LanguageException("Language not provided", code=400)
+
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            def _sync_call(content, lang, key):
+                channel = ClarifaiChannel.get_grpc_channel()
+                stub = service_pb2_grpc.V2Stub(channel)
+                metadata = (("authorization", key),)
+                user_data_object = resources_pb2.UserAppIDSet(
+                    user_id="clarifai", app_id="main"
+                )
+
+                return stub.PostModelOutputs(
+                    service_pb2.PostModelOutputsRequest(
+                        user_app_id=user_data_object,
+                        model_id=get_formatted_language(lang),
+                        inputs=[
+                            resources_pb2.Input(
+                                data=resources_pb2.Data(
+                                    image=resources_pb2.Image(base64=content)
+                                )
+                            )
+                        ],
+                    ),
+                    metadata=metadata,
+                )
+
+            post_model_outputs_response = await asyncio.to_thread(
+                _sync_call, file_content, language, self.key
+            )
+
+            if post_model_outputs_response.status.code != status_code_pb2.SUCCESS:
+                error_detail = (
+                    post_model_outputs_response.status.description or "Unknown error"
+                )
+                raise ProviderException(
+                    f"Error calling Clarifai API: {error_detail}",
+                    code=post_model_outputs_response.status.code,
+                )
+
+            boxes: Sequence[Bounding_box] = []
+            original_response = []
+
+            text = ""
+            for output in post_model_outputs_response.outputs:
+                original_response.append(str(output.data))
+                for region in output.data.regions:
+                    text += " " + region.data.text.raw
+                    bb_info = region.region_info.bounding_box
+                    pos_x1 = float(bb_info.left_col)
+                    pos_x2 = float(bb_info.right_col)
+                    pos_y1 = float(bb_info.top_row)
+                    pos_y2 = float(bb_info.bottom_row)
+
+                    boxes.append(
+                        Bounding_box(
+                            text=region.data.text.raw,
+                            left=pos_x1,
+                            top=pos_y1,
+                            width=pos_x2 - pos_x1,
+                            height=pos_y2 - pos_y1,
+                        )
+                    )
+
+            standardized_response = OcrDataClass(
+                bounding_boxes=boxes, text=text.replace("\n", " ").strip()
+            )
+            return ResponseType[OcrDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+
     def image__explicit_content(
         self, file: str, file_url: str = "", model: Optional[str] = None, **kwargs
     ) -> ResponseType[ExplicitContentDataClass]:

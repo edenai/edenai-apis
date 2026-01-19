@@ -1,3 +1,4 @@
+import os
 from io import BufferedReader
 from json import JSONDecodeError
 from typing import Dict
@@ -19,6 +20,7 @@ from edenai_apis.features.ocr.invoice_parser import InvoiceParserDataClass
 from edenai_apis.features.ocr.receipt_parser import ReceiptParserDataClass
 from edenai_apis.loaders.loaders import ProviderDataEnum, load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import ResponseType
 
 
@@ -116,17 +118,36 @@ class EagledocApi(ProviderInterface, OcrInterface):
         model: str = None,
         **kwargs,
     ) -> ResponseType[FinancialParserDataClass]:
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                filename = os.path.basename(file)
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                extension = file_wrapper.file_info.file_extension or "pdf"
+                filename = f"document.{extension}"
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
             original_response = await self._amake_post_request(
-                file_content, filename=file, endpoint="/finance/v1/processing"
+                file_content, filename=filename, endpoint="/finance/v1/processing"
             )
 
-        standardize_response = eagledoc_financial_parser(original_response)
-        return ResponseType[FinancialParserDataClass](
-            original_response=original_response,
-            standardized_response=standardize_response,
-        )
+            standardize_response = eagledoc_financial_parser(original_response)
+            return ResponseType[FinancialParserDataClass](
+                original_response=original_response,
+                standardized_response=standardize_response,
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__invoice_parser(
         self, file: str, language: str, file_url: str = "", **kwargs
