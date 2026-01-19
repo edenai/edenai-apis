@@ -190,7 +190,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
                    Defaults to "Rachel"
             audio_format: Audio format (mp3, wav, pcm, opus, alaw, ulaw).
                    Defaults to "mp3"
-            speed: Not supported by ElevenLabs (ignored)
+            speed: Speech speed (0.25 to 4.0, mapped to 0.7-1.2). Defaults to 1.0
             provider_params: Provider-specific settings:
                 - stability: Voice stability (0.0 to 1.0, default 0.5)
                 - similarity_boost: Voice similarity (0.0 to 1.0, default 0.5)
@@ -215,6 +215,18 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         stability = provider_params.get("stability", 0.5)
         similarity_boost = provider_params.get("similarity_boost", 0.5)
 
+        # Map standard speed range (0.25-4.0) to ElevenLabs' range (0.7-1.2)
+        mapped_speed = 1.0
+        if speed is not None:
+            if speed <= 1.0:
+                # Map [0.25, 1.0] -> [0.7, 1.0]
+                normalized = (speed - 0.25) / 0.75
+                mapped_speed = 0.7 + normalized * 0.3
+            else:
+                # Map (1.0, 4.0] -> (1.0, 1.2]
+                normalized = (speed - 1.0) / 3.0
+                mapped_speed = 1.0 + normalized * 0.2
+
         # Convert audio format to ElevenLabs format and get file extension
         elevenlabs_format, file_extension = get_audio_format_and_extension(audio_format)
 
@@ -224,6 +236,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
             "voice_settings": {
                 "stability": stability,
                 "similarity_boost": similarity_boost,
+                "speed": mapped_speed,
             },
             "output_format": elevenlabs_format,
         }
@@ -271,7 +284,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
                    Defaults to "Rachel"
             audio_format: Audio format (mp3, wav, pcm, opus, alaw, ulaw).
                    Defaults to "mp3"
-            speed: Not supported by ElevenLabs (ignored)
+            speed: Speech speed (0.25 to 4.0, mapped to 0.7-1.2). Defaults to 1.0
             provider_params: Provider-specific settings:
                 - stability: Voice stability (0.0 to 1.0, default 0.5)
                 - similarity_boost: Voice similarity (0.0 to 1.0, default 0.5)
@@ -296,6 +309,18 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         stability = provider_params.get("stability", 0.5)
         similarity_boost = provider_params.get("similarity_boost", 0.5)
 
+        # Map standard speed range (0.25-4.0) to ElevenLabs' range (0.7-1.2)
+        mapped_speed = 1.0
+        if speed is not None:
+            if speed <= 1.0:
+                # Map [0.25, 1.0] -> [0.7, 1.0]
+                normalized = (speed - 0.25) / 0.75
+                mapped_speed = 0.7 + normalized * 0.3
+            else:
+                # Map (1.0, 4.0] -> (1.0, 1.2]
+                normalized = (speed - 1.0) / 3.0
+                mapped_speed = 1.0 + normalized * 0.2
+
         # Convert audio format to ElevenLabs format and get file extension
         elevenlabs_format, file_extension = get_audio_format_and_extension(audio_format)
 
@@ -305,6 +330,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
             "voice_settings": {
                 "stability": stability,
                 "similarity_boost": similarity_boost,
+                "speed": mapped_speed,
             },
             "output_format": elevenlabs_format,
         }
