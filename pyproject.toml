@@ -124,13 +124,13 @@ docstring-parser = "^0.16"
 pymupdf = "^1.25.4"
 asgiref = "^3.8.1"
 jsonschema = "^4.22"
-litellm = "^1.75.5"
+litellm = "^1.80.0"
 requests = "^2.32"
 aioboto3 = "^15.1.0"
 httpx = "^0.28.1"
 curl-cffi = "^0.14.0"
 aiofiles = "^24.1.0"
-
+multidict = ">=6.4.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest-mock = "^3.14.0"

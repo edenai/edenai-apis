@@ -13,3 +13,7 @@ from .text_to_speech_async import (
     TextToSpeechAsyncDataClass,
     text_to_speech_async_arguments,
 )
+from .tts import (
+    TtsDataClass,
+    tts_arguments,
+)

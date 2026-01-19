@@ -1211,6 +1211,14 @@
                 }
             },
             "version": "v1"
+        },
+        "tts": {
+            "constraints": {
+                "voices": ["en-US_Alysha Imani", "en-US_Christopher Navarrez", "en-US_Eric Gonzalez", "en-US_Betty Parker", "en-US_Catherine Zania", "en-US_Clara Ho", "en-US_Heather Everett"],
+                "default_voice": "en-US_Alysha Imani",
+                "audio_format": ["mp3"]
+            },
+            "version": "v1"
         }
     },
     "_metadata": {

@@ -522,6 +522,16 @@
         }
       },
       "version": "boto3 (v1.15.18)"
+    },
+    "tts": {
+      "constraints": {
+        "models": ["standard", "neural", "generative"],
+        "default_model": "neural",
+        "voices": ["Joanna", "Matthew", "Ivy", "Kendra", "Kevin", "Ruth", "Stephen", "Salli"],
+        "default_voice": "Joanna",
+        "audio_format": ["mp3", "ogg_vorbis", "pcm"]
+      },
+      "version": "boto3 (v1.15.18)"
     }
   },
   "ocr": {
