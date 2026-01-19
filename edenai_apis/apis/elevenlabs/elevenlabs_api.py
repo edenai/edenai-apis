@@ -10,6 +10,7 @@ from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
+from edenai_apis.features.audio.tts import TtsDataClass
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -178,7 +179,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using ElevenLabs API (async version).
 
         Args:
@@ -254,10 +255,10 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
                 audio_content, f".{file_extension}", USER_PROCESS
             )
 
-            return ResponseType[TextToSpeechDataClass](
+            return ResponseType[TtsDataClass](
                 original_response=audio,
-                standardized_response=TextToSpeechDataClass(
-                    audio=audio, voice_type=1, audio_resource_url=resource_url
+                standardized_response=TtsDataClass(
+                    audio=audio, audio_resource_url=resource_url
                 ),
             )
         except httpx.TimeoutException as exc:
@@ -276,7 +277,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using ElevenLabs API (sync version).
 
         Args:
@@ -357,9 +358,9 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
             audio_content, f".{file_extension}", USER_PROCESS
         )
 
-        return ResponseType[TextToSpeechDataClass](
+        return ResponseType[TtsDataClass](
             original_response=audio,
-            standardized_response=TextToSpeechDataClass(
-                audio=audio, voice_type=1, audio_resource_url=resource_url
+            standardized_response=TtsDataClass(
+                audio=audio, audio_resource_url=resource_url
             ),
         )

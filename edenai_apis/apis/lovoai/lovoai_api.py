@@ -15,6 +15,7 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
 from edenai_apis.features.audio.text_to_speech_async.text_to_speech_async_dataclass import (
     TextToSpeechAsyncDataClass,
 )
+from edenai_apis.features.audio.tts import TtsDataClass
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import (
@@ -304,7 +305,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using LovoAI API (async version).
 
         Args:
@@ -371,11 +372,10 @@ class LovoaiApi(ProviderInterface, AudioInterface):
                 audio_content = base64.b64encode(audio_response.content)
                 audio_content_string = audio_content.decode("utf-8")
 
-                return ResponseType[TextToSpeechDataClass](
+                return ResponseType[TtsDataClass](
                     original_response={},
-                    standardized_response=TextToSpeechDataClass(
+                    standardized_response=TtsDataClass(
                         audio=audio_content_string,
-                        voice_type=1,
                         audio_resource_url=audio_url,
                     ),
                 )
@@ -395,7 +395,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using LovoAI API (sync version).
 
         Args:
@@ -483,9 +483,9 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         audio_content = base64.b64encode(requests.get(audio_url).content)
         audio_content_string = audio_content.decode("utf-8")
 
-        return ResponseType[TextToSpeechDataClass](
+        return ResponseType[TtsDataClass](
             original_response={},
-            standardized_response=TextToSpeechDataClass(
-                audio=audio_content_string, voice_type=1, audio_resource_url=audio_url
+            standardized_response=TtsDataClass(
+                audio=audio_content_string, audio_resource_url=audio_url
             ),
         )

@@ -9,6 +9,7 @@ import requests
 from edenai_apis.features import AudioInterface
 from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 from edenai_apis.features.audio import TextToSpeechDataClass
+from edenai_apis.features.audio.tts import TtsDataClass
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechDiarization,
     SpeechToTextAsyncDataClass,
@@ -192,7 +193,7 @@ class OpenaiAudioApi(AudioInterface):
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using OpenAI's TTS API (async version).
 
         Args:
@@ -229,15 +230,14 @@ class OpenaiAudioApi(AudioInterface):
 
             audio_content = BytesIO(response.content)
             audio = base64.b64encode(audio_content.read()).decode("utf-8")
-            voice_type = 1
             audio_content.seek(0)
             resource_url = await aupload_file_bytes_to_s3(
                 audio_content, f".{audio_format or 'mp3'}", USER_PROCESS
             )
-            standardized_response = TextToSpeechDataClass(
-                audio=audio, voice_type=voice_type, audio_resource_url=resource_url
+            standardized_response = TtsDataClass(
+                audio=audio, audio_resource_url=resource_url
             )
-            return ResponseType[TextToSpeechDataClass](
+            return ResponseType[TtsDataClass](
                 original_response={}, standardized_response=standardized_response
             )
         except httpx.TimeoutException as exc:
@@ -256,7 +256,7 @@ class OpenaiAudioApi(AudioInterface):
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using OpenAI's TTS API (sync version).
 
         Args:
@@ -298,14 +298,13 @@ class OpenaiAudioApi(AudioInterface):
 
         audio_content = BytesIO(response.content)
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
-        voice_type = 1
         audio_content.seek(0)
         resource_url = upload_file_bytes_to_s3(
             audio_content, f".{audio_format or 'mp3'}", USER_PROCESS
         )
-        standardized_response = TextToSpeechDataClass(
-            audio=audio, voice_type=voice_type, audio_resource_url=resource_url
+        standardized_response = TtsDataClass(
+            audio=audio, audio_resource_url=resource_url
         )
-        return ResponseType[TextToSpeechDataClass](
+        return ResponseType[TtsDataClass](
             original_response={}, standardized_response=standardized_response
         )

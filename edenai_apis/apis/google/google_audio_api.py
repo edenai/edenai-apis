@@ -24,6 +24,7 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
+from edenai_apis.features.audio.tts import TtsDataClass
 from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.ssml import is_ssml
 from edenai_apis.utils.types import (
@@ -182,7 +183,7 @@ class GoogleAudioApi(AudioInterface):
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using Google Cloud TTS API (async version).
 
         Args:
@@ -199,7 +200,6 @@ class GoogleAudioApi(AudioInterface):
                 - sampling_rate: Audio sampling rate in Hz
         """
         provider_params = provider_params or {}
-        voice_type = 1
 
         # Set defaults
         resolved_voice = voice or "en-US-Standard-A"
@@ -264,8 +264,6 @@ class GoogleAudioApi(AudioInterface):
             }
         }
 
-        print("Payload for Google TTS:", payload)
-
         async with texttospeech.TextToSpeechAsyncClient() as client:
             response = await ahandle_google_call(client.synthesize_speech, **payload)
 
@@ -277,10 +275,10 @@ class GoogleAudioApi(AudioInterface):
             audio_content, f".{ext}", USER_PROCESS
         )
 
-        standardized_response = TextToSpeechDataClass(
-            audio=audio, voice_type=voice_type, audio_resource_url=resource_url
+        standardized_response = TtsDataClass(
+            audio=audio, audio_resource_url=resource_url
         )
-        return ResponseType[TextToSpeechDataClass](
+        return ResponseType[TtsDataClass](
             original_response={},
             standardized_response=standardized_response,
         )
@@ -294,7 +292,7 @@ class GoogleAudioApi(AudioInterface):
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using Google Cloud TTS API (sync version).
 
         Args:
@@ -311,7 +309,6 @@ class GoogleAudioApi(AudioInterface):
                 - sampling_rate: Audio sampling rate in Hz
         """
         provider_params = provider_params or {}
-        voice_type = 1
 
         # Set defaults
         resolved_voice = voice or "en-US-Standard-A"
@@ -385,10 +382,10 @@ class GoogleAudioApi(AudioInterface):
         audio_content.seek(0)
         resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
 
-        standardized_response = TextToSpeechDataClass(
-            audio=audio, voice_type=voice_type, audio_resource_url=resource_url
+        standardized_response = TtsDataClass(
+            audio=audio, audio_resource_url=resource_url
         )
-        return ResponseType[TextToSpeechDataClass](
+        return ResponseType[TtsDataClass](
             original_response={},
             standardized_response=standardized_response,
         )

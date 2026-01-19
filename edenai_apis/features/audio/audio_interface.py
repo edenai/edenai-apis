@@ -11,6 +11,7 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
 from edenai_apis.features.audio.text_to_speech_async.text_to_speech_async_dataclass import (
     TextToSpeechAsyncDataClass,
 )
+from edenai_apis.features.audio.tts.tts_dataclass import TtsDataClass
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -123,7 +124,7 @@ class AudioInterface:
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using provider's native API (async version).
 
         This method uses each provider's native voice ID format directly.
@@ -149,7 +150,7 @@ class AudioInterface:
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using provider's native API (sync version).
 
         This method uses each provider's native voice ID format directly.

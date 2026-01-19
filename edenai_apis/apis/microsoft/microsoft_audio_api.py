@@ -18,6 +18,7 @@ from edenai_apis.features.audio import (
     SpeechToTextAsyncDataClass,
     TextToSpeechDataClass,
 )
+from edenai_apis.features.audio.tts import TtsDataClass
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.utils.conversion import convert_pt_date_from_string
 from edenai_apis.utils.exception import (
@@ -173,7 +174,7 @@ class MicrosoftAudioApi(AudioInterface):
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using Microsoft Azure Speech API (async version).
 
         Args:
@@ -249,12 +250,11 @@ class MicrosoftAudioApi(AudioInterface):
         resource_url = await aupload_file_bytes_to_s3(
             audio_content, f".{ext}", USER_PROCESS
         )
-        voice_type = 1
-        standardized_response = TextToSpeechDataClass(
-            audio=audio_b64, voice_type=voice_type, audio_resource_url=resource_url
+        standardized_response = TtsDataClass(
+            audio=audio_b64, audio_resource_url=resource_url
         )
 
-        return ResponseType[TextToSpeechDataClass](
+        return ResponseType[TtsDataClass](
             original_response={}, standardized_response=standardized_response
         )
 
@@ -267,7 +267,7 @@ class MicrosoftAudioApi(AudioInterface):
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using Microsoft Azure Speech API (sync version).
 
         Args:
@@ -336,12 +336,11 @@ class MicrosoftAudioApi(AudioInterface):
 
         audio_content.seek(0)
         resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
-        voice_type = 1
-        standardized_response = TextToSpeechDataClass(
-            audio=audio_b64, voice_type=voice_type, audio_resource_url=resource_url
+        standardized_response = TtsDataClass(
+            audio=audio_b64, audio_resource_url=resource_url
         )
 
-        return ResponseType[TextToSpeechDataClass](
+        return ResponseType[TtsDataClass](
             original_response={}, standardized_response=standardized_response
         )
 

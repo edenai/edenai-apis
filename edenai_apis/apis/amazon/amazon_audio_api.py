@@ -26,6 +26,7 @@ from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_datacl
 from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
+from edenai_apis.features.audio.tts import TtsDataClass
 
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.ssml import is_ssml
@@ -175,7 +176,7 @@ class AmazonAudioApi(AudioInterface):
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using Amazon Polly API (async version).
 
         Args:
@@ -258,20 +259,18 @@ class AmazonAudioApi(AudioInterface):
 
         audio_content = BytesIO(stream)
         audio_file = base64.b64encode(audio_content.read()).decode("utf-8")
-        voice_type = 1
 
         audio_content.seek(0)
         audio_resource_url = await aupload_file_bytes_to_s3(
             audio_content, f".{ext}", USER_PROCESS
         )
 
-        standardized_response = TextToSpeechDataClass(
+        standardized_response = TtsDataClass(
             audio=audio_file,
-            voice_type=voice_type,
             audio_resource_url=audio_resource_url,
         )
 
-        return ResponseType[TextToSpeechDataClass](
+        return ResponseType[TtsDataClass](
             original_response={}, standardized_response=standardized_response
         )
 
@@ -284,7 +283,7 @@ class AmazonAudioApi(AudioInterface):
         speed: Optional[float] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> ResponseType[TextToSpeechDataClass]:
+    ) -> ResponseType[TtsDataClass]:
         """Convert text to speech using Amazon Polly API (sync version).
 
         Args:
@@ -359,20 +358,18 @@ class AmazonAudioApi(AudioInterface):
 
         audio_content = BytesIO(response["AudioStream"].read())
         audio_file = base64.b64encode(audio_content.read()).decode("utf-8")
-        voice_type = 1
 
         audio_content.seek(0)
         audio_resource_url = upload_file_bytes_to_s3(
             audio_content, f".{ext}", USER_PROCESS
         )
 
-        standardized_response = TextToSpeechDataClass(
+        standardized_response = TtsDataClass(
             audio=audio_file,
-            voice_type=voice_type,
             audio_resource_url=audio_resource_url,
         )
 
-        return ResponseType[TextToSpeechDataClass](
+        return ResponseType[TtsDataClass](
             original_response={}, standardized_response=standardized_response
         )
 
