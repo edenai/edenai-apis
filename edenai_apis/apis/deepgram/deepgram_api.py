@@ -327,8 +327,12 @@ class DeepgramApi(ProviderInterface, AudioInterface):
                         audio=audio, voice_type=1, audio_resource_url=resource_url
                     ),
                 )
+        except httpx.TimeoutException as exc:
+            raise ProviderException(message="Request timed out", code=408) from exc
         except httpx.HTTPStatusError as exc:
-            raise ProviderException(exc.response.text, code=exc.response.status_code)
+            raise ProviderException(exc.response.text, code=exc.response.status_code) from exc
+        except httpx.RequestError as exc:
+            raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
     def audio__tts(
         self,
