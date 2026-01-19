@@ -123,9 +123,7 @@
     },
     "summarize": {
       "constraints": {
-        "languages": [
-          "en"
-        ],
+        "languages": ["en"],
         "allow_null_language": true,
         "models": [
           "gpt-4",
@@ -142,47 +140,35 @@
     },
     "anonymization": {
       "constraints": {
-        "languages": [
-          "en"
-        ],
+        "languages": ["en"],
         "allow_null_language": true
       },
       "version": "v3.0.0"
     },
     "keyword_extraction": {
       "constraints": {
-        "languages": [
-          "en"
-        ],
+        "languages": ["en"],
         "allow_null_language": true
       },
       "version": "v3.0.0"
     },
     "sentiment_analysis": {
       "constraints": {
-        "languages": [
-          "en"
-        ],
+        "languages": ["en"],
         "allow_null_language": true
       },
       "version": "v3.0.0"
     },
     "topic_extraction": {
       "constraints": {
-        "languages": [
-          "en"
-        ],
+        "languages": ["en"],
         "allow_null_language": true
       },
       "version": "v1"
     },
     "generation": {
       "constraints": {
-        "models": [
-          "gpt-3.5-turbo-instruct",
-          "babbage-002",
-          "davinci-002"
-        ],
+        "models": ["gpt-3.5-turbo-instruct", "babbage-002", "davinci-002"],
         "default_model": "gpt-3.5-turbo-instruct"
       },
       "version": "v1"
@@ -214,10 +200,7 @@
     },
     "moderation": {
       "constraints": {
-        "languages": [
-          "en",
-          "fr"
-        ],
+        "languages": ["en", "fr"],
         "allow_null_language": true
       },
       "version": "v3.0.0"
@@ -227,9 +210,7 @@
     },
     "embeddings": {
       "constraints": {
-        "models": [
-          "1536__text-embedding-ada-002"
-        ],
+        "models": ["1536__text-embedding-ada-002"],
         "default_model": "1536__text-embedding-ada-002"
       },
       "version": "v3.0.0"
@@ -371,10 +352,7 @@
           "1024x1792",
           "1792x1024"
         ],
-        "models": [
-          "dall-e-2",
-          "dall-e-3"
-        ],
+        "models": ["dall-e-2", "dall-e-3"],
         "default_model": "dall-e-3"
       },
       "version": "v1Beta"
@@ -388,33 +366,22 @@
           "1024x1792",
           "1792x1024"
         ],
-        "models": [
-          "dall-e-2",
-          "dall-e-3"
-        ],
+        "models": ["dall-e-2", "dall-e-3"],
         "default_model": "dall-e-3"
       },
       "version": "v1Beta"
     },
     "question_answer": {
       "constraints": {
-        "models": [
-          "gpt-4-vision-preview"
-        ],
+        "models": ["gpt-4-vision-preview"],
         "default_model": "gpt-4-vision-preview"
       },
       "version": "v1"
     },
     "variation": {
       "constraints": {
-        "resolutions": [
-          "256x256",
-          "512x512",
-          "1024x1024"
-        ],
-        "models": [
-          "dall-e-2"
-        ],
+        "resolutions": ["256x256", "512x512", "1024x1024"],
+        "models": ["dall-e-2"],
         "default_model": "dall-e-3"
       },
       "version": "v1.0"
@@ -566,12 +533,7 @@
           "vi",
           "cy"
         ],
-        "audio_format": [
-          "mp3",
-          "opus",
-          "aac",
-          "flac"
-        ],
+        "audio_format": ["mp3", "opus", "aac", "flac"],
         "voice_ids": {
           "FEMALE": [
             "af_nova",
@@ -984,12 +946,7 @@
           "vi",
           "cy"
         ],
-        "audio_format": [
-          "mp3",
-          "opus",
-          "aac",
-          "flac"
-        ],
+        "audio_format": ["mp3", "opus", "aac", "flac"],
         "voice_ids": {
           "FEMALE": [
             "af_nova",
@@ -1343,9 +1300,23 @@
     },
     "tts": {
       "constraints": {
-        "models": ["tts-1", "tts-1-hd"],
+        "models": ["gpt-4o-mini-tts", "tts-1", "tts-1-hd"],
         "default_model": "tts-1",
-        "voices": ["alloy", "echo", "fable", "onyx", "nova", "shimmer"],
+        "voices": [
+          "alloy",
+          "ash",
+          "ballad",
+          "coral",
+          "echo",
+          "fable",
+          "marin",
+          "cedar",
+          "nova",
+          "onyx",
+          "sage",
+          "shimmer",
+          "verse"
+        ],
         "default_voice": "alloy",
         "audio_format": ["mp3", "opus", "aac", "flac", "wav", "pcm"]
       },
@@ -1355,11 +1326,7 @@
   "multimodal": {
     "chat": {
       "constraints": {
-        "models": [
-          "gpt-4",
-          "gpt-4-1106-preview",
-          "gpt-4-vision-preview"
-        ],
+        "models": ["gpt-4", "gpt-4-1106-preview", "gpt-4-vision-preview"],
         "default_model": "gpt-4"
       },
       "version": "v1Beta"
@@ -1492,10 +1459,7 @@
           "zu"
         ],
         "allow_null_language": true,
-        "documents": [
-          "receipt",
-          "invoice"
-        ]
+        "documents": ["receipt", "invoice"]
       },
       "version": "v1.0"
     },
@@ -1625,10 +1589,7 @@
           "zu"
         ],
         "allow_null_language": true,
-        "documents": [
-          "receipt",
-          "invoice"
-        ]
+        "documents": ["receipt", "invoice"]
       },
       "version": "v1.0"
     },

@@ -25,8 +25,15 @@ from edenai_apis.utils.upload_s3 import (
     aupload_file_bytes_to_s3,
 )
 from edenai_apis.utils.tts import normalize_speed_for_openai
+from edenai_apis.loaders.data_loader import load_provider_subfeature_info
 
 from .helpers import convert_tts_audio_rate
+
+
+def _get_tts_constraints():
+    """Load TTS constraints from info.json"""
+    info = load_provider_subfeature_info("openai", "audio", "tts")
+    return info.get("constraints", {})
 
 
 class OpenaiAudioApi(AudioInterface):
@@ -190,18 +197,21 @@ class OpenaiAudioApi(AudioInterface):
 
         Args:
             text: The text to convert to speech
-            model: The TTS model (e.g., "tts-1", "tts-1-hd"). Defaults to "tts-1"
-            voice: The voice ID (e.g., "alloy", "echo", "fable", "onyx", "nova", "shimmer").
-                   Defaults to "alloy"
+            model: The TTS model (e.g., "gpt-4o-mini-tts", "tts-1", "tts-1-hd").
+                   Defaults to value from info.json
+            voice: The voice ID (e.g., "alloy", "ash", "ballad", "coral", "echo",
+                   "fable", "marin", "cedar", "nova", "onyx", "sage", "shimmer", "verse").
+                   Defaults to value from info.json
             audio_format: Audio format (mp3, opus, aac, flac, wav, pcm). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0). Defaults to 1.0
             provider_params: Additional provider-specific parameters (not used for OpenAI)
         """
         url = "https://api.openai.com/v1/audio/speech"
 
-        # Set defaults
-        resolved_model = model or "tts-1"
-        resolved_voice = voice or "alloy"
+        # Load constraints and set defaults from config
+        constraints = _get_tts_constraints()
+        resolved_model = model or constraints.get("default_model", "tts-1")
+        resolved_voice = voice or constraints.get("default_voice", "alloy")
         resolved_speed = normalize_speed_for_openai(speed)
 
         payload = {
@@ -247,18 +257,21 @@ class OpenaiAudioApi(AudioInterface):
 
         Args:
             text: The text to convert to speech
-            model: The TTS model (e.g., "tts-1", "tts-1-hd"). Defaults to "tts-1"
-            voice: The voice ID (e.g., "alloy", "echo", "fable", "onyx", "nova", "shimmer").
-                   Defaults to "alloy"
+            model: The TTS model (e.g., "gpt-4o-mini-tts", "tts-1", "tts-1-hd").
+                   Defaults to value from info.json
+            voice: The voice ID (e.g., "alloy", "ash", "ballad", "coral", "echo",
+                   "fable", "marin", "cedar", "nova", "onyx", "sage", "shimmer", "verse").
+                   Defaults to value from info.json
             audio_format: Audio format (mp3, opus, aac, flac, wav, pcm). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0). Defaults to 1.0
             provider_params: Additional provider-specific parameters (not used for OpenAI)
         """
         url = "https://api.openai.com/v1/audio/speech"
 
-        # Set defaults
-        resolved_model = model or "tts-1"
-        resolved_voice = voice or "alloy"
+        # Load constraints and set defaults from config
+        constraints = _get_tts_constraints()
+        resolved_model = model or constraints.get("default_model", "tts-1")
+        resolved_voice = voice or constraints.get("default_voice", "alloy")
         resolved_speed = normalize_speed_for_openai(speed)
 
         payload = {
