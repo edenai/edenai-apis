@@ -1,0 +1,27 @@
+{
+    "audio": {
+        "tts": {
+            "constraints": {
+                "models": ["default"],
+                "default_model": "default",
+                "voices": [
+                    "Emma", "Kent", "Christina", "Mark", "Kaitlyn", "Olivia", "Katherine", "Cody",
+                    "Eva", "Jack", "Claire", "Evelyn", "Haley", "Madison", "Rachel",
+                    "Hunter", "Samuel", "Daniel_AU", "Kevin_AU", "William",
+                    "Michelle", "Brittany",
+                    "Elise", "Leo", "Julie", "Claude", "Vincent", "Olivier", "Marie", "Pierre",
+                    "Mia", "Maximilian", "Sofia", "Lisa", "Hans", "Franziska", "Lena", "Felix",
+                    "Valentina", "Sergio", "Pablo", "Carlos", "Elena", "Ana", "Miguel",
+                    "Alice", "Theo", "Leonardo", "Bruno", "Rafael", "Gabriel", "Lucas"
+                ],
+                "default_voice": "Emma",
+                "audio_format": ["mp3", "wav", "pcm", "opus"],
+                "languages": ["en", "en-US", "en-GB", "en-AU", "en-IN", "fr", "de", "es", "pt", "pt-BR"]
+            },
+            "version": "v1"
+        }
+    },
+    "_metadata": {
+        "privacy_url": "https://gradium.ai/privacy"
+    }
+}
