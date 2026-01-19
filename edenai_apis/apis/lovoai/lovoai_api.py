@@ -379,8 +379,12 @@ class LovoaiApi(ProviderInterface, AudioInterface):
                         audio_resource_url=audio_url,
                     ),
                 )
+        except httpx.TimeoutException as exc:
+            raise ProviderException(message="Request timed out", code=408) from exc
         except httpx.HTTPStatusError as exc:
-            raise ProviderException(exc.response.text, code=exc.response.status_code)
+            raise ProviderException(exc.response.text, code=exc.response.status_code) from exc
+        except httpx.RequestError as exc:
+            raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
     def audio__tts(
         self,
@@ -426,20 +430,27 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             }
         )
 
-        response = requests.post(
-            f"{self.url}v1/tts/sync", headers=self.headers, data=payload
-        )
+        try:
+            response = requests.post(
+                f"{self.url}v1/tts/sync", headers=self.headers, data=payload, timeout=AUDIO_TIMEOUT
+            )
+            response.raise_for_status()
+        except requests.exceptions.Timeout as exc:
+            raise ProviderException(message="Request timed out", code=408) from exc
+        except requests.exceptions.HTTPError as exc:
+            try:
+                original_response = response.json()
+                message = original_response.get("error", "Something went wrong")
+            except json.JSONDecodeError:
+                message = response.text
+            raise ProviderException(message=message, code=response.status_code) from exc
+        except requests.exceptions.RequestException as exc:
+            raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
         try:
             original_response = response.json()
         except json.JSONDecodeError as exc:
             raise ProviderException("Internal Server Error", code=500) from exc
-
-        if response.status_code != 201:
-            raise ProviderException(
-                original_response.get("error", "Something went wrong"),
-                code=response.status_code,
-            )
 
         # Poll for completion if in progress
         if original_response.get("status") == "in_progress":

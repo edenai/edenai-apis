@@ -240,8 +240,12 @@ class OpenaiAudioApi(AudioInterface):
             return ResponseType[TextToSpeechDataClass](
                 original_response={}, standardized_response=standardized_response
             )
+        except httpx.TimeoutException as exc:
+            raise ProviderException(message="Request timed out", code=408) from exc
         except httpx.HTTPStatusError as exc:
-            raise ProviderException(exc.response.text, code=exc.response.status_code)
+            raise ProviderException(exc.response.text, code=exc.response.status_code) from exc
+        except httpx.RequestError as exc:
+            raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
     def audio__tts(
         self,
@@ -282,9 +286,15 @@ class OpenaiAudioApi(AudioInterface):
             "response_format": audio_format or "mp3",
         }
 
-        response = requests.post(url, json=payload, headers=self.headers)
-        if response.status_code != 200:
-            raise ProviderException(response.text, code=response.status_code)
+        try:
+            response = requests.post(url, json=payload, headers=self.headers, timeout=AUDIO_TIMEOUT)
+            response.raise_for_status()
+        except requests.exceptions.Timeout as exc:
+            raise ProviderException(message="Request timed out", code=408) from exc
+        except requests.exceptions.HTTPError as exc:
+            raise ProviderException(response.text, code=response.status_code) from exc
+        except requests.exceptions.RequestException as exc:
+            raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
         audio_content = BytesIO(response.content)
         audio = base64.b64encode(audio_content.read()).decode("utf-8")
