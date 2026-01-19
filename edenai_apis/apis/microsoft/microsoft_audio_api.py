@@ -181,7 +181,7 @@ class MicrosoftAudioApi(AudioInterface):
             model: Not used for Microsoft (voice determines model)
             voice: The voice ID (e.g., "en-US-JennyNeural"). Defaults to "en-US-JennyNeural"
             audio_format: Audio format (mp3, wav, pcm). Defaults to "mp3"
-            speed: Speech speed (0.5 to 2.0). Defaults to 1.0
+            speed: Speech speed (0.25 to 4.0, mapped to 0.5-2.0). Defaults to 1.0
             provider_params: Provider-specific settings:
                 - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
@@ -205,10 +205,19 @@ class MicrosoftAudioApi(AudioInterface):
             getattr(speechsdk.SpeechSynthesisOutputFormat, resolved_audio_format)
         )
 
-        # Convert speed to percentage (-100 to 100)
+        # Map standard speed range (0.25-4.0) to Microsoft's range (0.5-2.0)
+        # Then convert to percentage (-100 to 100)
         speaking_rate = 0
         if speed is not None:
-            speaking_rate = int((speed - 1.0) * 100)
+            if speed <= 1.0:
+                # Map [0.25, 1.0] -> [0.5, 1.0]
+                normalized = (speed - 0.25) / 0.75
+                mapped_speed = 0.5 + normalized * 0.5
+            else:
+                # Map (1.0, 4.0] -> (1.0, 2.0]
+                normalized = (speed - 1.0) / 3.0
+                mapped_speed = 1.0 + normalized * 1.0
+            speaking_rate = int((mapped_speed - 1.0) * 100)
 
         speaking_pitch = provider_params.get("speaking_pitch", 0)
         speaking_volume = provider_params.get("speaking_volume", 0)
@@ -266,7 +275,7 @@ class MicrosoftAudioApi(AudioInterface):
             model: Not used for Microsoft (voice determines model)
             voice: The voice ID (e.g., "en-US-JennyNeural"). Defaults to "en-US-JennyNeural"
             audio_format: Audio format (mp3, wav, pcm). Defaults to "mp3"
-            speed: Speech speed (0.5 to 2.0). Defaults to 1.0
+            speed: Speech speed (0.25 to 4.0, mapped to 0.5-2.0). Defaults to 1.0
             provider_params: Provider-specific settings:
                 - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
@@ -290,10 +299,19 @@ class MicrosoftAudioApi(AudioInterface):
             getattr(speechsdk.SpeechSynthesisOutputFormat, resolved_audio_format)
         )
 
-        # Convert speed to percentage (-100 to 100)
+        # Map standard speed range (0.25-4.0) to Microsoft's range (0.5-2.0)
+        # Then convert to percentage (-100 to 100)
         speaking_rate = 0
         if speed is not None:
-            speaking_rate = int((speed - 1.0) * 100)
+            if speed <= 1.0:
+                # Map [0.25, 1.0] -> [0.5, 1.0]
+                normalized = (speed - 0.25) / 0.75
+                mapped_speed = 0.5 + normalized * 0.5
+            else:
+                # Map (1.0, 4.0] -> (1.0, 2.0]
+                normalized = (speed - 1.0) / 3.0
+                mapped_speed = 1.0 + normalized * 1.0
+            speaking_rate = int((mapped_speed - 1.0) * 100)
 
         speaking_pitch = provider_params.get("speaking_pitch", 0)
         speaking_volume = provider_params.get("speaking_volume", 0)

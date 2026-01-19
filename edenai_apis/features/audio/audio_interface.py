@@ -133,7 +133,8 @@ class AudioInterface:
             model (str): The TTS model (extracted from provider/model format)
             voice (str): The voice ID (provider's native format, optional)
             audio_format (str): Audio format (default: mp3)
-            speed (float): Speech speed multiplier (0.5 to 2.0, 1.0 = normal)
+            speed (float): Speech speed multiplier (0.25 to 4.0, 1.0 = normal).
+                Providers with narrower ranges will clamp the value.
             provider_params (dict): Provider-specific settings
         """
         raise NotImplementedError
@@ -158,7 +159,8 @@ class AudioInterface:
             model (str): The TTS model (extracted from provider/model format)
             voice (str): The voice ID (provider's native format, optional)
             audio_format (str): Audio format (default: mp3)
-            speed (float): Speech speed multiplier (0.5 to 2.0, 1.0 = normal)
+            speed (float): Speech speed multiplier (0.25 to 4.0, 1.0 = normal).
+                Providers with narrower ranges will clamp the value.
             provider_params (dict): Provider-specific settings
         """
         raise NotImplementedError

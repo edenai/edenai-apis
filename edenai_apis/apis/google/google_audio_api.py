@@ -192,7 +192,7 @@ class GoogleAudioApi(AudioInterface):
             voice: The voice ID (e.g., "en-US-Standard-A", "en-US-Wavenet-D").
                    Defaults to "en-US-Standard-A"
             audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
-            speed: Speech speed (0.5 to 2.0). Defaults to 1.0
+            speed: Speech speed (0.25 to 4.0). Defaults to 1.0
             provider_params: Provider-specific settings:
                 - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
@@ -304,7 +304,7 @@ class GoogleAudioApi(AudioInterface):
             voice: The voice ID (e.g., "en-US-Standard-A", "en-US-Wavenet-D").
                    Defaults to "en-US-Standard-A"
             audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
-            speed: Speech speed (0.5 to 2.0). Defaults to 1.0
+            speed: Speech speed (0.25 to 4.0). Defaults to 1.0
             provider_params: Provider-specific settings:
                 - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
