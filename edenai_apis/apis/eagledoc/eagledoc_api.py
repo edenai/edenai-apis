@@ -5,7 +5,8 @@ from typing import Dict
 import aiofiles
 
 import requests
-import httpx
+
+from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
 
 from edenai_apis.apis.eagledoc.eagledoc_ocr_normalizer import (
     eagledoc_financial_parser,
@@ -69,7 +70,7 @@ class EagledocApi(ProviderInterface, OcrInterface):
             "file": (filename, file_content),
         }
 
-        async with httpx.AsyncClient() as client:
+        async with async_client(OCR_TIMEOUT) as client:
             response = await client.post(
                 url=self.url + endpoint,
                 headers=self.headers,
