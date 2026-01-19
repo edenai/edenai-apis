@@ -45,7 +45,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
     def __get_model_from_voice(voice_id: str):
         if "Multilingual" in voice_id:
             return "eleven_multilingual_v2"
-        return "eleven_monolingual_v1"
+        return "eleven_multilingual_v2"
 
     def __get_voice_id(voice_id: str):
         try:
@@ -183,11 +183,13 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
 
         Args:
             text: The text to convert to speech
-            model: The model to use ("eleven_monolingual_v1", "eleven_multilingual_v2").
-                   Defaults to "eleven_monolingual_v1"
+            model: The model to use (e.g., "eleven_multilingual_v2", "eleven_v3",
+                   "eleven_flash_v2_5", "eleven_turbo_v2_5").
+                   Defaults to "eleven_multilingual_v2"
             voice: The voice ID or name (e.g., "Rachel", "21m00Tcm4TlvDq8ikWAM").
                    Defaults to "Rachel"
-            audio_format: Audio format. Defaults to "mp3"
+            audio_format: Audio format (mp3, wav, pcm, opus, alaw, ulaw).
+                   Defaults to "mp3"
             speed: Not supported by ElevenLabs (ignored)
             provider_params: Provider-specific settings:
                 - stability: Voice stability (0.0 to 1.0, default 0.5)
@@ -196,7 +198,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         provider_params = provider_params or {}
 
         # Set defaults
-        resolved_model = model or "eleven_monolingual_v1"
+        resolved_model = model or "eleven_multilingual_v2"
         resolved_voice = voice or "Rachel"
 
         # Resolve voice name to voice ID (case-insensitive lookup using lowercase)
@@ -262,11 +264,13 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
 
         Args:
             text: The text to convert to speech
-            model: The model to use ("eleven_monolingual_v1", "eleven_multilingual_v2").
-                   Defaults to "eleven_monolingual_v1"
+            model: The model to use (e.g., "eleven_multilingual_v2", "eleven_v3",
+                   "eleven_flash_v2_5", "eleven_turbo_v2_5").
+                   Defaults to "eleven_multilingual_v2"
             voice: The voice ID or name (e.g., "Rachel", "21m00Tcm4TlvDq8ikWAM").
                    Defaults to "Rachel"
-            audio_format: Audio format. Defaults to "mp3"
+            audio_format: Audio format (mp3, wav, pcm, opus, alaw, ulaw).
+                   Defaults to "mp3"
             speed: Not supported by ElevenLabs (ignored)
             provider_params: Provider-specific settings:
                 - stability: Voice stability (0.0 to 1.0, default 0.5)
@@ -275,7 +279,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         provider_params = provider_params or {}
 
         # Set defaults
-        resolved_model = model or "eleven_monolingual_v1"
+        resolved_model = model or "eleven_multilingual_v2"
         resolved_voice = voice or "Rachel"
 
         # Resolve voice name to voice ID (case-insensitive lookup using lowercase)
