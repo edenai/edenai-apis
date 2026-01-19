@@ -4,6 +4,9 @@ import json
 from io import BytesIO
 from typing import Dict, Optional
 
+# websocket-client: sync WebSocket library for audio__tts
+import websocket
+# websockets: async WebSocket library for audio__atts
 import websockets
 
 from edenai_apis.features.audio import AudioInterface
@@ -18,6 +21,7 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     aupload_file_bytes_to_s3,
+    upload_file_bytes_to_s3,
 )
 
 from .config import (
@@ -56,7 +60,7 @@ class GradiumaiApi(ProviderInterface, AudioInterface):
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
-        """Convert text to speech using Gradium AI WebSocket API.
+        """Convert text to speech using Gradium AI WebSocket API (async version).
 
         Args:
             text: The text to convert to speech
@@ -169,4 +173,131 @@ class GradiumaiApi(ProviderInterface, AudioInterface):
                 ),
             )
         except websockets.exceptions.WebSocketException as exc:
+            raise ProviderException(str(exc), code=500)
+
+    def audio__tts(
+        self,
+        text: str,
+        model: Optional[str] = None,
+        voice: Optional[str] = None,
+        audio_format: str = "mp3",
+        speed: Optional[float] = None,
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        """Convert text to speech using Gradium AI WebSocket API (sync version).
+
+        Args:
+            text: The text to convert to speech
+            model: The model name (not used, for interface compatibility)
+            voice: The voice ID or name (e.g., "Emma", "YTpq7expH9539ERJ").
+                   Defaults to "Emma"
+            audio_format: Audio format (pcm, wav, opus). Defaults to "pcm"
+                         Note: Gradium streams PCM by default
+            speed: Not directly supported (ignored)
+            provider_params: Provider-specific settings
+        """
+        provider_params = provider_params or {}
+
+        resolved_voice = voice or DEFAULT_VOICE_NAME
+
+        # Resolve voice name to voice ID (case-insensitive lookup using lowercase)
+        voice_lower = resolved_voice.lower()
+        if voice_lower in _voice_ids_lower:
+            voice_id = _voice_ids_lower[voice_lower]
+        else:
+            # Assume it's already a voice ID
+            voice_id = resolved_voice
+
+        # Gradium supports pcm, wav, opus for streaming
+        resolved_format = (
+            audio_format if audio_format in SUPPORTED_FORMATS else DEFAULT_FORMAT
+        )
+
+        headers = [
+            f"x-api-key: {self.api_key}",
+            "x-api-source: edenai",
+        ]
+
+        audio_chunks = []
+
+        try:
+            ws = websocket.create_connection(self.ws_url, header=headers, timeout=30)
+
+            try:
+                # Send setup message
+                setup_msg = {
+                    "type": "setup",
+                    "voice_id": voice_id,
+                    "output_format": resolved_format,
+                }
+                ws.send(json.dumps(setup_msg))
+
+                # Wait for ready message
+                ready_response = ws.recv()
+                ready_data = json.loads(ready_response)
+                if ready_data.get("type") == "error":
+                    raise ProviderException(
+                        ready_data.get("message", "Setup failed"), code=400
+                    )
+
+                # Send text message
+                text_msg = {
+                    "type": "text",
+                    "text": text,
+                }
+                ws.send(json.dumps(text_msg))
+
+                # Send end of stream
+                ws.send(json.dumps({"type": "end_of_stream"}))
+
+                # Collect audio chunks
+                while True:
+                    try:
+                        opcode, response = ws.recv_data(control_frame=True)
+                    except websocket.WebSocketTimeoutException:
+                        break
+                    except websocket.WebSocketConnectionClosedException:
+                        break
+
+                    # Check if response is binary (raw audio) or text (JSON)
+                    if opcode == websocket.ABNF.OPCODE_BINARY:
+                        audio_chunks.append(response)
+                        continue
+                    elif opcode == websocket.ABNF.OPCODE_TEXT:
+                        data = json.loads(response.decode("utf-8"))
+                        msg_type = data.get("type")
+
+                        if msg_type == "audio":
+                            # Audio data is base64 encoded in the "audio" field
+                            audio_b64 = data.get("audio", "")
+                            if audio_b64:
+                                audio_chunks.append(base64.b64decode(audio_b64))
+                        elif msg_type == "end_of_stream":
+                            break
+                        elif msg_type == "error":
+                            raise ProviderException(
+                                data.get("message", "TTS generation failed"), code=400
+                            )
+                        # Skip other message types (ready, text, etc.)
+            finally:
+                ws.close()
+
+            # Combine all audio chunks
+            combined_audio = b"".join(audio_chunks)
+            audio_content = BytesIO(combined_audio)
+            audio = base64.b64encode(combined_audio).decode("utf-8")
+
+            audio_content.seek(0)
+            resource_url = upload_file_bytes_to_s3(
+                audio_content, f".{resolved_format}", USER_PROCESS
+            )
+
+            return ResponseType[TextToSpeechDataClass](
+                original_response={},
+                standardized_response=TextToSpeechDataClass(
+                    audio=audio, voice_type=1, audio_resource_url=resource_url
+                ),
+            )
+        except websocket.WebSocketException as exc:
             raise ProviderException(str(exc), code=500)

@@ -305,7 +305,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
-        """Convert text to speech using LovoAI API.
+        """Convert text to speech using LovoAI API (async version).
 
         Args:
             text: The text to convert to speech
@@ -381,3 +381,100 @@ class LovoaiApi(ProviderInterface, AudioInterface):
                 )
         except httpx.HTTPStatusError as exc:
             raise ProviderException(exc.response.text, code=exc.response.status_code)
+
+    def audio__tts(
+        self,
+        text: str,
+        model: Optional[str] = None,
+        voice: Optional[str] = None,
+        audio_format: str = "mp3",
+        speed: Optional[float] = None,
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        """Convert text to speech using LovoAI API (sync version).
+
+        Args:
+            text: The text to convert to speech
+            model: Not used for LovoAI (single model)
+            voice: The voice ID (e.g., "en-US_Alysha Imani"). Defaults to "en-US_Alysha Imani"
+            audio_format: Audio format. Defaults to "mp3"
+            speed: Speech speed (0.5 to 1.5). Defaults to 1.0
+            provider_params: Provider-specific settings (none currently)
+        """
+        provider_params = provider_params or {}
+
+        # Set defaults
+        resolved_voice = voice or "en-US_Alysha Imani"
+
+        # Resolve voice ID (case-insensitive lookup using lowercase)
+        voice_lower = resolved_voice.lower()
+        if voice_lower in _voice_ids_lower:
+            speaker_id = _voice_ids_lower[voice_lower]
+        else:
+            # Assume it's already a speaker ID
+            speaker_id = resolved_voice
+
+        # Apply speed (LovoAI supports 0.5-1.5)
+        resolved_speed = normalize_speed_for_lovoai(speed)
+
+        payload = json.dumps(
+            {
+                "text": text,
+                "speaker": speaker_id,
+                "speed": resolved_speed,
+            }
+        )
+
+        response = requests.post(
+            f"{self.url}v1/tts/sync", headers=self.headers, data=payload
+        )
+
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal Server Error", code=500) from exc
+
+        if response.status_code != 201:
+            raise ProviderException(
+                original_response.get("error", "Something went wrong"),
+                code=response.status_code,
+            )
+
+        # Poll for completion if in progress
+        if original_response.get("status") == "in_progress":
+            while True:
+                sleep(1)
+                response_status = requests.get(
+                    f"{self.url}v1/tts/{original_response['id']}",
+                    headers=self.headers,
+                )
+                if response_status.status_code != 200:
+                    raise ProviderException(
+                        response_status.json().get("error", "Something went wrong"),
+                        code=response_status.status_code,
+                    )
+                try:
+                    original_response = response_status.json()
+                except json.JSONDecodeError as exc:
+                    raise ProviderException("Internal Server Error", code=500) from exc
+
+                if original_response.get("status") == "done":
+                    break
+
+        data = original_response["data"][0]
+        if error := data.get("error"):
+            error_code = error.get("code", 400) or 400
+            error_message = error.get("message", "") or "Call to provider failed!"
+            raise ProviderException(error_message, error_code)
+
+        audio_url = original_response["data"][0]["urls"][0]
+        audio_content = base64.b64encode(requests.get(audio_url).content)
+        audio_content_string = audio_content.decode("utf-8")
+
+        return ResponseType[TextToSpeechDataClass](
+            original_response={},
+            standardized_response=TextToSpeechDataClass(
+                audio=audio_content_string, voice_type=1, audio_resource_url=audio_url
+            ),
+        )

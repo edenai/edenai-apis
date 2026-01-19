@@ -186,7 +186,7 @@ class OpenaiAudioApi(AudioInterface):
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
-        """Convert text to speech using OpenAI's TTS API.
+        """Convert text to speech using OpenAI's TTS API (async version).
 
         Args:
             text: The text to convert to speech
@@ -232,3 +232,57 @@ class OpenaiAudioApi(AudioInterface):
             )
         except httpx.HTTPStatusError as exc:
             raise ProviderException(exc.response.text, code=exc.response.status_code)
+
+    def audio__tts(
+        self,
+        text: str,
+        model: Optional[str] = None,
+        voice: Optional[str] = None,
+        audio_format: str = "mp3",
+        speed: Optional[float] = None,
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> ResponseType[TextToSpeechDataClass]:
+        """Convert text to speech using OpenAI's TTS API (sync version).
+
+        Args:
+            text: The text to convert to speech
+            model: The TTS model (e.g., "tts-1", "tts-1-hd"). Defaults to "tts-1"
+            voice: The voice ID (e.g., "alloy", "echo", "fable", "onyx", "nova", "shimmer").
+                   Defaults to "alloy"
+            audio_format: Audio format (mp3, opus, aac, flac, wav, pcm). Defaults to "mp3"
+            speed: Speech speed (0.25 to 4.0). Defaults to 1.0
+            provider_params: Additional provider-specific parameters (not used for OpenAI)
+        """
+        url = "https://api.openai.com/v1/audio/speech"
+
+        # Set defaults
+        resolved_model = model or "tts-1"
+        resolved_voice = voice or "alloy"
+        resolved_speed = normalize_speed_for_openai(speed)
+
+        payload = {
+            "model": resolved_model,
+            "input": text,
+            "voice": resolved_voice,
+            "speed": resolved_speed,
+            "response_format": audio_format or "mp3",
+        }
+
+        response = requests.post(url, json=payload, headers=self.headers)
+        if response.status_code != 200:
+            raise ProviderException(response.text, code=response.status_code)
+
+        audio_content = BytesIO(response.content)
+        audio = base64.b64encode(audio_content.read()).decode("utf-8")
+        voice_type = 1
+        audio_content.seek(0)
+        resource_url = upload_file_bytes_to_s3(
+            audio_content, f".{audio_format or 'mp3'}", USER_PROCESS
+        )
+        standardized_response = TextToSpeechDataClass(
+            audio=audio, voice_type=voice_type, audio_resource_url=resource_url
+        )
+        return ResponseType[TextToSpeechDataClass](
+            original_response={}, standardized_response=standardized_response
+        )
