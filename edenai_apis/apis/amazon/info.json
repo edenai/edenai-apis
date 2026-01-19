@@ -529,9 +529,7 @@
       "constraints": {
         "file_types": [
           "image/jpeg",
-          "image/png",
-          "application/pdf",
-          "image/tiff"
+          "image/png"
         ],
         "languages": [
           "en",
@@ -559,6 +557,8 @@
     "ocr_async": {
       "constraints": {
         "file_types": [
+          "image/jpeg",
+          "image/png",
           "application/pdf",
           "image/tiff"
         ]

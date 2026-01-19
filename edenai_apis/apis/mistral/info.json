@@ -38,7 +38,7 @@
   "ocr": {
     "ocr": {
       "constraints": {
-        "file_types": ["image/jpeg", "image/png"],
+        "file_types": ["image/jpeg", "image/png", "application/pdf"],
         "allow_null_language": true
       },
       "version": "v1"
