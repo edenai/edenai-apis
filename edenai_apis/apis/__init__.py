@@ -23,7 +23,6 @@ from .facepp import FaceppApi
 from .faker import FakerApi
 from .gladia import GladiaApi
 from .google import GoogleApi
-from .gradiumai import GradiumaiApi
 from .hireability import HireabilityApi
 from .ibm import IbmApi
 from .jina import JinaApi
