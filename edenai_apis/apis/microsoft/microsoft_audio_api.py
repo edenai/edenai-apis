@@ -28,6 +28,7 @@ from edenai_apis.utils.exception import (
     ProviderException,
 )
 from edenai_apis.utils.ssml import is_ssml
+from edenai_apis.utils.tts import get_tts_config
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -188,9 +189,15 @@ class MicrosoftAudioApi(AudioInterface):
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
         """
         provider_params = provider_params or {}
+        config = get_tts_config("microsoft")
 
-        # Set defaults
-        resolved_voice = voice or "en-US-JennyNeural"
+        # Set defaults from info.json
+        voice_input = voice or config["default_voice"]
+        voice_lower = voice_input.lower()
+        if voice_lower in config["voices_lookup"]:
+            resolved_voice = config["voices_lookup"][voice_lower]
+        else:
+            resolved_voice = voice_input
 
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
@@ -244,14 +251,11 @@ class MicrosoftAudioApi(AudioInterface):
         audio_bytes: bytes = await asyncio.to_thread(_synthesize_blocking)
 
         audio_content = BytesIO(audio_bytes)
-        audio_b64 = base64.b64encode(audio_content.read()).decode("utf-8")
-
-        audio_content.seek(0)
         resource_url = await aupload_file_bytes_to_s3(
             audio_content, f".{ext}", USER_PROCESS
         )
         standardized_response = TtsDataClass(
-            audio=audio_b64, audio_resource_url=resource_url
+            audio_resource_url=resource_url
         )
 
         return ResponseType[TtsDataClass](
@@ -281,9 +285,15 @@ class MicrosoftAudioApi(AudioInterface):
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
         """
         provider_params = provider_params or {}
+        config = get_tts_config("microsoft")
 
-        # Set defaults
-        resolved_voice = voice or "en-US-JennyNeural"
+        # Set defaults from info.json
+        voice_input = voice or config["default_voice"]
+        voice_lower = voice_input.lower()
+        if voice_lower in config["voices_lookup"]:
+            resolved_voice = config["voices_lookup"][voice_lower]
+        else:
+            resolved_voice = voice_input
 
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
@@ -332,12 +342,9 @@ class MicrosoftAudioApi(AudioInterface):
             raise ProviderException(str(cancellation_details.error_details))
 
         audio_content = BytesIO(response.audio_data)
-        audio_b64 = base64.b64encode(audio_content.read()).decode("utf-8")
-
-        audio_content.seek(0)
         resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
         standardized_response = TtsDataClass(
-            audio=audio_b64, audio_resource_url=resource_url
+            audio_resource_url=resource_url
         )
 
         return ResponseType[TtsDataClass](

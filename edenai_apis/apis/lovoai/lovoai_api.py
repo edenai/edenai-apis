@@ -30,11 +30,8 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     AsyncPendingResponseType,
 )
-from edenai_apis.utils.tts import normalize_speed_for_lovoai
+from edenai_apis.utils.tts import normalize_speed_for_lovoai, get_tts_config
 from .config import voice_ids
-
-# Create lowercase lookup for case-insensitive voice matching
-_voice_ids_lower = {k.lower(): v for k, v in voice_ids.items()}
 
 
 class LovoaiApi(ProviderInterface, AudioInterface):
@@ -317,14 +314,15 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             provider_params: Provider-specific settings (none currently)
         """
         provider_params = provider_params or {}
+        config = get_tts_config("lovoai")
 
         # Set defaults
-        resolved_voice = voice or "en-US_Alysha Imani"
+        resolved_voice = voice or config["default_voice"]
 
         # Resolve voice ID (case-insensitive lookup using lowercase)
         voice_lower = resolved_voice.lower()
-        if voice_lower in _voice_ids_lower:
-            speaker_id = _voice_ids_lower[voice_lower]
+        if voice_lower in config["voice_ids"]:
+            speaker_id = config["voice_ids"][voice_lower]
         else:
             # Assume it's already a speaker ID
             speaker_id = resolved_voice
@@ -363,26 +361,25 @@ class LovoaiApi(ProviderInterface, AudioInterface):
                 data = original_response["data"][0]
                 if error := data.get("error"):
                     error_code = error.get("code", 400) or 400
-                    error_message = error.get("message", "") or "Call to provider failed!"
+                    error_message = (
+                        error.get("message", "") or "Call to provider failed!"
+                    )
                     raise ProviderException(error_message, error_code)
 
                 audio_url = original_response["data"][0]["urls"][0]
-                audio_response = await client.get(audio_url)
-                audio_response.raise_for_status()
-                audio_content = base64.b64encode(audio_response.content)
-                audio_content_string = audio_content.decode("utf-8")
 
                 return ResponseType[TtsDataClass](
                     original_response={},
                     standardized_response=TtsDataClass(
-                        audio=audio_content_string,
                         audio_resource_url=audio_url,
                     ),
                 )
         except httpx.TimeoutException as exc:
             raise ProviderException(message="Request timed out", code=408) from exc
         except httpx.HTTPStatusError as exc:
-            raise ProviderException(exc.response.text, code=exc.response.status_code) from exc
+            raise ProviderException(
+                exc.response.text, code=exc.response.status_code
+            ) from exc
         except httpx.RequestError as exc:
             raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
@@ -407,14 +404,15 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             provider_params: Provider-specific settings (none currently)
         """
         provider_params = provider_params or {}
+        config = get_tts_config("lovoai")
 
         # Set defaults
-        resolved_voice = voice or "en-US_Alysha Imani"
+        resolved_voice = voice or config["default_voice"]
 
         # Resolve voice ID (case-insensitive lookup using lowercase)
         voice_lower = resolved_voice.lower()
-        if voice_lower in _voice_ids_lower:
-            speaker_id = _voice_ids_lower[voice_lower]
+        if voice_lower in config["voice_ids"]:
+            speaker_id = config["voice_ids"][voice_lower]
         else:
             # Assume it's already a speaker ID
             speaker_id = resolved_voice
@@ -432,7 +430,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
 
         try:
             response = requests.post(
-                f"{self.url}v1/tts/sync", headers=self.headers, data=payload, timeout=AUDIO_TIMEOUT
+                f"{self.url}v1/tts/sync", headers=self.headers, data=payload
             )
             response.raise_for_status()
         except requests.exceptions.Timeout as exc:
@@ -480,12 +478,8 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             raise ProviderException(error_message, error_code)
 
         audio_url = original_response["data"][0]["urls"][0]
-        audio_content = base64.b64encode(requests.get(audio_url).content)
-        audio_content_string = audio_content.decode("utf-8")
 
         return ResponseType[TtsDataClass](
             original_response={},
-            standardized_response=TtsDataClass(
-                audio=audio_content_string, audio_resource_url=audio_url
-            ),
+            standardized_response=TtsDataClass(audio_resource_url=audio_url),
         )

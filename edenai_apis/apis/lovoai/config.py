@@ -74,7 +74,6 @@ voice_ids = {
     "uk-UA_Daryna Kovalenko": "63b41818241a82001d51dfb2",
     "fil-PH_Dennis de Saul": "63b408a3241a82001d51c444",
     "en-NZ_Destiny Mitchell": "63b40790241a82001d51b93b",
-    "id-ID_Diah Sukatendel": "Sukatendel",
     "ar-TN_Donia Cherif": "63b406c7241a82001d51b0e8",
     "ne-NP_Druhi Mahat": "63b4099b241a82001d51c6c2",
     "my-MM_Eindra Aung": "63b4098f241a82001d51c6a4",

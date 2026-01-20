@@ -708,19 +708,23 @@ def get_right_audio_support_and_sampling_rate(audio_format: str, sampling_rate: 
     samplings = [8000, 16000, 22050, 24000]
     pcm_sampling = [8000, 16000]
     returned_audio_format = audio_format
+    ext = audio_format
     if not returned_audio_format:
         returned_audio_format = "mp3"
-        audio_format = "mp3"
+        ext = "mp3"
     if returned_audio_format == "ogg":
         returned_audio_format = "ogg_vorbis"
+    # Normalize file extension for ogg_vorbis
+    if returned_audio_format == "ogg_vorbis":
+        ext = "ogg"
     if not sampling_rate:
-        return audio_format, returned_audio_format, None
+        return ext, returned_audio_format, None
     nearest_sampling = (
         min(samplings, key=lambda x: abs(x - sampling_rate))
         if returned_audio_format != "pcm"
         else min(pcm_sampling, key=lambda x: abs(x - sampling_rate))
     )
-    return audio_format, returned_audio_format, nearest_sampling
+    return ext, returned_audio_format, nearest_sampling
 
 
 def _convert_response_to_blocks_with_id(responses: list) -> dict:

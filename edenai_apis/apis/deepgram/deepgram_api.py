@@ -22,6 +22,7 @@ from edenai_apis.features.audio import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.tts import get_tts_config
 from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncResponseType,
@@ -282,20 +283,31 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             model: The Aura model voice (e.g., "aura-asteria-en", "aura-luna-en").
                    Defaults to "aura-asteria-en"
             voice: Alternative to model parameter (same functionality)
-            audio_format: Audio format (mp3, wav). Defaults to "mp3"
+            audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
             speed: Not supported by Deepgram (ignored)
             provider_params: Provider-specific settings:
                 - sample_rate: Audio sample rate in Hz
         """
         provider_params = provider_params or {}
+        config = get_tts_config("deepgram")
 
         # Set defaults - Deepgram uses model as voice identifier
-        resolved_model = voice or model or "aura-asteria-en"
+        resolved_model = voice or model or config["default_voice"]
+
+        # Case-insensitive voice lookup
+        voice_lower = resolved_model.lower()
+        if voice_lower in config["voices_lookup"]:
+            resolved_model = config["voices_lookup"][voice_lower]
 
         base_url = f"https://api.deepgram.com/v1/speak?model={resolved_model}"
 
-        if audio_format:
-            base_url += f"&container={audio_format}"
+        # Handle audio format - Deepgram requires encoding+container for non-mp3
+        file_extension = audio_format
+        if audio_format == "wav":
+            base_url += "&encoding=linear16&container=wav"
+        elif audio_format == "ogg":
+            base_url += "&encoding=opus&container=ogg"
+        # For mp3 (default), don't pass container - Deepgram defaults to mp3
 
         if provider_params.get("sample_rate"):
             base_url += f"&sample_rate={provider_params['sample_rate']}"
@@ -313,22 +325,20 @@ class DeepgramApi(ProviderInterface, AudioInterface):
                 response.raise_for_status()
 
                 audio_content = BytesIO(response.content)
-                audio = base64.b64encode(audio_content.read()).decode("utf-8")
-                audio_content.seek(0)
                 resource_url = await aupload_file_bytes_to_s3(
-                    audio_content, f".{audio_format}", USER_PROCESS
+                    audio_content, f".{file_extension}", USER_PROCESS
                 )
 
                 return ResponseType[TtsDataClass](
-                    original_response=response.content,
-                    standardized_response=TtsDataClass(
-                        audio=audio, audio_resource_url=resource_url
-                    ),
+                    original_response={},
+                    standardized_response=TtsDataClass(audio_resource_url=resource_url),
                 )
         except httpx.TimeoutException as exc:
             raise ProviderException(message="Request timed out", code=408) from exc
         except httpx.HTTPStatusError as exc:
-            raise ProviderException(exc.response.text, code=exc.response.status_code) from exc
+            raise ProviderException(
+                exc.response.text, code=exc.response.status_code
+            ) from exc
         except httpx.RequestError as exc:
             raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
@@ -349,20 +359,31 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             model: The Aura model voice (e.g., "aura-asteria-en", "aura-luna-en").
                    Defaults to "aura-asteria-en"
             voice: Alternative to model parameter (same functionality)
-            audio_format: Audio format (mp3, wav). Defaults to "mp3"
+            audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
             speed: Not supported by Deepgram (ignored)
             provider_params: Provider-specific settings:
                 - sample_rate: Audio sample rate in Hz
         """
         provider_params = provider_params or {}
+        config = get_tts_config("deepgram")
 
         # Set defaults - Deepgram uses model as voice identifier
-        resolved_model = voice or model or "aura-asteria-en"
+        resolved_model = voice or model or config["default_voice"]
+
+        # Case-insensitive voice lookup
+        voice_lower = resolved_model.lower()
+        if voice_lower in config["voices_lookup"]:
+            resolved_model = config["voices_lookup"][voice_lower]
 
         base_url = f"https://api.deepgram.com/v1/speak?model={resolved_model}"
 
-        if audio_format:
-            base_url += f"&container={audio_format}"
+        # Handle audio format - Deepgram requires encoding+container for non-mp3
+        file_extension = audio_format
+        if audio_format == "wav":
+            base_url += "&encoding=linear16&container=wav"
+        elif audio_format == "ogg":
+            base_url += "&encoding=opus&container=ogg"
+        # For mp3 (default), don't pass container - Deepgram defaults to mp3
 
         if provider_params.get("sample_rate"):
             base_url += f"&sample_rate={provider_params['sample_rate']}"
@@ -375,7 +396,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         payload = {"text": text}
 
         try:
-            response = requests.post(base_url, headers=headers, json=payload, timeout=AUDIO_TIMEOUT)
+            response = requests.post(base_url, headers=headers, json=payload)
             response.raise_for_status()
         except requests.exceptions.Timeout as exc:
             raise ProviderException(message="Request timed out", code=408) from exc
@@ -390,15 +411,11 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
         audio_content = BytesIO(response.content)
-        audio = base64.b64encode(audio_content.read()).decode("utf-8")
-        audio_content.seek(0)
         resource_url = upload_file_bytes_to_s3(
-            audio_content, f".{audio_format}", USER_PROCESS
+            audio_content, f".{file_extension}", USER_PROCESS
         )
 
         return ResponseType[TtsDataClass](
-            original_response=response.content,
-            standardized_response=TtsDataClass(
-                audio=audio, audio_resource_url=resource_url
-            ),
+            original_response={},
+            standardized_response=TtsDataClass(audio_resource_url=resource_url),
         )

@@ -15,16 +15,15 @@ from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.tts import get_tts_config
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     upload_file_bytes_to_s3,
     aupload_file_bytes_to_s3,
 )
-from .config import voice_ids, get_audio_format_and_extension, DEFAULT_OUTPUT_FORMAT
 
-# Create lowercase lookup for case-insensitive voice matching
-_voice_ids_lower = {k.lower(): v for k, v in voice_ids.items()}
+from .config import voice_ids, get_audio_format_and_extension, DEFAULT_OUTPUT_FORMAT
 
 
 class ElevenlabsApi(ProviderInterface, AudioInterface):
@@ -197,15 +196,16 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
                 - similarity_boost: Voice similarity (0.0 to 1.0, default 0.5)
         """
         provider_params = provider_params or {}
+        config = get_tts_config("elevenlabs")
 
         # Set defaults
-        resolved_model = model or "eleven_multilingual_v2"
-        resolved_voice = voice or "Rachel"
+        resolved_model = model or config["default_model"]
+        resolved_voice = voice or config["default_voice"]
 
         # Resolve voice name to voice ID (case-insensitive lookup using lowercase)
         voice_lower = resolved_voice.lower()
-        if voice_lower in _voice_ids_lower:
-            voice_id = _voice_ids_lower[voice_lower]
+        if voice_lower in config["voice_ids"]:
+            voice_id = config["voice_ids"][voice_lower]
         else:
             # Assume it's already a voice ID
             voice_id = resolved_voice
@@ -248,23 +248,20 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
                 response.raise_for_status()
 
             audio_content = BytesIO(response.content)
-            audio = base64.b64encode(audio_content.read()).decode("utf-8")
-
-            audio_content.seek(0)
             resource_url = await aupload_file_bytes_to_s3(
                 audio_content, f".{file_extension}", USER_PROCESS
             )
 
             return ResponseType[TtsDataClass](
-                original_response=audio,
-                standardized_response=TtsDataClass(
-                    audio=audio, audio_resource_url=resource_url
-                ),
+                original_response={},
+                standardized_response=TtsDataClass(audio_resource_url=resource_url),
             )
         except httpx.TimeoutException as exc:
             raise ProviderException(message="Request timed out", code=408) from exc
         except httpx.HTTPStatusError as exc:
-            raise ProviderException(exc.response.text, code=exc.response.status_code) from exc
+            raise ProviderException(
+                exc.response.text, code=exc.response.status_code
+            ) from exc
         except httpx.RequestError as exc:
             raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
@@ -295,15 +292,16 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
                 - similarity_boost: Voice similarity (0.0 to 1.0, default 0.5)
         """
         provider_params = provider_params or {}
+        config = get_tts_config("elevenlabs")
 
         # Set defaults
-        resolved_model = model or "eleven_multilingual_v2"
-        resolved_voice = voice or "Rachel"
+        resolved_model = model or config["default_model"]
+        resolved_voice = voice or config["default_voice"]
 
         # Resolve voice name to voice ID (case-insensitive lookup using lowercase)
         voice_lower = resolved_voice.lower()
-        if voice_lower in _voice_ids_lower:
-            voice_id = _voice_ids_lower[voice_lower]
+        if voice_lower in config["voice_ids"]:
+            voice_id = config["voice_ids"][voice_lower]
         else:
             # Assume it's already a voice ID
             voice_id = resolved_voice
@@ -341,7 +339,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         }
 
         try:
-            response = requests.post(url, json=data, headers=self.headers, timeout=AUDIO_TIMEOUT)
+            response = requests.post(url, json=data, headers=self.headers)
             response.raise_for_status()
         except requests.exceptions.Timeout as exc:
             raise ProviderException(message="Request timed out", code=408) from exc
@@ -351,16 +349,11 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
             raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
         audio_content = BytesIO(response.content)
-        audio = base64.b64encode(audio_content.read()).decode("utf-8")
-
-        audio_content.seek(0)
         resource_url = upload_file_bytes_to_s3(
             audio_content, f".{file_extension}", USER_PROCESS
         )
 
         return ResponseType[TtsDataClass](
-            original_response=audio,
-            standardized_response=TtsDataClass(
-                audio=audio, audio_resource_url=resource_url
-            ),
+            original_response={},
+            standardized_response=TtsDataClass(audio_resource_url=resource_url),
         )
