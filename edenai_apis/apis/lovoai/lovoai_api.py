@@ -71,6 +71,11 @@ class LovoaiApi(ProviderInterface, AudioInterface):
     ) -> ResponseType[TextToSpeechDataClass]:
         config = get_tts_config("lovoai")
         voice_id_lower = voice_id.lower()  # Case-insensitive lookup
+        if voice_id_lower not in config["voice_ids"]:
+            raise ProviderException(
+                f"Voice '{voice_id}' not found. Please provide a valid voice ID.",
+                code=400,
+            )
         payload = json.dumps(
             {
                 "text": text,
@@ -145,6 +150,11 @@ class LovoaiApi(ProviderInterface, AudioInterface):
     ) -> ResponseType[TextToSpeechDataClass]:
         config = get_tts_config("lovoai")
         voice_id_lower = voice_id.lower()  # Case-insensitive lookup
+        if voice_id_lower not in config["voice_ids"]:
+            raise ProviderException(
+                f"Voice '{voice_id}' not found. Please provide a valid voice ID.",
+                code=400,
+            )
         payload = {
             "text": text,
             "speaker": config["voice_ids"][voice_id_lower],
@@ -224,6 +234,11 @@ class LovoaiApi(ProviderInterface, AudioInterface):
     ) -> AsyncLaunchJobResponseType:
         config = get_tts_config("lovoai")
         voice_id_lower = voice_id.lower()  # Case-insensitive lookup
+        if voice_id_lower not in config["voice_ids"]:
+            raise ProviderException(
+                f"Voice '{voice_id}' not found. Please provide a valid voice ID.",
+                code=400,
+            )
         url = "https://api.genny.lovo.ai/api/v1/tts"
         data = json.dumps(
             {
