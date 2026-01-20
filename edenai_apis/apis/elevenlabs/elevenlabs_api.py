@@ -15,27 +15,15 @@ from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.tts import get_tts_config
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     upload_file_bytes_to_s3,
     aupload_file_bytes_to_s3,
 )
-from functools import lru_cache
 
 from .config import get_audio_format_and_extension, DEFAULT_OUTPUT_FORMAT
-
-
-@lru_cache(maxsize=1)
-def _get_tts_config():
-    """Get TTS config from info.json (cached)"""
-    info = load_provider(ProviderDataEnum.PROVIDER_INFO, "elevenlabs", "audio", "tts")
-    constraints = info.get("constraints", {})
-    return {
-        "default_model": constraints.get("default_model", "eleven_multilingual_v2"),
-        "default_voice": constraints.get("default_voice", "rachel"),
-        "voice_ids": constraints.get("voice_ids", {}),  # keys are lowercase
-    }
 
 
 class ElevenlabsApi(ProviderInterface, AudioInterface):
@@ -61,7 +49,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
 
     def __get_voice_id(voice_id: str):
         try:
-            config = _get_tts_config()
+            config = get_tts_config("elevenlabs")
             voice_name = voice_id.split("_")[-1]  # Extract the name from the voice_id
             voice_name_lower = voice_name.lower()  # Case-insensitive lookup
             voice_id_from_dict = config["voice_ids"][
@@ -210,7 +198,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
                 - similarity_boost: Voice similarity (0.0 to 1.0, default 0.5)
         """
         provider_params = provider_params or {}
-        config = _get_tts_config()
+        config = get_tts_config("elevenlabs")
 
         # Set defaults
         resolved_model = model or config["default_model"]
@@ -306,7 +294,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
                 - similarity_boost: Voice similarity (0.0 to 1.0, default 0.5)
         """
         provider_params = provider_params or {}
-        config = _get_tts_config()
+        config = get_tts_config("elevenlabs")
 
         # Set defaults
         resolved_model = model or config["default_model"]

@@ -30,19 +30,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     AsyncPendingResponseType,
 )
-from edenai_apis.utils.tts import normalize_speed_for_lovoai
-from functools import lru_cache
-
-
-@lru_cache(maxsize=1)
-def _get_tts_config():
-    """Get TTS config from info.json (cached)"""
-    info = load_provider(ProviderDataEnum.PROVIDER_INFO, "lovoai", "audio", "tts")
-    constraints = info.get("constraints", {})
-    return {
-        "default_voice": constraints.get("default_voice", "en-us_alysha imani"),
-        "voice_ids": constraints.get("voice_ids", {}),  # keys are lowercase
-    }
+from edenai_apis.utils.tts import normalize_speed_for_lovoai, get_tts_config
 
 
 class LovoaiApi(ProviderInterface, AudioInterface):
@@ -81,7 +69,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         sampling_rate: int,
         **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
-        config = _get_tts_config()
+        config = get_tts_config("lovoai")
         voice_id_lower = voice_id.lower()  # Case-insensitive lookup
         payload = json.dumps(
             {
@@ -155,7 +143,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         sampling_rate: int,
         **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
-        config = _get_tts_config()
+        config = get_tts_config("lovoai")
         voice_id_lower = voice_id.lower()  # Case-insensitive lookup
         payload = {
             "text": text,
@@ -234,7 +222,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         file_url: str = "",
         **kwargs,
     ) -> AsyncLaunchJobResponseType:
-        config = _get_tts_config()
+        config = get_tts_config("lovoai")
         voice_id_lower = voice_id.lower()  # Case-insensitive lookup
         url = "https://api.genny.lovo.ai/api/v1/tts"
         data = json.dumps(
@@ -331,7 +319,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             provider_params: Provider-specific settings (none currently)
         """
         provider_params = provider_params or {}
-        config = _get_tts_config()
+        config = get_tts_config("lovoai")
 
         # Set defaults
         resolved_voice = voice or config["default_voice"]
@@ -421,7 +409,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             provider_params: Provider-specific settings (none currently)
         """
         provider_params = provider_params or {}
-        config = _get_tts_config()
+        config = get_tts_config("lovoai")
 
         # Set defaults
         resolved_voice = voice or config["default_voice"]

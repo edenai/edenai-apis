@@ -28,6 +28,7 @@ from edenai_apis.utils.exception import (
     ProviderException,
 )
 from edenai_apis.utils.ssml import is_ssml
+from edenai_apis.utils.tts import get_tts_config
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -41,20 +42,6 @@ from edenai_apis.utils.upload_s3 import (
     aupload_file_bytes_to_s3,
     upload_file_to_s3,
 )
-from edenai_apis.loaders.data_loader import ProviderDataEnum
-from edenai_apis.loaders.loaders import load_provider
-from functools import lru_cache
-
-
-@lru_cache(maxsize=1)
-def _get_tts_config():
-    """Get TTS config from info.json (cached)"""
-    info = load_provider(ProviderDataEnum.PROVIDER_INFO, "microsoft", "audio", "tts")
-    constraints = info.get("constraints", {})
-    return {
-        "default_voice": constraints.get("default_voice", "en-us-jennyneural"),
-        "voices_lookup": constraints.get("voices_lookup", {}),  # lowercase key -> original value
-    }
 
 
 class MicrosoftAudioApi(AudioInterface):
@@ -202,7 +189,7 @@ class MicrosoftAudioApi(AudioInterface):
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
         """
         provider_params = provider_params or {}
-        config = _get_tts_config()
+        config = get_tts_config("microsoft")
 
         # Set defaults from info.json
         voice_input = voice or config["default_voice"]
@@ -298,7 +285,7 @@ class MicrosoftAudioApi(AudioInterface):
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
         """
         provider_params = provider_params or {}
-        config = _get_tts_config()
+        config = get_tts_config("microsoft")
 
         # Set defaults from info.json
         voice_input = voice or config["default_voice"]

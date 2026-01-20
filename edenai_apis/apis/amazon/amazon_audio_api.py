@@ -3,7 +3,6 @@ import json
 import urllib
 import uuid
 from io import BytesIO
-from functools import lru_cache
 from pathlib import Path
 from typing import Optional
 import aioboto3
@@ -31,6 +30,7 @@ from edenai_apis.features.audio.tts import TtsDataClass
 
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.ssml import is_ssml
+from edenai_apis.utils.tts import get_tts_config
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -46,20 +46,6 @@ from edenai_apis.utils.upload_s3 import (
     upload_file_bytes_to_s3,
     aupload_file_bytes_to_s3,
 )
-from edenai_apis.loaders.data_loader import ProviderDataEnum
-from edenai_apis.loaders.loaders import load_provider
-
-
-@lru_cache(maxsize=1)
-def _get_tts_config():
-    """Get TTS config from info.json (cached)"""
-    info = load_provider(ProviderDataEnum.PROVIDER_INFO, "amazon", "audio", "tts")
-    constraints = info.get("constraints", {})
-    return {
-        "default_model": constraints.get("default_model", "standard"),
-        "default_voice": constraints.get("default_voice", "joanna"),
-        "voices_lookup": constraints.get("voices_lookup", {}),  # lowercase key -> original value
-    }
 
 
 class AmazonAudioApi(AudioInterface):
@@ -205,7 +191,7 @@ class AmazonAudioApi(AudioInterface):
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
         """
         provider_params = provider_params or {}
-        config = _get_tts_config()
+        config = get_tts_config("amazon")
 
         # Set defaults from info.json
         resolved_engine = model or config["default_model"]
@@ -310,7 +296,7 @@ class AmazonAudioApi(AudioInterface):
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
         """
         provider_params = provider_params or {}
-        config = _get_tts_config()
+        config = get_tts_config("amazon")
 
         # Set defaults from info.json
         resolved_engine = model or config["default_model"]

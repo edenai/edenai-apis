@@ -22,6 +22,7 @@ from edenai_apis.features.audio import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.tts import get_tts_config
 from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncResponseType,
@@ -33,21 +34,6 @@ from edenai_apis.utils.upload_s3 import (
     aupload_file_bytes_to_s3,
     upload_file_to_s3,
 )
-from functools import lru_cache
-
-
-@lru_cache(maxsize=1)
-def _get_tts_config():
-    """Get TTS config from info.json (cached)"""
-    info = load_provider(ProviderDataEnum.PROVIDER_INFO, "deepgram", "audio", "tts")
-    constraints = info.get("constraints", {})
-    return {
-        "default_model": constraints.get("default_model", "aura"),
-        "default_voice": constraints.get("default_voice", "aura-asteria-en"),
-        "voices_lookup": constraints.get(
-            "voices_lookup", {}
-        ),  # lowercase key -> original value
-    }
 
 
 class DeepgramApi(ProviderInterface, AudioInterface):
@@ -303,7 +289,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
                 - sample_rate: Audio sample rate in Hz
         """
         provider_params = provider_params or {}
-        config = _get_tts_config()
+        config = get_tts_config("deepgram")
 
         # Set defaults - Deepgram uses model as voice identifier
         resolved_model = voice or model or config["default_voice"]
@@ -379,7 +365,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
                 - sample_rate: Audio sample rate in Hz
         """
         provider_params = provider_params or {}
-        config = _get_tts_config()
+        config = get_tts_config("deepgram")
 
         # Set defaults - Deepgram uses model as voice identifier
         resolved_model = voice or model or config["default_voice"]
