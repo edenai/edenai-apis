@@ -244,14 +244,11 @@ class MicrosoftAudioApi(AudioInterface):
         audio_bytes: bytes = await asyncio.to_thread(_synthesize_blocking)
 
         audio_content = BytesIO(audio_bytes)
-        audio_b64 = base64.b64encode(audio_content.read()).decode("utf-8")
-
-        audio_content.seek(0)
         resource_url = await aupload_file_bytes_to_s3(
             audio_content, f".{ext}", USER_PROCESS
         )
         standardized_response = TtsDataClass(
-            audio=audio_b64, audio_resource_url=resource_url
+            audio_resource_url=resource_url
         )
 
         return ResponseType[TtsDataClass](
@@ -332,12 +329,9 @@ class MicrosoftAudioApi(AudioInterface):
             raise ProviderException(str(cancellation_details.error_details))
 
         audio_content = BytesIO(response.audio_data)
-        audio_b64 = base64.b64encode(audio_content.read()).decode("utf-8")
-
-        audio_content.seek(0)
         resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
         standardized_response = TtsDataClass(
-            audio=audio_b64, audio_resource_url=resource_url
+            audio_resource_url=resource_url
         )
 
         return ResponseType[TtsDataClass](

@@ -367,15 +367,10 @@ class LovoaiApi(ProviderInterface, AudioInterface):
                     raise ProviderException(error_message, error_code)
 
                 audio_url = original_response["data"][0]["urls"][0]
-                audio_response = await client.get(audio_url)
-                audio_response.raise_for_status()
-                audio_content = base64.b64encode(audio_response.content)
-                audio_content_string = audio_content.decode("utf-8")
 
                 return ResponseType[TtsDataClass](
                     original_response={},
                     standardized_response=TtsDataClass(
-                        audio=audio_content_string,
                         audio_resource_url=audio_url,
                     ),
                 )
@@ -480,12 +475,10 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             raise ProviderException(error_message, error_code)
 
         audio_url = original_response["data"][0]["urls"][0]
-        audio_content = base64.b64encode(requests.get(audio_url).content)
-        audio_content_string = audio_content.decode("utf-8")
 
         return ResponseType[TtsDataClass](
             original_response={},
             standardized_response=TtsDataClass(
-                audio=audio_content_string, audio_resource_url=audio_url
+                audio_resource_url=audio_url
             ),
         )

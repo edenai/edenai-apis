@@ -268,15 +268,12 @@ class GoogleAudioApi(AudioInterface):
             response = await ahandle_google_call(client.synthesize_speech, **payload)
 
         audio_content = BytesIO(response.audio_content)
-        audio = base64.b64encode(audio_content.read()).decode("utf-8")
-
-        audio_content.seek(0)
         resource_url = await aupload_file_bytes_to_s3(
             audio_content, f".{ext}", USER_PROCESS
         )
 
         standardized_response = TtsDataClass(
-            audio=audio, audio_resource_url=resource_url
+            audio_resource_url=resource_url
         )
         return ResponseType[TtsDataClass](
             original_response={},
@@ -377,13 +374,10 @@ class GoogleAudioApi(AudioInterface):
         response = handle_google_call(client.synthesize_speech, **payload)
 
         audio_content = BytesIO(response.audio_content)
-        audio = base64.b64encode(audio_content.read()).decode("utf-8")
-
-        audio_content.seek(0)
         resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
 
         standardized_response = TtsDataClass(
-            audio=audio, audio_resource_url=resource_url
+            audio_resource_url=resource_url
         )
         return ResponseType[TtsDataClass](
             original_response={},

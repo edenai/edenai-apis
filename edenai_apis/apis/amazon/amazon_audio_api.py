@@ -258,15 +258,11 @@ class AmazonAudioApi(AudioInterface):
             stream = await response["AudioStream"].read()
 
         audio_content = BytesIO(stream)
-        audio_file = base64.b64encode(audio_content.read()).decode("utf-8")
-
-        audio_content.seek(0)
         audio_resource_url = await aupload_file_bytes_to_s3(
             audio_content, f".{ext}", USER_PROCESS
         )
 
         standardized_response = TtsDataClass(
-            audio=audio_file,
             audio_resource_url=audio_resource_url,
         )
 
@@ -357,15 +353,11 @@ class AmazonAudioApi(AudioInterface):
         )
 
         audio_content = BytesIO(response["AudioStream"].read())
-        audio_file = base64.b64encode(audio_content.read()).decode("utf-8")
-
-        audio_content.seek(0)
         audio_resource_url = upload_file_bytes_to_s3(
             audio_content, f".{ext}", USER_PROCESS
         )
 
         standardized_response = TtsDataClass(
-            audio=audio_file,
             audio_resource_url=audio_resource_url,
         )
 

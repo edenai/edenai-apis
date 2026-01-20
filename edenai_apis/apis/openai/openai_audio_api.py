@@ -229,13 +229,11 @@ class OpenaiAudioApi(AudioInterface):
                 response.raise_for_status()
 
             audio_content = BytesIO(response.content)
-            audio = base64.b64encode(audio_content.read()).decode("utf-8")
-            audio_content.seek(0)
             resource_url = await aupload_file_bytes_to_s3(
                 audio_content, f".{audio_format or 'mp3'}", USER_PROCESS
             )
             standardized_response = TtsDataClass(
-                audio=audio, audio_resource_url=resource_url
+                audio_resource_url=resource_url
             )
             return ResponseType[TtsDataClass](
                 original_response={}, standardized_response=standardized_response
@@ -297,13 +295,11 @@ class OpenaiAudioApi(AudioInterface):
             raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
         audio_content = BytesIO(response.content)
-        audio = base64.b64encode(audio_content.read()).decode("utf-8")
-        audio_content.seek(0)
         resource_url = upload_file_bytes_to_s3(
             audio_content, f".{audio_format or 'mp3'}", USER_PROCESS
         )
         standardized_response = TtsDataClass(
-            audio=audio, audio_resource_url=resource_url
+            audio_resource_url=resource_url
         )
         return ResponseType[TtsDataClass](
             original_response={}, standardized_response=standardized_response
