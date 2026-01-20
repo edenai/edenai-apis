@@ -184,7 +184,7 @@ class AmazonAudioApi(AudioInterface):
                    Defaults to value from info.json
             voice: The voice ID (e.g., "Joanna", "Matthew").
                    Defaults to value from info.json
-            audio_format: Audio format (mp3, ogg_vorbis, pcm). Defaults to "mp3"
+            audio_format: Audio format (mp3, ogg, pcm). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0, clamped to 0.2-2.0). Defaults to 1.0
             provider_params: Provider-specific settings:
                 - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
@@ -289,7 +289,7 @@ class AmazonAudioApi(AudioInterface):
                    Defaults to value from info.json
             voice: The voice ID (e.g., "Joanna", "Matthew").
                    Defaults to value from info.json
-            audio_format: Audio format (mp3, ogg_vorbis, pcm). Defaults to "mp3"
+            audio_format: Audio format (mp3, ogg, pcm). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0, clamped to 0.2-2.0). Defaults to 1.0
             provider_params: Provider-specific settings:
                 - speaking_pitch: Pitch adjustment (-100 to 100, default 0)

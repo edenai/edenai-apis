@@ -662,7 +662,7 @@
                 "default_voice": "Joanna",
                 "audio_format": [
                     "mp3",
-                    "ogg_vorbis",
+                    "ogg",
                     "pcm"
                 ],
                 "voices_lookup": {
