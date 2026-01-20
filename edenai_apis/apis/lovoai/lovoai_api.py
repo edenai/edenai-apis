@@ -378,7 +378,9 @@ class LovoaiApi(ProviderInterface, AudioInterface):
                 data = original_response["data"][0]
                 if error := data.get("error"):
                     error_code = error.get("code", 400) or 400
-                    error_message = error.get("message", "") or "Call to provider failed!"
+                    error_message = (
+                        error.get("message", "") or "Call to provider failed!"
+                    )
                     raise ProviderException(error_message, error_code)
 
                 audio_url = original_response["data"][0]["urls"][0]
@@ -392,7 +394,9 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         except httpx.TimeoutException as exc:
             raise ProviderException(message="Request timed out", code=408) from exc
         except httpx.HTTPStatusError as exc:
-            raise ProviderException(exc.response.text, code=exc.response.status_code) from exc
+            raise ProviderException(
+                exc.response.text, code=exc.response.status_code
+            ) from exc
         except httpx.RequestError as exc:
             raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
@@ -443,7 +447,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
 
         try:
             response = requests.post(
-                f"{self.url}v1/tts/sync", headers=self.headers, data=payload, timeout=AUDIO_TIMEOUT
+                f"{self.url}v1/tts/sync", headers=self.headers, data=payload
             )
             response.raise_for_status()
         except requests.exceptions.Timeout as exc:
@@ -494,7 +498,5 @@ class LovoaiApi(ProviderInterface, AudioInterface):
 
         return ResponseType[TtsDataClass](
             original_response={},
-            standardized_response=TtsDataClass(
-                audio_resource_url=audio_url
-            ),
+            standardized_response=TtsDataClass(audio_resource_url=audio_url),
         )

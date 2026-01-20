@@ -410,9 +410,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         payload = {"text": text}
 
         try:
-            response = requests.post(
-                base_url, headers=headers, json=payload, timeout=AUDIO_TIMEOUT
-            )
+            response = requests.post(base_url, headers=headers, json=payload)
             response.raise_for_status()
         except requests.exceptions.Timeout as exc:
             raise ProviderException(message="Request timed out", code=408) from exc

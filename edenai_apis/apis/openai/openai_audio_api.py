@@ -232,16 +232,16 @@ class OpenaiAudioApi(AudioInterface):
             resource_url = await aupload_file_bytes_to_s3(
                 audio_content, f".{audio_format or 'mp3'}", USER_PROCESS
             )
-            standardized_response = TtsDataClass(
-                audio_resource_url=resource_url
-            )
+            standardized_response = TtsDataClass(audio_resource_url=resource_url)
             return ResponseType[TtsDataClass](
                 original_response={}, standardized_response=standardized_response
             )
         except httpx.TimeoutException as exc:
             raise ProviderException(message="Request timed out", code=408) from exc
         except httpx.HTTPStatusError as exc:
-            raise ProviderException(exc.response.text, code=exc.response.status_code) from exc
+            raise ProviderException(
+                exc.response.text, code=exc.response.status_code
+            ) from exc
         except httpx.RequestError as exc:
             raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
@@ -285,7 +285,11 @@ class OpenaiAudioApi(AudioInterface):
         }
 
         try:
-            response = requests.post(url, json=payload, headers=self.headers, timeout=AUDIO_TIMEOUT)
+            response = requests.post(
+                url,
+                json=payload,
+                headers=self.headers,
+            )
             response.raise_for_status()
         except requests.exceptions.Timeout as exc:
             raise ProviderException(message="Request timed out", code=408) from exc
@@ -298,9 +302,7 @@ class OpenaiAudioApi(AudioInterface):
         resource_url = upload_file_bytes_to_s3(
             audio_content, f".{audio_format or 'mp3'}", USER_PROCESS
         )
-        standardized_response = TtsDataClass(
-            audio_resource_url=resource_url
-        )
+        standardized_response = TtsDataClass(audio_resource_url=resource_url)
         return ResponseType[TtsDataClass](
             original_response={}, standardized_response=standardized_response
         )
