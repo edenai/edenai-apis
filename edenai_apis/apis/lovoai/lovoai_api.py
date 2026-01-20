@@ -31,6 +31,7 @@ from edenai_apis.utils.types import (
     AsyncPendingResponseType,
 )
 from edenai_apis.utils.tts import normalize_speed_for_lovoai, get_tts_config
+from .config import voice_ids
 
 
 class LovoaiApi(ProviderInterface, AudioInterface):
@@ -69,17 +70,10 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         sampling_rate: int,
         **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
-        config = get_tts_config("lovoai")
-        voice_id_lower = voice_id.lower()  # Case-insensitive lookup
-        if voice_id_lower not in config["voice_ids"]:
-            raise ProviderException(
-                f"Voice '{voice_id}' not found. Please provide a valid voice ID.",
-                code=400,
-            )
         payload = json.dumps(
             {
                 "text": text,
-                "speaker": config["voice_ids"][voice_id_lower],
+                "speaker": voice_ids[voice_id],
                 "speed": self.__adjust_speaking_rate(speaking_rate),
             }
         )
@@ -148,16 +142,9 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         sampling_rate: int,
         **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
-        config = get_tts_config("lovoai")
-        voice_id_lower = voice_id.lower()  # Case-insensitive lookup
-        if voice_id_lower not in config["voice_ids"]:
-            raise ProviderException(
-                f"Voice '{voice_id}' not found. Please provide a valid voice ID.",
-                code=400,
-            )
         payload = {
             "text": text,
-            "speaker": config["voice_ids"][voice_id_lower],
+            "speaker": voice_ids[voice_id],
             "speed": self.__adjust_speaking_rate(speaking_rate),
         }
 
@@ -232,17 +219,10 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         file_url: str = "",
         **kwargs,
     ) -> AsyncLaunchJobResponseType:
-        config = get_tts_config("lovoai")
-        voice_id_lower = voice_id.lower()  # Case-insensitive lookup
-        if voice_id_lower not in config["voice_ids"]:
-            raise ProviderException(
-                f"Voice '{voice_id}' not found. Please provide a valid voice ID.",
-                code=400,
-            )
         url = "https://api.genny.lovo.ai/api/v1/tts"
         data = json.dumps(
             {
-                "speaker": config["voice_ids"][voice_id_lower],
+                "speaker": voice_ids[voice_id],
                 "text": text,
                 "speed": self.__adjust_speaking_rate(speaking_rate),
             }

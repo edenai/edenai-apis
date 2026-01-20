@@ -23,7 +23,7 @@ from edenai_apis.utils.upload_s3 import (
     aupload_file_bytes_to_s3,
 )
 
-from .config import get_audio_format_and_extension, DEFAULT_OUTPUT_FORMAT
+from .config import voice_ids, get_audio_format_and_extension, DEFAULT_OUTPUT_FORMAT
 
 
 class ElevenlabsApi(ProviderInterface, AudioInterface):
@@ -49,11 +49,9 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
 
     def __get_voice_id(voice_id: str):
         try:
-            config = get_tts_config("elevenlabs")
             voice_name = voice_id.split("_")[-1]  # Extract the name from the voice_id
-            voice_name_lower = voice_name.lower()  # Case-insensitive lookup
-            voice_id_from_dict = config["voice_ids"][
-                voice_name_lower
+            voice_id_from_dict = voice_ids[
+                voice_name
             ]  # Retrieve the ID using the name from the dict
         except Exception:
             raise ProviderException("Voice ID not found for the given voice name.")
