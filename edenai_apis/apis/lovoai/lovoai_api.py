@@ -1,9 +1,10 @@
 import base64
 import json
 from time import sleep
-from typing import Dict
+from typing import Dict, Optional
 import asyncio
 
+import httpx
 import requests
 
 from edenai_apis.features.audio import AudioInterface
@@ -14,6 +15,7 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
 from edenai_apis.features.audio.text_to_speech_async.text_to_speech_async_dataclass import (
     TextToSpeechAsyncDataClass,
 )
+from edenai_apis.features.audio.tts import TtsDataClass
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.loaders import load_provider, ProviderDataEnum
 from edenai_apis.utils.exception import (
@@ -28,7 +30,11 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     AsyncPendingResponseType,
 )
+from edenai_apis.utils.tts import normalize_speed_for_lovoai
 from .config import voice_ids
+
+# Create lowercase lookup for case-insensitive voice matching
+_voice_ids_lower = {k.lower(): v for k, v in voice_ids.items()}
 
 
 class LovoaiApi(ProviderInterface, AudioInterface):
@@ -288,4 +294,198 @@ class LovoaiApi(ProviderInterface, AudioInterface):
                 audio=audio_content_string, voice_type=1, audio_resource_url=audio_url
             ),
             provider_job_id=provider_job_id,
+        )
+
+    async def audio__atts(
+        self,
+        text: str,
+        model: Optional[str] = None,
+        voice: Optional[str] = None,
+        audio_format: str = "mp3",
+        speed: Optional[float] = None,
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> ResponseType[TtsDataClass]:
+        """Convert text to speech using LovoAI API (async version).
+
+        Args:
+            text: The text to convert to speech
+            model: Not used for LovoAI (single model)
+            voice: The voice ID (e.g., "en-US_Alysha Imani"). Defaults to "en-US_Alysha Imani"
+            audio_format: Audio format. Defaults to "mp3"
+            speed: Speech speed (0.5 to 1.5). Defaults to 1.0
+            provider_params: Provider-specific settings (none currently)
+        """
+        provider_params = provider_params or {}
+
+        # Set defaults
+        resolved_voice = voice or "en-US_Alysha Imani"
+
+        # Resolve voice ID (case-insensitive lookup using lowercase)
+        voice_lower = resolved_voice.lower()
+        if voice_lower in _voice_ids_lower:
+            speaker_id = _voice_ids_lower[voice_lower]
+        else:
+            # Assume it's already a speaker ID
+            speaker_id = resolved_voice
+
+        # Apply speed (LovoAI supports 0.5-1.5)
+        resolved_speed = normalize_speed_for_lovoai(speed)
+
+        payload = {
+            "text": text,
+            "speaker": speaker_id,
+            "speed": resolved_speed,
+        }
+
+        try:
+            async with async_client(AUDIO_TIMEOUT) as client:
+                response = await client.post(
+                    f"{self.url}v1/tts/sync", headers=self.headers, json=payload
+                )
+                response.raise_for_status()
+                original_response = response.json()
+
+                # Poll for completion if in progress
+                if original_response.get("status") == "in_progress":
+                    while True:
+                        await asyncio.sleep(1)
+                        response_status = await client.get(
+                            f"{self.url}v1/tts/{original_response['id']}",
+                            headers=self.headers,
+                        )
+                        response_status.raise_for_status()
+                        original_response = response_status.json()
+
+                        if original_response.get("status") == "done":
+                            break
+
+                data = original_response["data"][0]
+                if error := data.get("error"):
+                    error_code = error.get("code", 400) or 400
+                    error_message = error.get("message", "") or "Call to provider failed!"
+                    raise ProviderException(error_message, error_code)
+
+                audio_url = original_response["data"][0]["urls"][0]
+                audio_response = await client.get(audio_url)
+                audio_response.raise_for_status()
+                audio_content = base64.b64encode(audio_response.content)
+                audio_content_string = audio_content.decode("utf-8")
+
+                return ResponseType[TtsDataClass](
+                    original_response={},
+                    standardized_response=TtsDataClass(
+                        audio=audio_content_string,
+                        audio_resource_url=audio_url,
+                    ),
+                )
+        except httpx.TimeoutException as exc:
+            raise ProviderException(message="Request timed out", code=408) from exc
+        except httpx.HTTPStatusError as exc:
+            raise ProviderException(exc.response.text, code=exc.response.status_code) from exc
+        except httpx.RequestError as exc:
+            raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
+
+    def audio__tts(
+        self,
+        text: str,
+        model: Optional[str] = None,
+        voice: Optional[str] = None,
+        audio_format: str = "mp3",
+        speed: Optional[float] = None,
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> ResponseType[TtsDataClass]:
+        """Convert text to speech using LovoAI API (sync version).
+
+        Args:
+            text: The text to convert to speech
+            model: Not used for LovoAI (single model)
+            voice: The voice ID (e.g., "en-US_Alysha Imani"). Defaults to "en-US_Alysha Imani"
+            audio_format: Audio format. Defaults to "mp3"
+            speed: Speech speed (0.5 to 1.5). Defaults to 1.0
+            provider_params: Provider-specific settings (none currently)
+        """
+        provider_params = provider_params or {}
+
+        # Set defaults
+        resolved_voice = voice or "en-US_Alysha Imani"
+
+        # Resolve voice ID (case-insensitive lookup using lowercase)
+        voice_lower = resolved_voice.lower()
+        if voice_lower in _voice_ids_lower:
+            speaker_id = _voice_ids_lower[voice_lower]
+        else:
+            # Assume it's already a speaker ID
+            speaker_id = resolved_voice
+
+        # Apply speed (LovoAI supports 0.5-1.5)
+        resolved_speed = normalize_speed_for_lovoai(speed)
+
+        payload = json.dumps(
+            {
+                "text": text,
+                "speaker": speaker_id,
+                "speed": resolved_speed,
+            }
+        )
+
+        try:
+            response = requests.post(
+                f"{self.url}v1/tts/sync", headers=self.headers, data=payload, timeout=AUDIO_TIMEOUT
+            )
+            response.raise_for_status()
+        except requests.exceptions.Timeout as exc:
+            raise ProviderException(message="Request timed out", code=408) from exc
+        except requests.exceptions.HTTPError as exc:
+            try:
+                original_response = response.json()
+                message = original_response.get("error", "Something went wrong")
+            except json.JSONDecodeError:
+                message = response.text
+            raise ProviderException(message=message, code=response.status_code) from exc
+        except requests.exceptions.RequestException as exc:
+            raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
+
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal Server Error", code=500) from exc
+
+        # Poll for completion if in progress
+        if original_response.get("status") == "in_progress":
+            while True:
+                sleep(1)
+                response_status = requests.get(
+                    f"{self.url}v1/tts/{original_response['id']}",
+                    headers=self.headers,
+                )
+                if response_status.status_code != 200:
+                    raise ProviderException(
+                        response_status.json().get("error", "Something went wrong"),
+                        code=response_status.status_code,
+                    )
+                try:
+                    original_response = response_status.json()
+                except json.JSONDecodeError as exc:
+                    raise ProviderException("Internal Server Error", code=500) from exc
+
+                if original_response.get("status") == "done":
+                    break
+
+        data = original_response["data"][0]
+        if error := data.get("error"):
+            error_code = error.get("code", 400) or 400
+            error_message = error.get("message", "") or "Call to provider failed!"
+            raise ProviderException(error_message, error_code)
+
+        audio_url = original_response["data"][0]["urls"][0]
+        audio_content = base64.b64encode(requests.get(audio_url).content)
+        audio_content_string = audio_content.decode("utf-8")
+
+        return ResponseType[TtsDataClass](
+            original_response={},
+            standardized_response=TtsDataClass(
+                audio=audio_content_string, audio_resource_url=audio_url
+            ),
         )

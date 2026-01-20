@@ -11,6 +11,7 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
 from edenai_apis.features.audio.text_to_speech_async.text_to_speech_async_dataclass import (
     TextToSpeechAsyncDataClass,
 )
+from edenai_apis.features.audio.tts.tts_dataclass import TtsDataClass
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -110,6 +111,58 @@ class AudioInterface:
             language (str): language in ISO format
             text (str): text to convert
             option (Literal["MALE", "FEMALE"]):
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    async def audio__atts(
+        self,
+        text: str,
+        model: Optional[str] = None,
+        voice: Optional[str] = None,
+        audio_format: str = "mp3",
+        speed: Optional[float] = None,
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> ResponseType[TtsDataClass]:
+        """Convert text to speech using provider's native API (async version).
+
+        This method uses each provider's native voice ID format directly.
+
+        Args:
+            text (str): The text to convert to speech
+            model (str): The TTS model (extracted from provider/model format)
+            voice (str): The voice ID (provider's native format, optional)
+            audio_format (str): Audio format (default: mp3)
+            speed (float): Speech speed multiplier (0.25 to 4.0, 1.0 = normal).
+                Providers with narrower ranges will clamp the value.
+            provider_params (dict): Provider-specific settings
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def audio__tts(
+        self,
+        text: str,
+        model: Optional[str] = None,
+        voice: Optional[str] = None,
+        audio_format: str = "mp3",
+        speed: Optional[float] = None,
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> ResponseType[TtsDataClass]:
+        """Convert text to speech using provider's native API (sync version).
+
+        This method uses each provider's native voice ID format directly.
+
+        Args:
+            text (str): The text to convert to speech
+            model (str): The TTS model (extracted from provider/model format)
+            voice (str): The voice ID (provider's native format, optional)
+            audio_format (str): Audio format (default: mp3)
+            speed (float): Speech speed multiplier (0.25 to 4.0, 1.0 = normal).
+                Providers with narrower ranges will clamp the value.
+            provider_params (dict): Provider-specific settings
         """
         raise NotImplementedError
 

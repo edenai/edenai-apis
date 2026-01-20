@@ -1149,6 +1149,16 @@
                 }
             },
             "version": "v1"
+        },
+        "tts": {
+            "constraints": {
+                "models": ["Standard", "Wavenet", "Neural2"],
+                "default_model": "Standard",
+                "voices": ["en-US-Standard-A", "en-US-Standard-B", "en-US-Standard-C", "en-US-Standard-D", "en-US-Wavenet-A", "en-US-Wavenet-B", "en-US-Wavenet-C", "en-US-Wavenet-D"],
+                "default_voice": "en-US-Standard-A",
+                "audio_format": ["mp3", "wav", "ogg"]
+            },
+            "version": "v1"
         }
     },
     "ocr": {

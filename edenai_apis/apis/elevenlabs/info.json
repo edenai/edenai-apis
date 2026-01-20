@@ -3136,6 +3136,31 @@
                 }
             },
             "version": "v1"
+        },
+        "tts": {
+            "constraints": {
+                "models": [
+                    "eleven_v3",
+                    "eleven_flash_v2_5",
+                    "eleven_turbo_v2_5",
+                    "eleven_multilingual_v2",
+                    "eleven_flash_v2",
+                    "eleven_monolingual_v1"
+                ],
+                "default_model": "eleven_multilingual_v2",
+                "voices": [
+                    "Rachel", "Drew", "Clyde", "Paul", "Dave", "Fin", "Sarah", "Bella",
+                    "Antoni", "Thomas", "Charlie", "George", "Emily", "Elli", "Callum",
+                    "Patrick", "Harry", "Liam", "Dorothy", "Josh", "Arnold", "Charlotte",
+                    "Matilda", "Matthew", "James", "Joseph", "Jeremy", "Michael", "Ethan",
+                    "Gigi", "Freya", "Santa Claus", "Grace", "Daniel", "Lily", "Serena",
+                    "Adam", "Nicole", "Bill", "Jessie", "Ryan", "Sam", "Glinda", "Giovanni",
+                    "Mimi", "Domi"
+                ],
+                "default_voice": "Rachel",
+                "audio_format": ["mp3", "wav", "pcm", "opus", "alaw", "ulaw"]
+            },
+            "version": "v1"
         }
     }
 }

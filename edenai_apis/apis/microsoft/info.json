@@ -1400,6 +1400,14 @@
         }
       },
       "version": "v1.0"
+    },
+    "tts": {
+      "constraints": {
+        "voices": ["en-US-JennyNeural", "en-US-GuyNeural", "en-US-AriaNeural", "en-US-DavisNeural", "en-US-AmberNeural", "en-US-AnaNeural", "en-US-AshleyNeural", "en-US-BrandonNeural"],
+        "default_voice": "en-US-JennyNeural",
+        "audio_format": ["mp3", "wav", "pcm"]
+      },
+      "version": "v1.0"
     }
   },
   "ocr": {
