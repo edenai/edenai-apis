@@ -21,10 +21,21 @@ from edenai_apis.utils.upload_s3 import (
     upload_file_bytes_to_s3,
     aupload_file_bytes_to_s3,
 )
-from .config import voice_ids, get_audio_format_and_extension, DEFAULT_OUTPUT_FORMAT
+from functools import lru_cache
 
-# Create lowercase lookup for case-insensitive voice matching
-_voice_ids_lower = {k.lower(): v for k, v in voice_ids.items()}
+from .config import get_audio_format_and_extension, DEFAULT_OUTPUT_FORMAT
+
+
+@lru_cache(maxsize=1)
+def _get_tts_config():
+    """Get TTS config from info.json (cached)"""
+    info = load_provider(ProviderDataEnum.PROVIDER_INFO, "elevenlabs", "audio", "tts")
+    constraints = info.get("constraints", {})
+    return {
+        "default_model": constraints.get("default_model", "eleven_multilingual_v2"),
+        "default_voice": constraints.get("default_voice", "rachel"),
+        "voice_ids": constraints.get("voice_ids", {}),  # keys are lowercase
+    }
 
 
 class ElevenlabsApi(ProviderInterface, AudioInterface):
@@ -50,9 +61,11 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
 
     def __get_voice_id(voice_id: str):
         try:
+            config = _get_tts_config()
             voice_name = voice_id.split("_")[-1]  # Extract the name from the voice_id
-            voice_id_from_dict = voice_ids[
-                voice_name
+            voice_name_lower = voice_name.lower()  # Case-insensitive lookup
+            voice_id_from_dict = config["voice_ids"][
+                voice_name_lower
             ]  # Retrieve the ID using the name from the dict
         except Exception:
             raise ProviderException("Voice ID not found for the given voice name.")
@@ -197,15 +210,16 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
                 - similarity_boost: Voice similarity (0.0 to 1.0, default 0.5)
         """
         provider_params = provider_params or {}
+        config = _get_tts_config()
 
         # Set defaults
-        resolved_model = model or "eleven_multilingual_v2"
-        resolved_voice = voice or "Rachel"
+        resolved_model = model or config["default_model"]
+        resolved_voice = voice or config["default_voice"]
 
         # Resolve voice name to voice ID (case-insensitive lookup using lowercase)
         voice_lower = resolved_voice.lower()
-        if voice_lower in _voice_ids_lower:
-            voice_id = _voice_ids_lower[voice_lower]
+        if voice_lower in config["voice_ids"]:
+            voice_id = config["voice_ids"][voice_lower]
         else:
             # Assume it's already a voice ID
             voice_id = resolved_voice
@@ -292,15 +306,16 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
                 - similarity_boost: Voice similarity (0.0 to 1.0, default 0.5)
         """
         provider_params = provider_params or {}
+        config = _get_tts_config()
 
         # Set defaults
-        resolved_model = model or "eleven_multilingual_v2"
-        resolved_voice = voice or "Rachel"
+        resolved_model = model or config["default_model"]
+        resolved_voice = voice or config["default_voice"]
 
         # Resolve voice name to voice ID (case-insensitive lookup using lowercase)
         voice_lower = resolved_voice.lower()
-        if voice_lower in _voice_ids_lower:
-            voice_id = _voice_ids_lower[voice_lower]
+        if voice_lower in config["voice_ids"]:
+            voice_id = config["voice_ids"][voice_lower]
         else:
             # Assume it's already a voice ID
             voice_id = resolved_voice

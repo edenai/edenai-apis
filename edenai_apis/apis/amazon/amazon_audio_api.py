@@ -3,6 +3,7 @@ import json
 import urllib
 import uuid
 from io import BytesIO
+from functools import lru_cache
 from pathlib import Path
 from typing import Optional
 import aioboto3
@@ -45,8 +46,20 @@ from edenai_apis.utils.upload_s3 import (
     upload_file_bytes_to_s3,
     aupload_file_bytes_to_s3,
 )
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
 
-from .config import DEFAULT_MODEL, POLLY_VOICES_LOWER, DEFAULT_VOICE_NAME
+
+@lru_cache(maxsize=1)
+def _get_tts_config():
+    """Get TTS config from info.json (cached)"""
+    info = load_provider(ProviderDataEnum.PROVIDER_INFO, "amazon", "audio", "tts")
+    constraints = info.get("constraints", {})
+    return {
+        "default_model": constraints.get("default_model", "standard"),
+        "default_voice": constraints.get("default_voice", "joanna"),
+        "voices_lookup": constraints.get("voices_lookup", {}),  # lowercase key -> original value
+    }
 
 
 class AmazonAudioApi(AudioInterface):
@@ -181,9 +194,10 @@ class AmazonAudioApi(AudioInterface):
 
         Args:
             text: The text to convert to speech
-            model: The Polly engine ("standard", "neural", "generative").
-                   Defaults to DEFAULT_MODEL
-            voice: The voice ID (e.g., "Joanna", "Matthew"). Defaults to "Joanna"
+            model: The Polly engine ("standard", "neural").
+                   Defaults to value from info.json
+            voice: The voice ID (e.g., "Joanna", "Matthew").
+                   Defaults to value from info.json
             audio_format: Audio format (mp3, ogg_vorbis, pcm). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0, clamped to 0.2-2.0). Defaults to 1.0
             provider_params: Provider-specific settings:
@@ -191,15 +205,16 @@ class AmazonAudioApi(AudioInterface):
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
         """
         provider_params = provider_params or {}
+        config = _get_tts_config()
 
-        # Set defaults
-        resolved_engine = model or DEFAULT_MODEL
+        # Set defaults from info.json
+        resolved_engine = model or config["default_model"]
 
         # Resolve voice (case-insensitive lookup)
-        voice_input = voice or DEFAULT_VOICE_NAME
+        voice_input = voice or config["default_voice"]
         voice_lower = voice_input.lower()
-        if voice_lower in POLLY_VOICES_LOWER:
-            resolved_voice = POLLY_VOICES_LOWER[voice_lower]
+        if voice_lower in config["voices_lookup"]:
+            resolved_voice = config["voices_lookup"][voice_lower]
         else:
             # Use as-is (will fail at API level if invalid)
             resolved_voice = voice_input
@@ -284,9 +299,10 @@ class AmazonAudioApi(AudioInterface):
 
         Args:
             text: The text to convert to speech
-            model: The Polly engine ("standard", "neural", "generative").
-                   Defaults to DEFAULT_MODEL
-            voice: The voice ID (e.g., "Joanna", "Matthew"). Defaults to "Joanna"
+            model: The Polly engine ("standard", "neural").
+                   Defaults to value from info.json
+            voice: The voice ID (e.g., "Joanna", "Matthew").
+                   Defaults to value from info.json
             audio_format: Audio format (mp3, ogg_vorbis, pcm). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0, clamped to 0.2-2.0). Defaults to 1.0
             provider_params: Provider-specific settings:
@@ -294,15 +310,16 @@ class AmazonAudioApi(AudioInterface):
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
         """
         provider_params = provider_params or {}
+        config = _get_tts_config()
 
-        # Set defaults
-        resolved_engine = model or DEFAULT_MODEL
+        # Set defaults from info.json
+        resolved_engine = model or config["default_model"]
 
         # Resolve voice (case-insensitive lookup)
-        voice_input = voice or DEFAULT_VOICE_NAME
+        voice_input = voice or config["default_voice"]
         voice_lower = voice_input.lower()
-        if voice_lower in POLLY_VOICES_LOWER:
-            resolved_voice = POLLY_VOICES_LOWER[voice_lower]
+        if voice_lower in config["voices_lookup"]:
+            resolved_voice = config["voices_lookup"][voice_lower]
         else:
             # Use as-is (will fail at API level if invalid)
             resolved_voice = voice_input

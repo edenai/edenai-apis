@@ -31,10 +31,18 @@ from edenai_apis.utils.types import (
     AsyncPendingResponseType,
 )
 from edenai_apis.utils.tts import normalize_speed_for_lovoai
-from .config import voice_ids
+from functools import lru_cache
 
-# Create lowercase lookup for case-insensitive voice matching
-_voice_ids_lower = {k.lower(): v for k, v in voice_ids.items()}
+
+@lru_cache(maxsize=1)
+def _get_tts_config():
+    """Get TTS config from info.json (cached)"""
+    info = load_provider(ProviderDataEnum.PROVIDER_INFO, "lovoai", "audio", "tts")
+    constraints = info.get("constraints", {})
+    return {
+        "default_voice": constraints.get("default_voice", "en-us_alysha imani"),
+        "voice_ids": constraints.get("voice_ids", {}),  # keys are lowercase
+    }
 
 
 class LovoaiApi(ProviderInterface, AudioInterface):
@@ -73,10 +81,12 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         sampling_rate: int,
         **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
+        config = _get_tts_config()
+        voice_id_lower = voice_id.lower()  # Case-insensitive lookup
         payload = json.dumps(
             {
                 "text": text,
-                "speaker": voice_ids[voice_id],
+                "speaker": config["voice_ids"][voice_id_lower],
                 "speed": self.__adjust_speaking_rate(speaking_rate),
             }
         )
@@ -145,9 +155,11 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         sampling_rate: int,
         **kwargs,
     ) -> ResponseType[TextToSpeechDataClass]:
+        config = _get_tts_config()
+        voice_id_lower = voice_id.lower()  # Case-insensitive lookup
         payload = {
             "text": text,
-            "speaker": voice_ids[voice_id],
+            "speaker": config["voice_ids"][voice_id_lower],
             "speed": self.__adjust_speaking_rate(speaking_rate),
         }
 
@@ -222,10 +234,12 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         file_url: str = "",
         **kwargs,
     ) -> AsyncLaunchJobResponseType:
+        config = _get_tts_config()
+        voice_id_lower = voice_id.lower()  # Case-insensitive lookup
         url = "https://api.genny.lovo.ai/api/v1/tts"
         data = json.dumps(
             {
-                "speaker": voice_ids[voice_id],
+                "speaker": config["voice_ids"][voice_id_lower],
                 "text": text,
                 "speed": self.__adjust_speaking_rate(speaking_rate),
             }
@@ -317,14 +331,15 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             provider_params: Provider-specific settings (none currently)
         """
         provider_params = provider_params or {}
+        config = _get_tts_config()
 
         # Set defaults
-        resolved_voice = voice or "en-US_Alysha Imani"
+        resolved_voice = voice or config["default_voice"]
 
         # Resolve voice ID (case-insensitive lookup using lowercase)
         voice_lower = resolved_voice.lower()
-        if voice_lower in _voice_ids_lower:
-            speaker_id = _voice_ids_lower[voice_lower]
+        if voice_lower in config["voice_ids"]:
+            speaker_id = config["voice_ids"][voice_lower]
         else:
             # Assume it's already a speaker ID
             speaker_id = resolved_voice
@@ -402,14 +417,15 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             provider_params: Provider-specific settings (none currently)
         """
         provider_params = provider_params or {}
+        config = _get_tts_config()
 
         # Set defaults
-        resolved_voice = voice or "en-US_Alysha Imani"
+        resolved_voice = voice or config["default_voice"]
 
         # Resolve voice ID (case-insensitive lookup using lowercase)
         voice_lower = resolved_voice.lower()
-        if voice_lower in _voice_ids_lower:
-            speaker_id = _voice_ids_lower[voice_lower]
+        if voice_lower in config["voice_ids"]:
+            speaker_id = config["voice_ids"][voice_lower]
         else:
             # Assume it's already a speaker ID
             speaker_id = resolved_voice

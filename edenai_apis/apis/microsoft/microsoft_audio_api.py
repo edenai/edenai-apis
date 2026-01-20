@@ -41,6 +41,20 @@ from edenai_apis.utils.upload_s3 import (
     aupload_file_bytes_to_s3,
     upload_file_to_s3,
 )
+from edenai_apis.loaders.data_loader import ProviderDataEnum
+from edenai_apis.loaders.loaders import load_provider
+from functools import lru_cache
+
+
+@lru_cache(maxsize=1)
+def _get_tts_config():
+    """Get TTS config from info.json (cached)"""
+    info = load_provider(ProviderDataEnum.PROVIDER_INFO, "microsoft", "audio", "tts")
+    constraints = info.get("constraints", {})
+    return {
+        "default_voice": constraints.get("default_voice", "en-us-jennyneural"),
+        "voices_lookup": constraints.get("voices_lookup", {}),  # lowercase key -> original value
+    }
 
 
 class MicrosoftAudioApi(AudioInterface):
@@ -188,9 +202,15 @@ class MicrosoftAudioApi(AudioInterface):
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
         """
         provider_params = provider_params or {}
+        config = _get_tts_config()
 
-        # Set defaults
-        resolved_voice = voice or "en-US-JennyNeural"
+        # Set defaults from info.json
+        voice_input = voice or config["default_voice"]
+        voice_lower = voice_input.lower()
+        if voice_lower in config["voices_lookup"]:
+            resolved_voice = config["voices_lookup"][voice_lower]
+        else:
+            resolved_voice = voice_input
 
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
@@ -278,9 +298,15 @@ class MicrosoftAudioApi(AudioInterface):
                 - speaking_volume: Volume adjustment (-100 to 100, default 0)
         """
         provider_params = provider_params or {}
+        config = _get_tts_config()
 
-        # Set defaults
-        resolved_voice = voice or "en-US-JennyNeural"
+        # Set defaults from info.json
+        voice_input = voice or config["default_voice"]
+        voice_lower = voice_input.lower()
+        if voice_lower in config["voices_lookup"]:
+            resolved_voice = config["voices_lookup"][voice_lower]
+        else:
+            resolved_voice = voice_input
 
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
