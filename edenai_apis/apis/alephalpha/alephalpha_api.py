@@ -1,3 +1,4 @@
+import asyncio
 from typing import Dict, Sequence, Optional
 
 import requests
@@ -95,7 +96,7 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
             standardized_response=standardized_response,
         )
 
-    def image__aembeddings(
+    async def image__aembeddings(
         self,
         file: Optional[str],
         representation: Optional[str] = None,
@@ -109,20 +110,23 @@ class AlephAlphaApi(ProviderInterface, TextInterface, ImageInterface):
             representation_client = SemanticRepresentation.Document
         else:
             representation_client = SemanticRepresentation.Query
-        client = Client(self.api_key)
 
         file_path = file if file else file_url
         if not file:
-            image = Image.from_url
+            image_loader = Image.from_url
         else:
-            image = Image.from_file
+            image_loader = Image.from_file
 
-        prompt = Prompt.from_image(image(file_path))
-        request = SemanticEmbeddingRequest(
-            prompt=prompt, representation=representation_client
-        )
+        def _sync_embed():
+            client = Client(self.api_key)
+            prompt = Prompt.from_image(image_loader(file_path))
+            request = SemanticEmbeddingRequest(
+                prompt=prompt, representation=representation_client
+            )
+            return client.semantic_embed(request=request, model=model)
+
         try:
-            response = client.semantic_embed(request=request, model=model)
+            response = await asyncio.to_thread(_sync_embed)
         except Exception as exc:
             raise ProviderException(message=str(exc)) from exc
 
