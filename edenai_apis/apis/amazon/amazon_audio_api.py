@@ -193,17 +193,9 @@ class AmazonAudioApi(AudioInterface):
         provider_params = provider_params or {}
         config = get_tts_config("amazon")
 
-        # Set defaults from info.json
-        resolved_engine = model or config["default_model"]
-
-        # Resolve voice (case-insensitive lookup)
-        voice_input = voice or config["default_voice"]
-        voice_lower = voice_input.lower()
-        if voice_lower in config["voices_lookup"]:
-            resolved_voice = config["voices_lookup"][voice_lower]
-        else:
-            # Use as-is (will fail at API level if invalid)
-            resolved_voice = voice_input
+        # Set defaults from info.json (normalize to lowercase)
+        resolved_engine = model.lower() if model else config["default_model"]
+        resolved_voice = voice.capitalize() if voice else config["default_voice"]
 
         # Build SSML for prosody control if speed or provider_params are set
         speaking_rate = 0
@@ -298,17 +290,9 @@ class AmazonAudioApi(AudioInterface):
         provider_params = provider_params or {}
         config = get_tts_config("amazon")
 
-        # Set defaults from info.json
-        resolved_engine = model or config["default_model"]
-
-        # Resolve voice (case-insensitive lookup)
-        voice_input = voice or config["default_voice"]
-        voice_lower = voice_input.lower()
-        if voice_lower in config["voices_lookup"]:
-            resolved_voice = config["voices_lookup"][voice_lower]
-        else:
-            # Use as-is (will fail at API level if invalid)
-            resolved_voice = voice_input
+        # Set defaults from info.json (normalize to lowercase)
+        resolved_engine = model.lower() if model else config["default_model"]
+        resolved_voice = voice.lower() if voice else config["default_voice"]
 
         # Build SSML for prosody control if speed or provider_params are set
         speaking_rate = 0
