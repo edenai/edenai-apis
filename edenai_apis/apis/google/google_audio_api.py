@@ -233,24 +233,20 @@ class GoogleAudioApi(AudioInterface):
                 model_name=resolved_model,
             )
         else:
-            # Standard/WaveNet/Neural2 voices use format like "en-us-standard-a"
-            if resolved_model:
-                # Get voices matching the selected model
+            # Standard/WaveNet/Neural2/Chirp voices use format like "en-us-standard-a"
+            if resolved_voice:
+                # User specified a voice - use it directly, let API validate
+                pass
+            elif resolved_model:
+                # No voice specified but model is - find a matching voice from config
                 model_pattern = f"-{resolved_model}-"
                 matching_voices = [v for v in config["voices"] if model_pattern in v]
-                if resolved_voice:
-                    # Validate voice matches the selected model
-                    if model_pattern not in resolved_voice:
-                        raise ProviderException(
-                            f"Voice '{voice}' is not a {model} voice. "
-                            f"Supported {model} voices: {', '.join(matching_voices)}"
-                        )
-                else:
-                    resolved_voice = (
-                        matching_voices[0] if matching_voices else config["default_voice"]
-                    )
+                resolved_voice = (
+                    matching_voices[0] if matching_voices else config["default_voice"]
+                )
             else:
-                resolved_voice = resolved_voice or config["default_voice"]
+                # No voice or model specified - use default
+                resolved_voice = config["default_voice"]
 
             # Extract language code from voice ID (e.g., "en-us-wavenet-d" -> "en-us")
             parts = resolved_voice.split("-")
@@ -379,24 +375,20 @@ class GoogleAudioApi(AudioInterface):
                 model_name=resolved_model,
             )
         else:
-            # Standard/WaveNet/Neural2 voices use format like "en-us-standard-a"
-            if resolved_model:
-                # Get voices matching the selected model
+            # Standard/WaveNet/Neural2/Chirp voices use format like "en-us-standard-a"
+            if resolved_voice:
+                # User specified a voice - use it directly, let API validate
+                pass
+            elif resolved_model:
+                # No voice specified but model is - find a matching voice from config
                 model_pattern = f"-{resolved_model}-"
                 matching_voices = [v for v in config["voices"] if model_pattern in v]
-                if resolved_voice:
-                    # Validate voice matches the selected model
-                    if model_pattern not in resolved_voice:
-                        raise ProviderException(
-                            f"Voice '{voice}' is not a {model} voice. "
-                            f"Supported {model} voices: {', '.join(matching_voices)}"
-                        )
-                else:
-                    resolved_voice = (
-                        matching_voices[0] if matching_voices else config["default_voice"]
-                    )
+                resolved_voice = (
+                    matching_voices[0] if matching_voices else config["default_voice"]
+                )
             else:
-                resolved_voice = resolved_voice or config["default_voice"]
+                # No voice or model specified - use default
+                resolved_voice = config["default_voice"]
 
             # Extract language code from voice ID (e.g., "en-us-wavenet-d" -> "en-us")
             parts = resolved_voice.split("-")
