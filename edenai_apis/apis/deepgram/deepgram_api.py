@@ -300,19 +300,23 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         # Set defaults - Deepgram uses model as voice identifier (normalize to lowercase)
         resolved_model = (voice or model or config["default_voice"]).lower()
 
-        base_url = f"https://api.deepgram.com/v1/speak?model={resolved_model}"
+        base_url = "https://api.deepgram.com/v1/speak"
+
+        # Build params dict with model
+        params = {"model": resolved_model}
 
         # Handle audio format - Deepgram requires encoding+container for non-mp3
         file_extension = audio_format
         if audio_format == "wav":
-            base_url += "&encoding=linear16&container=wav"
+            params["encoding"] = "linear16"
+            params["container"] = "wav"
         elif audio_format == "ogg":
-            base_url += "&encoding=opus&container=ogg"
+            params["encoding"] = "opus"
+            params["container"] = "ogg"
         # For mp3 (default), don't pass container - Deepgram defaults to mp3
 
-        # Add all provider_params as query parameters
-        for key, value in provider_params.items():
-            base_url += f"&{key}={value}"
+        # Merge provider_params (allows overriding encoding/container if needed)
+        params.update(provider_params)
 
         headers = {
             "Authorization": f"Token {self.api_key}",
@@ -323,7 +327,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
 
         try:
             async with async_client(AUDIO_TIMEOUT) as client:
-                response = await client.post(base_url, headers=headers, json=payload)
+                response = await client.post(base_url, headers=headers, json=payload, params=params)
                 response.raise_for_status()
 
                 audio_content = BytesIO(response.content)
@@ -378,19 +382,23 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         # Set defaults - Deepgram uses model as voice identifier (normalize to lowercase)
         resolved_model = (voice or model or config["default_voice"]).lower()
 
-        base_url = f"https://api.deepgram.com/v1/speak?model={resolved_model}"
+        base_url = "https://api.deepgram.com/v1/speak"
+
+        # Build params dict with model
+        params = {"model": resolved_model}
 
         # Handle audio format - Deepgram requires encoding+container for non-mp3
         file_extension = audio_format
         if audio_format == "wav":
-            base_url += "&encoding=linear16&container=wav"
+            params["encoding"] = "linear16"
+            params["container"] = "wav"
         elif audio_format == "ogg":
-            base_url += "&encoding=opus&container=ogg"
+            params["encoding"] = "opus"
+            params["container"] = "ogg"
         # For mp3 (default), don't pass container - Deepgram defaults to mp3
 
-        # Add all provider_params as query parameters
-        for key, value in provider_params.items():
-            base_url += f"&{key}={value}"
+        # Merge provider_params (allows overriding encoding/container if needed)
+        params.update(provider_params)
 
         headers = {
             "Authorization": f"Token {self.api_key}",
@@ -400,7 +408,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         payload = {"text": text}
 
         try:
-            response = requests.post(base_url, headers=headers, json=payload)
+            response = requests.post(base_url, headers=headers, json=payload, params=params)
             response.raise_for_status()
         except requests.exceptions.Timeout as exc:
             raise ProviderException(message="Request timed out", code=408) from exc
