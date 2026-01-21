@@ -28,6 +28,7 @@ def get_tts_config(provider_name: str) -> Dict[str, Any]:
         "default_voice": constraints.get("default_voice"),
         "voice_ids": constraints.get("voice_ids", {}),
         "voices_lookup": constraints.get("voices_lookup", {}),
+        "voices": constraints.get("voices", []),
     }
 
 
