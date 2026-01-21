@@ -300,6 +300,8 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:
@@ -392,6 +394,8 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:

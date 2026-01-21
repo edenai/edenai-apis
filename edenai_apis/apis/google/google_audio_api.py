@@ -182,6 +182,8 @@ class GoogleAudioApi(AudioInterface):
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:
@@ -195,9 +197,9 @@ class GoogleAudioApi(AudioInterface):
                    Defaults to "en-US-Standard-A"
             audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0). Defaults to 1.0
+            speaking_pitch: Pitch adjustment (-100 to 100, 0 = normal)
+            speaking_volume: Volume adjustment (-100 to 100, 0 = normal)
             provider_params: Provider-specific settings:
-                - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
-                - speaking_volume: Volume adjustment (-100 to 100, default 0)
                 - sampling_rate: Audio sampling rate in Hz
                 - language_code: Language code for Gemini TTS (default: "en-US")
         """
@@ -281,19 +283,16 @@ class GoogleAudioApi(AudioInterface):
         if speed is not None and not is_gemini_model:
             audio_config_params["speaking_rate"] = max(0.25, min(4.0, speed))
 
-        # Apply provider params (not all supported for Gemini)
+        # Apply pitch and volume (not supported for Gemini)
         if not is_gemini_model:
-            if provider_params.get("speaking_pitch") is not None:
+            if speaking_pitch is not None:
                 audio_config_params["pitch"] = (
-                    convert_pitch_from_percentage_to_semitones(
-                        provider_params["speaking_pitch"]
-                    )
+                    convert_pitch_from_percentage_to_semitones(speaking_pitch)
                 )
-            if provider_params.get("speaking_volume") is not None:
+            if speaking_volume is not None:
                 # Volume gain in dB (-96 to 16)
-                volume = provider_params["speaking_volume"]
                 audio_config_params["volume_gain_db"] = max(
-                    -96, min(16, volume * 6 / 100)
+                    -96, min(16, speaking_volume * 6 / 100)
                 )
         if provider_params.get("sampling_rate") is not None:
             audio_config_params["sample_rate_hertz"] = provider_params["sampling_rate"]
@@ -329,6 +328,8 @@ class GoogleAudioApi(AudioInterface):
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:
@@ -342,9 +343,9 @@ class GoogleAudioApi(AudioInterface):
                    Defaults to "en-US-Standard-A"
             audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0). Defaults to 1.0
+            speaking_pitch: Pitch adjustment (-100 to 100, 0 = normal)
+            speaking_volume: Volume adjustment (-100 to 100, 0 = normal)
             provider_params: Provider-specific settings:
-                - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
-                - speaking_volume: Volume adjustment (-100 to 100, default 0)
                 - sampling_rate: Audio sampling rate in Hz
                 - language_code: Language code for Gemini TTS (default: "en-US")
         """
@@ -428,19 +429,16 @@ class GoogleAudioApi(AudioInterface):
         if speed is not None and not is_gemini_model:
             audio_config_params["speaking_rate"] = max(0.25, min(4.0, speed))
 
-        # Apply provider params (not all supported for Gemini)
+        # Apply pitch and volume (not supported for Gemini)
         if not is_gemini_model:
-            if provider_params.get("speaking_pitch") is not None:
+            if speaking_pitch is not None:
                 audio_config_params["pitch"] = (
-                    convert_pitch_from_percentage_to_semitones(
-                        provider_params["speaking_pitch"]
-                    )
+                    convert_pitch_from_percentage_to_semitones(speaking_pitch)
                 )
-            if provider_params.get("speaking_volume") is not None:
+            if speaking_volume is not None:
                 # Volume gain in dB (-96 to 16)
-                volume = provider_params["speaking_volume"]
                 audio_config_params["volume_gain_db"] = max(
-                    -96, min(16, volume * 6 / 100)
+                    -96, min(16, speaking_volume * 6 / 100)
                 )
         if provider_params.get("sampling_rate") is not None:
             audio_config_params["sample_rate_hertz"] = provider_params["sampling_rate"]

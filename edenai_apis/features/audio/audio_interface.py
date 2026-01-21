@@ -122,6 +122,8 @@ class AudioInterface:
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:
@@ -136,6 +138,10 @@ class AudioInterface:
             audio_format (str): Audio format (default: mp3)
             speed (float): Speech speed multiplier (0.25 to 4.0, 1.0 = normal).
                 Providers with narrower ranges will clamp the value.
+            speaking_pitch (int): Pitch adjustment (-100 to 100, 0 = normal).
+                Supported by: Google, Amazon, Microsoft. Ignored by others.
+            speaking_volume (int): Volume adjustment (-100 to 100, 0 = normal).
+                Supported by: Google, Amazon, Microsoft. Ignored by others.
             provider_params (dict): Provider-specific settings
         """
         raise NotImplementedError
@@ -148,6 +154,8 @@ class AudioInterface:
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:
@@ -162,6 +170,10 @@ class AudioInterface:
             audio_format (str): Audio format (default: mp3)
             speed (float): Speech speed multiplier (0.25 to 4.0, 1.0 = normal).
                 Providers with narrower ranges will clamp the value.
+            speaking_pitch (int): Pitch adjustment (-100 to 100, 0 = normal).
+                Supported by: Google, Amazon, Microsoft. Ignored by others.
+            speaking_volume (int): Volume adjustment (-100 to 100, 0 = normal).
+                Supported by: Google, Amazon, Microsoft. Ignored by others.
             provider_params (dict): Provider-specific settings
         """
         raise NotImplementedError

@@ -173,6 +173,8 @@ class AmazonAudioApi(AudioInterface):
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:
@@ -186,9 +188,9 @@ class AmazonAudioApi(AudioInterface):
                    Defaults to value from info.json
             audio_format: Audio format (mp3, ogg, pcm). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0, clamped to 0.2-2.0). Defaults to 1.0
-            provider_params: Provider-specific settings:
-                - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
-                - speaking_volume: Volume adjustment (-100 to 100, default 0)
+            speaking_pitch: Pitch adjustment (-100 to 100, 0 = normal)
+            speaking_volume: Volume adjustment (-100 to 100, 0 = normal)
+            provider_params: Additional provider-specific settings
         """
         provider_params = provider_params or {}
         config = get_tts_config("amazon")
@@ -213,11 +215,11 @@ class AmazonAudioApi(AudioInterface):
             # Convert to speaking_rate: subtract 100 because helper adds 100 back
             speaking_rate = int(mapped_speed * 100 - 100)
 
-        speaking_pitch = provider_params.get("speaking_pitch", 0)
-        speaking_volume = provider_params.get("speaking_volume", 0)
+        resolved_pitch = speaking_pitch if speaking_pitch is not None else 0
+        resolved_volume = speaking_volume if speaking_volume is not None else 0
 
         ssml_text = generate_right_ssml_text(
-            text, speaking_rate, speaking_pitch, speaking_volume
+            text, speaking_rate, resolved_pitch, resolved_volume
         )
 
         # Get audio format settings
@@ -270,6 +272,8 @@ class AmazonAudioApi(AudioInterface):
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:
@@ -283,9 +287,9 @@ class AmazonAudioApi(AudioInterface):
                    Defaults to value from info.json
             audio_format: Audio format (mp3, ogg, pcm). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0, clamped to 0.2-2.0). Defaults to 1.0
-            provider_params: Provider-specific settings:
-                - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
-                - speaking_volume: Volume adjustment (-100 to 100, default 0)
+            speaking_pitch: Pitch adjustment (-100 to 100, 0 = normal)
+            speaking_volume: Volume adjustment (-100 to 100, 0 = normal)
+            provider_params: Additional provider-specific settings
         """
         provider_params = provider_params or {}
         config = get_tts_config("amazon")
@@ -310,11 +314,11 @@ class AmazonAudioApi(AudioInterface):
             # Convert to speaking_rate: subtract 100 because helper adds 100 back
             speaking_rate = int(mapped_speed * 100 - 100)
 
-        speaking_pitch = provider_params.get("speaking_pitch", 0)
-        speaking_volume = provider_params.get("speaking_volume", 0)
+        resolved_pitch = speaking_pitch if speaking_pitch is not None else 0
+        resolved_volume = speaking_volume if speaking_volume is not None else 0
 
         ssml_text = generate_right_ssml_text(
-            text, speaking_rate, speaking_pitch, speaking_volume
+            text, speaking_rate, resolved_pitch, resolved_volume
         )
 
         # Get audio format settings
