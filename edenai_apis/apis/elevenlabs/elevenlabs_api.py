@@ -191,9 +191,11 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
             audio_format: Audio format (mp3, wav, pcm, opus, alaw, ulaw).
                    Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0, mapped to 0.7-1.2). Defaults to 1.0
-            provider_params: Provider-specific settings:
+            provider_params: Additional ElevenLabs API parameters passed to voice_settings:
                 - stability: Voice stability (0.0 to 1.0, default 0.5)
-                - similarity_boost: Voice similarity (0.0 to 1.0, default 0.5)
+                - similarity_boost: Voice similarity (0.0 to 1.0, default 0.75)
+                - style: Style exaggeration (0.0 to 1.0, default 0)
+                - use_speaker_boost: Boost similarity (boolean, default True)
         """
         provider_params = provider_params or {}
         config = get_tts_config("elevenlabs")
@@ -212,10 +214,6 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
 
         url = f"{self.base_url}text-to-speech/{voice_id}"
 
-        # Voice settings
-        stability = provider_params.get("stability", 0.5)
-        similarity_boost = provider_params.get("similarity_boost", 0.5)
-
         # Map standard speed range (0.25-4.0) to ElevenLabs' range (0.7-1.2)
         mapped_speed = 1.0
         if speed is not None:
@@ -231,14 +229,20 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         # Convert audio format to ElevenLabs format and get file extension
         elevenlabs_format, file_extension = get_audio_format_and_extension(audio_format)
 
+        # Voice settings with defaults, overridden by provider_params
+        voice_settings = {
+            "stability": 0.5,
+            "similarity_boost": 0.75,
+            "style": 0.0,
+            "use_speaker_boost": True,
+            "speed": mapped_speed,
+            **provider_params,
+        }
+
         data = {
             "text": text,
             "model_id": resolved_model,
-            "voice_settings": {
-                "stability": stability,
-                "similarity_boost": similarity_boost,
-                "speed": mapped_speed,
-            },
+            "voice_settings": voice_settings,
             "output_format": elevenlabs_format,
         }
 
@@ -287,9 +291,11 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
             audio_format: Audio format (mp3, wav, pcm, opus, alaw, ulaw).
                    Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0, mapped to 0.7-1.2). Defaults to 1.0
-            provider_params: Provider-specific settings:
+            provider_params: Additional ElevenLabs API parameters passed to voice_settings:
                 - stability: Voice stability (0.0 to 1.0, default 0.5)
-                - similarity_boost: Voice similarity (0.0 to 1.0, default 0.5)
+                - similarity_boost: Voice similarity (0.0 to 1.0, default 0.75)
+                - style: Style exaggeration (0.0 to 1.0, default 0)
+                - use_speaker_boost: Boost similarity (boolean, default True)
         """
         provider_params = provider_params or {}
         config = get_tts_config("elevenlabs")
@@ -308,10 +314,6 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
 
         url = f"{self.base_url}text-to-speech/{voice_id}"
 
-        # Voice settings
-        stability = provider_params.get("stability", 0.5)
-        similarity_boost = provider_params.get("similarity_boost", 0.5)
-
         # Map standard speed range (0.25-4.0) to ElevenLabs' range (0.7-1.2)
         mapped_speed = 1.0
         if speed is not None:
@@ -327,14 +329,20 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         # Convert audio format to ElevenLabs format and get file extension
         elevenlabs_format, file_extension = get_audio_format_and_extension(audio_format)
 
+        # Voice settings with defaults, overridden by provider_params
+        voice_settings = {
+            "stability": 0.5,
+            "similarity_boost": 0.75,
+            "style": 0.0,
+            "use_speaker_boost": True,
+            "speed": mapped_speed,
+            **provider_params,
+        }
+
         data = {
             "text": text,
             "model_id": resolved_model,
-            "voice_settings": {
-                "stability": stability,
-                "similarity_boost": similarity_boost,
-                "speed": mapped_speed,
-            },
+            "voice_settings": voice_settings,
             "output_format": elevenlabs_format,
         }
 

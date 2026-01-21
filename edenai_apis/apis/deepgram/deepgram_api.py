@@ -285,8 +285,10 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             voice: Alternative to model parameter (same functionality)
             audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
             speed: Not supported by Deepgram (ignored)
-            provider_params: Provider-specific settings:
+            provider_params: Additional Deepgram API parameters passed as query params:
                 - sample_rate: Audio sample rate in Hz
+                - encoding: Audio encoding (linear16, mulaw, alaw)
+                - container: Audio container format
         """
         provider_params = provider_params or {}
         config = get_tts_config("deepgram")
@@ -304,8 +306,9 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             base_url += "&encoding=opus&container=ogg"
         # For mp3 (default), don't pass container - Deepgram defaults to mp3
 
-        if provider_params.get("sample_rate"):
-            base_url += f"&sample_rate={provider_params['sample_rate']}"
+        # Add all provider_params as query parameters
+        for key, value in provider_params.items():
+            base_url += f"&{key}={value}"
 
         headers = {
             "Authorization": f"Token {self.api_key}",
@@ -356,8 +359,10 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             voice: Alternative to model parameter (same functionality)
             audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
             speed: Not supported by Deepgram (ignored)
-            provider_params: Provider-specific settings:
+            provider_params: Additional Deepgram API parameters passed as query params:
                 - sample_rate: Audio sample rate in Hz
+                - encoding: Audio encoding (linear16, mulaw, alaw)
+                - container: Audio container format
         """
         provider_params = provider_params or {}
         config = get_tts_config("deepgram")
@@ -375,8 +380,9 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             base_url += "&encoding=opus&container=ogg"
         # For mp3 (default), don't pass container - Deepgram defaults to mp3
 
-        if provider_params.get("sample_rate"):
-            base_url += f"&sample_rate={provider_params['sample_rate']}"
+        # Add all provider_params as query parameters
+        for key, value in provider_params.items():
+            base_url += f"&{key}={value}"
 
         headers = {
             "Authorization": f"Token {self.api_key}",

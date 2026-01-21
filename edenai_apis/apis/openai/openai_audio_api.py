@@ -205,8 +205,11 @@ class OpenaiAudioApi(AudioInterface):
                    Defaults to value from info.json
             audio_format: Audio format (mp3, opus, aac, flac, wav, pcm). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0). Defaults to 1.0
-            provider_params: Additional provider-specific parameters (not used for OpenAI)
+            provider_params: Additional OpenAI API parameters passed directly to the request.
+                - instructions: Voice instructions for gpt-4o-mini-tts model
+                  (e.g., "Speak in a warm, friendly tone with slight excitement")
         """
+        provider_params = provider_params or {}
         url = "https://api.openai.com/v1/audio/speech"
 
         # Load constraints and set defaults from config
@@ -221,6 +224,7 @@ class OpenaiAudioApi(AudioInterface):
             "voice": resolved_voice,
             "speed": resolved_speed,
             "response_format": audio_format or "mp3",
+            **provider_params,
         }
 
         try:
@@ -266,8 +270,11 @@ class OpenaiAudioApi(AudioInterface):
                    Defaults to value from info.json
             audio_format: Audio format (mp3, opus, aac, flac, wav, pcm). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0). Defaults to 1.0
-            provider_params: Additional provider-specific parameters (not used for OpenAI)
+            provider_params: Additional OpenAI API parameters passed directly to the request.
+                - instructions: Voice instructions for gpt-4o-mini-tts model
+                  (e.g., "Speak in a warm, friendly tone with slight excitement")
         """
+        provider_params = provider_params or {}
         url = "https://api.openai.com/v1/audio/speech"
 
         # Load constraints and set defaults from config
@@ -282,6 +289,7 @@ class OpenaiAudioApi(AudioInterface):
             "voice": resolved_voice,
             "speed": resolved_speed,
             "response_format": audio_format or "mp3",
+            **provider_params,
         }
 
         try:
