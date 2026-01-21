@@ -191,13 +191,8 @@ class MicrosoftAudioApi(AudioInterface):
         provider_params = provider_params or {}
         config = get_tts_config("microsoft")
 
-        # Set defaults from info.json
-        voice_input = voice or config["default_voice"]
-        voice_lower = voice_input.lower()
-        if voice_lower in config["voices_lookup"]:
-            resolved_voice = config["voices_lookup"][voice_lower]
-        else:
-            resolved_voice = voice_input
+        # Set defaults from info.json (normalize to lowercase)
+        resolved_voice = (voice or config["default_voice"]).lower()
 
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
@@ -254,9 +249,7 @@ class MicrosoftAudioApi(AudioInterface):
         resource_url = await aupload_file_bytes_to_s3(
             audio_content, f".{ext}", USER_PROCESS
         )
-        standardized_response = TtsDataClass(
-            audio_resource_url=resource_url
-        )
+        standardized_response = TtsDataClass(audio_resource_url=resource_url)
 
         return ResponseType[TtsDataClass](
             original_response={}, standardized_response=standardized_response
@@ -287,13 +280,8 @@ class MicrosoftAudioApi(AudioInterface):
         provider_params = provider_params or {}
         config = get_tts_config("microsoft")
 
-        # Set defaults from info.json
-        voice_input = voice or config["default_voice"]
-        voice_lower = voice_input.lower()
-        if voice_lower in config["voices_lookup"]:
-            resolved_voice = config["voices_lookup"][voice_lower]
-        else:
-            resolved_voice = voice_input
+        # Set defaults from info.json (normalize to lowercase)
+        resolved_voice = (voice or config["default_voice"]).lower()
 
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
@@ -343,9 +331,7 @@ class MicrosoftAudioApi(AudioInterface):
 
         audio_content = BytesIO(response.audio_data)
         resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
-        standardized_response = TtsDataClass(
-            audio_resource_url=resource_url
-        )
+        standardized_response = TtsDataClass(audio_resource_url=resource_url)
 
         return ResponseType[TtsDataClass](
             original_response={}, standardized_response=standardized_response
