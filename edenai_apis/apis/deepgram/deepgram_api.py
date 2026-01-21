@@ -291,13 +291,8 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         provider_params = provider_params or {}
         config = get_tts_config("deepgram")
 
-        # Set defaults - Deepgram uses model as voice identifier
-        resolved_model = voice or model or config["default_voice"]
-
-        # Case-insensitive voice lookup
-        voice_lower = resolved_model.lower()
-        if voice_lower in config["voices_lookup"]:
-            resolved_model = config["voices_lookup"][voice_lower]
+        # Set defaults - Deepgram uses model as voice identifier (normalize to lowercase)
+        resolved_model = (voice or model or config["default_voice"]).lower()
 
         base_url = f"https://api.deepgram.com/v1/speak?model={resolved_model}"
 
@@ -367,13 +362,8 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         provider_params = provider_params or {}
         config = get_tts_config("deepgram")
 
-        # Set defaults - Deepgram uses model as voice identifier
-        resolved_model = voice or model or config["default_voice"]
-
-        # Case-insensitive voice lookup
-        voice_lower = resolved_model.lower()
-        if voice_lower in config["voices_lookup"]:
-            resolved_model = config["voices_lookup"][voice_lower]
+        # Set defaults - Deepgram uses model as voice identifier (normalize to lowercase)
+        resolved_model = (voice or model or config["default_voice"]).lower()
 
         base_url = f"https://api.deepgram.com/v1/speak?model={resolved_model}"
 
