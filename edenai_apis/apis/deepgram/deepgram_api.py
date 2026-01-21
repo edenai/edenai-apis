@@ -287,6 +287,8 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             voice: Alternative to model parameter (same functionality)
             audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
             speed: Not supported by Deepgram (ignored)
+            speaking_pitch: Not supported by Deepgram (ignored)
+            speaking_volume: Not supported by Deepgram (ignored)
             provider_params: Additional Deepgram API parameters passed as query params:
                 - sample_rate: Audio sample rate in Hz
                 - encoding: Audio encoding (linear16, mulaw, alaw)
@@ -363,6 +365,8 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             voice: Alternative to model parameter (same functionality)
             audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
             speed: Not supported by Deepgram (ignored)
+            speaking_pitch: Not supported by Deepgram (ignored)
+            speaking_volume: Not supported by Deepgram (ignored)
             provider_params: Additional Deepgram API parameters passed as query params:
                 - sample_rate: Audio sample rate in Hz
                 - encoding: Audio encoding (linear16, mulaw, alaw)
