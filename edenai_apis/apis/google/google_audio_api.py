@@ -204,51 +204,53 @@ class GoogleAudioApi(AudioInterface):
         provider_params = provider_params or {}
         config = get_tts_config("google")
 
+        # Normalize model and voice to lowercase
+        resolved_model = model.lower() if model else None
+        resolved_voice = voice.lower() if voice else None
+
         # Check if using Gemini TTS model
-        is_gemini_model = model and model.startswith("gemini-")
+        is_gemini_model = resolved_model and resolved_model.startswith("gemini-")
 
         if is_gemini_model:
-            # Gemini TTS uses simple voice names like "Kore", "Puck", etc.
+            # Gemini TTS uses simple voice names like "kore", "puck", etc.
             gemini_voices = [v for v in config["voices"] if "-" not in v]
-            if voice:
+            if resolved_voice:
                 # Validate voice is a Gemini voice
-                if voice not in gemini_voices:
+                if resolved_voice not in gemini_voices:
                     raise ProviderException(
                         f"Voice '{voice}' is not supported for Gemini model '{model}'. "
                         f"Supported voices: {', '.join(gemini_voices)}"
                     )
-                resolved_voice = voice
             else:
-                resolved_voice = gemini_voices[0] if gemini_voices else "Kore"
+                resolved_voice = gemini_voices[0] if gemini_voices else "kore"
             language_code = provider_params.get("language_code", "en-US")
 
             voice_params = texttospeech.VoiceSelectionParams(
                 language_code=language_code,
                 name=resolved_voice,
-                model_name=model,
+                model_name=resolved_model,
             )
         else:
-            # Standard/WaveNet/Neural2 voices use format like "en-US-Standard-A"
-            if model:
+            # Standard/WaveNet/Neural2 voices use format like "en-us-standard-a"
+            if resolved_model:
                 # Get voices matching the selected model
-                model_pattern = f"-{model}-"
+                model_pattern = f"-{resolved_model}-"
                 matching_voices = [v for v in config["voices"] if model_pattern in v]
-                if voice:
+                if resolved_voice:
                     # Validate voice matches the selected model
-                    if model_pattern not in voice:
+                    if model_pattern not in resolved_voice:
                         raise ProviderException(
                             f"Voice '{voice}' is not a {model} voice. "
                             f"Supported {model} voices: {', '.join(matching_voices)}"
                         )
-                    resolved_voice = voice
                 else:
                     resolved_voice = (
                         matching_voices[0] if matching_voices else config["default_voice"]
                     )
             else:
-                resolved_voice = voice or config["default_voice"]
+                resolved_voice = resolved_voice or config["default_voice"]
 
-            # Extract language code from voice ID (e.g., "en-US-Wavenet-D" -> "en-US")
+            # Extract language code from voice ID (e.g., "en-us-wavenet-d" -> "en-us")
             parts = resolved_voice.split("-")
             if len(parts) >= 2:
                 language_code = f"{parts[0]}-{parts[1]}"
@@ -349,51 +351,53 @@ class GoogleAudioApi(AudioInterface):
         provider_params = provider_params or {}
         config = get_tts_config("google")
 
+        # Normalize model and voice to lowercase
+        resolved_model = model.lower() if model else None
+        resolved_voice = voice.lower() if voice else None
+
         # Check if using Gemini TTS model
-        is_gemini_model = model and model.startswith("gemini-")
+        is_gemini_model = resolved_model and resolved_model.startswith("gemini-")
 
         if is_gemini_model:
-            # Gemini TTS uses simple voice names like "Kore", "Puck", etc.
+            # Gemini TTS uses simple voice names like "kore", "puck", etc.
             gemini_voices = [v for v in config["voices"] if "-" not in v]
-            if voice:
+            if resolved_voice:
                 # Validate voice is a Gemini voice
-                if voice not in gemini_voices:
+                if resolved_voice not in gemini_voices:
                     raise ProviderException(
                         f"Voice '{voice}' is not supported for Gemini model '{model}'. "
                         f"Supported voices: {', '.join(gemini_voices)}"
                     )
-                resolved_voice = voice
             else:
-                resolved_voice = gemini_voices[0] if gemini_voices else "Kore"
+                resolved_voice = gemini_voices[0] if gemini_voices else "kore"
             language_code = provider_params.get("language_code", "en-US")
 
             voice_params = texttospeech.VoiceSelectionParams(
                 language_code=language_code,
                 name=resolved_voice,
-                model_name=model,
+                model_name=resolved_model,
             )
         else:
-            # Standard/WaveNet/Neural2 voices use format like "en-US-Standard-A"
-            if model:
+            # Standard/WaveNet/Neural2 voices use format like "en-us-standard-a"
+            if resolved_model:
                 # Get voices matching the selected model
-                model_pattern = f"-{model}-"
+                model_pattern = f"-{resolved_model}-"
                 matching_voices = [v for v in config["voices"] if model_pattern in v]
-                if voice:
+                if resolved_voice:
                     # Validate voice matches the selected model
-                    if model_pattern not in voice:
+                    if model_pattern not in resolved_voice:
                         raise ProviderException(
                             f"Voice '{voice}' is not a {model} voice. "
                             f"Supported {model} voices: {', '.join(matching_voices)}"
                         )
-                    resolved_voice = voice
                 else:
                     resolved_voice = (
                         matching_voices[0] if matching_voices else config["default_voice"]
                     )
             else:
-                resolved_voice = voice or config["default_voice"]
+                resolved_voice = resolved_voice or config["default_voice"]
 
-            # Extract language code from voice ID (e.g., "en-US-Wavenet-D" -> "en-US")
+            # Extract language code from voice ID (e.g., "en-us-wavenet-d" -> "en-us")
             parts = resolved_voice.split("-")
             if len(parts) >= 2:
                 language_code = f"{parts[0]}-{parts[1]}"
