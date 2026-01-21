@@ -27,6 +27,7 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
 from edenai_apis.features.audio.tts import TtsDataClass
 from edenai_apis.utils.exception import LanguageException, ProviderException
 from edenai_apis.utils.ssml import is_ssml
+from edenai_apis.utils.tts import get_tts_config
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -181,6 +182,8 @@ class GoogleAudioApi(AudioInterface):
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:
@@ -194,44 +197,63 @@ class GoogleAudioApi(AudioInterface):
                    Defaults to "en-US-Standard-A"
             audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0). Defaults to 1.0
+            speaking_pitch: Pitch adjustment (-100 to 100, 0 = normal)
+            speaking_volume: Volume adjustment (-100 to 100, 0 = normal)
             provider_params: Provider-specific settings:
-                - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
-                - speaking_volume: Volume adjustment (-100 to 100, default 0)
                 - sampling_rate: Audio sampling rate in Hz
                 - language_code: Language code for Gemini TTS (default: "en-US")
         """
         provider_params = provider_params or {}
+        config = get_tts_config("google")
+
+        # Normalize model and voice to lowercase
+        resolved_model = model.lower() if model else None
+        resolved_voice = voice.lower() if voice else None
 
         # Check if using Gemini TTS model
-        is_gemini_model = model and model.startswith("gemini-")
+        is_gemini_model = resolved_model and resolved_model.startswith("gemini-")
 
         if is_gemini_model:
-            # Gemini TTS uses simple voice names like "Kore", "Puck", etc.
-            resolved_voice = voice or "Kore"
+            # Gemini TTS uses simple voice names like "kore", "puck", etc.
+            gemini_voices = [v for v in config["voices"] if "-" not in v]
+            if resolved_voice:
+                # Validate voice is a Gemini voice
+                if resolved_voice not in gemini_voices:
+                    raise ProviderException(
+                        f"Voice '{voice}' is not supported for Gemini model '{model}'. "
+                        f"Supported voices: {', '.join(gemini_voices)}"
+                    )
+            else:
+                resolved_voice = gemini_voices[0] if gemini_voices else "kore"
             language_code = provider_params.get("language_code", "en-US")
 
             voice_params = texttospeech.VoiceSelectionParams(
                 language_code=language_code,
                 name=resolved_voice,
-                model_name=model,
+                model_name=resolved_model,
             )
         else:
-            # Standard/WaveNet/Neural2 voices use format like "en-US-Standard-A"
-            resolved_voice = voice or "en-US-Standard-A"
+            # Standard/WaveNet/Neural2/Chirp voices use format like "en-us-standard-a"
+            if resolved_voice:
+                # User specified a voice - use it directly, let API validate
+                pass
+            elif resolved_model:
+                # No voice specified but model is - find a matching voice from config
+                model_pattern = f"-{resolved_model}-"
+                matching_voices = [v for v in config["voices"] if model_pattern in v]
+                resolved_voice = (
+                    matching_voices[0] if matching_voices else config["default_voice"]
+                )
+            else:
+                # No voice or model specified - use default
+                resolved_voice = config["default_voice"]
 
-            # Extract language code from voice ID (e.g., "en-US-Wavenet-D" -> "en-US")
+            # Extract language code from voice ID (e.g., "en-us-wavenet-d" -> "en-us")
             parts = resolved_voice.split("-")
             if len(parts) >= 2:
                 language_code = f"{parts[0]}-{parts[1]}"
             else:
                 language_code = "en-US"
-
-            # If model is specified, override the model type in the voice name
-            # e.g., model="Wavenet" + voice="en-US-Standard-A" -> "en-US-Wavenet-A"
-            if model and len(parts) >= 4:
-                model_normalized = model.capitalize()
-                parts[2] = model_normalized
-                resolved_voice = "-".join(parts)
 
             voice_params = texttospeech.VoiceSelectionParams(
                 language_code=language_code, name=resolved_voice
@@ -257,16 +279,17 @@ class GoogleAudioApi(AudioInterface):
         if speed is not None and not is_gemini_model:
             audio_config_params["speaking_rate"] = max(0.25, min(4.0, speed))
 
-        # Apply provider params (not all supported for Gemini)
+        # Apply pitch and volume (not supported for Gemini)
         if not is_gemini_model:
-            if provider_params.get("speaking_pitch") is not None:
-                audio_config_params["pitch"] = convert_pitch_from_percentage_to_semitones(
-                    provider_params["speaking_pitch"]
+            if speaking_pitch is not None:
+                audio_config_params["pitch"] = (
+                    convert_pitch_from_percentage_to_semitones(speaking_pitch)
                 )
-            if provider_params.get("speaking_volume") is not None:
+            if speaking_volume is not None:
                 # Volume gain in dB (-96 to 16)
-                volume = provider_params["speaking_volume"]
-                audio_config_params["volume_gain_db"] = max(-96, min(16, volume * 6 / 100))
+                audio_config_params["volume_gain_db"] = max(
+                    -96, min(16, speaking_volume * 6 / 100)
+                )
         if provider_params.get("sampling_rate") is not None:
             audio_config_params["sample_rate_hertz"] = provider_params["sampling_rate"]
 
@@ -288,9 +311,7 @@ class GoogleAudioApi(AudioInterface):
             audio_content, f".{ext}", USER_PROCESS
         )
 
-        standardized_response = TtsDataClass(
-            audio_resource_url=resource_url
-        )
+        standardized_response = TtsDataClass(audio_resource_url=resource_url)
         return ResponseType[TtsDataClass](
             original_response={},
             standardized_response=standardized_response,
@@ -303,6 +324,8 @@ class GoogleAudioApi(AudioInterface):
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:
@@ -316,44 +339,63 @@ class GoogleAudioApi(AudioInterface):
                    Defaults to "en-US-Standard-A"
             audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0). Defaults to 1.0
+            speaking_pitch: Pitch adjustment (-100 to 100, 0 = normal)
+            speaking_volume: Volume adjustment (-100 to 100, 0 = normal)
             provider_params: Provider-specific settings:
-                - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
-                - speaking_volume: Volume adjustment (-100 to 100, default 0)
                 - sampling_rate: Audio sampling rate in Hz
                 - language_code: Language code for Gemini TTS (default: "en-US")
         """
         provider_params = provider_params or {}
+        config = get_tts_config("google")
+
+        # Normalize model and voice to lowercase
+        resolved_model = model.lower() if model else None
+        resolved_voice = voice.lower() if voice else None
 
         # Check if using Gemini TTS model
-        is_gemini_model = model and model.startswith("gemini-")
+        is_gemini_model = resolved_model and resolved_model.startswith("gemini-")
 
         if is_gemini_model:
-            # Gemini TTS uses simple voice names like "Kore", "Puck", etc.
-            resolved_voice = voice or "Kore"
+            # Gemini TTS uses simple voice names like "kore", "puck", etc.
+            gemini_voices = [v for v in config["voices"] if "-" not in v]
+            if resolved_voice:
+                # Validate voice is a Gemini voice
+                if resolved_voice not in gemini_voices:
+                    raise ProviderException(
+                        f"Voice '{voice}' is not supported for Gemini model '{model}'. "
+                        f"Supported voices: {', '.join(gemini_voices)}"
+                    )
+            else:
+                resolved_voice = gemini_voices[0] if gemini_voices else "kore"
             language_code = provider_params.get("language_code", "en-US")
 
             voice_params = texttospeech.VoiceSelectionParams(
                 language_code=language_code,
                 name=resolved_voice,
-                model_name=model,
+                model_name=resolved_model,
             )
         else:
-            # Standard/WaveNet/Neural2 voices use format like "en-US-Standard-A"
-            resolved_voice = voice or "en-US-Standard-A"
+            # Standard/WaveNet/Neural2/Chirp voices use format like "en-us-standard-a"
+            if resolved_voice:
+                # User specified a voice - use it directly, let API validate
+                pass
+            elif resolved_model:
+                # No voice specified but model is - find a matching voice from config
+                model_pattern = f"-{resolved_model}-"
+                matching_voices = [v for v in config["voices"] if model_pattern in v]
+                resolved_voice = (
+                    matching_voices[0] if matching_voices else config["default_voice"]
+                )
+            else:
+                # No voice or model specified - use default
+                resolved_voice = config["default_voice"]
 
-            # Extract language code from voice ID (e.g., "en-US-Wavenet-D" -> "en-US")
+            # Extract language code from voice ID (e.g., "en-us-wavenet-d" -> "en-us")
             parts = resolved_voice.split("-")
             if len(parts) >= 2:
                 language_code = f"{parts[0]}-{parts[1]}"
             else:
                 language_code = "en-US"
-
-            # If model is specified, override the model type in the voice name
-            # e.g., model="Wavenet" + voice="en-US-Standard-A" -> "en-US-Wavenet-A"
-            if model and len(parts) >= 4:
-                model_normalized = model.capitalize()
-                parts[2] = model_normalized
-                resolved_voice = "-".join(parts)
 
             voice_params = texttospeech.VoiceSelectionParams(
                 language_code=language_code, name=resolved_voice
@@ -379,16 +421,17 @@ class GoogleAudioApi(AudioInterface):
         if speed is not None and not is_gemini_model:
             audio_config_params["speaking_rate"] = max(0.25, min(4.0, speed))
 
-        # Apply provider params (not all supported for Gemini)
+        # Apply pitch and volume (not supported for Gemini)
         if not is_gemini_model:
-            if provider_params.get("speaking_pitch") is not None:
-                audio_config_params["pitch"] = convert_pitch_from_percentage_to_semitones(
-                    provider_params["speaking_pitch"]
+            if speaking_pitch is not None:
+                audio_config_params["pitch"] = (
+                    convert_pitch_from_percentage_to_semitones(speaking_pitch)
                 )
-            if provider_params.get("speaking_volume") is not None:
+            if speaking_volume is not None:
                 # Volume gain in dB (-96 to 16)
-                volume = provider_params["speaking_volume"]
-                audio_config_params["volume_gain_db"] = max(-96, min(16, volume * 6 / 100))
+                audio_config_params["volume_gain_db"] = max(
+                    -96, min(16, speaking_volume * 6 / 100)
+                )
         if provider_params.get("sampling_rate") is not None:
             audio_config_params["sample_rate_hertz"] = provider_params["sampling_rate"]
 
@@ -408,9 +451,7 @@ class GoogleAudioApi(AudioInterface):
         audio_content = BytesIO(response.audio_content)
         resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
 
-        standardized_response = TtsDataClass(
-            audio_resource_url=resource_url
-        )
+        standardized_response = TtsDataClass(audio_resource_url=resource_url)
         return ResponseType[TtsDataClass](
             original_response={},
             standardized_response=standardized_response,

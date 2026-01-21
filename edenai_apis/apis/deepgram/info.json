@@ -131,16 +131,6 @@
                 "models": ["aura"],
                 "default_model": "aura",
                 "voices": ["aura-asteria-en", "aura-luna-en", "aura-stella-en", "aura-athena-en", "aura-hera-en", "aura-orion-en", "aura-arcas-en", "aura-perseus-en"],
-                "voices_lookup": {
-                    "aura-asteria-en": "aura-asteria-en",
-                    "aura-luna-en": "aura-luna-en",
-                    "aura-stella-en": "aura-stella-en",
-                    "aura-athena-en": "aura-athena-en",
-                    "aura-hera-en": "aura-hera-en",
-                    "aura-orion-en": "aura-orion-en",
-                    "aura-arcas-en": "aura-arcas-en",
-                    "aura-perseus-en": "aura-perseus-en"
-                },
                 "default_voice": "aura-asteria-en",
                 "audio_format": ["mp3", "wav", "ogg"]
             },

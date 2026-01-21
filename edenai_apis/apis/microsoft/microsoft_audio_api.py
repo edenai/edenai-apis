@@ -173,6 +173,8 @@ class MicrosoftAudioApi(AudioInterface):
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:
@@ -184,20 +186,15 @@ class MicrosoftAudioApi(AudioInterface):
             voice: The voice ID (e.g., "en-US-JennyNeural"). Defaults to "en-US-JennyNeural"
             audio_format: Audio format (mp3, wav, pcm). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0, mapped to 0.5-2.0). Defaults to 1.0
-            provider_params: Provider-specific settings:
-                - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
-                - speaking_volume: Volume adjustment (-100 to 100, default 0)
+            speaking_pitch: Pitch adjustment (-100 to 100, 0 = normal)
+            speaking_volume: Volume adjustment (-100 to 100, 0 = normal)
+            provider_params: Additional provider-specific settings
         """
         provider_params = provider_params or {}
         config = get_tts_config("microsoft")
 
-        # Set defaults from info.json
-        voice_input = voice or config["default_voice"]
-        voice_lower = voice_input.lower()
-        if voice_lower in config["voices_lookup"]:
-            resolved_voice = config["voices_lookup"][voice_lower]
-        else:
-            resolved_voice = voice_input
+        # Set defaults from info.json (normalize to lowercase)
+        resolved_voice = (voice or config["default_voice"]).lower()
 
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
@@ -227,11 +224,11 @@ class MicrosoftAudioApi(AudioInterface):
                 mapped_speed = 1.0 + normalized * 1.0
             speaking_rate = int((mapped_speed - 1.0) * 100)
 
-        speaking_pitch = provider_params.get("speaking_pitch", 0)
-        speaking_volume = provider_params.get("speaking_volume", 0)
+        resolved_pitch = speaking_pitch if speaking_pitch is not None else 0
+        resolved_volume = speaking_volume if speaking_volume is not None else 0
 
         ssml_or_text = generate_right_ssml_text(
-            text, resolved_voice, speaking_rate, speaking_pitch, speaking_volume
+            text, resolved_voice, speaking_rate, resolved_pitch, resolved_volume
         )
 
         def _synthesize_blocking() -> bytes:
@@ -254,9 +251,7 @@ class MicrosoftAudioApi(AudioInterface):
         resource_url = await aupload_file_bytes_to_s3(
             audio_content, f".{ext}", USER_PROCESS
         )
-        standardized_response = TtsDataClass(
-            audio_resource_url=resource_url
-        )
+        standardized_response = TtsDataClass(audio_resource_url=resource_url)
 
         return ResponseType[TtsDataClass](
             original_response={}, standardized_response=standardized_response
@@ -269,6 +264,8 @@ class MicrosoftAudioApi(AudioInterface):
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:
@@ -280,20 +277,15 @@ class MicrosoftAudioApi(AudioInterface):
             voice: The voice ID (e.g., "en-US-JennyNeural"). Defaults to "en-US-JennyNeural"
             audio_format: Audio format (mp3, wav, pcm). Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0, mapped to 0.5-2.0). Defaults to 1.0
-            provider_params: Provider-specific settings:
-                - speaking_pitch: Pitch adjustment (-100 to 100, default 0)
-                - speaking_volume: Volume adjustment (-100 to 100, default 0)
+            speaking_pitch: Pitch adjustment (-100 to 100, 0 = normal)
+            speaking_volume: Volume adjustment (-100 to 100, 0 = normal)
+            provider_params: Additional provider-specific settings
         """
         provider_params = provider_params or {}
         config = get_tts_config("microsoft")
 
-        # Set defaults from info.json
-        voice_input = voice or config["default_voice"]
-        voice_lower = voice_input.lower()
-        if voice_lower in config["voices_lookup"]:
-            resolved_voice = config["voices_lookup"][voice_lower]
-        else:
-            resolved_voice = voice_input
+        # Set defaults from info.json (normalize to lowercase)
+        resolved_voice = (voice or config["default_voice"]).lower()
 
         speech_config = speechsdk.SpeechConfig(
             subscription=self.api_settings["speech"]["subscription_key"],
@@ -323,11 +315,11 @@ class MicrosoftAudioApi(AudioInterface):
                 mapped_speed = 1.0 + normalized * 1.0
             speaking_rate = int((mapped_speed - 1.0) * 100)
 
-        speaking_pitch = provider_params.get("speaking_pitch", 0)
-        speaking_volume = provider_params.get("speaking_volume", 0)
+        resolved_pitch = speaking_pitch if speaking_pitch is not None else 0
+        resolved_volume = speaking_volume if speaking_volume is not None else 0
 
         ssml_or_text = generate_right_ssml_text(
-            text, resolved_voice, speaking_rate, speaking_pitch, speaking_volume
+            text, resolved_voice, speaking_rate, resolved_pitch, resolved_volume
         )
 
         synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
@@ -343,9 +335,7 @@ class MicrosoftAudioApi(AudioInterface):
 
         audio_content = BytesIO(response.audio_data)
         resource_url = upload_file_bytes_to_s3(audio_content, f".{ext}", USER_PROCESS)
-        standardized_response = TtsDataClass(
-            audio_resource_url=resource_url
-        )
+        standardized_response = TtsDataClass(audio_resource_url=resource_url)
 
         return ResponseType[TtsDataClass](
             original_response={}, standardized_response=standardized_response

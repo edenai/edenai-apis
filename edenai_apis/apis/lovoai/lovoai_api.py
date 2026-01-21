@@ -300,6 +300,8 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:
@@ -311,7 +313,8 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             voice: The voice ID (e.g., "en-US_Alysha Imani"). Defaults to "en-US_Alysha Imani"
             audio_format: Audio format. Defaults to "mp3"
             speed: Speech speed (0.5 to 1.5). Defaults to 1.0
-            provider_params: Provider-specific settings (none currently)
+            provider_params: Additional LovoAI API parameters:
+                - speakerStyle: Speaker style ID for emotions/styles
         """
         provider_params = provider_params or {}
         config = get_tts_config("lovoai")
@@ -334,6 +337,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             "text": text,
             "speaker": speaker_id,
             "speed": resolved_speed,
+            **provider_params,
         }
 
         try:
@@ -390,6 +394,8 @@ class LovoaiApi(ProviderInterface, AudioInterface):
         voice: Optional[str] = None,
         audio_format: str = "mp3",
         speed: Optional[float] = None,
+        speaking_pitch: Optional[int] = None,
+        speaking_volume: Optional[int] = None,
         provider_params: Optional[dict] = None,
         **kwargs,
     ) -> ResponseType[TtsDataClass]:
@@ -401,7 +407,8 @@ class LovoaiApi(ProviderInterface, AudioInterface):
             voice: The voice ID (e.g., "en-US_Alysha Imani"). Defaults to "en-US_Alysha Imani"
             audio_format: Audio format. Defaults to "mp3"
             speed: Speech speed (0.5 to 1.5). Defaults to 1.0
-            provider_params: Provider-specific settings (none currently)
+            provider_params: Additional LovoAI API parameters:
+                - speakerStyle: Speaker style ID for emotions/styles
         """
         provider_params = provider_params or {}
         config = get_tts_config("lovoai")
@@ -425,6 +432,7 @@ class LovoaiApi(ProviderInterface, AudioInterface):
                 "text": text,
                 "speaker": speaker_id,
                 "speed": resolved_speed,
+                **provider_params,
             }
         )
 
