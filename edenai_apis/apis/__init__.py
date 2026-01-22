@@ -73,6 +73,6 @@ from .iointelligence import IointelligenceApi
 from .bytedance import BytedanceApi
 from .dashscope import DashscopeApi
 from .deepinfra import DeepinfraApi
-from .fireworks_ai import FireworksAiAPI
+from .fireworks_ai import FireworksAiApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

@@ -1,1 +1,1 @@
-from fireworks_ai_api import FireworksAiAPI
+from .fireworks_ai_api import FireworksAiApi

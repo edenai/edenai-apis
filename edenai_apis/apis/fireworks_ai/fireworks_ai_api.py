@@ -9,7 +9,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 
 
-class FireworksAiAPI(ProviderInterface):
+class FireworksAiApi(ProviderInterface):
     provider_name = "fireworks_ai"
 
     def __init__(self, api_keys: dict = {}):
