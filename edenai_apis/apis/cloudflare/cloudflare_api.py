@@ -13,15 +13,16 @@ class CloudflareApi(ProviderInterface):
     provider_name = "cloudflare"
 
     def __init__(self, api_keys: dict = {}):
-        # self.api_settings = load_provider(
-        #     ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
-        # )
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
 
-        self.api_key = None#self.api_settings.get("api_key")
+        self.api_key = self.api_settings.get("api_key")
 
         # # We need to store CLOUDFLARE_ACCOUNT_ID in env. Litellm handle auth like that
 
-        # os.environ["CLOUDFLARE_ACCOUNT_ID"] = self.api_settings.get("account_id")
+        os.environ["CLOUDFLARE_API_KEY"] = self.api_key
+        os.environ["CLOUDFLARE_ACCOUNT_ID"] = self.api_settings.get("account_id")
 
         self.llm_client = LLMEngine(
             provider_name=self.provider_name,
