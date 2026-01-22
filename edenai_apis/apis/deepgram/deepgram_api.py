@@ -360,14 +360,40 @@ class DeepgramApi(ProviderInterface, AudioInterface):
 
         If only a model name is provided (e.g., "aura" or "aura-2"),
         returns the default English voice for that model.
+        If voice is provided, validates it against model if specified.
         """
-        resolved = (voice or model or config["default_voice"]).lower()
+        model_lower = model.lower() if model else None
+        voice_lower = voice.lower() if voice else None
+
+        # If voice is provided, validate against model and return
+        if voice_lower:
+            # Validate voice matches model if both are specified
+            if model_lower in self.MODEL_DEFAULT_VOICES:
+                is_aura2_voice = voice_lower.startswith("aura-2-")
+                if model_lower == "aura" and is_aura2_voice:
+                    raise ProviderException(
+                        f"Voice '{voice}' is not compatible with model '{model}'. "
+                        f"Use an Aura-1 voice (e.g., 'aura-asteria-en') or model 'aura-2'.",
+                        code=400
+                    )
+                if model_lower == "aura-2" and not is_aura2_voice:
+                    raise ProviderException(
+                        f"Voice '{voice}' is not compatible with model '{model}'. "
+                        f"Use an Aura-2 voice (e.g., 'aura-2-thalia-en') or model 'aura'.",
+                        code=400
+                    )
+            return voice_lower
 
         # If only model name provided, use default voice for that model
-        if resolved in self.MODEL_DEFAULT_VOICES:
-            return self.MODEL_DEFAULT_VOICES[resolved]
+        if model_lower in self.MODEL_DEFAULT_VOICES:
+            return self.MODEL_DEFAULT_VOICES[model_lower]
 
-        return resolved
+        # If model is a full voice ID, use it
+        if model_lower:
+            return model_lower
+
+        # Fall back to config default
+        return config["default_voice"].lower()
 
     def audio__tts(
         self,
