@@ -64,7 +64,7 @@ class AudioInterface:
         speakers: int,
         profanity_filter: bool,
         vocabulary: Optional[List[str]],
-        audio_attributes: tuple,
+        audio_attributes: tuple = None,
         model: Optional[str] = None,
         file_url: str = "",
         provider_params: Optional[dict] = None,
