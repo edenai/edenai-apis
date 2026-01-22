@@ -1,0 +1,37 @@
+{
+  "id": "92c68e43-c433-4ded-9d2a-e1ad314e34ce",
+  "created": 1769078717,
+  "model": "fireworks_ai/accounts/fireworks/models/minimax-m2p1",
+  "object": "chat.completion",
+  "system_fingerprint": null,
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Hello! I'm MiniMax-M2.1, nice to meet you! \n\nI'm here and ready to help with whatever you need - whether that's coding, answering questions, brainstorming ideas, writing, analyzing information, or just having a conversation.\n\nWhat can I assist you with today?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "'reasoning_content": "The user has simply said \"Hello\". This is a greeting, so I should respond in a friendly and welcoming manner. Since I'm called MiniMax-M2.1, I should introduce myself and offer to help.\n\nI need to provide a response that:\n1. Is friendly and welcoming\n2. Introduces myself properly\n3. Offers assistance\n4. Is concise but warm\n\nLet me craft a nice greeting response."
+      },
+      "token_ids": null
+    }
+  ],
+  "provider_time": 5499940850,
+  "edenai_time": null,
+  "usage": {
+    "completion_tokens": 144,
+    "prompt_tokens": 38,
+    "total_tokens": 182,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 0,
+      "text_tokens": null,
+      "image_tokens": null
+    }
+  },
+  "prompt_token_ids": null,
+  "cost": 0.0002349
+}
