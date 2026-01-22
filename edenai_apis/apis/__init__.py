@@ -74,5 +74,6 @@ from .bytedance import BytedanceApi
 from .dashscope import DashscopeApi
 from .deepinfra import DeepinfraApi
 from .fireworks_ai import FireworksAiApi
+from .cerebras import CerebrasApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
