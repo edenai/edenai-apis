@@ -35,6 +35,9 @@ def validate_input_file_extension(constraints: dict, args: dict) -> dict:
 
     if not input_file or not provider_file_extensions_constraints:
         return args
+    # Skip validation if file_path is None (e.g., when using file_url directly)
+    if not input_file.file_path:
+        return args
     export_format = get_file_extension(input_file, provider_file_extensions_constraints)
     frame_rate = input_file.file_info.file_frame_rate
     channels = input_file.file_info.file_channels
