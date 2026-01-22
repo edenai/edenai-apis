@@ -500,7 +500,7 @@ class AmazonAudioApi(AudioInterface):
         Accepts media_uri directly (can be S3 URL or HTTPS URL)
         """
         provider_params = provider_params or {}
-        if speakers < 2:
+        if not speakers or speakers < 2:
             speakers = 2
         params = {
             "TranscriptionJobName": job_name,
