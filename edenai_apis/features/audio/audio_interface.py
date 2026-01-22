@@ -57,6 +57,42 @@ class AudioInterface:
         raise NotImplementedError
 
     @abstractmethod
+    async def audio__aspeech_to_text_async__launch_job(
+        self,
+        file: str,
+        language: str,
+        speakers: int,
+        profanity_filter: bool,
+        vocabulary: Optional[List[str]],
+        audio_attributes: tuple,
+        model: Optional[str] = None,
+        file_url: str = "",
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        """Launch an asynchronous job to convert an audio file to text (async version)
+        Args:
+            file (BufferedReader): audio file to analyze
+            language (str): language code in ISO format
+            speakers (int): number of speakers present in the audio
+            profanity_filter (bool): whether or not to filter profanity and replace inappropriate words.
+            vocabulary (list[str]): List of words or composed words to be detected by the speech to text engine
+            file_url (str): URL of audio file (alternative to file)
+            provider_params (dict): default to {}, provider specific parameters
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    async def audio__aspeech_to_text_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
+        """Get the result of an asynchronous job by its ID (async version)
+        Args:
+            - provider_job_id (str): id of async job
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def audio__speech_to_text_async__get_results_from_webhook(
         self, data: dict
     ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:

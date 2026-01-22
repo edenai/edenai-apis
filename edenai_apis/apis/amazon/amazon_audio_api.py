@@ -5,10 +5,12 @@ import uuid
 from io import BytesIO
 from pathlib import Path
 from typing import Optional
+
 import aioboto3
-
-
+import aiofiles
 import requests
+
+from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 
 from edenai_apis.apis.amazon.helpers import (
     generate_right_ssml_text,
@@ -436,6 +438,128 @@ class AmazonAudioApi(AudioInterface):
         payload = {"VocabularyName": vocab_name}
         handle_amazon_call(self.clients["speech"].delete_vocabulary, **payload)
 
+    # Async Speech to text helpers
+    async def _aupload_audio_file_to_amazon_server(self, file_path: str) -> str:
+        """
+        Async version: Upload audio file to Amazon S3 server
+        :param file_path: String that contains the audio file path
+        :return: String that contains the filename on the server
+        """
+        filename = str(uuid.uuid4())
+
+        async with aiofiles.open(file_path, "rb") as f:
+            file_content = await f.read()
+
+        session = aioboto3.Session()
+        async with session.resource(
+            "s3",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as s3:
+            bucket = await s3.Bucket(self.api_settings["bucket"])
+            await bucket.put_object(Key=filename, Body=file_content)
+
+        return filename
+
+    async def _acreate_vocabulary(self, language: str, list_vocabs: list) -> str:
+        """
+        Async version: Create vocabulary for transcription
+        """
+        list_vocabs = ["-".join(vocab.strip().split()) for vocab in list_vocabs]
+        vocab_name = str(uuid.uuid4())
+        payload = {
+            "LanguageCode": language,
+            "VocabularyName": vocab_name,
+            "Phrases": list_vocabs,
+        }
+
+        session = aioboto3.Session()
+        async with session.client(
+            "transcribe",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as transcribe_client:
+            await ahandle_amazon_call(transcribe_client.create_vocabulary, **payload)
+
+        return vocab_name
+
+    async def _alaunch_transcribe(
+        self,
+        job_name: str,
+        media_uri: str,
+        language: str,
+        speakers: int,
+        vocab_name: Optional[str] = None,
+        initiate_vocab: bool = False,
+        provider_params: Optional[dict] = None,
+    ):
+        """
+        Async version: Launch AWS Transcribe job
+        Accepts media_uri directly (can be S3 URL or HTTPS URL)
+        """
+        provider_params = provider_params or {}
+        if speakers < 2:
+            speakers = 2
+        params = {
+            "TranscriptionJobName": job_name,
+            "Media": {"MediaFileUri": media_uri},
+            "LanguageCode": language,
+            "Settings": {
+                "ShowSpeakerLabels": True,
+                "ChannelIdentification": False,
+                "MaxSpeakerLabels": speakers,
+            },
+        }
+        if not language:
+            del params["LanguageCode"]
+            params.update({"IdentifyMultipleLanguages": True})
+        if vocab_name:
+            params["Settings"].update({"VocabularyName": vocab_name})
+            if initiate_vocab:
+                params["checked"] = False
+                settings_filename = f"{job_name}_settings.txt"
+                session = aioboto3.Session()
+                async with session.resource(
+                    "s3",
+                    region_name=self.api_settings["region_name"],
+                    aws_access_key_id=self.api_settings["aws_access_key_id"],
+                    aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+                ) as s3:
+                    bucket = await s3.Bucket(self.api_settings["bucket"])
+                    await bucket.put_object(
+                        Key=settings_filename, Body=json.dumps(params).encode()
+                    )
+                return
+        params.update(provider_params)
+
+        session = aioboto3.Session()
+        async with session.client(
+            "transcribe",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as transcribe_client:
+            try:
+                await transcribe_client.start_transcription_job(**params)
+            except KeyError as exc:
+                raise ProviderException(str(exc)) from exc
+
+    async def _adelete_vocabularies(self, vocab_name: str):
+        """
+        Async version: Delete vocabulary after transcription
+        """
+        session = aioboto3.Session()
+        async with session.client(
+            "transcribe",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as transcribe_client:
+            payload = {"VocabularyName": vocab_name}
+            await ahandle_amazon_call(transcribe_client.delete_vocabulary, **payload)
+
     def audio__speech_to_text_async__launch_job(
         self,
         file: str,
@@ -606,6 +730,228 @@ class AmazonAudioApi(AudioInterface):
 
             error = job_details["TranscriptionJob"].get("FailureReason")
             raise ProviderException(error)
+        return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
+            provider_job_id=provider_job_id
+        )
+
+    async def audio__aspeech_to_text_async__launch_job(
+        self,
+        file: str,
+        language: str,
+        speakers: int,
+        profanity_filter: bool,
+        vocabulary: list,
+        audio_attributes: tuple,
+        model: Optional[str] = None,
+        file_url: str = "",
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        """
+        Async version of speech_to_text_async launch job.
+        Supports both file path and file_url (passed directly to Amazon Transcribe).
+        """
+        provider_params = provider_params or {}
+
+        # Determine media URI and job name
+        if file_url:
+            # Pass URL directly to Amazon Transcribe (no S3 upload needed)
+            media_uri = file_url
+            job_name = str(uuid.uuid4())
+        else:
+            # Local file: upload to S3
+            job_name = await self._aupload_audio_file_to_amazon_server(file)
+            media_uri = self.api_settings["storage_url"] + job_name
+
+        if vocabulary:
+            if language is None:
+                raise ProviderException(
+                    "Cannot launch with vocabulary when language is auto-detect.",
+                    code=400,
+                )
+            vocab_name = await self._acreate_vocabulary(language, vocabulary)
+            await self._alaunch_transcribe(
+                job_name,
+                media_uri,
+                language,
+                speakers,
+                vocab_name,
+                True,
+                provider_params=provider_params,
+            )
+            return AsyncLaunchJobResponseType(
+                provider_job_id=f"{job_name}EdenAI{vocab_name}"
+            )
+
+        await self._alaunch_transcribe(
+            job_name,
+            media_uri,
+            language,
+            speakers,
+            provider_params=provider_params,
+        )
+        return AsyncLaunchJobResponseType(provider_job_id=job_name)
+
+    async def audio__aspeech_to_text_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
+        """
+        Async version to get transcription job result.
+        """
+        if not provider_job_id:
+            raise ProviderException("Job id None or empty!")
+
+        job_id, *vocab = provider_job_id.split("EdenAI")
+        session = aioboto3.Session()
+
+        # Check custom vocabulary job state
+        if vocab:
+            can_use_vocab = True
+
+            async with session.client(
+                "s3",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as s3_client:
+                setting_response = await s3_client.get_object(
+                    Bucket=self.api_settings["bucket"], Key=f"{job_id}_settings.txt"
+                )
+                setting_content = await setting_response["Body"].read()
+                settings = json.loads(setting_content.decode("utf-8"))
+
+            if not settings["checked"]:
+                vocab_name = vocab[0]
+
+                async with session.client(
+                    "transcribe",
+                    region_name=self.api_settings["region_name"],
+                    aws_access_key_id=self.api_settings["aws_access_key_id"],
+                    aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+                ) as transcribe_client:
+                    job_vocab_details = await transcribe_client.get_vocabulary(
+                        VocabularyName=vocab_name
+                    )
+
+                if job_vocab_details["VocabularyState"] == "FAILED":
+                    await self._adelete_vocabularies(vocab_name)
+                    can_use_vocab = False
+
+                if job_vocab_details["VocabularyState"] not in ["READY", "FAILED"]:
+                    return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
+                        provider_job_id=provider_job_id
+                    )
+
+                await self._alaunch_transcribe(
+                    settings["TranscriptionJobName"],
+                    settings["Media"]["MediaFileUri"],
+                    settings.get("LanguageCode", ""),
+                    settings["Settings"]["MaxSpeakerLabels"],
+                    settings["Settings"]["VocabularyName"] if can_use_vocab else None,
+                )
+
+                settings["checked"] = True
+                async with session.resource(
+                    "s3",
+                    region_name=self.api_settings["region_name"],
+                    aws_access_key_id=self.api_settings["aws_access_key_id"],
+                    aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+                ) as s3:
+                    bucket = await s3.Bucket(self.api_settings["bucket"])
+                    await bucket.put_object(
+                        Key=f"{job_id}_settings.txt",
+                        Body=json.dumps(settings).encode(),
+                    )
+
+                return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
+                    provider_job_id=provider_job_id
+                )
+
+        # Check transcribe status
+        async with session.client(
+            "transcribe",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as transcribe_client:
+            payload = {"TranscriptionJobName": job_id}
+            job_details = await ahandle_amazon_call(
+                transcribe_client.get_transcription_job, **payload
+            )
+
+        job_status = job_details["TranscriptionJob"]["TranscriptionJobStatus"]
+
+        if job_status == "COMPLETED":
+            # Delete vocabulary if used
+            try:
+                if vocab:
+                    await self._adelete_vocabularies(vocab[0])
+            except IndexError:
+                pass
+
+            json_url = job_details["TranscriptionJob"]["Transcript"][
+                "TranscriptFileUri"
+            ]
+
+            # Fetch transcript using async HTTP client
+            async with async_client(AUDIO_TIMEOUT) as client:
+                response = await client.get(json_url)
+                original_response = response.json()
+
+            original_response.update(job_details)
+
+            # Build diarization entries
+            diarization_entries = []
+            words_info = original_response["results"]["items"]
+            speakers_count = (
+                original_response.get("results", {}).get("speaker_labels", {}) or {}
+            ).get("speakers", 0)
+
+            for word_info in words_info:
+                if word_info.get("speaker_label"):
+                    if word_info["type"] == "pronunciation":
+                        diarization_entries.append(
+                            SpeechDiarizationEntry(
+                                segment=word_info["alternatives"][0]["content"],
+                                speaker=int(
+                                    word_info["speaker_label"].split("spk_")[1]
+                                )
+                                + 1,
+                                start_time=word_info["start_time"],
+                                end_time=word_info["end_time"],
+                                confidence=word_info["alternatives"][0]["confidence"],
+                            )
+                        )
+                    else:
+                        diarization_entries[len(diarization_entries) - 1].segment = (
+                            f"{diarization_entries[len(diarization_entries)-1].segment}"
+                            f"{word_info['alternatives'][0]['content']}"
+                        )
+
+            standardized_response = SpeechToTextAsyncDataClass(
+                text=original_response["results"]["transcripts"][0]["transcript"],
+                diarization=SpeechDiarization(
+                    total_speakers=speakers_count, entries=diarization_entries
+                ),
+            )
+
+            return AsyncResponseType[SpeechToTextAsyncDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+                provider_job_id=provider_job_id,
+            )
+
+        elif job_status == "FAILED":
+            # Delete vocabulary if used
+            try:
+                if vocab:
+                    await self._adelete_vocabularies(vocab[0])
+            except IndexError:
+                pass
+
+            error = job_details["TranscriptionJob"].get("FailureReason")
+            raise ProviderException(error)
+
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
             provider_job_id=provider_job_id
         )
