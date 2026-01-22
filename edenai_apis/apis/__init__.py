@@ -75,5 +75,6 @@ from .dashscope import DashscopeApi
 from .deepinfra import DeepinfraApi
 from .fireworks_ai import FireworksAiApi
 from .cerebras import CerebrasApi
+from .cloudflare import CloudflareApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY
