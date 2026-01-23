@@ -1,0 +1,41 @@
+{
+    "id": "chatcmpl-be150518-5172-4139-ac4b-40cded294b85",
+    "created": 1769166406,
+    "model": "moonshotai/kimi-k2-instruct-0905",
+    "object": "chat.completion",
+    "system_fingerprint": "fp_5fe129dff6",
+    "choices": [
+        {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+                "content": "Hi there! How can I help you today?",
+                "role": "assistant",
+                "tool_calls": null,
+                "function_call": null,
+                "provider_specific_fields": null
+            },
+            "provider_specific_fields": {}
+        }
+    ],
+    "provider_time": 669436824,
+    "edenai_time": null,
+    "usage": {
+        "completion_tokens": 11,
+        "prompt_tokens": 27,
+        "total_tokens": 38,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": null,
+        "queue_time": 0.001794973,
+        "prompt_time": 0.009527139,
+        "completion_time": 0.021711577,
+        "total_time": 0.031238716
+    },
+    "usage_breakdown": null,
+    "x_groq": {
+        "id": "req_01kfn8j0mtf3aa88y032bhz1kg",
+        "seed": 1946954977
+    },
+    "service_tier": "on_demand",
+    "cost": 0.0
+}
