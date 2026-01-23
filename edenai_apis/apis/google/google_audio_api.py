@@ -1,12 +1,15 @@
+import asyncio
 import base64
 from io import BytesIO
 from pathlib import Path
 from time import time
 from typing import List, Optional
 
+import google.auth
+import google.auth.transport.requests
 import googleapiclient.discovery
 from google.cloud import storage, texttospeech
-from google.cloud.speech_v2 import SpeechClient
+from google.cloud.speech_v2 import SpeechAsyncClient, SpeechClient
 from google.cloud.speech_v2.types import cloud_speech
 
 from edenai_apis.apis.google.google_helpers import (
@@ -15,6 +18,7 @@ from edenai_apis.apis.google.google_helpers import (
     handle_google_call,
     ahandle_google_call,
 )
+from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 from edenai_apis.utils.conversion import convert_pitch_from_percentage_to_semitones
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
@@ -559,6 +563,115 @@ class GoogleAudioApi(AudioInterface):
         service = googleapiclient.discovery.build("speech", "v1")
         service_request_ = service.operations().get(name=provider_job_id)
         original_response = handle_google_call(service_request_.execute)
+
+        if (error_message := original_response.get("error")) is not None:
+            raise ProviderException(error_message)
+
+        text = ""
+        if original_response.get("done"):
+            result = list(original_response["response"]["results"].values())[0]
+            for entry in (result.get("transcript", {}) or {}).get("results", []) or []:
+                alternatives = entry.get("alternatives")
+                if not alternatives or not isinstance(alternatives, list):
+                    continue
+                alternative = alternatives[0].get("transcript")
+                if not alternative:
+                    continue
+                text += (", " if text else "") + alternative.strip()
+
+            standardized_response = SpeechToTextAsyncDataClass(
+                text=text, diarization=SpeechDiarization(total_speakers=0)
+            )
+
+            return AsyncResponseType[SpeechToTextAsyncDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+                provider_job_id=provider_job_id,
+            )
+        return AsyncPendingResponseType(provider_job_id=provider_job_id)
+
+    async def audio__aspeech_to_text_async__launch_job(
+        self,
+        file: str,
+        language: str,
+        speakers: int,
+        profanity_filter: bool,
+        vocabulary: Optional[List[str]],
+        audio_attributes: tuple = None,
+        model: Optional[str] = None,
+        file_url: str = "",
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
+        export_format, channels, _ = audio_attributes
+
+        # check language
+        if not language:
+            raise LanguageException("Language not provided")
+
+        audio_name = str(int(time())) + Path(file).stem + "." + export_format
+
+        # Upload file to google cloud using asyncio.to_thread (GCS has no native async)
+        storage_client: storage.Client = self.clients["storage"]
+        bucket_name = "audios-speech2text"
+
+        def _upload():
+            bucket = storage_client.get_bucket(bucket_name)
+            blob = bucket.blob(audio_name)
+            blob.upload_from_filename(file)
+
+        await asyncio.to_thread(_upload)
+
+        gcs_uri = f"gs://{bucket_name}/{audio_name}"
+
+        # Launch file transcription using async client
+        try:
+            features = cloud_speech.RecognitionFeatures(**provider_params)
+        except ValueError as err:
+            raise ProviderException(str(err), code=400)
+
+        config = cloud_speech.RecognitionConfig(
+            auto_decoding_config=cloud_speech.AutoDetectDecodingConfig(),
+            language_codes=[language],
+            model=model or "long",
+            features=features,
+        )
+        file_metadata = cloud_speech.BatchRecognizeFileMetadata(uri=gcs_uri)
+
+        request = cloud_speech.BatchRecognizeRequest(
+            recognizer=f"projects/{self.project_id}/locations/global/recognizers/_",
+            config=config,
+            files=[file_metadata],
+            recognition_output_config=cloud_speech.RecognitionOutputConfig(
+                inline_response_config=cloud_speech.InlineOutputConfig(),
+            ),
+        )
+
+        async with SpeechAsyncClient() as speech_async_client:
+            operation = await ahandle_google_call(
+                speech_async_client.batch_recognize, request=request
+            )
+
+        operation_name = operation.operation.name
+        return AsyncLaunchJobResponseType(provider_job_id=operation_name)
+
+    async def audio__aspeech_to_text_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
+        # Get credentials via thread pool (sync operation)
+        scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+        credentials, _ = await asyncio.to_thread(google.auth.default, scopes)
+        await asyncio.to_thread(
+            credentials.refresh, google.auth.transport.requests.Request()
+        )
+
+        url = f"https://speech.googleapis.com/v1/{provider_job_id}"
+        headers = {"Authorization": f"Bearer {credentials.token}"}
+
+        async with async_client(AUDIO_TIMEOUT) as client:
+            response = await client.get(url, headers=headers)
+            original_response = response.json()
 
         if (error_message := original_response.get("error")) is not None:
             raise ProviderException(error_message)
