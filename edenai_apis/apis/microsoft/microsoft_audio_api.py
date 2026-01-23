@@ -36,11 +36,13 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
+from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     upload_file_bytes_to_s3,
     aupload_file_bytes_to_s3,
     upload_file_to_s3,
+    aupload_file_to_s3,
 )
 
 
@@ -489,3 +491,161 @@ class MicrosoftAudioApi(AudioInterface):
                     )
                 raise ProviderException(error, code=response.status_code)
             raise ProviderException(response.json(), code=response.status_code)
+
+    async def audio__aspeech_to_text_async__launch_job(
+        self,
+        file: str,
+        language: str,
+        speakers: int,
+        profanity_filter: bool,
+        vocabulary: Optional[List[str]],
+        audio_attributes: tuple,
+        model: Optional[str] = None,
+        file_url: str = "",
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
+        export_format, channels, frame_rate = audio_attributes
+
+        if not language:
+            raise LanguageException("Language not provided")
+
+        content_url = file_url
+        if not content_url:
+            content_url = await aupload_file_to_s3(
+                file, Path(file).stem + "." + export_format
+            )
+
+        headers = self.headers["speech"].copy()
+        headers["Content-Type"] = "application/json"
+
+        config = {
+            "contentUrls": [content_url],
+            "properties": {
+                "wordLevelTimestampsEnabled": True,
+                "profanityFilterMode": "None",
+            },
+            "locale": language,
+            "displayName": "test batch transcription",
+        }
+        if int(channels) == 1:
+            config["properties"].update(
+                {
+                    "diarizationEnabled": True,
+                }
+            )
+        if profanity_filter:
+            config["properties"].update({"profanityFilterMode": "Masked"})
+
+        config.update(provider_params)
+
+        async with async_client(AUDIO_TIMEOUT) as client:
+            response = await client.post(
+                url=self.url["speech"], headers=headers, json=config
+            )
+
+        if response.status_code == 201:
+            result_location = response.headers["Location"]
+            provider_id = result_location.split("/")[-1]
+            return AsyncLaunchJobResponseType(provider_job_id=provider_id)
+        else:
+            raise ProviderException(
+                response.json().get("message"), code=response.status_code
+            )
+
+    async def audio__aspeech_to_text_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[SpeechToTextAsyncDataClass]:
+        headers = self.headers["speech"]
+
+        async with async_client(AUDIO_TIMEOUT) as client:
+            response = await client.get(
+                url=f'{self.url["speech"]}/{provider_job_id}/files', headers=headers
+            )
+
+            original_response = None
+            if response.status_code == 200:
+                data = response.json()["values"]
+                if data:
+                    files_urls = [
+                        entry["links"]["contentUrl"]
+                        for entry in data
+                        if entry["kind"] == "Transcription"
+                    ]
+                    text = ""
+                    diarization_entries = []
+                    speakers = set()
+                    for file_url in files_urls:
+                        file_response = await client.get(file_url, headers=headers)
+                        original_response = file_response.json()
+                        if file_response.status_code != 200:
+                            error = original_response.get("message")
+                            raise ProviderException(error)
+                        if (
+                            original_response["combinedRecognizedPhrases"]
+                            and len(original_response["combinedRecognizedPhrases"]) > 0
+                        ):
+                            data = original_response["combinedRecognizedPhrases"][0]
+                            text += data["display"]
+                            for recognized_status in original_response[
+                                "recognizedPhrases"
+                            ]:
+                                if recognized_status["recognitionStatus"] == "Success":
+                                    if "speaker" in recognized_status:
+                                        speaker = recognized_status["speaker"]
+                                        for word_info in recognized_status["nBest"][0][
+                                            "words"
+                                        ]:
+                                            speakers.add(speaker)
+                                            start_time = convert_pt_date_from_string(
+                                                word_info["offset"]
+                                            )
+                                            end_time = (
+                                                start_time
+                                                + convert_pt_date_from_string(
+                                                    word_info["duration"]
+                                                )
+                                            )
+                                            diarization_entries.append(
+                                                SpeechDiarizationEntry(
+                                                    segment=word_info["word"],
+                                                    speaker=speaker,
+                                                    start_time=str(start_time),
+                                                    end_time=str(end_time),
+                                                    confidence=float(
+                                                        word_info["confidence"]
+                                                    ),
+                                                )
+                                            )
+
+                    diarization = SpeechDiarization(
+                        total_speakers=len(speakers), entries=diarization_entries
+                    )
+                    if len(speakers) == 0:
+                        diarization.error_message = (
+                            "Use mono audio files for diarization"
+                        )
+
+                    standardized_response = SpeechToTextAsyncDataClass(
+                        text=text, diarization=diarization
+                    )
+                    return AsyncResponseType[SpeechToTextAsyncDataClass](
+                        original_response=original_response,
+                        standardized_response=standardized_response,
+                        provider_job_id=provider_job_id,
+                    )
+                else:
+                    return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
+                        provider_job_id=provider_job_id
+                    )
+            else:
+                error = response.json().get("message")
+                if error:
+                    if "entity cannot be found" in error:
+                        raise AsyncJobException(
+                            reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                            code=response.status_code,
+                        )
+                    raise ProviderException(error, code=response.status_code)
+                raise ProviderException(response.json(), code=response.status_code)
