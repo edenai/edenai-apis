@@ -18,11 +18,14 @@ class CloudflareApi(ProviderInterface):
         )
 
         self.api_key = self.api_settings.get("api_key")
+        self.account_id = self.api_settings.get("account_id")
+        if not self.api_key or not self.account_id:
+            raise ValueError("Cloudflare requires both api_key and account_id.")
 
         # # We need to store CLOUDFLARE_ACCOUNT_ID in env. Litellm handle auth like that
 
         os.environ["CLOUDFLARE_API_KEY"] = self.api_key
-        os.environ["CLOUDFLARE_ACCOUNT_ID"] = self.api_settings.get("account_id")
+        os.environ["CLOUDFLARE_ACCOUNT_ID"] = self.account_id
 
         self.llm_client = LLMEngine(
             provider_name=self.provider_name,
@@ -109,6 +112,7 @@ class CloudflareApi(ProviderInterface):
             user=user,
             modalities=modalities,
             audio=audio,
+            api_key=api_key,
             **kwargs,
         )
         return response
@@ -189,6 +193,7 @@ class CloudflareApi(ProviderInterface):
             user=user,
             modalities=modalities,
             audio=audio,
+            api_key=api_key,
             **kwargs,
         )
         return response
