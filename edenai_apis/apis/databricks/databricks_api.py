@@ -21,22 +21,11 @@ class DatabricksApi(ProviderInterface, DatabricksLLMApi):
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
 
-        if "client_id" in self.api_settings and "client_secret" in self.api_settings:
-            # OAuth M2M authentication (recommended for production)
-            # LiteLLM reads credentials from environment variables
-            # Since all users share the same Databricks account, set env vars once
-            if not _DATABRICKS_ENV_INITIALIZED:
-                os.environ["DATABRICKS_CLIENT_ID"] = self.api_settings["client_id"]
-                os.environ["DATABRICKS_CLIENT_SECRET"] = self.api_settings[
-                    "client_secret"
-                ]
-                os.environ["DATABRICKS_API_BASE"] = self.api_settings["host"]
+        provider_config = {
+            "api_base": self.api_settings["host"],
+            "api_key": self.api_settings["api_key"],
+        }
 
-                _DATABRICKS_ENV_INITIALIZED = True
-
-        else:
-            raise ValueError(
-                "Databricks authentication requires either (client_id + client_secret) for OAuth"
-            )
-
-        self.llm_client = LLMEngine(provider_name=self.provider_name)
+        self.llm_client = LLMEngine(
+            provider_name=self.provider_name, provider_config=provider_config
+        )
