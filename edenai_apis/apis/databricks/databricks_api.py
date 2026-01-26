@@ -7,15 +7,11 @@ from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 
-# Flag to ensure environment variables are only set once at module load
-_DATABRICKS_ENV_INITIALIZED = False
-
 
 class DatabricksApi(ProviderInterface, DatabricksLLMApi):
     provider_name = "databricks"
 
     def __init__(self, api_keys: Dict = {}):
-        global _DATABRICKS_ENV_INITIALIZED
 
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
