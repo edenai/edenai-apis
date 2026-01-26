@@ -3,6 +3,7 @@ import uuid
 from io import BytesIO
 from typing import List, Optional
 
+import aiofiles
 import httpx
 import requests
 
@@ -101,6 +102,55 @@ class OpenaiAudioApi(AudioInterface):
             model,
             file_url,
             provider_params,
+        )
+
+    async def audio__aspeech_to_text_async__launch_job(
+        self,
+        file: str,
+        language: str,
+        speakers: int,
+        profanity_filter: bool,
+        vocabulary: Optional[List[str]],
+        audio_attributes: tuple,
+        model: Optional[str] = None,
+        file_url: str = "",
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "OpenAI-Organization": self.org_key,
+        }
+        url = "https://api.openai.com/v1/audio/transcriptions"
+
+        async with aiofiles.open(file, "rb") as f:
+            file_content = await f.read()
+
+        files = {"file": file_content}
+        data = {"model": "whisper-1", "language": language, **provider_params}
+
+        async with async_client(AUDIO_TIMEOUT) as client:
+            response = await client.post(
+                url, data=data, files=files, headers=headers
+            )
+
+        if response.status_code != 200:
+            raise ProviderException(response.text, response.status_code)
+
+        try:
+            original_response = response.json()
+        except Exception as exp:
+            raise ProviderException("Internal Server Error", code=500) from exp
+
+        diarization = SpeechDiarization(total_speakers=0, entries=[])
+        standardized_response = SpeechToTextAsyncDataClass(
+            text=original_response.get("text"), diarization=diarization
+        )
+        return AsyncResponseType[SpeechToTextAsyncDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+            provider_job_id=str(uuid.uuid4()),
         )
 
     def audio__text_to_speech(

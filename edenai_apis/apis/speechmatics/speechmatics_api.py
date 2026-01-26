@@ -1,7 +1,10 @@
 import json
 from typing import Dict, Optional, List
 
+import aiofiles
 import requests
+
+from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 
 from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio.speech_to_text_async import (
@@ -73,6 +76,52 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
                 data=payload,
                 files={"data_file": file_},
             )
+        if response.status_code != 201:
+            raise ProviderException(response.content, response.status_code)
+
+        return AsyncLaunchJobResponseType(provider_job_id=response.json()["id"])
+
+    async def audio__aspeech_to_text_async__launch_job(
+        self,
+        file: str,
+        language: str,
+        speakers: int,
+        profanity_filter: bool,
+        vocabulary: Optional[List[str]],
+        audio_attributes: tuple,
+        model: Optional[str] = None,
+        file_url: str = "",
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
+
+        config = {
+            "language": language,
+            "diarization": "speaker",
+            "operating_point": model,
+        }
+        if vocabulary:
+            config["additional_vocab"] = [{"content": word} for word in vocabulary]
+
+        payload_config = json.dumps(
+            {"type": "transcription", "transcription_config": config}
+        )
+
+        async with aiofiles.open(file, "rb") as f:
+            file_content = await f.read()
+
+        files = {"data_file": file_content}
+        data = {"config": payload_config, **provider_params}
+
+        async with async_client(AUDIO_TIMEOUT) as client:
+            response = await client.post(
+                url=self.base_url,
+                headers=self.headers,
+                data=data,
+                files=files,
+            )
+
         if response.status_code != 201:
             raise ProviderException(response.content, response.status_code)
 
