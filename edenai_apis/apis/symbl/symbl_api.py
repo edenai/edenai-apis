@@ -163,7 +163,7 @@ class SymblApi(ProviderInterface, AudioInterface):
         if response.status_code != 201:
             raise ProviderException(
                 f"Call to Symbl failed.\nResponse Status: {response.status_code}.\n"
-                + f"Response Content: {response.content}",
+                + f"Response Content: {response.text}",
                 code=response.status_code,
             )
 
