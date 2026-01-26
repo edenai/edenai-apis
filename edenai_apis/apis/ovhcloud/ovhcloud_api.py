@@ -10,7 +10,8 @@ from edenai_apis.loaders.loaders import load_provider
 class OvhCloudApi(ProviderInterface, OvhCloudLLMApi):
     provider_name = "ovhcloud"
 
-    def __init__(self, api_keys: Dict = {}):
+    def __init__(self, api_keys: dict | None = None):
+        api_keys = api_keys or {}
         self.api_settings = load_provider(
             ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
         )
