@@ -104,22 +104,40 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
         if vocabulary:
             config["additional_vocab"] = [{"content": word} for word in vocabulary]
 
-        payload_config = json.dumps(
-            {"type": "transcription", "transcription_config": config}
-        )
+        job_config = {"type": "transcription", "transcription_config": config}
 
-        async with aiofiles.open(file, "rb") as f:
-            file_content = await f.read()
+        if file_url:
+            # Use fetch_data to let Speechmatics fetch the file directly from URL
+            job_config["fetch_data"] = {"url": file_url}
+            payload_config = json.dumps(job_config)
+            data = {"config": payload_config, **provider_params}
 
-        files = {"data_file": file_content}
-        data = {"config": payload_config, **provider_params}
+            async with async_client(AUDIO_TIMEOUT) as client:
+                response = await client.post(
+                    url=self.base_url,
+                    headers=self.headers,
+                    data=data,
+                )
+        elif file:
+            # Upload local file
+            payload_config = json.dumps(job_config)
 
-        async with async_client(AUDIO_TIMEOUT) as client:
-            response = await client.post(
-                url=self.base_url,
-                headers=self.headers,
-                data=data,
-                files=files,
+            async with aiofiles.open(file, "rb") as f:
+                file_content = await f.read()
+
+            files = {"data_file": file_content}
+            data = {"config": payload_config, **provider_params}
+
+            async with async_client(AUDIO_TIMEOUT) as client:
+                response = await client.post(
+                    url=self.base_url,
+                    headers=self.headers,
+                    data=data,
+                    files=files,
+                )
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
             )
 
         if response.status_code != 201:
