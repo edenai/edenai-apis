@@ -131,16 +131,6 @@ class SymblApi(ProviderInterface, AudioInterface):
     ) -> AsyncLaunchJobResponseType:
         provider_params = provider_params or {}
 
-        async with aiofiles.open(file, "rb") as f:
-            file_content = await f.read()
-
-        number_of_bytes = len(file_content)
-
-        headers = {
-            "Authorization": "Bearer " + self.access_token,
-            "Content-Length": str(number_of_bytes),
-        }
-
         params = {}
         if language:
             params.update({"languageCode": language})
@@ -152,12 +142,43 @@ class SymblApi(ProviderInterface, AudioInterface):
 
         params.update(provider_params)
 
-        async with async_client(AUDIO_TIMEOUT) as client:
-            response = await client.post(
-                url="https://api.symbl.ai/v1/process/audio",
-                headers=headers,
-                content=file_content,
-                params=params,
+        if file_url:
+            # Use URL endpoint - Symbl fetches the file directly
+            headers = {
+                "Authorization": "Bearer " + self.access_token,
+                "Content-Type": "application/json",
+            }
+            payload = {"url": file_url}
+
+            async with async_client(AUDIO_TIMEOUT) as client:
+                response = await client.post(
+                    url="https://api.symbl.ai/v1/process/audio/url",
+                    headers=headers,
+                    json=payload,
+                    params=params,
+                )
+        elif file:
+            # Upload local file
+            async with aiofiles.open(file, "rb") as f:
+                file_content = await f.read()
+
+            number_of_bytes = len(file_content)
+
+            headers = {
+                "Authorization": "Bearer " + self.access_token,
+                "Content-Length": str(number_of_bytes),
+            }
+
+            async with async_client(AUDIO_TIMEOUT) as client:
+                response = await client.post(
+                    url="https://api.symbl.ai/v1/process/audio",
+                    headers=headers,
+                    content=file_content,
+                    params=params,
+                )
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
             )
 
         if response.status_code != 201:

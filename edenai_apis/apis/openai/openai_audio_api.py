@@ -8,6 +8,7 @@ import httpx
 import requests
 
 from edenai_apis.features import AudioInterface
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 from edenai_apis.features.audio import TextToSpeechDataClass
 from edenai_apis.features.audio.tts import TtsDataClass
@@ -118,40 +119,55 @@ class OpenaiAudioApi(AudioInterface):
         **kwargs,
     ) -> AsyncResponseType[SpeechToTextAsyncDataClass]:
         provider_params = provider_params or {}
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "OpenAI-Organization": self.org_key,
-        }
-        url = "https://api.openai.com/v1/audio/transcriptions"
-
-        async with aiofiles.open(file, "rb") as f:
-            file_content = await f.read()
-
-        files = {"file": file_content}
-        data = {"model": "whisper-1", "language": language, **provider_params}
-
-        async with async_client(AUDIO_TIMEOUT) as client:
-            response = await client.post(
-                url, data=data, files=files, headers=headers
-            )
-
-        if response.status_code != 200:
-            raise ProviderException(response.text, response.status_code)
+        file_handler = FileHandler()
+        file_wrapper = None
 
         try:
-            original_response = response.json()
-        except Exception as exp:
-            raise ProviderException("Internal Server Error", code=500) from exp
+            if not file:
+                if not file_url:
+                    raise ProviderException(
+                        "Either file or file_url must be provided", code=400
+                    )
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                async with aiofiles.open(file, "rb") as f:
+                    file_content = await f.read()
 
-        diarization = SpeechDiarization(total_speakers=0, entries=[])
-        standardized_response = SpeechToTextAsyncDataClass(
-            text=original_response.get("text"), diarization=diarization
-        )
-        return AsyncResponseType[SpeechToTextAsyncDataClass](
-            original_response=original_response,
-            standardized_response=standardized_response,
-            provider_job_id=str(uuid.uuid4()),
-        )
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "OpenAI-Organization": self.org_key,
+            }
+            url = "https://api.openai.com/v1/audio/transcriptions"
+
+            files = {"file": file_content}
+            data = {"model": "whisper-1", "language": language, **provider_params}
+
+            async with async_client(AUDIO_TIMEOUT) as client:
+                response = await client.post(
+                    url, data=data, files=files, headers=headers
+                )
+
+            if response.status_code != 200:
+                raise ProviderException(response.text, response.status_code)
+
+            try:
+                original_response = response.json()
+            except Exception as exp:
+                raise ProviderException("Internal Server Error", code=500) from exp
+
+            diarization = SpeechDiarization(total_speakers=0, entries=[])
+            standardized_response = SpeechToTextAsyncDataClass(
+                text=original_response.get("text"), diarization=diarization
+            )
+            return AsyncResponseType[SpeechToTextAsyncDataClass](
+                original_response=original_response,
+                standardized_response=standardized_response,
+                provider_job_id=str(uuid.uuid4()),
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close()
 
     def audio__text_to_speech(
         self,
