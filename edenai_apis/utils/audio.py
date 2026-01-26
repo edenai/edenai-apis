@@ -84,6 +84,17 @@ def audio_format(audio_file_path: str, extensions: List[str]):
 
 
 def supported_extension(file: FileWrapper, accepted_extensions: List[str]):
+    # If only file_url is provided (no file_path), skip extension validation
+    # URLs often don't have proper file extensions
+    if not file.file_path and file.file_url:
+        # Use file_info.file_extension if available, otherwise default to "wav"
+        if file.file_info.file_extension:
+            ext = file.file_info.file_extension[0]
+            if ext in accepted_extensions:
+                return True, ext
+        # Default to "wav" when extension cannot be determined from URL
+        return True, "wav"
+
     extensions = audio_format(file.file_path, file.file_info.file_extension)
     if len(extensions) == 1:
         if extensions[0] in accepted_extensions:
