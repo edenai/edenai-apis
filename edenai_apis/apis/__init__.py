@@ -8,8 +8,10 @@ from .assembly import AssemblyApi
 from .astria import AstriaApi
 from .base64 import Base64Api
 from .bytedance import BytedanceApi
+from .cerebras import CerebrasApi
 from .clarifai import ClarifaiApi
 from .clipdrop import ClipdropApi
+from .cloudflare import CloudflareApi
 from .cohere import CohereApi
 from .corticalio import CorticalioApi
 from .dashscope import DashscopeApi
@@ -26,6 +28,7 @@ from .emvista import EmvistaApi
 from .extracta import ExtractaApi
 from .facepp import FaceppApi
 from .faker import FakerApi
+from .fireworks_ai import FireworksAiApi
 from .gladia import GladiaApi
 from .google import GoogleApi
 from .groq import GroqApi

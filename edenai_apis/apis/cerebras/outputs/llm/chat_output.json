@@ -1,0 +1,49 @@
+{
+  "id": "chatcmpl-b4b7664b-325f-43d9-95a8-b94028c0d9f7",
+  "created": 1769086004,
+  "model": "cerebras/llama-3.3-70b",
+  "object": "chat.completion",
+  "system_fingerprint": "fp_e6a9e35b42fe424f8074",
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Hello. How can I help you today?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null
+      },
+      "provider_specific_fields": {}
+    }
+  ],
+  "provider_time": 468793209,
+  "edenai_time": null,
+  "usage": {
+    "completion_tokens": 10,
+    "prompt_tokens": 36,
+    "total_tokens": 46,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 0,
+      "rejected_prediction_tokens": null,
+      "text_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 0,
+      "text_tokens": null,
+      "image_tokens": null
+    }
+  },
+  "service_tier": null,
+  "time_info": {
+    "queue_time": 0.025565148,
+    "prompt_time": 0.002488026000000001,
+    "completion_time": 0.002762272,
+    "total_time": 0.032242774963378906,
+    "created": 1769086004.0575278
+  },
+  "cost": 4.26e-05
+}

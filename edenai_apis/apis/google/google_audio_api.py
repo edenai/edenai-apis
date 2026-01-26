@@ -234,19 +234,37 @@ class GoogleAudioApi(AudioInterface):
             )
         else:
             # Standard/WaveNet/Neural2/Chirp voices use format like "en-us-standard-a"
+            # Default to the default model if none specified
+            if not resolved_model:
+                resolved_model = config["default_model"]
+
+            model_pattern = f"-{resolved_model}-"
+
             if resolved_voice:
-                # User specified a voice - use it directly, let API validate
-                pass
-            elif resolved_model:
-                # No voice specified but model is - find a matching voice from config
-                model_pattern = f"-{resolved_model}-"
-                matching_voices = [v for v in config["voices"] if model_pattern in v]
-                resolved_voice = (
-                    matching_voices[0] if matching_voices else config["default_voice"]
-                )
+                # Validate voice matches the model (voice format: "en-us-standard-a")
+                voice_parts = resolved_voice.split("-")
+                if len(voice_parts) >= 3:
+                    voice_model = voice_parts[2]  # e.g., "standard", "wavenet", "neural2"
+                    if voice_model != resolved_model:
+                        raise ProviderException(
+                            f"Voice '{voice}' is not compatible with model '{model or config['default_model']}'. "
+                            f"The voice uses '{voice_model}' model. "
+                            f"Use a '{resolved_model}' voice or change the model to '{voice_model}'.",
+                            code=400
+                        )
             else:
-                # No voice or model specified - use default
-                resolved_voice = config["default_voice"]
+                # No voice specified - find first matching English voice for the model
+                resolved_voice = next(
+                    (
+                        v
+                        for v in config["voices"]
+                        if model_pattern in v and v.startswith("en-")
+                    ),
+                    next(
+                        (v for v in config["voices"] if model_pattern in v),
+                        config["default_voice"],
+                    ),
+                )
 
             # Extract language code from voice ID (e.g., "en-us-wavenet-d" -> "en-us")
             parts = resolved_voice.split("-")
@@ -376,19 +394,37 @@ class GoogleAudioApi(AudioInterface):
             )
         else:
             # Standard/WaveNet/Neural2/Chirp voices use format like "en-us-standard-a"
+            # Default to the default model if none specified
+            if not resolved_model:
+                resolved_model = config["default_model"]
+
+            model_pattern = f"-{resolved_model}-"
+
             if resolved_voice:
-                # User specified a voice - use it directly, let API validate
-                pass
-            elif resolved_model:
-                # No voice specified but model is - find a matching voice from config
-                model_pattern = f"-{resolved_model}-"
-                matching_voices = [v for v in config["voices"] if model_pattern in v]
-                resolved_voice = (
-                    matching_voices[0] if matching_voices else config["default_voice"]
-                )
+                # Validate voice matches the model (voice format: "en-us-standard-a")
+                voice_parts = resolved_voice.split("-")
+                if len(voice_parts) >= 3:
+                    voice_model = voice_parts[2]  # e.g., "standard", "wavenet", "neural2"
+                    if voice_model != resolved_model:
+                        raise ProviderException(
+                            f"Voice '{voice}' is not compatible with model '{model or config['default_model']}'. "
+                            f"The voice uses '{voice_model}' model. "
+                            f"Use a '{resolved_model}' voice or change the model to '{voice_model}'.",
+                            code=400
+                        )
             else:
-                # No voice or model specified - use default
-                resolved_voice = config["default_voice"]
+                # No voice specified - find first matching English voice for the model
+                resolved_voice = next(
+                    (
+                        v
+                        for v in config["voices"]
+                        if model_pattern in v and v.startswith("en-")
+                    ),
+                    next(
+                        (v for v in config["voices"] if model_pattern in v),
+                        config["default_voice"],
+                    ),
+                )
 
             # Extract language code from voice ID (e.g., "en-us-wavenet-d" -> "en-us")
             parts = resolved_voice.split("-")

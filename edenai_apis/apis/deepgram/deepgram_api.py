@@ -282,7 +282,8 @@ class DeepgramApi(ProviderInterface, AudioInterface):
 
         Args:
             text: The text to convert to speech
-            model: The Aura model voice (e.g., "aura-asteria-en", "aura-luna-en").
+            model: The Aura model (e.g., "aura", "aura-2") or full voice ID
+                   (e.g., "aura-asteria-en", "aura-2-thalia-en").
                    Defaults to "aura-asteria-en"
             voice: Alternative to model parameter (same functionality)
             audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
@@ -297,8 +298,8 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         provider_params = provider_params or {}
         config = get_tts_config("deepgram")
 
-        # Set defaults - Deepgram uses model as voice identifier (normalize to lowercase)
-        resolved_model = (voice or model or config["default_voice"]).lower()
+        # Resolve voice - handles both model names ("aura", "aura-2") and full voice IDs
+        resolved_model = self._resolve_deepgram_voice(model, voice, config)
 
         base_url = "https://api.deepgram.com/v1/speak"
 
@@ -348,6 +349,52 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         except httpx.RequestError as exc:
             raise ProviderException(message=f"Request failed: {exc}", code=500) from exc
 
+    # Default voices for each model family (first English voice)
+    MODEL_DEFAULT_VOICES = {
+        "aura": "aura-asteria-en",
+        "aura-2": "aura-2-thalia-en",
+    }
+
+    def _resolve_deepgram_voice(self, model: Optional[str], voice: Optional[str], config: dict) -> str:
+        """Resolve the voice ID for Deepgram TTS.
+
+        If only a model name is provided (e.g., "aura" or "aura-2"),
+        returns the default English voice for that model.
+        If voice is provided, validates it against model if specified.
+        """
+        model_lower = model.lower() if model else None
+        voice_lower = voice.lower() if voice else None
+
+        # If voice is provided, validate against model and return
+        if voice_lower:
+            # Validate voice matches model if both are specified
+            if model_lower in self.MODEL_DEFAULT_VOICES:
+                is_aura2_voice = voice_lower.startswith("aura-2-")
+                if model_lower == "aura" and is_aura2_voice:
+                    raise ProviderException(
+                        f"Voice '{voice}' is not compatible with model '{model}'. "
+                        f"Use an Aura-1 voice (e.g., 'aura-asteria-en') or model 'aura-2'.",
+                        code=400
+                    )
+                if model_lower == "aura-2" and not is_aura2_voice:
+                    raise ProviderException(
+                        f"Voice '{voice}' is not compatible with model '{model}'. "
+                        f"Use an Aura-2 voice (e.g., 'aura-2-thalia-en') or model 'aura'.",
+                        code=400
+                    )
+            return voice_lower
+
+        # If only model name provided, use default voice for that model
+        if model_lower in self.MODEL_DEFAULT_VOICES:
+            return self.MODEL_DEFAULT_VOICES[model_lower]
+
+        # If model is a full voice ID, use it
+        if model_lower:
+            return model_lower
+
+        # Fall back to config default
+        return config["default_voice"].lower()
+
     def audio__tts(
         self,
         text: str,
@@ -364,7 +411,8 @@ class DeepgramApi(ProviderInterface, AudioInterface):
 
         Args:
             text: The text to convert to speech
-            model: The Aura model voice (e.g., "aura-asteria-en", "aura-luna-en").
+            model: The Aura model (e.g., "aura", "aura-2") or full voice ID
+                   (e.g., "aura-asteria-en", "aura-2-thalia-en").
                    Defaults to "aura-asteria-en"
             voice: Alternative to model parameter (same functionality)
             audio_format: Audio format (mp3, wav, ogg). Defaults to "mp3"
@@ -379,8 +427,8 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         provider_params = provider_params or {}
         config = get_tts_config("deepgram")
 
-        # Set defaults - Deepgram uses model as voice identifier (normalize to lowercase)
-        resolved_model = (voice or model or config["default_voice"]).lower()
+        # Resolve voice - handles both model names ("aura", "aura-2") and full voice IDs
+        resolved_model = self._resolve_deepgram_voice(model, voice, config)
 
         base_url = "https://api.deepgram.com/v1/speak"
 

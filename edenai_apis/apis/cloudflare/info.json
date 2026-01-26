@@ -1,0 +1,13 @@
+{
+    "llm": {
+        "chat": {
+            "version": "llmengine (v2)"
+        },
+        "achat": {
+            "version": "llmengine (v2)"
+        }
+    },
+    "_metadata": {
+        "privacy_url": "https://www.cloudflare.com/privacypolicy/"
+    }
+}
