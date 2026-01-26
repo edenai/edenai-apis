@@ -116,7 +116,7 @@ class OpenaiAudioApi(AudioInterface):
         file_url: str = "",
         provider_params: Optional[dict] = None,
         **kwargs,
-    ) -> AsyncLaunchJobResponseType:
+    ) -> AsyncResponseType[SpeechToTextAsyncDataClass]:
         provider_params = provider_params or {}
         headers = {
             "Authorization": f"Bearer {self.api_key}",
