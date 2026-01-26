@@ -5,9 +5,9 @@ import uuid
 from io import BytesIO
 from pathlib import Path
 from typing import Optional
-
 import aioboto3
-import aiofiles
+
+
 import requests
 
 from edenai_apis.apis.amazon.helpers import (
@@ -436,128 +436,6 @@ class AmazonAudioApi(AudioInterface):
         payload = {"VocabularyName": vocab_name}
         handle_amazon_call(self.clients["speech"].delete_vocabulary, **payload)
 
-    # Async Speech to text helpers
-    async def _aupload_audio_file_to_amazon_server(self, file_path: str) -> str:
-        """
-        Async version: Upload audio file to Amazon S3 server
-        :param file_path: String that contains the audio file path
-        :return: String that contains the filename on the server
-        """
-        filename = str(uuid.uuid4())
-
-        async with aiofiles.open(file_path, "rb") as f:
-            file_content = await f.read()
-
-        session = aioboto3.Session()
-        async with session.resource(
-            "s3",
-            region_name=self.api_settings["region_name"],
-            aws_access_key_id=self.api_settings["aws_access_key_id"],
-            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-        ) as s3:
-            bucket = await s3.Bucket(self.api_settings["bucket"])
-            await bucket.put_object(Key=filename, Body=file_content)
-
-        return filename
-
-    async def _acreate_vocabulary(self, language: str, list_vocabs: list) -> str:
-        """
-        Async version: Create vocabulary for transcription
-        """
-        list_vocabs = ["-".join(vocab.strip().split()) for vocab in list_vocabs]
-        vocab_name = str(uuid.uuid4())
-        payload = {
-            "LanguageCode": language,
-            "VocabularyName": vocab_name,
-            "Phrases": list_vocabs,
-        }
-
-        session = aioboto3.Session()
-        async with session.client(
-            "transcribe",
-            region_name=self.api_settings["region_name"],
-            aws_access_key_id=self.api_settings["aws_access_key_id"],
-            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-        ) as transcribe_client:
-            await ahandle_amazon_call(transcribe_client.create_vocabulary, **payload)
-
-        return vocab_name
-
-    async def _alaunch_transcribe(
-        self,
-        job_name: str,
-        media_uri: str,
-        language: str,
-        speakers: int,
-        vocab_name: Optional[str] = None,
-        initiate_vocab: bool = False,
-        provider_params: Optional[dict] = None,
-    ):
-        """
-        Async version: Launch AWS Transcribe job
-        Accepts media_uri directly (can be S3 URL or HTTPS URL)
-        """
-        provider_params = provider_params or {}
-        if not speakers or speakers < 2:
-            speakers = 2
-        params = {
-            "TranscriptionJobName": job_name,
-            "Media": {"MediaFileUri": media_uri},
-            "LanguageCode": language,
-            "Settings": {
-                "ShowSpeakerLabels": True,
-                "ChannelIdentification": False,
-                "MaxSpeakerLabels": speakers,
-            },
-        }
-        if not language:
-            del params["LanguageCode"]
-            params.update({"IdentifyMultipleLanguages": True})
-        if vocab_name:
-            params["Settings"].update({"VocabularyName": vocab_name})
-            if initiate_vocab:
-                params["checked"] = False
-                settings_filename = f"{job_name}_settings.txt"
-                session = aioboto3.Session()
-                async with session.resource(
-                    "s3",
-                    region_name=self.api_settings["region_name"],
-                    aws_access_key_id=self.api_settings["aws_access_key_id"],
-                    aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-                ) as s3:
-                    bucket = await s3.Bucket(self.api_settings["bucket"])
-                    await bucket.put_object(
-                        Key=settings_filename, Body=json.dumps(params).encode()
-                    )
-                return
-        params.update(provider_params)
-
-        session = aioboto3.Session()
-        async with session.client(
-            "transcribe",
-            region_name=self.api_settings["region_name"],
-            aws_access_key_id=self.api_settings["aws_access_key_id"],
-            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-        ) as transcribe_client:
-            try:
-                await transcribe_client.start_transcription_job(**params)
-            except KeyError as exc:
-                raise ProviderException(str(exc)) from exc
-
-    async def _adelete_vocabularies(self, vocab_name: str):
-        """
-        Async version: Delete vocabulary after transcription
-        """
-        session = aioboto3.Session()
-        async with session.client(
-            "transcribe",
-            region_name=self.api_settings["region_name"],
-            aws_access_key_id=self.api_settings["aws_access_key_id"],
-            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-        ) as transcribe_client:
-            payload = {"VocabularyName": vocab_name}
-            await ahandle_amazon_call(transcribe_client.delete_vocabulary, **payload)
-
     def audio__speech_to_text_async__launch_job(
         self,
         file: str,
@@ -731,64 +609,6 @@ class AmazonAudioApi(AudioInterface):
         return AsyncPendingResponseType[SpeechToTextAsyncDataClass](
             provider_job_id=provider_job_id
         )
-
-    async def audio__aspeech_to_text_async__launch_job(
-        self,
-        file: str,
-        language: str,
-        speakers: int,
-        profanity_filter: bool,
-        vocabulary: list,
-        audio_attributes: tuple = None,
-        model: Optional[str] = None,
-        file_url: str = "",
-        provider_params: Optional[dict] = None,
-        **kwargs,
-    ) -> AsyncLaunchJobResponseType:
-        """
-        Async version of speech_to_text_async launch job.
-        Supports both file path and file_url (passed directly to Amazon Transcribe).
-        """
-        provider_params = provider_params or {}
-
-        # Determine media URI and job name
-        if file_url:
-            # Pass URL directly to Amazon Transcribe (no S3 upload needed)
-            media_uri = file_url
-            job_name = str(uuid.uuid4())
-        else:
-            # Local file: upload to S3
-            job_name = await self._aupload_audio_file_to_amazon_server(file)
-            media_uri = self.api_settings["storage_url"] + job_name
-
-        if vocabulary:
-            if language is None:
-                raise ProviderException(
-                    "Cannot launch with vocabulary when language is auto-detect.",
-                    code=400,
-                )
-            vocab_name = await self._acreate_vocabulary(language, vocabulary)
-            await self._alaunch_transcribe(
-                job_name,
-                media_uri,
-                language,
-                speakers,
-                vocab_name,
-                True,
-                provider_params=provider_params,
-            )
-            return AsyncLaunchJobResponseType(
-                provider_job_id=f"{job_name}EdenAI{vocab_name}"
-            )
-
-        await self._alaunch_transcribe(
-            job_name,
-            media_uri,
-            language,
-            speakers,
-            provider_params=provider_params,
-        )
-        return AsyncLaunchJobResponseType(provider_job_id=job_name)
 
     def audio__text_to_speech_async__launch_job(
         self,

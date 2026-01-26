@@ -4,11 +4,9 @@ from pathlib import Path
 from time import time
 from typing import List, Optional
 
-import aiofiles
 import googleapiclient.discovery
-from gcloud.aio.storage import Storage as AsyncStorage
 from google.cloud import storage, texttospeech
-from google.cloud.speech_v2 import SpeechAsyncClient, SpeechClient
+from google.cloud.speech_v2 import SpeechClient
 from google.cloud.speech_v2.types import cloud_speech
 
 from edenai_apis.apis.google.google_helpers import (
@@ -18,7 +16,6 @@ from edenai_apis.apis.google.google_helpers import (
     ahandle_google_call,
 )
 from edenai_apis.utils.conversion import convert_pitch_from_percentage_to_semitones
-from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.features.audio.audio_interface import AudioInterface
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
     SpeechDiarization,
@@ -588,85 +585,3 @@ class GoogleAudioApi(AudioInterface):
                 provider_job_id=provider_job_id,
             )
         return AsyncPendingResponseType(provider_job_id=provider_job_id)
-
-    async def audio__aspeech_to_text_async__launch_job(
-        self,
-        file: str,
-        language: str,
-        speakers: int,
-        profanity_filter: bool,
-        vocabulary: Optional[List[str]],
-        audio_attributes: Optional[tuple] = None,
-        model: Optional[str] = None,
-        file_url: str = "",
-        provider_params: Optional[dict] = None,
-        **kwargs,
-    ) -> AsyncLaunchJobResponseType:
-        provider_params = provider_params or {}
-        export_format, channels, _ = audio_attributes
-        file_handler = FileHandler()
-        file_wrapper = None
-
-        # check language
-        if not language:
-            raise LanguageException("Language not provided")
-
-        try:
-            bucket_name = "audios-speech2text"
-
-            if file_url and not file:
-                # Download file from URL and get bytes directly
-                file_wrapper = await file_handler.download_file(file_url)
-                file_content = await file_wrapper.get_bytes()
-                file_ext = file_wrapper.file_info.file_extension or "wav"
-                audio_name = str(int(time())) + "_audio." + file_ext
-            elif file:
-                async with aiofiles.open(file, "rb") as f:
-                    file_content = await f.read()
-                audio_name = str(int(time())) + Path(file).stem + "." + export_format
-            else:
-                raise ProviderException(
-                    "Either file or file_url must be provided", code=400
-                )
-
-            # Upload to GCS using async storage client
-            async with AsyncStorage() as async_storage:
-                await async_storage.upload(
-                    bucket_name, audio_name, file_content
-                )
-
-            gcs_uri = f"gs://{bucket_name}/{audio_name}"
-
-            # Launch file transcription using async client
-            try:
-                features = cloud_speech.RecognitionFeatures(**provider_params)
-            except ValueError as err:
-                raise ProviderException(str(err), code=400) from err
-
-            config = cloud_speech.RecognitionConfig(
-                auto_decoding_config=cloud_speech.AutoDetectDecodingConfig(),
-                language_codes=[language],
-                model=model or "long",
-                features=features,
-            )
-            file_metadata = cloud_speech.BatchRecognizeFileMetadata(uri=gcs_uri)
-
-            request = cloud_speech.BatchRecognizeRequest(
-                recognizer=f"projects/{self.project_id}/locations/global/recognizers/_",
-                config=config,
-                files=[file_metadata],
-                recognition_output_config=cloud_speech.RecognitionOutputConfig(
-                    inline_response_config=cloud_speech.InlineOutputConfig(),
-                ),
-            )
-
-            async with SpeechAsyncClient() as speech_async_client:
-                operation = await ahandle_google_call(
-                    speech_async_client.batch_recognize, request=request
-                )
-
-            operation_name = operation.operation.name
-            return AsyncLaunchJobResponseType(provider_job_id=operation_name)
-        finally:
-            if file_wrapper:
-                file_wrapper.close()

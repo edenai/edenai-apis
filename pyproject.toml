@@ -131,7 +131,6 @@ httpx = "^0.28.1"
 curl-cffi = "^0.14.0"
 aiofiles = "^24.1.0"
 multidict = ">=6.4.0"
-gcloud-aio-storage = "^9.6.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest-mock = "^3.14.0"

@@ -33,7 +33,6 @@ from edenai_apis.utils.upload_s3 import (
     upload_file_bytes_to_s3,
     aupload_file_bytes_to_s3,
     upload_file_to_s3,
-    aupload_file_to_s3,
 )
 
 
@@ -105,113 +104,6 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             self.url, headers=headers, json=data, params=data_config
         )
         original_response = response.json()
-        if response.status_code != 200:
-            raise ProviderException(
-                f"{original_response.get('err_code')}: {original_response.get('err_msg')}",
-                code=response.status_code,
-            )
-
-        text = ""
-        diarization_entries = []
-        res_speakers = set()
-
-        if original_response.get("err_code"):
-            raise ProviderException(
-                f"{original_response.get('err_code')}: {original_response.get('err_msg')}",
-                code=response.status_code,
-            )
-
-        channels = original_response["results"].get("channels", [])
-        for channel in channels:
-            text_response = channel["alternatives"][0]
-            text = text + text_response["transcript"]
-            for word in text_response.get("words", []):
-                speaker = word.get("speaker", 0) + 1
-                res_speakers.add(speaker)
-                diarization_entries.append(
-                    SpeechDiarizationEntry(
-                        segment=word["word"],
-                        speaker=speaker,
-                        start_time=str(word["start"]),
-                        end_time=str(word["end"]),
-                        confidence=word["confidence"],
-                    )
-                )
-
-        diarization = SpeechDiarization(
-            total_speakers=len(res_speakers), entries=diarization_entries
-        )
-        if profanity_filter:
-            diarization.error_message = (
-                "Profanity Filter converts profanity to the nearest "
-                "recognized non-profane word or removes it from the transcript completely"
-            )
-        standardized_response = SpeechToTextAsyncDataClass(
-            text=text.strip(), diarization=diarization
-        )
-        return AsyncResponseType(
-            original_response=original_response,
-            standardized_response=standardized_response,
-            provider_job_id=original_response["metadata"]["request_id"],
-        )
-
-    async def audio__aspeech_to_text_async__launch_job(
-        self,
-        file: str,
-        language: str,
-        speakers: int,
-        profanity_filter: bool,
-        vocabulary: Optional[List[str]],
-        audio_attributes: tuple,
-        model: Optional[str] = None,
-        file_url: str = "",
-        provider_params: Optional[dict] = None,
-        **kwargs,
-    ) -> AsyncResponseType[SpeechToTextAsyncDataClass]:
-        provider_params = provider_params or {}
-        export_format, channels, frame_rate = audio_attributes
-
-        content_url = file_url
-        if not content_url:
-            file_name = str(int(time())) + "_" + str(file.split("/")[-1])
-            content_url = await aupload_file_to_s3(
-                file, Path(file_name).stem + "." + export_format
-            )
-
-        headers = {
-            "authorization": f"Token {self.api_key}",
-            "content-type": "application/json",
-        }
-
-        data = {"url": content_url}
-
-        data_config = {
-            "language": language,
-            "punctuate": "true",
-            "diarize": "true",
-            "profanity_filter": "false",
-            "tier": model,
-        }
-        if profanity_filter:
-            data_config.update({"profanity_filter": "true"})
-
-        if not language:
-            del data_config["language"]
-            data_config.update({"detect_language": "true"})
-
-        data_config.update(provider_params)
-        # deepgram doesn't accept boolean with python like syntax
-        # as requests doesn't change the value (eg ?bool=True instead of ?bool=true)
-        for key, value in data_config.items():
-            if isinstance(value, bool):
-                data_config[key] = str(value).lower()
-
-        async with async_client(AUDIO_TIMEOUT) as client:
-            response = await client.post(
-                self.url, headers=headers, json=data, params=data_config
-            )
-            original_response = response.json()
-
         if response.status_code != 200:
             raise ProviderException(
                 f"{original_response.get('err_code')}: {original_response.get('err_msg')}",

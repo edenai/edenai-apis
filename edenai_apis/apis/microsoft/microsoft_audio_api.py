@@ -36,13 +36,11 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
-from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     upload_file_bytes_to_s3,
     aupload_file_bytes_to_s3,
     upload_file_to_s3,
-    aupload_file_to_s3,
 )
 
 
@@ -491,65 +489,3 @@ class MicrosoftAudioApi(AudioInterface):
                     )
                 raise ProviderException(error, code=response.status_code)
             raise ProviderException(response.json(), code=response.status_code)
-
-    async def audio__aspeech_to_text_async__launch_job(
-        self,
-        file: str,
-        language: str,
-        speakers: int,
-        profanity_filter: bool,
-        vocabulary: Optional[List[str]],
-        audio_attributes: tuple,
-        model: Optional[str] = None,
-        file_url: str = "",
-        provider_params: Optional[dict] = None,
-        **kwargs,
-    ) -> AsyncLaunchJobResponseType:
-        provider_params = provider_params or {}
-        export_format, channels, frame_rate = audio_attributes
-
-        if not language:
-            raise LanguageException("Language not provided")
-
-        content_url = file_url
-        if not content_url:
-            content_url = await aupload_file_to_s3(
-                file, Path(file).stem + "." + export_format
-            )
-
-        headers = self.headers["speech"].copy()
-        headers["Content-Type"] = "application/json"
-
-        config = {
-            "contentUrls": [content_url],
-            "properties": {
-                "wordLevelTimestampsEnabled": True,
-                "profanityFilterMode": "None",
-            },
-            "locale": language,
-            "displayName": "test batch transcription",
-        }
-        if int(channels) == 1:
-            config["properties"].update(
-                {
-                    "diarizationEnabled": True,
-                }
-            )
-        if profanity_filter:
-            config["properties"].update({"profanityFilterMode": "Masked"})
-
-        config.update(provider_params)
-
-        async with async_client(AUDIO_TIMEOUT) as client:
-            response = await client.post(
-                url=self.url["speech"], headers=headers, json=config
-            )
-
-        if response.status_code == 201:
-            result_location = response.headers["Location"]
-            provider_id = result_location.split("/")[-1]
-            return AsyncLaunchJobResponseType(provider_job_id=provider_id)
-        else:
-            raise ProviderException(
-                response.json().get("message"), code=response.status_code
-            )

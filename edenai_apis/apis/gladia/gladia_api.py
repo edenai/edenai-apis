@@ -1,12 +1,9 @@
-import aiofiles
 from json import JSONDecodeError
 from pathlib import Path
 from time import time
 from typing import Dict, List, Optional
 
 import requests
-
-from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 
 from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import SpeechDiarizationEntry, SpeechDiarization
@@ -157,76 +154,3 @@ class GladiaApi(ProviderInterface, AudioInterface):
             ),
             provider_job_id=provider_job_id,
         )
-
-    async def audio__aspeech_to_text_async__launch_job(
-        self,
-        file: str,
-        language: str,
-        speakers: int,
-        profanity_filter: bool,
-        vocabulary: Optional[List[str]],
-        audio_attributes: tuple,
-        model: Optional[str] = None,
-        file_url: str = "",
-        provider_params: Optional[dict] = None,
-        **kwargs,
-    ) -> AsyncLaunchJobResponseType:
-        provider_params = provider_params or {}
-        headers = {"x-gladia-key": self.api_key, "accept": "application/json"}
-
-        if file_url:
-            audio_url = file_url
-        else:
-            async with aiofiles.open(file, "rb") as f:
-                file_content = await f.read()
-            extension = Path(file).suffix[1:]
-            files = {"audio": (file, file_content, f"audio/{extension}")}
-
-            async with async_client(AUDIO_TIMEOUT) as client:
-                upload_response = await client.post(
-                    "https://api.gladia.io/v2/upload/", headers=headers, files=files
-                )
-            if upload_response.status_code != 200:
-                raise ProviderException(
-                    message=upload_response.text, code=upload_response.status_code
-                )
-            upload_json = upload_response.json()
-            audio_url = upload_json.get("audio_url")
-            if not audio_url:
-                raise ProviderException("Failed to upload file: missing audio_url")
-
-        data = {
-            "audio_url": audio_url,
-            "diarization": True,
-            "diarization_config": {
-                "number_of_speakers": speakers,
-                "min_speakers": speakers,
-                "max_speakers": speakers,
-            },
-            "enable_code_switching": False,
-            "detect_language": False,
-            "language": language,
-            "custom_vocabulary": vocabulary,
-        }
-        if language:
-            data.update({"detect_language": False, "language": language})
-        data.update(provider_params)
-
-        async with async_client(AUDIO_TIMEOUT) as client:
-            transcription_response = await client.post(
-                self.url, headers=headers, json=data
-            )
-        if transcription_response.status_code not in (200, 201):
-            raise ProviderException(
-                message=transcription_response.text,
-                code=transcription_response.status_code,
-            )
-        transcription_json = transcription_response.json()
-
-        result_url = transcription_json.get("result_url", "")
-        if not result_url:
-            raise ProviderException(
-                "Failed to get result_url from transcription response"
-            )
-
-        return AsyncLaunchJobResponseType(provider_job_id=result_url)
