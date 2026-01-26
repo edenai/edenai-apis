@@ -3,7 +3,6 @@ from .ai21labs import Ai21labsApi
 from .alephalpha import AlephAlphaApi
 from .amazon import AmazonApi
 from .anthropic import AnthropicApi
-from .anyscale import AnyscaleApi
 from .api4ai import Api4aiApi
 from .assembly import AssemblyApi
 from .astria import AstriaApi
