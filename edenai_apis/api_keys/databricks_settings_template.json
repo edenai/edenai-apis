@@ -1,0 +1,4 @@
+{
+  "host": "https://<workspace-ID>.cloud.databricks.com/serving-endpoints",
+  "api_key": "dapi..."
+}
