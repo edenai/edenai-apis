@@ -626,7 +626,7 @@ class GoogleAudioApi(AudioInterface):
         try:
             features = cloud_speech.RecognitionFeatures(**provider_params)
         except ValueError as err:
-            raise ProviderException(str(err), code=400)
+            raise ProviderException(str(err), code=400) from err
 
         config = cloud_speech.RecognitionConfig(
             auto_decoding_config=cloud_speech.AutoDetectDecodingConfig(),
