@@ -9,6 +9,7 @@ from typing import Optional
 import aioboto3
 import aiofiles
 import requests
+from botocore.exceptions import ClientError
 
 from edenai_apis.apis.amazon.helpers import (
     generate_right_ssml_text,
@@ -451,7 +452,7 @@ class AmazonAudioApi(AudioInterface):
         session = aioboto3.Session()
         async with session.resource(
             "s3",
-            region_name=self.api_settings["region_name"],
+            region_name=self.api_settings["ressource_region"],
             aws_access_key_id=self.api_settings["aws_access_key_id"],
             aws_secret_access_key=self.api_settings["aws_secret_access_key"],
         ) as s3:
@@ -475,7 +476,7 @@ class AmazonAudioApi(AudioInterface):
         session = aioboto3.Session()
         async with session.client(
             "transcribe",
-            region_name=self.api_settings["region_name"],
+            region_name=self.api_settings["ressource_region"],
             aws_access_key_id=self.api_settings["aws_access_key_id"],
             aws_secret_access_key=self.api_settings["aws_secret_access_key"],
         ) as transcribe_client:
@@ -521,7 +522,7 @@ class AmazonAudioApi(AudioInterface):
                 session = aioboto3.Session()
                 async with session.resource(
                     "s3",
-                    region_name=self.api_settings["region_name"],
+                    region_name=self.api_settings["ressource_region"],
                     aws_access_key_id=self.api_settings["aws_access_key_id"],
                     aws_secret_access_key=self.api_settings["aws_secret_access_key"],
                 ) as s3:
@@ -535,12 +536,14 @@ class AmazonAudioApi(AudioInterface):
         session = aioboto3.Session()
         async with session.client(
             "transcribe",
-            region_name=self.api_settings["region_name"],
+            region_name=self.api_settings["ressource_region"],
             aws_access_key_id=self.api_settings["aws_access_key_id"],
             aws_secret_access_key=self.api_settings["aws_secret_access_key"],
         ) as transcribe_client:
             try:
                 await transcribe_client.start_transcription_job(**params)
+            except ClientError as exc:
+                raise ProviderException(str(exc)) from exc
             except KeyError as exc:
                 raise ProviderException(str(exc)) from exc
 
@@ -551,7 +554,7 @@ class AmazonAudioApi(AudioInterface):
         session = aioboto3.Session()
         async with session.client(
             "transcribe",
-            region_name=self.api_settings["region_name"],
+            region_name=self.api_settings["ressource_region"],
             aws_access_key_id=self.api_settings["aws_access_key_id"],
             aws_secret_access_key=self.api_settings["aws_secret_access_key"],
         ) as transcribe_client:
