@@ -14,11 +14,11 @@ class HuggingfaceApi(ProviderInterface):
     provider_name = "huggingface"
 
     def __init__(self, api_keys: Dict = {}):
-        # self.api_settings = load_provider(
-        #     ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
-        # )
+        self.api_settings = load_provider(
+            ProviderDataEnum.KEY, self.provider_name, api_keys=api_keys
+        )
 
-        self.api_key = None  # self.api_settings.get("api_key")
+        self.api_key = self.api_settings.get("api_key")
 
         self.llm_client = LLMEngine(
             provider_name=self.provider_name,
