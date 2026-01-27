@@ -5,7 +5,7 @@ from typing import Dict, List, Optional
 import aiofiles
 import requests
 
-from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
+from edenai_apis.utils.http_client import async_client, ASYNC_JOBS_TIMEOUT
 
 from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import (
@@ -150,7 +150,7 @@ class SymblApi(ProviderInterface, AudioInterface):
             }
             payload = {"url": file_url}
 
-            async with async_client(AUDIO_TIMEOUT) as client:
+            async with async_client(ASYNC_JOBS_TIMEOUT) as client:
                 response = await client.post(
                     url="https://api.symbl.ai/v1/process/audio/url",
                     headers=headers,
@@ -169,7 +169,7 @@ class SymblApi(ProviderInterface, AudioInterface):
                 "Content-Length": str(number_of_bytes),
             }
 
-            async with async_client(AUDIO_TIMEOUT) as client:
+            async with async_client(ASYNC_JOBS_TIMEOUT) as client:
                 response = await client.post(
                     url="https://api.symbl.ai/v1/process/audio",
                     headers=headers,

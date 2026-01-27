@@ -9,7 +9,7 @@ import requests
 
 from edenai_apis.features import AudioInterface
 from edenai_apis.utils.file_handling import FileHandler
-from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
+from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT, ASYNC_JOBS_TIMEOUT
 from edenai_apis.features.audio import TextToSpeechDataClass
 from edenai_apis.features.audio.tts import TtsDataClass
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
@@ -148,7 +148,7 @@ class OpenaiAudioApi(AudioInterface):
             files = {"file": (filename, file_content, file_mimetype)}
             data = {"model": "whisper-1", "language": language, **provider_params}
 
-            async with async_client(AUDIO_TIMEOUT) as client:
+            async with async_client(ASYNC_JOBS_TIMEOUT) as client:
                 response = await client.post(
                     url, data=data, files=files, headers=headers
                 )

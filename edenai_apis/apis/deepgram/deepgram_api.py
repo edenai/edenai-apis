@@ -13,7 +13,11 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
     TextToSpeechDataClass,
 )
 from edenai_apis.features.audio.tts import TtsDataClass
-from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
+from edenai_apis.utils.http_client import (
+    async_client,
+    AUDIO_TIMEOUT,
+    ASYNC_JOBS_TIMEOUT,
+)
 from edenai_apis.features.audio import (
     SpeechDiarization,
     SpeechDiarizationEntry,
@@ -206,7 +210,7 @@ class DeepgramApi(ProviderInterface, AudioInterface):
             if isinstance(value, bool):
                 data_config[key] = str(value).lower()
 
-        async with async_client(AUDIO_TIMEOUT) as client:
+        async with async_client(ASYNC_JOBS_TIMEOUT) as client:
             response = await client.post(
                 self.url, headers=headers, json=data, params=data_config
             )
@@ -436,7 +440,9 @@ class DeepgramApi(ProviderInterface, AudioInterface):
 
         try:
             async with async_client(AUDIO_TIMEOUT) as client:
-                response = await client.post(base_url, headers=headers, json=payload, params=params)
+                response = await client.post(
+                    base_url, headers=headers, json=payload, params=params
+                )
                 response.raise_for_status()
 
                 audio_content = BytesIO(response.content)
@@ -463,7 +469,9 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         "aura-2": "aura-2-thalia-en",
     }
 
-    def _resolve_deepgram_voice(self, model: Optional[str], voice: Optional[str], config: dict) -> str:
+    def _resolve_deepgram_voice(
+        self, model: Optional[str], voice: Optional[str], config: dict
+    ) -> str:
         """Resolve the voice ID for Deepgram TTS.
 
         If only a model name is provided (e.g., "aura" or "aura-2"),
@@ -482,13 +490,13 @@ class DeepgramApi(ProviderInterface, AudioInterface):
                     raise ProviderException(
                         f"Voice '{voice}' is not compatible with model '{model}'. "
                         f"Use an Aura-1 voice (e.g., 'aura-asteria-en') or model 'aura-2'.",
-                        code=400
+                        code=400,
                     )
                 if model_lower == "aura-2" and not is_aura2_voice:
                     raise ProviderException(
                         f"Voice '{voice}' is not compatible with model '{model}'. "
                         f"Use an Aura-2 voice (e.g., 'aura-2-thalia-en') or model 'aura'.",
-                        code=400
+                        code=400,
                     )
             return voice_lower
 
@@ -564,7 +572,9 @@ class DeepgramApi(ProviderInterface, AudioInterface):
         payload = {"text": text}
 
         try:
-            response = requests.post(base_url, headers=headers, json=payload, params=params)
+            response = requests.post(
+                base_url, headers=headers, json=payload, params=params
+            )
             response.raise_for_status()
         except requests.exceptions.Timeout as exc:
             raise ProviderException(message="Request timed out", code=408) from exc
