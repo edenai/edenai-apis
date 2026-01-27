@@ -130,9 +130,13 @@ class OpenaiAudioApi(AudioInterface):
                     )
                 file_wrapper = await file_handler.download_file(file_url)
                 file_content = await file_wrapper.get_bytes()
+                file_extension = file_wrapper.file_info.file_extension
+                file_mimetype = file_wrapper.file_info.file_media_type
             else:
                 async with aiofiles.open(file, "rb") as f:
                     file_content = await f.read()
+                file_extension = file.split(".")[-1] if "." in file else "wav"
+                file_mimetype = f"audio/{file_extension}"
 
             headers = {
                 "Authorization": f"Bearer {self.api_key}",
@@ -140,7 +144,8 @@ class OpenaiAudioApi(AudioInterface):
             }
             url = "https://api.openai.com/v1/audio/transcriptions"
 
-            files = {"file": file_content}
+            filename = f"audio.{file_extension}"
+            files = {"file": (filename, file_content, file_mimetype)}
             data = {"model": "whisper-1", "language": language, **provider_params}
 
             async with async_client(AUDIO_TIMEOUT) as client:
