@@ -1502,7 +1502,7 @@
     },
     "ocr": {
       "constraints": {
-        "file_types": ["image/*"],
+        "file_types": ["image/*", "application/pdf"],
         "languages": [
           "es",
           "cnr-cyrl",
