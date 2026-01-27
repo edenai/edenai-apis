@@ -167,7 +167,7 @@ class OpenaiAudioApi(AudioInterface):
             )
         finally:
             if file_wrapper:
-                file_wrapper.close()
+                file_wrapper.close_file()
 
     def audio__text_to_speech(
         self,
