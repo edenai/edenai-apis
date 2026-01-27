@@ -645,7 +645,12 @@
   "ocr": {
     "ocr": {
       "constraints": {
-        "file_types": ["image/jpeg", "image/png"],
+        "file_types": [
+          "image/jpeg",
+          "image/png",
+          "application/pdf",
+          "image/tiff"
+        ],
         "languages": ["en", "es", "it", "pt", "fr", "de"],
         "allow_null_language": true
       },
