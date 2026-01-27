@@ -23,12 +23,14 @@ from edenai_apis.utils.types import (
     AsyncPendingResponseType,
     AsyncResponseType,
 )
-from edenai_apis.utils.upload_s3 import upload_file_to_s3
+from edenai_apis.utils.upload_s3 import upload_file_to_s3, aupload_file_to_s3
+from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
 from .helper import language_matches
 
 
 class AssemblyApi(ProviderInterface, AudioInterface):
     provider_name = "assembly"
+    MAX_LANGUAGE_RETRIES = 10
 
     def __init__(self, api_keys: Dict = {}) -> None:
         self.api_settings = load_provider(
@@ -38,6 +40,45 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         self.url = "https://api.assemblyai.com/v2"
         self.url_upload_file = f"{self.url}/upload"
         self.url_transcription = f"{self.url}/transcript"
+
+    @staticmethod
+    def _parse_diarization(original_response: dict) -> SpeechDiarization:
+        """Parse diarization entries from Assembly AI response."""
+        diarization_entries = []
+        speakers = {}
+        index_speaker = 0
+
+        if (
+            original_response.get("utterances")
+            and len(original_response["utterances"]) > 0
+        ):
+            for line in original_response["utterances"]:
+                words = line.get("words", [])
+                if line["speaker"] not in speakers:
+                    index_speaker += 1
+                    speaker_tag = index_speaker
+                    speakers[line["speaker"]] = index_speaker
+                elif line["speaker"] in speakers:
+                    speaker_tag = speakers[line["speaker"]]
+                for word in words:
+                    diarization_entries.append(
+                        SpeechDiarizationEntry(
+                            speaker=speaker_tag,
+                            segment=word["text"],
+                            start_time=str(word["start"] / 1000),
+                            end_time=str(word["end"] / 1000),
+                            confidence=word["confidence"],
+                        )
+                    )
+
+        diarization = SpeechDiarization(
+            total_speakers=len(speakers), entries=diarization_entries
+        )
+        if len(speakers) == 0:
+            diarization.error_message = (
+                "Speaker diarization not available for the data specified"
+            )
+        return diarization
 
     def audio__speech_to_text_async__launch_job(
         self,
@@ -173,3 +214,73 @@ class AssemblyApi(ProviderInterface, AudioInterface):
             ),
             provider_job_id=provider_job_id,
         )
+
+    async def audio__aspeech_to_text_async__launch_job(
+        self,
+        file: str,
+        language: str,
+        speakers: int,
+        profanity_filter: bool,
+        vocabulary: Optional[List[str]],
+        audio_attributes: tuple,
+        model: Optional[str] = None,
+        file_url: str = "",
+        provider_params: Optional[dict] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        provider_params = provider_params or {}
+        export_format, _, _ = audio_attributes
+
+        if language and "-" in language:
+            language = language_matches[language]
+
+        # upload file to server
+        header = {"authorization": self.api_key}
+        file_name = str(int(time())) + "_" + str(file.split("/")[-1]) if file else ""
+
+        content_url = file_url
+        if not content_url:
+            content_url = await aupload_file_to_s3(
+                file, Path(file_name).stem + "." + export_format
+            )
+        data = {
+            "audio_url": f"{content_url}",
+            "language_code": language,
+            "speaker_labels": True,
+            "filter_profanity": profanity_filter,
+        }
+        if vocabulary:
+            data.update({"word_boost": vocabulary})
+        if not language:
+            del data["language_code"]
+            data.update({"language_detection": True})
+        data.update(provider_params)
+
+        # if an option is not available for a language like 'speaker_labels' with french, we remove it
+        launch_transcription = False
+        retries = 0
+        async with async_client(AUDIO_TIMEOUT) as client:
+            while not launch_transcription:
+                if retries >= self.MAX_LANGUAGE_RETRIES:
+                    raise ProviderException(
+                        "Max retries reached while adjusting language options"
+                    )
+                retries += 1
+                # launch transcription
+                response = await client.post(
+                    self.url_transcription, json=data, headers=header
+                )
+                if response.status_code != 200:
+                    error = response.json().get("error")
+                    if "not available in this language" in error:
+                        parameter = error.split(":")[1].strip()
+                        del data[parameter]
+                    else:
+                        raise ProviderException(
+                            response.json().get("error"), code=response.status_code
+                        )
+                else:
+                    launch_transcription = True
+                    transcribe_id = response.json()["id"]
+
+        return AsyncLaunchJobResponseType(provider_job_id=transcribe_id)

@@ -35,7 +35,12 @@ def validate_input_file_extension(constraints: dict, args: dict) -> dict:
 
     if not input_file or not provider_file_extensions_constraints:
         return args
-    export_format = get_file_extension(input_file, provider_file_extensions_constraints)
+    # if its a file_url we cannot get the file extension so we default to wav
+    export_format = (
+        get_file_extension(input_file, provider_file_extensions_constraints)
+        if input_file.file_path
+        else "wav"
+    )
     frame_rate = input_file.file_info.file_frame_rate
     channels = input_file.file_info.file_channels
     args["audio_attributes"] = (export_format, channels, frame_rate)
