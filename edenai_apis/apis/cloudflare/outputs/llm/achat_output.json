@@ -1,0 +1,29 @@
+{
+  "id": "chatcmpl-40da733f-4466-470d-85aa-575cf1b58abd",
+  "created": 1769088979,
+  "model": "cloudflare/@cf/meta/llama-2-7b-chat-fp16",
+  "object": "chat.completion",
+  "system_fingerprint": null,
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "  Hello! It's nice to meet you. Is there something I can help you with or would you like to chat?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null
+      }
+    }
+  ],
+  "provider_time": 2623900184,
+  "edenai_time": null,
+  "usage": {
+    "completion_tokens": 25,
+    "prompt_tokens": 10,
+    "total_tokens": 35,
+    "completion_tokens_details": null,
+    "prompt_tokens_details": null
+  },
+  "cost": 6.730500000000001e-05
+}

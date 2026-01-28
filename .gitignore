@@ -28,4 +28,5 @@ pyrightconfig.json
 
 *.env*
 .pre-commit-config.yaml
-local_tests.py
+local_tes*.py
+edenai_apis/llmengine/exceptions/README.md

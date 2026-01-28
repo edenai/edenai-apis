@@ -111,7 +111,8 @@ def validate_input_file_type(constraints: dict, provider: str, args: dict) -> di
             raise ProviderException(
                 f"Provider {provider} doesn't support file type: {input_file_type} "
                 f"for this feature.\n"
-                f"Supported mimetypes are {supported_types}"
+                f"Supported mimetypes are {supported_types}",
+                code=400,
             )
     return args
 
