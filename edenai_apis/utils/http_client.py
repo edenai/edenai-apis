@@ -10,10 +10,15 @@ OCR_TIMEOUT = httpx.Timeout(10.0, read=180.0)  # OCR/document parsing (can be sl
 IMAGE_TIMEOUT = httpx.Timeout(10.0, read=180.0)  # Image generation/processing
 QUICK_TIMEOUT = httpx.Timeout(10.0, read=30.0)  # Fast API calls
 AUDIO_TIMEOUT = httpx.Timeout(10.0, read=320.0)  # Audio processing
+ASYNC_JOBS_TIMEOUT = httpx.Timeout(
+    10.0, read=600.0
+)  # Async job management (long-running tasks)
 
 
 @asynccontextmanager
-async def async_client(timeout: Union[httpx.Timeout, float] = DEFAULT_TIMEOUT, **kwargs):
+async def async_client(
+    timeout: Union[httpx.Timeout, float] = DEFAULT_TIMEOUT, **kwargs
+):
     """
     Create an httpx AsyncClient with standardized configuration.
 

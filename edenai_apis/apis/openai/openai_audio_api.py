@@ -9,7 +9,7 @@ import requests
 
 from edenai_apis.features import AudioInterface
 from edenai_apis.utils.file_handling import FileHandler
-from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
+from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT, ASYNC_JOBS_TIMEOUT
 from edenai_apis.features.audio import TextToSpeechDataClass
 from edenai_apis.features.audio.tts import TtsDataClass
 from edenai_apis.features.audio.speech_to_text_async.speech_to_text_async_dataclass import (
@@ -130,9 +130,13 @@ class OpenaiAudioApi(AudioInterface):
                     )
                 file_wrapper = await file_handler.download_file(file_url)
                 file_content = await file_wrapper.get_bytes()
+                file_extension = file_wrapper.file_info.file_extension
+                file_mimetype = file_wrapper.file_info.file_media_type
             else:
                 async with aiofiles.open(file, "rb") as f:
                     file_content = await f.read()
+                file_extension = file.split(".")[-1] if "." in file else "wav"
+                file_mimetype = f"audio/{file_extension}"
 
             headers = {
                 "Authorization": f"Bearer {self.api_key}",
@@ -140,10 +144,11 @@ class OpenaiAudioApi(AudioInterface):
             }
             url = "https://api.openai.com/v1/audio/transcriptions"
 
-            files = {"file": file_content}
+            filename = f"audio.{file_extension}"
+            files = {"file": (filename, file_content, file_mimetype)}
             data = {"model": "whisper-1", "language": language, **provider_params}
 
-            async with async_client(AUDIO_TIMEOUT) as client:
+            async with async_client(ASYNC_JOBS_TIMEOUT) as client:
                 response = await client.post(
                     url, data=data, files=files, headers=headers
                 )
@@ -167,7 +172,7 @@ class OpenaiAudioApi(AudioInterface):
             )
         finally:
             if file_wrapper:
-                file_wrapper.close()
+                file_wrapper.close_file()
 
     def audio__text_to_speech(
         self,

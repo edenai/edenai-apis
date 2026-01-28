@@ -266,6 +266,8 @@ def validate_models(
         if settings and provider in settings:
             selected_model = settings[provider]
             args["model"] = selected_model
+        elif constraints.get("default_model") and not args.get("model"):
+            args["model"] = constraints["default_model"]
 
     args.pop("settings", None)
     return args

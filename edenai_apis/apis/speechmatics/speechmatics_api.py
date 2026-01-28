@@ -4,7 +4,7 @@ from typing import Dict, Optional, List
 import aiofiles
 import requests
 
-from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
+from edenai_apis.utils.http_client import async_client, ASYNC_JOBS_TIMEOUT
 
 from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio.speech_to_text_async import (
@@ -112,7 +112,7 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
             payload_config = json.dumps(job_config)
             data = {"config": payload_config, **provider_params}
 
-            async with async_client(AUDIO_TIMEOUT) as client:
+            async with async_client(ASYNC_JOBS_TIMEOUT) as client:
                 response = await client.post(
                     url=self.base_url,
                     headers=self.headers,
@@ -128,7 +128,7 @@ class SpeechmaticsApi(ProviderInterface, AudioInterface):
             files = {"data_file": file_content}
             data = {"config": payload_config, **provider_params}
 
-            async with async_client(AUDIO_TIMEOUT) as client:
+            async with async_client(ASYNC_JOBS_TIMEOUT) as client:
                 response = await client.post(
                     url=self.base_url,
                     headers=self.headers,

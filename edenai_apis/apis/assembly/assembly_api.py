@@ -24,7 +24,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
 )
 from edenai_apis.utils.upload_s3 import upload_file_to_s3, aupload_file_to_s3
-from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
+from edenai_apis.utils.http_client import async_client, ASYNC_JOBS_TIMEOUT
 from .helper import language_matches
 
 
@@ -259,7 +259,7 @@ class AssemblyApi(ProviderInterface, AudioInterface):
         # if an option is not available for a language like 'speaker_labels' with french, we remove it
         launch_transcription = False
         retries = 0
-        async with async_client(AUDIO_TIMEOUT) as client:
+        async with async_client(ASYNC_JOBS_TIMEOUT) as client:
             while not launch_transcription:
                 if retries >= self.MAX_LANGUAGE_RETRIES:
                     raise ProviderException(
