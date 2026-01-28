@@ -57,6 +57,7 @@ async def standard_moderation(*args, **kwargs):
     # Collect all moderatable content (only "text" and "image_url" are supported)
     supported_types = {"text", "image_url"}
     moderatable_content = []
+    image_count = 0
 
     for message in messages:
         if "content" not in message:
@@ -68,7 +69,13 @@ async def standard_moderation(*args, **kwargs):
             for content in message["content"]:
                 # Skip unsupported content types (e.g., "file", "audio", etc.)
                 if isinstance(content, dict) and content.get("type") in supported_types:
-                    moderatable_content.append(content)
+                    # Limit to 1 image for OpenAI moderation API
+                    if content.get("type") == "image_url":
+                        if image_count < 1:
+                            moderatable_content.append(content)
+                            image_count += 1
+                    else:
+                        moderatable_content.append(content)
                 elif isinstance(content, str):
                     moderatable_content.append({"type": "text", "text": content})
 
