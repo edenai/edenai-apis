@@ -1,1 +1,1 @@
-setuptools==71
+setuptools==80.10.2
