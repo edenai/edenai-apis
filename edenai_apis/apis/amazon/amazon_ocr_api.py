@@ -475,6 +475,112 @@ class AmazonOcrApi(OcrInterface):
             provider_job_id=job_id,
         )
 
+    async def ocr__aocr_tables_async__launch_job(
+        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        file_handler = FileHandler()
+        file_wrapper = None
+        s3_key = file
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as f:
+                    file_content = await f.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                s3_key = f"ocr_tables_{file_url.split('/')[-1]}"
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            session = aioboto3.Session()
+
+            # Upload file to S3
+            async with session.resource(
+                "s3",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as s3:
+                bucket = await s3.Bucket(self.api_settings["bucket"])
+                await bucket.put_object(Key=s3_key, Body=file_content)
+
+            # Start document analysis
+            async with session.client(
+                "textract",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as textract_client:
+                payload = {
+                    "DocumentLocation": {
+                        "S3Object": {"Bucket": self.api_settings["bucket"], "Name": s3_key},
+                    },
+                    "FeatureTypes": ["TABLES"],
+                    "NotificationChannel": {
+                        "SNSTopicArn": self.api_settings["topic"],
+                        "RoleArn": self.api_settings["role"],
+                    },
+                }
+
+                response = await ahandle_amazon_call(
+                    textract_client.start_document_analysis, **payload
+                )
+
+            return AsyncLaunchJobResponseType(provider_job_id=response["JobId"])
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+
+    async def ocr__aocr_tables_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
+        session = aioboto3.Session()
+
+        async with session.client(
+            "textract",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as textract_client:
+            payload = {"JobId": provider_job_id}
+            response = await ahandle_amazon_call(
+                textract_client.get_document_analysis, **payload
+            )
+
+            if response.get("JobStatus") == "IN_PROGRESS":
+                return AsyncPendingResponseType[OcrTablesAsyncDataClass](
+                    provider_job_id=provider_job_id
+                )
+            elif response["JobStatus"] == "FAILED":
+                error: str = response.get(
+                    "StatusMessage", "Amazon returned a job status: FAILED"
+                )
+                raise ProviderException(error)
+
+            pagination_token = response.get("NextToken")
+            pages = [response]
+
+            # Handle pagination
+            while pagination_token:
+                payload = {
+                    "JobId": provider_job_id,
+                    "NextToken": pagination_token,
+                }
+                response = await ahandle_amazon_call(
+                    textract_client.get_document_analysis, **payload
+                )
+                pages.append(response)
+                pagination_token = response.get("NextToken")
+
+            return AsyncResponseType[OcrTablesAsyncDataClass](
+                original_response=pages,
+                standardized_response=amazon_ocr_tables_parser(pages),
+                provider_job_id=provider_job_id,
+            )
+
     def ocr__custom_document_parsing_async__launch_job(
         self,
         file: str,

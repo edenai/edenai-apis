@@ -568,6 +568,163 @@ class GoogleOcrApi(OcrInterface):
             status="pending", provider_job_id=job_id
         )
 
+    async def ocr__aocr_tables_async__launch_job(
+        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        file_name: str = file.split("/")[-1]
+
+        documentai_projectid = self.api_settings["documentai"]["project_id"]
+        documentai_processid = self.api_settings["documentai"]["process_ocr_tables_id"]
+
+        gcs_output_uri = "gs://async-ocr-tables"
+        gcs_output_uri_prefix = "outputs"
+        gcs_input_uri = f"gs://async-ocr-tables/{file_name}"
+
+        # Get access token
+        token = get_access_token(self.location)
+
+        # Upload file to GCS via REST API
+        async with aiofiles.open(file, "rb") as file_:
+            file_content = await file_.read()
+
+        upload_url = f"https://storage.googleapis.com/upload/storage/v1/b/async-ocr-tables/o?uploadType=media&name={file_name}"
+        headers = {"Authorization": f"Bearer {token}"}
+
+        async with httpx.AsyncClient() as client:
+            upload_response = await client.post(
+                upload_url,
+                headers=headers,
+                content=file_content,
+            )
+
+        if upload_response.status_code not in [200, 201]:
+            raise ProviderException(
+                f"Failed to upload file to GCS: {upload_response.text}",
+                code=upload_response.status_code
+            )
+
+        # Call Document AI batch process via REST API
+        destination_uri = f"{gcs_output_uri}/{gcs_output_uri_prefix}/"
+
+        payload = {
+            "inputDocuments": {
+                "gcsDocuments": {
+                    "documents": [{
+                        "gcsUri": gcs_input_uri,
+                        "mimeType": file_type
+                    }]
+                }
+            },
+            "documentOutputConfig": {
+                "gcsOutputConfig": {
+                    "gcsUri": destination_uri
+                }
+            }
+        }
+
+        batch_url = f"https://eu-documentai.googleapis.com/v1beta3/projects/{documentai_projectid}/locations/eu/processors/{documentai_processid}:batchProcess"
+
+        async with httpx.AsyncClient() as client:
+            batch_response = await client.post(
+                batch_url,
+                headers={
+                    "Authorization": f"Bearer {token}",
+                    "Content-Type": "application/json"
+                },
+                json=payload,
+            )
+
+        if batch_response.status_code != 200:
+            raise ProviderException(
+                f"Failed to launch Document AI batch process: {batch_response.text}",
+                code=batch_response.status_code
+            )
+
+        response_data = batch_response.json()
+        operation_name = response_data.get("name", "")
+        operation_id = operation_name.split("/")[-1]
+
+        return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+
+    async def ocr__aocr_tables_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
+        # Get access token
+        token = get_access_token(self.location)
+
+        documentai_projectid = self.api_settings["documentai"]["project_id"]
+
+        # Check operation status via REST API
+        operation_url = f"https://eu-documentai.googleapis.com/v1beta3/projects/{documentai_projectid}/locations/eu/operations/{provider_job_id}"
+        headers = {"Authorization": f"Bearer {token}"}
+
+        async with httpx.AsyncClient() as client:
+            response = await client.get(operation_url, headers=headers)
+
+        if response.status_code != 200:
+            raise ProviderException(
+                f"Failed to get operation status: {response.text}",
+                code=response.status_code
+            )
+
+        res = response.json()
+
+        if res.get("metadata", {}).get("state") == "FAILED":
+            raise ProviderException(res.get("error", "Operation failed"))
+
+        if res.get("metadata", {}).get("state") == "SUCCEEDED":
+            # Get result from GCS bucket
+            output_uri = res["metadata"]["individualProcessStatuses"][0]["outputGcsDestination"]
+            prefix = output_uri.split("gs://async-ocr-tables/")[1] + "/"
+
+            # List blobs via REST API
+            list_url = f"https://storage.googleapis.com/storage/v1/b/async-ocr-tables/o?prefix={prefix}"
+
+            async with httpx.AsyncClient() as client:
+                list_response = await client.get(list_url, headers=headers)
+
+            if list_response.status_code != 200:
+                raise ProviderException(
+                    f"Failed to list GCS objects: {list_response.text}",
+                    code=list_response.status_code
+                )
+
+            blob_list_data = list_response.json()
+            blob_items = [
+                item for item in blob_list_data.get("items", [])
+                if not item["name"].endswith("/")
+            ]
+
+            if not blob_items:
+                raise ProviderException("No result files found in GCS bucket")
+
+            # Download the first blob
+            blob_name = blob_items[0]["name"]
+            download_url = f"https://storage.googleapis.com/storage/v1/b/async-ocr-tables/o/{blob_name}?alt=media"
+
+            async with httpx.AsyncClient() as client:
+                download_response = await client.get(download_url, headers=headers)
+
+            if download_response.status_code != 200:
+                raise ProviderException(
+                    f"Failed to download result from GCS: {download_response.text}",
+                    code=download_response.status_code
+                )
+
+            original_result = json.loads(download_response.text)
+
+            standardized_response = google_ocr_tables_standardize_response(original_result)
+
+            return AsyncResponseType[OcrTablesAsyncDataClass](
+                original_response=original_result,
+                standardized_response=standardized_response,
+                provider_job_id=provider_job_id,
+            )
+
+        return AsyncPendingResponseType[OcrTablesAsyncDataClass](
+            provider_job_id=provider_job_id
+        )
+
     def ocr__ocr_async__launch_job(
         self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:

@@ -661,6 +661,103 @@ class MicrosoftOcrApi(OcrInterface):
             provider_job_id=provider_job_id
         )
 
+    async def ocr__aocr_tables_async__launch_job(
+        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            url = (
+                f"{self.url['documentintelligence']}documentintelligence/documentModels/"
+                f"prebuilt-layout:analyze?api-version=2024-11-30"
+            )
+            url = add_query_param_in_url(url, {"locale": language})
+
+            headers = {
+                "Content-Type": "application/octet-stream",
+                "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
+                    "subscription_key"
+                ],
+            }
+
+            async with httpx.AsyncClient() as client:
+                response = await client.post(url, headers=headers, content=file_content)
+
+            if response.status_code != 202:
+                error_data = response.json()
+                error = error_data.get("error", {}).get("innererror", {}).get("message", response.text)
+                raise ProviderException(error, code=response.status_code)
+
+            return AsyncLaunchJobResponseType(
+                provider_job_id=response.headers.get("apim-request-id")
+            )
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+
+    async def ocr__aocr_tables_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
+        headers = {
+            "Content-Type": "application/octet-stream",
+            "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
+                "subscription_key"
+            ],
+        }
+
+        url = (
+            self.url["documentintelligence"]
+            + f"documentintelligence/documentModels/prebuilt-layout/"
+            f"analyzeResults/{provider_job_id}?api-version=2024-11-30"
+        )
+
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, headers=headers)
+
+        if response.status_code >= 400:
+            try:
+                error = response.json()["error"]["message"]
+                if "Resource not found" in error:
+                    raise AsyncJobException(
+                        reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                        code=response.status_code,
+                    )
+                raise ProviderException(error, code=response.status_code)
+            except (KeyError, json.JSONDecodeError) as exc:
+                raise ProviderException(
+                    message=response.text, code=response.status_code
+                ) from exc
+
+        data = response.json()
+        if data.get("error"):
+            raise ProviderException(data.get("error"), code=response.status_code)
+        if data["status"] == "succeeded":
+            original_result = data["analyzeResult"]
+            standardized_response = microsoft_ocr_tables_standardize_response(
+                original_result
+            )
+            return AsyncResponseType[OcrTablesAsyncDataClass](
+                original_response=data,
+                standardized_response=standardized_response,
+                provider_job_id=provider_job_id,
+            )
+
+        return AsyncPendingResponseType[OcrTablesAsyncDataClass](
+            provider_job_id=provider_job_id
+        )
+
     def ocr__ocr_async__launch_job(
         self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
