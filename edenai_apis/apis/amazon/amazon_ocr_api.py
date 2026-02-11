@@ -401,8 +401,11 @@ class AmazonOcrApi(OcrInterface):
                 file_wrapper.close_file()
 
     def ocr__ocr_tables_async__launch_job(
-        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
+        self, file: str, file_type: str = None, language: str = "", file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
+        # file_type is not needed for Amazon Textract
+        # The service automatically detects the file type
+
         with open(file, "rb") as file_:
             file_content = file_.read()
 
@@ -476,8 +479,11 @@ class AmazonOcrApi(OcrInterface):
         )
 
     async def ocr__aocr_tables_async__launch_job(
-        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
+        self, file: str, file_type: str = None, language: str = "", file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
+        # file_type is not needed for Amazon Textract
+        # The service automatically detects the file type
+
         file_handler = FileHandler()
         file_wrapper = None
         s3_key = file

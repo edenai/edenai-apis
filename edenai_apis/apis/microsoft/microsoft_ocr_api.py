@@ -584,10 +584,14 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__ocr_tables_async__launch_job(
-        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
+        self, file: str, file_type: str = None, language: str = "", file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         with open(file, "rb") as file_:
             file_content = file_.read()
+
+        # file_type is not needed for Microsoft Document Intelligence
+        # The service automatically detects the file type
+
         url = (
             f"{self.url['documentintelligence']}documentintelligence/documentModels/"
             f"prebuilt-layout:analyze?api-version=2024-11-30"
@@ -662,12 +666,15 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     async def ocr__aocr_tables_async__launch_job(
-        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
+        self, file: str, file_type: str = None, language: str = "", file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         file_handler = FileHandler()
         file_wrapper = None
 
         try:
+            # file_type is not needed for Microsoft Document Intelligence
+            # The service automatically detects the file type
+
             if file:
                 async with aiofiles.open(file, "rb") as file_:
                     file_content = await file_.read()

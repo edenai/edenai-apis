@@ -472,9 +472,15 @@ class GoogleOcrApi(OcrInterface):
         )
 
     def ocr__ocr_tables_async__launch_job(
-        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
+        self, file: str, file_type: str = None, language: str = "", file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         file_name: str = file.split("/")[-1]  # file.name give its whole path
+
+        # Infer file_type if not provided
+        if not file_type:
+            file_type, _ = mimetypes.guess_type(file)
+            if not file_type:
+                file_type = "application/pdf"  # default fallback
 
         documentai_projectid = self.api_settings["documentai"]["project_id"]
         documentai_processid = self.api_settings["documentai"]["process_ocr_tables_id"]
@@ -569,9 +575,15 @@ class GoogleOcrApi(OcrInterface):
         )
 
     async def ocr__aocr_tables_async__launch_job(
-        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
+        self, file: str, file_type: str = None, language: str = "", file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         file_name: str = file.split("/")[-1]
+
+        # Infer file_type if not provided
+        if not file_type:
+            file_type, _ = mimetypes.guess_type(file)
+            if not file_type:
+                file_type = "application/pdf"  # default fallback
 
         documentai_projectid = self.api_settings["documentai"]["project_id"]
         documentai_processid = self.api_settings["documentai"]["process_ocr_tables_id"]
