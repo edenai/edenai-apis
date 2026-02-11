@@ -809,23 +809,46 @@ class AmazonOcrApi(OcrInterface):
     def ocr__ocr_async__launch_job(
         self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
-        with open(file, "rb") as file_:
-            file_content = file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None
+        s3_key = file
 
-        self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
-            Key=file, Body=file_content
-        )
+        try:
+            if file:
+                with open(file, "rb") as file_:
+                    file_content = file_.read()
+            elif file_url:
+                file_wrapper = file_handler.download_file_from_url(file_url)
+                if file_wrapper and file_wrapper.file_path:
+                    with open(file_wrapper.file_path, "rb") as file_:
+                        file_content = file_.read()
+                    s3_key = f"upload_{file_url.split('/')[-1]}"
+                else:
+                    raise ProviderException(
+                        f"Failed to download file from URL: {file_url}", code=400
+                    )
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
 
-        payload = {
-            "DocumentLocation": {
-                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file}
+            self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
+                Key=s3_key, Body=file_content
+            )
+
+            payload = {
+                "DocumentLocation": {
+                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": s3_key}
+                }
             }
-        }
-        launch_job_response = handle_amazon_call(
-            self.clients["textract"].start_document_text_detection, **payload
-        )
+            launch_job_response = handle_amazon_call(
+                self.clients["textract"].start_document_text_detection, **payload
+            )
 
-        return AsyncLaunchJobResponseType(provider_job_id=launch_job_response["JobId"])
+            return AsyncLaunchJobResponseType(provider_job_id=launch_job_response["JobId"])
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__ocr_async__get_job_result(
         self, provider_job_id: str

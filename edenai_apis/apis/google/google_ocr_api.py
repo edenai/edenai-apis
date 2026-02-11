@@ -474,54 +474,74 @@ class GoogleOcrApi(OcrInterface):
     def ocr__ocr_tables_async__launch_job(
         self, file: str, file_type: str = None, language: str = "", file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
-        file_name: str = file.split("/")[-1]  # file.name give its whole path
+        file_handler = FileHandler()
+        file_wrapper = None
 
-        # Infer file_type if not provided
-        if not file_type:
-            file_type, _ = mimetypes.guess_type(file)
-            if not file_type:
-                file_type = "application/pdf"  # default fallback
+        try:
+            # Handle both file and file_url
+            if file:
+                file_name = file.split("/")[-1]
+                file_content_path = file
+                # Infer file_type if not provided
+                if not file_type:
+                    file_type, _ = mimetypes.guess_type(file)
+                    if not file_type:
+                        file_type = "application/pdf"
+            elif file_url:
+                file_wrapper = file_handler.download_file_from_url(file_url)
+                file_name = f"ocr_tables_{file_url.split('/')[-1]}"
+                file_content_path = file_wrapper.file_path
+                # Infer file_type from downloaded file
+                if not file_type:
+                    file_type = file_wrapper.file_info.file_media_type or "application/pdf"
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
 
-        documentai_projectid = self.api_settings["documentai"]["project_id"]
-        documentai_processid = self.api_settings["documentai"]["process_ocr_tables_id"]
+            documentai_projectid = self.api_settings["documentai"]["project_id"]
+            documentai_processid = self.api_settings["documentai"]["process_ocr_tables_id"]
 
-        gcs_output_uri = "gs://async-ocr-tables"
-        gcs_output_uri_prefix = "outputs"
-        gcs_input_uri = f"gs://async-ocr-tables/{file_name}"
+            gcs_output_uri = "gs://async-ocr-tables"
+            gcs_output_uri_prefix = "outputs"
+            gcs_input_uri = f"gs://async-ocr-tables/{file_name}"
 
-        # upload file to bucket
-        bucket_client = self.clients["storage"]
-        ocr_tables_bucket = bucket_client.get_bucket("async-ocr-tables")
-        new_blob = ocr_tables_bucket.blob(file_name)
-        new_blob.upload_from_filename(file)
+            # upload file to bucket
+            bucket_client = self.clients["storage"]
+            ocr_tables_bucket = bucket_client.get_bucket("async-ocr-tables")
+            new_blob = ocr_tables_bucket.blob(file_name)
+            new_blob.upload_from_filename(file_content_path)
 
-        doc_ai = documentai.DocumentProcessorServiceClient(
-            client_options={"api_endpoint": "eu-documentai.googleapis.com"}
-        )
+            doc_ai = documentai.DocumentProcessorServiceClient(
+                client_options={"api_endpoint": "eu-documentai.googleapis.com"}
+            )
 
-        destination_uri = f"{gcs_output_uri}/{gcs_output_uri_prefix}/"
+            destination_uri = f"{gcs_output_uri}/{gcs_output_uri_prefix}/"
 
-        gcs_documents = documentai.GcsDocuments(
-            documents=[{"gcs_uri": gcs_input_uri, "mime_type": file_type}]
-        )
+            gcs_documents = documentai.GcsDocuments(
+                documents=[{"gcs_uri": gcs_input_uri, "mime_type": file_type}]
+            )
 
-        input_config = documentai.BatchDocumentsInputConfig(gcs_documents=gcs_documents)
-        output_config = documentai.DocumentOutputConfig(
-            gcs_output_config={"gcs_uri": destination_uri}
-        )
+            input_config = documentai.BatchDocumentsInputConfig(gcs_documents=gcs_documents)
+            output_config = documentai.DocumentOutputConfig(
+                gcs_output_config={"gcs_uri": destination_uri}
+            )
 
-        name = f"projects/{documentai_projectid}/locations/eu/processors/{documentai_processid}"
+            name = f"projects/{documentai_projectid}/locations/eu/processors/{documentai_processid}"
 
-        request = documentai.BatchProcessRequest(
-            name=name,
-            input_documents=input_config,
-            document_output_config=output_config,
-        )
-        response = doc_ai.batch_process_documents(request)
+            request = documentai.BatchProcessRequest(
+                name=name,
+                input_documents=input_config,
+                document_output_config=output_config,
+            )
+            response = doc_ai.batch_process_documents(request)
 
-        operation_id = response.operation.name.split("/")[-1]
+            operation_id = response.operation.name.split("/")[-1]
 
-        return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+            return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__ocr_tables_async__get_job_result(
         self, job_id: str
@@ -577,86 +597,108 @@ class GoogleOcrApi(OcrInterface):
     async def ocr__aocr_tables_async__launch_job(
         self, file: str, file_type: str = None, language: str = "", file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
-        file_name: str = file.split("/")[-1]
+        file_handler = FileHandler()
+        file_wrapper = None
 
-        # Infer file_type if not provided
-        if not file_type:
-            file_type, _ = mimetypes.guess_type(file)
-            if not file_type:
-                file_type = "application/pdf"  # default fallback
+        try:
+            # Handle both file and file_url
+            if file:
+                file_name = file.split("/")[-1]
+                async with aiofiles.open(file, "rb") as file_:
+                    file_content = await file_.read()
+                # Infer file_type if not provided
+                if not file_type:
+                    file_type, _ = mimetypes.guess_type(file)
+                    if not file_type:
+                        file_type = "application/pdf"
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                # Extract filename from URL path, ignoring query parameters
+                from urllib.parse import urlparse
+                parsed_url = urlparse(file_url)
+                url_filename = parsed_url.path.split("/")[-1] or "document"
+                file_name = f"ocr_tables_{url_filename}"
+                file_content = await file_wrapper.get_bytes()
+                # Infer file_type from downloaded file
+                if not file_type:
+                    file_type = file_wrapper.file_info.file_media_type or "application/pdf"
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
 
-        documentai_projectid = self.api_settings["documentai"]["project_id"]
-        documentai_processid = self.api_settings["documentai"]["process_ocr_tables_id"]
+            documentai_projectid = self.api_settings["documentai"]["project_id"]
+            documentai_processid = self.api_settings["documentai"]["process_ocr_tables_id"]
 
-        gcs_output_uri = "gs://async-ocr-tables"
-        gcs_output_uri_prefix = "outputs"
-        gcs_input_uri = f"gs://async-ocr-tables/{file_name}"
+            gcs_output_uri = "gs://async-ocr-tables"
+            gcs_output_uri_prefix = "outputs"
+            gcs_input_uri = f"gs://async-ocr-tables/{file_name}"
 
-        # Get access token
-        token = get_access_token(self.location)
+            # Get access token
+            token = get_access_token(self.location)
 
-        # Upload file to GCS via REST API
-        async with aiofiles.open(file, "rb") as file_:
-            file_content = await file_.read()
+            # Upload file to GCS via REST API
+            upload_url = f"https://storage.googleapis.com/upload/storage/v1/b/async-ocr-tables/o?uploadType=media&name={file_name}"
+            headers = {"Authorization": f"Bearer {token}"}
 
-        upload_url = f"https://storage.googleapis.com/upload/storage/v1/b/async-ocr-tables/o?uploadType=media&name={file_name}"
-        headers = {"Authorization": f"Bearer {token}"}
+            async with httpx.AsyncClient() as client:
+                upload_response = await client.post(
+                    upload_url,
+                    headers=headers,
+                    content=file_content,
+                )
 
-        async with httpx.AsyncClient() as client:
-            upload_response = await client.post(
-                upload_url,
-                headers=headers,
-                content=file_content,
-            )
+            if upload_response.status_code not in [200, 201]:
+                raise ProviderException(
+                    f"Failed to upload file to GCS: {upload_response.text}",
+                    code=upload_response.status_code
+                )
 
-        if upload_response.status_code not in [200, 201]:
-            raise ProviderException(
-                f"Failed to upload file to GCS: {upload_response.text}",
-                code=upload_response.status_code
-            )
+            # Call Document AI batch process via REST API
+            destination_uri = f"{gcs_output_uri}/{gcs_output_uri_prefix}/"
 
-        # Call Document AI batch process via REST API
-        destination_uri = f"{gcs_output_uri}/{gcs_output_uri_prefix}/"
-
-        payload = {
-            "inputDocuments": {
-                "gcsDocuments": {
-                    "documents": [{
-                        "gcsUri": gcs_input_uri,
-                        "mimeType": file_type
-                    }]
-                }
-            },
-            "documentOutputConfig": {
-                "gcsOutputConfig": {
-                    "gcsUri": destination_uri
+            payload = {
+                "inputDocuments": {
+                    "gcsDocuments": {
+                        "documents": [{
+                            "gcsUri": gcs_input_uri,
+                            "mimeType": file_type
+                        }]
+                    }
+                },
+                "documentOutputConfig": {
+                    "gcsOutputConfig": {
+                        "gcsUri": destination_uri
+                    }
                 }
             }
-        }
 
-        batch_url = f"https://eu-documentai.googleapis.com/v1beta3/projects/{documentai_projectid}/locations/eu/processors/{documentai_processid}:batchProcess"
+            batch_url = f"https://eu-documentai.googleapis.com/v1beta3/projects/{documentai_projectid}/locations/eu/processors/{documentai_processid}:batchProcess"
 
-        async with httpx.AsyncClient() as client:
-            batch_response = await client.post(
-                batch_url,
-                headers={
-                    "Authorization": f"Bearer {token}",
-                    "Content-Type": "application/json"
-                },
-                json=payload,
-            )
+            async with httpx.AsyncClient() as client:
+                batch_response = await client.post(
+                    batch_url,
+                    headers={
+                        "Authorization": f"Bearer {token}",
+                        "Content-Type": "application/json"
+                    },
+                    json=payload,
+                )
 
-        if batch_response.status_code != 200:
-            raise ProviderException(
-                f"Failed to launch Document AI batch process: {batch_response.text}",
-                code=batch_response.status_code
-            )
+            if batch_response.status_code != 200:
+                raise ProviderException(
+                    f"Failed to launch Document AI batch process: {batch_response.text}",
+                    code=batch_response.status_code
+                )
 
-        response_data = batch_response.json()
-        operation_name = response_data.get("name", "")
-        operation_id = operation_name.split("/")[-1]
+            response_data = batch_response.json()
+            operation_name = response_data.get("name", "")
+            operation_id = operation_name.split("/")[-1]
 
-        return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+            return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     async def ocr__aocr_tables_async__get_job_result(
         self, provider_job_id: str
@@ -740,38 +782,73 @@ class GoogleOcrApi(OcrInterface):
     def ocr__ocr_async__launch_job(
         self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
-        call_uuid = uuid.uuid4().hex
-        filename: str = call_uuid + file.split("/")[-1]
+        file_handler = FileHandler()
+        file_wrapper = None
 
-        gcs_output_uri = "gs://ocr-async/outputs-" + call_uuid
-        gcs_input_uri = f"gs://ocr-async/{filename}"
+        try:
+            # Initialize variables
+            file_path = None
+            file_name_part = None
 
-        ocr_async_bucket = self.clients["storage"].get_bucket("ocr-async")
-        new_blob = ocr_async_bucket.blob(filename)
-        new_blob.upload_from_filename(file)
+            # Handle both file and file_url
+            if file:
+                file_path = file
+                file_name_part = file.split("/")[-1]
+            elif file_url:
+                file_wrapper = file_handler.download_file_from_url(file_url)
+                if file_wrapper and file_wrapper.file_path:
+                    file_path = file_wrapper.file_path
+                    file_name_part = file_url.split("/")[-1]
+                else:
+                    raise ProviderException(
+                        f"Failed to download file from URL: {file_url}", code=400
+                    )
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
 
-        feature = vision.Feature(type_=vision.Feature.Type.DOCUMENT_TEXT_DETECTION)
+            # Validate we have what we need
+            if not file_path or not file_name_part:
+                raise ProviderException(
+                    "Failed to obtain file path or filename", code=400
+                )
 
-        mime_type, _ = mimetypes.guess_type(file)
+            call_uuid = uuid.uuid4().hex
+            filename: str = call_uuid + file_name_part
 
-        gcs_source = vision.GcsSource(uri=gcs_input_uri)
-        input_config = vision.InputConfig(gcs_source=gcs_source, mime_type=mime_type)
+            gcs_output_uri = "gs://ocr-async/outputs-" + call_uuid
+            gcs_input_uri = f"gs://ocr-async/{filename}"
 
-        gcs_destination = vision.GcsDestination(uri=gcs_output_uri)
-        output_config = vision.OutputConfig(
-            gcs_destination=gcs_destination, batch_size=1
-        )
+            ocr_async_bucket = self.clients["storage"].get_bucket("ocr-async")
+            new_blob = ocr_async_bucket.blob(filename)
+            new_blob.upload_from_filename(file_path)
 
-        async_request = vision.AsyncAnnotateFileRequest(
-            features=[feature], input_config=input_config, output_config=output_config
-        )
+            feature = vision.Feature(type_=vision.Feature.Type.DOCUMENT_TEXT_DETECTION)
 
-        response = self.clients["image"].async_batch_annotate_files(
-            requests=[async_request]
-        )
+            mime_type, _ = mimetypes.guess_type(file_path)
 
-        operation_id = response.operation.name.split("/")[-1]
-        return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+            gcs_source = vision.GcsSource(uri=gcs_input_uri)
+            input_config = vision.InputConfig(gcs_source=gcs_source, mime_type=mime_type)
+
+            gcs_destination = vision.GcsDestination(uri=gcs_output_uri)
+            output_config = vision.OutputConfig(
+                gcs_destination=gcs_destination, batch_size=1
+            )
+
+            async_request = vision.AsyncAnnotateFileRequest(
+                features=[feature], input_config=input_config, output_config=output_config
+            )
+
+            response = self.clients["image"].async_batch_annotate_files(
+                requests=[async_request]
+            )
+
+            operation_id = response.operation.name.split("/")[-1]
+            return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__ocr_async__get_job_result(
         self, job_id: str
@@ -803,77 +880,112 @@ class GoogleOcrApi(OcrInterface):
     async def ocr__aocr_async__launch_job(
         self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
-        # Get access token (following existing pattern from google_image_api.py:667)
-        token = get_access_token(self.location)
+        file_handler = FileHandler()
+        file_wrapper = None
 
-        # Generate unique IDs
-        call_uuid = uuid.uuid4().hex
-        filename = call_uuid + file.split("/")[-1]
+        try:
+            # Get access token
+            token = get_access_token(self.location)
 
-        gcs_output_uri = "gs://ocr-async/outputs-" + call_uuid
-        gcs_input_uri = f"gs://ocr-async/{filename}"
+            # Initialize variables
+            file_path = None
+            file_name_part = None
+            file_content = None
+            mime_type = None
 
-        # Step 1: Upload file to GCS via REST API
-        with open(file, "rb") as file_:
-            file_content = file_.read()
+            # Handle both file and file_url
+            if file:
+                file_path = file
+                file_name_part = file.split("/")[-1]
+                async with aiofiles.open(file_path, "rb") as file_:
+                    file_content = await file_.read()
+                mime_type, _ = mimetypes.guess_type(file_path)
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                # Extract filename from URL path, ignoring query parameters
+                from urllib.parse import urlparse
+                parsed_url = urlparse(file_url)
+                file_name_part = parsed_url.path.split("/")[-1] or "document"
+                file_content = await file_wrapper.get_bytes()
+                # Infer mimetype from downloaded file
+                mime_type = file_wrapper.file_info.file_media_type
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
 
-        upload_url = f"https://storage.googleapis.com/upload/storage/v1/b/ocr-async/o?uploadType=media&name={filename}"
-        headers = {"Authorization": f"Bearer {token}"}
+            # Ensure we have a valid mime_type
+            if not mime_type:
+                raise ProviderException(
+                    "Could not determine file mime type", code=400
+                )
 
-        async with httpx.AsyncClient() as client:
-            upload_response = await client.post(
-                upload_url,
-                headers=headers,
-                content=file_content,
-            )
+            # Generate unique IDs
+            call_uuid = uuid.uuid4().hex
+            filename = call_uuid + file_name_part
 
-        if upload_response.status_code not in [200, 201]:
-            raise ProviderException(
-                f"Failed to upload file to GCS: {upload_response.text}",
-                code=upload_response.status_code
-            )
+            gcs_output_uri = "gs://ocr-async/outputs-" + call_uuid
+            gcs_input_uri = f"gs://ocr-async/{filename}"
 
-        # Step 2: Call Vision API async batch annotate
-        mime_type, _ = mimetypes.guess_type(file)
+            # Step 1: Upload file to GCS via REST API
+            upload_url = f"https://storage.googleapis.com/upload/storage/v1/b/ocr-async/o?uploadType=media&name={filename}"
+            headers = {"Authorization": f"Bearer {token}"}
 
-        vision_payload = {
-            "requests": [{
-                "features": [{"type": "DOCUMENT_TEXT_DETECTION"}],
-                "inputConfig": {
-                    "gcsSource": {"uri": gcs_input_uri},
-                    "mimeType": mime_type
-                },
-                "outputConfig": {
-                    "gcsDestination": {"uri": gcs_output_uri},
-                    "batchSize": 1
-                }
-            }]
-        }
+            async with httpx.AsyncClient() as client:
+                upload_response = await client.post(
+                    upload_url,
+                    headers=headers,
+                    content=file_content,
+                )
 
-        vision_url = "https://vision.googleapis.com/v1/files:asyncBatchAnnotate"
-        headers = {
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json"
-        }
+            if upload_response.status_code not in [200, 201]:
+                raise ProviderException(
+                    f"Failed to upload file to GCS: {upload_response.text}",
+                    code=upload_response.status_code
+                )
 
-        async with httpx.AsyncClient() as client:
-            vision_response = await client.post(
-                vision_url,
-                headers=headers,
-                json=vision_payload,
-            )
+            # Step 2: Call Vision API async batch annotate
+            vision_payload = {
+                "requests": [{
+                    "features": [{"type": "DOCUMENT_TEXT_DETECTION"}],
+                    "inputConfig": {
+                        "gcsSource": {"uri": gcs_input_uri},
+                        "mimeType": mime_type
+                    },
+                    "outputConfig": {
+                        "gcsDestination": {"uri": gcs_output_uri},
+                        "batchSize": 1
+                    }
+                }]
+            }
 
-        if vision_response.status_code != 200:
-            raise ProviderException(
-                f"Failed to launch Vision API job: {vision_response.text}",
-                code=vision_response.status_code
-            )
+            vision_url = "https://vision.googleapis.com/v1/files:asyncBatchAnnotate"
+            headers = {
+                "Authorization": f"Bearer {token}",
+                "Content-Type": "application/json"
+            }
 
-        response_data = vision_response.json()
-        operation_name = response_data.get("name", "")
-        operation_id = operation_name.split("/")[-1]
+            async with httpx.AsyncClient() as client:
+                vision_response = await client.post(
+                    vision_url,
+                    headers=headers,
+                    json=vision_payload,
+                )
 
-        return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+            if vision_response.status_code != 200:
+                raise ProviderException(
+                    f"Failed to launch Vision API job: {vision_response.text}",
+                    code=vision_response.status_code
+                )
+
+            response_data = vision_response.json()
+            operation_name = response_data.get("name", "")
+            operation_id = operation_name.split("/")[-1]
+
+            return AsyncLaunchJobResponseType(provider_job_id=operation_id)
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     async def ocr__aocr_async__get_job_result(
         self, provider_job_id: str
