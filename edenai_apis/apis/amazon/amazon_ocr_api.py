@@ -1,7 +1,9 @@
 import json
 import uuid
+from pathlib import Path
 from time import sleep
 from typing import Dict, List, Sequence, Union
+from urllib.parse import urlparse
 
 import aioboto3
 import aiofiles
@@ -486,16 +488,17 @@ class AmazonOcrApi(OcrInterface):
 
         file_handler = FileHandler()
         file_wrapper = None
-        s3_key = file
 
         try:
             if file:
                 async with aiofiles.open(file, "rb") as f:
                     file_content = await f.read()
+                s3_key = f"{uuid.uuid4().hex}{Path(file).suffix}"
             elif file_url:
                 file_wrapper = await file_handler.download_file(file_url)
                 file_content = await file_wrapper.get_bytes()
-                s3_key = f"ocr_tables_{file_url.split('/')[-1]}"
+                filename = Path(urlparse(file_url).path).name
+                s3_key = f"{uuid.uuid4().hex}_{filename}"
             else:
                 raise ProviderException(
                     "Either file or file_url must be provided", code=400
@@ -899,16 +902,17 @@ class AmazonOcrApi(OcrInterface):
     ) -> AsyncLaunchJobResponseType:
         file_handler = FileHandler()
         file_wrapper = None
-        s3_key = file
 
         try:
             if file:
                 async with aiofiles.open(file, "rb") as f:
                     file_content = await f.read()
+                s3_key = f"{uuid.uuid4().hex}{Path(file).suffix}"
             elif file_url:
                 file_wrapper = await file_handler.download_file(file_url)
                 file_content = await file_wrapper.get_bytes()
-                s3_key = f"upload_{file_url.split('/')[-1]}"
+                filename = Path(urlparse(file_url).path).name
+                s3_key = f"{uuid.uuid4().hex}_{filename}"
             else:
                 raise ProviderException(
                     "Either file or file_url must be provided", code=400
