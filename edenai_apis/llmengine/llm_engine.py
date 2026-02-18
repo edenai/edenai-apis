@@ -26,6 +26,7 @@ from edenai_apis.features.llm.chat.chat_dataclass import (
     StreamChat as StreamChatCompletion,
 )
 from edenai_apis.features.llm.responses.responses_dataclass import (
+    DeleteResponseDataClass,
     ResponsesDataClass,
     StreamResponses,
 )
@@ -1515,6 +1516,114 @@ class LLMEngine:
                 return StreamAResponses(stream=result)
             else:
                 return ResponsesDataClass.model_validate(result)
+        except Exception as ex:
+            raise ex
+
+    def get_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ) -> ResponsesDataClass:
+        try:
+            call_params = {"response_id": response_id}
+            if extra_headers is not None:
+                call_params["extra_headers"] = extra_headers
+            if extra_query is not None:
+                call_params["extra_query"] = extra_query
+            if extra_body is not None:
+                call_params["extra_body"] = extra_body
+            if timeout is not None:
+                call_params["timeout"] = timeout
+            if custom_llm_provider is not None:
+                call_params["custom_llm_provider"] = custom_llm_provider
+            result = self.completion_client.get_responses(**call_params, **kwargs)
+            return ResponsesDataClass.model_validate(result)
+        except Exception as ex:
+            raise ex
+
+    async def aget_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ) -> ResponsesDataClass:
+        try:
+            call_params = {"response_id": response_id}
+            if extra_headers is not None:
+                call_params["extra_headers"] = extra_headers
+            if extra_query is not None:
+                call_params["extra_query"] = extra_query
+            if extra_body is not None:
+                call_params["extra_body"] = extra_body
+            if timeout is not None:
+                call_params["timeout"] = timeout
+            if custom_llm_provider is not None:
+                call_params["custom_llm_provider"] = custom_llm_provider
+            result = await self.completion_client.aget_responses(**call_params, **kwargs)
+            return ResponsesDataClass.model_validate(result)
+        except Exception as ex:
+            raise ex
+
+    def delete_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ) -> DeleteResponseDataClass:
+        try:
+            call_params = {"response_id": response_id}
+            if extra_headers is not None:
+                call_params["extra_headers"] = extra_headers
+            if extra_query is not None:
+                call_params["extra_query"] = extra_query
+            if extra_body is not None:
+                call_params["extra_body"] = extra_body
+            if timeout is not None:
+                call_params["timeout"] = timeout
+            if custom_llm_provider is not None:
+                call_params["custom_llm_provider"] = custom_llm_provider
+            result = self.completion_client.delete_responses(**call_params, **kwargs)
+            return DeleteResponseDataClass.model_validate(result)
+        except Exception as ex:
+            raise ex
+
+    async def adelete_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ) -> DeleteResponseDataClass:
+        try:
+            call_params = {"response_id": response_id}
+            if extra_headers is not None:
+                call_params["extra_headers"] = extra_headers
+            if extra_query is not None:
+                call_params["extra_query"] = extra_query
+            if extra_body is not None:
+                call_params["extra_body"] = extra_body
+            if timeout is not None:
+                call_params["timeout"] = timeout
+            if custom_llm_provider is not None:
+                call_params["custom_llm_provider"] = custom_llm_provider
+            result = await self.completion_client.adelete_responses(**call_params, **kwargs)
+            return DeleteResponseDataClass.model_validate(result)
         except Exception as ex:
             raise ex
 

@@ -1142,6 +1142,167 @@ class LiteLLMCompletionClient(CompletionClient):
                 raise ProviderException(str(exc)) from exc
 
 
+    def get_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ):
+        call_params = {"response_id": response_id}
+        if extra_headers is not None:
+            call_params["extra_headers"] = extra_headers
+        if extra_query is not None:
+            call_params["extra_query"] = extra_query
+        if extra_body is not None:
+            call_params["extra_body"] = extra_body
+        if timeout is not None:
+            call_params["timeout"] = timeout
+        if custom_llm_provider is not None:
+            call_params["custom_llm_provider"] = custom_llm_provider
+        call_params.update(self.provider_config)
+        try:
+            response = litellm.get_responses(**call_params, **kwargs)
+            return response.model_dump()
+        except Exception as exc:
+            if isinstance(
+                exc,
+                (
+                    APIError, APIConnectionError, APIResponseValidationError,
+                    AuthenticationError, BadRequestError, NotFoundError,
+                    RateLimitError, ServiceUnavailableError, ContentPolicyViolationError,
+                    Timeout, UnprocessableEntityError, JSONSchemaValidationError,
+                    UnsupportedParamsError, ContextWindowExceededError, InternalServerError,
+                ),
+            ):
+                raise handle_litellm_exception(exc) from exc
+            else:
+                raise ProviderException(str(exc)) from exc
+
+    async def aget_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ):
+        call_params = {"response_id": response_id}
+        if extra_headers is not None:
+            call_params["extra_headers"] = extra_headers
+        if extra_query is not None:
+            call_params["extra_query"] = extra_query
+        if extra_body is not None:
+            call_params["extra_body"] = extra_body
+        if timeout is not None:
+            call_params["timeout"] = timeout
+        if custom_llm_provider is not None:
+            call_params["custom_llm_provider"] = custom_llm_provider
+        call_params.update(self.provider_config)
+        try:
+            response = await litellm.aget_responses(**call_params, **kwargs)
+            return response.model_dump()
+        except Exception as exc:
+            if isinstance(
+                exc,
+                (
+                    APIError, APIConnectionError, APIResponseValidationError,
+                    AuthenticationError, BadRequestError, NotFoundError,
+                    RateLimitError, ServiceUnavailableError, ContentPolicyViolationError,
+                    Timeout, UnprocessableEntityError, JSONSchemaValidationError,
+                    UnsupportedParamsError, ContextWindowExceededError, InternalServerError,
+                ),
+            ):
+                raise handle_litellm_exception(exc) from exc
+            else:
+                raise ProviderException(str(exc)) from exc
+
+    def delete_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ):
+        call_params = {"response_id": response_id}
+        if extra_headers is not None:
+            call_params["extra_headers"] = extra_headers
+        if extra_query is not None:
+            call_params["extra_query"] = extra_query
+        if extra_body is not None:
+            call_params["extra_body"] = extra_body
+        if timeout is not None:
+            call_params["timeout"] = timeout
+        if custom_llm_provider is not None:
+            call_params["custom_llm_provider"] = custom_llm_provider
+        call_params.update(self.provider_config)
+        try:
+            response = litellm.delete_responses(**call_params, **kwargs)
+            return response.model_dump()
+        except Exception as exc:
+            if isinstance(
+                exc,
+                (
+                    APIError, APIConnectionError, APIResponseValidationError,
+                    AuthenticationError, BadRequestError, NotFoundError,
+                    RateLimitError, ServiceUnavailableError, ContentPolicyViolationError,
+                    Timeout, UnprocessableEntityError, JSONSchemaValidationError,
+                    UnsupportedParamsError, ContextWindowExceededError, InternalServerError,
+                ),
+            ):
+                raise handle_litellm_exception(exc) from exc
+            else:
+                raise ProviderException(str(exc)) from exc
+
+    async def adelete_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ):
+        call_params = {"response_id": response_id}
+        if extra_headers is not None:
+            call_params["extra_headers"] = extra_headers
+        if extra_query is not None:
+            call_params["extra_query"] = extra_query
+        if extra_body is not None:
+            call_params["extra_body"] = extra_body
+        if timeout is not None:
+            call_params["timeout"] = timeout
+        if custom_llm_provider is not None:
+            call_params["custom_llm_provider"] = custom_llm_provider
+        call_params.update(self.provider_config)
+        try:
+            response = await litellm.adelete_responses(**call_params, **kwargs)
+            return response.model_dump()
+        except Exception as exc:
+            if isinstance(
+                exc,
+                (
+                    APIError, APIConnectionError, APIResponseValidationError,
+                    AuthenticationError, BadRequestError, NotFoundError,
+                    RateLimitError, ServiceUnavailableError, ContentPolicyViolationError,
+                    Timeout, UnprocessableEntityError, JSONSchemaValidationError,
+                    UnsupportedParamsError, ContextWindowExceededError, InternalServerError,
+                ),
+            ):
+                raise handle_litellm_exception(exc) from exc
+            else:
+                raise ProviderException(str(exc)) from exc
+
+
 class LiteLLMRerankClient(RerankerClient):
     CLIENT_NAME = "rerank_litellm"
 

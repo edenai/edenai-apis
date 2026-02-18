@@ -4,6 +4,7 @@ from openai import BaseModel
 from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 from edenai_apis.features.llm.responses.responses_dataclass import (
+    DeleteResponseDataClass,
     ResponsesDataClass,
     StreamResponses,
 )
@@ -316,6 +317,90 @@ class OpenaiLLMApi(LlmInterface):
             api_version=api_version,
             custom_llm_provider=custom_llm_provider,
             drop_invalid_params=drop_invalid_params,
+            **kwargs,
+        )
+        return response
+
+    def llm__get_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ) -> ResponsesDataClass:
+        response = self.llm_client.get_responses(
+            response_id=response_id,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            custom_llm_provider=custom_llm_provider,
+            **kwargs,
+        )
+        return response
+
+    async def llm__aget_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ) -> ResponsesDataClass:
+        response = await self.llm_client.aget_responses(
+            response_id=response_id,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            custom_llm_provider=custom_llm_provider,
+            **kwargs,
+        )
+        return response
+
+    def llm__delete_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ) -> DeleteResponseDataClass:
+        response = self.llm_client.delete_responses(
+            response_id=response_id,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            custom_llm_provider=custom_llm_provider,
+            **kwargs,
+        )
+        return response
+
+    async def llm__adelete_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ) -> DeleteResponseDataClass:
+        response = await self.llm_client.adelete_responses(
+            response_id=response_id,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+            custom_llm_provider=custom_llm_provider,
             **kwargs,
         )
         return response

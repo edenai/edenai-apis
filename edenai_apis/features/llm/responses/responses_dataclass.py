@@ -7,17 +7,6 @@ class ResponseOutputContent(BaseModel):
     text: Optional[str] = Field(None, description="The text content")
 
 
-class ResponseOutputMessage(BaseModel):
-    type: Literal["message"] = Field("message", description="The type of output item")
-    id: Optional[str] = Field(None, description="The ID of the output message")
-    role: Optional[str] = Field(None, description="The role of the message author")
-    status: Optional[str] = Field(None, description="The status of the message")
-    content: List[ResponseOutputContent] = Field(
-        default_factory=list,
-        description="The content blocks of the output message",
-    )
-
-
 class ResponseOutputItem(BaseModel):
     """A generic output item; can be a message or other typed output."""
 
@@ -52,7 +41,7 @@ class ResponsesUsage(BaseModel):
 
 class ResponsesDataClass(BaseModel):
     id: str = Field(..., description="Unique identifier for this response")
-    object: str = Field(..., description="Object type, e.g. 'response'")
+    object: Optional[str] = Field(None, description="Object type, e.g. 'response'")
     created_at: Optional[int] = Field(
         None, description="Unix timestamp for when the response was created"
     )
@@ -67,11 +56,59 @@ class ResponsesDataClass(BaseModel):
     usage: Optional[ResponsesUsage] = Field(
         None, description="Token usage statistics for the response"
     )
+    # Fields echoed back from the request
+    error: Optional[Dict[str, Any]] = Field(
+        None, description="Error information if the response failed"
+    )
+    incomplete_details: Optional[Dict[str, Any]] = Field(
+        None, description="Details about why the response is incomplete"
+    )
+    instructions: Optional[str] = Field(
+        None, description="System instructions used for the response"
+    )
+    metadata: Optional[Dict[str, Any]] = Field(
+        None, description="Metadata attached to the response"
+    )
+    parallel_tool_calls: Optional[bool] = Field(
+        None, description="Whether parallel tool calls were enabled"
+    )
+    temperature: Optional[float] = Field(None, description="Sampling temperature used")
+    tool_choice: Optional[Union[str, Dict[str, Any]]] = Field(
+        None, description="Tool choice configuration"
+    )
+    tools: Optional[List[Any]] = Field(
+        None, description="Tools available to the model"
+    )
+    top_p: Optional[float] = Field(None, description="Nucleus sampling parameter used")
+    max_output_tokens: Optional[int] = Field(
+        None, description="Maximum output tokens limit"
+    )
     previous_response_id: Optional[str] = Field(
         None, description="The ID of the previous response in a session"
     )
+    reasoning: Optional[Dict[str, Any]] = Field(
+        None, description="Reasoning configuration used"
+    )
+    text: Optional[Dict[str, Any]] = Field(
+        None, description="Text formatting options used"
+    )
+    truncation: Optional[Literal["auto", "disabled"]] = Field(
+        None, description="Truncation strategy used"
+    )
+    store: Optional[bool] = Field(
+        None, description="Whether the response is stored server-side"
+    )
+    user: Optional[str] = Field(None, description="End-user identifier")
 
     model_config = ConfigDict(extra="allow")
+
+
+class DeleteResponseDataClass(BaseModel):
+    id: Optional[str] = Field(None, description="The ID of the deleted response")
+    object: Optional[str] = Field(None, description="Object type, e.g. 'response'")
+    deleted: Optional[bool] = Field(
+        None, description="Whether the response was successfully deleted"
+    )
 
 
 class StreamResponses(BaseModel):

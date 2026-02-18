@@ -60,6 +60,26 @@ class CompletionClient:
             "Not implemented. Please implement this method in a subclass."
         )
 
+    def get_responses(self, response_id: str, **kwargs):
+        raise CompletionClientError(
+            "Not implemented. Please implement this method in a subclass."
+        )
+
+    async def aget_responses(self, response_id: str, **kwargs):
+        raise CompletionClientError(
+            "Not implemented. Please implement this method in a subclass."
+        )
+
+    def delete_responses(self, response_id: str, **kwargs):
+        raise CompletionClientError(
+            "Not implemented. Please implement this method in a subclass."
+        )
+
+    async def adelete_responses(self, response_id: str, **kwargs):
+        raise CompletionClientError(
+            "Not implemented. Please implement this method in a subclass."
+        )
+
     def moderation(self, input: str, api_key: Optional[str] = None):
         raise CompletionClientError(
             "Not implemented. Please implement this method in a subclass."

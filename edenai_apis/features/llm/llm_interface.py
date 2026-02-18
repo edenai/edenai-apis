@@ -6,6 +6,7 @@ import httpx
 
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 from edenai_apis.features.llm.responses.responses_dataclass import (
+    DeleteResponseDataClass,
     ResponsesDataClass,
     StreamResponses,
 )
@@ -262,5 +263,85 @@ class LlmInterface:
         """
         Async version of llm__responses.
         Generate a response using the OpenAI Responses API (or compatible provider).
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def llm__get_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ) -> ResponsesDataClass:
+        """
+        Retrieve a previously created response by its ID.
+        Args:
+            response_id: The ID of the response to retrieve.
+            extra_headers: Additional HTTP headers.
+            extra_query: Additional query parameters.
+            extra_body: Additional body parameters.
+            timeout: Request timeout.
+            custom_llm_provider: Override the LLM provider.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    async def llm__aget_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ) -> ResponsesDataClass:
+        """
+        Async version of llm__get_responses.
+        Retrieve a previously created response by its ID.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def llm__delete_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ) -> DeleteResponseDataClass:
+        """
+        Delete a previously created response by its ID.
+        Args:
+            response_id: The ID of the response to delete.
+            extra_headers: Additional HTTP headers.
+            extra_query: Additional query parameters.
+            extra_body: Additional body parameters.
+            timeout: Request timeout.
+            custom_llm_provider: Override the LLM provider.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    async def llm__adelete_responses(
+        self,
+        response_id: str,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        custom_llm_provider: Optional[str] = None,
+        **kwargs,
+    ) -> DeleteResponseDataClass:
+        """
+        Async version of llm__delete_responses.
+        Delete a previously created response by its ID.
         """
         raise NotImplementedError
