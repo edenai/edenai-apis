@@ -21,8 +21,13 @@ from edenai_apis.features.image import (
 from edenai_apis.features.llm.achat.achat_dataclass import (
     StreamAchat as StreamAchatCompletion,
 )
+from edenai_apis.features.llm.aresponses.aresponses_dataclass import StreamAResponses
 from edenai_apis.features.llm.chat.chat_dataclass import (
     StreamChat as StreamChatCompletion,
+)
+from edenai_apis.features.llm.responses.responses_dataclass import (
+    ResponsesDataClass,
+    StreamResponses,
 )
 from edenai_apis.features.multimodal.chat import (
     ChatDataClass as ChatMultimodalDataClass,
@@ -1294,6 +1299,222 @@ class LLMEngine:
             else:
                 response = ResponseModel.model_validate(response)
                 return response
+        except Exception as ex:
+            raise ex
+
+    def responses(
+        self,
+        input=None,
+        model: Optional[str] = None,
+        # Core Responses API params
+        include: Optional[List] = None,
+        instructions: Optional[str] = None,
+        max_output_tokens: Optional[int] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        parallel_tool_calls: Optional[bool] = None,
+        prompt: Optional[dict] = None,
+        previous_response_id: Optional[str] = None,
+        reasoning: Optional[dict] = None,
+        store: Optional[bool] = None,
+        background: Optional[bool] = None,
+        stream: Optional[bool] = None,
+        temperature: Optional[float] = None,
+        text: Optional[dict] = None,
+        text_format: Optional[Union[dict, Type[BaseModel]]] = None,
+        tool_choice: Optional[Union[str, dict]] = None,
+        tools: Optional[List] = None,
+        top_p: Optional[float] = None,
+        truncation: Optional[Literal["auto", "disabled"]] = None,
+        user: Optional[str] = None,
+        service_tier: Optional[str] = None,
+        safety_identifier: Optional[str] = None,
+        # Common params
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        base_url: Optional[str] = None,
+        api_version: Optional[str] = None,
+        api_key: Optional[str] = None,
+        custom_llm_provider: Optional[str] = None,
+        drop_invalid_params: bool = True,
+        **kwargs,
+    ) -> Union[ResponsesDataClass, StreamResponses]:
+        kwargs.pop("moderate_content", None)
+        try:
+            response_params = {"input": input, "model": model}
+            if include is not None:
+                response_params["include"] = include
+            if instructions is not None:
+                response_params["instructions"] = instructions
+            if max_output_tokens is not None:
+                response_params["max_output_tokens"] = max_output_tokens
+            if metadata is not None:
+                response_params["metadata"] = metadata
+            if parallel_tool_calls is not None:
+                response_params["parallel_tool_calls"] = parallel_tool_calls
+            if prompt is not None:
+                response_params["prompt"] = prompt
+            if previous_response_id is not None:
+                response_params["previous_response_id"] = previous_response_id
+            if reasoning is not None:
+                response_params["reasoning"] = reasoning
+            if store is not None:
+                response_params["store"] = store
+            if background is not None:
+                response_params["background"] = background
+            if stream is not None:
+                response_params["stream"] = stream
+            if temperature is not None:
+                response_params["temperature"] = temperature
+            if text is not None:
+                response_params["text"] = text
+            if text_format is not None:
+                response_params["text_format"] = text_format
+            if tool_choice is not None:
+                response_params["tool_choice"] = tool_choice
+            if tools is not None:
+                response_params["tools"] = tools
+            if top_p is not None:
+                response_params["top_p"] = top_p
+            if truncation is not None:
+                response_params["truncation"] = truncation
+            if user is not None:
+                response_params["user"] = user
+            if service_tier is not None:
+                response_params["service_tier"] = service_tier
+            if safety_identifier is not None:
+                response_params["safety_identifier"] = safety_identifier
+            if timeout is not None:
+                response_params["timeout"] = timeout
+            if extra_headers is not None:
+                response_params["extra_headers"] = extra_headers
+            if extra_query is not None:
+                response_params["extra_query"] = extra_query
+            if extra_body is not None:
+                response_params["extra_body"] = extra_body
+            if base_url is not None:
+                response_params["base_url"] = base_url
+            if api_version is not None:
+                response_params["api_version"] = api_version
+            if custom_llm_provider is not None:
+                response_params["custom_llm_provider"] = custom_llm_provider
+            if drop_invalid_params is not None:
+                response_params["drop_invalid_params"] = drop_invalid_params
+            call_params = self._prepare_args(**response_params)
+            result = self.completion_client.responses(**call_params, **kwargs)
+            if stream:
+                return StreamResponses(stream=result)
+            else:
+                return ResponsesDataClass.model_validate(result)
+        except Exception as ex:
+            raise ex
+
+    async def aresponses(
+        self,
+        input=None,
+        model: Optional[str] = None,
+        # Core Responses API params
+        include: Optional[List] = None,
+        instructions: Optional[str] = None,
+        max_output_tokens: Optional[int] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        parallel_tool_calls: Optional[bool] = None,
+        prompt: Optional[dict] = None,
+        previous_response_id: Optional[str] = None,
+        reasoning: Optional[dict] = None,
+        store: Optional[bool] = None,
+        background: Optional[bool] = None,
+        stream: Optional[bool] = None,
+        temperature: Optional[float] = None,
+        text: Optional[dict] = None,
+        text_format: Optional[Union[dict, Type[BaseModel]]] = None,
+        tool_choice: Optional[Union[str, dict]] = None,
+        tools: Optional[List] = None,
+        top_p: Optional[float] = None,
+        truncation: Optional[Literal["auto", "disabled"]] = None,
+        user: Optional[str] = None,
+        service_tier: Optional[str] = None,
+        safety_identifier: Optional[str] = None,
+        # Common params
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        base_url: Optional[str] = None,
+        api_version: Optional[str] = None,
+        api_key: Optional[str] = None,
+        custom_llm_provider: Optional[str] = None,
+        drop_invalid_params: bool = True,
+        **kwargs,
+    ) -> Union[ResponsesDataClass, StreamAResponses]:
+        kwargs.pop("moderate_content", None)
+        try:
+            response_params = {"input": input, "model": model}
+            if include is not None:
+                response_params["include"] = include
+            if instructions is not None:
+                response_params["instructions"] = instructions
+            if max_output_tokens is not None:
+                response_params["max_output_tokens"] = max_output_tokens
+            if metadata is not None:
+                response_params["metadata"] = metadata
+            if parallel_tool_calls is not None:
+                response_params["parallel_tool_calls"] = parallel_tool_calls
+            if prompt is not None:
+                response_params["prompt"] = prompt
+            if previous_response_id is not None:
+                response_params["previous_response_id"] = previous_response_id
+            if reasoning is not None:
+                response_params["reasoning"] = reasoning
+            if store is not None:
+                response_params["store"] = store
+            if background is not None:
+                response_params["background"] = background
+            if stream is not None:
+                response_params["stream"] = stream
+            if temperature is not None:
+                response_params["temperature"] = temperature
+            if text is not None:
+                response_params["text"] = text
+            if text_format is not None:
+                response_params["text_format"] = text_format
+            if tool_choice is not None:
+                response_params["tool_choice"] = tool_choice
+            if tools is not None:
+                response_params["tools"] = tools
+            if top_p is not None:
+                response_params["top_p"] = top_p
+            if truncation is not None:
+                response_params["truncation"] = truncation
+            if user is not None:
+                response_params["user"] = user
+            if service_tier is not None:
+                response_params["service_tier"] = service_tier
+            if safety_identifier is not None:
+                response_params["safety_identifier"] = safety_identifier
+            if timeout is not None:
+                response_params["timeout"] = timeout
+            if extra_headers is not None:
+                response_params["extra_headers"] = extra_headers
+            if extra_query is not None:
+                response_params["extra_query"] = extra_query
+            if extra_body is not None:
+                response_params["extra_body"] = extra_body
+            if base_url is not None:
+                response_params["base_url"] = base_url
+            if api_version is not None:
+                response_params["api_version"] = api_version
+            if custom_llm_provider is not None:
+                response_params["custom_llm_provider"] = custom_llm_provider
+            if drop_invalid_params is not None:
+                response_params["drop_invalid_params"] = drop_invalid_params
+            call_params = self._prepare_args(**response_params)
+            result = await self.completion_client.aresponses(**call_params, **kwargs)
+            if stream:
+                return StreamAResponses(stream=result)
+            else:
+                return ResponsesDataClass.model_validate(result)
         except Exception as ex:
             raise ex
 

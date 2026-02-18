@@ -4,53 +4,30 @@ from typing import Any, Coroutine, Dict, List, Literal, Optional, Type, Union
 
 import httpx
 import litellm
-from litellm import (
-    completion,
-    completion_cost,
-    embedding,
-    image_generation,
-    aimage_generation,
-    moderation,
-    register_model,
-    response_cost_calculator,
-    # async versions
-    acompletion,
-    amoderation,
-    aembedding,
-    arerank,
-)
-from litellm.exceptions import (
-    APIConnectionError,
-    APIError,
-    APIResponseValidationError,
-    AuthenticationError,
-    BadRequestError,
-    ContentPolicyViolationError,
-    ContextWindowExceededError,
-    InternalServerError,
-    JSONSchemaValidationError,
-    NotFoundError,
-    RateLimitError,
-    ServiceUnavailableError,
-    Timeout,
-    UnprocessableEntityError,
-    UnsupportedParamsError,
-)
+from litellm import (acompletion, aembedding,  # async versions
+                     aimage_generation, amoderation, arerank, completion,
+                     completion_cost, embedding, image_generation, moderation,
+                     register_model, response_cost_calculator)
+from litellm.exceptions import (APIConnectionError, APIError,
+                                APIResponseValidationError,
+                                AuthenticationError, BadRequestError,
+                                ContentPolicyViolationError,
+                                ContextWindowExceededError,
+                                InternalServerError, JSONSchemaValidationError,
+                                NotFoundError, RateLimitError,
+                                ServiceUnavailableError, Timeout,
+                                UnprocessableEntityError,
+                                UnsupportedParamsError)
 from litellm.utils import get_supported_openai_params
-from edenai_apis.llmengine.clients.reranker import RerankerClient
 from llmengine.clients.completion import CompletionClient
 from llmengine.exceptions.error_handler import handle_litellm_exception
-from llmengine.exceptions.llm_engine_exceptions import (
-    CompletionClientError,
-    RerankClientError,
-)
-from llmengine.types.response_types import (
-    CustomStreamWrapperModel,
-    RerankerResponse,
-    ResponseModel,
-)
+from llmengine.exceptions.llm_engine_exceptions import (CompletionClientError,
+                                                        RerankClientError)
+from llmengine.types.response_types import (CustomStreamWrapperModel,
+                                            RerankerResponse, ResponseModel)
 from pydantic import BaseModel
 
+from edenai_apis.llmengine.clients.reranker import RerankerClient
 from edenai_apis.llmengine.types.litellm_model import LiteLLMModel
 from edenai_apis.utils.exception import ProviderException
 
@@ -845,6 +822,300 @@ class LiteLLMCompletionClient(CompletionClient):
                 }
                 return response
 
+        except Exception as exc:
+            if isinstance(
+                exc,
+                (
+                    APIError,
+                    APIConnectionError,
+                    APIResponseValidationError,
+                    AuthenticationError,
+                    BadRequestError,
+                    NotFoundError,
+                    RateLimitError,
+                    ServiceUnavailableError,
+                    ContentPolicyViolationError,
+                    Timeout,
+                    UnprocessableEntityError,
+                    JSONSchemaValidationError,
+                    UnsupportedParamsError,
+                    ContextWindowExceededError,
+                    InternalServerError,
+                ),
+            ):
+                raise handle_litellm_exception(exc) from exc
+            else:
+                raise ProviderException(str(exc)) from exc
+
+    def responses(
+        self,
+        input=None,
+        model: Optional[str] = None,
+        # Core Responses API params
+        include: Optional[List] = None,
+        instructions: Optional[str] = None,
+        max_output_tokens: Optional[int] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        parallel_tool_calls: Optional[bool] = None,
+        prompt: Optional[dict] = None,
+        previous_response_id: Optional[str] = None,
+        reasoning: Optional[dict] = None,
+        store: Optional[bool] = None,
+        background: Optional[bool] = None,
+        stream: Optional[bool] = None,
+        temperature: Optional[float] = None,
+        text: Optional[dict] = None,
+        text_format: Optional[Union[Type[BaseModel], dict]] = None,
+        tool_choice: Optional[Union[str, dict]] = None,
+        tools: Optional[List] = None,
+        top_p: Optional[float] = None,
+        truncation: Optional[Literal["auto", "disabled"]] = None,
+        user: Optional[str] = None,
+        service_tier: Optional[str] = None,
+        safety_identifier: Optional[str] = None,
+        # Common params
+        timeout: Optional[Union[float, str, httpx.Timeout]] = None,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        base_url: Optional[str] = None,
+        api_version: Optional[str] = None,
+        custom_llm_provider: Optional[str] = None,
+        drop_invalid_params: bool = True,
+        **kwargs,
+    ):
+        if input is None:
+            raise CompletionClientError("In responses, the input cannot be empty")
+        call_params = {}
+        model_name = f"{self.provider_name}/{model}"
+        if self.provider_name is None:
+            model_name = model
+        call_params["model"] = model_name
+        call_params["input"] = input
+        if include is not None:
+            call_params["include"] = include
+        if instructions is not None:
+            call_params["instructions"] = instructions
+        if max_output_tokens is not None:
+            call_params["max_output_tokens"] = max_output_tokens
+        if metadata is not None:
+            call_params["metadata"] = metadata
+        if parallel_tool_calls is not None:
+            call_params["parallel_tool_calls"] = parallel_tool_calls
+        if prompt is not None:
+            call_params["prompt"] = prompt
+        if previous_response_id is not None:
+            call_params["previous_response_id"] = previous_response_id
+        if reasoning is not None:
+            call_params["reasoning"] = reasoning
+        if store is not None:
+            call_params["store"] = store
+        if background is not None:
+            call_params["background"] = background
+        if stream is not None:
+            call_params["stream"] = stream
+        if temperature is not None:
+            call_params["temperature"] = temperature
+        if text is not None:
+            call_params["text"] = text
+        if text_format is not None:
+            call_params["text_format"] = text_format
+        if tool_choice is not None:
+            call_params["tool_choice"] = tool_choice
+        if tools is not None:
+            call_params["tools"] = tools
+        if top_p is not None:
+            call_params["top_p"] = top_p
+        if truncation is not None:
+            call_params["truncation"] = truncation
+        if user is not None:
+            call_params["user"] = user
+        if service_tier is not None:
+            call_params["service_tier"] = service_tier
+        if safety_identifier is not None:
+            call_params["safety_identifier"] = safety_identifier
+        if timeout is not None:
+            call_params["timeout"] = timeout
+        if extra_headers is not None:
+            call_params["extra_headers"] = extra_headers
+        if extra_query is not None:
+            call_params["extra_query"] = extra_query
+        if extra_body is not None:
+            call_params["extra_body"] = extra_body
+        if base_url is not None:
+            call_params["base_url"] = base_url
+        if api_version is not None:
+            call_params["api_version"] = api_version
+        if custom_llm_provider is not None:
+            call_params["custom_llm_provider"] = custom_llm_provider
+        try:
+            if drop_invalid_params:
+                litellm.drop_params = True
+            kwargs.pop("moderate_content", None)
+            provider_start_time = time.time_ns()
+            r_response = litellm.responses(**call_params, **kwargs)
+            provider_end_time = time.time_ns()
+            if stream:
+
+                def generate_chunks():
+                    for chunk in r_response:
+                        if chunk is not None:
+                            yield chunk
+
+                return generate_chunks()
+            else:
+                response = {
+                    **r_response.model_dump(),
+                    "provider_time": provider_end_time - provider_start_time,
+                }
+                return response
+        except Exception as exc:
+            if isinstance(
+                exc,
+                (
+                    APIError,
+                    APIConnectionError,
+                    APIResponseValidationError,
+                    AuthenticationError,
+                    BadRequestError,
+                    NotFoundError,
+                    RateLimitError,
+                    ServiceUnavailableError,
+                    ContentPolicyViolationError,
+                    Timeout,
+                    UnprocessableEntityError,
+                    JSONSchemaValidationError,
+                    UnsupportedParamsError,
+                    ContextWindowExceededError,
+                    InternalServerError,
+                ),
+            ):
+                raise handle_litellm_exception(exc) from exc
+            else:
+                raise ProviderException(str(exc)) from exc
+
+    async def aresponses(
+        self,
+        input=None,
+        model: Optional[str] = None,
+        # Core Responses API params
+        include: Optional[List] = None,
+        instructions: Optional[str] = None,
+        max_output_tokens: Optional[int] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        parallel_tool_calls: Optional[bool] = None,
+        prompt: Optional[dict] = None,
+        previous_response_id: Optional[str] = None,
+        reasoning: Optional[dict] = None,
+        store: Optional[bool] = None,
+        background: Optional[bool] = None,
+        stream: Optional[bool] = None,
+        temperature: Optional[float] = None,
+        text: Optional[dict] = None,
+        text_format: Optional[Union[Type[BaseModel], dict]] = None,
+        tool_choice: Optional[Union[str, dict]] = None,
+        tools: Optional[List] = None,
+        top_p: Optional[float] = None,
+        truncation: Optional[Literal["auto", "disabled"]] = None,
+        user: Optional[str] = None,
+        service_tier: Optional[str] = None,
+        safety_identifier: Optional[str] = None,
+        # Common params
+        timeout: Optional[Union[float, str, httpx.Timeout]] = None,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        base_url: Optional[str] = None,
+        api_version: Optional[str] = None,
+        custom_llm_provider: Optional[str] = None,
+        drop_invalid_params: bool = True,
+        **kwargs,
+    ):
+        if input is None:
+            raise CompletionClientError("In aresponses, the input cannot be empty")
+        call_params = {}
+        model_name = f"{self.provider_name}/{model}"
+        if self.provider_name is None:
+            model_name = model
+        call_params["model"] = model_name
+        call_params["input"] = input
+        if include is not None:
+            call_params["include"] = include
+        if instructions is not None:
+            call_params["instructions"] = instructions
+        if max_output_tokens is not None:
+            call_params["max_output_tokens"] = max_output_tokens
+        if metadata is not None:
+            call_params["metadata"] = metadata
+        if parallel_tool_calls is not None:
+            call_params["parallel_tool_calls"] = parallel_tool_calls
+        if prompt is not None:
+            call_params["prompt"] = prompt
+        if previous_response_id is not None:
+            call_params["previous_response_id"] = previous_response_id
+        if reasoning is not None:
+            call_params["reasoning"] = reasoning
+        if store is not None:
+            call_params["store"] = store
+        if background is not None:
+            call_params["background"] = background
+        if stream is not None:
+            call_params["stream"] = stream
+        if temperature is not None:
+            call_params["temperature"] = temperature
+        if text is not None:
+            call_params["text"] = text
+        if text_format is not None:
+            call_params["text_format"] = text_format
+        if tool_choice is not None:
+            call_params["tool_choice"] = tool_choice
+        if tools is not None:
+            call_params["tools"] = tools
+        if top_p is not None:
+            call_params["top_p"] = top_p
+        if truncation is not None:
+            call_params["truncation"] = truncation
+        if user is not None:
+            call_params["user"] = user
+        if service_tier is not None:
+            call_params["service_tier"] = service_tier
+        if safety_identifier is not None:
+            call_params["safety_identifier"] = safety_identifier
+        if timeout is not None:
+            call_params["timeout"] = timeout
+        if extra_headers is not None:
+            call_params["extra_headers"] = extra_headers
+        if extra_query is not None:
+            call_params["extra_query"] = extra_query
+        if extra_body is not None:
+            call_params["extra_body"] = extra_body
+        if base_url is not None:
+            call_params["base_url"] = base_url
+        if api_version is not None:
+            call_params["api_version"] = api_version
+        if custom_llm_provider is not None:
+            call_params["custom_llm_provider"] = custom_llm_provider
+        try:
+            if drop_invalid_params:
+                litellm.drop_params = True
+            kwargs.pop("moderate_content", None)
+            provider_start_time = time.time_ns()
+            r_response = await litellm.aresponses(**call_params, **kwargs)
+            provider_end_time = time.time_ns()
+            if stream:
+
+                async def generate_chunks():
+                    async for chunk in r_response:
+                        if chunk is not None:
+                            yield chunk
+
+                return generate_chunks()
+            else:
+                response = {
+                    **r_response.model_dump(),
+                    "provider_time": provider_end_time - provider_start_time,
+                }
+                return response
         except Exception as exc:
             if isinstance(
                 exc,

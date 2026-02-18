@@ -1,10 +1,15 @@
 from abc import abstractmethod
-from typing import Optional, List, Dict, Type, Union, Literal
+from typing import Any, Optional, List, Dict, Type, Union, Literal
 
 from openai import BaseModel
 import httpx
 
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
+from edenai_apis.features.llm.responses.responses_dataclass import (
+    ResponsesDataClass,
+    StreamResponses,
+)
+from edenai_apis.features.llm.aresponses.aresponses_dataclass import StreamAResponses
 
 
 class LlmInterface:
@@ -135,5 +140,127 @@ class LlmInterface:
                 the given value.
             stream (bool, optional): Whether to enable streaming for generating responses.
             provider_params (dict, optional): Additional parameters specific to the provider
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def llm__responses(
+        self,
+        input: Union[str, List],
+        model: Optional[str] = None,
+        # Core Responses API params
+        include: Optional[List] = None,
+        instructions: Optional[str] = None,
+        max_output_tokens: Optional[int] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        parallel_tool_calls: Optional[bool] = None,
+        prompt: Optional[dict] = None,
+        previous_response_id: Optional[str] = None,
+        reasoning: Optional[dict] = None,
+        store: Optional[bool] = None,
+        background: Optional[bool] = None,
+        stream: Optional[bool] = None,
+        temperature: Optional[float] = None,
+        text: Optional[dict] = None,
+        text_format: Optional[Union[Type[BaseModel], dict]] = None,
+        tool_choice: Optional[Union[str, dict]] = None,
+        tools: Optional[List] = None,
+        top_p: Optional[float] = None,
+        truncation: Optional[Literal["auto", "disabled"]] = None,
+        user: Optional[str] = None,
+        service_tier: Optional[str] = None,
+        safety_identifier: Optional[str] = None,
+        # Common params
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        base_url: Optional[str] = None,
+        api_version: Optional[str] = None,
+        api_key: Optional[str] = None,
+        custom_llm_provider: Optional[str] = None,
+        drop_invalid_params: bool = True,
+        **kwargs,
+    ) -> Union[ResponsesDataClass, StreamResponses]:
+        """
+        Generate a response using the OpenAI Responses API (or compatible provider).
+        Args:
+            input: A text string or list of input items (messages/content blocks).
+            model: The model to use.
+            include: Additional data to include in the response.
+            instructions: System-level instructions for the model.
+            max_output_tokens: Maximum number of output tokens to generate.
+            metadata: Arbitrary metadata to attach to the response.
+            parallel_tool_calls: Whether to allow parallel tool calls.
+            prompt: A prompt object to use instead of raw input.
+            previous_response_id: ID of a previous response for session continuity.
+            reasoning: Reasoning configuration (e.g. effort level).
+            store: Whether to store the response server-side.
+            background: Whether to run the response in the background.
+            stream: Whether to stream the response.
+            temperature: Sampling temperature.
+            text: Text formatting options (e.g. response format).
+            text_format: Structured output schema for the text response.
+            tool_choice: Controls how the model selects tools.
+            tools: List of tools the model may use.
+            top_p: Nucleus sampling parameter.
+            truncation: Truncation strategy ('auto' or 'disabled').
+            user: End-user identifier.
+            service_tier: Service tier to use.
+            safety_identifier: Safety identifier for content filtering.
+            timeout: Request timeout.
+            extra_headers: Additional HTTP headers.
+            extra_query: Additional query parameters.
+            extra_body: Additional body parameters.
+            base_url: Override the base URL.
+            api_version: API version string.
+            api_key: Override the API key.
+            custom_llm_provider: Override the LLM provider.
+            drop_invalid_params: If True, unsupported parameters are dropped silently.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    async def llm__aresponses(
+        self,
+        input: Union[str, List],
+        model: Optional[str] = None,
+        # Core Responses API params
+        include: Optional[List] = None,
+        instructions: Optional[str] = None,
+        max_output_tokens: Optional[int] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        parallel_tool_calls: Optional[bool] = None,
+        prompt: Optional[dict] = None,
+        previous_response_id: Optional[str] = None,
+        reasoning: Optional[dict] = None,
+        store: Optional[bool] = None,
+        background: Optional[bool] = None,
+        stream: Optional[bool] = None,
+        temperature: Optional[float] = None,
+        text: Optional[dict] = None,
+        text_format: Optional[Union[Type[BaseModel], dict]] = None,
+        tool_choice: Optional[Union[str, dict]] = None,
+        tools: Optional[List] = None,
+        top_p: Optional[float] = None,
+        truncation: Optional[Literal["auto", "disabled"]] = None,
+        user: Optional[str] = None,
+        service_tier: Optional[str] = None,
+        safety_identifier: Optional[str] = None,
+        # Common params
+        timeout: Optional[Union[float, httpx.Timeout]] = None,
+        extra_headers: Optional[Dict[str, Any]] = None,
+        extra_query: Optional[Dict[str, Any]] = None,
+        extra_body: Optional[Dict[str, Any]] = None,
+        base_url: Optional[str] = None,
+        api_version: Optional[str] = None,
+        api_key: Optional[str] = None,
+        custom_llm_provider: Optional[str] = None,
+        drop_invalid_params: bool = True,
+        **kwargs,
+    ) -> Union[ResponsesDataClass, StreamAResponses]:
+        """
+        Async version of llm__responses.
+        Generate a response using the OpenAI Responses API (or compatible provider).
         """
         raise NotImplementedError
