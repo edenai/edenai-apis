@@ -1,6 +1,7 @@
 import asyncio
 import base64
 import json
+import logging
 import mimetypes
 import uuid
 from io import BytesIO
@@ -1017,23 +1018,60 @@ class LLMEngine:
         args.update(self.provider_config)
         response = await self.completion_client.aimage_generation(**args, **kwargs)
 
+        logger = logging.getLogger(__name__)
+
         # Process images and upload to S3 concurrently
-        async def process_and_upload_image(image_b64):
-            image = image_b64.b64_json
+        async def process_and_upload_image(image_obj):
+            # Check if response contains base64 data or a URL
+            if image_obj.b64_json:
+                image = image_obj.b64_json
 
-            # Decode base64 in thread pool (CPU-bound operation)
-            def decode_image():
-                base64_bytes = image.encode("ascii")
-                return BytesIO(base64.b64decode(base64_bytes))
+                # Decode base64 in thread pool (CPU-bound operation)
+                def decode_image():
+                    base64_bytes = image.encode("ascii")
+                    return BytesIO(base64.b64decode(base64_bytes))
 
-            image_bytes = await asyncio.to_thread(decode_image)
+                image_bytes = await asyncio.to_thread(decode_image)
 
-            # Upload to S3 asynchronously
-            resource_url = await aupload_file_bytes_to_s3(
-                image_bytes, ".png", USER_PROCESS
-            )
+                # Upload to S3 asynchronously
+                try:
+                    resource_url = await aupload_file_bytes_to_s3(
+                        image_bytes, ".png", USER_PROCESS
+                    )
+                except Exception as e:
+                    logger.warning(f"Failed to upload image to S3: {e}")
+                    resource_url = ""
 
-            return GeneratedImageDataClass(image=image, image_resource_url=resource_url)
+                return GeneratedImageDataClass(
+                    image=image, image_resource_url=resource_url
+                )
+            elif image_obj.url:
+                # Image is already a URL, download and upload to S3
+                async with httpx.AsyncClient() as client:
+                    img_response = await client.get(image_obj.url)
+                    img_response.raise_for_status()
+                    image_content = img_response.content
+
+                # Encode downloaded image to base64 for the response
+                image_b64 = base64.b64encode(image_content).decode("utf-8")
+
+                # Upload to S3 asynchronously
+                try:
+                    image_bytes = BytesIO(image_content)
+                    resource_url = await aupload_file_bytes_to_s3(
+                        image_bytes, ".png", USER_PROCESS
+                    )
+                except Exception as e:
+                    logger.warning(f"Failed to upload image to S3: {e}")
+                    resource_url = ""
+
+                return GeneratedImageDataClass(
+                    image=image_b64, image_resource_url=resource_url
+                )
+            else:
+                raise ProviderException(
+                    "Image response contains neither base64 data nor URL"
+                )
 
         # Process and upload all images concurrently
         generated_images = await asyncio.gather(
