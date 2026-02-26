@@ -36,7 +36,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
-from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
+from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT, ASYNC_JOBS_TIMEOUT
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     upload_file_bytes_to_s3,
@@ -540,7 +540,7 @@ class MicrosoftAudioApi(AudioInterface):
 
         config.update(provider_params)
 
-        async with async_client(AUDIO_TIMEOUT) as client:
+        async with async_client(ASYNC_JOBS_TIMEOUT) as client:
             response = await client.post(
                 url=self.url["speech"], headers=headers, json=config
             )

@@ -8,6 +8,7 @@ from openai import BaseModel
 import requests
 
 from edenai_apis.utils.http_client import async_client, OCR_TIMEOUT
+from edenai_apis.utils.file_handling import FileHandler
 
 from edenai_apis.features import ProviderInterface, TextInterface, OcrInterface
 from edenai_apis.features.ocr.ocr.ocr_dataclass import OcrDataClass
@@ -347,10 +348,14 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
         url = "https://api.mistral.ai/v1/ocr"
         if file_url:
             image_data = file_url
-        else:
+        elif file:
             with open(file, "rb") as image_file:
                 base64_image = base64.b64encode(image_file.read()).decode("utf-8")
                 image_data = f"data:image/jpeg;base64,{base64_image}"
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
+            )
 
         document = {"type": "image_url", "image_url": image_data}
         payload = {"model": "mistral-ocr-latest", "document": document}
@@ -416,26 +421,50 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
     def ocr__ocr_async__launch_job(
         self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
-        url = "https://api.mistral.ai/v1/files"
-        with open(file, "rb") as f:
-            files = {"file": f}
-            data = {"purpose": "ocr"}
-            response = requests.post(
-                url=url, headers=self.headers, files=files, data=data
-            )
+        file_handler = FileHandler()
+        file_wrapper = None
 
         try:
-            response_data = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                message=response.text, code=response.status_code
-            ) from exc
-        if response.status_code != 200:
-            raise ProviderException(
-                message=response_data.get("message", response.text),
-                code=response.status_code,
-            )
-        return AsyncLaunchJobResponseType(provider_job_id=response_data["id"])
+            # Handle both file and file_url
+            file_path = None
+            if file:
+                file_path = file
+            elif file_url:
+                file_wrapper = file_handler.download_file_from_url(file_url)
+                if file_wrapper and file_wrapper.file_path:
+                    file_path = file_wrapper.file_path
+                else:
+                    raise ProviderException(
+                        f"Failed to download file from URL: {file_url}", code=400
+                    )
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            url = "https://api.mistral.ai/v1/files"
+            with open(file_path, "rb") as f:
+                files = {"file": f}
+                data = {"purpose": "ocr"}
+                response = requests.post(
+                    url=url, headers=self.headers, files=files, data=data
+                )
+
+            try:
+                response_data = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException(
+                    message=response.text, code=response.status_code
+                ) from exc
+            if response.status_code != 200:
+                raise ProviderException(
+                    message=response_data.get("message", response.text),
+                    code=response.status_code,
+                )
+            return AsyncLaunchJobResponseType(provider_job_id=response_data["id"])
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__ocr_async__get_job_result(
         self, provider_job_id: str
@@ -497,28 +526,47 @@ class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
     async def ocr__aocr_async__launch_job(
         self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
-        url = "https://api.mistral.ai/v1/files"
+        file_handler = FileHandler()
+        file_wrapper = None
 
-        async with httpx.AsyncClient() as client:
-            with open(file, "rb") as f:
-                files = {"file": f}
+        try:
+            # Handle both file and file_url
+            file_content = None
+            if file:
+                async with aiofiles.open(file, "rb") as f:
+                    file_content = await f.read()
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            url = "https://api.mistral.ai/v1/files"
+
+            async with httpx.AsyncClient() as client:
+                files = {"file": file_content}
                 data = {"purpose": "ocr"}
                 response = await client.post(
                     url=url, headers=self.headers, files=files, data=data
                 )
 
-        try:
-            response_data = response.json()
-        except json.JSONDecodeError as exc:
-            raise ProviderException(
-                message=response.text, code=response.status_code
-            ) from exc
-        if response.status_code != 200:
-            raise ProviderException(
-                message=response_data.get("message", response.text),
-                code=response.status_code,
-            )
-        return AsyncLaunchJobResponseType(provider_job_id=response_data["id"])
+            try:
+                response_data = response.json()
+            except json.JSONDecodeError as exc:
+                raise ProviderException(
+                    message=response.text, code=response.status_code
+                ) from exc
+            if response.status_code != 200:
+                raise ProviderException(
+                    message=response_data.get("message", response.text),
+                    code=response.status_code,
+                )
+            return AsyncLaunchJobResponseType(provider_job_id=response_data["id"])
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     async def ocr__aocr_async__get_job_result(
         self, provider_job_id: str

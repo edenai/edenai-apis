@@ -1493,8 +1493,7 @@
           "image/png",
           "image/gif",
           "image/x-ms-bmp",
-          "image/tiff",
-          "application/pdf"
+          "image/tiff"
         ],
         "languages": ["en-US", "es", "de", "fr", "it", "pt", "nl"],
         "allow_null_language": true
@@ -1503,14 +1502,7 @@
     },
     "ocr": {
       "constraints": {
-        "file_types": [
-          "image/jpeg",
-          "image/png",
-          "image/gif",
-          "image/x-ms-bmp",
-          "application/pdf",
-          "image/tiff"
-        ],
+        "file_types": ["image/*", "application/pdf"],
         "languages": [
           "es",
           "cnr-cyrl",

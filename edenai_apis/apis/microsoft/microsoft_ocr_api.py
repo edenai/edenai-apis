@@ -584,29 +584,46 @@ class MicrosoftOcrApi(OcrInterface):
         )
 
     def ocr__ocr_tables_async__launch_job(
-        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
+        self, file: str, file_type: str = None, language: str = "", file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
-        with open(file, "rb") as file_:
-            file_content = file_.read()
+        # file_type is not needed for Microsoft Document Intelligence
+        # The service automatically detects the file type
+
         url = (
             f"{self.url['documentintelligence']}documentintelligence/documentModels/"
             f"prebuilt-layout:analyze?api-version=2024-11-30"
         )
         url = add_query_param_in_url(url, {"locale": language})
 
-        response = requests.post(
-            url,
-            headers={
+        # Handle both file and file_url
+        if file:
+            with open(file, "rb") as file_:
+                file_content = file_.read()
+            headers = {
                 "Content-Type": "application/octet-stream",
                 "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
                     "subscription_key"
                 ],
-            },
-            data=file_content,
-        )
+            }
+            response = requests.post(url, headers=headers, data=file_content)
+        elif file_url:
+            headers = {
+                "Content-Type": "application/json",
+                "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
+                    "subscription_key"
+                ],
+            }
+            response = requests.post(url, headers=headers, json={"urlSource": file_url})
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
+            )
 
         if response.status_code != 202:
-            error = response.json()["error"]["innererror"]["message"]
+            try:
+                error = response.json()["error"]["innererror"]["message"]
+            except (KeyError, json.JSONDecodeError):
+                error = response.text
             raise ProviderException(error, code=response.status_code)
 
         return AsyncLaunchJobResponseType(
@@ -661,29 +678,146 @@ class MicrosoftOcrApi(OcrInterface):
             provider_job_id=provider_job_id
         )
 
-    def ocr__ocr_async__launch_job(
-        self, file: str, file_url: str = "", **kwargs
+    async def ocr__aocr_tables_async__launch_job(
+        self, file: str, file_type: str = None, language: str = "", file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
-        with open(file, "rb") as file_:
-            file_content = file_.read()
+        # file_type is not needed for Microsoft Document Intelligence
+        # The service automatically detects the file type
 
         url = (
             f"{self.url['documentintelligence']}documentintelligence/documentModels/"
-            f"prebuilt-layout:analyze?api-version=2024-02-29-preview"
+            f"prebuilt-layout:analyze?api-version=2024-11-30"
         )
-        response = requests.post(
-            url,
-            headers={
+        url = add_query_param_in_url(url, {"locale": language})
+
+        # Handle both file and file_url
+        if file:
+            async with aiofiles.open(file, "rb") as file_:
+                file_content = await file_.read()
+            headers = {
                 "Content-Type": "application/octet-stream",
                 "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
                     "subscription_key"
                 ],
-            },
-            data=file_content,
-        )
+            }
+            async with httpx.AsyncClient() as client:
+                response = await client.post(url, headers=headers, content=file_content)
+        elif file_url:
+            headers = {
+                "Content-Type": "application/json",
+                "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
+                    "subscription_key"
+                ],
+            }
+            async with httpx.AsyncClient() as client:
+                response = await client.post(url, headers=headers, json={"urlSource": file_url})
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
+            )
+
         if response.status_code != 202:
-            error = response.json()["error"]["innererror"]["message"]
+            try:
+                error_data = response.json()
+                error = error_data.get("error", {}).get("innererror", {}).get("message", response.text)
+            except (KeyError, json.JSONDecodeError):
+                error = response.text
             raise ProviderException(error, code=response.status_code)
+
+        return AsyncLaunchJobResponseType(
+            provider_job_id=response.headers.get("apim-request-id")
+        )
+
+    async def ocr__aocr_tables_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
+        headers = {
+            "Content-Type": "application/octet-stream",
+            "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
+                "subscription_key"
+            ],
+        }
+
+        url = (
+            self.url["documentintelligence"]
+            + f"documentintelligence/documentModels/prebuilt-layout/"
+            f"analyzeResults/{provider_job_id}?api-version=2024-11-30"
+        )
+
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, headers=headers)
+
+        if response.status_code >= 400:
+            try:
+                error = response.json()["error"]["message"]
+                if "Resource not found" in error:
+                    raise AsyncJobException(
+                        reason=AsyncJobExceptionReason.DEPRECATED_JOB_ID,
+                        code=response.status_code,
+                    )
+                raise ProviderException(error, code=response.status_code)
+            except (KeyError, json.JSONDecodeError) as exc:
+                raise ProviderException(
+                    message=response.text, code=response.status_code
+                ) from exc
+
+        data = response.json()
+        if data.get("error"):
+            raise ProviderException(data.get("error"), code=response.status_code)
+        if data["status"] == "succeeded":
+            original_result = data["analyzeResult"]
+            standardized_response = microsoft_ocr_tables_standardize_response(
+                original_result
+            )
+            return AsyncResponseType[OcrTablesAsyncDataClass](
+                original_response=data,
+                standardized_response=standardized_response,
+                provider_job_id=provider_job_id,
+            )
+
+        return AsyncPendingResponseType[OcrTablesAsyncDataClass](
+            provider_job_id=provider_job_id
+        )
+
+    def ocr__ocr_async__launch_job(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        url = (
+            f"{self.url['documentintelligence']}documentintelligence/documentModels/"
+            f"prebuilt-layout:analyze?api-version=2024-02-29-preview"
+        )
+
+        # Handle both file and file_url
+        if file:
+            with open(file, "rb") as file_:
+                file_content = file_.read()
+            headers = {
+                "Content-Type": "application/octet-stream",
+                "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
+                    "subscription_key"
+                ],
+            }
+            response = requests.post(url, headers=headers, data=file_content)
+        elif file_url:
+            headers = {
+                "Content-Type": "application/json",
+                "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
+                    "subscription_key"
+                ],
+            }
+            response = requests.post(url, headers=headers, json={"urlSource": file_url})
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
+            )
+
+        if response.status_code != 202:
+            try:
+                error = response.json()["error"]["innererror"]["message"]
+            except (KeyError, json.JSONDecodeError):
+                error = response.text
+            raise ProviderException(error, code=response.status_code)
+
         return AsyncLaunchJobResponseType(
             provider_job_id=response.headers.get("apim-request-id")
         )
@@ -734,29 +868,44 @@ class MicrosoftOcrApi(OcrInterface):
     async def ocr__aocr_async__launch_job(
         self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
-        with open(file, "rb") as file_:
-            file_content = file_.read()
-
         url = (
             f"{self.url['documentintelligence']}documentintelligence/documentModels/"
             f"prebuilt-layout:analyze?api-version=2024-02-29-preview"
         )
 
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                url,
-                headers={
-                    "Content-Type": "application/octet-stream",
-                    "Ocp-Apim-Subscription-Key": self.api_settings[
-                        "documentintelligence"
-                    ]["subscription_key"],
-                },
-                content=file_content,
+        # Handle both file and file_url
+        if file:
+            async with aiofiles.open(file, "rb") as file_:
+                file_content = await file_.read()
+            headers = {
+                "Content-Type": "application/octet-stream",
+                "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
+                    "subscription_key"
+                ],
+            }
+            async with httpx.AsyncClient() as client:
+                response = await client.post(url, headers=headers, content=file_content)
+        elif file_url:
+            headers = {
+                "Content-Type": "application/json",
+                "Ocp-Apim-Subscription-Key": self.api_settings["documentintelligence"][
+                    "subscription_key"
+                ],
+            }
+            async with httpx.AsyncClient() as client:
+                response = await client.post(url, headers=headers, json={"urlSource": file_url})
+        else:
+            raise ProviderException(
+                "Either file or file_url must be provided", code=400
             )
 
         if response.status_code != 202:
-            error = response.json()["error"]["innererror"]["message"]
+            try:
+                error = response.json()["error"]["innererror"]["message"]
+            except (KeyError, json.JSONDecodeError):
+                error = response.text
             raise ProviderException(error, code=response.status_code)
+
         return AsyncLaunchJobResponseType(
             provider_job_id=response.headers.get("apim-request-id")
         )

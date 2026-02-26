@@ -6,7 +6,7 @@ from typing import Dict, List, Optional
 
 import requests
 
-from edenai_apis.utils.http_client import async_client, AUDIO_TIMEOUT
+from edenai_apis.utils.http_client import async_client, ASYNC_JOBS_TIMEOUT
 
 from edenai_apis.features import ProviderInterface, AudioInterface
 from edenai_apis.features.audio import SpeechDiarizationEntry, SpeechDiarization
@@ -182,7 +182,7 @@ class GladiaApi(ProviderInterface, AudioInterface):
             extension = Path(file).suffix[1:]
             files = {"audio": (file, file_content, f"audio/{extension}")}
 
-            async with async_client(AUDIO_TIMEOUT) as client:
+            async with async_client(ASYNC_JOBS_TIMEOUT) as client:
                 upload_response = await client.post(
                     "https://api.gladia.io/v2/upload/", headers=headers, files=files
                 )
@@ -212,7 +212,7 @@ class GladiaApi(ProviderInterface, AudioInterface):
             data.update({"detect_language": False, "language": language})
         data.update(provider_params)
 
-        async with async_client(AUDIO_TIMEOUT) as client:
+        async with async_client(ASYNC_JOBS_TIMEOUT) as client:
             transcription_response = await client.post(
                 self.url, headers=headers, json=data
             )

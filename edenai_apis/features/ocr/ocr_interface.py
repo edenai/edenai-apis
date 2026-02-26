@@ -86,13 +86,13 @@ class OcrInterface:
 
     @abstractmethod
     def ocr__ocr_tables_async__launch_job(
-        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
+        self, file: str, file_type: str = None, language: str = "", file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
         """Launch an asynchronous job to analyze tables in document
         Args:
             file (BufferedReader): document file to analyze
-            file_type (file_type): document file to analyze
-            language (str): language code in ISO format
+            file_type (str, optional): MIME type of the document (if not provided, will be inferred)
+            language (str, optional): language code in ISO format
             file_url (str, optional): url of file
         """
         raise NotImplementedError

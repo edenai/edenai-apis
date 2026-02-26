@@ -1,7 +1,9 @@
 import json
 import uuid
+from pathlib import Path
 from time import sleep
 from typing import Dict, List, Sequence, Union
+from urllib.parse import urlparse
 
 import aioboto3
 import aiofiles
@@ -401,8 +403,11 @@ class AmazonOcrApi(OcrInterface):
                 file_wrapper.close_file()
 
     def ocr__ocr_tables_async__launch_job(
-        self, file: str, file_type: str, language: str, file_url: str = "", **kwargs
+        self, file: str, file_type: str = None, language: str = "", file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
+        # file_type is not needed for Amazon Textract
+        # The service automatically detects the file type
+
         with open(file, "rb") as file_:
             file_content = file_.read()
 
@@ -474,6 +479,116 @@ class AmazonOcrApi(OcrInterface):
             standardized_response=amazon_ocr_tables_parser(pages),
             provider_job_id=job_id,
         )
+
+    async def ocr__aocr_tables_async__launch_job(
+        self, file: str, file_type: str = None, language: str = "", file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        # file_type is not needed for Amazon Textract
+        # The service automatically detects the file type
+
+        file_handler = FileHandler()
+        file_wrapper = None
+
+        try:
+            if file:
+                async with aiofiles.open(file, "rb") as f:
+                    file_content = await f.read()
+                s3_key = f"{uuid.uuid4().hex}{Path(file).suffix}"
+            elif file_url:
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                filename = Path(urlparse(file_url).path).name
+                s3_key = f"{uuid.uuid4().hex}_{filename}"
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
+
+            session = aioboto3.Session()
+
+            # Upload file to S3
+            async with session.resource(
+                "s3",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as s3:
+                bucket = await s3.Bucket(self.api_settings["bucket"])
+                await bucket.put_object(Key=s3_key, Body=file_content)
+
+            # Start document analysis
+            async with session.client(
+                "textract",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as textract_client:
+                payload = {
+                    "DocumentLocation": {
+                        "S3Object": {"Bucket": self.api_settings["bucket"], "Name": s3_key},
+                    },
+                    "FeatureTypes": ["TABLES"],
+                    "NotificationChannel": {
+                        "SNSTopicArn": self.api_settings["topic"],
+                        "RoleArn": self.api_settings["role"],
+                    },
+                }
+
+                response = await ahandle_amazon_call(
+                    textract_client.start_document_analysis, **payload
+                )
+
+            return AsyncLaunchJobResponseType(provider_job_id=response["JobId"])
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+
+    async def ocr__aocr_tables_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[OcrTablesAsyncDataClass]:
+        session = aioboto3.Session()
+
+        async with session.client(
+            "textract",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as textract_client:
+            payload = {"JobId": provider_job_id}
+            response = await ahandle_amazon_call(
+                textract_client.get_document_analysis, **payload
+            )
+
+            if response.get("JobStatus") == "IN_PROGRESS":
+                return AsyncPendingResponseType[OcrTablesAsyncDataClass](
+                    provider_job_id=provider_job_id
+                )
+            elif response["JobStatus"] == "FAILED":
+                error: str = response.get(
+                    "StatusMessage", "Amazon returned a job status: FAILED"
+                )
+                raise ProviderException(error)
+
+            pagination_token = response.get("NextToken")
+            pages = [response]
+
+            # Handle pagination
+            while pagination_token:
+                payload = {
+                    "JobId": provider_job_id,
+                    "NextToken": pagination_token,
+                }
+                response = await ahandle_amazon_call(
+                    textract_client.get_document_analysis, **payload
+                )
+                pages.append(response)
+                pagination_token = response.get("NextToken")
+
+            return AsyncResponseType[OcrTablesAsyncDataClass](
+                original_response=pages,
+                standardized_response=amazon_ocr_tables_parser(pages),
+                provider_job_id=provider_job_id,
+            )
 
     def ocr__custom_document_parsing_async__launch_job(
         self,
@@ -697,23 +812,46 @@ class AmazonOcrApi(OcrInterface):
     def ocr__ocr_async__launch_job(
         self, file: str, file_url: str = "", **kwargs
     ) -> AsyncLaunchJobResponseType:
-        with open(file, "rb") as file_:
-            file_content = file_.read()
+        file_handler = FileHandler()
+        file_wrapper = None
+        s3_key = file
 
-        self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
-            Key=file, Body=file_content
-        )
+        try:
+            if file:
+                with open(file, "rb") as file_:
+                    file_content = file_.read()
+            elif file_url:
+                file_wrapper = file_handler.download_file_from_url(file_url)
+                if file_wrapper and file_wrapper.file_path:
+                    with open(file_wrapper.file_path, "rb") as file_:
+                        file_content = file_.read()
+                    s3_key = f"upload_{file_url.split('/')[-1]}"
+                else:
+                    raise ProviderException(
+                        f"Failed to download file from URL: {file_url}", code=400
+                    )
+            else:
+                raise ProviderException(
+                    "Either file or file_url must be provided", code=400
+                )
 
-        payload = {
-            "DocumentLocation": {
-                "S3Object": {"Bucket": self.api_settings["bucket"], "Name": file}
+            self.storage_clients["textract"].Bucket(self.api_settings["bucket"]).put_object(
+                Key=s3_key, Body=file_content
+            )
+
+            payload = {
+                "DocumentLocation": {
+                    "S3Object": {"Bucket": self.api_settings["bucket"], "Name": s3_key}
+                }
             }
-        }
-        launch_job_response = handle_amazon_call(
-            self.clients["textract"].start_document_text_detection, **payload
-        )
+            launch_job_response = handle_amazon_call(
+                self.clients["textract"].start_document_text_detection, **payload
+            )
 
-        return AsyncLaunchJobResponseType(provider_job_id=launch_job_response["JobId"])
+            return AsyncLaunchJobResponseType(provider_job_id=launch_job_response["JobId"])
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def ocr__ocr_async__get_job_result(
         self, provider_job_id: str
@@ -764,16 +902,17 @@ class AmazonOcrApi(OcrInterface):
     ) -> AsyncLaunchJobResponseType:
         file_handler = FileHandler()
         file_wrapper = None
-        s3_key = file
 
         try:
             if file:
                 async with aiofiles.open(file, "rb") as f:
                     file_content = await f.read()
+                s3_key = f"{uuid.uuid4().hex}{Path(file).suffix}"
             elif file_url:
                 file_wrapper = await file_handler.download_file(file_url)
                 file_content = await file_wrapper.get_bytes()
-                s3_key = f"upload_{file_url.split('/')[-1]}"
+                filename = Path(urlparse(file_url).path).name
+                s3_key = f"{uuid.uuid4().hex}_{filename}"
             else:
                 raise ProviderException(
                     "Either file or file_url must be provided", code=400

@@ -669,4 +669,4 @@ class GoogleAudioApi(AudioInterface):
             return AsyncLaunchJobResponseType(provider_job_id=operation_name)
         finally:
             if file_wrapper:
-                file_wrapper.close()
+                file_wrapper.close_file()

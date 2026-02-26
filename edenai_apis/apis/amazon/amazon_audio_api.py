@@ -9,6 +9,7 @@ from typing import Optional
 import aioboto3
 import aiofiles
 import requests
+from botocore.exceptions import ClientError
 
 from edenai_apis.apis.amazon.helpers import (
     generate_right_ssml_text,
@@ -29,6 +30,7 @@ from edenai_apis.features.audio.text_to_speech.text_to_speech_dataclass import (
 from edenai_apis.features.audio.tts import TtsDataClass
 
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.ssml import is_ssml
 from edenai_apis.utils.tts import get_tts_config
 from edenai_apis.utils.types import (
@@ -541,6 +543,8 @@ class AmazonAudioApi(AudioInterface):
         ) as transcribe_client:
             try:
                 await transcribe_client.start_transcription_job(**params)
+            except ClientError as exc:
+                raise ProviderException(str(exc)) from exc
             except KeyError as exc:
                 raise ProviderException(str(exc)) from exc
 
@@ -732,6 +736,26 @@ class AmazonAudioApi(AudioInterface):
             provider_job_id=provider_job_id
         )
 
+    async def _aupload_audio_bytes_to_amazon_server(self, file_content: bytes) -> str:
+        """
+        Async version: Upload audio bytes to Amazon S3 server
+        :param file_content: Bytes content of the audio file
+        :return: String that contains the filename on the server
+        """
+        filename = str(uuid.uuid4())
+
+        session = aioboto3.Session()
+        async with session.resource(
+            "s3",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as s3:
+            bucket = await s3.Bucket(self.api_settings["bucket"])
+            await bucket.put_object(Key=filename, Body=file_content)
+
+        return filename
+
     async def audio__aspeech_to_text_async__launch_job(
         self,
         file: str,
@@ -747,48 +771,61 @@ class AmazonAudioApi(AudioInterface):
     ) -> AsyncLaunchJobResponseType:
         """
         Async version of speech_to_text_async launch job.
-        Supports both file path and file_url (passed directly to Amazon Transcribe).
+        Supports both file path and file_url.
         """
         provider_params = provider_params or {}
+        file_wrapper = None
 
-        # Determine media URI and job name
-        if file_url:
-            # Pass URL directly to Amazon Transcribe (no S3 upload needed)
-            media_uri = file_url
-            job_name = str(uuid.uuid4())
-        else:
-            # Local file: upload to S3
-            job_name = await self._aupload_audio_file_to_amazon_server(file)
-            media_uri = self.api_settings["storage_url"] + job_name
-
-        if vocabulary:
-            if language is None:
+        try:
+            # Determine media URI and job name
+            if file_url:
+                # Download file from URL and upload to S3
+                # (Amazon Transcribe only accepts S3 URIs)
+                file_handler = FileHandler()
+                file_wrapper = await file_handler.download_file(file_url)
+                file_content = await file_wrapper.get_bytes()
+                job_name = await self._aupload_audio_bytes_to_amazon_server(file_content)
+                media_uri = self.api_settings["storage_url"] + job_name
+            elif file:
+                # Local file: upload to S3
+                job_name = await self._aupload_audio_file_to_amazon_server(file)
+                media_uri = self.api_settings["storage_url"] + job_name
+            else:
                 raise ProviderException(
-                    "Cannot launch with vocabulary when language is auto-detect.",
-                    code=400,
+                    "Either file or file_url must be provided", code=400
                 )
-            vocab_name = await self._acreate_vocabulary(language, vocabulary)
+
+            if vocabulary:
+                if language is None:
+                    raise ProviderException(
+                        "Cannot launch with vocabulary when language is auto-detect.",
+                        code=400,
+                    )
+                vocab_name = await self._acreate_vocabulary(language, vocabulary)
+                await self._alaunch_transcribe(
+                    job_name,
+                    media_uri,
+                    language,
+                    speakers,
+                    vocab_name,
+                    True,
+                    provider_params=provider_params,
+                )
+                return AsyncLaunchJobResponseType(
+                    provider_job_id=f"{job_name}EdenAI{vocab_name}"
+                )
+
             await self._alaunch_transcribe(
                 job_name,
                 media_uri,
                 language,
                 speakers,
-                vocab_name,
-                True,
                 provider_params=provider_params,
             )
-            return AsyncLaunchJobResponseType(
-                provider_job_id=f"{job_name}EdenAI{vocab_name}"
-            )
-
-        await self._alaunch_transcribe(
-            job_name,
-            media_uri,
-            language,
-            speakers,
-            provider_params=provider_params,
-        )
-        return AsyncLaunchJobResponseType(provider_job_id=job_name)
+            return AsyncLaunchJobResponseType(provider_job_id=job_name)
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
     def audio__text_to_speech_async__launch_job(
         self,
