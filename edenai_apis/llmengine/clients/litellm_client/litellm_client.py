@@ -187,7 +187,8 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["model_list"] = model_list
         if user is not None:
             call_params["user"] = user
-        # See if there's a custom pricing here
+        # See if there's custom pricing (model_pricing for extended pricing, or legacy per-token pricing)
+        model_pricing = kwargs.pop("model_pricing", None)
         custom_pricing = {}
         if kwargs.get("input_cost_per_token", None) and kwargs.get(
             "output_cost_per_token", None
@@ -200,6 +201,13 @@ class LiteLLMCompletionClient(CompletionClient):
             if drop_invalid_params == True:
                 litellm.drop_params = True
             kwargs.pop("moderate_content", None)
+            # Register custom model pricing in litellm's registry for extended pricing support
+            if model_pricing:
+                # Merge with existing pricing to preserve other fields (max_tokens, mode, etc.)
+                if model_name in litellm.model_cost:
+                    litellm.model_cost[model_name].update(model_pricing)
+                else:
+                    litellm.model_cost[model_name] = model_pricing
             provider_start_time = time.time_ns()
             c_response = completion(**call_params, **kwargs)
             provider_end_time = time.time_ns()
@@ -216,7 +224,8 @@ class LiteLLMCompletionClient(CompletionClient):
                     "completion_response": c_response,
                     "call_type": "completion",
                 }
-                if len(custom_pricing.keys()) > 0:
+                # Use model_pricing via registry lookup, or fall back to legacy custom_cost_per_token
+                if not model_pricing and len(custom_pricing.keys()) > 0:
                     cost_calc_params["custom_cost_per_token"] = custom_pricing
                 response = {
                     **c_response.model_dump(),
@@ -807,7 +816,8 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["model_list"] = model_list
         if user is not None:
             call_params["user"] = user
-        # See if there's a custom pricing here
+        # See if there's custom pricing (model_pricing for extended pricing, or legacy per-token pricing)
+        model_pricing = kwargs.pop("model_pricing", None)
         custom_pricing = {}
         if kwargs.get("input_cost_per_token", None) and kwargs.get(
             "output_cost_per_token", None
@@ -820,6 +830,13 @@ class LiteLLMCompletionClient(CompletionClient):
             if drop_invalid_params == True:
                 litellm.drop_params = True
             kwargs.pop("moderate_content", None)
+            # Register custom model pricing in litellm's registry for extended pricing support
+            if model_pricing:
+                # Merge with existing pricing to preserve other fields (max_tokens, mode, etc.)
+                if model_name in litellm.model_cost:
+                    litellm.model_cost[model_name].update(model_pricing)
+                else:
+                    litellm.model_cost[model_name] = model_pricing
             provider_start_time = time.time_ns()
             c_response = await acompletion(**call_params, **kwargs)
             provider_end_time = time.time_ns()
@@ -834,9 +851,10 @@ class LiteLLMCompletionClient(CompletionClient):
             else:
                 cost_calc_params = {
                     "completion_response": c_response,
-                    "call_type": "completion",
+                    "call_type": "acompletion",
                 }
-                if len(custom_pricing.keys()) > 0:
+                # Use model_pricing via registry lookup, or fall back to legacy custom_cost_per_token
+                if not model_pricing and len(custom_pricing.keys()) > 0:
                     cost_calc_params["custom_cost_per_token"] = custom_pricing
                 response = {
                     **c_response.model_dump(),

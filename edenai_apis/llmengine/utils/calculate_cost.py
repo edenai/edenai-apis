@@ -1,24 +1,13 @@
-from typing import Optional, Union, Literal
+from typing import Optional, Union
 from litellm import completion_cost
-from litellm.types.utils import ModelResponse
+from litellm.types.utils import ModelResponse, CallTypesLiteral
 
 
 def calculate_cost(
     completion_response: Union[ModelResponse, dict],
-    model: str,
-    call_type: Literal[
-        "completion",
-        "embedding",
-        "image_generation",
-        "moderation",
-        "acompletion",
-        "aembedding",
-        "aimage_generation",
-        "amoderation",
-        "arerank",
-    ] = "completion",
     input_cost_per_token: Optional[float] = None,
     output_cost_per_token: Optional[float] = None,
+    call_type: CallTypesLiteral = "acompletion",
 ) -> float:
     """
     Calculate the cost of a completion response using litellm's completion_cost.
@@ -44,4 +33,4 @@ def calculate_cost(
             "output_cost_per_token": output_cost_per_token,
         }
 
-    return completion_cost(**cost_calc_params, model=model)
+    return completion_cost(**cost_calc_params)
