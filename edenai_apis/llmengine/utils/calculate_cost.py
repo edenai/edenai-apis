@@ -5,7 +5,7 @@ from litellm.types.utils import ModelResponse, CallTypesLiteral
 
 def calculate_cost(
     completion_response: Union[ModelResponse, dict],
-    model: str,
+    model: Optional[str] = None,
     input_cost_per_token: Optional[float] = None,
     output_cost_per_token: Optional[float] = None,
     call_type: CallTypesLiteral = "acompletion",
@@ -29,8 +29,9 @@ def calculate_cost(
     cost_calc_params = {
         "completion_response": completion_response,
         "call_type": call_type,
-        "model": model,
     }
+    if model is not None:
+        cost_calc_params["model"] = model
 
     if input_cost_per_token is not None and output_cost_per_token is not None:
         cost_calc_params["custom_cost_per_token"] = {
