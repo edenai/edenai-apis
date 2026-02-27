@@ -379,7 +379,7 @@ async def acompute_output(
         async def generate_chunks():
             async for chunk in subfeature_result["stream"]:
                 if chunk is not None:
-                    yield chunk.model_dump()
+                    yield chunk
 
         return generate_chunks()
 
