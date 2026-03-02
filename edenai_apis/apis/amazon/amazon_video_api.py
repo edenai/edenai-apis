@@ -3,6 +3,8 @@ import base64
 from io import BytesIO
 import json
 
+import aioboto3
+
 from edenai_apis.features.video import QuestionAnswerDataClass
 from edenai_apis.features.video.explicit_content_detection_async.explicit_content_detection_async_dataclass import (
     ExplicitContentDetectionAsyncDataClass,
@@ -35,7 +37,9 @@ from edenai_apis.utils.types import (
 )
 from .helpers import (
     amazon_get_video_data,
+    aamazon_get_video_data,
     handle_amazon_call,
+    ahandle_amazon_call,
     amazon_video_person_tracking_parser,
     amazon_video_labels_parser,
     amazon_video_text_parser,
@@ -386,6 +390,81 @@ class AmazonVideoApi(VideoInterface):
                 provider_job_id=provider_job_id,
             )
         return AsyncPendingResponseType(provider_job_id=response["JobStatus"])
+
+    async def video__aexplicit_content_detection_async__launch_job(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        video, notification_channel = await aamazon_get_video_data(
+            file=file, file_url=file_url, api_settings=self.api_settings
+        )
+        session = aioboto3.Session()
+        async with session.client(
+            "rekognition",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as rekognition_client:
+            response = await ahandle_amazon_call(
+                rekognition_client.start_content_moderation,
+                Video=video,
+                NotificationChannel=notification_channel,
+            )
+        return AsyncLaunchJobResponseType(provider_job_id=response["JobId"])
+
+    async def video__aexplicit_content_detection_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[ExplicitContentDetectionAsyncDataClass]:
+        session = aioboto3.Session()
+        async with session.client(
+            "rekognition",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as rekognition_client:
+            payload = {"JobId": provider_job_id}
+            response = await ahandle_amazon_call(
+                rekognition_client.get_content_moderation, **payload
+            )
+
+            if response["JobStatus"] == "IN_PROGRESS":
+                return AsyncPendingResponseType[ExplicitContentDetectionAsyncDataClass](
+                    provider_job_id=provider_job_id
+                )
+            if response["JobStatus"] == "FAILED":
+                error: str = response.get(
+                    "StatusMessage", "Amazon returned a job status: FAILED"
+                )
+                raise ProviderException(error)
+
+            pagination_token = response.get("NextToken")
+            responses = [response]
+            while pagination_token:
+                payload = {
+                    "JobId": provider_job_id,
+                    "NextToken": pagination_token,
+                }
+                response = await ahandle_amazon_call(
+                    rekognition_client.get_content_moderation, **payload
+                )
+                if response["JobStatus"] == "FAILED":
+                    error: str = response.get(
+                        "StatusMessage", "Amazon returned a job status: FAILED"
+                    )
+                    raise ProviderException(error)
+                responses.append(response)
+                pagination_token = response.get("NextToken")
+
+        moderated_content = []
+        for resp in responses:
+            moderated_content.extend(amazon_video_explicit_parser(resp))
+
+        return AsyncResponseType[ExplicitContentDetectionAsyncDataClass](
+            original_response=responses,
+            standardized_response=ExplicitContentDetectionAsyncDataClass(
+                moderation=moderated_content
+            ),
+            provider_job_id=provider_job_id,
+        )
 
     # Get job result for generation
     def video__generation_async__get_job_result(

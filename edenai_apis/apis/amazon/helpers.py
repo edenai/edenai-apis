@@ -1,7 +1,12 @@
 import urllib
+import uuid
 from pathlib import Path
 from time import time
 from typing import Callable, Dict, List, Optional, Tuple, TypeVar, Sequence
+from urllib.parse import urlparse
+
+import aiofiles
+import aioboto3
 
 import requests
 from botocore.exceptions import ClientError, ParamValidationError
@@ -99,6 +104,7 @@ from edenai_apis.utils.exception import (
     AsyncJobExceptionReason,
     ProviderException,
 )
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.ssml import convert_audio_attr_in_prosody_tag
 from edenai_apis.utils.types import (
     ResponseType,
@@ -217,6 +223,43 @@ def amazon_get_video_data(file: str):
     notification_channel = {
         "RoleArn": role,
         "SNSTopicArn": topic,
+    }
+    return video, notification_channel
+
+
+async def aamazon_get_video_data(
+    file: str, api_settings: Dict, file_url: str = ""
+) -> Tuple[dict, dict]:
+    """Async version of amazon_get_video_data.
+    Uploads the video to S3 and returns (video, notification_channel)."""
+    if file_url:
+        file_handler = FileHandler()
+        file_wrapper = await file_handler.download_file(file_url)
+        try:
+            file_content = await file_wrapper.get_bytes()
+            filename = Path(urlparse(file_url).path).name
+            s3_key = f"{uuid.uuid4().hex}_{filename}"
+        finally:
+            file_wrapper.close_file()
+    else:
+        async with aiofiles.open(file, "rb") as f:
+            file_content = await f.read()
+        s3_key = f"{uuid.uuid4().hex}{Path(file).suffix}"
+
+    session = aioboto3.Session()
+    async with session.resource(
+        "s3",
+        region_name=api_settings["region_name"],
+        aws_access_key_id=api_settings["aws_access_key_id"],
+        aws_secret_access_key=api_settings["aws_secret_access_key"],
+    ) as s3:
+        bucket = await s3.Bucket(api_settings["bucket_video"])
+        await bucket.put_object(Key=s3_key, Body=file_content)
+
+    video = {"S3Object": {"Bucket": api_settings["bucket_video"], "Name": s3_key}}
+    notification_channel = {
+        "RoleArn": api_settings["role"],
+        "SNSTopicArn": api_settings["topic_video"],
     }
     return video, notification_channel
 

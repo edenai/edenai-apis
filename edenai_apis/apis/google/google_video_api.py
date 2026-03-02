@@ -7,12 +7,16 @@ from pathlib import Path
 from time import sleep, time
 from typing import Any, Dict, List, Optional
 
+import aiofiles
+import httpx
 import requests
+from urllib.parse import urlparse
 from dateutil.parser import parse
 from google.cloud import videointelligence
 
 from edenai_apis.apis.google.google_helpers import (
     calculate_usage_tokens,
+    get_access_token,
     google_video_get_job,
     score_to_content,
 )
@@ -78,6 +82,7 @@ from edenai_apis.utils.exception import (
     AsyncJobException,
     AsyncJobExceptionReason,
 )
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
@@ -110,6 +115,58 @@ class GoogleVideoApi(VideoInterface):
         gcs_uri = f"gs://{bucket_name}/{file_name}"
 
         return gcs_uri
+
+    async def agoogle_upload_video(self, file: str) -> str:
+        bucket_name = "audios-speech2text"
+        file_extension = file.split(".")[-1]
+        file_name = str(int(time())) + Path(file).stem + "_video_." + file_extension
+
+        async with aiofiles.open(file, "rb") as f:
+            file_content = await f.read()
+
+        token = get_access_token(self.location)
+        upload_url = f"https://storage.googleapis.com/upload/storage/v1/b/{bucket_name}/o?uploadType=media&name={file_name}"
+        async with httpx.AsyncClient() as client:
+            upload_response = await client.put(
+                upload_url,
+                headers={"Authorization": f"Bearer {token}"},
+                content=file_content,
+            )
+        if upload_response.status_code not in [200, 201]:
+            raise ProviderException(
+                f"Failed to upload video to GCS: {upload_response.text}",
+                code=upload_response.status_code,
+            )
+        return f"gs://{bucket_name}/{file_name}"
+
+    async def agoogle_annotate_video(
+        self,
+        features: list,
+        input_uri: str = "",
+        input_content: str = "",
+    ) -> str:
+        """Returns operation_name. Pass either input_uri (GCS) or input_content (base64)."""
+        token = get_access_token(self.location)
+        payload = {"features": features}
+        if input_uri:
+            payload["inputUri"] = input_uri
+        else:
+            payload["inputContent"] = input_content
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                "https://videointelligence.googleapis.com/v1/videos:annotate",
+                headers={
+                    "Authorization": f"Bearer {token}",
+                    "Content-Type": "application/json",
+                },
+                json=payload,
+            )
+        if response.status_code != 200:
+            raise ProviderException(
+                f"Failed to annotate video: {response.text}",
+                code=response.status_code,
+            )
+        return response.json()["name"]
 
     def _is_older_than_3_hours(self, create_time: str) -> bool:
         created_at = parse(create_time)
@@ -725,6 +782,75 @@ class GoogleVideoApi(VideoInterface):
             return AsyncResponseType[ExplicitContentDetectionAsyncDataClass](
                 status="succeeded",
                 original_response=result["response"],
+                standardized_response=standardized_response,
+                provider_job_id=provider_job_id,
+            )
+
+        return AsyncPendingResponseType[ExplicitContentDetectionAsyncDataClass](
+            status="pending", provider_job_id=provider_job_id
+        )
+
+    async def video__aexplicit_content_detection_async__launch_job(
+        self, file: str, file_url: str = "", **kwargs
+    ) -> AsyncLaunchJobResponseType:
+        if file_url:
+            file_handler = FileHandler()
+            file_wrapper = await file_handler.download_file(file_url)
+            try:
+                file_content = await file_wrapper.get_bytes()
+                operation_name = await self.agoogle_annotate_video(
+                    features=["EXPLICIT_CONTENT_DETECTION"],
+                    input_content=base64.b64encode(file_content).decode("utf-8"),
+                )
+            finally:
+                file_wrapper.close_file()
+        else:
+            gcs_uri = await self.agoogle_upload_video(file=file)
+            operation_name = await self.agoogle_annotate_video(
+                features=["EXPLICIT_CONTENT_DETECTION"],
+                input_uri=gcs_uri,
+            )
+        return AsyncLaunchJobResponseType(provider_job_id=operation_name)
+
+    async def video__aexplicit_content_detection_async__get_job_result(
+        self, provider_job_id: str
+    ) -> AsyncBaseResponseType[ExplicitContentDetectionAsyncDataClass]:
+        token = get_access_token(self.location)
+        headers = {"Authorization": f"Bearer {token}"}
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                f"https://videointelligence.googleapis.com/v1/{provider_job_id}",
+                headers=headers,
+            )
+        if response.status_code != 200:
+            raise ProviderException(
+                f"Failed to get operation status: {response.text}",
+                code=response.status_code,
+            )
+        result = response.json()
+
+        if result.get("error"):
+            raise ProviderException(result["error"].get("message"))
+
+        if result.get("done"):
+            response_data = result["response"]
+            moderation = response_data["annotationResults"][0]["explicitAnnotation"]["frames"]
+            label_list = []
+            for label in moderation:
+                timestamp = float(label["timeOffset"][:-1])
+                category = "Explicit Nudity"
+                confidence = float(score_to_content(label["pornographyLikelihood"]) / 5)
+                label_list.append(
+                    ContentNSFW(
+                        timestamp=timestamp, category=category, confidence=confidence
+                    )
+                )
+            standardized_response = ExplicitContentDetectionAsyncDataClass(
+                moderation=label_list
+            )
+            return AsyncResponseType[ExplicitContentDetectionAsyncDataClass](
+                status="succeeded",
+                original_response=response_data,
                 standardized_response=standardized_response,
                 provider_job_id=provider_job_id,
             )
