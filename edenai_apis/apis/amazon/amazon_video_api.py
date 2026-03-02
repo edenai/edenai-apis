@@ -400,7 +400,7 @@ class AmazonVideoApi(VideoInterface):
         session = aioboto3.Session()
         async with session.client(
             "rekognition",
-            region_name=self.api_settings["region_name"],
+            region_name=self.api_settings["video-region"],
             aws_access_key_id=self.api_settings["aws_access_key_id"],
             aws_secret_access_key=self.api_settings["aws_secret_access_key"],
         ) as rekognition_client:
@@ -417,7 +417,7 @@ class AmazonVideoApi(VideoInterface):
         session = aioboto3.Session()
         async with session.client(
             "rekognition",
-            region_name=self.api_settings["region_name"],
+            region_name=self.api_settings["video-region"],
             aws_access_key_id=self.api_settings["aws_access_key_id"],
             aws_secret_access_key=self.api_settings["aws_secret_access_key"],
         ) as rekognition_client:
