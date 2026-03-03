@@ -227,34 +227,67 @@ def amazon_get_video_data(file: str):
     return video, notification_channel
 
 
+def _parse_s3_presigned_url(file_url: str) -> Optional[Tuple[str, str]]:
+    """Return (bucket, key) from an S3 presigned URL, or None if not recognised."""
+    parsed = urlparse(file_url)
+    hostname = parsed.hostname or ""
+    # Virtual-hosted: {bucket}.s3[.region].amazonaws.com/{key}
+    if ".s3." in hostname and hostname.endswith(".amazonaws.com"):
+        bucket = hostname.split(".s3.")[0]
+        key = parsed.path.lstrip("/")
+        if bucket and key:
+            return bucket, key
+    # Path-style: s3[.region].amazonaws.com/{bucket}/{key}
+    if hostname.endswith(".amazonaws.com") and hostname.split(".")[0] == "s3":
+        parts = parsed.path.lstrip("/").split("/", 1)
+        if len(parts) == 2 and all(parts):
+            return parts[0], parts[1]
+    return None
+
+
 async def aamazon_get_video_data(
     file: str, api_settings: Dict, file_url: str = ""
 ) -> Tuple[dict, dict]:
     """Async version of amazon_get_video_data.
     Uploads the video to S3 and returns (video, notification_channel)."""
+    session = aioboto3.Session()
+    s3_kwargs = dict(
+        region_name=api_settings["video-region"],
+        aws_access_key_id=api_settings["aws_access_key_id"],
+        aws_secret_access_key=api_settings["aws_secret_access_key"],
+    )
+
     if file_url:
-        file_handler = FileHandler()
-        file_wrapper = await file_handler.download_file(file_url)
-        try:
-            file_content = await file_wrapper.get_bytes()
-            filename = Path(urlparse(file_url).path).name
-            s3_key = f"{uuid.uuid4().hex}_{filename}"
-        finally:
-            file_wrapper.close_file()
+        s3_info = _parse_s3_presigned_url(file_url)
+        if s3_info:
+            # Server-side copy — no bytes pass through this process
+            source_bucket, source_key = s3_info
+            s3_key = f"{uuid.uuid4().hex}_{Path(source_key).name}"
+            async with session.client("s3", **s3_kwargs) as s3_client:
+                await s3_client.copy_object(
+                    CopySource={"Bucket": source_bucket, "Key": source_key},
+                    Bucket=api_settings["bucket_video"],
+                    Key=s3_key,
+                )
+        else:
+            # Non-S3 URL (e.g. CloudFront) — download and upload
+            file_handler = FileHandler()
+            file_wrapper = await file_handler.download_file(file_url)
+            try:
+                file_content = await file_wrapper.get_bytes()
+                s3_key = f"{uuid.uuid4().hex}_{Path(urlparse(file_url).path).name}"
+            finally:
+                file_wrapper.close_file()
+            async with session.resource("s3", **s3_kwargs) as s3:
+                bucket_obj = await s3.Bucket(api_settings["bucket_video"])
+                await bucket_obj.put_object(Key=s3_key, Body=file_content)
     else:
         async with aiofiles.open(file, "rb") as f:
             file_content = await f.read()
         s3_key = f"{uuid.uuid4().hex}{Path(file).suffix}"
-
-    session = aioboto3.Session()
-    async with session.resource(
-        "s3",
-        region_name=api_settings["video-region"],
-        aws_access_key_id=api_settings["aws_access_key_id"],
-        aws_secret_access_key=api_settings["aws_secret_access_key"],
-    ) as s3:
-        bucket = await s3.Bucket(api_settings["bucket_video"])
-        await bucket.put_object(Key=s3_key, Body=file_content)
+        async with session.resource("s3", **s3_kwargs) as s3:
+            bucket_obj = await s3.Bucket(api_settings["bucket_video"])
+            await bucket_obj.put_object(Key=s3_key, Body=file_content)
 
     video = {"S3Object": {"Bucket": api_settings["bucket_video"], "Name": s3_key}}
     notification_channel = {
