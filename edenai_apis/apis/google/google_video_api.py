@@ -17,6 +17,7 @@ from google.cloud import videointelligence
 from edenai_apis.apis.google.google_helpers import (
     calculate_usage_tokens,
     get_access_token,
+    aget_access_token,
     google_video_get_job,
     score_to_content,
 )
@@ -124,7 +125,7 @@ class GoogleVideoApi(VideoInterface):
         async with aiofiles.open(file, "rb") as f:
             file_content = await f.read()
 
-        token = get_access_token(self.location)
+        token = await aget_access_token(self.location)
         upload_url = f"https://storage.googleapis.com/upload/storage/v1/b/{bucket_name}/o?uploadType=media&name={file_name}"
         async with httpx.AsyncClient() as client:
             upload_response = await client.put(
@@ -146,7 +147,7 @@ class GoogleVideoApi(VideoInterface):
         input_content: str = "",
     ) -> str:
         """Returns operation_name. Pass either input_uri (GCS) or input_content (base64)."""
-        token = get_access_token(self.location)
+        token = await aget_access_token(self.location)
         payload = {"features": features}
         if input_uri:
             payload["inputUri"] = input_uri
@@ -815,7 +816,7 @@ class GoogleVideoApi(VideoInterface):
     async def video__aexplicit_content_detection_async__get_job_result(
         self, provider_job_id: str
     ) -> AsyncBaseResponseType[ExplicitContentDetectionAsyncDataClass]:
-        token = get_access_token(self.location)
+        token = await aget_access_token(self.location)
         headers = {"Authorization": f"Bearer {token}"}
         async with httpx.AsyncClient() as client:
             response = await client.get(

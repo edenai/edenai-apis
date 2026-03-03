@@ -1,3 +1,4 @@
+import asyncio
 import enum
 import json
 import re
@@ -491,6 +492,11 @@ def get_access_token(location: str):
     auth_req = google.auth.transport.requests.Request()
     credentials.refresh(auth_req)
     return credentials.token
+
+
+async def aget_access_token(location: str) -> str:
+    """Async wrapper around get_access_token — runs the blocking token refresh in a thread."""
+    return await asyncio.to_thread(get_access_token, location)
 
 
 # *****************************Financial Parser***************************************************
