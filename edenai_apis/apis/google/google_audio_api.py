@@ -205,6 +205,8 @@ class GoogleAudioApi(AudioInterface):
             provider_params: Provider-specific settings:
                 - sampling_rate: Audio sampling rate in Hz
                 - language_code: Language code for Gemini TTS (default: "en-US")
+                - prompt: Natural language style instructions for Gemini TTS
+                          (e.g., "Say this in a cheerful tone")
         """
         provider_params = provider_params or {}
         config = get_tts_config("google")
@@ -284,7 +286,11 @@ class GoogleAudioApi(AudioInterface):
         if is_ssml(text):
             input_text = texttospeech.SynthesisInput(ssml=text)
         else:
-            input_text = texttospeech.SynthesisInput(text=text)
+            input_params = {"text": text}
+            # Add prompt for Gemini models (style/Director's Notes)
+            if is_gemini_model and provider_params.get("prompt"):
+                input_params["prompt"] = provider_params["prompt"]
+            input_text = texttospeech.SynthesisInput(**input_params)
 
         # Get audio format mapping
         ext, resolved_audio_format = get_right_audio_support_and_sampling_rate(
@@ -364,6 +370,8 @@ class GoogleAudioApi(AudioInterface):
             provider_params: Provider-specific settings:
                 - sampling_rate: Audio sampling rate in Hz
                 - language_code: Language code for Gemini TTS (default: "en-US")
+                - prompt: Natural language style instructions for Gemini TTS
+                          (e.g., "Say this in a cheerful tone")
         """
         provider_params = provider_params or {}
         config = get_tts_config("google")
@@ -443,7 +451,11 @@ class GoogleAudioApi(AudioInterface):
         if is_ssml(text):
             input_text = texttospeech.SynthesisInput(ssml=text)
         else:
-            input_text = texttospeech.SynthesisInput(text=text)
+            input_params = {"text": text}
+            # Add prompt for Gemini models (style/Director's Notes)
+            if is_gemini_model and provider_params.get("prompt"):
+                input_params["prompt"] = provider_params["prompt"]
+            input_text = texttospeech.SynthesisInput(**input_params)
 
         # Get audio format mapping
         ext, resolved_audio_format = get_right_audio_support_and_sampling_rate(
