@@ -80,5 +80,6 @@ from .voxist import VoxistApi
 from .winstonai import WinstonaiApi
 from .writesonic import WritesonicApi
 from .xai import XAiApi
+from .huggingface import HuggingfaceApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

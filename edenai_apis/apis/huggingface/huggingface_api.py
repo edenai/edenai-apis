@@ -3,13 +3,14 @@ from typing import Dict, List, Literal, Optional, Type, Union
 import httpx
 from openai import BaseModel
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
+from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 
 
-class HuggingfaceApi(ProviderInterface):
+class HuggingfaceApi(ProviderInterface, LlmInterface):
 
     provider_name = "huggingface"
 
