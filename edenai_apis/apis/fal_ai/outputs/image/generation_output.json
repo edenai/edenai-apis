@@ -1,0 +1,49 @@
+{
+    "original_response": {
+        "created": 1769531641,
+        "data": [
+            {
+                "b64_json": null,
+                "revised_prompt": null,
+                "url": "https://v3b.fal.media/files/b/0a8c174c/1hJtW_jH4ubantV61_TLk_4608af1079d14584b1e6211b3c245bc5.png"
+            }
+        ],
+        "output_format": null,
+        "quality": null,
+        "size": null,
+        "usage": {
+            "total_tokens": 0,
+            "input_tokens": 0,
+            "input_tokens_details": {
+                "image_tokens": 0,
+                "text_tokens": 0
+            },
+            "output_tokens": 0
+        },
+        "provider_name": "fal_ai",
+        "provider_time": 10834751732,
+        "cost": 0.0398
+    },
+    "standardized_response": {
+        "items": [
+            {
+                "image": "iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAADwf7zUAAEAAElEQVR4AYS9YZZet65EZ/t6rcwjE8p4MvH8yXp2au8CSJ6W7gtbzUMChUIB5Pd",
+                "image_resource_url": "https://v3b.fal.media/files/b/0a8c174c/1hJtW_jH4ubantV61_TLk_4608af1079d14584b1e6211b3c245bc5.png"
+            }
+        ]
+    },
+    "usage": {
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "total_tokens": 0,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": null,
+        "input_tokens": 0,
+        "input_tokens_details": {
+            "image_tokens": 0,
+            "text_tokens": 0
+        },
+        "output_tokens": 0
+    },
+    "cost": 0.0398
+}

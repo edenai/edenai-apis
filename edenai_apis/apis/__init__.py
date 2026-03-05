@@ -28,6 +28,7 @@ from .emvista import EmvistaApi
 from .extracta import ExtractaApi
 from .facepp import FaceppApi
 from .faker import FakerApi
+from .fal_ai import FalAiApi
 from .fireworks_ai import FireworksAiApi
 from .gladia import GladiaApi
 from .google import GoogleApi
@@ -79,5 +80,6 @@ from .voxist import VoxistApi
 from .winstonai import WinstonaiApi
 from .writesonic import WritesonicApi
 from .xai import XAiApi
+from .huggingface import HuggingfaceApi
 
 # THIS NEEDS TO BE DONE AUTOMATICALLY

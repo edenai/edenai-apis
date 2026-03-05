@@ -375,13 +375,7 @@ async def acompute_output(
             raise get_appropriate_error(provider_name, exc)
 
     if args.get("stream", False):
-
-        async def generate_chunks():
-            async for chunk in subfeature_result["stream"]:
-                if chunk is not None:
-                    yield chunk.model_dump()
-
-        return generate_chunks()
+        return subfeature_result["stream"]
 
     final_result: Dict[str, Any] = {
         "status": STATUS_SUCCESS,

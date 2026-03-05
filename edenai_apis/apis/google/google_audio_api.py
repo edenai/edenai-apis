@@ -205,6 +205,8 @@ class GoogleAudioApi(AudioInterface):
             provider_params: Provider-specific settings:
                 - sampling_rate: Audio sampling rate in Hz
                 - language_code: Language code for Gemini TTS (default: "en-US")
+                - prompt: Natural language style instructions for Gemini TTS
+                          (e.g., "Say this in a cheerful tone")
         """
         provider_params = provider_params or {}
         config = get_tts_config("google")
@@ -284,7 +286,11 @@ class GoogleAudioApi(AudioInterface):
         if is_ssml(text):
             input_text = texttospeech.SynthesisInput(ssml=text)
         else:
-            input_text = texttospeech.SynthesisInput(text=text)
+            input_params = {"text": text}
+            # Add prompt for Gemini models (style/Director's Notes)
+            if is_gemini_model and provider_params.get("prompt"):
+                input_params["prompt"] = provider_params["prompt"]
+            input_text = texttospeech.SynthesisInput(**input_params)
 
         # Get audio format mapping
         ext, resolved_audio_format = get_right_audio_support_and_sampling_rate(
@@ -296,21 +302,20 @@ class GoogleAudioApi(AudioInterface):
             "audio_encoding": getattr(texttospeech.AudioEncoding, resolved_audio_format)
         }
 
-        # Apply speed (speaking_rate: 0.25 to 4.0, where 1.0 is normal) - not supported for Gemini
-        if speed is not None and not is_gemini_model:
+        # Apply speed (speaking_rate: 0.25 to 4.0, where 1.0 is normal)
+        if speed is not None:
             audio_config_params["speaking_rate"] = max(0.25, min(4.0, speed))
 
-        # Apply pitch and volume (not supported for Gemini)
-        if not is_gemini_model:
-            if speaking_pitch is not None:
-                audio_config_params["pitch"] = (
-                    convert_pitch_from_percentage_to_semitones(speaking_pitch)
-                )
-            if speaking_volume is not None:
-                # Volume gain in dB (-96 to 16)
-                audio_config_params["volume_gain_db"] = max(
-                    -96, min(16, speaking_volume * 6 / 100)
-                )
+        # Apply pitch and volume
+        if speaking_pitch is not None:
+            audio_config_params["pitch"] = (
+                convert_pitch_from_percentage_to_semitones(speaking_pitch)
+            )
+        if speaking_volume is not None:
+            # Volume gain in dB (-96 to 16)
+            audio_config_params["volume_gain_db"] = max(
+                -96, min(16, speaking_volume * 6 / 100)
+            )
         if provider_params.get("sampling_rate") is not None:
             audio_config_params["sample_rate_hertz"] = provider_params["sampling_rate"]
 
@@ -365,6 +370,8 @@ class GoogleAudioApi(AudioInterface):
             provider_params: Provider-specific settings:
                 - sampling_rate: Audio sampling rate in Hz
                 - language_code: Language code for Gemini TTS (default: "en-US")
+                - prompt: Natural language style instructions for Gemini TTS
+                          (e.g., "Say this in a cheerful tone")
         """
         provider_params = provider_params or {}
         config = get_tts_config("google")
@@ -444,7 +451,11 @@ class GoogleAudioApi(AudioInterface):
         if is_ssml(text):
             input_text = texttospeech.SynthesisInput(ssml=text)
         else:
-            input_text = texttospeech.SynthesisInput(text=text)
+            input_params = {"text": text}
+            # Add prompt for Gemini models (style/Director's Notes)
+            if is_gemini_model and provider_params.get("prompt"):
+                input_params["prompt"] = provider_params["prompt"]
+            input_text = texttospeech.SynthesisInput(**input_params)
 
         # Get audio format mapping
         ext, resolved_audio_format = get_right_audio_support_and_sampling_rate(
@@ -456,21 +467,20 @@ class GoogleAudioApi(AudioInterface):
             "audio_encoding": getattr(texttospeech.AudioEncoding, resolved_audio_format)
         }
 
-        # Apply speed (speaking_rate: 0.25 to 4.0, where 1.0 is normal) - not supported for Gemini
-        if speed is not None and not is_gemini_model:
+        # Apply speed (speaking_rate: 0.25 to 4.0, where 1.0 is normal)
+        if speed is not None:
             audio_config_params["speaking_rate"] = max(0.25, min(4.0, speed))
 
-        # Apply pitch and volume (not supported for Gemini)
-        if not is_gemini_model:
-            if speaking_pitch is not None:
-                audio_config_params["pitch"] = (
-                    convert_pitch_from_percentage_to_semitones(speaking_pitch)
-                )
-            if speaking_volume is not None:
-                # Volume gain in dB (-96 to 16)
-                audio_config_params["volume_gain_db"] = max(
-                    -96, min(16, speaking_volume * 6 / 100)
-                )
+        # Apply pitch and volume
+        if speaking_pitch is not None:
+            audio_config_params["pitch"] = (
+                convert_pitch_from_percentage_to_semitones(speaking_pitch)
+            )
+        if speaking_volume is not None:
+            # Volume gain in dB (-96 to 16)
+            audio_config_params["volume_gain_db"] = max(
+                -96, min(16, speaking_volume * 6 / 100)
+            )
         if provider_params.get("sampling_rate") is not None:
             audio_config_params["sample_rate_hertz"] = provider_params["sampling_rate"]
 
