@@ -332,7 +332,8 @@ async def acompute_output(
         provider_name, feature, subfeature, phase, args
     )
 
-    kwargs["fake"] = fake
+    if fake:
+        kwargs["fake"] = True
     if fake and not args.get("stream", False):
         await asyncio.sleep(random.uniform(0.5, 1.5))
 
