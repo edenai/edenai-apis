@@ -203,7 +203,14 @@ class LiteLLMCompletionClient(CompletionClient):
             kwargs.pop("moderate_content", None)
             # Register custom model pricing in litellm's registry for extended pricing support
             if model_pricing:
-                # Merge with existing pricing to preserve other fields (max_tokens, mode, etc.)
+                # Ensure required fields are set for litellm's cost calculation
+                # litellm_provider is needed for provider matching in get_model_info
+                # mode is needed for model type identification
+                if "litellm_provider" not in model_pricing and self.provider_name:
+                    model_pricing["litellm_provider"] = self.provider_name
+                if "mode" not in model_pricing:
+                    model_pricing["mode"] = "chat"
+                # Merge with existing pricing to preserve other fields (max_tokens, etc.)
                 if model_name in litellm.model_cost:
                     litellm.model_cost[model_name].update(model_pricing)
                 else:
@@ -832,7 +839,14 @@ class LiteLLMCompletionClient(CompletionClient):
             kwargs.pop("moderate_content", None)
             # Register custom model pricing in litellm's registry for extended pricing support
             if model_pricing:
-                # Merge with existing pricing to preserve other fields (max_tokens, mode, etc.)
+                # Ensure required fields are set for litellm's cost calculation
+                # litellm_provider is needed for provider matching in get_model_info
+                # mode is needed for model type identification
+                if "litellm_provider" not in model_pricing and self.provider_name:
+                    model_pricing["litellm_provider"] = self.provider_name
+                if "mode" not in model_pricing:
+                    model_pricing["mode"] = "chat"
+                # Merge with existing pricing to preserve other fields (max_tokens, etc.)
                 if model_name in litellm.model_cost:
                     litellm.model_cost[model_name].update(model_pricing)
                 else:
