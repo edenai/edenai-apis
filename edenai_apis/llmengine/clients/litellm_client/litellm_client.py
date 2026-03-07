@@ -211,7 +211,9 @@ class LiteLLMCompletionClient(CompletionClient):
                 if "mode" not in model_pricing:
                     model_pricing["mode"] = "chat"
                 # Merge with existing pricing to preserve other fields (max_tokens, etc.)
-                if model_name in litellm.model_cost:
+                if model_name in litellm.model_cost and isinstance(
+                    litellm.model_cost[model_name], dict
+                ):
                     litellm.model_cost[model_name].update(model_pricing)
                 else:
                     litellm.model_cost[model_name] = model_pricing
@@ -847,7 +849,9 @@ class LiteLLMCompletionClient(CompletionClient):
                 if "mode" not in model_pricing:
                     model_pricing["mode"] = "chat"
                 # Merge with existing pricing to preserve other fields (max_tokens, etc.)
-                if model_name in litellm.model_cost:
+                if model_name in litellm.model_cost and isinstance(
+                    litellm.model_cost[model_name], dict
+                ):
                     litellm.model_cost[model_name].update(model_pricing)
                 else:
                     litellm.model_cost[model_name] = model_pricing
