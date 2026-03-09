@@ -215,13 +215,8 @@ class LiteLLMCompletionClient(CompletionClient):
                     model_pricing["litellm_provider"] = self.provider_name
                 if "mode" not in model_pricing:
                     model_pricing["mode"] = "chat"
-                # Merge with existing pricing to preserve other fields (max_tokens, etc.)
-                if model_name in litellm.model_cost and isinstance(
-                    litellm.model_cost[model_name], dict
-                ):
-                    litellm.model_cost[model_name].update(model_pricing)
-                else:
-                    register_model({model_name: model_pricing})
+                # register_model merges with existing pricing via setdefault().update()
+                register_model({model_name: model_pricing})
             provider_start_time = time.time_ns()
             c_response = completion(**call_params, **kwargs)
             provider_end_time = time.time_ns()
@@ -857,13 +852,8 @@ class LiteLLMCompletionClient(CompletionClient):
                     model_pricing["litellm_provider"] = self.provider_name
                 if "mode" not in model_pricing:
                     model_pricing["mode"] = "chat"
-                # Merge with existing pricing to preserve other fields (max_tokens, etc.)
-                if model_name in litellm.model_cost and isinstance(
-                    litellm.model_cost[model_name], dict
-                ):
-                    litellm.model_cost[model_name].update(model_pricing)
-                else:
-                    register_model({model_name: model_pricing})
+                # register_model merges with existing pricing via setdefault().update()
+                register_model({model_name: model_pricing})
             provider_start_time = time.time_ns()
             c_response = await acompletion(**call_params, **kwargs)
             provider_end_time = time.time_ns()
