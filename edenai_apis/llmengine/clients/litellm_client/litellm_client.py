@@ -216,7 +216,7 @@ class LiteLLMCompletionClient(CompletionClient):
                 ):
                     litellm.model_cost[model_name].update(model_pricing)
                 else:
-                    litellm.model_cost[model_name] = model_pricing
+                    register_model({model_name: model_pricing})
             provider_start_time = time.time_ns()
             c_response = completion(**call_params, **kwargs)
             provider_end_time = time.time_ns()
@@ -854,7 +854,7 @@ class LiteLLMCompletionClient(CompletionClient):
                 ):
                     litellm.model_cost[model_name].update(model_pricing)
                 else:
-                    litellm.model_cost[model_name] = model_pricing
+                    register_model({model_name: model_pricing})
             provider_start_time = time.time_ns()
             c_response = await acompletion(**call_params, **kwargs)
             provider_end_time = time.time_ns()
