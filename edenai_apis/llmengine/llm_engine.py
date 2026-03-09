@@ -113,7 +113,7 @@ class LLMEngine:
         # TODO change the completion client to behave in the same way
         self.provider_config = provider_config
         self.completion_client: CompletionClient = LLM_COMPLETION_CLIENTS[client_name](
-            model_name=model, provider_name=self.provider_name
+            model_name=model, provider_name=self.provider_name, provider_config=provider_config
         )
         reranker_cls = RERANKING_CLIENTS.get(client_name)
         self.reranker_client: Optional[RerankerClient] = (
