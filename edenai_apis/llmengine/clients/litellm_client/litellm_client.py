@@ -4,20 +4,19 @@ from typing import Any, Coroutine, Dict, List, Literal, Optional, Type, Union
 
 import httpx
 import litellm
+from litellm import aembedding  # async versions
 from litellm import (
+    acompletion,
+    aimage_generation,
+    amoderation,
+    arerank,
     completion,
     completion_cost,
     embedding,
     image_generation,
-    aimage_generation,
     moderation,
     register_model,
     response_cost_calculator,
-    # async versions
-    acompletion,
-    amoderation,
-    aembedding,
-    arerank,
 )
 from litellm.exceptions import (
     APIConnectionError,
@@ -37,7 +36,6 @@ from litellm.exceptions import (
     UnsupportedParamsError,
 )
 from litellm.utils import get_supported_openai_params
-from edenai_apis.llmengine.clients.reranker import RerankerClient
 from llmengine.clients.completion import CompletionClient
 from llmengine.exceptions.error_handler import handle_litellm_exception
 from llmengine.exceptions.llm_engine_exceptions import (
@@ -51,8 +49,11 @@ from llmengine.types.response_types import (
 )
 from pydantic import BaseModel
 
+from edenai_apis.llmengine.clients.reranker import RerankerClient
 from edenai_apis.llmengine.types.litellm_model import LiteLLMModel
 from edenai_apis.utils.exception import ProviderException
+
+MOCK_RESPONSE = "Arrr, matey! What ye be seein’ in this here image is a grand pathway, made of wooden planks, weavin' its way through a lush and green landscape. The verdant grass sways in the gentle breeze, and the sky above be a brilliant blue, decorated with fluffy white clouds. Ye can spot trees and bushes on either side, makin' it a perfect setting for a stroll amongst nature. A peaceful place for a pirate at heart, aye!"
 
 logger = logging.getLogger(__name__)
 
@@ -201,6 +202,10 @@ class LiteLLMCompletionClient(CompletionClient):
             if drop_invalid_params == True:
                 litellm.drop_params = True
             kwargs.pop("moderate_content", None)
+
+            if kwargs.pop("fake", False):
+                kwargs["mock_response"] = MOCK_RESPONSE
+
             # Register custom model pricing in litellm's registry for extended pricing support
             if model_pricing:
                 # Ensure required fields are set for litellm's cost calculation
@@ -839,6 +844,10 @@ class LiteLLMCompletionClient(CompletionClient):
             if drop_invalid_params == True:
                 litellm.drop_params = True
             kwargs.pop("moderate_content", None)
+
+            if kwargs.pop("fake", False):
+                kwargs["mock_response"] = MOCK_RESPONSE
+
             # Register custom model pricing in litellm's registry for extended pricing support
             if model_pricing:
                 # Ensure required fields are set for litellm's cost calculation
