@@ -39,10 +39,11 @@ from edenai_apis.utils.types import (
 )
 from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
-class MistralApi(ProviderInterface, TextInterface, LlmInterface, OcrInterface):
+class MistralApi(ProviderInterface, TextInterface, LlmResponsesMixin, LlmInterface, OcrInterface):
     provider_name = "mistral"
 
     def __init__(self, api_keys: Dict = {}) -> None:

@@ -5,6 +5,24 @@
     },
     "achat": {
       "version": "llmengine (v2)"
+    },
+    "responses": {
+      "version": "llmengine (v2)"
+    },
+    "aresponses": {
+      "version": "llmengine (v2)"
+    },
+    "get_responses": {
+      "version": "llmengine (v2)"
+    },
+    "aget_responses": {
+      "version": "llmengine (v2)"
+    },
+    "delete_responses": {
+      "version": "llmengine (v2)"
+    },
+    "adelete_responses": {
+      "version": "llmengine (v2)"
     }
   },
   "text": {

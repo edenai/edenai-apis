@@ -31,10 +31,12 @@ from edenai_apis.utils.upload_s3 import (
     upload_file_bytes_to_s3,
 )
 from edenai_apis.llmengine.llm_engine import LLMEngine
+from edenai_apis.features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
 from edenai_apis.llmengine.utils.moderation import async_moderate, moderate
 
 
-class BytedanceApi(ProviderInterface, ImageInterface, VideoInterface):
+class BytedanceApi(ProviderInterface, ImageInterface, VideoInterface, LlmResponsesMixin, LlmInterface):
     provider_name = "bytedance"
 
     def __init__(self, api_keys: Optional[Dict[str, Any]] = None):

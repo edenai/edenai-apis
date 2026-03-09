@@ -6,6 +6,7 @@ import httpx
 from openai import BaseModel, OpenAI
 
 from edenai_apis.features import ProviderInterface, LlmInterface, TextInterface
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
 from edenai_apis.features.text.embeddings.embeddings_dataclass import (
     EmbeddingsDataClass,
     EmbeddingDataClass,
@@ -19,7 +20,7 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.llmengine.llm_engine import LLMEngine
 
 
-class IointelligenceApi(ProviderInterface, LlmInterface, TextInterface):
+class IointelligenceApi(ProviderInterface, LlmResponsesMixin, LlmInterface, TextInterface):
     provider_name = "iointelligence"
 
     def __init__(self, api_keys: Dict = {}) -> None:

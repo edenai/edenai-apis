@@ -8,6 +8,7 @@ from openai import BaseModel
 from edenai_apis.features import ProviderInterface, TextInterface
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 from edenai_apis.features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
 from edenai_apis.features.text import ChatDataClass
 from edenai_apis.features.text.chat.chat_dataclass import StreamChat
 from edenai_apis.features.text.custom_classification import (
@@ -32,7 +33,7 @@ from edenai_apis.utils.metrics import METRICS
 from edenai_apis.utils.types import ResponseType
 
 
-class CohereApi(ProviderInterface, TextInterface, LlmInterface):
+class CohereApi(ProviderInterface, TextInterface, LlmResponsesMixin, LlmInterface):
     provider_name = "cohere"
 
     def __init__(self, api_keys: Dict = {}):

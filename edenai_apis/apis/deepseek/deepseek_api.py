@@ -12,10 +12,11 @@ from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.llmengine import LLMEngine
 from edenai_apis.features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
-class DeepseekApi(ProviderInterface, TextInterface, LlmInterface):
+class DeepseekApi(ProviderInterface, TextInterface, LlmResponsesMixin, LlmInterface):
     provider_name = "deepseek"
 
     def __init__(self, api_keys: Dict = {}) -> None:
