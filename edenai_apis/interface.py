@@ -1,3 +1,5 @@
+import asyncio
+import inspect
 import random
 import time
 from typing import Any, Dict, List, Literal, Optional, Set, Tuple, Type, Union, overload
@@ -7,18 +9,11 @@ from dotenv import load_dotenv
 
 from edenai_apis import interface_v2
 from edenai_apis.features.provider.provider_interface import ProviderInterface
-from edenai_apis.loaders.data_loader import (
-    ProviderDataEnum,
-    load_info_file,
-)
+from edenai_apis.loaders.data_loader import ProviderDataEnum, load_info_file
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.constraints import validate_all_provider_constraints
 from edenai_apis.utils.exception import ProviderException, get_appropriate_error
 from edenai_apis.utils.types import AsyncLaunchJobResponseType
-from dotenv import load_dotenv
-import asyncio
-import inspect
-
 
 load_dotenv()
 
@@ -328,8 +323,6 @@ async def acompute_output(
             chunks of the streaming response asynchronously.
             - Otherwise, returns a dictionary containing the full result synchronously.
     """
-    if fake and args.get("stream", False):
-        raise NotImplementedError("Streaming with fake data is not available yet.")
 
     # Check if this is an async job (e.g., ocr_async)
     is_async_job = ("_async" in phase) if phase else ("_async" in subfeature)
@@ -340,6 +333,8 @@ async def acompute_output(
     )
 
     if fake:
+        kwargs["fake"] = True
+    if fake and not args.get("stream", False):
         await asyncio.sleep(random.uniform(0.5, 1.5))
 
         if is_async_job:
