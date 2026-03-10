@@ -853,7 +853,13 @@ class LiteLLMCompletionClient(CompletionClient):
                 if "mode" not in model_pricing:
                     model_pricing["mode"] = "chat"
                 # register_model merges with existing pricing via setdefault().update()
-                register_model({model_name: model_pricing})
+                # TODO: in the future we may want to find a better way to register the models instead of calling this each time
+                # HACK: we register model_name.lower() as well to handle casses where litellm does a lookup with lower case model name (e.g. for together_ai models)
+                # this is an issue in litellm that they need to fix, but this is a temporary workaround to make sure the custom pricing works for those models as well
+                register_model(
+                    {model_name: model_pricing, model_name.lower(): model_pricing}
+                )
+
             provider_start_time = time.time_ns()
             c_response = await acompletion(**call_params, **kwargs)
             provider_end_time = time.time_ns()
