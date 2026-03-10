@@ -1015,10 +1015,38 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["api_version"] = api_version
         if custom_llm_provider is not None:
             call_params["custom_llm_provider"] = custom_llm_provider
+        # See if there's custom pricing (model_pricing for extended pricing, or legacy per-token pricing)
+        model_pricing = kwargs.pop("model_pricing", None)
+        custom_pricing = {}
+        if kwargs.get("input_cost_per_token", None) and kwargs.get(
+            "output_cost_per_token", None
+        ):
+            custom_pricing["input_cost_per_token"] = kwargs.pop("input_cost_per_token")
+            custom_pricing["output_cost_per_token"] = kwargs.pop(
+                "output_cost_per_token"
+            )
         try:
             if drop_invalid_params:
                 litellm.drop_params = True
             kwargs.pop("moderate_content", None)
+
+            # Register custom model pricing in litellm's registry for extended pricing support
+            if model_pricing:
+                # Ensure required fields are set for litellm's cost calculation
+                # litellm_provider is needed for provider matching in get_model_info
+                # mode is needed for model type identification
+                if "litellm_provider" not in model_pricing and self.provider_name:
+                    model_pricing["litellm_provider"] = self.provider_name
+                if "mode" not in model_pricing:
+                    model_pricing["mode"] = "chat"
+                # register_model merges with existing pricing via setdefault().update()
+                # TODO: in the future we may want to find a better way to register the models instead of calling this each time
+                # HACK: we register model_name.lower() as well to handle casses where litellm does a lookup with lower case model name (e.g. for together_ai models)
+                # this is an issue in litellm that they need to fix, but this is a temporary workaround to make sure the custom pricing works for those models as well
+                register_model(
+                    {model_name: model_pricing, model_name.lower(): model_pricing}
+                )
+
             provider_start_time = time.time_ns()
             r_response = litellm.responses(**call_params, **kwargs)
             provider_end_time = time.time_ns()
@@ -1031,8 +1059,16 @@ class LiteLLMCompletionClient(CompletionClient):
 
                 return generate_chunks()
             else:
+                cost_calc_params = {
+                    "completion_response": r_response,
+                    "call_type": "responses",
+                }
+                # Use model_pricing via registry lookup, or fall back to legacy custom_cost_per_token
+                if not model_pricing and len(custom_pricing.keys()) > 0:
+                    cost_calc_params["custom_cost_per_token"] = custom_pricing
                 response = {
                     **r_response.model_dump(),
+                    "cost": completion_cost(**cost_calc_params),
                     "provider_time": provider_end_time - provider_start_time,
                 }
                 return response
@@ -1162,10 +1198,38 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["api_version"] = api_version
         if custom_llm_provider is not None:
             call_params["custom_llm_provider"] = custom_llm_provider
+        # See if there's custom pricing (model_pricing for extended pricing, or legacy per-token pricing)
+        model_pricing = kwargs.pop("model_pricing", None)
+        custom_pricing = {}
+        if kwargs.get("input_cost_per_token", None) and kwargs.get(
+            "output_cost_per_token", None
+        ):
+            custom_pricing["input_cost_per_token"] = kwargs.pop("input_cost_per_token")
+            custom_pricing["output_cost_per_token"] = kwargs.pop(
+                "output_cost_per_token"
+            )
         try:
             if drop_invalid_params:
                 litellm.drop_params = True
             kwargs.pop("moderate_content", None)
+
+            # Register custom model pricing in litellm's registry for extended pricing support
+            if model_pricing:
+                # Ensure required fields are set for litellm's cost calculation
+                # litellm_provider is needed for provider matching in get_model_info
+                # mode is needed for model type identification
+                if "litellm_provider" not in model_pricing and self.provider_name:
+                    model_pricing["litellm_provider"] = self.provider_name
+                if "mode" not in model_pricing:
+                    model_pricing["mode"] = "chat"
+                # register_model merges with existing pricing via setdefault().update()
+                # TODO: in the future we may want to find a better way to register the models instead of calling this each time
+                # HACK: we register model_name.lower() as well to handle casses where litellm does a lookup with lower case model name (e.g. for together_ai models)
+                # this is an issue in litellm that they need to fix, but this is a temporary workaround to make sure the custom pricing works for those models as well
+                register_model(
+                    {model_name: model_pricing, model_name.lower(): model_pricing}
+                )
+
             provider_start_time = time.time_ns()
             r_response = await litellm.aresponses(**call_params, **kwargs)
             provider_end_time = time.time_ns()
@@ -1178,8 +1242,16 @@ class LiteLLMCompletionClient(CompletionClient):
 
                 return generate_chunks()
             else:
+                cost_calc_params = {
+                    "completion_response": r_response,
+                    "call_type": "aresponses",
+                }
+                # Use model_pricing via registry lookup, or fall back to legacy custom_cost_per_token
+                if not model_pricing and len(custom_pricing.keys()) > 0:
+                    cost_calc_params["custom_cost_per_token"] = custom_pricing
                 response = {
                     **r_response.model_dump(),
+                    "cost": completion_cost(**cost_calc_params),
                     "provider_time": provider_end_time - provider_start_time,
                 }
                 return response
