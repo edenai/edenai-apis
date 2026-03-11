@@ -1,3 +1,4 @@
+import json
 from typing import Dict, Sequence, Optional
 
 import requests
@@ -105,12 +106,22 @@ class ModernmtApi(ProviderInterface, TranslationInterface):
         async with async_client(DEFAULT_TIMEOUT) as client:
             output = await client.post(self.url, headers=headers, json=data)
 
+        if output.status_code >= 400:
+            try:
+                response = output.json()
+                message = response.get("error", {}).get("message", output.text)
+                code = response.get("status", output.status_code)
+            except json.JSONDecodeError:
+                message = output.text
+                code = output.status_code
+            raise ProviderException(message=message, code=code)
+
         response = output.json()
 
-        if response["status"] != 200:
-            raise ProviderException(
-                message=response["error"]["message"], code=response["status"]
-            )
+        if response.get("status") != 200:
+            error_message = response.get("error", {}).get("message", "Unknown error")
+            error_code = response.get("status", output.status_code)
+            raise ProviderException(message=error_message, code=error_code)
 
         standardized_response = AutomaticTranslationDataClass(
             text=response["data"]["translation"]
