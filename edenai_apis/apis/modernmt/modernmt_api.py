@@ -11,6 +11,7 @@ from edenai_apis.features.translation import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.http_client import async_client, DEFAULT_TIMEOUT
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
 
@@ -73,6 +74,38 @@ class ModernmtApi(ProviderInterface, TranslationInterface):
         response = output.json()
 
         # Handle error
+        if response["status"] != 200:
+            raise ProviderException(
+                message=response["error"]["message"], code=response["status"]
+            )
+
+        standardized_response = AutomaticTranslationDataClass(
+            text=response["data"]["translation"]
+        )
+
+        return ResponseType[AutomaticTranslationDataClass](
+            original_response=response, standardized_response=standardized_response
+        )
+
+    async def translation__aautomatic_translation(
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[AutomaticTranslationDataClass]:
+        data = {
+            "source": source_language,
+            "target": target_language,
+            "q": text,
+        }
+
+        async with async_client(DEFAULT_TIMEOUT) as client:
+            output = await client.get(self.url, headers=self.header, data=data)
+
+        response = output.json()
+
         if response["status"] != 200:
             raise ProviderException(
                 message=response["error"]["message"], code=response["status"]
