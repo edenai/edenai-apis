@@ -101,8 +101,9 @@ class ModernmtApi(ProviderInterface, TranslationInterface):
             "q": text,
         }
 
+        headers = {**self.header, "X-HTTP-Method-Override": "GET", "Content-Type": "application/json"}
         async with async_client(DEFAULT_TIMEOUT) as client:
-            output = await client.get(self.url, headers=self.header, data=data)
+            output = await client.post(self.url, headers=headers, json=data)
 
         response = output.json()
 
