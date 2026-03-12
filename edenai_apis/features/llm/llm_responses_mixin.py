@@ -65,6 +65,8 @@ class LlmResponsesMixin:
         drop_invalid_params: bool = True,
         **kwargs,
     ) -> Union[ResponsesDataClass, StreamResponses]:
+        if base_url is None:
+            base_url = getattr(self, "base_url", None)
         return self._get_llm_client().responses(
             input=input,
             model=model,
@@ -136,6 +138,8 @@ class LlmResponsesMixin:
         drop_invalid_params: bool = True,
         **kwargs,
     ) -> Union[ResponsesDataClass, StreamAResponses]:
+        if base_url is None:
+            base_url = getattr(self, "base_url", None)
         return await self._get_llm_client().aresponses(
             input=input,
             model=model,
