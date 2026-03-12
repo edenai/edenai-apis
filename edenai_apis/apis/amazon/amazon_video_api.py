@@ -419,6 +419,47 @@ class AmazonVideoApi(VideoInterface):
             failure_message = invocation["failureMessage"]
             raise ProviderException(failure_message)
 
+    async def video__ageneration_async__launch_job(
+        self,
+        text: str,
+        duration: Optional[int] = 6,
+        fps: Optional[int] = 24,
+        dimension: Optional[str] = "1280x720",
+        seed: Optional[float] = 12,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        import aioboto3
+
+        text_input = {"text": text}
+        model_input = {
+            "taskType": "TEXT_VIDEO",
+            "textToVideoParams": text_input,
+            "videoGenerationConfig": {
+                "durationSeconds": duration,
+                "fps": fps,
+                "dimension": dimension,
+                "seed": seed,
+            },
+        }
+        request_params = {
+            "modelId": model,
+            "modelInput": model_input,
+            "outputDataConfig": {"s3OutputDataConfig": {"s3Uri": "s3://us-storage"}},
+        }
+        session = aioboto3.Session()
+        async with session.client(
+            "bedrock-runtime",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as bedrock:
+            response = await bedrock.start_async_invoke(**request_params)
+        provider_job_id = response.get("invocationArn")
+        return AsyncLaunchJobResponseType(provider_job_id=provider_job_id)
+
     def video__question_answer(
         self,
         text: str,

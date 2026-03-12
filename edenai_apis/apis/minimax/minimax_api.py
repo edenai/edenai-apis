@@ -20,7 +20,7 @@ from edenai_apis.features import (
     AudioInterface,
 )
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
-from edenai_apis.utils.http_client import async_client, DEFAULT_TIMEOUT
+from edenai_apis.utils.http_client import async_client, DEFAULT_TIMEOUT, ASYNC_JOBS_TIMEOUT
 from edenai_apis.features.video import GenerationAsyncDataClass
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
@@ -148,6 +148,41 @@ class MinimaxApi(
 
         else:
             return AsyncPendingResponseType(provider_job_id=provider_job_id)
+
+    async def video__ageneration_async__launch_job(
+        self,
+        text: str,
+        duration: Optional[int] = 6,
+        fps: Optional[int] = 24,
+        dimension: Optional[str] = "1280x720",
+        seed: Optional[float] = 12,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        payload = {
+            "prompt": text,
+            "model": model,
+            "duration": duration,
+        }
+        async with async_client(ASYNC_JOBS_TIMEOUT) as client:
+            response = await client.post(
+                url=f"{self.base_url}/video_generation",
+                json=payload,
+                headers={"Authorization": f"Bearer {self.api_key}"},
+            )
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal server error", code=500) from exc
+        base_msg = original_response.get("base_resp")
+        if base_msg["status_msg"] != "success":
+            raise ProviderException(
+                message=base_msg["status_msg"], code=base_msg["status_code"]
+            )
+        provider_job_id = original_response.get("task_id")
+        return AsyncLaunchJobResponseType(provider_job_id=provider_job_id)
 
     def llm__chat(
         self,

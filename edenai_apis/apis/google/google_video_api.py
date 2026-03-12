@@ -85,6 +85,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
+from edenai_apis.utils.http_client import async_client, ASYNC_JOBS_TIMEOUT
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     upload_file_bytes_to_s3,
@@ -1017,3 +1018,42 @@ class GoogleVideoApi(VideoInterface):
             )
 
         return AsyncPendingResponseType(provider_job_id=provider_job_id)
+
+    async def video__ageneration_async__launch_job(
+        self,
+        text: str,
+        duration: Optional[int] = 6,
+        fps: Optional[int] = 24,
+        dimension: Optional[str] = "1280x720",
+        seed: Optional[float] = 12,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        api_key = self.api_settings.get("genai_api_key")
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:predictLongRunning?key={api_key}"
+        prompt = {"prompt": text}
+        params = {}
+
+        payload = {
+            "instances": [prompt],
+            "parameters": params,
+        }
+        async with async_client(ASYNC_JOBS_TIMEOUT) as client:
+            response = await client.post(url=url, json=payload)
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+
+        if response.status_code != 200:
+            raise ProviderException(
+                message=original_response["error"]["message"],
+                code=response.status_code,
+            )
+
+        provider_job_id = original_response["name"]
+        return AsyncLaunchJobResponseType(provider_job_id=provider_job_id)

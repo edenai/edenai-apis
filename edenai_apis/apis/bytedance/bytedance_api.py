@@ -9,7 +9,7 @@ import httpx
 import requests
 
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
-from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT
+from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT, ASYNC_JOBS_TIMEOUT
 from edenai_apis.features import ProviderInterface, ImageInterface, VideoInterface
 from edenai_apis.features.image.generation import (
     GenerationDataClass,
@@ -244,6 +244,43 @@ class BytedanceApi(ProviderInterface, ImageInterface, VideoInterface):
             ),
             provider_job_id=provider_job_id,
         )
+
+    async def video__ageneration_async__launch_job(
+        self,
+        text: str,
+        duration: Optional[int] = 6,
+        fps: Optional[int] = 24,
+        dimension: Optional[str] = "1280x720",
+        seed: Optional[float] = 12,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        url = (
+            "https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks"
+        )
+        content = [
+            {"type": "text", "text": text},
+        ]
+        payload = {
+            "model": model,
+            "content": content,
+        }
+        async with async_client(ASYNC_JOBS_TIMEOUT) as client:
+            response = await client.post(url, headers=self.headers, json=payload)
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException("Internal Server Error", code=500) from exc
+
+        if response.status_code != 200:
+            raise ProviderException(
+                message=original_response.get("error", {}).get("message"),
+                code=response.status_code,
+            )
+        provider_job_id = original_response.get("id")
+        return AsyncLaunchJobResponseType(provider_job_id=provider_job_id)
 
     def llm__chat(
         self,
