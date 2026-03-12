@@ -40,7 +40,9 @@ from edenai_apis.utils.types import (
 from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
-from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
+from edenai_apis.features.llm.chat.chat_dataclass import (
+    ChatDataClass as LLMChatDataClass,
+)
 
 
 class MistralApi(ProviderInterface, TextInterface, LlmResponsesMixin, LlmInterface, OcrInterface):
@@ -223,7 +225,7 @@ class MistralApi(ProviderInterface, TextInterface, LlmResponsesMixin, LlmInterfa
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ) -> ChatDataClass:
+    ) -> LLMChatDataClass:
         response = self.llm_client.completion(
             messages=messages,
             model=model,
@@ -304,7 +306,7 @@ class MistralApi(ProviderInterface, TextInterface, LlmResponsesMixin, LlmInterfa
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ) -> ChatDataClass:
+    ) -> LLMChatDataClass:
         response = await self.llm_client.acompletion(
             messages=messages,
             model=model,
