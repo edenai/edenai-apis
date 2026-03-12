@@ -1030,6 +1030,9 @@ class LiteLLMCompletionClient(CompletionClient):
                 litellm.drop_params = True
             kwargs.pop("moderate_content", None)
 
+            if kwargs.pop("fake", False):
+                kwargs["mock_response"] = MOCK_RESPONSE
+
             # Register custom model pricing in litellm's registry for extended pricing support
             if model_pricing:
                 # Ensure required fields are set for litellm's cost calculation
@@ -1212,6 +1215,9 @@ class LiteLLMCompletionClient(CompletionClient):
             if drop_invalid_params:
                 litellm.drop_params = True
             kwargs.pop("moderate_content", None)
+
+            if kwargs.pop("fake", False):
+                kwargs["mock_response"] = MOCK_RESPONSE
 
             # Register custom model pricing in litellm's registry for extended pricing support
             if model_pricing:
