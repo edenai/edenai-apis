@@ -1,0 +1,77 @@
+{
+  "id": "resp_bGl0ZWxsbTpjdXN0b21fbGxtX3Byb3ZpZGVyOm9wZW5haTttb2RlbF9pZDpOb25lO3Jlc3BvbnNlX2lkOnJlc3BfMGFkMDIyMmM4ODRiN2UyNzAwNjliMzM2ODY2Y2YwODE5NGIwNGRlNTBmNjE2YTRmYjM=",
+  "object": "response",
+  "created_at": 1773352582,
+  "status": "completed",
+  "model": "gpt-4o-mini-2024-07-18",
+  "output": [
+    {
+      "type": "message",
+      "id": "msg_0ad0222c884b7e270069b33686fa188194822d328f420ccb77",
+      "role": "assistant",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "Why did the scarecrow win an award?  \n\nBecause he was outstanding in his field!",
+          "annotations": [],
+          "logprobs": []
+        }
+      ]
+    }
+  ],
+  "usage": {
+    "input_tokens": 13,
+    "output_tokens": 19,
+    "total_tokens": 32,
+    "input_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 0,
+      "text_tokens": null
+    },
+    "output_tokens_details": {
+      "reasoning_tokens": 0,
+      "text_tokens": null
+    },
+    "cost": null
+  },
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "metadata": {},
+  "parallel_tool_calls": true,
+  "temperature": 1.0,
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1.0,
+  "max_output_tokens": 1000,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "text": {
+    "format": {
+      "type": "text"
+    },
+    "verbosity": "medium"
+  },
+  "truncation": "disabled",
+  "store": true,
+  "user": null,
+  "background": false,
+  "billing": {
+    "payer": "developer"
+  },
+  "completed_at": 1773352583,
+  "frequency_penalty": 0.0,
+  "max_tool_calls": null,
+  "presence_penalty": 0.0,
+  "prompt_cache_key": null,
+  "prompt_cache_retention": null,
+  "safety_identifier": null,
+  "service_tier": "default",
+  "top_logprobs": 0,
+  "cost": 1.335e-05,
+  "provider_time": 1638562647
+}
