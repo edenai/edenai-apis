@@ -6,6 +6,8 @@ class ResponseOutputContent(BaseModel):
     type: str = Field(..., description="The type of content block, e.g. 'output_text'")
     text: Optional[str] = Field(None, description="The text content")
 
+    model_config = ConfigDict(extra="allow")
+
 
 class ResponseOutputItem(BaseModel):
     """A generic output item; can be a message or other typed output."""
@@ -37,6 +39,8 @@ class ResponsesUsage(BaseModel):
     output_tokens_details: Optional[Dict[str, Any]] = Field(
         None, description="Detailed breakdown of output tokens"
     )
+
+    model_config = ConfigDict(extra="allow")
 
 
 class ResponsesDataClass(BaseModel):
