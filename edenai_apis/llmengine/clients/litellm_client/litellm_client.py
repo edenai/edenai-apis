@@ -1015,6 +1015,7 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["api_version"] = api_version
         if custom_llm_provider is not None:
             call_params["custom_llm_provider"] = custom_llm_provider
+        call_params.update(self.provider_config)
         # See if there's custom pricing (model_pricing for extended pricing, or legacy per-token pricing)
         model_pricing = kwargs.pop("model_pricing", None)
         custom_pricing = {}
@@ -1201,6 +1202,7 @@ class LiteLLMCompletionClient(CompletionClient):
             call_params["api_version"] = api_version
         if custom_llm_provider is not None:
             call_params["custom_llm_provider"] = custom_llm_provider
+        call_params.update(self.provider_config)
         # See if there's custom pricing (model_pricing for extended pricing, or legacy per-token pricing)
         model_pricing = kwargs.pop("model_pricing", None)
         custom_pricing = {}
