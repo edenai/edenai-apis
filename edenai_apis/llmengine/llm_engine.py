@@ -1436,6 +1436,8 @@ class LLMEngine:
                 response_params["base_url"] = base_url
             if api_version is not None:
                 response_params["api_version"] = api_version
+            if api_key is not None:
+                response_params["api_key"] = api_key
             if custom_llm_provider is not None:
                 response_params["custom_llm_provider"] = custom_llm_provider
             if drop_invalid_params is not None:
@@ -1544,6 +1546,8 @@ class LLMEngine:
                 response_params["base_url"] = base_url
             if api_version is not None:
                 response_params["api_version"] = api_version
+            if api_key is not None:
+                response_params["api_key"] = api_key
             if custom_llm_provider is not None:
                 response_params["custom_llm_provider"] = custom_llm_provider
             if drop_invalid_params is not None:
