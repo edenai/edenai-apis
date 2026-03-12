@@ -193,11 +193,9 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
             audio_format: Audio format (mp3, wav, pcm, opus, alaw, ulaw).
                    Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0, mapped to 0.7-1.2). Defaults to 1.0
-            provider_params: Additional ElevenLabs API parameters passed to voice_settings:
-                - stability: Voice stability (0.0 to 1.0, default 0.5)
-                - similarity_boost: Voice similarity (0.0 to 1.0, default 0.75)
-                - style: Style exaggeration (0.0 to 1.0, default 0)
-                - use_speaker_boost: Boost similarity (boolean, default True)
+            provider_params: Additional ElevenLabs API parameters. Top-level params
+                (language_code, seed, previous_text, next_text, etc.) are sent as
+                body params; all others override voice_settings.
         """
         provider_params = provider_params or {}
         config = get_tts_config("elevenlabs")
@@ -231,14 +229,33 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         # Convert audio format to ElevenLabs format and get file extension
         elevenlabs_format, file_extension = get_audio_format_and_extension(audio_format)
 
-        # Voice settings with defaults, overridden by provider_params
+        # Separate top-level API params from voice_settings overrides
+        top_level_keys = {
+            "language_code",
+            "seed",
+            "previous_text",
+            "next_text",
+            "previous_request_ids",
+            "next_request_ids",
+            "pronunciation_dictionary_locators",
+            "use_pvc_as_ivc",
+            "apply_text_normalization",
+            "apply_language_text_normalization",
+        }
+        top_level_params = {
+            k: v for k, v in provider_params.items() if k in top_level_keys
+        }
+        voice_overrides = {
+            k: v for k, v in provider_params.items() if k not in top_level_keys
+        }
+
         voice_settings = {
             "stability": 0.5,
             "similarity_boost": 0.75,
             "style": 0.0,
             "use_speaker_boost": True,
             "speed": mapped_speed,
-            **provider_params,
+            **voice_overrides,
         }
 
         data = {
@@ -246,6 +263,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
             "model_id": resolved_model,
             "voice_settings": voice_settings,
             "output_format": elevenlabs_format,
+            **top_level_params,
         }
 
         try:
@@ -295,11 +313,9 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
             audio_format: Audio format (mp3, wav, pcm, opus, alaw, ulaw).
                    Defaults to "mp3"
             speed: Speech speed (0.25 to 4.0, mapped to 0.7-1.2). Defaults to 1.0
-            provider_params: Additional ElevenLabs API parameters passed to voice_settings:
-                - stability: Voice stability (0.0 to 1.0, default 0.5)
-                - similarity_boost: Voice similarity (0.0 to 1.0, default 0.75)
-                - style: Style exaggeration (0.0 to 1.0, default 0)
-                - use_speaker_boost: Boost similarity (boolean, default True)
+            provider_params: Additional ElevenLabs API parameters. Top-level params
+                (language_code, seed, previous_text, next_text, etc.) are sent as
+                body params; all others override voice_settings.
         """
         provider_params = provider_params or {}
         config = get_tts_config("elevenlabs")
@@ -333,14 +349,33 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
         # Convert audio format to ElevenLabs format and get file extension
         elevenlabs_format, file_extension = get_audio_format_and_extension(audio_format)
 
-        # Voice settings with defaults, overridden by provider_params
+        # Separate top-level API params from voice_settings overrides
+        top_level_keys = {
+            "language_code",
+            "seed",
+            "previous_text",
+            "next_text",
+            "previous_request_ids",
+            "next_request_ids",
+            "pronunciation_dictionary_locators",
+            "use_pvc_as_ivc",
+            "apply_text_normalization",
+            "apply_language_text_normalization",
+        }
+        top_level_params = {
+            k: v for k, v in provider_params.items() if k in top_level_keys
+        }
+        voice_overrides = {
+            k: v for k, v in provider_params.items() if k not in top_level_keys
+        }
+
         voice_settings = {
             "stability": 0.5,
             "similarity_boost": 0.75,
             "style": 0.0,
             "use_speaker_boost": True,
             "speed": mapped_speed,
-            **provider_params,
+            **voice_overrides,
         }
 
         data = {
@@ -348,6 +383,7 @@ class ElevenlabsApi(ProviderInterface, AudioInterface):
             "model_id": resolved_model,
             "voice_settings": voice_settings,
             "output_format": elevenlabs_format,
+            **top_level_params,
         }
 
         try:
