@@ -20,6 +20,7 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.types import (
+    AsyncBaseResponseType,
     AsyncLaunchJobResponseType,
     ResponseType,
     AsyncPendingResponseType,
@@ -213,7 +214,7 @@ class BytedanceApi(ProviderInterface, ImageInterface, VideoInterface):
 
     def video__generation_async__get_job_result(
         self, provider_job_id: str
-    ) -> GenerationAsyncDataClass:
+    ) -> AsyncBaseResponseType[GenerationAsyncDataClass]:
         url = f"https://ark.ap-southeast.volces.com/api/v3/contents/generations/tasks/{provider_job_id}"
         try:
             response = requests.get(url, headers=self.headers)
