@@ -58,6 +58,7 @@ class MinimaxApi(
             provider_name="openai",
             provider_config={
                 "api_key": self.api_key,
+                "base_url": self.base_url,
             },
         )
 
