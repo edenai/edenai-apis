@@ -2,8 +2,8 @@
 Mixin providing default Responses API implementations for providers using LLMEngine.
 
 Any provider class that has `self.llm_client` (an LLMEngine instance) can inherit
-from this mixin to get responses/aresponses/get_responses/delete_responses support
-without writing any provider-specific code.
+from this mixin to get llm__responses and llm__aresponses behavior without writing
+any provider-specific code.
 
 Usage:
     class MyProviderLLMApi(LlmResponsesMixin, LlmInterface):
