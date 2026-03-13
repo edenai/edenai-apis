@@ -33,7 +33,7 @@ from edenai_apis.utils.types import (
     AsyncBaseResponseType,
 )
 from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.exception import ProviderException, ProviderInvalidInputFileError
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     aupload_file_bytes_to_s3,
@@ -170,8 +170,11 @@ class MinimaxApi(
         if file_url:
             payload["first_frame_image"] = file_url
         elif file:
-            async with aiofiles.open(file, "rb") as f:
-                file_content = await f.read()
+            try:
+                async with aiofiles.open(file, "rb") as f:
+                    file_content = await f.read()
+            except Exception as exc:
+                raise ProviderInvalidInputFileError(str(exc)) from exc
             input_image_base64 = base64.b64encode(file_content).decode("utf-8")
             payload["first_frame_image"] = f"data:image/png;base64,{input_image_base64}"
         async with async_client(ASYNC_JOBS_TIMEOUT) as client:

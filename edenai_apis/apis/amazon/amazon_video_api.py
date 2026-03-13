@@ -28,6 +28,7 @@ from edenai_apis.features.video.generation_async.generation_async_dataclass impo
 from edenai_apis.features.video.video_interface import VideoInterface
 from edenai_apis.utils.exception import (
     ProviderException,
+    ProviderInvalidInputFileError,
 )
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -439,13 +440,16 @@ class AmazonVideoApi(VideoInterface):
         file_wrapper = None
         try:
             if file or file_url:
-                if file:
-                    async with aiofiles.open(file, "rb") as f:
-                        file_content = await f.read()
-                else:
-                    file_handler = FileHandler()
-                    file_wrapper = await file_handler.download_file(file_url)
-                    file_content = await file_wrapper.get_bytes()
+                try:
+                    if file:
+                        async with aiofiles.open(file, "rb") as f:
+                            file_content = await f.read()
+                    else:
+                        file_handler = FileHandler()
+                        file_wrapper = await file_handler.download_file(file_url)
+                        file_content = await file_wrapper.get_bytes()
+                except Exception as exc:
+                    raise ProviderInvalidInputFileError(str(exc)) from exc
                 input_image_base64 = base64.b64encode(file_content).decode("utf-8")
                 images = [{"format": "png", "source": {"bytes": input_image_base64}}]
                 text_input["images"] = images
@@ -467,14 +471,17 @@ class AmazonVideoApi(VideoInterface):
             "modelInput": model_input,
             "outputDataConfig": {"s3OutputDataConfig": {"s3Uri": "s3://us-storage"}},
         }
-        session = aioboto3.Session()
-        async with session.client(
-            "bedrock-runtime",
-            region_name=self.api_settings["region_name"],
-            aws_access_key_id=self.api_settings["aws_access_key_id"],
-            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
-        ) as bedrock:
-            response = await bedrock.start_async_invoke(**request_params)
+        try:
+            session = aioboto3.Session()
+            async with session.client(
+                "bedrock-runtime",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as bedrock:
+                response = await bedrock.start_async_invoke(**request_params)
+        except Exception as exc:
+            raise ProviderException(str(exc)) from exc
         provider_job_id = response.get("invocationArn")
         return AsyncLaunchJobResponseType(provider_job_id=provider_job_id)
 

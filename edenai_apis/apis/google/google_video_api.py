@@ -76,6 +76,7 @@ from edenai_apis.features.video.generation_async.generation_async_dataclass impo
 from edenai_apis.features.video.video_interface import VideoInterface
 from edenai_apis.utils.exception import (
     ProviderException,
+    ProviderInvalidInputFileError,
     AsyncJobException,
     AsyncJobExceptionReason,
 )
@@ -1042,15 +1043,18 @@ class GoogleVideoApi(VideoInterface):
         file_wrapper = None
         try:
             if is_veo2 and (file or file_url):
-                if file:
-                    async with aiofiles.open(file, "rb") as f:
-                        file_content = await f.read()
-                    mime_type = mimetypes.guess_type(file)[0]
-                else:
-                    file_handler = FileHandler()
-                    file_wrapper = await file_handler.download_file(file_url)
-                    file_content = await file_wrapper.get_bytes()
-                    mime_type = file_wrapper.file_info.file_media_type
+                try:
+                    if file:
+                        async with aiofiles.open(file, "rb") as f:
+                            file_content = await f.read()
+                        mime_type = mimetypes.guess_type(file)[0]
+                    else:
+                        file_handler = FileHandler()
+                        file_wrapper = await file_handler.download_file(file_url)
+                        file_content = await file_wrapper.get_bytes()
+                        mime_type = file_wrapper.file_info.file_media_type
+                except Exception as exc:
+                    raise ProviderInvalidInputFileError(str(exc)) from exc
                 input_image_base64 = base64.b64encode(file_content).decode("utf-8")
                 prompt["image"] = {
                     "bytesBase64Encoded": input_image_base64,
