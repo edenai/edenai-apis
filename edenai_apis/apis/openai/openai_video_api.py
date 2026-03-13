@@ -3,6 +3,7 @@ import json
 from io import BytesIO
 from typing import Optional
 
+import httpx
 import requests
 
 from edenai_apis.features.video.generation_async.generation_async_dataclass import (
@@ -136,7 +137,9 @@ class OpenaiVideoApi(VideoInterface):
                 message="Internal server error", code=response.status_code
             ) from exp
 
-        if response.status_code != 200:
+        try:
+            response.raise_for_status()
+        except httpx.HTTPStatusError:
             raise ProviderException(
                 message=provider_job_response["error"]["message"],
                 code=response.status_code,
