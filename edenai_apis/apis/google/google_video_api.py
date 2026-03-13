@@ -7,6 +7,7 @@ from pathlib import Path
 from time import sleep, time
 from typing import Any, Dict, List, Optional
 
+import aiofiles
 import requests
 from dateutil.parser import parse
 from google.cloud import videointelligence
@@ -85,6 +86,7 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.http_client import async_client, ASYNC_JOBS_TIMEOUT
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
@@ -1035,6 +1037,29 @@ class GoogleVideoApi(VideoInterface):
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:predictLongRunning?key={api_key}"
         prompt = {"prompt": text}
         params = {}
+
+        is_veo2 = "veo-2.0-generate-001" in model if model else False
+        file_wrapper = None
+        try:
+            if is_veo2 and (file or file_url):
+                if file:
+                    async with aiofiles.open(file, "rb") as f:
+                        file_content = await f.read()
+                    mime_type = mimetypes.guess_type(file)[0]
+                else:
+                    file_handler = FileHandler()
+                    file_wrapper = await file_handler.download_file(file_url)
+                    file_content = await file_wrapper.get_bytes()
+                    mime_type = file_wrapper.file_info.file_media_type
+                input_image_base64 = base64.b64encode(file_content).decode("utf-8")
+                prompt["image"] = {
+                    "bytesBase64Encoded": input_image_base64,
+                    "mimeType": mime_type,
+                }
+                params["durationSeconds"] = duration
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
 
         payload = {
             "instances": [prompt],

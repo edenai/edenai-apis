@@ -3,6 +3,9 @@ import base64
 from io import BytesIO
 import json
 
+import aiofiles
+import aioboto3
+
 from edenai_apis.features.video import QuestionAnswerDataClass
 from edenai_apis.features.video.explicit_content_detection_async.explicit_content_detection_async_dataclass import (
     ExplicitContentDetectionAsyncDataClass,
@@ -43,6 +46,7 @@ from .helpers import (
     amazon_video_explicit_parser,
 )
 from .config import clients
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     upload_file_bytes_to_s3,
@@ -431,9 +435,23 @@ class AmazonVideoApi(VideoInterface):
         model: Optional[str] = None,
         **kwargs,
     ) -> AsyncLaunchJobResponseType:
-        import aioboto3
-
         text_input = {"text": text}
+        file_wrapper = None
+        try:
+            if file or file_url:
+                if file:
+                    async with aiofiles.open(file, "rb") as f:
+                        file_content = await f.read()
+                else:
+                    file_handler = FileHandler()
+                    file_wrapper = await file_handler.download_file(file_url)
+                    file_content = await file_wrapper.get_bytes()
+                input_image_base64 = base64.b64encode(file_content).decode("utf-8")
+                images = [{"format": "png", "source": {"bytes": input_image_base64}}]
+                text_input["images"] = images
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
         model_input = {
             "taskType": "TEXT_VIDEO",
             "textToVideoParams": text_input,
