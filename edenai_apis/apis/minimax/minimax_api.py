@@ -34,7 +34,6 @@ from edenai_apis.utils.types import (
 )
 from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.utils.exception import ProviderException
-from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     aupload_file_bytes_to_s3,
@@ -168,21 +167,13 @@ class MinimaxApi(
             "model": model,
             "duration": duration,
         }
-        file_wrapper = None
-        try:
-            if file or file_url:
-                if file:
-                    async with aiofiles.open(file, "rb") as f:
-                        file_content = await f.read()
-                else:
-                    file_handler = FileHandler()
-                    file_wrapper = await file_handler.download_file(file_url)
-                    file_content = await file_wrapper.get_bytes()
-                input_image_base64 = base64.b64encode(file_content).decode("utf-8")
-                payload["first_frame_images"] = input_image_base64
-        finally:
-            if file_wrapper:
-                file_wrapper.close_file()
+        if file_url:
+            payload["first_frame_image"] = file_url
+        elif file:
+            async with aiofiles.open(file, "rb") as f:
+                file_content = await f.read()
+            input_image_base64 = base64.b64encode(file_content).decode("utf-8")
+            payload["first_frame_image"] = f"data:image/png;base64,{input_image_base64}"
         async with async_client(ASYNC_JOBS_TIMEOUT) as client:
             response = await client.post(
                 url=f"{self.base_url}/video_generation",
