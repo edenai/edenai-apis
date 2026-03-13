@@ -230,6 +230,12 @@
     },
     "achat": {
       "version": "llmengine (v2)"
+    },
+    "responses": {
+      "version": "llmengine (v2)"
+    },
+    "aresponses": {
+      "version": "llmengine (v2)"
     }
   },
   "_metadata": {

@@ -4,13 +4,14 @@ from openai import BaseModel
 from typing import Dict, List, Type, Union, Optional, Literal, Any
 
 from edenai_apis.features import ProviderInterface, LlmInterface
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.llmengine.llm_engine import LLMEngine
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
-class DeepinfraApi(ProviderInterface, LlmInterface):
+class DeepinfraApi(ProviderInterface, LlmResponsesMixin, LlmInterface):
     provider_name = "deepinfra"
 
     def __init__(self, api_keys: Optional[Dict[str, Any]] = None) -> None:

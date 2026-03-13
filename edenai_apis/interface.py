@@ -287,9 +287,9 @@ def compute_output(
             raise get_appropriate_error(provider_name, exc)
 
     final_result: Dict[str, Any] = {
+        **subfeature_result,
         "status": STATUS_SUCCESS,
         "provider": provider_name,
-        **subfeature_result,
     }
 
     return final_result
@@ -373,9 +373,9 @@ async def acompute_output(
         return subfeature_result["stream"]
 
     final_result: Dict[str, Any] = {
+        **subfeature_result,
         "status": STATUS_SUCCESS,
         "provider": provider_name,
-        **subfeature_result,
     }
 
     return final_result

@@ -1,4 +1,5 @@
 from edenai_apis.features import ProviderInterface, TextInterface, LlmInterface
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.utils.exception import ProviderException
@@ -14,7 +15,7 @@ import requests
 import json
 
 
-class PerplexityApi(ProviderInterface, TextInterface, LlmInterface):
+class PerplexityApi(ProviderInterface, TextInterface, LlmResponsesMixin, LlmInterface):
     provider_name = "perplexityai"
 
     def __init__(self, api_keys: Dict = {}):

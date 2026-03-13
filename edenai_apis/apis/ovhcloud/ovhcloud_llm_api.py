@@ -5,9 +5,10 @@ from openai import BaseModel
 
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 from edenai_apis.features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
 
 
-class OvhCloudLLMApi(LlmInterface):
+class OvhCloudLLMApi(LlmResponsesMixin, LlmInterface):
 
     def llm__chat(
         self,
