@@ -1,3 +1,4 @@
+import json
 from typing import Dict, Sequence, Optional
 
 import requests
@@ -11,6 +12,7 @@ from edenai_apis.features.translation import (
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.http_client import async_client, DEFAULT_TIMEOUT
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
 
@@ -77,6 +79,49 @@ class ModernmtApi(ProviderInterface, TranslationInterface):
             raise ProviderException(
                 message=response["error"]["message"], code=response["status"]
             )
+
+        standardized_response = AutomaticTranslationDataClass(
+            text=response["data"]["translation"]
+        )
+
+        return ResponseType[AutomaticTranslationDataClass](
+            original_response=response, standardized_response=standardized_response
+        )
+
+    async def translation__aautomatic_translation(
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[AutomaticTranslationDataClass]:
+        data = {
+            "source": source_language,
+            "target": target_language,
+            "q": text,
+        }
+
+        headers = {**self.header, "X-HTTP-Method-Override": "GET", "Content-Type": "application/json"}
+        async with async_client(DEFAULT_TIMEOUT) as client:
+            output = await client.post(self.url, headers=headers, json=data)
+
+        if output.status_code >= 400:
+            try:
+                response = output.json()
+                message = response.get("error", {}).get("message", output.text)
+                code = response.get("status", output.status_code)
+            except json.JSONDecodeError:
+                message = output.text
+                code = output.status_code
+            raise ProviderException(message=message, code=code)
+
+        response = output.json()
+
+        if response.get("status") != 200:
+            error_message = response.get("error", {}).get("message", "Unknown error")
+            error_code = response.get("status", output.status_code)
+            raise ProviderException(message=error_message, code=error_code)
 
         standardized_response = AutomaticTranslationDataClass(
             text=response["data"]["translation"]

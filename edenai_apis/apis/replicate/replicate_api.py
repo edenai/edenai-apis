@@ -24,12 +24,13 @@ from edenai_apis.utils.http_client import async_client, IMAGE_TIMEOUT
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.llmengine import LLMEngine
 from edenai_apis.features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 from edenai_apis.llmengine.utils.moderation import async_moderate, moderate
 from .config import get_model_id_image
 
 
-class ReplicateApi(ProviderInterface, ImageInterface, TextInterface, LlmInterface):
+class ReplicateApi(ProviderInterface, ImageInterface, TextInterface, LlmResponsesMixin, LlmInterface):
     provider_name = "replicate"
 
     def __init__(self, api_keys: Dict = {}):

@@ -11,6 +11,7 @@ from edenai_apis.features.translation import (
 from edenai_apis.features.translation.translation_interface import TranslationInterface
 from edenai_apis.utils.conversion import add_query_param_in_url
 from edenai_apis.utils.exception import ProviderException
+from edenai_apis.utils.http_client import async_client, DEFAULT_TIMEOUT
 from edenai_apis.utils.languages import get_language_name_from_code
 from edenai_apis.utils.types import ResponseType
 
@@ -97,6 +98,47 @@ class MicrosoftTranslationApi(TranslationInterface):
         data = response.json()
 
         # Create output TextAutomaticTranslation object
+        standardized_response = AutomaticTranslationDataClass(
+            text=data[0]["translations"][0]["text"]
+        )
+
+        return ResponseType[AutomaticTranslationDataClass](
+            original_response=data, standardized_response=standardized_response
+        )
+
+    async def translation__aautomatic_translation(
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[AutomaticTranslationDataClass]:
+        url = add_query_param_in_url(
+            url=self.url["translator"],
+            query_params={"from": source_language, "to": target_language},
+        )
+
+        body = [{"text": text}]
+
+        async with async_client(DEFAULT_TIMEOUT) as client:
+            response = await client.post(
+                url, headers=self.headers["translator"], json=body
+            )
+
+        if response.status_code >= 500:
+            raise ProviderException(
+                message=HTTPStatus(response.status_code).phrase,
+                code=response.status_code,
+            )
+        if response.status_code >= 400:
+            data = response.json()
+            error = data.get("error", {}) or {}
+            error_message = error.get("message", "")
+            raise ProviderException(error_message, code=response.status_code)
+
+        data = response.json()
+
         standardized_response = AutomaticTranslationDataClass(
             text=data[0]["translations"][0]["text"]
         )

@@ -129,7 +129,9 @@ class TestLoadOutput:
 
         assert isinstance(output, dict), "output should be a dict"
         try:
-            if feature == "llm":
+            if feature == "llm" and subfeature in ("responses", "aresponses"):
+                output["output"]
+            elif feature == "llm":
                 output["choices"]
             else:
                 output["original_response"]

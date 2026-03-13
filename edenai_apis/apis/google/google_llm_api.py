@@ -3,10 +3,14 @@ from typing import List, Type, Union, Optional, Literal, Dict
 import httpx
 from openai import BaseModel
 from edenai_apis.features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
-class GoogleLLMApi(LlmInterface):
+class GoogleLLMApi(LlmResponsesMixin, LlmInterface):
+
+    def _get_llm_client(self):
+        return self.clients["llm_client"]
 
     def llm__chat(
         self,

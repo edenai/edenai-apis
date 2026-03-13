@@ -34,6 +34,8 @@ from edenai_apis.utils.types import (
 )
 from edenai_apis.features.llm.llm_interface import LlmInterface
 from edenai_apis.utils.exception import ProviderException, ProviderInvalidInputFileError
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
+from edenai_apis.utils.exception import ProviderException
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     aupload_file_bytes_to_s3,
@@ -43,7 +45,7 @@ from edenai_apis.llmengine.llm_engine import LLMEngine
 
 
 class MinimaxApi(
-    ProviderInterface, ImageInterface, LlmInterface, VideoInterface, AudioInterface
+    ProviderInterface, ImageInterface, LlmResponsesMixin, LlmInterface, VideoInterface, AudioInterface
 ):
     provider_name = "minimax"
 
@@ -58,6 +60,7 @@ class MinimaxApi(
             provider_name="openai",
             provider_config={
                 "api_key": self.api_key,
+                "base_url": self.base_url,
             },
         )
 

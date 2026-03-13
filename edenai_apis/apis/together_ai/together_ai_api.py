@@ -12,10 +12,11 @@ from edenai_apis.utils.types import ResponseType
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
-class TogetheraiApi(ProviderInterface, TextInterface, LlmInterface):
+class TogetheraiApi(ProviderInterface, TextInterface, LlmResponsesMixin, LlmInterface):
     provider_name = "together_ai"
 
     def __init__(self, api_keys: Dict = {}) -> None:

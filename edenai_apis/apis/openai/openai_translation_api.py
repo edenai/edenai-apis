@@ -33,3 +33,20 @@ class OpenaiTranslationApi(TranslationInterface):
             **kwargs,
         )
         return response
+
+    async def translation__aautomatic_translation(
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[AutomaticTranslationDataClass]:
+        response = await self.llm_client.aautomatic_translation(
+            source_language=source_language,
+            target_language=target_language,
+            text=text,
+            model=model,
+            **kwargs,
+        )
+        return response

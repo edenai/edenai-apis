@@ -23,10 +23,13 @@ from edenai_apis.loaders.data_loader import ProviderDataEnum
 from edenai_apis.loaders.loaders import load_provider
 from edenai_apis.utils.types import ResponseType
 from edenai_apis.features.llm.llm_interface import LlmInterface
-from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
+from edenai_apis.features.llm.chat.chat_dataclass import (
+    ChatDataClass as LLMChatDataClass,
+)
 
 
-class AnthropicApi(ProviderInterface, TextInterface, ImageInterface, LlmInterface):
+class AnthropicApi(ProviderInterface, TextInterface, ImageInterface, LlmResponsesMixin, LlmInterface):
     provider_name = "anthropic"
 
     def __init__(self, api_keys: Dict = {}) -> None:
@@ -187,7 +190,7 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface, LlmInterfac
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ) -> ChatDataClass:
+    ) -> LLMChatDataClass:
         response = self.llm_client.completion(
             messages=messages,
             model=model,
@@ -268,7 +271,7 @@ class AnthropicApi(ProviderInterface, TextInterface, ImageInterface, LlmInterfac
         user: str | None = None,
         # Optional parameters
         **kwargs,
-    ) -> ChatDataClass:
+    ) -> LLMChatDataClass:
         response = await self.llm_client.acompletion(
             messages=messages,
             model=model,

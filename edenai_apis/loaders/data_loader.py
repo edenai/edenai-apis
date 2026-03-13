@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 from edenai_apis.features.provider.provider_interface import ProviderInterface
 from edenai_apis.loaders.utils import load_json, check_messsing_keys
-from edenai_apis.settings import info_path, keys_path, outputs_path
+from edenai_apis.settings import features_path, info_path, keys_path, outputs_path
 from edenai_apis.utils.compare import is_valid
 
 
@@ -199,15 +199,22 @@ def load_output(
         Dict: output
     """
     if phase:
-        path = os.path.join(
-            outputs_path(provider_name), feature, f"{subfeature}_{phase}_output.json"
-        )
+        filename = f"{subfeature}_{phase}_output.json"
     else:
-        path = os.path.join(
-            outputs_path(provider_name), feature, f"{subfeature}_output.json"
-        )
-    data = load_json(path)
-    return data
+        filename = f"{subfeature}_output.json"
+
+    # Try provider-specific output first
+    path = os.path.join(outputs_path(provider_name), feature, filename)
+    if os.path.exists(path):
+        return load_json(path)
+
+    # Fall back to shared output in features directory
+    shared_path = os.path.join(features_path, feature, subfeature, filename)
+    if os.path.exists(shared_path):
+        return load_json(shared_path)
+
+    # Neither found, raise the original error pointing to the provider path
+    return load_json(path)
 
 
 def load_subfeature(

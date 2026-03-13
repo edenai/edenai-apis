@@ -3,10 +3,11 @@ from typing import List, Type, Union, Optional, Literal, Dict
 import httpx
 from openai import BaseModel
 from edenai_apis.features.llm.llm_interface import LlmInterface
+from edenai_apis.features.llm.llm_responses_mixin import LlmResponsesMixin
 from edenai_apis.features.llm.chat.chat_dataclass import ChatDataClass
 
 
-class XAiLLMApi(LlmInterface):
+class XAiLLMApi(LlmResponsesMixin, LlmInterface):
 
     def llm__chat(
         self,
