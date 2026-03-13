@@ -1,6 +1,8 @@
 from typing import Sequence, Optional
 
-from edenai_apis.apis.amazon.helpers import handle_amazon_call
+import aioboto3
+
+from edenai_apis.apis.amazon.helpers import ahandle_amazon_call, handle_amazon_call
 from edenai_apis.features.translation.automatic_translation.automatic_translation_dataclass import (
     AutomaticTranslationDataClass,
 )
@@ -53,6 +55,38 @@ class AmazonTranslationApi(TranslationInterface):
         )
 
         standardized: AutomaticTranslationDataClass = AutomaticTranslationDataClass(
+            text=response["TranslatedText"]
+        )
+
+        return ResponseType[AutomaticTranslationDataClass](
+            original_response=response, standardized_response=standardized
+        )
+
+    async def translation__aautomatic_translation(
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[AutomaticTranslationDataClass]:
+        payload = {
+            "Text": text,
+            "SourceLanguageCode": source_language,
+            "TargetLanguageCode": target_language,
+        }
+        session = aioboto3.Session()
+        async with session.client(
+            "translate",
+            region_name=self.api_settings["region_name"],
+            aws_access_key_id=self.api_settings["aws_access_key_id"],
+            aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+        ) as translate_client:
+            response = await ahandle_amazon_call(
+                translate_client.translate_text, **payload
+            )
+
+        standardized = AutomaticTranslationDataClass(
             text=response["TranslatedText"]
         )
 

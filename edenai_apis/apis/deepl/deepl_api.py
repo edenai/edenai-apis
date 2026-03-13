@@ -87,6 +87,49 @@ class DeeplApi(ProviderInterface, TranslationInterface):
             standardized_response=standardized_response,
         )
 
+    async def translation__aautomatic_translation(
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[AutomaticTranslationDataClass]:
+        url = f"{self.url}translate"
+
+        data = {
+            "text": text,
+            "source_lang": source_language,
+            "target_lang": target_language,
+        }
+
+        async with async_client(DEFAULT_TIMEOUT) as client:
+            response = await client.post(url, headers=self.header, data=data)
+
+        if response.status_code >= 500:
+            raise ProviderException(message=response.text, code=response.status_code)
+
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                message=response.text, code=response.status_code
+            ) from exc
+
+        if response.status_code != 200:
+            raise ProviderException(
+                message=original_response["message"], code=response.status_code
+            )
+
+        standardized_response = AutomaticTranslationDataClass(
+            text=original_response["translations"][0]["text"]
+        )
+
+        return ResponseType[AutomaticTranslationDataClass](
+            original_response=original_response,
+            standardized_response=standardized_response,
+        )
+
     def translation__document_translation(
         self,
         file: str,

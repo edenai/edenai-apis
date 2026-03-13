@@ -68,6 +68,36 @@ class GoogleTranslationApi(TranslationInterface):
             original_response=MessageToDict(response._pb), standardized_response=std
         )
 
+    async def translation__aautomatic_translation(
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[AutomaticTranslationDataClass]:
+        parent = f"projects/{self.project_id}/locations/global"
+
+        payload = {
+            "parent": parent,
+            "contents": [text],
+            "mime_type": "text/plain",
+            "source_language_code": source_language,
+            "target_language_code": target_language,
+        }
+        async with translate_v3.TranslationServiceAsyncClient() as client:
+            response = await ahandle_google_call(client.translate_text, **payload)
+
+        data = response.translations
+        res = data[0].translated_text
+        if res != "":
+            std = AutomaticTranslationDataClass(text=res)
+        else:
+            raise ProviderException("Empty Text was returned")
+        return ResponseType[AutomaticTranslationDataClass](
+            original_response=MessageToDict(response._pb), standardized_response=std
+        )
+
     def translation__language_detection(
         self, text: str, model: Optional[str] = None, **kwargs
     ) -> ResponseType[LanguageDetectionDataClass]:

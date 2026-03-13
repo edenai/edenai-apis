@@ -36,6 +36,27 @@ class TranslationInterface:
         """
         raise NotImplementedError
 
+    async def translation__aautomatic_translation(
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> ResponseType[AutomaticTranslationDataClass]:
+        """
+        Async version of automatic translation.
+
+        Args:
+            text (str): text to translate
+            source_language (str): text's language code in ISO format
+            target_language (str): to which language to translate text
+
+        Note:
+            for some providers, `source_language` can automatically detected
+        """
+        raise NotImplementedError
+
     @abstractmethod
     def translation__language_detection(
         self, text: str, model: Optional[str] = None, **kwargs

@@ -977,6 +977,30 @@ class LLMEngine:
             params=args, response_class=AutomaticTranslationDataClass
         )
 
+    async def aautomatic_translation(
+        self,
+        source_language: str,
+        target_language: str,
+        text: str,
+        model: str,
+        **kwargs,
+    ) -> ResponseType[AutomaticTranslationDataClass]:
+        messages = BasePrompt.compose_prompt(
+            behavior=f"You are a translation model capable of translating text from {source_language} to {target_language} with high accuracy and fluency.",
+            example_file="translation/automatic_translation/automatic_translation_response.json",
+            dataclass=AutomaticTranslationDataClass,
+        )
+        messages.append({"role": "user", "content": text})
+        args = self._prepare_args(
+            model=model,
+            messages=messages,
+            response_format={"type": "json_object"},
+            **kwargs,
+        )
+        return await self._execute_acompletion(
+            params=args, response_class=AutomaticTranslationDataClass
+        )
+
     @moderate
     def image_generation(
         self, prompt: str, model: str, resolution: str, n: int, **kwargs
