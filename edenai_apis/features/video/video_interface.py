@@ -275,3 +275,21 @@ class VideoInterface:
             - provider_job_id (str): id of async job
         """
         raise NotImplementedError
+
+    ### Async video generation methods (for FastAPI/V3)
+    @abstractmethod
+    async def video__ageneration_async__launch_job(
+        self,
+        text: str,
+        duration: Optional[int] = 6,
+        fps: Optional[int] = 24,
+        dimension: Optional[str] = "1280x720",
+        seed: Optional[float] = 12,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        """Launch an async video generation job (async/await version)."""
+        raise NotImplementedError
+

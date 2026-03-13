@@ -12,6 +12,7 @@ from edenai_apis.features.video.video_interface import VideoInterface
 from edenai_apis.utils.exception import (
     ProviderException,
 )
+from edenai_apis.utils.http_client import async_client, ASYNC_JOBS_TIMEOUT
 from edenai_apis.utils.types import (
     AsyncLaunchJobResponseType,
     AsyncPendingResponseType,
@@ -111,3 +112,51 @@ class MicrosoftVideoApi(VideoInterface):
             )
 
         return AsyncPendingResponseType(provider_job_id=provider_job_id)
+
+    async def video__ageneration_async__launch_job(
+        self,
+        text: str,
+        duration: Optional[int] = 6,
+        fps: Optional[int] = 24,
+        dimension: Optional[str] = "1280x720",
+        seed: Optional[float] = 12,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        base_url = self.azure_ai_credentials.get("azure_api_sora")
+        api_key = self.azure_ai_credentials.get("azure_api_key")
+        url = f"{base_url}openai/v1/video/generations/jobs?api-version=preview"
+        try:
+            height, width = dimension.split("x")
+        except (ValueError, AttributeError) as exc:
+            raise ProviderException(
+                message=f"Invalid dimension format: {dimension}. Expected format: 'heightxwidth' (e.g., '1280x720')",
+                code=400,
+            ) from exc
+        payload = {
+            "model": model,
+            "prompt": text,
+            "height": height,
+            "width": width,
+            "n_seconds": duration,
+        }
+        async with async_client(ASYNC_JOBS_TIMEOUT) as client:
+            response = await client.post(
+                url=url, json=payload, headers={"Authorization": api_key}
+            )
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+        if response.status_code > 201:
+            raise ProviderException(
+                message=original_response["error"]["message"],
+                code=response.status_code,
+            )
+
+        provider_job_id = original_response["id"]
+        return AsyncLaunchJobResponseType(provider_job_id=provider_job_id)

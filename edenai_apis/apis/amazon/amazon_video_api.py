@@ -3,6 +3,9 @@ import base64
 from io import BytesIO
 import json
 
+import aiofiles
+import aioboto3
+
 from edenai_apis.features.video import QuestionAnswerDataClass
 from edenai_apis.features.video.explicit_content_detection_async.explicit_content_detection_async_dataclass import (
     ExplicitContentDetectionAsyncDataClass,
@@ -25,6 +28,7 @@ from edenai_apis.features.video.generation_async.generation_async_dataclass impo
 from edenai_apis.features.video.video_interface import VideoInterface
 from edenai_apis.utils.exception import (
     ProviderException,
+    ProviderInvalidInputFileError,
 )
 from edenai_apis.utils.types import (
     AsyncBaseResponseType,
@@ -43,6 +47,7 @@ from .helpers import (
     amazon_video_explicit_parser,
 )
 from .config import clients
+from edenai_apis.utils.file_handling import FileHandler
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     upload_file_bytes_to_s3,
@@ -418,6 +423,67 @@ class AmazonVideoApi(VideoInterface):
         if invocation["status"] == "Failed":
             failure_message = invocation["failureMessage"]
             raise ProviderException(failure_message)
+
+    async def video__ageneration_async__launch_job(
+        self,
+        text: str,
+        duration: Optional[int] = 6,
+        fps: Optional[int] = 24,
+        dimension: Optional[str] = "1280x720",
+        seed: Optional[float] = 12,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        text_input = {"text": text}
+        file_wrapper = None
+        try:
+            if file or file_url:
+                try:
+                    if file:
+                        async with aiofiles.open(file, "rb") as f:
+                            file_content = await f.read()
+                    else:
+                        file_handler = FileHandler()
+                        file_wrapper = await file_handler.download_file(file_url)
+                        file_content = await file_wrapper.get_bytes()
+                except Exception as exc:
+                    raise ProviderInvalidInputFileError(str(exc)) from exc
+                input_image_base64 = base64.b64encode(file_content).decode("utf-8")
+                images = [{"format": "png", "source": {"bytes": input_image_base64}}]
+                text_input["images"] = images
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+        model_input = {
+            "taskType": "TEXT_VIDEO",
+            "textToVideoParams": text_input,
+            "videoGenerationConfig": {
+                "durationSeconds": duration,
+                "fps": fps,
+                "dimension": dimension,
+                "seed": seed,
+            },
+        }
+        request_params = {
+            "modelId": model,
+            "modelInput": model_input,
+            "outputDataConfig": {"s3OutputDataConfig": {"s3Uri": "s3://us-storage"}},
+        }
+        try:
+            session = aioboto3.Session()
+            async with session.client(
+                "bedrock-runtime",
+                region_name=self.api_settings["region_name"],
+                aws_access_key_id=self.api_settings["aws_access_key_id"],
+                aws_secret_access_key=self.api_settings["aws_secret_access_key"],
+            ) as bedrock:
+                response = await bedrock.start_async_invoke(**request_params)
+        except Exception as exc:
+            raise ProviderException(str(exc)) from exc
+        provider_job_id = response.get("invocationArn")
+        return AsyncLaunchJobResponseType(provider_job_id=provider_job_id)
 
     def video__question_answer(
         self,

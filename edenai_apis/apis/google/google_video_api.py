@@ -7,6 +7,7 @@ from pathlib import Path
 from time import sleep, time
 from typing import Any, Dict, List, Optional
 
+import aiofiles
 import requests
 from dateutil.parser import parse
 from google.cloud import videointelligence
@@ -75,6 +76,7 @@ from edenai_apis.features.video.generation_async.generation_async_dataclass impo
 from edenai_apis.features.video.video_interface import VideoInterface
 from edenai_apis.utils.exception import (
     ProviderException,
+    ProviderInvalidInputFileError,
     AsyncJobException,
     AsyncJobExceptionReason,
 )
@@ -85,6 +87,8 @@ from edenai_apis.utils.types import (
     AsyncResponseType,
     ResponseType,
 )
+from edenai_apis.utils.file_handling import FileHandler
+from edenai_apis.utils.http_client import async_client, ASYNC_JOBS_TIMEOUT
 from edenai_apis.utils.upload_s3 import (
     USER_PROCESS,
     upload_file_bytes_to_s3,
@@ -1017,3 +1021,68 @@ class GoogleVideoApi(VideoInterface):
             )
 
         return AsyncPendingResponseType(provider_job_id=provider_job_id)
+
+    async def video__ageneration_async__launch_job(
+        self,
+        text: str,
+        duration: Optional[int] = 6,
+        fps: Optional[int] = 24,
+        dimension: Optional[str] = "1280x720",
+        seed: Optional[float] = 12,
+        file: Optional[str] = None,
+        file_url: Optional[str] = None,
+        model: Optional[str] = None,
+        **kwargs,
+    ) -> AsyncLaunchJobResponseType:
+        api_key = self.api_settings.get("genai_api_key")
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:predictLongRunning?key={api_key}"
+        prompt = {"prompt": text}
+        params = {}
+
+        is_veo2 = "veo-2.0-generate-001" in model if model else False
+        file_wrapper = None
+        try:
+            if is_veo2 and (file or file_url):
+                try:
+                    if file:
+                        async with aiofiles.open(file, "rb") as f:
+                            file_content = await f.read()
+                        mime_type = mimetypes.guess_type(file)[0]
+                    else:
+                        file_handler = FileHandler()
+                        file_wrapper = await file_handler.download_file(file_url)
+                        file_content = await file_wrapper.get_bytes()
+                        mime_type = file_wrapper.file_info.file_media_type
+                except Exception as exc:
+                    raise ProviderInvalidInputFileError(str(exc)) from exc
+                input_image_base64 = base64.b64encode(file_content).decode("utf-8")
+                prompt["image"] = {
+                    "bytesBase64Encoded": input_image_base64,
+                    "mimeType": mime_type,
+                }
+                params["durationSeconds"] = duration
+        finally:
+            if file_wrapper:
+                file_wrapper.close_file()
+
+        payload = {
+            "instances": [prompt],
+            "parameters": params,
+        }
+        async with async_client(ASYNC_JOBS_TIMEOUT) as client:
+            response = await client.post(url=url, json=payload)
+        try:
+            original_response = response.json()
+        except json.JSONDecodeError as exc:
+            raise ProviderException(
+                "An error occurred while parsing the response."
+            ) from exc
+
+        if response.status_code != 200:
+            raise ProviderException(
+                message=original_response["error"]["message"],
+                code=response.status_code,
+            )
+
+        provider_job_id = original_response["name"]
+        return AsyncLaunchJobResponseType(provider_job_id=provider_job_id)
